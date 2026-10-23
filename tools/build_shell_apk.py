@@ -50,6 +50,9 @@ SHELL_FILES = {
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
 }
 
+# 物品图 / 收藏室图也移除，由加载页统一下载
+REMOVE_PREFIXES = ("assets/www/images/", "assets/www/collect/")
+
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 
@@ -63,7 +66,7 @@ def main():
 
     with zipfile.ZipFile(OUT, "w") as dst:
         for info in src.infolist():
-            if info.filename in SKIP:
+            if info.filename in SKIP or info.filename.startswith(REMOVE_PREFIXES):
                 removed += 1
                 continue
             data = src.read(info.filename)

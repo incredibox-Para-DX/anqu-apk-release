@@ -8,7 +8,7 @@
         <width>2</width>
         <height>1</height>
         <value>5896000</value>
-        <image>images/机密文件.png</image>
+        <image>images/img_737bbd84ed.png</image>
         <rarity>red</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -21,7 +21,7 @@
         <width>3</width>
         <height>2</height>
         <value>2035854</value>
-        <image>images/理想国.png</image>
+        <image>images/img_271c408224.png</image>
         <rarity>red</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -34,7 +34,7 @@
         <width>2</width>
         <height>3</height>
         <value>1485055</value>
-        <image>images/厄律西翁.png</image>
+        <image>images/img_55da8a9c7a.png</image>
         <rarity>red</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -49,7 +49,7 @@
         <width>3</width>
         <height>2</height>
         <value>494702</value>
-        <image>images/金狮雕像.png</image>
+        <image>images/img_8b4310f2d2.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -62,7 +62,7 @@
         <width>1</width>
         <height>2</height>
         <value>492264</value>
-        <image>images/列阵镜片.png</image>
+        <image>images/img_6aeeaace20.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -75,7 +75,7 @@
         <width>2</width>
         <height>3</height>
         <value>485851</value>
-        <image>images/盛宴雕塑.png</image>
+        <image>images/img_0c5a6227a4.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -88,7 +88,7 @@
         <width>2</width>
         <height>2</height>
         <value>477053</value>
-        <image>images/古董茶壶.png</image>
+        <image>images/img_b3431e7295.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -101,7 +101,7 @@
         <width>2</width>
         <height>2</height>
         <value>459351</value>
-        <image>images/花瓶.png</image>
+        <image>images/img_8c91545379.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -114,7 +114,7 @@
         <width>2</width>
         <height>2</height>
         <value>433368</value>
-        <image>images/宝石项链.png</image>
+        <image>images/img_233383d870.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/宝石项链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -140,7 +140,7 @@
         <width>3</width>
         <height>2</height>
         <value>470288</value>
-        <image>images/航天导航仪.png</image>
+        <image>images/img_8d9ab9be88.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -153,7 +153,7 @@
         <width>2</width>
         <height>3</height>
         <value>474604</value>
-        <image>images/鎏金.png</image>
+        <image>images/img_86be2efc8e.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -166,7 +166,7 @@
         <width>3</width>
         <height>2</height>
         <value>464100</value>
-        <image>images/黎明.png</image>
+        <image>images/img_37150efe31.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/唱片机.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -179,7 +179,7 @@
         <width>2</width>
         <height>2</height>
         <value>464015</value>
-        <image>images/验算模块.png</image>
+        <image>images/img_c9984fa547.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -192,7 +192,7 @@
         <width>2</width>
         <height>2</height>
         <value>455323</value>
-        <image>images/惯性球.png</image>
+        <image>images/img_b867e932ea.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/桶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -205,7 +205,7 @@
         <width>2</width>
         <height>2</height>
         <value>437944</value>
-        <image>images/法厄同.png</image>
+        <image>images/img_a96b391435.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -218,7 +218,7 @@
         <width>3</width>
         <height>2</height>
         <value>503538</value>
-        <image>images/黄金哑铃.png</image>
+        <image>images/img_7b748eb857.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -231,7 +231,7 @@
         <width>2</width>
         <height>2</height>
         <value>450553</value>
-        <image>images/目标定位模块.png</image>
+        <image>images/img_d2ca2c7f1b.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -244,7 +244,7 @@
         <width>1</width>
         <height>3</height>
         <value>428452</value>
-        <image>images/机械手臂.png</image>
+        <image>images/img_f923762915.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -257,7 +257,7 @@
         <width>2</width>
         <height>1</height>
         <value>736000</value>
-        <image>images/热成像模块.png</image>
+        <image>images/img_9aaa9d9296.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -270,7 +270,7 @@
         <width>3</width>
         <height>2</height>
         <value>234400</value>
-        <image>images/珐琅碗.png</image>
+        <image>images/img_bdba31beba.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -283,7 +283,7 @@
         <width>3</width>
         <height>2</height>
         <value>208900</value>
-        <image>images/民族挂毯.png</image>
+        <image>images/img_79bf54980e.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -296,7 +296,7 @@
         <width>2</width>
         <height>2</height>
         <value>205300</value>
-        <image>images/水晶盒.png</image>
+        <image>images/img_90c0ecb4d2.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -309,7 +309,7 @@
         <width>2</width>
         <height>1</height>
         <value>202124</value>
-        <image>images/首饰盒.png</image>
+        <image>images/img_2c95af4eae.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -322,7 +322,7 @@
         <width>1</width>
         <height>2</height>
         <value>187100</value>
-        <image>images/化妆盒.png</image>
+        <image>images/img_02150d9ad3.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -335,7 +335,7 @@
         <width>1</width>
         <height>2</height>
         <value>179550</value>
-        <image>images/钻石原矿.png</image>
+        <image>images/img_48227da350.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -348,7 +348,7 @@
         <width>2</width>
         <height>2</height>
         <value>168600</value>
-        <image>images/科伦勋章.png</image>
+        <image>images/img_8e45d3d22b.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -361,7 +361,7 @@
         <width>2</width>
         <height>1</height>
         <value>172380</value>
-        <image>images/卫星模型.png</image>
+        <image>images/img_f43a2cc02c.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -374,7 +374,7 @@
         <width>3</width>
         <height>2</height>
         <value>212550</value>
-        <image>images/大口径火炮发射药包.png</image>
+        <image>images/img_02a3a758ff.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -387,7 +387,7 @@
         <width>3</width>
         <height>2</height>
         <value>219850</value>
-        <image>images/向量处理器.png</image>
+        <image>images/img_92f24998eb.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -400,7 +400,7 @@
         <width>3</width>
         <height>2</height>
         <value>230750</value>
-        <image>images/电池模块.png</image>
+        <image>images/img_a4b4ee59da.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/模块.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -413,7 +413,7 @@
         <width>3</width>
         <height>2</height>
         <value>216200</value>
-        <image>images/机械臂.png</image>
+        <image>images/img_67c8c6fdb6.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/模块.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -426,7 +426,7 @@
         <width>2</width>
         <height>2</height>
         <value>205920</value>
-        <image>images/人工心脏.png</image>
+        <image>images/img_77aa218980.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -439,7 +439,7 @@
         <width>2</width>
         <height>2</height>
         <value>198380</value>
-        <image>images/工业万用表.png</image>
+        <image>images/img_0cf5410d1c.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/万用表.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -452,7 +452,7 @@
         <width>2</width>
         <height>2</height>
         <value>201650</value>
-        <image>images/发射装置.png</image>
+        <image>images/img_402f0fa816.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/铁.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -465,7 +465,7 @@
         <width>2</width>
         <height>2</height>
         <value>183300</value>
-        <image>images/制式面板.png</image>
+        <image>images/img_7a3719d40a.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/万用表.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -478,7 +478,7 @@
         <width>1</width>
         <height>2</height>
         <value>164600</value>
-        <image>images/金座钟.png</image>
+        <image>images/img_93bee5a311.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -491,7 +491,7 @@
         <width>2</width>
         <height>1</height>
         <value>163700</value>
-        <image>images/单片眼镜.png</image>
+        <image>images/img_4540789abe.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -504,7 +504,7 @@
         <width>1</width>
         <height>1</height>
         <value>169260</value>
-        <image>images/玉质手串.png</image>
+        <image>images/img_51a8ecca5f.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -517,7 +517,7 @@
         <width>1</width>
         <height>2</height>
         <value>161850</value>
-        <image>images/鹅毛笔.png</image>
+        <image>images/img_31659de1d8.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/笔.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -530,7 +530,7 @@
         <width>1</width>
         <height>1</height>
         <value>170607</value>
-        <image>images/金质钢笔.png</image>
+        <image>images/img_a0b0b3eb11.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -543,7 +543,7 @@
         <width>1</width>
         <height>1</height>
         <value>169653</value>
-        <image>images/城堡.png</image>
+        <image>images/img_3f71dbf887.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -556,7 +556,7 @@
         <width>2</width>
         <height>2</height>
         <value>172250</value>
-        <image>images/提包.png</image>
+        <image>images/img_ab4e2c070e.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -569,7 +569,7 @@
         <width>2</width>
         <height>2</height>
         <value>175900</value>
-        <image>images/冈格尼尔蓝图.png</image>
+        <image>images/img_fe8d1d26f8.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/纸.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -582,7 +582,7 @@
         <width>2</width>
         <height>2</height>
         <value>214756</value>
-        <image>images/金驹跃岭.png</image>
+        <image>images/img_80a7f5ad99.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -595,7 +595,7 @@
         <width>2</width>
         <height>3</height>
         <value>497178</value>
-        <image>images/新边疆.png</image>
+        <image>images/img_eb8c9941d3.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -608,7 +608,7 @@
         <width>3</width>
         <height>2</height>
         <value>487960</value>
-        <image>images/原子钟核心.png</image>
+        <image>images/img_c2ac6ecde3.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -621,7 +621,7 @@
         <width>3</width>
         <height>2</height>
         <value>490144</value>
-        <image>images/电磁弹射组件.png</image>
+        <image>images/img_ec2dc3a378.png</image>
         <rarity>orange</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -634,7 +634,7 @@
         <width>1</width>
         <height>1</height>
         <value>1</value>
-        <image>images/样本X.jpg</image>
+        <image>images/img_a0cb7eebc4.jpg</image>
         <rarity>orange</rarity>
         <weight>8</weight>
         <sound>audio/items/玻璃.mp3</sound>
@@ -651,7 +651,7 @@
         <width>2</width>
         <height>1</height>
         <value>100800</value>
-        <image>images/金链.png</image>
+        <image>images/img_7b62f7cf22.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -664,7 +664,7 @@
         <width>2</width>
         <height>3</height>
         <value>63657</value>
-        <image>images/扩张器.png</image>
+        <image>images/img_a7afdac8a1.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -677,7 +677,7 @@
         <width>1</width>
         <height>1</height>
         <value>62007</value>
-        <image>images/光明使者.png</image>
+        <image>images/img_b18f1dfbeb.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -690,7 +690,7 @@
         <width>2</width>
         <height>2</height>
         <value>59400</value>
-        <image>images/钯金线材.png</image>
+        <image>images/img_45708cda53.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -703,7 +703,7 @@
         <width>3</width>
         <height>2</height>
         <value>60016</value>
-        <image>images/电源.png</image>
+        <image>images/img_e77d2a17c1.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -716,7 +716,7 @@
         <width>4</width>
         <height>2</height>
         <value>58290</value>
-        <image>images/电池组.png</image>
+        <image>images/img_69183de7b7.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -729,7 +729,7 @@
         <width>2</width>
         <height>2</height>
         <value>62469</value>
-        <image>images/除颤器.png</image>
+        <image>images/img_b597d197fb.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -742,7 +742,7 @@
         <width>2</width>
         <height>2</height>
         <value>62238</value>
-        <image>images/唱片机.png</image>
+        <image>images/img_17638dbba7.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/唱片机.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -755,7 +755,7 @@
         <width>2</width>
         <height>1</height>
         <value>60357</value>
-        <image>images/金块.png</image>
+        <image>images/img_e1c1b3b399.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -768,7 +768,7 @@
         <width>2</width>
         <height>2</height>
         <value>58476</value>
-        <image>images/银器.png</image>
+        <image>images/img_020641af19.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -781,7 +781,7 @@
         <width>2</width>
         <height>2</height>
         <value>57750</value>
-        <image>images/打字机.png</image>
+        <image>images/img_96d2d86760.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/唱片机.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -794,7 +794,7 @@
         <width>1</width>
         <height>2</height>
         <value>56595</value>
-        <image>images/金杯.png</image>
+        <image>images/img_1a4643ece5.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -807,7 +807,7 @@
         <width>1</width>
         <height>2</height>
         <value>55638</value>
-        <image>images/渡鸦套娃.png</image>
+        <image>images/img_6fa6044760.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -820,7 +820,7 @@
         <width>1</width>
         <height>1</height>
         <value>53757</value>
-        <image>images/烛台.png</image>
+        <image>images/img_95c60cf00d.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -833,7 +833,7 @@
         <width>1</width>
         <height>1</height>
         <value>52800</value>
-        <image>images/魔方.png</image>
+        <image>images/img_6b4b8066a6.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -846,7 +846,7 @@
         <width>2</width>
         <height>2</height>
         <value>62700</value>
-        <image>images/激光模块.png</image>
+        <image>images/img_58dd3f3e51.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -859,7 +859,7 @@
         <width>2</width>
         <height>1</height>
         <value>71294</value>
-        <image>images/水平仪.png</image>
+        <image>images/img_2098256c7e.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -872,7 +872,7 @@
         <width>2</width>
         <height>2</height>
         <value>63195</value>
-        <image>images/摄影机.png</image>
+        <image>images/img_cbe0d6ffed.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -885,7 +885,7 @@
         <width>2</width>
         <height>2</height>
         <value>58938</value>
-        <image>images/笔记本电脑.png</image>
+        <image>images/img_d9fea9a56c.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -898,7 +898,7 @@
         <width>1</width>
         <height>1</height>
         <value>51348</value>
-        <image>images/多面骰.png</image>
+        <image>images/img_ab04e74fb5.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/盒子.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -911,7 +911,7 @@
         <width>1</width>
         <height>1</height>
         <value>49772</value>
-        <image>images/胰岛素.png</image>
+        <image>images/img_c9f42a509a.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -924,7 +924,7 @@
         <width>2</width>
         <height>1</height>
         <value>36480</value>
-        <image>images/液压扳手.png</image>
+        <image>images/img_630665baa8.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -937,7 +937,7 @@
         <width>2</width>
         <height>2</height>
         <value>25300</value>
-        <image>images/欧美大片.png</image>
+        <image>images/img_96354f6ebf.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -950,7 +950,7 @@
         <width>2</width>
         <height>1</height>
         <value>36288</value>
-        <image>images/情报.png</image>
+        <image>images/img_b0110ab193.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/纸.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -963,7 +963,7 @@
         <width>2</width>
         <height>2</height>
         <value>22052</value>
-        <image>images/天线.png</image>
+        <image>images/img_1a1b6148ea.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -976,7 +976,7 @@
         <width>1</width>
         <height>1</height>
         <value>16467</value>
-        <image>images/金手机.png</image>
+        <image>images/img_1f3b8ba3e9.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -989,7 +989,7 @@
         <width>2</width>
         <height>2</height>
         <value>17040</value>
-        <image>images/高能燃料.png</image>
+        <image>images/img_7aeb4ec0b5.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/桶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1002,7 +1002,7 @@
         <width>2</width>
         <height>3</height>
         <value>30039</value>
-        <image>images/燃料桶.png</image>
+        <image>images/img_2dce11cb77.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/桶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1015,7 +1015,7 @@
         <width>2</width>
         <height>3</height>
         <value>40330</value>
-        <image>images/钛合金板.png</image>
+        <image>images/img_6917f2c384.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1028,7 +1028,7 @@
         <width>3</width>
         <height>2</height>
         <value>16230</value>
-        <image>images/隔音棉.png</image>
+        <image>images/img_abc5a43d19.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1041,7 +1041,7 @@
         <width>2</width>
         <height>1</height>
         <value>19206</value>
-        <image>images/显卡.png</image>
+        <image>images/img_35c3c1d8b0.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1054,7 +1054,7 @@
         <width>2</width>
         <height>2</height>
         <value>23478</value>
-        <image>images/音响.png</image>
+        <image>images/img_a45018f0d9.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/音响.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1067,7 +1067,7 @@
         <width>3</width>
         <height>2</height>
         <value>18282</value>
-        <image>images/蓄电池.png</image>
+        <image>images/img_41053bc34f.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1080,7 +1080,7 @@
         <width>2</width>
         <height>2</height>
         <value>19074</value>
-        <image>images/茶具.png</image>
+        <image>images/img_21e98f22c6.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1093,7 +1093,7 @@
         <width>2</width>
         <height>2</height>
         <value>19833</value>
-        <image>images/集邮册.png</image>
+        <image>images/img_d9f89fd365.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/集邮册.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1106,7 +1106,7 @@
         <width>1</width>
         <height>3</height>
         <value>22306</value>
-        <image>images/手杖.png</image>
+        <image>images/img_29d52dd877.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/唱片机.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1119,7 +1119,7 @@
         <width>1</width>
         <height>1</height>
         <value>25212</value>
-        <image>images/胸针.png</image>
+        <image>images/img_54375ebdfb.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1132,7 +1132,7 @@
         <width>1</width>
         <height>1</height>
         <value>21440</value>
-        <image>images/钻戒.png</image>
+        <image>images/img_a9db6da1e9.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1145,7 +1145,7 @@
         <width>1</width>
         <height>1</height>
         <value>22748</value>
-        <image>images/金手表.png</image>
+        <image>images/img_1acf6b969b.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1158,7 +1158,7 @@
         <width>2</width>
         <height>1</height>
         <value>16764</value>
-        <image>images/金豹雕像.png</image>
+        <image>images/img_7ff3201bdc.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1171,7 +1171,7 @@
         <width>1</width>
         <height>1</height>
         <value>22050</value>
-        <image>images/金手镯.png</image>
+        <image>images/img_75d437ef7a.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/金链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1184,7 +1184,7 @@
         <width>2</width>
         <height>2</height>
         <value>20094</value>
-        <image>images/军用电台.png</image>
+        <image>images/img_def10f0b23.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1197,7 +1197,7 @@
         <width>1</width>
         <height>2</height>
         <value>16920</value>
-        <image>images/游戏机.png</image>
+        <image>images/img_b1b96d70f2.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1210,7 +1210,7 @@
         <width>1</width>
         <height>1</height>
         <value>16005</value>
-        <image>images/军用平板.png</image>
+        <image>images/img_5932eab614.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1223,7 +1223,7 @@
         <width>1</width>
         <height>1</height>
         <value>31557</value>
-        <image>images/太阳能充电宝.png</image>
+        <image>images/img_c6a94277fa.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1236,7 +1236,7 @@
         <width>1</width>
         <height>1</height>
         <value>41130</value>
-        <image>images/电池充电仓.png</image>
+        <image>images/img_6cdde440e4.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1249,7 +1249,7 @@
         <width>1</width>
         <height>1</height>
         <value>39928</value>
-        <image>images/手持扫描仪.png</image>
+        <image>images/img_810cdfcda4.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1262,7 +1262,7 @@
         <width>1</width>
         <height>1</height>
         <value>15708</value>
-        <image>images/碳纤维板.png</image>
+        <image>images/img_54925231e6.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1275,7 +1275,7 @@
         <width>1</width>
         <height>1</height>
         <value>44365</value>
-        <image>images/维塞尔日记.png</image>
+        <image>images/img_9368673425.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/集邮册.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1288,7 +1288,7 @@
         <width>1</width>
         <height>1</height>
         <value>45753</value>
-        <image>images/转盘密码锁.png</image>
+        <image>images/img_f7d75c3d01.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/唱片机.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1301,7 +1301,7 @@
         <width>1</width>
         <height>1</height>
         <value>42978</value>
-        <image>images/聚异丁烯复合炸药.png</image>
+        <image>images/img_eaa06bfdb9.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1314,7 +1314,7 @@
         <width>1</width>
         <height>1</height>
         <value>44400</value>
-        <image>images/血糖仪套装.png</image>
+        <image>images/img_468e920043.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1327,7 +1327,7 @@
         <width>1</width>
         <height>2</height>
         <value>17442</value>
-        <image>images/火焰喷灯.png</image>
+        <image>images/img_dbf512d026.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/模块.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1340,7 +1340,7 @@
         <width>1</width>
         <height>2</height>
         <value>15720</value>
-        <image>images/非线性节点探测器.png</image>
+        <image>images/img_a9dad36632.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1353,7 +1353,7 @@
         <width>2</width>
         <height>1</height>
         <value>15660</value>
-        <image>images/生化样本采集箱.png</image>
+        <image>images/img_36e62c94e5.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1366,7 +1366,7 @@
         <width>2</width>
         <height>1</height>
         <value>24426</value>
-        <image>images/螺丝刀套组.png</image>
+        <image>images/img_55eca96384.png</image>
         <rarity>gold</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1392,7 +1392,7 @@
         <width>1</width>
         <height>1</height>
         <value>1</value>
-        <image>images/样本E.jpg</image>
+        <image>images/img_06e37968e0.jpg</image>
         <rarity>gold</rarity>
         <weight>8</weight>
         <sound>audio/items/玻璃.mp3</sound>
@@ -1409,7 +1409,7 @@
         <width>2</width>
         <height>2</height>
         <value>13160</value>
-        <image>images/丙烷罐.png</image>
+        <image>images/img_296449ccb8.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/桶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1422,7 +1422,7 @@
         <width>3</width>
         <height>2</height>
         <value>18200</value>
-        <image>images/钢筋剪.png</image>
+        <image>images/img_6c781104e3.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1435,7 +1435,7 @@
         <width>2</width>
         <height>2</height>
         <value>17670</value>
-        <image>images/硬胶.png</image>
+        <image>images/img_eb03d75888.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1461,7 +1461,7 @@
         <width>3</width>
         <height>2</height>
         <value>25800</value>
-        <image>images/链锯.png</image>
+        <image>images/img_5e58d54651.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/铁.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1474,7 +1474,7 @@
         <width>2</width>
         <height>2</height>
         <value>10088</value>
-        <image>images/工具套组.png</image>
+        <image>images/img_eaf201e99a.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1487,7 +1487,7 @@
         <width>1</width>
         <height>3</height>
         <value>21090</value>
-        <image>images/炮队镜.png</image>
+        <image>images/img_7212a5d2f2.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1500,7 +1500,7 @@
         <width>2</width>
         <height>2</height>
         <value>16044</value>
-        <image>images/老牌八音盒.png</image>
+        <image>images/img_7fbd3f0df4.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/音响.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1513,7 +1513,7 @@
         <width>2</width>
         <height>2</height>
         <value>10976</value>
-        <image>images/硝化棉.png</image>
+        <image>images/img_406c7ffbc6.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1526,7 +1526,7 @@
         <width>2</width>
         <height>2</height>
         <value>15035</value>
-        <image>images/水泥.png</image>
+        <image>images/img_2714e741f9.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1539,7 +1539,7 @@
         <width>1</width>
         <height>3</height>
         <value>12690</value>
-        <image>images/钢管.png</image>
+        <image>images/img_91102e733b.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1552,7 +1552,7 @@
         <width>1</width>
         <height>1</height>
         <value>6720</value>
-        <image>images/太阳能板.png</image>
+        <image>images/img_d95b60279a.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1565,7 +1565,7 @@
         <width>2</width>
         <height>2</height>
         <value>9800</value>
-        <image>images/鼓风机.png</image>
+        <image>images/img_0d2dda1134.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1578,7 +1578,7 @@
         <width>2</width>
         <height>2</height>
         <value>9216</value>
-        <image>images/电钻.png</image>
+        <image>images/img_3cc2a05d5e.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1591,7 +1591,7 @@
         <width>1</width>
         <height>2</height>
         <value>2910</value>
-        <image>images/通枪工具组.png</image>
+        <image>images/img_65aa24c547.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1604,7 +1604,7 @@
         <width>2</width>
         <height>2</height>
         <value>20099</value>
-        <image>images/吸尘器.png</image>
+        <image>images/img_76fb46344d.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1617,7 +1617,7 @@
         <width>2</width>
         <height>2</height>
         <value>23247</value>
-        <image>images/酒精炉.png</image>
+        <image>images/img_92fcd5b179.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/铁.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1630,7 +1630,7 @@
         <width>2</width>
         <height>2</height>
         <value>14600</value>
-        <image>images/薇雷拉琴.png</image>
+        <image>images/img_4e4c74a33a.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1643,7 +1643,7 @@
         <width>2</width>
         <height>2</height>
         <value>9120</value>
-        <image>images/肥料.png</image>
+        <image>images/img_fec1d36f16.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1656,7 +1656,7 @@
         <width>1</width>
         <height>1</height>
         <value>4176</value>
-        <image>images/腕表.png</image>
+        <image>images/img_1239cd6538.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1669,7 +1669,7 @@
         <width>1</width>
         <height>1</height>
         <value>4000</value>
-        <image>images/小汽车.png</image>
+        <image>images/img_c95970e393.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1682,7 +1682,7 @@
         <width>2</width>
         <height>2</height>
         <value>10098</value>
-        <image>images/伞绳.png</image>
+        <image>images/img_b09cbcf162.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1695,7 +1695,7 @@
         <width>2</width>
         <height>1</height>
         <value>3933</value>
-        <image>images/千斤顶.png</image>
+        <image>images/img_64cd0e80d0.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/铁.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1708,7 +1708,7 @@
         <width>1</width>
         <height>2</height>
         <value>3956</value>
-        <image>images/补光灯.png</image>
+        <image>images/img_9a1701ad7e.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/铁.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1721,7 +1721,7 @@
         <width>2</width>
         <height>2</height>
         <value>9408</value>
-        <image>images/奢华播放器.png</image>
+        <image>images/img_c11ae1d59a.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1734,7 +1734,7 @@
         <width>2</width>
         <height>2</height>
         <value>8160</value>
-        <image>images/甜托积木套装.png</image>
+        <image>images/img_e50e6bc9e8.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1747,7 +1747,7 @@
         <width>3</width>
         <height>1</height>
         <value>9776</value>
-        <image>images/手工树皮纸.png</image>
+        <image>images/img_4eadbacf40.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/纸.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1760,7 +1760,7 @@
         <width>3</width>
         <height>1</height>
         <value>8370</value>
-        <image>images/辉光管时钟.png</image>
+        <image>images/img_f341537677.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1773,7 +1773,7 @@
         <width>3</width>
         <height>2</height>
         <value>4600</value>
-        <image>images/国王号.png</image>
+        <image>images/img_923a196653.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1786,7 +1786,7 @@
         <width>2</width>
         <height>3</height>
         <value>6965</value>
-        <image>images/石膏雕塑.png</image>
+        <image>images/img_6fd8b7b4de.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1799,7 +1799,7 @@
         <width>2</width>
         <height>1</height>
         <value>4232</value>
-        <image>images/眼镜.png</image>
+        <image>images/img_4742784397.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1812,7 +1812,7 @@
         <width>2</width>
         <height>1</height>
         <value>3500</value>
-        <image>images/示波器.png</image>
+        <image>images/img_3a3eaea946.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1825,7 +1825,7 @@
         <width>1</width>
         <height>2</height>
         <value>9900</value>
-        <image>images/对讲机.png</image>
+        <image>images/img_52af8fd52a.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1838,7 +1838,7 @@
         <width>2</width>
         <height>1</height>
         <value>3801</value>
-        <image>images/完好屏幕.png</image>
+        <image>images/img_1dbd11959e.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1864,7 +1864,7 @@
         <width>2</width>
         <height>2</height>
         <value>11328</value>
-        <image>images/油桶.png</image>
+        <image>images/img_081a4e5483.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/桶.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1877,7 +1877,7 @@
         <width>1</width>
         <height>3</height>
         <value>11600</value>
-        <image>images/防弹胶.png</image>
+        <image>images/img_7ddf9e510d.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1890,7 +1890,7 @@
         <width>2</width>
         <height>2</height>
         <value>18124</value>
-        <image>images/电脑主板.png</image>
+        <image>images/img_f6b9ab1592.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1903,7 +1903,7 @@
         <width>1</width>
         <height>1</height>
         <value>3340</value>
-        <image>images/固态.png</image>
+        <image>images/img_0e61fde101.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1916,7 +1916,7 @@
         <width>2</width>
         <height>2</height>
         <value>7761</value>
-        <image>images/发动机.png</image>
+        <image>images/img_23fb031d1a.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1929,7 +1929,7 @@
         <width>3</width>
         <height>1</height>
         <value>13650</value>
-        <image>images/猎刀.png</image>
+        <image>images/img_353817c520.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1942,7 +1942,7 @@
         <width>1</width>
         <height>1</height>
         <value>3204</value>
-        <image>images/手链.png</image>
+        <image>images/img_82e9e8dbe7.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/金链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1955,7 +1955,7 @@
         <width>1</width>
         <height>2</height>
         <value>2185</value>
-        <image>images/气体分析仪.png</image>
+        <image>images/img_d12c3190aa.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1968,7 +1968,7 @@
         <width>1</width>
         <height>1</height>
         <value>2670</value>
-        <image>images/测光表.png</image>
+        <image>images/img_c94f38e59b.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -1981,7 +1981,7 @@
         <width>2</width>
         <height>2</height>
         <value>6930</value>
-        <image>images/静物油画.png</image>
+        <image>images/img_b4f7671646.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/音响.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2007,7 +2007,7 @@
         <width>1</width>
         <height>1</height>
         <value>3872</value>
-        <image>images/芯片处理器.png</image>
+        <image>images/img_41b46f67a6.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2033,7 +2033,7 @@
         <width>1</width>
         <height>1</height>
         <value>3749</value>
-        <image>images/助听器.png</image>
+        <image>images/img_9c496fb705.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2046,7 +2046,7 @@
         <width>1</width>
         <height>1</height>
         <value>6966</value>
-        <image>images/毛绒玩具.png</image>
+        <image>images/img_86bea0ae74.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/挂毯.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2059,7 +2059,7 @@
         <width>1</width>
         <height>2</height>
         <value>6696</value>
-        <image>images/座钟.png</image>
+        <image>images/img_e1db10b096.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2072,7 +2072,7 @@
         <width>1</width>
         <height>1</height>
         <value>3320</value>
-        <image>images/平衡仪.png</image>
+        <image>images/img_b52dc6dfd7.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2085,7 +2085,7 @@
         <width>1</width>
         <height>2</height>
         <value>6623</value>
-        <image>images/炮弹.png</image>
+        <image>images/img_735ba9531b.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2098,7 +2098,7 @@
         <width>2</width>
         <height>1</height>
         <value>4071</value>
-        <image>images/电台.png</image>
+        <image>images/img_8dd2cacd26.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2111,7 +2111,7 @@
         <width>1</width>
         <height>1</height>
         <value>6765</value>
-        <image>images/照相机.png</image>
+        <image>images/img_f1690ab819.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2124,7 +2124,7 @@
         <width>1</width>
         <height>2</height>
         <value>4140</value>
-        <image>images/机油.png</image>
+        <image>images/img_7829a3fb5b.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2137,7 +2137,7 @@
         <width>1</width>
         <height>1</height>
         <value>3380</value>
-        <image>images/电路板.png</image>
+        <image>images/img_a6cc83fa2b.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2150,7 +2150,7 @@
         <width>2</width>
         <height>1</height>
         <value>5022</value>
-        <image>images/机油壶.png</image>
+        <image>images/img_0de72b70f9.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2163,7 +2163,7 @@
         <width>1</width>
         <height>1</height>
         <value>2576</value>
-        <image>images/香水.png</image>
+        <image>images/img_368de264e9.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2176,7 +2176,7 @@
         <width>1</width>
         <height>1</height>
         <value>5976</value>
-        <image>images/生物样本.png</image>
+        <image>images/img_a823acb395.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2189,7 +2189,7 @@
         <width>1</width>
         <height>1</height>
         <value>5330</value>
-        <image>images/体温枪.png</image>
+        <image>images/img_11486cf7f0.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2202,7 +2202,7 @@
         <width>1</width>
         <height>1</height>
         <value>2093</value>
-        <image>images/怀表.png</image>
+        <image>images/img_c68fee94a0.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2215,7 +2215,7 @@
         <width>2</width>
         <height>1</height>
         <value>8526</value>
-        <image>images/望远镜.png</image>
+        <image>images/img_9f2ee1cf49.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2228,7 +2228,7 @@
         <width>1</width>
         <height>2</height>
         <value>4050</value>
-        <image>images/工艺项链.png</image>
+        <image>images/img_e49e9bc5db.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/眼镜.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2241,7 +2241,7 @@
         <width>1</width>
         <height>2</height>
         <value>4140</value>
-        <image>images/放大镜.png</image>
+        <image>images/img_f765bd4526.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2267,7 +2267,7 @@
         <width>1</width>
         <height>1</height>
         <value>3870</value>
-        <image>images/缓降器.png</image>
+        <image>images/img_1831b5f376.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2280,7 +2280,7 @@
         <width>1</width>
         <height>1</height>
         <value>2349</value>
-        <image>images/游戏卡带.png</image>
+        <image>images/img_ade12ec887.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2293,7 +2293,7 @@
         <width>1</width>
         <height>1</height>
         <value>1890</value>
-        <image>images/纪念硬币.png</image>
+        <image>images/img_f114d6bbbe.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/金链.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2306,7 +2306,7 @@
         <width>2</width>
         <height>1</height>
         <value>4416</value>
-        <image>images/检测仪.png</image>
+        <image>images/img_e3ff27a0e0.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/向量.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2319,7 +2319,7 @@
         <width>2</width>
         <height>1</height>
         <value>5452</value>
-        <image>images/数据线.png</image>
+        <image>images/img_885123ede6.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/机密.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2332,7 +2332,7 @@
         <width>1</width>
         <height>1</height>
         <value>1932</value>
-        <image>images/镜头.png</image>
+        <image>images/img_f9db739e08.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>
@@ -2345,7 +2345,7 @@
         <width>1</width>
         <height>1</height>
         <value>1</value>
-        <image>images/样本A.jpg</image>
+        <image>images/img_65e4998e93.jpg</image>
         <rarity>purple</rarity>
         <weight>60</weight>
         <sound>audio/items/玻璃.mp3</sound>
@@ -2360,7 +2360,7 @@
         <width>1</width>
         <height>1</height>
         <value>1</value>
-        <image>images/样本B.jpg</image>
+        <image>images/img_90657544f9.jpg</image>
         <rarity>purple</rarity>
         <weight>60</weight>
         <sound>audio/items/玻璃.mp3</sound>
@@ -2375,7 +2375,7 @@
         <width>1</width>
         <height>1</height>
         <value>1</value>
-        <image>images/样本C.jpg</image>
+        <image>images/img_6a8d629d7f.jpg</image>
         <rarity>purple</rarity>
         <weight>60</weight>
         <sound>audio/items/玻璃.mp3</sound>
@@ -2390,7 +2390,7 @@
         <width>1</width>
         <height>1</height>
         <value>1</value>
-        <image>images/样本D.jpg</image>
+        <image>images/img_6c0448da4d.jpg</image>
         <rarity>purple</rarity>
         <weight>8</weight>
         <sound>audio/items/玻璃.mp3</sound>
@@ -2405,7 +2405,7 @@
         <width>1</width>
         <height>3</height>
         <value>8835</value>
-        <image>images/密封泡沫.png</image>
+        <image>images/img_77ecb61d69.png</image>
         <rarity>purple</rarity>
         <sound>audio/items/碎片.mp3</sound>
         <imgScale>1.0</imgScale>

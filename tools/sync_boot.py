@@ -46,6 +46,10 @@ BOOT_ORDER = CODE_FILES + ["main.html", "index.html"]
 
 TARGETS = [("boot", ""), ("boot2", ".m")]
 
+# 物品图 / 收藏室图：放在 media/ 下（启动加载页下载，路径仍按 www 根目录的 images/、collect/）
+MEDIA_ROOT = "media"
+MEDIA_DIRS = ["images", "collect"]
+
 
 def build(dirname, suffix, version):
     out_dir = os.path.join(ROOT, dirname)
@@ -72,6 +76,35 @@ def build(dirname, suffix, version):
           f"版本 {out['version']}")
 
 
+def build_media():
+    """生成 media/manifest.json。版本号独立（media/version.txt），
+    改代码不会触发图片重下，只有改图时手动升这个版本号。"""
+    out_dir = os.path.join(ROOT, MEDIA_ROOT)
+    version_file = os.path.join(out_dir, "version.txt")
+    version = "v2.1.0_media.1"
+    if os.path.isfile(version_file):
+        with open(version_file, encoding="utf-8") as f:
+            version = (f.readline() or "").strip() or version
+
+    files = []
+    for d in MEDIA_DIRS:
+        base = os.path.join(out_dir, d)
+        if not os.path.isdir(base):
+            print("缺失目录:", os.path.join(MEDIA_ROOT, d), file=sys.stderr)
+            sys.exit(1)
+        for name in sorted(os.listdir(base)):
+            path = os.path.join(base, name)
+            if os.path.isfile(path):
+                files.append({"path": d + "/" + name, "size": os.path.getsize(path)})
+
+    out = {"version": version, "files": files, "fileCount": len(files),
+           "totalSize": sum(f["size"] for f in files)}
+    with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=2)
+    print(f"{MEDIA_ROOT}/ 已生成：{len(files)} 个文件，共 {out['totalSize']/1024/1024:.2f} MB，"
+          f"版本 {out['version']}")
+
+
 def main():
     version = "unknown"
     manifest_path = os.path.join(ROOT, "manifest.json")
@@ -81,6 +114,7 @@ def main():
 
     for dirname, suffix in TARGETS:
         build(dirname, suffix, version)
+    build_media()
 
 
 if __name__ == "__main__":

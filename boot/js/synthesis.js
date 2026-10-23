@@ -2,18 +2,18 @@
     'use strict';
 
     var SAMPLE_DEFS = [
-        { name: '常规样本A', image: 'images/样本A.jpg', rarity: '#9b59b6' },
-        { name: '常规样本B', image: 'images/样本B.jpg', rarity: '#9b59b6' },
-        { name: '常规样本C', image: 'images/样本C.jpg', rarity: '#9b59b6' },
-        { name: '常规样本D', image: 'images/样本D.jpg', rarity: '#9b59b6' },
-        { name: '常规样本E', image: 'images/样本E.jpg', rarity: '#9b59b6' },
-        { name: '不稳定样本X', image: 'images/样本X.jpg', rarity: '#9b59b6' }
+        { name: '常规样本A', image: 'images/img_65e4998e93.jpg', rarity: '#9b59b6' },
+        { name: '常规样本B', image: 'images/img_90657544f9.jpg', rarity: '#9b59b6' },
+        { name: '常规样本C', image: 'images/img_6a8d629d7f.jpg', rarity: '#9b59b6' },
+        { name: '常规样本D', image: 'images/img_6c0448da4d.jpg', rarity: '#9b59b6' },
+        { name: '常规样本E', image: 'images/img_06e37968e0.jpg', rarity: '#9b59b6' },
+        { name: '不稳定样本X', image: 'images/img_a0cb7eebc4.jpg', rarity: '#9b59b6' }
     ];
     var SAMPLE_NAMES = SAMPLE_DEFS.map(function (d) { return d.name; });
 
-    var INCUBATOR_EMPTY = 'images/保温箱.jpg';
-    var INCUBATOR_USED  = 'images/保温箱2.jpg';
-    var ELS_RESULT = 'images/ELS还原样本.jpg';
+    var INCUBATOR_EMPTY = 'images/img_c01ff6e26c.jpg';
+    var INCUBATOR_USED  = 'images/img_8b3f0db755.jpg';
+    var ELS_RESULT = 'images/img_570f877cf5.jpg';
     var PREFIX = 'ab_synth_';
 
     function getUid() {

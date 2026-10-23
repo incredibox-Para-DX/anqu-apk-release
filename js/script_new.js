@@ -892,11 +892,11 @@ previewCurrentBackground() {
         updateAccumulatedValueDisplay() {
             const $accumulatedValue = $('#accumulated-value');
             if ($accumulatedValue.length) {
-                $accumulatedValue.html(`<img src="images/柯恩币.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.totalAccumulatedValue)}`);
+                $accumulatedValue.html(`<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.totalAccumulatedValue)}`);
             }
             const $weeklyValue = $('#weekly-accumulated-value');
             if ($weeklyValue.length) {
-                $weeklyValue.html(`<img src="images/柯恩币.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.weeklyAccumulatedValue)}`);
+                $weeklyValue.html(`<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.weeklyAccumulatedValue)}`);
             }
             TitleManager.updateTitleDisplay();
         },
@@ -1273,7 +1273,7 @@ previewCurrentBackground() {
                         <button class="shop-back-btn" id="shop-back-top-btn"><i class="fas fa-arrow-left"></i> 返回</button>
                         <div class="shop-topbar-title"><i class="fas fa-store"></i> 技能商店</div>
                         <div class="shop-topbar-stats">
-                            <span class="stat-item"><img src="images/柯恩币.png" style="height:1.2em;vertical-align:middle;margin-right:3px;"><b id="shop-coin-balance">0</b></span>
+                            <span class="stat-item"><img src="images/img_b353ca7f64.png" style="height:1.2em;vertical-align:middle;margin-right:3px;"><b id="shop-coin-balance">0</b></span>
                         </div>
                     </div>
                     <div class="shop-main">
@@ -1401,24 +1401,24 @@ previewCurrentBackground() {
         BACKUP_KEY: 'ab_collection_room_v1_bak',
 
         COLLECT_MAP: {
-            '机密文件': 'collect/机密文件.png',
-            '“理想国”': 'collect/理想国.png',
-            '“厄律西翁”': 'collect/厄律西翁.png',
-            '金狮雕像': 'collect/金狮雕像.png',
-            '阵列镜片': 'collect/列阵镜片.png',
-            '盛宴雕塑': 'collect/盛宴雕像.png',
-            '古董茶壶': 'collect/古董茶壶.png',
-            '花瓶': 'collect/花瓶.png',
+            '机密文件': 'collect/img_737bbd84ed.png',
+            '“理想国”': 'collect/img_271c408224.png',
+            '“厄律西翁”': 'collect/img_55da8a9c7a.png',
+            '金狮雕像': 'collect/img_8b4310f2d2.png',
+            '阵列镜片': 'collect/img_6aeeaace20.png',
+            '盛宴雕塑': 'collect/img_5a780ac719.png',
+            '古董茶壶': 'collect/img_b3431e7295.png',
+            '花瓶': 'collect/img_8c91545379.png',
             '“赤红暗星”模型': 'collect/400.png',
-            '航天导航仪': 'collect/航天导航仪.png',
-            '“鎏金羽宫”': 'collect/鎏金.png',
-            '《黎明》': 'collect/黎明.png',
-            '验算模块': 'collect/验算模块.png',
-            '参考球零件': 'collect/惯性球.png',
-            '法厄同之钟': 'collect/法厄钟.png',
-            '黄金哑铃': 'collect/黄金哑铃.png',
-            '机械手臂': 'collect/机械手臂.png',
-            '热成像模块': 'collect/热成像模块.png'
+            '航天导航仪': 'collect/img_8d9ab9be88.png',
+            '“鎏金羽宫”': 'collect/img_86be2efc8e.png',
+            '《黎明》': 'collect/img_37150efe31.png',
+            '验算模块': 'collect/img_c9984fa547.png',
+            '参考球零件': 'collect/img_b867e932ea.png',
+            '法厄同之钟': 'collect/img_f70f42c369.png',
+            '黄金哑铃': 'collect/img_7b748eb857.png',
+            '机械手臂': 'collect/img_f923762915.png',
+            '热成像模块': 'collect/img_9aaa9d9296.png'
         },
 
         list: [],
@@ -1574,7 +1574,7 @@ previewCurrentBackground() {
                 $empty.css('display', 'flex');
                 $view.css('display', 'flex');
                 $('#collect-page').css({
-                    'background-image': 'url("collect/收藏室.png")',
+                    'background-image': 'url("collect/img_e3e8e2a20c.png")',
                     'background-size': 'cover',
                     'background-position': 'center center'
                 });
@@ -1990,7 +1990,7 @@ previewCurrentBackground() {
             const $details = Utils.createElement('div', { className: 'inventory-details' });
             const $value = Utils.createElement('div', { 
                 className: 'inventory-value',
-                innerHTML: `<img src="images/柯恩币.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(item.value)}`
+                innerHTML: `<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(item.value)}`
             });
             const $size = Utils.createElement('div', { className: 'inventory-size' });
             
@@ -2261,7 +2261,7 @@ previewCurrentBackground() {
                 width: 1,
                 height: 1,
                 value: 1000,
-                image: 'images/柯恩币.png',
+                image: 'images/img_b353ca7f64.png',
                 rarity: 'white',
                 weight: 100
             };
@@ -2731,8 +2731,8 @@ previewCurrentBackground() {
         
         updateStats() {
             const updates = {
-                '#total-value': `<img src="images/柯恩币.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.totalValue)}`,
-                '#highest-value': `<img src="images/柯恩币.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.highestValue)}`
+                '#total-value': `<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.totalValue)}`,
+                '#highest-value': `<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.highestValue)}`
             };
 
             _.each(updates, (value, selector) => {
@@ -2912,7 +2912,7 @@ openSafe() {
                 width: 1,
                 height: 1,
                 value: value,
-                image: "images/柯恩币.png",
+                image: "images/img_b353ca7f64.png",
                 rarity: "white",
                 searchTime: Config.searchTimes.white || 0.25,
                 id: itemId++,
@@ -6151,7 +6151,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.18';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.19';
 
     /* ============================================================
      * 检查更新

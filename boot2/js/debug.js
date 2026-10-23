@@ -906,24 +906,24 @@
   var GAME_SKILL_IDS = ['swift_hands', 'bounty_agreement', 'supply_tide', 'prophet', 'lucky_streak'];
   // CollectionManager.COLLECT_MAP 的精确 名称→图片 映射（必须与游戏内一致，否则图片404）
   var GAME_COLLECT_MAP = {
-    '机密文件': 'collect/机密文件.png',
-    '“理想国”': 'collect/理想国.png',
-    '“厄律西翁”': 'collect/厄律西翁.png',
-    '金狮雕像': 'collect/金狮雕像.png',
-    '阵列镜片': 'collect/列阵镜片.png',
-    '盛宴雕塑': 'collect/盛宴雕像.png',
-    '古董茶壶': 'collect/古董茶壶.png',
-    '花瓶': 'collect/花瓶.png',
+    '机密文件': 'collect/img_737bbd84ed.png',
+    '“理想国”': 'collect/img_271c408224.png',
+    '“厄律西翁”': 'collect/img_55da8a9c7a.png',
+    '金狮雕像': 'collect/img_8b4310f2d2.png',
+    '阵列镜片': 'collect/img_6aeeaace20.png',
+    '盛宴雕塑': 'collect/img_5a780ac719.png',
+    '古董茶壶': 'collect/img_b3431e7295.png',
+    '花瓶': 'collect/img_8c91545379.png',
     '“赤红暗星”模型': 'collect/400.png',
-    '航天导航仪': 'collect/航天导航仪.png',
-    '“鎏金羽宫”': 'collect/鎏金.png',
-    '《黎明》': 'collect/黎明.png',
-    '计算机验算模块': 'collect/验算模块.png',
-    '参考球零件': 'collect/惯性球.png',
-    '法厄同之钟': 'collect/法厄钟.png',
-    '黄金哑铃': 'collect/黄金哑铃.png',
-    '机械手臂': 'collect/机械手臂.png',
-    '热成像模块': 'collect/热成像模块.png'
+    '航天导航仪': 'collect/img_8d9ab9be88.png',
+    '“鎏金羽宫”': 'collect/img_86be2efc8e.png',
+    '《黎明》': 'collect/img_37150efe31.png',
+    '计算机验算模块': 'collect/img_c9984fa547.png',
+    '参考球零件': 'collect/img_b867e932ea.png',
+    '法厄同之钟': 'collect/img_f70f42c369.png',
+    '黄金哑铃': 'collect/img_7b748eb857.png',
+    '机械手臂': 'collect/img_f923762915.png',
+    '热成像模块': 'collect/img_9aaa9d9296.png'
   };
   var GAME_COLLECTIBLES = Object.keys(GAME_COLLECT_MAP);
 
@@ -1334,7 +1334,7 @@
     if (!document.getElementById('DTCollectBgFix')) {
       var st = document.createElement('style');
       st.id = 'DTCollectBgFix';
-      st.textContent = '#collect-page{background-image:url("collect/收藏室.png")!important;background-size:cover!important;background-position:center center!important}';
+      st.textContent = '#collect-page{background-image:url("collect/img_e3e8e2a20c.png")!important;background-size:cover!important;background-position:center center!important}';
       (document.head || document.body).appendChild(st);
     }
 

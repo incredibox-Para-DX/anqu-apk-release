@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.18.m",
+  "version": "v2.1.0_hotfix.19.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -27,7 +27,7 @@
     },
     {
       "path": "js/debug.js",
-      "size": 85000
+      "size": 85060
     },
     {
       "path": "js/inline-scripts.js",
@@ -43,11 +43,11 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 297335
+      "size": 297435
     },
     {
       "path": "js/synthesis.js",
-      "size": 25751
+      "size": 25801
     },
     {
       "path": "js/banned-words.js",
@@ -71,7 +71,7 @@
     },
     {
       "path": "xml/items.xml",
-      "size": 93056
+      "size": 93710
     },
     {
       "path": "xml/loading-tips.xml",
@@ -91,9 +91,9 @@
     },
     {
       "path": "index.html",
-      "size": 99091
+      "size": 99101
     }
   ],
   "fileCount": 23,
-  "totalSize": 1329821
+  "totalSize": 1330695
 }
