@@ -12,8 +12,6 @@
 
   var CODE_TIMEOUT = 90000;
   var PROBE_TIMEOUT = 8000;
-  var POLL_TICK = 1200;
-  var STALL_HINT = 40000;
 
   // 测速结果缓存（1 小时）：上次最快的线路优先，省掉重复测速
   var BASE_PICK_KEY = 'ab_fast_base';
@@ -36,14 +34,12 @@
   var pollTimer = null;
   var pct = 0;
 
-  // 真实进度：原生逐个文件「下完再写盘」，所以以磁盘上已完成文件的字节数为准，
-  // 再按实测下载速率在当前文件内部做插值，进度始终不超前于真实完成量的那一档。
+  // 进度：以时间为基准推进，真实落盘字节做下限校正
   var files = [];
   var totalBytes = 0;
   var lastIdx = -1;
   var probedBytes = 0;
-  var probeTs = 0;
-  var rate = 0;
+  var startTs = 0;
   var tickTimer = null;
 
   var introDone = false;
@@ -132,7 +128,10 @@
     }
   }
 
-  // ---------------- 真实进度 ----------------
+  // ---------------- 进度 ----------------
+  // 原生是「整个文件下完才写盘」，磁盘上看不到正在下载的字节，
+  // 所以进度用时间曲线推进（保证一直在动），并用真实落盘文件数做下限校正，
+  // 最终完成以原生回调和完整性校验为准。
 
   function byteAt(i) { return (files[i] && files[i].size) || 0; }
 
@@ -146,9 +145,7 @@
     pct = 0;
     lastIdx = -1;
     probedBytes = 0;
-    probeTs = Date.now();
-    // 先给个保守速率（约 90 秒下完），后续用实测值覆盖
-    rate = totalBytes ? totalBytes / 90000 : 0;
+    startTs = Date.now();
     setPct(0);
   }
 
@@ -159,42 +156,29 @@
 
   function startPoll() {
     stopPoll();
-    pollTimer = setInterval(poll, POLL_TICK);
-    tickTimer = setInterval(tick, 400);
+    pollTimer = setInterval(poll, 1000);
+    tickTimer = setInterval(tick, 350);
   }
 
-  // 记录一个文件确认落盘：更新已落盘字节，并用这次的间隔估算下载速率
   function recordCheckpoint(i) {
     lastIdx = i;
-    var now = Date.now();
-    var bytes = bytesUpTo(i);
-    var dt = now - probeTs;
-    if (dt > 400 && bytes > probedBytes) {
-      var inst = (bytes - probedBytes) / dt;
-      rate = rate > 0 ? rate * 0.5 + inst * 0.5 : inst;
-    }
-    probedBytes = bytes;
-    probeTs = now;
+    probedBytes = bytesUpTo(i);
   }
 
-  // 插值：已落盘字节 + 速率 × 停滞时长，最多推到清单总字节。
-  // 不再按「下一个文件大小」封顶——单个大文件下载期间那样会卡住不动。
-  // 真正停住时靠 STALL_HINT 冻结并提示，不会无限往前跑。
+  // 时间曲线：约 12 秒到 50%，30 秒到 75%，60 秒到 88%，之后逼近 94%
   function tick() {
-    if (done || failed || !totalBytes) return;
-    var now = Date.now();
-    var idle = now - probeTs;
-    var extra = 0;
-    if (idle < STALL_HINT && rate > 0) {
-      extra = Math.min(rate * idle, totalBytes - probedBytes);
-    }
-    var shown = Math.min(probedBytes + extra, totalBytes);
-    var v = 2 + Math.round((shown / totalBytes) * 92);
+    if (done || failed) return;
+    var elapsed = Date.now() - startTs;
+    var byTime = 2 + 92 * (1 - Math.exp(-elapsed / 26000));
+    var byReal = 0;
+    if (totalBytes) byReal = 2 + 92 * (probedBytes / totalBytes);
+    var v = Math.max(byTime, byReal);
+    if (v > 96) v = 96;
     if (v > pct) setPct(v);
-    if (idle > STALL_HINT) setMsg('网络较慢，正在等待资源…', true);
+    if (elapsed > 45000) setMsg('网络较慢，正在等待资源…', true);
   }
 
-  // 顺序探测：从上一个已知位置往后探，遇到缺失就停下（确认文件都是整份写完的）
+  // 顺序探测：从上一个已知位置往后探，用于确认哪些文件已经落盘
   function poll() {
     if (done || failed) return;
     if (!files.length) return;
