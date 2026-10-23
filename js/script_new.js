@@ -6163,7 +6163,14 @@ const EventManager = {
         return n.toFixed(n >= 10 || i === 0 ? 0 : 1) + ' ' + u[i];
     }
     function _huTotalSize(files) { var t = 0; for (var i = 0; i < files.length; i++) t += (files[i] && files[i].size) || 0; return t; }
-    function _huClose() { try { EventManager.closeModal('update-check-modal'); } catch(e) {} }
+    function _huClose() {
+        _huClearAutoClose();
+        try {
+            $('#update-check-close').css('display', ''); // 恢复 X，供下次打开用
+            $(document).off('click._hu', '#update-check-modal');
+            EventManager.closeModal('update-check-modal');
+        } catch(e) {}
+    }
 
     // ========== 红点徽章 ==========
     // 红点位置：sidebar-header 更多功能 / 主界面 more-button / 检查更新按钮
