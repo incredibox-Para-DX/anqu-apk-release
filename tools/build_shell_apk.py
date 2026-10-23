@@ -59,8 +59,8 @@ SHELL_FILES = {
 # 图片资源保留在包内，但改成 ASCII 文件名（仓库里的引用已同步改写）
 RENAME_MAP = json.load(open("/tmp/rename_map.json", encoding="utf-8"))
 
-# 只清理旧的下载残留目录，图片 / 收藏室图仍留在包内
-REMOVE_PREFIXES = ("assets/www/progress/",)
+# 音频资源改为首次打开时下载，包里不再保留
+REMOVE_PREFIXES = ("assets/www/progress/", "assets/www/audio/", "assets/www/music-player/")
 
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})

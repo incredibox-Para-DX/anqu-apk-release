@@ -1169,15 +1169,46 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 })();
 </script>
 <script>
-document.querySelectorAll('.sidebar-section-header[data-target]').forEach(function(header) {
-    var section = header.parentElement;
-    if (section.classList.contains('default-open')) return;
-    header.addEventListener('click', function(e) {
-        if (e.target.closest('.red-dot-number')) return;
-        if (section.classList.contains('hidden-section')) return;
-        section.classList.toggle('expanded');
+/* 侧边栏条目展开：用实际高度驱动 max-height，避免固定 2000px 导致的
+   展开拖沓 / 收起延迟，并让内容随高度一起淡入 */
+(function() {
+    var OPEN_EASE = 'max-height 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease';
+    var CLOSE_EASE = 'max-height 0.24s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.18s ease';
+    document.querySelectorAll('.sidebar-section-header[data-target]').forEach(function(header) {
+        var section = header.parentElement;
+        if (section.classList.contains('default-open')) return;
+        var body = section.querySelector(':scope > .sidebar-section-body');
+        if (!body) return;
+        var open = section.classList.contains('expanded');
+
+        body.style.overflow = 'hidden';
+        body.style.maxHeight = open ? 'none' : '0px';
+        body.style.opacity = open ? '1' : '0';
+
+        header.addEventListener('click', function(e) {
+            if (e.target.closest('.red-dot-number')) return;
+            if (section.classList.contains('hidden-section')) return;
+            open = !open;
+            section.classList.toggle('expanded', open);
+            if (open) {
+                body.style.transition = OPEN_EASE;
+                body.style.maxHeight = body.scrollHeight + 'px';
+                body.style.opacity = '1';
+                body.addEventListener('transitionend', function onEnd(ev) {
+                    if (ev.propertyName !== 'max-height' || !section.classList.contains('expanded')) return;
+                    body.style.maxHeight = 'none';
+                    body.removeEventListener('transitionend', onEnd);
+                });
+            } else {
+                body.style.transition = CLOSE_EASE;
+                body.style.maxHeight = body.scrollHeight + 'px';
+                body.style.opacity = '0';
+                void body.offsetHeight;
+                body.style.maxHeight = '0px';
+            }
+        });
     });
-});
+})();
 </script>
 <script>
 (function() {

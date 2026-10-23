@@ -41,9 +41,24 @@ CODE_FILES = [
     "xml/video-config.xml",
 ]
 
+# 首次打开时一起下载的音频资源（APK 内不再包含）
+BULK_DIRS = ["audio", "music-player"]
+
+
+def bulk_files():
+    out = []
+    for d in BULK_DIRS:
+        base = os.path.join(ROOT, d)
+        for dirpath, _, names in os.walk(base):
+            for name in sorted(names):
+                rel = os.path.relpath(os.path.join(dirpath, name), ROOT)
+                out.append(rel.replace(os.sep, "/"))
+    return out
+
+
 # index.html 放最后下载：中途失败时内部存储里没有入口页，加载页仍会显示
 # main.html 是启动入口（登录 CG + 下载界面），只留在 APK 里，始终不被覆盖
-BOOT_ORDER = CODE_FILES + ["index.html"]
+BOOT_ORDER = CODE_FILES + bulk_files() + ["index.html"]
 
 TARGETS = [("boot", ""), ("boot2", ".m")]
 
@@ -81,7 +96,7 @@ def build(dirname, suffix, version):
         files.append({"path": rel, "size": os.path.getsize(src)})
 
         # 每个文件后面跟一个进度标记，壳据此算真实进度
-        mark = "progress/c%02d.txt" % i
+        mark = "progress/c%03d.txt" % i
         write_mark(out_dir, mark, version + suffix)
         files.append({"path": mark, "size": len(version) + len(suffix)})
 
