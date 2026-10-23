@@ -6235,9 +6235,7 @@ const EventManager = {
                 try { localStorage.setItem(HU_STORAGE_KEY, m.version || ''); } catch (e) {}
                 // 显示版本信息
                 var info = '当前版本：v2.1.0';
-                if (m && m.version) info += '<br>服务器版本：' + m.version;
-                if (m && m.fileCount) info += '<br>文件数：' + m.fileCount;
-                if (m && m.totalSize) info += '<br>包大小：' + (m.totalSize / 1024 / 1024).toFixed(2) + ' MB';
+                if (m && m.version) info += '<br>最新版本：' + m.version;
                 $('#update-check-status').html(info);
                 $('#update-check-start').show().prop('disabled', false).text('开始检查');
             },
