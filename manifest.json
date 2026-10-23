@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.16",
+  "version": "v2.1.0_hotfix.17",
   "files": [
     {
       "path": "index.html",
@@ -8,8 +8,12 @@
     {
       "path": "js/script_new.js",
       "size": 297335
+    },
+    {
+      "path": "js/banned-words.js",
+      "size": 6585
     }
   ],
-  "fileCount": 2,
-  "totalSize": 396423
+  "fileCount": 3,
+  "totalSize": 402423
 }

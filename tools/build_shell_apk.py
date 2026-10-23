@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-"""把原始 APK 改造成"启动器壳"：
-   - 删除 assets/www 下的代码文件（js/css/xml/html）
-   - 用启动器页面替换 assets/www/index.html
-   - 保留图片/音频/字体等媒体资源
-   - 删除旧签名，输出未签名 APK
+"""把原始 APK 改造成“登录界面壳”：
+
+  - 删除 assets/www 下全部 js / css / xml / html
+  - 只写入壳自身：main.html（入口）、index.html（备用入口）、css/shell.css、js/shell.js
+  - 图片 / 音频 / 字体等媒体资源保留在包内
+  - 删除旧签名文件，输出未签名 APK（随后 zipalign + apksigner）
 """
 import os
 import sys
 import zipfile
 
 SRC = "/tmp/app.apk"
-BOOTSTRAP = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bootstrap.html")
+HERE = os.path.dirname(os.path.abspath(__file__))
+SHELL_DIR = os.path.join(HERE, "shell")
 OUT = "/tmp/app-unsigned.apk"
 
+# 包内需要移除的代码文件（相对 APK 根）
 CODE_FILES = [
     "assets/www/main.html",
     "assets/www/index.html",
@@ -28,6 +31,8 @@ CODE_FILES = [
     "assets/www/js/music.js",
     "assets/www/js/script_new.js",
     "assets/www/js/synthesis.js",
+    "assets/www/js/违禁词.js",
+    "assets/www/js/banned-words.js",
     "assets/www/libs/GSAP.js",
     "assets/www/libs/jquery.js",
     "assets/www/libs/lodash.js",
@@ -38,6 +43,14 @@ CODE_FILES = [
     "assets/www/xml/video-config.xml",
 ]
 
+# 写回包内的壳文件：APK 内路径 -> 仓库内源文件
+SHELL_FILES = {
+    "assets/www/main.html": os.path.join(SHELL_DIR, "index.html"),
+    "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
+    "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
+    "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
+}
+
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 
@@ -45,11 +58,8 @@ SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 def main():
     if not os.path.exists(SRC):
         sys.exit("缺少原始 APK: " + SRC)
-    with open(BOOTSTRAP, encoding="utf-8") as f:
-        bootstrap = f.read().encode("utf-8")
 
     src = zipfile.ZipFile(SRC)
-    names = src.namelist()
     removed, kept = 0, 0
 
     with zipfile.ZipFile(OUT, "w") as dst:
@@ -66,20 +76,20 @@ def main():
             dst.writestr(new_info, data)
             kept += 1
 
-        # 启动器作为新的入口页，压缩写入
-        info = zipfile.ZipInfo("assets/www/index.html", date_time=(2026, 10, 23, 0, 0, 0))
-        info.compress_type = zipfile.ZIP_DEFLATED
-        info.external_attr = 0o644 << 16
-        dst.writestr(info, bootstrap)
+        for name, path in SHELL_FILES.items():
+            with open(path, "rb") as f:
+                data = f.read()
+            info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o644 << 16
+            dst.writestr(info, data)
 
-    print(f"完成：保留 {kept} 项，删除 {removed} 项，入口页已替换")
+    print(f"完成：保留 {kept} 项，删除 {removed} 项，壳文件 {len(SHELL_FILES)} 个")
     print("输出:", OUT, f"{os.path.getsize(OUT)/1024/1024:.1f} MB")
 
-    # 校验：确认代码文件已不在包内
-    left = [n for n in zipfile.ZipFile(OUT).namelist()
-            if n.startswith("assets/www/") and
-            (n.endswith((".js", ".css", ".xml")) or n.endswith(".html"))]
-    print("包内剩余代码类文件:", left)
+    left = sorted(n for n in zipfile.ZipFile(OUT).namelist()
+                  if n.startswith("assets/www/") and n.endswith((".js", ".css", ".xml", ".html")))
+    print("包内代码类文件:", left)
 
 
 if __name__ == "__main__":

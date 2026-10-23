@@ -1,10 +1,6 @@
 {
-  "version": "v2.1.0_hotfix.16",
+  "version": "v2.1.0_hotfix.17",
   "files": [
-    {
-      "path": "main.html",
-      "size": 1906
-    },
     {
       "path": "MiniGame/index.html",
       "size": 2314
@@ -54,6 +50,10 @@
       "size": 25751
     },
     {
+      "path": "js/banned-words.js",
+      "size": 6585
+    },
+    {
       "path": "libs/GSAP.js",
       "size": 72213
     },
@@ -87,9 +87,13 @@
     },
     {
       "path": "index.html",
-      "size": 99088
+      "size": 99091
+    },
+    {
+      "path": "main.html",
+      "size": 1906
     }
   ],
-  "fileCount": 22,
-  "totalSize": 1323233
+  "fileCount": 23,
+  "totalSize": 1329821
 }
