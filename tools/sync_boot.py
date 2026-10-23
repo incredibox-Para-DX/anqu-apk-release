@@ -41,8 +41,8 @@ CODE_FILES = [
     "xml/video-config.xml",
 ]
 
-# 首次打开时一起下载的音频资源（APK 内不再包含）
-BULK_DIRS = ["audio", "music-player"]
+# 首次打开时一起下载的资源（audio 保留在 APK 内）
+BULK_DIRS = ["music-player"]
 
 
 def bulk_files():
