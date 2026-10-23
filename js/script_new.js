@@ -6160,13 +6160,56 @@ const EventManager = {
         $('#update-check-progress').hide();
         $('#update-check-confirm').hide();
         $('#update-check-later').hide();
-        $('#update-check-confirm').hide();
-        $('#update-check-start').show().prop('disabled', false).text('开始检查');
-        $('#update-check-cancel').text('关闭');
-        $('#update-check-status').text('正在检查更新，请稍候…');
+        $('#update-check-start').hide();
+        $('#update-check-cancel').text('关闭').show();
+        $('#update-check-status').html('<span style="color:#94a3b8;">正在连接服务器…</span>');
         EventManager.openModal('update-check-modal');
-        // 自动 fetch manifest
-        try { window.__huFetchAndCompare(); } catch (e) {}
+        // 先 fetch manifest 对比版本 → 再弹确认 → 再让原生下载
+        try { window.__huFetchAndCompare(function(m, hasUpdate) {
+            if (hasUpdate) {
+                // 有更新：先弹确认（JS 层面拦截原生下载！）
+                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                $('#update-check-status').html(
+                    '<span style="color:#fbbf24;">📦 发现新版本！</span>' +
+                    '<br>当前版本：' + curVer +
+                    '<br>最新版本：' + (m && m.version) +
+                    '<br><span style="color:#94a3b8;font-size:11px;">点击"立即更新"开始下载</span>'
+                );
+                $('#update-check-cancel').hide();
+                $('#update-check-later').show().text('稍后再说').off('click').on('click', function() {
+                    // 用户拒绝 → 关闭弹窗，不调原生
+                    EventManager.closeModal('update-check-modal');
+                });
+                $('#update-check-confirm').show().text('立即更新').off('click').on('click', function() {
+                    // 用户同意 → 调原生下载（这里才触发！）
+                    $('#update-check-cancel').hide();
+                    $('#update-check-later').hide();
+                    $('#update-check-confirm').hide();
+                    $('#update-check-progress').show();
+                    $('#update-check-status').html('正在下载更新文件，请稍候…<br><span style="color:#64748b;font-size:11px;">请勿关闭本窗口</span>');
+                    window.__huStartProgress();
+                    try { window.AndroidUpdate.check(HU_BASE_URL); } catch (e) {
+                        $('#update-check-status').html('<span style="color:#f87171;">更新启动失败：' + e + '</span>');
+                        $('#update-check-progress').hide();
+                        $('#update-check-cancel').show();
+                    }
+                });
+            } else {
+                // 已是最新：显示信息 + 关闭按钮
+                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                $('#update-check-status').html(
+                    '<span style="color:#10b981;">✅ 当前已是最新版本</span>' +
+                    '<br>当前版本：' + curVer +
+                    '<br>最新版本：' + (m && m.version)
+                );
+                $('#update-check-cancel').show().text('关闭');
+                $('#update-check-later').hide();
+                $('#update-check-confirm').hide();
+            }
+        }); } catch (e) {
+            $('#update-check-status').html('<span style="color:#f87171;">检查失败：' + e + '</span>');
+            $('#update-check-cancel').show();
+        }
     });
     $('#update-check-close, #update-check-cancel').on('click', function() {
         EventManager.closeModal('update-check-modal');
@@ -6225,25 +6268,41 @@ const EventManager = {
      * 热更新：fetch manifest + 进度条 + 红点 + 自动检查
      * ============================================================ */
     window.__huProgressTimer = null;
-    window.__huFetchAndCompare = function() {
+    // 简单版本对比：v2.1.0_hotfix.1 vs v2.1.0_hotfix.2 → 后者新
+    window.__huVersionGt = function(a, b) {
+        if (!a || !b) return false;
+        var pa = a.replace(/[^0-9.]/g, '').split('.').map(Number);
+        var pb = b.replace(/[^0-9.]/g, '').split('.').map(Number);
+        var len = Math.max(pa.length, pb.length);
+        for (var i = 0; i < len; i++) {
+            var na = (pa[i] || 0);
+            var nb = (pb[i] || 0);
+            if (na > nb) return true;
+            if (na < nb) return false;
+        }
+        return false;
+    };
+    // fetch manifest + 版本对比 + 回调 (供 sidebar 按钮和自动检查共用)
+    window.__huFetchAndCompare = function(onResult) {
         $.ajax({
             url: HU_MANIFEST_URL + '?t=' + Date.now(),
             dataType: 'json',
             cache: false,
             timeout: 8000,
             success: function(m) {
-                try { localStorage.setItem(HU_STORAGE_KEY, m.version || ''); } catch (e) {}
-                // 显示版本信息（右上角同步）
-                if (m && m.version) { try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {} }
-                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})(); var info = '当前版本：' + curVer;
-                if (m && m.version) info += '<br>最新版本：' + m.version;
-                $('#update-check-status').html(info);
-                $('#update-check-start').show().prop('disabled', false).text('开始检查');
+                // 右上角同步为服务器最新版本
+                if (m && m.version) {
+                    try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
+                }
+                // 版本对比
+                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
+                // 存最新版本
+                try { localStorage.setItem(HU_STORAGE_KEY, m.version || curVer); } catch (e) {}
+                if (typeof onResult === 'function') { onResult(m, hasUpdate); }
             },
             error: function() {
-                var curVer2 = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
-                $('#update-check-status').html('当前版本：' + curVer2 + '<br><span style="color:#f87171;">检查失败，服务器无法连接</span>');
-                $('#update-check-start').show().prop('disabled', false).text('开始检查');
+                if (typeof onResult === 'function') { onResult(null, false); }
             }
         });
     };
@@ -6294,21 +6353,9 @@ const EventManager = {
     // 自动检查（APP 启动 3s 后）
     setTimeout(function() {
         try {
-            $.ajax({
-                url: HU_MANIFEST_URL + '?t=' + Date.now(),
-                dataType: 'json', cache: false, timeout: 8000,
-                success: function(m) {
-                    var local = '';
-                    try { local = localStorage.getItem(HU_STORAGE_KEY) || ''; } catch (e) {}
-                    // 不管版本一不一样，都更新右上角显示为服务器最新版本
-                    if (m && m.version) {
-                        try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
-                        try { localStorage.setItem(HU_STORAGE_KEY, m.version); } catch(e) {}
-                    }
-                    if (m && m.version && local && m.version !== local) {
-                        window.__huShowRedDot(true);
-                    }
-                }
+            window.__huFetchAndCompare(function(m, hasUpdate) {
+                if (hasUpdate) { window.__huShowRedDot(true); }
+                else { window.__huShowRedDot(false); }
             });
         } catch (e) {}
     }, 3000);

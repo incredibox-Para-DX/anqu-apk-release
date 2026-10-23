@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.5",
+  "version": "v2.1.0_hotfix.6",
   "files": [
     {
       "path": "index.html",
@@ -7,9 +7,9 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 283807
+      "size": 286301
     }
   ],
   "fileCount": 2,
-  "totalSize": 379844
+  "totalSize": 382338
 }
