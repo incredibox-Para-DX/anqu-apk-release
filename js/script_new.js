@@ -6145,103 +6145,156 @@ const EventManager = {
     });
 
     /* ============================================================
-     * 检查更新
+     * 检查更新（正式版 v2）
+     * 固定 raw URL → fetch manifest.json → 版本对比 → 确认弹窗 → 原生下载 + 进度条
      * ============================================================ */
-        /**
-     * 检查更新（显示最新版本号 + 自动检测 + 确认弹窗）
-     */
-    var HOTUPDATE_URL = 'https://github.com/incredibox-Para-DX/anqu-apk-release/releases/download/v2.1.0-bg/hotupdate.zip';
-    var UPDATE_INFO_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/update-info.json';
+    var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
+    var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
 
-    function _getCurrentVersion() {
-        var el = document.getElementById('metaVersionDisplay');
-        if (!el) return '';
-        var m = (el.textContent || '').match(/v\\d+[^ \\u4e00-\\u9fa5]*/i);
-        return m ? m[0].trim() : '';
+    function _huGetVersion() {
+        try { if (window.AndroidUpdate && typeof window.AndroidUpdate.currentVersion === 'function') { var v = window.AndroidUpdate.currentVersion(); if (v) return v; } } catch(e) {}
+        try { var el = document.getElementById('metaVersionDisplay'); if (el) { var m = (el.textContent || '').match(/v[\d\.\-_a-zA-Z]+/i); if (m) return m[0]; } } catch(e) {}
+        return '';
     }
 
-    function _fetchUpdateInfo() {
-        return fetch(UPDATE_INFO_URL, { cache: 'no-store', headers: { 'Accept': 'application/json' } })
-            .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-            .catch(function(e) { console.warn('[update] fetch update-info.json 失败:', e.message); return null; });
+    function _huFmtSize(bytes) {
+        if (!bytes) return '0 B';
+        var u = ['B','KB','MB','GB']; var i = 0; var n = parseFloat(bytes);
+        while (n >= 1024 && i < u.length-1) { n /= 1024; i++; }
+        return n.toFixed(n >= 10 || i === 0 ? 0 : 1) + ' ' + u[i];
     }
 
-    function _buildUpdateHint(currentVersion, info) {
-        var lines = [];
-        lines.push('当前版本：' + (currentVersion || '(未知)'));
-        lines.push('最新版本：' + (info.latestVersion || '(未知)'));
-        if (info.releaseName) lines.push(info.releaseName);
-        if (info.hotupdate && info.hotupdate.sizeLabel) lines.push('包大小：' + info.hotupdate.sizeLabel);
-        if (info.changelog) lines.push('更新说明：' + info.changelog);
-        return lines.join('\\n');
-    }
+    function _huTotalSize(files) { var t = 0; for (var i = 0; i < files.length; i++) t += (files[i] && files[i].size) || 0; return t; }
 
-    function _showUpdateModal(statusText, options) {
+    function _huShow(statusText, options) {
         options = options || {};
         $('#update-check-status').text(statusText);
         $('#update-check-cancel').text(options.cancelText || '关闭').prop('disabled', !!options.disableCancel);
         $('#update-check-confirm').css('display', options.showConfirm ? '' : 'none');
         $('#update-check-later').css('display', options.showLater ? '' : 'none');
+        if (options.hideCancel) $('#update-check-cancel').hide(); else $('#update-check-cancel').show();
     }
 
-    function _closeUpdateModal() {
-        try { EventManager.closeModal('update-check-modal'); } catch (e) {}
+    function _huShowProgress(show, pct, text) {
+        var $w = $('#update-check-progress-wrap');
+        if (show === false) { $w.hide(); return; }
+        if (show === true) $w.show();
+        if (typeof pct === 'number') {
+            pct = Math.max(0, Math.min(100, pct));
+            $('#update-check-progress-bar').css('width', pct + '%');
+            $('#update-check-progress-pct').text(Math.round(pct) + '%');
+        }
+        if (text) $('#update-check-progress-text').text(text);
     }
 
-    $('#sidebar-update-check-btn').on('click', function() {
-        $('#update-check-close, #update-check-cancel').off('click._upd');
-        $('#update-check-modal').off('click._upd');
-        $('#update-check-confirm').off('click._upd');
-        $('#update-check-later').off('click._upd');
+    function _huClose() { try { EventManager.closeModal('update-check-modal'); } catch(e) {} }
+
+    var _huProgressTimer = null;
+    function _huStartProgress(totalFiles) {
+        var startPct = 5;
+        var maxPct = 92;
+        var elapsed = 0;
+        var estSeconds = Math.max(15, totalFiles * 0.25);
+        _huShowProgress(true, startPct, '准备下载 ' + totalFiles + ' 个文件…');
+        _huProgressTimer = setInterval(function() {
+            elapsed += 0.5;
+            var frac = Math.min(1, elapsed / estSeconds);
+            var simulated = startPct + (maxPct - startPct) * Math.sqrt(frac);
+            var filesDone = Math.round(totalFiles * frac);
+            _huShowProgress(simulated, '正在下载 ' + filesDone + '/' + totalFiles + ' 个文件…');
+        }, 500);
+    }
+    function _huStopProgress(done) {
+        if (_huProgressTimer) { clearInterval(_huProgressTimer); _huProgressTimer = null; }
+        if (done === false) { _huShowProgress(false); return; }
+        _huShowProgress(true, done ? 100 : null, done ? '下载完成，正在应用…' : null);
+    }
+
+    $(document).off('click', '#sidebar-update-check-btn._hu');
+
+    $(document).on('click._hu', '#sidebar-update-check-btn', function() {
+        $('#update-check-close, #update-check-cancel, #update-check-confirm, #update-check-later, #update-check-modal').off('click._hu');
         if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
-            if (typeof window.showToast === 'function') window.showToast('当前版本不支持检查更新');
+            if (typeof window.showToast === 'function') window.showToast('当前版本不支持热更新');
             return;
         }
-        _showUpdateModal('正在检查更新，请稍候…', { showConfirm: false, showLater: false, cancelText: '检查中…', disableCancel: true });
+        _huShowProgress(false);
+        _huShow('正在检查更新，请稍候…', { showConfirm:false, showLater:false, cancelText:'检查中…', disableCancel:true, hideCancel:true });
         EventManager.openModal('update-check-modal');
-        var currentVersion = _getCurrentVersion();
-        _fetchUpdateInfo().then(function(info) {
-            var needUpdate = !!(info && info.latestVersion && info.latestVersion !== currentVersion);
-            if (info && !needUpdate) {
-                _showUpdateModal('已是最新版本（' + (currentVersion || info.latestVersion) + '）',
-                    { showConfirm: false, showLater: false, cancelText: '关闭', disableCancel: false });
-                $('#update-check-cancel').off('click._upd').on('click._upd', _closeUpdateModal);
-                setTimeout(_closeUpdateModal, 2000);
-                return;
-            }
-            if (info && needUpdate) {
-                _showUpdateModal('发现更新！正在下载并安装…\\n\\n' + _buildUpdateHint(currentVersion, info),
-                    { showConfirm: false, showLater: false, cancelText: '下载中…', disableCancel: true });
-            }
-            try { window.AndroidUpdate.check(HOTUPDATE_URL); }
-            catch (e) {
-                _showUpdateModal('检查失败：' + e, { showConfirm: false, showLater: false, cancelText: '关闭', disableCancel: false });
-                $('#update-check-cancel').off('click._upd').on('click._upd', _closeUpdateModal);
-            }
-        });
+        _huShowProgress(true, 2, '连接更新服务器…');
+
+        var currentVer = _huGetVersion();
+
+        fetch(HU_MANIFEST_URL, { cache:'no-store' })
+            .then(function(r) { if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+            .then(function(manifest) {
+                _huShowProgress(true, 10, '解析版本信息…');
+                var latestVer = manifest.version || '';
+                var files = manifest.files || [];
+                var totalSize = _huTotalSize(files);
+                var filesCount = files.length;
+                var nativeCurrent = '';
+                try { nativeCurrent = window.AndroidUpdate.currentVersion() || ''; } catch(e) {}
+                var needUpdate = !!latestVer && (latestVer !== currentVer) && (latestVer !== nativeCurrent);
+
+                if (!needUpdate) {
+                    _huShowProgress(false);
+                    var msg = '已是最新版本';
+                    if (nativeCurrent) msg += '（当前：' + nativeCurrent + '）';
+                    else if (currentVer) msg += '（当前：' + currentVer + '）';
+                    _huShow(msg, { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
+                    $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+                    setTimeout(_huClose, 2500);
+                    return;
+                }
+
+                var hint = '发现新版本！\n\n'
+                    + '当前版本：' + (currentVer || '(未知)') + '\n'
+                    + '最新版本：' + latestVer + '\n'
+                    + '文件数量：' + filesCount + ' 个\n'
+                    + '包大小：' + _huFmtSize(totalSize) + '\n\n是否立即更新？';
+                _huShowProgress(false);
+                _huShow(hint, { showConfirm:true, showLater:true, cancelText:'稍后再说', disableCancel:false });
+                $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+                $('#update-check-later').off('click._hu').on('click._hu', _huClose);
+                $('#update-check-confirm').off('click._hu').on('click._hu', function() {
+                    _huShow('正在下载并应用更新，请不要关闭应用…', { showConfirm:false, showLater:false, cancelText:'下载中…', disableCancel:true, hideCancel:true });
+                    try { window.AndroidUpdate.check(HU_BASE_URL); }
+                    catch (e) {
+                        _huShowProgress(false);
+                        _huShow('启动更新失败：' + e, { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
+                        $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+                        return;
+                    }
+                    _huStartProgress(filesCount);
+                });
+            })
+            .catch(function(err) {
+                _huShowProgress(false);
+                _huShow('检查更新失败：' + (err.message || err) + '\n请检查网络后重试', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
+                $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+            });
     });
 
-    $('#update-check-close, #update-check-cancel').off('click._upd').on('click._upd', _closeUpdateModal);
-    $('#update-check-modal').off('click._upd').on('click._upd', function(e) {
-        if ($(e.target).is(this)) _closeUpdateModal();
-    });
-    $('#update-check-confirm').off('click._upd').on('click._upd', function() {
-        _closeUpdateModal();
-        if (typeof window.showToast === 'function') window.showToast('正在应用更新…');
-        setTimeout(function() { location.reload(); }, 300);
-    });
-    $('#update-check-later').off('click._upd').on('click._upd', _closeUpdateModal);
+    $(document).on('click._hu', '#update-check-close', _huClose);
+    $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
 
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);
         var hint = (result && result.message) || '';
+        _huStopProgress(updated);
         if (updated) {
-            _showUpdateModal(hint || '更新下载完成！是否立即应用？',
-                { showConfirm: true, showLater: true, cancelText: '稍后再说', disableCancel: false });
+            _huShowProgress(true, 100, '更新完成！正在刷新…');
+            _huShow(hint || '更新已应用，正在重新加载页面…', { showConfirm:false, showLater:false, cancelText:'更新中…', disableCancel:true, hideCancel:true });
+            setTimeout(function() {
+                try { EventManager.closeModal('update-check-modal'); } catch(e) {}
+                setTimeout(function() { location.reload(); }, 200);
+            }, 1200);
         } else {
-            _showUpdateModal(hint || '当前已是最新版本',
-                { showConfirm: false, showLater: false, cancelText: '关闭', disableCancel: false });
-            setTimeout(_closeUpdateModal, 1500);
+            _huShowProgress(false);
+            _huShow(hint || '当前已是最新版本', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
+            $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+            setTimeout(_huClose, 2500);
         }
     };
 

@@ -403,7 +403,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator <b style="color:#22c55e;font-size:22px;">🔴FIXED🔴 v9.9.9</b></span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator <b style="color:#22c55e;font-size:22px;">v2.1.0</b></span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -859,9 +859,18 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-title"><i class="fas fa-sync-alt"></i> 检查更新</div>
 <button class="modal-close" id="update-check-close">&times;</button>
 </div>
-<div class="modal-body" style="text-align:left;white-space:pre-line;">
-<div id="update-check-status" style="color:#cbd5e1;font-size:13px;line-height:1.8;padding:4px 0;">
+<div class="modal-body" style="text-align:left;">
+<div id="update-check-status" style="color:#cbd5e1;font-size:13px;line-height:1.8;padding:4px 0;white-space:pre-line;">
 正在检查更新，请稍候…
+</div>
+<div id="update-check-progress-wrap" style="display:none;margin-top:14px;">
+<div style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-bottom:6px;">
+<span id="update-check-progress-text">准备中…</span>
+<span id="update-check-progress-pct">0%</span>
+</div>
+<div style="background:#1e293b;border-radius:6px;height:8px;overflow:hidden;">
+<div id="update-check-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#f97316,#ef4444);border-radius:6px;transition:width .4s ease;"></div>
+</div>
 </div>
 </div>
 <div class="modal-footer">
@@ -871,7 +880,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<divclass="modal-overlay" id="accumulated-value-modal">
+<div class="modal-overlay" id="accumulated-value-modal">
 <div class="modal-content">
 <div class="modal-header">
 <div class="modal-title"><i class="fas fa-coins"></i> 编辑总累计价值</div>
