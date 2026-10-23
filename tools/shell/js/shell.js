@@ -24,7 +24,8 @@
     'css/main.css',
     'js/script_new.js',
     'js/main.js',
-    'xml/items.xml'
+    'xml/items.xml',
+    'audio/click.mp3'
   ];
 
   var stage = 'code';

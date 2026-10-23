@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.32",
+  "version": "v2.1.0_hotfix.33",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -14,10 +14,6 @@
       "size": 2053
     },
     {
-      "path": "progress/c001.txt",
-      "size": 16
-    },
-    {
       "path": "css/icon.css",
       "size": 75487
     },
@@ -28,10 +24,6 @@
     {
       "path": "css/styles.css",
       "size": 72115
-    },
-    {
-      "path": "progress/c002.txt",
-      "size": 16
     },
     {
       "path": "js/debug.js",
@@ -46,10 +38,6 @@
       "size": 23605
     },
     {
-      "path": "progress/c003.txt",
-      "size": 16
-    },
-    {
       "path": "js/music.js",
       "size": 38210
     },
@@ -58,12 +46,12 @@
       "size": 297051
     },
     {
-      "path": "js/synthesis.js",
-      "size": 25801
+      "path": "progress/c001.txt",
+      "size": 16
     },
     {
-      "path": "progress/c004.txt",
-      "size": 16
+      "path": "js/synthesis.js",
+      "size": 25801
     },
     {
       "path": "js/banned-words.js",
@@ -78,10 +66,6 @@
       "size": 78748
     },
     {
-      "path": "progress/c005.txt",
-      "size": 16
-    },
-    {
       "path": "libs/lodash.js",
       "size": 73154
     },
@@ -92,10 +76,6 @@
     {
       "path": "xml/items.xml",
       "size": 93710
-    },
-    {
-      "path": "progress/c006.txt",
-      "size": 16
     },
     {
       "path": "xml/loading-tips.xml",
@@ -110,8 +90,304 @@
       "size": 101
     },
     {
+      "path": "audio/1020089352.mp3",
+      "size": 74221
+    },
+    {
+      "path": "progress/c002.txt",
+      "size": 16
+    },
+    {
+      "path": "audio/1034683967.mp3",
+      "size": 59821
+    },
+    {
+      "path": "audio/428152898.mp3",
+      "size": 56939
+    },
+    {
+      "path": "audio/484178711.mp3",
+      "size": 39659
+    },
+    {
+      "path": "audio/617691383.mp3",
+      "size": 41099
+    },
+    {
+      "path": "audio/885438931.mp3",
+      "size": 51179
+    },
+    {
+      "path": "audio/983625705.mp3",
+      "size": 56939
+    },
+    {
+      "path": "audio/admin-open.mp3",
+      "size": 107528
+    },
+    {
+      "path": "audio/buy.mp3",
+      "size": 371285
+    },
+    {
+      "path": "audio/click.mp3",
+      "size": 37189
+    },
+    {
+      "path": "audio/confirm-delete.mp3",
+      "size": 34088
+    },
+    {
+      "path": "audio/confirm-popup.mp3",
+      "size": 35528
+    },
+    {
+      "path": "progress/c003.txt",
+      "size": 16
+    },
+    {
+      "path": "audio/delete-click.mp3",
+      "size": 47048
+    },
+    {
+      "path": "audio/enter-game.mp3",
+      "size": 45616
+    },
+    {
+      "path": "audio/loading占位.mp3",
+      "size": 34088
+    },
+    {
+      "path": "audio/new-mail.mp3",
+      "size": 70088
+    },
+    {
+      "path": "audio/open-accumulated-value.mp3",
+      "size": 53966
+    },
+    {
+      "path": "audio/open-announcement.mp3",
+      "size": 234933
+    },
+    {
+      "path": "audio/open-bg-select.mp3",
+      "size": 186886
+    },
+    {
+      "path": "audio/open-collect.mp3",
+      "size": 303074
+    },
+    {
+      "path": "audio/open-confirm-disable.mp3",
+      "size": 53966
+    },
+    {
+      "path": "audio/open-confirm-enable.mp3",
+      "size": 53966
+    },
+    {
+      "path": "audio/open-cover.mp3",
+      "size": 53966
+    },
+    {
+      "path": "progress/c004.txt",
+      "size": 16
+    },
+    {
+      "path": "audio/open-credits.mp3",
+      "size": 196119
+    },
+    {
+      "path": "audio/open-item-control.mp3",
+      "size": 61553
+    },
+    {
+      "path": "audio/open-leaderboard.mp3",
+      "size": 111625
+    },
+    {
+      "path": "audio/open-music-playlist.mp3",
+      "size": 61553
+    },
+    {
+      "path": "audio/open-nickname.mp3",
+      "size": 44381
+    },
+    {
+      "path": "audio/open-notification.mp3",
+      "size": 116645
+    },
+    {
+      "path": "audio/open-safe.mp3",
+      "size": 293934
+    },
+    {
+      "path": "audio/open-shop.mp3",
+      "size": 184402
+    },
+    {
+      "path": "audio/open-synthesis.mp3",
+      "size": 115029
+    },
+    {
+      "path": "audio/open-title.mp3",
+      "size": 118519
+    },
+    {
+      "path": "audio/password-error.mp3",
+      "size": 71532
+    },
+    {
+      "path": "progress/c005.txt",
+      "size": 16
+    },
+    {
+      "path": "audio/reset-game.mp3",
+      "size": 61970
+    },
+    {
+      "path": "audio/sidebar-close.mp3",
+      "size": 122179
+    },
+    {
+      "path": "audio/sidebar-open.mp3",
+      "size": 290275
+    },
+    {
+      "path": "audio/toast.mp3",
+      "size": 54248
+    },
+    {
+      "path": "audio/toastend.mp3",
+      "size": 52808
+    },
+    {
+      "path": "audio/我出货了1.mp3",
+      "size": 39363
+    },
+    {
+      "path": "audio/我出货了2.mp3",
+      "size": 23468
+    },
+    {
+      "path": "audio/我出货了3.mp3",
+      "size": 23497
+    },
+    {
+      "path": "audio/我出货了4.mp3",
+      "size": 30390
+    },
+    {
+      "path": "audio/items/万用表.mp3",
+      "size": 23301
+    },
+    {
+      "path": "audio/items/向量.mp3",
+      "size": 18068
+    },
+    {
+      "path": "progress/c006.txt",
+      "size": 16
+    },
+    {
+      "path": "audio/items/唱片机.mp3",
+      "size": 18076
+    },
+    {
+      "path": "audio/items/宝石项链.mp3",
+      "size": 60921
+    },
+    {
+      "path": "audio/items/座钟.mp3",
+      "size": 20170
+    },
+    {
+      "path": "audio/items/挂毯.mp3",
+      "size": 25394
+    },
+    {
+      "path": "audio/items/机密.mp3",
+      "size": 10762
+    },
+    {
+      "path": "audio/items/柯恩币.mp3",
+      "size": 58835
+    },
+    {
+      "path": "audio/items/桶.mp3",
+      "size": 24350
+    },
+    {
+      "path": "audio/items/模块.mp3",
+      "size": 20166
+    },
+    {
+      "path": "audio/items/玻璃.mp3",
+      "size": 24346
+    },
+    {
+      "path": "audio/items/理想国.mp3",
+      "size": 29764
+    },
+    {
+      "path": "audio/items/盒子.mp3",
+      "size": 26435
+    },
+    {
       "path": "progress/c007.txt",
       "size": 16
+    },
+    {
+      "path": "audio/items/眼镜.mp3",
+      "size": 23305
+    },
+    {
+      "path": "audio/items/碎片.mp3",
+      "size": 22256
+    },
+    {
+      "path": "audio/items/笔.mp3",
+      "size": 20166
+    },
+    {
+      "path": "audio/items/纸.mp3",
+      "size": 21211
+    },
+    {
+      "path": "audio/items/花瓶.mp3",
+      "size": 20170
+    },
+    {
+      "path": "audio/items/金狮.mp3",
+      "size": 21215
+    },
+    {
+      "path": "audio/items/金链.mp3",
+      "size": 65097
+    },
+    {
+      "path": "audio/items/铁.mp3",
+      "size": 19684
+    },
+    {
+      "path": "audio/items/镜片.mp3",
+      "size": 55692
+    },
+    {
+      "path": "audio/items/集邮册.mp3",
+      "size": 27488
+    },
+    {
+      "path": "audio/items/音响.mp3",
+      "size": 6696
+    },
+    {
+      "path": "progress/c008.txt",
+      "size": 16
+    },
+    {
+      "path": "audio/items/音响2.mp3",
+      "size": 67204
     },
     {
       "path": "music-player/BGM_Main_UI_Loop_A.mp3",
@@ -126,10 +402,10 @@
       "size": 99896
     },
     {
-      "path": "progress/c008.txt",
+      "path": "progress/c009.txt",
       "size": 16
     }
   ],
-  "fileCount": 32,
-  "totalSize": 4399500
+  "fileCount": 101,
+  "totalSize": 9306850
 }
