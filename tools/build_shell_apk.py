@@ -57,8 +57,8 @@ SHELL_FILES = {
 # 图片资源保留在包内，但改成 ASCII 文件名（仓库里的引用已同步改写）
 RENAME_MAP = json.load(open("/tmp/rename_map.json", encoding="utf-8"))
 
-# music-player 改为首次打开时下载（audio 保留在包内）
-REMOVE_PREFIXES = ("assets/www/progress/", "assets/www/music-player/")
+# audio / music-player 全部保留在包内
+REMOVE_PREFIXES = ("assets/www/progress/",)
 
 # 收藏室背景图：以仓库 media/collect 为准覆盖/补充到包内
 # （原包里的同名图会被跳过，改用这里的版本；新增的图直接写进去）

@@ -177,17 +177,16 @@
     probeTs = now;
   }
 
-  // 插值：已落盘字节 + 速率 × 停滞时长，但最多推到当前文件末尾的 90%，
-  // 保证进度不会超过真实完成量的下一个档位
+  // 插值：已落盘字节 + 速率 × 停滞时长，最多推到清单总字节。
+  // 不再按「下一个文件大小」封顶——单个大文件下载期间那样会卡住不动。
+  // 真正停住时靠 STALL_HINT 冻结并提示，不会无限往前跑。
   function tick() {
     if (done || failed || !totalBytes) return;
     var now = Date.now();
     var idle = now - probeTs;
     var extra = 0;
     if (idle < STALL_HINT && rate > 0) {
-      extra = rate * idle;
-      var nextSize = byteAt(lastIdx + 1);
-      if (nextSize) extra = Math.min(extra, nextSize * 0.9);
+      extra = Math.min(rate * idle, totalBytes - probedBytes);
     }
     var shown = Math.min(probedBytes + extra, totalBytes);
     var v = 2 + Math.round((shown / totalBytes) * 92);

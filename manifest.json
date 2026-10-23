@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.3",
+  "version": "v2.1.4",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -86,18 +86,10 @@
       "size": 101
     },
     {
-      "path": "music-player/BGM_Main_UI_Loop_A.mp3",
-      "size": 2798082
-    },
-    {
-      "path": "music-player/covers/BGM_Main_UI_Loop_A.jpg",
-      "size": 270976
-    },
-    {
       "path": "index.html",
       "size": 99896
     }
   ],
-  "fileCount": 24,
-  "totalSize": 4399344
+  "fileCount": 22,
+  "totalSize": 1330286
 }
