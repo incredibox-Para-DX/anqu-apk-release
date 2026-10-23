@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>正在启动</title>
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: #0b0d10;
+    color: #e6e8eb;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    overflow: hidden;
+  }
+  body {
+    display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(circle at 50% 32%, rgba(224, 168, 74, .10), transparent 55%),
+      #0b0d10;
+  }
+  .box { width: 78%; max-width: 340px; text-align: center; padding-bottom: 8vh; }
+  .logo {
+    font-size: 13px; letter-spacing: 6px; color: #e0a84a;
+    font-weight: 700; margin-bottom: 22px; opacity: .9;
+  }
+  .title { font-size: 15px; font-weight: 600; letter-spacing: .5px; }
+  .sub { font-size: 12px; color: #8b9099; margin-top: 9px; line-height: 1.6; min-height: 19px; }
+  .bar {
+    height: 3px; border-radius: 3px; background: rgba(255,255,255,.07);
+    margin: 26px 0 18px; overflow: hidden;
+  }
+  .bar i {
+    display: block; height: 100%; width: 6%;
+    background: linear-gradient(90deg, #b9812f, #e8b45c);
+    border-radius: 3px; transition: width .35s ease;
+  }
+  .hint { font-size: 11.5px; color: #6b7078; line-height: 1.7; min-height: 34px; }
+  .btn {
+    display: none; margin: 16px auto 0; padding: 9px 26px;
+    border: 1px solid rgba(224,168,74,.55); background: rgba(224,168,74,.10);
+    color: #e8b45c; border-radius: 8px; font-size: 13px; letter-spacing: 1px;
+  }
+  .btn:active { background: rgba(224,168,74,.22); }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">ANQU</div>
+  <div class="title" id="title">正在获取最新资源…</div>
+  <div class="sub" id="sub">首次启动需要下载运行文件，请保持网络连接</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="hint" id="hint"></div>
+  <button class="btn" id="retry">重 试</button>
+</div>
+<script>
+(function () {
+  var BASES = [
+    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
+    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot'
+  ];
+  var RETRY_DELAY = 45000;
+  var idx = 0, timer = null, done = false, progTimer = null;
+
+  function el(id) { return document.getElementById(id); }
+
+  function setText(title, sub) {
+    if (title) el('title').textContent = title;
+    if (sub !== undefined) el('sub').textContent = sub;
+  }
+
+  function startProgress() {
+    var w = 7;
+    el('bar').style.width = w + '%';
+    if (progTimer) clearInterval(progTimer);
+    progTimer = setInterval(function () {
+      w += (88 - w) * 0.055;
+      if (w > 88) w = 88;
+      el('bar').style.width = w.toFixed(1) + '%';
+    }, 130);
+  }
+
+  function stopProgress() {
+    if (progTimer) { clearInterval(progTimer); progTimer = null; }
+  }
+
+  function finish() {
+    if (done) return;
+    done = true;
+    clearTimeout(timer);
+    stopProgress();
+    el('bar').style.width = '100%';
+    setText('资源已就绪，正在启动…', '');
+    setTimeout(function () {
+      location.replace('https://localhost/index.html#r=' + Date.now());
+    }, 600);
+  }
+
+  function fail(msg) {
+    clearTimeout(timer);
+    stopProgress();
+    el('bar').style.width = '0%';
+    setText('启动失败', msg || '无法连接更新服务器');
+    el('hint').textContent = '请检查网络后点击重试。若长期无法启动，可切换网络（Wi-Fi / 移动数据）后重试。';
+    el('retry').style.display = 'inline-block';
+  }
+
+  function tryNext() {
+    if (done) return;
+    if (idx >= BASES.length) { fail('多次尝试仍无法下载运行文件'); return; }
+    var base = BASES[idx++];
+    setText('正在获取最新资源…', idx === 1 ? '正在连接服务器…' : '主线路失败，正在切换备用线路…');
+    if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
+      fail('当前环境缺少更新组件');
+      return;
+    }
+    try {
+      window.AndroidUpdate.check(base);
+    } catch (e) {
+      tryNext();
+      return;
+    }
+    clearTimeout(timer);
+    timer = setTimeout(tryNext, RETRY_DELAY);
+  }
+
+  window.__onUpdateCheckResult = function (res) {
+    try {
+      if (res && res.updated) { finish(); return; }
+      tryNext();
+    } catch (e) {
+      fail('更新回调异常');
+    }
+  };
+
+  el('retry').addEventListener('click', function () {
+    idx = 0;
+    done = false;
+    el('retry').style.display = 'none';
+    el('hint').textContent = '';
+    startProgress();
+    tryNext();
+  });
+
+  startProgress();
+  tryNext();
+})();
+</script>
+</body>
+</html>

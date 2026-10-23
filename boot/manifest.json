@@ -1,0 +1,95 @@
+{
+  "version": "v2.1.0_hotfix.16",
+  "files": [
+    {
+      "path": "main.html",
+      "size": 1906
+    },
+    {
+      "path": "MiniGame/index.html",
+      "size": 2314
+    },
+    {
+      "path": "MiniGame/scripts/all.js",
+      "size": 189889
+    },
+    {
+      "path": "MiniGame/images/index.css",
+      "size": 2053
+    },
+    {
+      "path": "css/icon.css",
+      "size": 75487
+    },
+    {
+      "path": "css/main.css",
+      "size": 52726
+    },
+    {
+      "path": "css/styles.css",
+      "size": 72115
+    },
+    {
+      "path": "js/debug.js",
+      "size": 85000
+    },
+    {
+      "path": "js/inline-scripts.js",
+      "size": 28608
+    },
+    {
+      "path": "js/main.js",
+      "size": 22710
+    },
+    {
+      "path": "js/music.js",
+      "size": 38210
+    },
+    {
+      "path": "js/script_new.js",
+      "size": 297335
+    },
+    {
+      "path": "js/synthesis.js",
+      "size": 25751
+    },
+    {
+      "path": "libs/GSAP.js",
+      "size": 72213
+    },
+    {
+      "path": "libs/jquery.js",
+      "size": 78748
+    },
+    {
+      "path": "libs/lodash.js",
+      "size": 73154
+    },
+    {
+      "path": "xml/backgrounds.xml",
+      "size": 8149
+    },
+    {
+      "path": "xml/items.xml",
+      "size": 93056
+    },
+    {
+      "path": "xml/loading-tips.xml",
+      "size": 509
+    },
+    {
+      "path": "xml/music-config.xml",
+      "size": 4111
+    },
+    {
+      "path": "xml/video-config.xml",
+      "size": 101
+    },
+    {
+      "path": "index.html",
+      "size": 99088
+    }
+  ],
+  "fileCount": 22,
+  "totalSize": 1323233
+}
