@@ -78,6 +78,7 @@ if os.path.isdir(FONTS_DIR):
         FONT_FILES["assets/www/fonts/" + fn] = os.path.join(FONTS_DIR, fn)
 
 SKIP = set(CODE_FILES)
+SKIP.update({"assets/www/css/shell.css", "assets/www/js/shell.js"})
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 
 

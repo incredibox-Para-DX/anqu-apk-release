@@ -6141,7 +6141,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.37';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.38';
 
     /* ============================================================
      * 检查更新
@@ -6251,21 +6251,28 @@ const EventManager = {
      * 热更新：fetch manifest + 进度条 + 红点 + 自动检查
      * ============================================================ */
     window.__huProgressTimer = null;
-    // 简单版本对比：v2.1.0 vs v2.1.1 → 后者新
+    // 版本对比：v2.1.0_hotfix.37 与 v2.1.1
+    // 规则：先比 major.minor；相同则比 hotfix 号（无 hotfix 视为 0）；再相同比 patch
+    // 这样 v2.1.0_hotfix.37 (hotfix=37) > v2.1.1 (hotfix=0)，避免误判旧版为更新
     window.__huVersionGt = function(a, b) {
         if (!a) return false;
         if (!b) return true;  // 本地没存过版本 = 有更新
-        var pa = a.replace(/[^0-9.]/g, '').split('.').map(Number);
-        var pb = b.replace(/[^0-9.]/g, '').split('.').map(Number);
-        var len = Math.max(pa.length, pb.length);
-        for (var i = 0; i < len; i++) {
-            var na = (pa[i] || 0);
-            var nb = (pb[i] || 0);
-            if (na > nb) return true;
-            if (na < nb) return false;
+        function parse(v) {
+            var hm = v.match(/_hotfix\.(\d+)/);
+            var hotfix = hm ? parseInt(hm[1], 10) : 0;
+            var main = v.replace(/_hotfix\.\d+/, '').replace(/[^0-9.]/g, '').split('.').map(Number);
+            return { major: main[0] || 0, minor: main[1] || 0, patch: main[2] || 0, hotfix: hotfix };
         }
+        var pa = parse(a);
+        var pb = parse(b);
+        if (pa.major !== pb.major) return pa.major > pb.major;
+        if (pa.minor !== pb.minor) return pa.minor > pb.minor;
+        if (pa.hotfix !== pb.hotfix) return pa.hotfix > pb.hotfix;
+        if (pa.patch !== pb.patch) return pa.patch > pb.patch;
         return false;
     };
+    // 右上角版本号立即同步为当前构建版本（不等 manifest 返回）
+    try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + window.HU_BUILD_VERSION); } catch(e) {}
     // fetch manifest + 版本对比 + 回调 (供 sidebar 按钮和自动检查共用)
     window.__huFetchAndCompare = function(onResult) {
         $.ajax({

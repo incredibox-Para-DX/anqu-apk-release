@@ -218,6 +218,9 @@
       get(rel, function (ok, text) {
         if (!ok) { cb(false); return; }
         if (rel === 'index.html' && text.indexOf(SHELL_MARK) >= 0) { cb(false); return; }
+        // 迁移：旧版 v2.1.1 / v2.1.0 不带 _hotfix，版本比较有 bug，
+        // 检测到旧缓存就强制重新下载一次，之后正常跳过
+        if (rel === 'js/script_new.js' && text.indexOf('_hotfix.') < 0) { cb(false); return; }
         next();
       }, PROBE_TIMEOUT);
     }
