@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentCreditIndex = 0;
     let hefunClickCount = 0;
     let hefunClickTimer = null;
+    let hefunFontObserver = null;
     let debugUnlocked = false;
     
     const checkGMUnlocked = () => {
@@ -220,13 +221,16 @@ document.addEventListener('DOMContentLoaded', function() {
         applySpecialFontToHeFun();
     };
     
+    const isHeFunName = () => {
+        return creditsName.length > 0 &&
+               String(creditsName.text() || '').trim() === 'HEFUN';
+    };
+    
     const applySpecialFontToHeFun = () => {
-        if (!debugUnlocked) return;
-        
         loadSpecialFont();
         
         const updateFont = () => {
-            if (currentCreditIndex === 0) {
+            if (isHeFunName()) {
                 creditsName[0].style.setProperty('font-family', "'Avicii', 'Arial', sans-serif", 'important');
                 creditsName[0].style.setProperty('font-size', '1.2em', 'important');
                 creditsName[0].style.setProperty('font-weight', 'bold', 'important');
@@ -257,23 +261,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateFont();
         
-        const observer = new MutationObserver(() => {
-            updateFont();
-        });
-        observer.observe(creditsName[0], {
-            characterData: true,
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['style', 'class']
-        });
+        // 观察器只挂一次，重复调用不会叠加
+        if (!hefunFontObserver) {
+            hefunFontObserver = new MutationObserver(() => {
+                updateFont();
+            });
+            hefunFontObserver.observe(creditsName[0], {
+                characterData: true,
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
         
         [50, 100, 200, 300, 500, 800, 1000, 1500, 2000].forEach(delay => {
             setTimeout(updateFont, delay);
         });
         
         const fontCheckInterval = setInterval(() => {
-            if (currentCreditIndex === 0 && debugUnlocked) {
+            if (isHeFunName()) {
                 const computedFont = window.getComputedStyle(creditsName[0]).fontFamily;
                 if (computedFont && !computedFont.includes('Avicii')) {
                     updateFont();
@@ -362,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
             creditsRole.text(person.role);
             renderLinks(person.links);
             
-            if (debugUnlocked && currentCreditIndex === 0) {
+            if (person.name === 'HEFUN') {
                 creditsName.addClass('hefun-special-font-style');
                 creditsName[0].style.setProperty('font-family', "'Avicii', 'Arial', sans-serif", 'important');
                 creditsName[0].style.setProperty('font-size', '1.2em', 'important');
@@ -585,7 +592,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     $('#gm-debug-section').hide();
     
-    if (debugUnlocked && currentCreditIndex === 0) {
+    // HEFUN 的特殊字体不依赖 GM Debug 解锁：进页面就加载字体并持续套用，
+    // 否则重装/清数据后 localStorage 里的解锁标记丢失，字体就永远不生效
+    loadSpecialFont();
+    applySpecialFontToHeFun();
+    if (window.FontFace) {
+        try {
+            const hefunFace = new FontFace('Avicii', 'url(fonts/Avicii.ttf)');
+            hefunFace.load().then(face => {
+                document.fonts.add(face);
+                applySpecialFontToHeFun();
+            }).catch(() => {});
+        } catch (e) {}
+    }
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => applySpecialFontToHeFun());
+    }
+    
+    if (debugUnlocked) {
         preloadFont();
         setupGMDebugPersistent();
     }
