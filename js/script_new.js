@@ -6151,7 +6151,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.15';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.16';
 
     /* ============================================================
      * 检查更新
@@ -6591,6 +6591,52 @@ const EventManager = {
             });
         } catch (e) {}
     }, 5000);
+
+    /* ============================================================
+     * 输入框焦点修复
+     * Android WebView 下首次点击输入框可能不聚焦/不弹键盘，
+     * 这里做一次强制聚焦兜底（含 readonly 预热法）。
+     * ============================================================ */
+    (function () {
+        function isField(el) {
+            if (!el || !el.tagName) return false;
+            var tag = el.tagName.toLowerCase();
+            return tag === 'input' || tag === 'textarea' || el.getAttribute('contenteditable') === 'true';
+        }
+        function forceFocus(el) {
+            try {
+                if (!el || el.disabled) return;
+                if (document.activeElement === el) return;
+                el.focus();
+                setTimeout(function () {
+                    if (document.activeElement === el) return;
+                    // 第二次尝试：readonly 预热法（可强制唤起输入法）
+                    try {
+                        el.setAttribute('readonly', 'readonly');
+                        el.focus();
+                        setTimeout(function () {
+                            try { el.removeAttribute('readonly'); } catch (e) {}
+                            el.focus();
+                            try {
+                                var len = (el.value || '').length;
+                                if (el.setSelectionRange) el.setSelectionRange(len, len);
+                            } catch (e) {}
+                        }, 60);
+                    } catch (e) {}
+                }, 150);
+            } catch (e) {}
+        }
+        document.addEventListener('touchend', function (e) {
+            var t = e.target;
+            if (!isField(t)) return;
+            setTimeout(function () { forceFocus(t); }, 0);
+        }, true);
+        document.addEventListener('click', function (e) {
+            var t = e.target;
+            if (!isField(t)) return;
+            forceFocus(t);
+        }, true);
+    })();
 
     // 初始化资源下载管理器
     ResourceDownloadManager.init();
