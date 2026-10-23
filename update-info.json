@@ -1,0 +1,21 @@
+{
+  "repo": "incredibox-Para-DX/anqu-apk-release",
+  "channel": "stable",
+  "latestVersion": "v2.1.0-bg",
+  "latestTag": "v2.1.0-bg",
+  "currentVersion": "v2.1.0",
+  "releaseName": "v2.1.0 新增背景自定义",
+  "changelog": "新增背景自定义功能；用户无需重装，热更新即可生效",
+  "publishedAt": "2026-10-23",
+  "hotupdate": {
+    "url": "https://github.com/incredibox-Para-DX/anqu-apk-release/releases/download/v2.1.0-bg/hotupdate.zip",
+    "sizeBytes": 85754533,
+    "sizeLabel": "81.8 MB"
+  },
+  "fullApk": {
+    "url": "https://github.com/incredibox-Para-DX/anqu-apk-release/releases/download/v2.1.0-bg/anqu-breakout-v2.1.0-bg.apk",
+    "sizeBytes": 93387411,
+    "sizeLabel": "89.1 MB"
+  },
+  "minHotupdateFrom": "v2.0.0"
+}
