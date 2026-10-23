@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""把原始 APK 改造成“登录界面壳”：
+"""把原始 APK 改造成“登录加载页即下载页”：
 
-  - 删除 assets/www 下全部 js / css / xml / html
-  - 只写入壳自身：main.html（入口）、index.html（备用入口）、css/shell.css、js/shell.js
+  - 保留原登录入口 main.html（登录 CG 视频页，只引用内置媒体）
+  - 删除 assets/www 下全部 js / css / xml 代码文件
+  - index.html 换成原加载页样式的下载页：css/shell.css + js/shell.js
   - 图片 / 音频 / 字体等媒体资源保留在包内
   - 删除旧签名文件，输出未签名 APK（随后 zipalign + apksigner）
 """
@@ -17,7 +18,6 @@ OUT = "/tmp/app-unsigned.apk"
 
 # 包内需要移除的代码文件（相对 APK 根）
 CODE_FILES = [
-    "assets/www/main.html",
     "assets/www/index.html",
     "assets/www/MiniGame/index.html",
     "assets/www/MiniGame/scripts/all.js",
@@ -45,7 +45,6 @@ CODE_FILES = [
 
 # 写回包内的壳文件：APK 内路径 -> 仓库内源文件
 SHELL_FILES = {
-    "assets/www/main.html": os.path.join(SHELL_DIR, "index.html"),
     "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
     "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),

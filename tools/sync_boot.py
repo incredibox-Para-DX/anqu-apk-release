@@ -41,8 +41,8 @@ CODE_FILES = [
     "xml/video-config.xml",
 ]
 
-# 入口页放最后下载：中途失败时内部存储里没有入口页，壳仍会显示
-BOOT_ORDER = CODE_FILES + ["index.html", "main.html"]
+# index.html 放最后下载：中途失败时内部存储里没有入口页，加载页仍会显示
+BOOT_ORDER = CODE_FILES + ["main.html", "index.html"]
 
 TARGETS = [("boot", ""), ("boot2", ".m")]
 

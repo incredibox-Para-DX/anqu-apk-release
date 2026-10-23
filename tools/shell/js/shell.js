@@ -14,7 +14,6 @@
 
   // 抽查关键文件，确认远端资源已完整落到内部存储
   var VERIFY = [
-    'main.html',
     'index.html',
     'css/main.css',
     'js/script_new.js',
@@ -24,24 +23,30 @@
 
   var idx = 0;
   var done = false;
+  var failed = false;
   var timer = null;
   var progTimer = null;
+  var width = 0;
 
   function $(id) { return document.getElementById(id); }
 
-  function setStatus(text, detail) {
-    $('status').textContent = text;
-    if (detail !== undefined) $('detail').textContent = detail;
+  function setTip(text) {
+    var el = $('loading-tip');
+    if (el) el.textContent = text;
   }
 
-  function startProgress() {
+  function setBar(w) {
+    width = w;
+    var el = $('loading-progress-bar');
+    if (el) el.style.width = w + '%';
+  }
+
+  function startProgress(from) {
     if (progTimer) clearInterval(progTimer);
-    var w = 6;
-    $('bar').style.width = w + '%';
+    setBar(from || 0);
     progTimer = setInterval(function () {
-      w += (90 - w) * 0.05;
-      if (w > 90) w = 90;
-      $('bar').style.width = w.toFixed(1) + '%';
+      if (width >= 90) return;
+      setBar(Math.min(90, width + (90 - width) * 0.06));
     }, 140);
   }
 
@@ -49,40 +54,26 @@
     if (progTimer) { clearInterval(progTimer); progTimer = null; }
   }
 
-  function showVersion() {
-    try {
-      if (window.AndroidUpdate && typeof window.AndroidUpdate.currentVersion === 'function') {
-        var v = window.AndroidUpdate.currentVersion();
-        if (v) { $('ver').textContent = String(v).replace(/\.[mr]$/, ''); return; }
-      }
-    } catch (e) {}
-    $('ver').textContent = 'v2.1.0';
-  }
-
   function enter() {
     if (done) return;
     done = true;
     clearTimeout(timer);
     stopProgress();
-    $('bar').style.width = '100%';
-    setStatus('资源校验完成', '正在进入…');
-    $('net').textContent = '已连接';
-    $('net').className = '';
+    setBar(100);
+    setTip('资源更新完成，正在进入…');
     setTimeout(function () {
-      // 相对地址，避免硬编码域名；带参数强制重新读取内部存储中的入口页
-      location.replace('main.html?r=' + Date.now());
-    }, 400);
+      // 相对地址；带参数强制 WebView 重新读取内部存储里刚下载好的入口页
+      location.replace('index.html?r=' + Date.now());
+    }, 350);
   }
 
   function fail(message) {
     clearTimeout(timer);
     stopProgress();
-    $('bar').style.width = '0%';
-    setStatus('启动失败', message || '无法连接资源服务器');
-    $('net').textContent = '连接异常';
-    $('net').className = 'bad';
-    $('detail').textContent = '请检查网络后点击重试，可切换 Wi-Fi / 移动数据再试。若持续失败，可在系统设置中清除本应用数据后重新打开。';
-    $('retry').style.display = 'inline-block';
+    setBar(0);
+    failed = true;
+    $('loading-overlay').className = 'loading-overlay failed';
+    setTip(message || '资源获取失败，点击屏幕重试');
   }
 
   function get(rel, cb, timeout) {
@@ -114,11 +105,10 @@
       if (done) return;
       if (i >= VERIFY.length) { cb(true); return; }
       var rel = VERIFY[i++];
-      setStatus('正在校验运行文件', rel);
       get(rel, function (ok, text) {
         if (!ok) { cb(false); return; }
-        // main.html 若还是壳自身，说明真实入口页没下载下来
-        if (rel === 'main.html' && text.indexOf(SHELL_MARK) >= 0) { cb(false); return; }
+        // 入口页若还是加载页自身，说明真实 index.html 没下载下来
+        if (rel === 'index.html' && text.indexOf(SHELL_MARK) >= 0) { cb(false); return; }
         next();
       }, PROBE_TIMEOUT);
     }
@@ -127,10 +117,10 @@
 
   function attempt() {
     if (done) return;
-    if (idx >= BASES.length) { fail('资源下载失败，请检查网络后重试'); return; }
+    if (idx >= BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
 
     var base = BASES[idx++];
-    setStatus('正在获取运行资源', idx === 1 ? '正在连接服务器…' : '正在切换线路…');
+    setTip(idx === 1 ? '正在获取运行资源…' : '正在切换线路…');
 
     if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
       fail('当前环境缺少更新组件，请重新安装客户端');
@@ -153,10 +143,11 @@
     clearTimeout(timer);
 
     if (res && res.updated) {
+      setTip('正在校验运行文件…');
       verifyAll(function (ok) {
         if (ok) { enter(); return; }
         // 下载成功但有文件缺失：换用版本号不同的备用清单，强制重新下载
-        setStatus('运行文件不完整', '正在重新获取…');
+        setTip('运行文件不完整，正在重新获取…');
         attempt();
       });
       return;
@@ -168,18 +159,18 @@
     });
   };
 
-  $('retry').addEventListener('click', function () {
+  // 失败后点屏幕任意位置重试（保持原加载页外观，不额外加按钮）
+  $('loading-overlay').addEventListener('click', function () {
+    if (!failed || done) return;
+    failed = false;
     idx = 0;
-    done = false;
-    $('retry').style.display = 'none';
-    $('net').className = '';
-    $('net').textContent = '正在连接';
-    setStatus('正在获取运行资源', '');
-    startProgress();
+    $('loading-overlay').className = 'loading-overlay';
+    setTip('正在获取运行资源…');
+    startProgress(6);
     attempt();
   });
 
-  showVersion();
-  startProgress();
+  startProgress(6);
+  setTip('正在校验运行文件…');
   attempt();
 })();
