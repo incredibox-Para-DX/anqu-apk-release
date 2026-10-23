@@ -72,6 +72,13 @@ if os.path.isdir(COLLECT_DIR):
 # 同名的旧图（扩展名可能已从 png 换成 jpg）一律丢掉，避免包里留两份
 COLLECT_STEMS = {os.path.splitext(os.path.basename(k))[0] for k in COLLECT_FILES}
 
+# 字体文件：同样以仓库 fonts/ 为准覆盖包内版本
+FONTS_DIR = os.path.join(REPO, "fonts")
+FONT_FILES = {}
+if os.path.isdir(FONTS_DIR):
+    for fn in sorted(os.listdir(FONTS_DIR)):
+        FONT_FILES["assets/www/fonts/" + fn] = os.path.join(FONTS_DIR, fn)
+
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 
@@ -110,10 +117,10 @@ def main():
                 rel = name[len("assets/www/"):]
                 if rel in RENAME_MAP:
                     name = "assets/www/" + RENAME_MAP[rel]
-            if name in COLLECT_FILES or (
+            if name in COLLECT_FILES or name in FONT_FILES or (
                     name.startswith("assets/www/collect/")
                     and os.path.splitext(os.path.basename(name))[0] in COLLECT_STEMS):
-                # 收藏室背景图统一由 COLLECT_FILES 重写，避免包里出现重复条目
+                # 收藏室背景图 / 字体统一由下面的覆盖清单重写，避免包里出现重复条目
                 removed += 1
                 continue
             new_info = zipfile.ZipInfo(name, date_time=info.date_time)
@@ -134,6 +141,15 @@ def main():
 
         # 收藏室背景图：覆盖 + 补充
         for name, path in COLLECT_FILES.items():
+            with open(path, "rb") as f:
+                data = f.read()
+            info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_STORED
+            info.external_attr = 0o644 << 16
+            dst.writestr(info, data)
+
+        # 字体：覆盖包内旧版本
+        for name, path in FONT_FILES.items():
             with open(path, "rb") as f:
                 data = f.read()
             info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
