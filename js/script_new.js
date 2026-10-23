@@ -6151,7 +6151,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.14';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.15';
 
     /* ============================================================
      * 检查更新
@@ -6357,7 +6357,7 @@ const EventManager = {
     /* ============================================================
      * 云同步（免注册同步码）
      * ============================================================ */
-    var SYNC_API = '';  // 部署 Cloudflare Worker 后填入，如 https://anqu-sync.xxx.workers.dev
+    var SYNC_API = 'https://anqu-sync.sdfgasdfgwe7.workers.dev';  // Cloudflare Worker 云同步地址
     var SYNC_KEYS = [
         'darkzone_simulator_stats',
         'ab_shop_skills_v1',
