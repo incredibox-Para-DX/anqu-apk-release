@@ -6298,6 +6298,11 @@ const EventManager = {
                 success: function(m) {
                     var local = '';
                     try { local = localStorage.getItem(HU_STORAGE_KEY) || ''; } catch (e) {}
+                    // 不管版本一不一样，都更新右上角显示为服务器最新版本
+                    if (m && m.version) {
+                        try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
+                        try { localStorage.setItem(HU_STORAGE_KEY, m.version); } catch(e) {}
+                    }
                     if (m && m.version && local && m.version !== local) {
                         window.__huShowRedDot(true);
                     }
