@@ -10,9 +10,10 @@
   ];
   var SHELL_MARK = 'anqu-shell';
 
-  var CODE_TIMEOUT = 120000;
+  var CODE_TIMEOUT = 90000;
   var PROBE_TIMEOUT = 8000;
-  var EST_TICK = 200;
+  var POLL_TICK = 1200;
+  var STALL_HINT = 40000;
 
   // 测速结果缓存（1 小时）：上次最快的线路优先，省掉重复测速
   var BASE_PICK_KEY = 'ab_fast_base';
@@ -32,9 +33,15 @@
   var done = false;
   var failed = false;
   var timer = null;
-  var estTimer = null;
-  var EST_CAP = 92;
+  var pollTimer = null;
   var pct = 0;
+
+  // 真实进度：清单里的文件按顺序下载，定时探测内部存储里已有的文件，
+  // 用「已落盘字节 / 清单总字节」算百分比，不再用假曲线。
+  var files = [];
+  var totalBytes = 0;
+  var lastIdx = -1;
+  var lastMove = 0;
 
   var introDone = false;
   var pendingEnter = false;
@@ -82,7 +89,7 @@
     if (done) return;
     done = true;
     clearTimeout(timer);
-    stopEstimate();
+    stopPoll();
     setPct(100);
     setMsg(msg || '资源更新完成，正在进入…', true);
     if (introDone) { go(); return; }
@@ -92,7 +99,7 @@
   function fail(message) {
     if (done) return;
     clearTimeout(timer);
-    stopEstimate();
+    stopPoll();
     failed = true;
     var ov = $('loading-overlay');
     if (ov) ov.className = 'loading-overlay failed';
@@ -122,21 +129,75 @@
     }
   }
 
-  // 下载进度：包内不再有进度标记文件，原生回调只给最终结果，
-  // 因此这里用单调递增的估算曲线推进（越接近上限推进越慢），
-  // 下载完成的回调到达后再直接跳到 100%。
-  function stopEstimate() {
-    if (estTimer) { clearInterval(estTimer); estTimer = null; }
+  // ---------------- 真实进度 ----------------
+
+  function byteAt(i) { return (files[i] && files[i].size) || 0; }
+
+  function bytesUpTo(i) {
+    var s = 0;
+    for (var k = 0; k <= i && k < files.length; k++) s += byteAt(k);
+    return s;
   }
 
-  function startEstimate() {
-    stopEstimate();
-    estTimer = setInterval(function () {
-      if (done) { stopEstimate(); return; }
-      var next = pct + Math.max(0.2, (EST_CAP - pct) * 0.05);
-      if (next > EST_CAP) next = EST_CAP;
-      setPct(next);
-    }, EST_TICK);
+  function resetProgress() {
+    pct = 0;
+    lastIdx = -1;
+    lastMove = Date.now();
+    setPct(0);
+  }
+
+  function stopPoll() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
+  function startPoll() {
+    stopPoll();
+    pollTimer = setInterval(poll, POLL_TICK);
+  }
+
+  function updatePct() {
+    if (!totalBytes) return;
+    var v = 2 + Math.round((bytesUpTo(lastIdx) / totalBytes) * 92);
+    if (v > pct) {
+      setPct(v);
+      lastMove = Date.now();
+    } else if (Date.now() - lastMove > STALL_HINT) {
+      setMsg('网络较慢，正在等待资源…', true);
+    }
+  }
+
+  // 顺序探测：从上一个已知位置往后探，遇到缺失就停下并按已落盘字节更新进度
+  function poll() {
+    if (done || failed) return;
+    if (!files.length) return;
+    var i = lastIdx + 1;
+
+    function step() {
+      if (done || failed) return;
+      if (i >= files.length) { onAllPresent(); return; }
+      get(files[i].path, function (ok) {
+        if (ok) { lastIdx = i; i++; step(); return; }
+        updatePct();
+      }, 3000);
+    }
+    step();
+  }
+
+  // 清单里的文件全部就位 → 不用等原生回调，直接校验进入
+  function onAllPresent() {
+    stopPoll();
+    verifyCode(function (ok) {
+      if (ok) { enter(); return; }
+      updatePct();
+    });
+  }
+
+  function setupFiles(m) {
+    if (!m || !m.files || !m.files.length) return;
+    files = m.files.filter(function (f) { return f && f.path; });
+    totalBytes = 0;
+    for (var i = 0; i < files.length; i++) totalBytes += byteAt(i);
+    if (!totalBytes) { files = []; }
   }
 
   function verifyCode(cb) {
@@ -184,7 +245,11 @@
             CODE_BASES.indexOf(o.base) >= 0) cached = o.base;
       }
     } catch (e) {}
-    if (cached) { cb(cached); return; }
+    if (cached) {
+      CODE_BASES = [cached].concat(CODE_BASES.filter(function (x) { return x !== cached; }));
+      cb(cached);
+      return;
+    }
 
     var best = null;
     var pending = CODE_BASES.length;
@@ -193,13 +258,14 @@
       get(b + '/manifest.json', function (ok, text) {
         if (ok && parseText(text)) {
           var ms = Date.now() - start;
-          if (!best || ms < best.ms) best = { base: b, ms: ms };
+          if (!best || ms < best.ms) best = { base: b, ms: ms, manifest: parseText(text) };
         }
         if (--pending > 0) return;
         if (best) {
           CODE_BASES = [best.base].concat(CODE_BASES.filter(function (x) {
             return x !== best.base;
           }));
+          setupFiles(best.manifest);
           try {
             localStorage.setItem(BASE_PICK_KEY,
               JSON.stringify({ base: best.base, ts: Date.now() }));
@@ -221,14 +287,27 @@
     if (ci >= CODE_BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
     var base = CODE_BASES[ci++];
     setMsg('正在下载资源中…', true);
-    startEstimate();
-    call(base, CODE_TIMEOUT, tryCode);
+    resetProgress();
+    var startDownload = function () {
+      if (done) return;
+      startPoll();
+      call(base, CODE_TIMEOUT, function () {
+        stopPoll();
+        tryCode();
+      });
+    };
+    // 走缓存线路时本地还没有清单，补拉一次用于计算真实进度
+    if (files.length) { startDownload(); return; }
+    get(base + '/manifest.json', function (ok, text) {
+      if (ok) setupFiles(parseText(text));
+      startDownload();
+    }, PROBE_TIMEOUT);
   }
 
   window.__onUpdateCheckResult = function (res) {
     if (done) return;
     clearTimeout(timer);
-    stopEstimate();
+    stopPoll();
     var updated = !!(res && res.updated);
 
     if (updated) {
