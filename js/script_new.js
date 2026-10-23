@@ -6168,25 +6168,24 @@ const EventManager = {
     // ========== 红点徽章 ==========
     // 在 sidebar-header h3(更多功能) / section-more-settings h4(更多设置) / 检查更新按钮上显示红点
     function _huEnsureDotContainer() {
-        // 给 更多功能 / 更多设置 / 检查更新 各自加一个 <span class="hu-red-dot" style="display:none;">
-        function _ensureDot(wrapper, htmlInside) {
-            var w = $(wrapper);
-            if (!w.length) return;
-            if (!w.find('.hu-red-dot').length) {
-                w.append(htmlInside || '<span class="hu-red-dot" style="display:none;width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block;margin-left:4px;vertical-align:middle;box-shadow:0 0 0 2px var(--sidebar-bg,#0f172a);"></span>');
+        // 三个红点位置已在 index.html 预埋 + CSS 统一样式，这里只确保 DOM 里存在
+        function _ensureDot(selector, html) {
+            var $w = $(selector);
+            if ($w.length && !$w.find('.hu-red-dot').length) {
+                $w.append(html || '<span class="hu-red-dot" style="display:none;"></span>');
             }
         }
-        _ensureDot('.sidebar-header h3'); // 更多功能 标题后面
-        _ensureDot('[data-target="section-more-settings"] h4'); // 更多设置 标题后面
-        // 检查更新按钮：在 <i class="fas fa-sync-alt"> 后面塞
-        var $btn = $('#sidebar-update-check-btn');
-        if ($btn.length && !$btn.find('.hu-red-dot').length) {
-            $btn.find('.fa-sync-alt').after('<span class="hu-red-dot" style="display:inline-block;width:8px;height:8px;background:#ef4444;border-radius:50%;margin-left:6px;margin-top:-4px;box-shadow:0 0 0 2px var(--sidebar-bg,#0f172a);"></span>');
-        }
+        _ensureDot('.sidebar-header h3');                  // 更多功能（sidebar 标题）
+        _ensureDot('#more-button');                        // 主界面「更多功能」按钮 ← 正确位置！
+        _ensureDot('#sidebar-update-check-btn');            // 检查更新按钮
     }
     function _huShowRedDot(show) {
         _huEnsureDotContainer();
-        $('.hu-red-dot').css('display', show ? 'inline-block' : 'none');
+        // 只改 display，其他样式全归 styles.css
+        $('.hu-red-dot').each(function() {
+            if (show) { $(this).css('display', ''); }  // 让 CSS 里的默认 display 生效
+            else { $(this).css('display', 'none'); }
+        });
     }
     function _huCheckForUpdateAndSetDot() {
         fetch(HU_MANIFEST_URL, { cache:'no-store' })

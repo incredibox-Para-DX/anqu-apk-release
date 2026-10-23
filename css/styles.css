@@ -3154,3 +3154,38 @@ video:empty {
     min-height: 52px;
     box-sizing: border-box;
 }
+
+/* ===== 热更新红点徽章（贴近深色 UI 风格）===== */
+.hu-red-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--danger-color, #ef4444);
+    display: inline-block;
+    margin-left: 6px;
+    margin-top: -3px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    /* 细发光而非粗描边，融入深色背景 */
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.7);
+    /* 轻脉冲（和 pulseSearch 风格一致）*/
+    animation: huRedDotPulse 1.8s ease-in-out infinite;
+    transition: all 0.2s ease;
+}
+@keyframes huRedDotPulse {
+    0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 4px rgba(239,68,68,0.7); }
+    50%      { transform: scale(1.25); opacity: 0.85; box-shadow: 0 0 8px rgba(239,68,68,1); }
+}
+/* 按钮/图标内嵌红点：稍微偏移以贴近按钮右上角 */
+#more-button .hu-red-dot,
+#sidebar-update-check-btn .hu-red-dot {
+    position: relative;
+    margin-top: -2px;
+    margin-left: 4px;
+}
+/* h3/h4 标题后红点：自然跟着文字走 */
+.sidebar-header h3 .hu-red-dot,
+.section-more-settings h4 .hu-red-dot {
+    margin-top: -2px;
+}
