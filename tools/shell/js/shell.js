@@ -367,32 +367,6 @@
   document.addEventListener('touchstart', restoreSound);
   document.addEventListener('click', restoreSound);
 
-  // 静音按钮：与登录界面同款
-  var muteBtn = $('mute-btn');
-  function renderMuteBtn() {
-    if (!muteBtn) return;
-    muteBtn.innerHTML = bgmMuted
-      ? '<i class="fas fa-volume-mute"></i>'
-      : '<i class="fas fa-volume-up"></i>';
-  }
-  if (muteBtn) {
-    renderMuteBtn();
-    muteBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      bgmMuted = !bgmMuted;
-      try { localStorage.setItem('bgm_muted', bgmMuted); } catch (err) {}
-      renderMuteBtn();
-      if (!bgmMuted) pendingUnmute = false;
-      [intro, mainVideo].forEach(function (v) {
-        if (!v) return;
-        v.muted = bgmMuted;
-        v.volume = bgmMuted ? 0 : 0.7;
-        if (!bgmMuted) { try { v.play(); } catch (err) {} }
-      });
-    });
-  }
-
   // 失败后点屏幕任意位置重试
   document.addEventListener('click', function () {
     if (!failed || done) return;

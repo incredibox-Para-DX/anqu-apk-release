@@ -8,29 +8,6 @@
     font-display: swap;
 }
 
-@font-face {
-    font-family: 'Font Awesome 6 Free';
-    src: url('fonts/fa-solid-900.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-    font-display: block;
-}
-
-.fas {
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    font-style: normal;
-    font-variant: normal;
-    line-height: 1;
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: auto;
-}
-
-.fa-volume-up::before { content: "\f028"; }
-.fa-volume-mute::before { content: "\f6a9"; }
-
 * {
     margin: 0;
     padding: 0;
@@ -119,35 +96,6 @@ html, body {
 .dl-status.failed {
     color: #ff7b7b;
     opacity: 0.55;
-}
-
-/* 与登录界面同款的静音按钮 */
-#mute-btn {
-    position: fixed;
-    top: 27px;
-    right: 33px;
-    width: 40px;
-    height: 40px;
-    border-radius: 67%;
-    background: rgba(75, 90, 93, 0.022);
-    border: 1px solid rgba(75, 90, 93, 0.047);
-    color: #fff;
-    font-size: 19px;
-    cursor: pointer;
-    z-index: 98765;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.313s cubic-bezier(0.341, 1.544, 0.682, 1);
-    backdrop-filter: blur(10.1px);
-    -webkit-backdrop-filter: blur(10.1px);
-    box-shadow: 0 5.1px 23px rgba(0, 0, 0, 0.326);
-    opacity: 1;
-    transform: scale(1);
-    font-family: inherit;
-    pointer-events: auto !important;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
 }
 
 /* 备用加载页（index.html）样式 */
