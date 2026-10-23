@@ -8,7 +8,7 @@
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2'
   ];
-  // 物品图 / 收藏室图：仓库 media/ 目录，清单 media/manifest.json，图片在两子目录
+  // 物品图 / 收藏室图：仓库 media/ 目录，清单 media/manifest.json
   var MEDIA_BASES = [
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/media',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/media'
@@ -19,6 +19,8 @@
   var CODE_TIMEOUT = 120000;
   var MEDIA_TIMEOUT = 600000;
   var PROBE_TIMEOUT = 8000;
+  var MARK_TIMEOUT = 6000;
+  var TICK = 350;
 
   var VERIFY_CODE = [
     'index.html',
@@ -41,35 +43,48 @@
   var done = false;
   var failed = false;
   var timer = null;
-  var progTimer = null;
-  var width = 0;
+  var pollTimer = null;
+  var pct = 0;
+
   var mediaVer = '';
   var mediaFiles = null;
+  var mediaMarks = null;
+  var mediaTotal = 0;
+  var codeMarks = null;
+  var codeTotal = 0;
+
+  var markList = null;
+  var markIdx = 0;
+  var markBase = 0;
+  var markSpan = 0;
+  var markTotal = 1;
+  var markProbing = false;
+  var pollGen = 0;
 
   function $(id) { return document.getElementById(id); }
 
-  function setTip(text) {
-    var el = $('loading-tip');
-    if (el) el.textContent = text;
+  function setMsg(text, showPct) {
+    var msg = $('dl-msg');
+    if (msg) msg.textContent = text;
+    var p = $('dl-pct');
+    var s = $('dl-pct-sign');
+    if (p) p.style.display = showPct ? '' : 'none';
+    if (s) s.style.display = showPct ? '' : 'none';
+    var tip = $('loading-tip');
+    if (tip) tip.textContent = showPct ? (text + pct + '%') : text;
   }
 
-  function setBar(w) {
-    width = w;
-    var el = $('loading-progress-bar');
-    if (el) el.style.width = w + '%';
-  }
-
-  function startProgress(from) {
-    if (progTimer) clearInterval(progTimer);
-    setBar(from || 0);
-    progTimer = setInterval(function () {
-      if (width >= 90) return;
-      setBar(Math.min(90, width + (90 - width) * 0.06));
-    }, 140);
-  }
-
-  function stopProgress() {
-    if (progTimer) { clearInterval(progTimer); progTimer = null; }
+  function setPct(v) {
+    v = Math.max(0, Math.min(100, v));
+    pct = Math.floor(v + 0.0001);
+    var p = $('dl-pct');
+    if (p) p.textContent = pct;
+    var a = $('dl-fill');
+    if (a) a.style.width = v + '%';
+    var b = $('loading-progress-bar');
+    if (b) b.style.width = v + '%';
+    var tip = $('loading-tip');
+    if (tip && tip.textContent) tip.textContent = tip.textContent.replace(/\d+%$/, pct + '%');
   }
 
   function lsGet(k) {
@@ -84,9 +99,9 @@
     if (done) return;
     done = true;
     clearTimeout(timer);
-    stopProgress();
-    setBar(100);
-    setTip('资源更新完成，正在进入…');
+    stopPoll();
+    setPct(100);
+    setMsg('资源更新完成，正在进入…', true);
     setTimeout(function () {
       // 相对地址；带参数强制 WebView 重新读取内部存储里刚下载好的入口页
       location.replace('index.html?r=' + Date.now());
@@ -94,12 +109,15 @@
   }
 
   function fail(message) {
+    if (done) return;
     clearTimeout(timer);
-    stopProgress();
-    setBar(0);
+    stopPoll();
     failed = true;
-    $('loading-overlay').className = 'loading-overlay failed';
-    setTip(message || '资源获取失败，点击屏幕重试');
+    var st = $('dl-status');
+    if (st) st.className = 'dl-status failed';
+    var ov = $('loading-overlay');
+    if (ov) ov.className = 'loading-overlay failed';
+    setMsg(message || '资源获取失败，点击屏幕重试', false);
   }
 
   function get(url, cb, timeout, binary) {
@@ -112,7 +130,7 @@
     }
     try {
       xhr.open('GET', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now(), true);
-      xhr.setRequestHeader('Cache-Control', 'no-store');
+      xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = timeout || PROBE_TIMEOUT;
       if (binary) xhr.responseType = 'arraybuffer';
       xhr.onload = function () {
@@ -124,6 +142,72 @@
     } catch (e) {
       finish(false, '');
     }
+  }
+
+  // 进度标记文件：APK 里是 "0"，下载后内部存储里是 "1"
+  function readMark(path, cb) {
+    var xhr = new XMLHttpRequest();
+    var finished = false;
+    function finish(ok) {
+      if (finished) return;
+      finished = true;
+      cb(ok);
+    }
+    try {
+      xhr.open('GET', path + '?t=' + Date.now(), true);
+      xhr.setRequestHeader('Cache-Control', 'no-cache');
+      xhr.timeout = MARK_TIMEOUT;
+      xhr.onload = function () {
+        finish(xhr.status === 200 && String(xhr.responseText || '').replace(/\s/g, '') === '1');
+      };
+      xhr.onerror = function () { finish(false); };
+      xhr.ontimeout = function () { finish(false); };
+      xhr.send();
+    } catch (e) {
+      finish(false);
+    }
+  }
+
+  function stopPoll() {
+    pollGen++;
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    markProbing = false;
+  }
+
+  function startPoll(list, total, base, span) {
+    stopPoll();
+    markList = list || [];
+    markTotal = total > 0 ? total : 1;
+    markBase = base;
+    markSpan = span;
+    markIdx = 0;
+    if (!markList.length) return;
+    pollTimer = setInterval(tick, TICK);
+    tick();
+  }
+
+  function tick() {
+    if (done) return;
+    if (markProbing) return;
+    if (!markList || markIdx >= markList.length) { stopPoll(); return; }
+    markProbing = true;
+    var probes = 0;
+    var gen = pollGen;
+    (function step() {
+      if (done || gen !== pollGen) { markProbing = false; return; }
+      if (!markList || markIdx >= markList.length) { markProbing = false; return; }
+      if (probes++ >= 4) { markProbing = false; return; }
+      var idx = markIdx;
+      readMark(markList[idx].path, function (ok) {
+        if (done || gen !== pollGen) { markProbing = false; return; }
+        if (!ok) { markProbing = false; return; }
+        markIdx = idx + 1;
+        var bytes = markList[idx].cum;
+        setPct(markBase + (bytes / markTotal) * markSpan);
+        if (markIdx >= markList.length) { markProbing = false; stopPoll(); return; }
+        step();
+      });
+    })();
   }
 
   function probe(paths, binary, cb) {
@@ -166,28 +250,34 @@
     return out;
   }
 
-  function fetchMediaManifest(cb) {
-    get(MEDIA_BASES[0] + '/manifest.json', function (ok, text) {
-      if (!ok) {
-        get(MEDIA_BASES[1] + '/manifest.json', function (ok2, text2) { parse(ok2, text2); }, 20000);
-        return;
+  // 把 manifest 拆成「真实文件」「进度标记」两部分，标记记录自己前面已下载的字节数
+  function parseManifest(m) {
+    var res = { files: [], marks: [], total: 0 };
+    var list = (m && m.files) || [];
+    var cum = 0;
+    for (var i = 0; i < list.length; i++) {
+      var f = list[i];
+      if (!f || !f.path) continue;
+      if (f.path.indexOf('progress/') === 0) {
+        res.marks.push({ path: f.path, cum: cum });
+      } else {
+        res.files.push(f);
+        cum += (f.size || 0);
       }
-      parse(true, text);
-    }, 20000);
+    }
+    res.total = cum;
+    return res;
+  }
 
-    function parse(ok, text) {
-      if (!ok) { cb(false); return; }
+  function fetchManifest(base, cb) {
+    get(base + '/manifest.json', function (ok, text) {
+      if (!ok) { cb(null); return; }
       try {
         var m = JSON.parse(text);
-        if (m && m.version && m.files && m.files.length) {
-          mediaVer = m.version;
-          mediaFiles = m.files;
-          cb(true);
-          return;
-        }
+        if (m && m.version && m.files && m.files.length) { cb(m); return; }
       } catch (e) {}
-      cb(false);
-    }
+      cb(null);
+    }, 20000);
   }
 
   function call(base, timeout, next) {
@@ -204,21 +294,31 @@
   function tryMedia() {
     if (done) return;
     if (mi >= MEDIA_BASES.length) {
-      setTip('图片下载失败，先进入应用…');
+      setMsg('图片下载失败，先进入应用…', false);
       setTimeout(tryCode, 600);
       return;
     }
     stage = 'media';
-    setTip('正在下载物品与收藏室图片…');
+    setMsg('正在下载资源中…', true);
+    startPoll(mediaMarks, mediaTotal, 0, 95);
     call(MEDIA_BASES[mi++], MEDIA_TIMEOUT, tryMedia);
   }
 
   function tryCode() {
     if (done) return;
     if (ci >= CODE_BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
+    var base = CODE_BASES[ci++];
     stage = 'code';
-    setTip(ci === 0 ? '正在获取运行资源…' : '正在切换线路…');
-    call(CODE_BASES[ci++], CODE_TIMEOUT, tryCode);
+    setMsg('正在下载资源中…', true);
+    fetchManifest(base, function (m) {
+      if (m) {
+        var p = parseManifest(m);
+        codeMarks = p.marks;
+        codeTotal = p.total;
+      }
+      startPoll(codeMarks, codeTotal, 95, 5);
+      call(base, CODE_TIMEOUT, tryCode);
+    });
   }
 
   function start() {
@@ -226,33 +326,51 @@
     stage = 'media';
     mi = 0;
     ci = 0;
-    setTip('正在校验资源…');
+    pct = 0;
+    setPct(0);
+    setMsg('正在校验资源…', false);
 
-    fetchMediaManifest(function (ok) {
+    fetchManifest(MEDIA_BASES[0], function (m1) {
+      if (m1) { applyMediaManifest(m1); afterMediaManifest(); return; }
+      fetchManifest(MEDIA_BASES[1], function (m2) {
+        if (m2) applyMediaManifest(m2);
+        afterMediaManifest();
+      });
+    });
+
+    function applyMediaManifest(m) {
+      var p = parseManifest(m);
+      mediaVer = m.version;
+      mediaFiles = p.files;
+      mediaMarks = p.marks;
+      mediaTotal = p.total;
+    }
+
+    function afterMediaManifest() {
+      if (done) return;
       var local = lsGet(MEDIA_KEY);
       probe(mediaSample(), true, function (present) {
         if (done) return;
-        var need = ok ? (local !== mediaVer) : !present;
+        var need = mediaVer ? (local !== mediaVer) : !present;
         if (need) { tryMedia(); return; }
-        if (ok) lsSet(MEDIA_KEY, mediaVer);
-        setBar(70);
+        if (mediaVer) lsSet(MEDIA_KEY, mediaVer);
+        setPct(95);
         tryCode();
       });
-    });
+    }
   }
 
   window.__onUpdateCheckResult = function (res) {
     if (done) return;
     clearTimeout(timer);
+    stopPoll();
     var updated = !!(res && res.updated);
 
     if (stage === 'media') {
-      if (!updated) { tryCode(); return; }
-      setTip('正在校验图片…');
       probe(mediaSample(), true, function (present) {
         if (present) {
           if (mediaVer) lsSet(MEDIA_KEY, mediaVer);
-          setBar(88);
+          setPct(95);
           tryCode();
         } else {
           tryMedia();
@@ -262,10 +380,10 @@
     }
 
     if (updated) {
-      setTip('正在校验运行文件…');
+      setMsg('正在校验运行文件…', false);
       verifyCode(function (ok) {
         if (ok) { enter(); return; }
-        setTip('运行文件不完整，正在重新获取…');
+        setMsg('运行文件不完整，正在重新获取…', false);
         tryCode();
       });
       return;
@@ -278,16 +396,34 @@
   };
 
   // 失败后点屏幕任意位置重试（保持原加载页外观，不额外加按钮）
-  $('loading-overlay').addEventListener('click', function () {
+  document.addEventListener('click', function () {
     if (!failed || done) return;
     failed = false;
-    $('loading-overlay').className = 'loading-overlay';
+    var st = $('dl-status');
+    if (st) st.className = 'dl-status';
+    var ov = $('loading-overlay');
+    if (ov) ov.className = 'loading-overlay';
     mi = 0;
     ci = 0;
-    startProgress(6);
     start();
   });
 
-  startProgress(6);
+  // 首次点击开启 CG 声音（与原登录页一致）
+  var video = $('cg-video');
+  if (video) {
+    var soundOn = false;
+    var enableSound = function () {
+      if (soundOn) return;
+      soundOn = true;
+      try {
+        video.muted = false;
+        video.volume = 1;
+        video.play();
+      } catch (e) {}
+    };
+    document.addEventListener('touchstart', enableSound, { once: true });
+    document.addEventListener('click', enableSound, { once: true });
+  }
+
   start();
 })();

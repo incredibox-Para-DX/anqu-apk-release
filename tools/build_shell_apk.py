@@ -9,6 +9,7 @@
 """
 import os
 import sys
+import json
 import zipfile
 
 SRC = "/tmp/app.apk"
@@ -18,6 +19,7 @@ OUT = "/tmp/app-unsigned.apk"
 
 # 包内需要移除的代码文件（相对 APK 根）
 CODE_FILES = [
+    "assets/www/main.html",
     "assets/www/index.html",
     "assets/www/MiniGame/index.html",
     "assets/www/MiniGame/scripts/all.js",
@@ -45,16 +47,35 @@ CODE_FILES = [
 
 # 写回包内的壳文件：APK 内路径 -> 仓库内源文件
 SHELL_FILES = {
+    "assets/www/main.html": os.path.join(SHELL_DIR, "main.html"),
     "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
     "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
 }
 
 # 物品图 / 收藏室图也移除，由加载页统一下载
-REMOVE_PREFIXES = ("assets/www/images/", "assets/www/collect/")
+REMOVE_PREFIXES = ("assets/www/images/", "assets/www/collect/", "assets/www/progress/")
 
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
+
+REPO = os.path.dirname(HERE)
+
+
+def mark_paths():
+    """从 media/ 与 boot/ 的清单里取出所有进度标记路径（progress/xxx.txt）。"""
+    out = []
+    for rel in ("media/manifest.json", "boot/manifest.json"):
+        path = os.path.join(REPO, rel)
+        if not os.path.isfile(path):
+            sys.exit("缺少清单: " + rel)
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        for item in data.get("files", []):
+            p = item.get("path", "")
+            if p.startswith("progress/") and p not in out:
+                out.append(p)
+    return out
 
 
 def main():
@@ -86,7 +107,15 @@ def main():
             info.external_attr = 0o644 << 16
             dst.writestr(info, data)
 
-    print(f"完成：保留 {kept} 项，删除 {removed} 项，壳文件 {len(SHELL_FILES)} 个")
+        # 进度标记：包内同名文件写 "0"，下载完成后内部存储里的 "1" 会覆盖它
+        for rel in mark_paths():
+            info = zipfile.ZipInfo("assets/www/" + rel, date_time=(2026, 10, 23, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o644 << 16
+            dst.writestr(info, "0")
+
+    print(f"完成：保留 {kept} 项，删除 {removed} 项，壳文件 {len(SHELL_FILES)} 个，"
+          f"进度标记 {len(mark_paths())} 个")
     print("输出:", OUT, f"{os.path.getsize(OUT)/1024/1024:.1f} MB")
 
     left = sorted(n for n in zipfile.ZipFile(OUT).namelist()

@@ -42,13 +42,25 @@ CODE_FILES = [
 ]
 
 # index.html 放最后下载：中途失败时内部存储里没有入口页，加载页仍会显示
-BOOT_ORDER = CODE_FILES + ["main.html", "index.html"]
+# main.html 是启动入口（登录 CG + 下载界面），只留在 APK 里，始终不被覆盖
+BOOT_ORDER = CODE_FILES + ["index.html"]
 
 TARGETS = [("boot", ""), ("boot2", ".m")]
 
 # 物品图 / 收藏室图：放在 media/ 下（启动加载页下载，路径仍按 www 根目录的 images/、collect/）
 MEDIA_ROOT = "media"
 MEDIA_DIRS = ["images", "collect"]
+
+# 真实进度用的标记文件：远程是 "1"，APK 里放同名文件内容 "0"
+MARK_CONTENT = "1"
+MEDIA_MARKS = 100
+
+
+def write_mark(out_dir, rel, content=MARK_CONTENT):
+    dst = os.path.join(out_dir, rel)
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    with open(dst, "w", encoding="ascii") as f:
+        f.write(content)
 
 
 def build(dirname, suffix, version):
@@ -58,7 +70,7 @@ def build(dirname, suffix, version):
     os.makedirs(out_dir)
 
     files = []
-    for rel in BOOT_ORDER:
+    for i, rel in enumerate(BOOT_ORDER, 1):
         src = os.path.join(ROOT, rel)
         if not os.path.isfile(src):
             print("缺失文件:", rel, file=sys.stderr)
@@ -67,6 +79,11 @@ def build(dirname, suffix, version):
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(src, dst)
         files.append({"path": rel, "size": os.path.getsize(src)})
+
+        # 每个文件后面跟一个 0 大小的进度标记，壳据此算真实进度
+        mark = "progress/c%02d.txt" % i
+        write_mark(out_dir, mark)
+        files.append({"path": mark, "size": 1})
 
     out = {"version": version + suffix, "files": files, "fileCount": len(files),
            "totalSize": sum(f["size"] for f in files)}
@@ -86,7 +103,7 @@ def build_media():
         with open(version_file, encoding="utf-8") as f:
             version = (f.readline() or "").strip() or version
 
-    files = []
+    real = []
     for d in MEDIA_DIRS:
         base = os.path.join(out_dir, d)
         if not os.path.isdir(base):
@@ -95,14 +112,31 @@ def build_media():
         for name in sorted(os.listdir(base)):
             path = os.path.join(base, name)
             if os.path.isfile(path):
-                files.append({"path": d + "/" + name, "size": os.path.getsize(path)})
+                real.append({"path": d + "/" + name, "size": os.path.getsize(path)})
+
+    # 按字节把 100 个进度标记插到图片序列里，壳据此算真实下载百分比
+    progress_dir = os.path.join(out_dir, "progress")
+    if os.path.isdir(progress_dir):
+        shutil.rmtree(progress_dir)
+    total_bytes = sum(f["size"] for f in real) or 1
+    files = []
+    cum = 0
+    mk = 0
+    for f in real:
+        files.append(f)
+        cum += f["size"]
+        while mk < MEDIA_MARKS and cum >= total_bytes * (mk + 1) / MEDIA_MARKS:
+            mk += 1
+            mark = "progress/m%03d.txt" % mk
+            write_mark(out_dir, mark)
+            files.append({"path": mark, "size": len(MARK_CONTENT)})
 
     out = {"version": version, "files": files, "fileCount": len(files),
-           "totalSize": sum(f["size"] for f in files)}
+           "totalSize": sum(f["size"] for f in real)}
     with open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
-    print(f"{MEDIA_ROOT}/ 已生成：{len(files)} 个文件，共 {out['totalSize']/1024/1024:.2f} MB，"
-          f"版本 {out['version']}")
+    print(f"{MEDIA_ROOT}/ 已生成：{len(real)} 张图 + {mk} 个进度标记，共 "
+          f"{out['totalSize']/1024/1024:.2f} MB，版本 {out['version']}")
 
 
 def main():
