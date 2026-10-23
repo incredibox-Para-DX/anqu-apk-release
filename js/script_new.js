@@ -6163,13 +6163,22 @@ const EventManager = {
         return n.toFixed(n >= 10 || i === 0 ? 0 : 1) + ' ' + u[i];
     }
     function _huTotalSize(files) { var t = 0; for (var i = 0; i < files.length; i++) t += (files[i] && files[i].size) || 0; return t; }
+    function _huForceCloseModal() {
+        // 暴力关 modal：绕过 EventManager，直接 CSS 操作
+        try { $('#update-check-modal').removeClass('show'); } catch(e) {}
+        try { $('#update-check-modal').css('display', 'none'); } catch(e) {}
+        try { $('#update-check-close').css('display', ''); } catch(e) {}
+    }
+
     function _huClose() {
         _huClearAutoClose();
-        try {
-            $('#update-check-close').css('display', ''); // 恢复 X，供下次打开用
-            $('#update-check-modal').off('.hu');
-            EventManager.closeModal('update-check-modal');
-        } catch(e) {}
+        _huForceCloseModal();
+        // 解绑所有 hu 事件，防止残留
+        $('#update-check-close').off('.hu');
+        $('#update-check-cancel').off('.hu');
+        $('#update-check-modal').off('.hu');
+        $('#update-check-confirm').off('.hu');
+        $('#update-check-later').off('.hu');
     }
 
     // ========== 红点徽章 ==========
