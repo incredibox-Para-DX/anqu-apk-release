@@ -2183,8 +2183,6 @@ previewCurrentBackground() {
     };
 
     const ItemControlManager = {
-        PASSWORD: 'hefunadminitem',
-        
         getDisabledItems() {
             try {
                 const data = localStorage.getItem('disabled_items_list');
@@ -3478,7 +3476,6 @@ openSafe() {
                     'music-playlist-modal': 'audio/open-music-playlist.mp3',
                     'submit-score-modal': 'audio/open-submit-score.mp3',
                     'title-modal': 'audio/open-title.mp3',
-                    'password-modal': 'audio/open-password.mp3',
                     'item-control-modal': 'audio/open-item-control.mp3',
                     'custom-confirm-modal': 'audio/open-confirm-disable.mp3',
                     'enable-confirm-modal': 'audio/open-confirm-enable.mp3',
@@ -3870,51 +3867,14 @@ const EventManager = {
     },
     
     bindItemControlEvents() {
+        // 物品池管理不再需要密码校验，点开直接进入
         $('#sidebar-item-control-btn').on('click', () => {
-            $('#password-input').val('');
-            $('#password-error').hide();
-            const audio = new Audio('audio/open-password.mp3');
+            ItemControlManager.renderItemList();
+            const audio = new Audio('audio/open-item-control.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
             audio.play().catch(() => {});
-            $('#password-modal').css('display', 'flex');
-            _.delay(() => $('#password-modal').addClass('show'), 10);
-        });
-        
-        $('#password-modal-confirm').on('click', () => {
-            const pwd = $('#password-input').val();
-            if (pwd === ItemControlManager.PASSWORD) {
-                $('#password-error').hide();
-                const audio = new Audio('audio/sidebar-close.mp3');
-                audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                audio.play().catch(() => {});
-                $('#password-modal').removeClass('show');
-                _.delay(() => $('#password-modal').css('display', 'none'), 300);
-                ItemControlManager.renderItemList();
-                const audio2 = new Audio('audio/open-item-control.mp3');
-                audio2.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                audio2.play().catch(() => {});
-                $('#item-control-modal').css('display', 'flex');
-                _.delay(() => $('#item-control-modal').addClass('show'), 10);
-            } else {
-                $('#password-error').show();
-                const audio = new Audio('audio/password-error.mp3');
-                audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                audio.play().catch(() => {});
-            }
-        });
-        
-        $('#password-input').on('keydown', (e) => {
-            if (e.key === 'Enter') {
-                $('#password-modal-confirm').click();
-            }
-        });
-        
-        $('#password-modal-cancel, #password-modal-close').on('click', () => {
-            const audio = new Audio('audio/sidebar-close.mp3');
-            audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-            audio.play().catch(() => {});
-            $('#password-modal').removeClass('show');
-            _.delay(() => $('#password-modal').css('display', 'none'), 300);
+            $('#item-control-modal').css('display', 'flex');
+            _.delay(() => $('#item-control-modal').addClass('show'), 10);
         });
         
         $('#item-control-close').on('click', () => {
@@ -4112,7 +4072,6 @@ const EventManager = {
             'music-playlist-modal': 'audio/open-music-playlist.mp3',
             'submit-score-modal': 'audio/open-submit-score.mp3',
             'title-modal': 'audio/open-title.mp3',
-            'password-modal': 'audio/open-password.mp3',
             'item-control-modal': 'audio/open-item-control.mp3',
             'custom-confirm-modal': 'audio/open-confirm-disable.mp3',
             'enable-confirm-modal': 'audio/open-confirm-enable.mp3',
@@ -6159,7 +6118,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.29';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.30';
 
     /* ============================================================
      * 检查更新
