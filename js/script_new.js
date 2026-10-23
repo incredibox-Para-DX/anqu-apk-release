@@ -6232,15 +6232,32 @@ const EventManager = {
 
     var _huProgressTimer = null;
     function _huStartProgress(totalFiles) {
-        var startPct = 10, maxPct = 93, elapsed = 0;
+        var startPct = 10, midPct = 90, elapsed = 0;
         var estSeconds = Math.max(8, Math.min(60, totalFiles * 0.08));
+        var pushedToInstall = false;
         _huShowProgress(startPct, '准备下载 ' + totalFiles + ' 个文件…');
         _huProgressTimer = setInterval(function() {
             elapsed += 0.5;
             var frac = Math.min(1, elapsed / estSeconds);
-            var simulated = startPct + (maxPct - startPct) * frac;
+            var simulated = startPct + (midPct - startPct) * frac;
             var done = Math.round(totalFiles * frac);
-            _huShowProgress(simulated, '正在下载 ' + done + '/' + totalFiles + ' 个文件…');
+            if (frac >= 1 && !pushedToInstall) {
+                // 下载模拟阶段完成 → 切换到"安装中"等待原生回调
+                pushedToInstall = true;
+                _huShowProgress(94, '下载完成，正在安装…');
+                // 5s 后如果还没 callback，自动慢推到 99%
+                setTimeout(function() {
+                    if (_huProgressTimer) {
+                        var t2 = setInterval(function() {
+                            var cur = parseFloat($('#update-check-progress-pct').text()) || 94;
+                            if (cur < 99) _huShowProgress(cur + 0.5, '正在安装，请稍候…');
+                            else clearInterval(t2);
+                        }, 500);
+                    }
+                }, 5000);
+            } else if (!pushedToInstall) {
+                _huShowProgress(simulated, '正在下载 ' + done + '/' + totalFiles + ' 个文件…');
+            }
         }, 300);
     }
     function _huStopProgress(done) {
@@ -6266,7 +6283,9 @@ const EventManager = {
         _huShowProgress(false);
         _huShow('正在检查更新，请稍候…', { showConfirm:false, showLater:false, cancelText:'检查中…', disableCancel:true, hideCancel:true });
         EventManager.openModal('update-check-modal');
-        _huShowProgress(true, 2, '连接更新服务器…');
+        $(document).on('click._hu', '#update-check-close', _huClose);
+        $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
+_huShowProgress(true, 2, '连接更新服务器…');
 
         $(document).on('click._hu', '#update-check-close', _huClose);
         $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
@@ -6307,6 +6326,11 @@ const EventManager = {
                 $(document).on('click._hu', '#update-check-cancel', _huClose);  // 仍然绑定（万一 showLater 变 showCancel）
                 $(document).on('click._hu', '#update-check-later', _huClose);
                 $(document).on('click._hu', '#update-check-confirm', function() {
+                    // 🔒 锁死弹窗：禁 X、禁遮罩关闭、禁 ESC
+                    $(document).off('click._hu', '#update-check-close');
+                    $(document).off('click._hu', '#update-check-modal');
+                    $('#update-check-close').css('display', 'none'); // 隐藏 X 按钮
+                    try { $('#update-check-modal').data('hu-locked', true); } catch(e) {}
                     _huShowProgress(12, '准备下载…');
                     _huShow('正在下载并应用更新，请不要关闭应用…', { showConfirm:false, showLater:false, cancelText:'下载中…', disableCancel:true, hideCancel:true });
                     try { window.AndroidUpdate.check(HU_BASE_URL); }
