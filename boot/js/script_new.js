@@ -1401,29 +1401,29 @@ previewCurrentBackground() {
         BACKUP_KEY: 'ab_collection_room_v1_bak',
 
         COLLECT_MAP: {
-            '机密文件': 'collect/img_737bbd84ed.png',
-            '“理想国”': 'collect/img_271c408224.png',
-            '“厄律西翁”': 'collect/img_55da8a9c7a.png',
-            '金狮雕像': 'collect/img_8b4310f2d2.png',
-            '阵列镜片': 'collect/img_6aeeaace20.png',
-            '盛宴雕塑': 'collect/img_5a780ac719.png',
-            '古董茶壶': 'collect/img_b3431e7295.png',
-            '花瓶': 'collect/img_8c91545379.png',
-            '“赤红暗星”模型': 'collect/400.png',
-            '航天导航仪': 'collect/img_8d9ab9be88.png',
-            '“鎏金羽宫”': 'collect/img_86be2efc8e.png',
-            '《黎明》': 'collect/img_37150efe31.png',
-            '验算模块': 'collect/img_c9984fa547.png',
-            '参考球零件': 'collect/img_b867e932ea.png',
-            '法厄同之钟': 'collect/img_f70f42c369.png',
-            '黄金哑铃': 'collect/img_7b748eb857.png',
-            '机械手臂': 'collect/img_f923762915.png',
+            '机密文件': 'collect/img_737bbd84ed.jpg',
+            '“理想国”': 'collect/img_271c408224.jpg',
+            '“厄律西翁”': 'collect/img_55da8a9c7a.jpg',
+            '金狮雕像': 'collect/img_8b4310f2d2.jpg',
+            '阵列镜片': 'collect/img_6aeeaace20.jpg',
+            '盛宴雕塑': 'collect/img_5a780ac719.jpg',
+            '古董茶壶': 'collect/img_b3431e7295.jpg',
+            '花瓶': 'collect/img_8c91545379.jpg',
+            '“赤红暗星”模型': 'collect/400.jpg',
+            '航天导航仪': 'collect/img_8d9ab9be88.jpg',
+            '“鎏金羽宫”': 'collect/img_86be2efc8e.jpg',
+            '《黎明》': 'collect/img_37150efe31.jpg',
+            '验算模块': 'collect/img_c9984fa547.jpg',
+            '参考球零件': 'collect/img_b867e932ea.jpg',
+            '法厄同之钟': 'collect/img_f70f42c369.jpg',
+            '黄金哑铃': 'collect/img_7b748eb857.jpg',
+            '机械手臂': 'collect/img_f923762915.jpg',
             '热成像模块': 'collect/img_9aaa9d9296.png',
-            '原子钟核心': 'collect/img_93d5c9d9b5.png',
-            '宝石项链': 'collect/img_31a2709271.png',
-            '“新边疆”模型': 'collect/img_7c8eb5c849.png',
-            '电磁弹射组件': 'collect/img_c90e5d6d40.png',
-            '金驹跃岭雕像': 'collect/img_7610daa96c.png'
+            '原子钟核心': 'collect/img_93d5c9d9b5.jpg',
+            '宝石项链': 'collect/img_31a2709271.jpg',
+            '“新边疆”模型': 'collect/img_7c8eb5c849.jpg',
+            '电磁弹射组件': 'collect/img_c90e5d6d40.jpg',
+            '金驹跃岭雕像': 'collect/img_7610daa96c.jpg'
         },
 
         list: [],
@@ -6141,7 +6141,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.31';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.32';
 
     /* ============================================================
      * 检查更新

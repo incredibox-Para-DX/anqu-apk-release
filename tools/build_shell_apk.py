@@ -69,6 +69,8 @@ COLLECT_FILES = {}
 if os.path.isdir(COLLECT_DIR):
     for fn in sorted(os.listdir(COLLECT_DIR)):
         COLLECT_FILES["assets/www/collect/" + fn] = os.path.join(COLLECT_DIR, fn)
+# 同名的旧图（扩展名可能已从 png 换成 jpg）一律丢掉，避免包里留两份
+COLLECT_STEMS = {os.path.splitext(os.path.basename(k))[0] for k in COLLECT_FILES}
 
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
@@ -108,7 +110,9 @@ def main():
                 rel = name[len("assets/www/"):]
                 if rel in RENAME_MAP:
                     name = "assets/www/" + RENAME_MAP[rel]
-            if name in COLLECT_FILES:
+            if name in COLLECT_FILES or (
+                    name.startswith("assets/www/collect/")
+                    and os.path.splitext(os.path.basename(name))[0] in COLLECT_STEMS):
                 # 收藏室背景图统一由 COLLECT_FILES 重写，避免包里出现重复条目
                 removed += 1
                 continue
