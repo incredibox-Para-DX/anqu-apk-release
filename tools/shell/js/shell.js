@@ -8,7 +8,7 @@
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2'
   ];
-  // 物品图 / 收藏室图：仓库 media/ 目录，清单 media/manifest.json
+  // 物品图 / 收藏室图：仓库 media/ 目录
   var MEDIA_BASES = [
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/media',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/media'
@@ -20,7 +20,7 @@
   var MEDIA_TIMEOUT = 600000;
   var PROBE_TIMEOUT = 8000;
   var MARK_TIMEOUT = 6000;
-  var TICK = 350;
+  var TICK = 300;
 
   var VERIFY_CODE = [
     'index.html',
@@ -52,14 +52,19 @@
   var mediaTotal = 0;
   var codeMarks = null;
   var codeTotal = 0;
+  var codeVer = '';
 
   var markList = null;
   var markIdx = 0;
   var markBase = 0;
   var markSpan = 0;
   var markTotal = 1;
+  var markExpect = '1';
   var markProbing = false;
   var pollGen = 0;
+
+  var introDone = false;
+  var pendingEnter = false;
 
   function $(id) { return document.getElementById(id); }
 
@@ -83,8 +88,6 @@
     if (a) a.style.width = v + '%';
     var b = $('loading-progress-bar');
     if (b) b.style.width = v + '%';
-    var tip = $('loading-tip');
-    if (tip && tip.textContent) tip.textContent = tip.textContent.replace(/\d+%$/, pct + '%');
   }
 
   function lsGet(k) {
@@ -95,6 +98,17 @@
     try { localStorage.setItem(k, v); } catch (e) {}
   }
 
+  function showProgressUI() {
+    var st = $('dl-status');
+    if (st) st.className = failed ? 'dl-status failed show' : 'dl-status show';
+    var bar = $('dl-bar');
+    if (bar) bar.className = 'dl-bar show';
+  }
+
+  function go() {
+    location.replace('index.html?r=' + Date.now());
+  }
+
   function enter() {
     if (done) return;
     done = true;
@@ -102,10 +116,8 @@
     stopPoll();
     setPct(100);
     setMsg('资源更新完成，正在进入…', true);
-    setTimeout(function () {
-      // 相对地址；带参数强制 WebView 重新读取内部存储里刚下载好的入口页
-      location.replace('index.html?r=' + Date.now());
-    }, 350);
+    if (introDone) { go(); return; }
+    pendingEnter = true;
   }
 
   function fail(message) {
@@ -113,14 +125,15 @@
     clearTimeout(timer);
     stopPoll();
     failed = true;
-    var st = $('dl-status');
-    if (st) st.className = 'dl-status failed';
     var ov = $('loading-overlay');
     if (ov) ov.className = 'loading-overlay failed';
     setMsg(message || '资源获取失败，点击屏幕重试', false);
+    var st = $('dl-status');
+    if (st) st.className = 'dl-status failed show';
   }
 
-  function get(url, cb, timeout, binary) {
+  // 跨域请求不加自定义头，避免触发 CORS 预检（raw.githubusercontent 的 OPTIONS 返回 403）
+  function get(url, cb, timeout) {
     var xhr = new XMLHttpRequest();
     var finished = false;
     function finish(ok, text) {
@@ -130,12 +143,8 @@
     }
     try {
       xhr.open('GET', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now(), true);
-      xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = timeout || PROBE_TIMEOUT;
-      if (binary) xhr.responseType = 'arraybuffer';
-      xhr.onload = function () {
-        finish(xhr.status === 200, binary ? '' : (xhr.responseText || ''));
-      };
+      xhr.onload = function () { finish(xhr.status === 200, xhr.responseText || ''); };
       xhr.onerror = function () { finish(false, ''); };
       xhr.ontimeout = function () { finish(false, ''); };
       xhr.send();
@@ -144,8 +153,8 @@
     }
   }
 
-  // 进度标记文件：APK 里是 "0"，下载后内部存储里是 "1"
-  function readMark(path, cb) {
+  // 进度标记：包内文件内容是 "0"，下载写入内部存储后是清单版本号
+  function readMark(path, expect, cb) {
     var xhr = new XMLHttpRequest();
     var finished = false;
     function finish(ok) {
@@ -155,10 +164,10 @@
     }
     try {
       xhr.open('GET', path + '?t=' + Date.now(), true);
-      xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.timeout = MARK_TIMEOUT;
       xhr.onload = function () {
-        finish(xhr.status === 200 && String(xhr.responseText || '').replace(/\s/g, '') === '1');
+        finish(xhr.status === 200 &&
+               String(xhr.responseText || '').replace(/\s/g, '') === expect);
       };
       xhr.onerror = function () { finish(false); };
       xhr.ontimeout = function () { finish(false); };
@@ -174,12 +183,13 @@
     markProbing = false;
   }
 
-  function startPoll(list, total, base, span) {
+  function startPoll(list, total, base, span, expect) {
     stopPoll();
     markList = list || [];
     markTotal = total > 0 ? total : 1;
     markBase = base;
     markSpan = span;
+    markExpect = expect || '1';
     markIdx = 0;
     if (!markList.length) return;
     pollTimer = setInterval(tick, TICK);
@@ -198,19 +208,18 @@
       if (!markList || markIdx >= markList.length) { markProbing = false; return; }
       if (probes++ >= 4) { markProbing = false; return; }
       var idx = markIdx;
-      readMark(markList[idx].path, function (ok) {
+      readMark(markList[idx].path, markExpect, function (ok) {
         if (done || gen !== pollGen) { markProbing = false; return; }
         if (!ok) { markProbing = false; return; }
         markIdx = idx + 1;
-        var bytes = markList[idx].cum;
-        setPct(markBase + (bytes / markTotal) * markSpan);
+        setPct(markBase + (markList[idx].cum / markTotal) * markSpan);
         if (markIdx >= markList.length) { markProbing = false; stopPoll(); return; }
         step();
       });
     })();
   }
 
-  function probe(paths, binary, cb) {
+  function probe(paths, cb) {
     var i = 0;
     function next() {
       if (done) return;
@@ -218,7 +227,7 @@
       get(paths[i++], function (ok) {
         if (!ok) { cb(false); return; }
         next();
-      }, PROBE_TIMEOUT, binary);
+      }, PROBE_TIMEOUT);
     }
     next();
   }
@@ -269,15 +278,36 @@
     return res;
   }
 
+  function parseText(text) {
+    try {
+      var m = JSON.parse(text);
+      if (m && m.files && m.files.length) return m;
+    } catch (e) {}
+    return null;
+  }
+
   function fetchManifest(base, cb) {
     get(base + '/manifest.json', function (ok, text) {
-      if (!ok) { cb(null); return; }
-      try {
-        var m = JSON.parse(text);
-        if (m && m.version && m.files && m.files.length) { cb(m); return; }
-      } catch (e) {}
-      cb(null);
+      cb(ok ? parseText(text) : null);
     }, 20000);
+  }
+
+  // 远程清单拿不到时用包内清单，保证进度条照样能跑
+  function loadManifest(bases, localPath, cb) {
+    var i = 0;
+    function next() {
+      if (i >= bases.length) {
+        get(localPath, function (ok, text) {
+          cb(ok ? parseText(text) : null);
+        }, 8000);
+        return;
+      }
+      fetchManifest(bases[i++], function (m) {
+        if (m) { cb(m); return; }
+        next();
+      });
+    }
+    next();
   }
 
   function call(base, timeout, next) {
@@ -300,7 +330,7 @@
     }
     stage = 'media';
     setMsg('正在下载资源中…', true);
-    startPoll(mediaMarks, mediaTotal, 0, 95);
+    startPoll(mediaMarks, mediaTotal, 0, 95, mediaVer);
     call(MEDIA_BASES[mi++], MEDIA_TIMEOUT, tryMedia);
   }
 
@@ -310,13 +340,14 @@
     var base = CODE_BASES[ci++];
     stage = 'code';
     setMsg('正在下载资源中…', true);
-    fetchManifest(base, function (m) {
+    loadManifest([base], 'boot-manifest.json', function (m) {
       if (m) {
         var p = parseManifest(m);
+        codeVer = m.version || '';
         codeMarks = p.marks;
         codeTotal = p.total;
       }
-      startPoll(codeMarks, codeTotal, 95, 5);
+      startPoll(codeMarks, codeTotal, 95, 5, codeVer);
       call(base, CODE_TIMEOUT, tryCode);
     });
   }
@@ -330,34 +361,26 @@
     setPct(0);
     setMsg('正在校验资源…', false);
 
-    fetchManifest(MEDIA_BASES[0], function (m1) {
-      if (m1) { applyMediaManifest(m1); afterMediaManifest(); return; }
-      fetchManifest(MEDIA_BASES[1], function (m2) {
-        if (m2) applyMediaManifest(m2);
-        afterMediaManifest();
-      });
-    });
-
-    function applyMediaManifest(m) {
-      var p = parseManifest(m);
-      mediaVer = m.version;
-      mediaFiles = p.files;
-      mediaMarks = p.marks;
-      mediaTotal = p.total;
-    }
-
-    function afterMediaManifest() {
+    loadManifest(MEDIA_BASES, 'media-manifest.json', function (m) {
       if (done) return;
+      if (m) {
+        var p = parseManifest(m);
+        mediaVer = m.version || '';
+        mediaFiles = p.files;
+        mediaMarks = p.marks;
+        mediaTotal = p.total;
+      }
       var local = lsGet(MEDIA_KEY);
-      probe(mediaSample(), true, function (present) {
+      probe(mediaSample(), function (present) {
         if (done) return;
-        var need = mediaVer ? (local !== mediaVer) : !present;
+        // 文件实际缺失（例如新装 APK 清了内部存储）也必须重新下，不能只看版本号
+        var need = !present || (!!mediaVer && local !== mediaVer);
         if (need) { tryMedia(); return; }
         if (mediaVer) lsSet(MEDIA_KEY, mediaVer);
         setPct(95);
         tryCode();
       });
-    }
+    });
   }
 
   window.__onUpdateCheckResult = function (res) {
@@ -367,7 +390,7 @@
     var updated = !!(res && res.updated);
 
     if (stage === 'media') {
-      probe(mediaSample(), true, function (present) {
+      probe(mediaSample(), function (present) {
         if (present) {
           if (mediaVer) lsSet(MEDIA_KEY, mediaVer);
           setPct(95);
@@ -395,35 +418,68 @@
     });
   };
 
-  // 失败后点屏幕任意位置重试（保持原加载页外观，不额外加按钮）
+  // 片头 LoginCG 播完（或加载失败）后再进入下载界面
+  var intro = $('video-intro');
+  var mainVideo = $('video-main');
+
+  function finishIntro() {
+    if (introDone) return;
+    introDone = true;
+    if (intro) {
+      try { intro.pause(); } catch (e) {}
+      intro.style.display = 'none';
+    }
+    if (pendingEnter) { pendingEnter = false; go(); return; }
+    showProgressUI();
+    if (mainVideo) {
+      mainVideo.style.display = 'block';
+      try {
+        var pr = mainVideo.play();
+        if (pr && pr.catch) pr.catch(function () {});
+      } catch (e) {}
+    }
+  }
+
+  if (intro) {
+    intro.addEventListener('ended', finishIntro);
+    intro.addEventListener('error', finishIntro);
+    setTimeout(finishIntro, 12000);
+    try {
+      var playRet = intro.play();
+      if (playRet && playRet.catch) playRet.catch(function () { setTimeout(finishIntro, 300); });
+    } catch (e) {}
+  } else {
+    setTimeout(finishIntro, 0);
+  }
+
+  // 首次点击开启声音
+  var soundOn = false;
+  function enableSound() {
+    if (soundOn) return;
+    soundOn = true;
+    var v = (mainVideo && mainVideo.style.display !== 'none') ? mainVideo : intro;
+    if (!v) return;
+    try {
+      v.muted = false;
+      v.volume = 1;
+      v.play();
+    } catch (e) {}
+  }
+  document.addEventListener('touchstart', enableSound, { once: true });
+  document.addEventListener('click', enableSound, { once: true });
+
+  // 失败后点屏幕任意位置重试
   document.addEventListener('click', function () {
     if (!failed || done) return;
     failed = false;
     var st = $('dl-status');
-    if (st) st.className = 'dl-status';
+    if (st) st.className = 'dl-status show';
     var ov = $('loading-overlay');
     if (ov) ov.className = 'loading-overlay';
     mi = 0;
     ci = 0;
     start();
   });
-
-  // 首次点击开启 CG 声音（与原登录页一致）
-  var video = $('cg-video');
-  if (video) {
-    var soundOn = false;
-    var enableSound = function () {
-      if (soundOn) return;
-      soundOn = true;
-      try {
-        video.muted = false;
-        video.volume = 1;
-        video.play();
-      } catch (e) {}
-    };
-    document.addEventListener('touchstart', enableSound, { once: true });
-    document.addEventListener('click', enableSound, { once: true });
-  }
 
   start();
 })();

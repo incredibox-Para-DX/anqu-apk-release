@@ -15,6 +15,7 @@ import zipfile
 SRC = "/tmp/app.apk"
 HERE = os.path.dirname(os.path.abspath(__file__))
 SHELL_DIR = os.path.join(HERE, "shell")
+REPO = os.path.dirname(HERE)
 OUT = "/tmp/app-unsigned.apk"
 
 # 包内需要移除的代码文件（相对 APK 根）
@@ -51,6 +52,9 @@ SHELL_FILES = {
     "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
     "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
+    # 包内清单副本：远程清单拿不到时，壳用它算进度
+    "assets/www/media-manifest.json": os.path.join(REPO, "media", "manifest.json"),
+    "assets/www/boot-manifest.json": os.path.join(REPO, "boot", "manifest.json"),
 }
 
 # 物品图 / 收藏室图也移除，由加载页统一下载
@@ -58,8 +62,6 @@ REMOVE_PREFIXES = ("assets/www/images/", "assets/www/collect/", "assets/www/prog
 
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
-
-REPO = os.path.dirname(HERE)
 
 
 def mark_paths():

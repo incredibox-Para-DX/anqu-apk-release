@@ -8,12 +8,13 @@
 <link rel="stylesheet" href="css/shell.css">
 </head>
 <body>
-<video id="cg-video" src="backgrounds/Login/LoginCG.mp4" autoplay muted loop playsinline webkit-playsinline x5-playsinline x-webkit-airplay="allow" poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" preload="auto"></video>
+<video id="video-intro" src="backgrounds/Login/LoginCG.mp4" autoplay muted playsinline webkit-playsinline x5-playsinline x-webkit-airplay="allow" preload="auto"></video>
+<video id="video-main" src="backgrounds/Login/CG.mp4" autoplay muted loop playsinline webkit-playsinline x5-playsinline x-webkit-airplay="allow" preload="auto"></video>
 <div class="dl-status" id="dl-status">
 <div class="dl-title">暗区保险模拟</div>
 <div class="dl-line"><span id="dl-msg">正在下载资源中…</span><span id="dl-pct">0</span><span id="dl-pct-sign">%</span></div>
 </div>
-<div class="dl-bar"><div class="dl-bar-fill" id="dl-fill"></div></div>
+<div class="dl-bar" id="dl-bar"><div class="dl-bar-fill" id="dl-fill"></div></div>
 <script src="js/shell.js"></script>
 </body>
 </html>

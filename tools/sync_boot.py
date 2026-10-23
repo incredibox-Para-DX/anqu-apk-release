@@ -51,12 +51,12 @@ TARGETS = [("boot", ""), ("boot2", ".m")]
 MEDIA_ROOT = "media"
 MEDIA_DIRS = ["images", "collect"]
 
-# 真实进度用的标记文件：远程是 "1"，APK 里放同名文件内容 "0"
-MARK_CONTENT = "1"
+# 真实进度用的标记文件：远程内容写清单版本号，APK 里放同名文件内容 "0"
+# 版本号参与比对，图片/代码版本一变，旧标记自动失效，进度从头开始
 MEDIA_MARKS = 100
 
 
-def write_mark(out_dir, rel, content=MARK_CONTENT):
+def write_mark(out_dir, rel, content):
     dst = os.path.join(out_dir, rel)
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     with open(dst, "w", encoding="ascii") as f:
@@ -80,10 +80,10 @@ def build(dirname, suffix, version):
         shutil.copy2(src, dst)
         files.append({"path": rel, "size": os.path.getsize(src)})
 
-        # 每个文件后面跟一个 0 大小的进度标记，壳据此算真实进度
+        # 每个文件后面跟一个进度标记，壳据此算真实进度
         mark = "progress/c%02d.txt" % i
-        write_mark(out_dir, mark)
-        files.append({"path": mark, "size": 1})
+        write_mark(out_dir, mark, version + suffix)
+        files.append({"path": mark, "size": len(version) + len(suffix)})
 
     out = {"version": version + suffix, "files": files, "fileCount": len(files),
            "totalSize": sum(f["size"] for f in files)}
@@ -128,8 +128,8 @@ def build_media():
         while mk < MEDIA_MARKS and cum >= total_bytes * (mk + 1) / MEDIA_MARKS:
             mk += 1
             mark = "progress/m%03d.txt" % mk
-            write_mark(out_dir, mark)
-            files.append({"path": mark, "size": len(MARK_CONTENT)})
+            write_mark(out_dir, mark, version)
+            files.append({"path": mark, "size": len(version)})
 
     out = {"version": version, "files": files, "fileCount": len(files),
            "totalSize": sum(f["size"] for f in real)}
