@@ -2,11 +2,12 @@
   'use strict';
 
   // 主线路 + 备用线路；boot2 的 manifest 版本号与 boot 不同，用于“上次下载不完整”时强制重下
+  // 注意：jsDelivr 的 @main 会长期缓存旧文件，必须放在 raw 之后
   var BASES = [
-    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot',
-    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2',
-    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2'
+    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
+    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2',
+    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2'
   ];
   var CHECK_TIMEOUT = 90000;
   var PROBE_TIMEOUT = 8000;
