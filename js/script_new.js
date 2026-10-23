@@ -6188,6 +6188,8 @@ const EventManager = {
                     $('#update-check-progress').show();
                     $('#update-check-status').html('正在下载更新文件，请稍候…<br><span style="color:#64748b;font-size:11px;">请勿关闭本窗口</span>');
                     window.__huStartProgress();
+                    // 先存版本（以防原生下载完 callback 丢失 version 字段）
+                    try { localStorage.setItem(HU_STORAGE_KEY, window.__huLastManifestVersion || ''); } catch (e) {}
                     try { window.AndroidUpdate.check(HU_BASE_URL); } catch (e) {
                         $('#update-check-status').html('<span style="color:#f87171;">更新启动失败：' + e + '</span>');
                         $('#update-check-progress').hide();
@@ -6257,9 +6259,6 @@ const EventManager = {
                 $('#update-check-later').hide();
                 $('#update-check-confirm').hide();
             });
-            // 用 fetch 到的 manifest 版本（原生 callback 可能不带 version 字段）
-            var installedVer = window.__huLastManifestVersion || (result && result.version) || '';
-            try { localStorage.setItem(HU_STORAGE_KEY, installedVer); } catch (e) {}
         } else {
             $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
             $('#update-check-start').show().text('开始检查');
@@ -6272,7 +6271,8 @@ const EventManager = {
     window.__huProgressTimer = null;
     // 简单版本对比：v2.1.0_hotfix.1 vs v2.1.0_hotfix.2 → 后者新
     window.__huVersionGt = function(a, b) {
-        if (!a || !b) return false;
+        if (!a) return false;
+        if (!b) return true;  // 本地没存过版本 = 有更新
         var pa = a.replace(/[^0-9.]/g, '').split('.').map(Number);
         var pb = b.replace(/[^0-9.]/g, '').split('.').map(Number);
         var len = Math.max(pa.length, pb.length);
