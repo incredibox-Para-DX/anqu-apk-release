@@ -6375,7 +6375,8 @@ const EventManager = {
             .catch(function(err) {
                 _huShowProgress(false);
                 _huShow('检查更新失败：' + (err.message || err) + '\n请检查网络后重试', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
-                $(document).on('click._hu', '#update-check-cancel', _huClose);
+                _huBindCloseHandlers();
+                _huSetAutoClose(_huClose, 5000);
             });
     });
 
