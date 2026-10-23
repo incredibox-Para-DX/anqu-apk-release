@@ -62,6 +62,14 @@ RENAME_MAP = json.load(open("/tmp/rename_map.json", encoding="utf-8"))
 # music-player 改为首次打开时下载；audio 仍留在包内
 REMOVE_PREFIXES = ("assets/www/progress/", "assets/www/music-player/")
 
+# 收藏室背景图：以仓库 media/collect 为准覆盖/补充到包内
+# （原包里的同名图会被跳过，改用这里的版本；新增的图直接写进去）
+COLLECT_DIR = os.path.join(REPO, "media", "collect")
+COLLECT_FILES = {}
+if os.path.isdir(COLLECT_DIR):
+    for fn in sorted(os.listdir(COLLECT_DIR)):
+        COLLECT_FILES["assets/www/collect/" + fn] = os.path.join(COLLECT_DIR, fn)
+
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 
@@ -100,6 +108,10 @@ def main():
                 rel = name[len("assets/www/"):]
                 if rel in RENAME_MAP:
                     name = "assets/www/" + RENAME_MAP[rel]
+            if name in COLLECT_FILES:
+                # 收藏室背景图统一由 COLLECT_FILES 重写，避免包里出现重复条目
+                removed += 1
+                continue
             new_info = zipfile.ZipInfo(name, date_time=info.date_time)
             new_info.compress_type = info.compress_type
             new_info.external_attr = info.external_attr
@@ -113,6 +125,15 @@ def main():
                 data = f.read()
             info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o644 << 16
+            dst.writestr(info, data)
+
+        # 收藏室背景图：覆盖 + 补充
+        for name, path in COLLECT_FILES.items():
+            with open(path, "rb") as f:
+                data = f.read()
+            info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_STORED
             info.external_attr = 0o644 << 16
             dst.writestr(info, data)
 

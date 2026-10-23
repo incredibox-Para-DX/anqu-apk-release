@@ -1418,7 +1418,12 @@ previewCurrentBackground() {
             '法厄同之钟': 'collect/img_f70f42c369.png',
             '黄金哑铃': 'collect/img_7b748eb857.png',
             '机械手臂': 'collect/img_f923762915.png',
-            '热成像模块': 'collect/img_9aaa9d9296.png'
+            '热成像模块': 'collect/img_9aaa9d9296.png',
+            '原子钟核心': 'collect/img_93d5c9d9b5.png',
+            '宝石项链': 'collect/img_31a2709271.png',
+            '“新边疆”模型': 'collect/img_7c8eb5c849.png',
+            '电磁弹射组件': 'collect/img_c90e5d6d40.png',
+            '金驹跃岭雕像': 'collect/img_7610daa96c.png'
         },
 
         list: [],
@@ -1456,7 +1461,25 @@ previewCurrentBackground() {
                     }
                 } catch (e2) {}
             }
+            this.list = this._normalize(this.list);
             this.currentIndex = 0;
+        },
+
+        _normalize(list) {
+            const out = [];
+            (list || []).forEach(item => {
+                if (!item || !item.name) return;
+                // 旧版调试菜单写入的是“计算机验算模块”，与游戏内名称不一致，会多出一条重复项
+                const name = item.name === '计算机验算模块' ? '验算模块' : item.name;
+                const image = this.COLLECT_MAP[name] || item.image;
+                const exist = _.find(out, { name: name });
+                if (exist) {
+                    exist.count = (exist.count || 0) + (item.count || 1);
+                } else {
+                    out.push(_.assign({}, item, { name: name, image: image }));
+                }
+            });
+            return out;
         },
 
         _write(key, data) {
@@ -6118,7 +6141,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.30';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.31';
 
     /* ============================================================
      * 检查更新

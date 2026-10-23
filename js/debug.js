@@ -918,12 +918,17 @@
     '航天导航仪': 'collect/img_8d9ab9be88.png',
     '“鎏金羽宫”': 'collect/img_86be2efc8e.png',
     '《黎明》': 'collect/img_37150efe31.png',
-    '计算机验算模块': 'collect/img_c9984fa547.png',
+    '验算模块': 'collect/img_c9984fa547.png',
     '参考球零件': 'collect/img_b867e932ea.png',
     '法厄同之钟': 'collect/img_f70f42c369.png',
     '黄金哑铃': 'collect/img_7b748eb857.png',
     '机械手臂': 'collect/img_f923762915.png',
-    '热成像模块': 'collect/img_9aaa9d9296.png'
+    '热成像模块': 'collect/img_9aaa9d9296.png',
+    '原子钟核心': 'collect/img_93d5c9d9b5.png',
+    '宝石项链': 'collect/img_31a2709271.png',
+    '“新边疆”模型': 'collect/img_7c8eb5c849.png',
+    '电磁弹射组件': 'collect/img_c90e5d6d40.png',
+    '金驹跃岭雕像': 'collect/img_7610daa96c.png'
   };
   var GAME_COLLECTIBLES = Object.keys(GAME_COLLECT_MAP);
 
