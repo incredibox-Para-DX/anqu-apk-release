@@ -6272,6 +6272,16 @@ const EventManager = {
         _huShowProgress(done ? 100 : null, done ? '下载完成，正在应用…' : null);
     }
 
+    function _huBindCloseHandlers() {
+        // 统一绑定 X / 遮罩 / 关闭按钮（三个都绑）
+        $(document).off('click._hu', '#update-check-close');
+        $(document).off('click._hu', '#update-check-modal');
+        $(document).off('click._hu', '#update-check-cancel');
+        $(document).on('click._hu', '#update-check-close', _huClose);
+        $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
+        $(document).on('click._hu', '#update-check-cancel', _huClose);
+        $('#update-check-close').css('display', ''); // 确保 X 显示
+    }
     // ========== 事件绑定（一次性，永远不解绑 sidebar 自身！）==========
     $(document).off('click._hu');  // 先清掉可能残留的
     $(document).on('click._hu', '#sidebar-update-check-btn', function() {
@@ -6286,15 +6296,13 @@ const EventManager = {
             if (typeof window.showToast === 'function') window.showToast('当前版本不支持热更新');
             return;
         }
+        _huClearAutoClose();
         _huShowProgress(false);
-        _huShow('正在检查更新，请稍候…', { showConfirm:false, showLater:false, cancelText:'检查中…', disableCancel:true, hideCancel:true });
+        _huShow('正在检查更新，请稍候…', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
         EventManager.openModal('update-check-modal');
-        $(document).on('click._hu', '#update-check-close', _huClose);
-        $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
-_huShowProgress(true, 2, '连接更新服务器…');
-
-        $(document).on('click._hu', '#update-check-close', _huClose);
-        $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
+        // ✅ 检查中永远允许关闭（X / 遮罩 / 关闭按钮）
+        _huBindCloseHandlers();
+        _huShowProgress(true, 2, '连接更新服务器…');
 
         var currentVer = _huGetVersion();
 
@@ -6328,17 +6336,30 @@ _huShowProgress(true, 2, '连接更新服务器…');
                     + '文件数量：' + filesCount + ' 个\n'
                     + '包大小：' + _huFmtSize(totalSize) + '\n\n是否立即更新？';
                 _huShowProgress(8, '准备就绪');
-                _huShow(hint, { showConfirm:true, showLater:true, cancelText:'稍后再说', disableCancel:false, hideCancel:true });
-                $(document).on('click._hu', '#update-check-cancel', _huClose);  // 仍然绑定（万一 showLater 变 showCancel）
+                _huShow(hint, { showConfirm:true, showLater:true, cancelText:'关闭', disableCancel:false, hideCancel:false });
+                // ✅ 确认框也允许关闭（稍后 / X / 遮罩 / 关闭）
+                _huBindCloseHandlers();
                 $(document).on('click._hu', '#update-check-later', _huClose);
                 $(document).on('click._hu', '#update-check-confirm', function() {
-                    // 🔒 锁死弹窗：禁 X、禁遮罩关闭、禁 ESC
+                    // ✅ 下载中也允许关闭（关闭 = 取消更新）
+                    _huShowProgress(12, '准备下载…');
+                    _huShow('正在下载并应用更新，请不要关闭应用…', { showConfirm:false, showLater:false, cancelText:'取消更新', disableCancel:false, hideCancel:false });
+                    _huBindCloseHandlers();
+                    // 下载中关闭 → 停止进度 + 提示
                     $(document).off('click._hu', '#update-check-close');
                     $(document).off('click._hu', '#update-check-modal');
-                    $('#update-check-close').css('display', 'none'); // 隐藏 X 按钮
-                    try { $('#update-check-modal').data('hu-locked', true); } catch(e) {}
-                    _huShowProgress(12, '准备下载…');
-                    _huShow('正在下载并应用更新，请不要关闭应用…', { showConfirm:false, showLater:false, cancelText:'下载中…', disableCancel:true, hideCancel:true });
+                    $(document).off('click._hu', '#update-check-cancel');
+                    var _huOnCancelDownload = function() {
+                        if (!confirm('确定要取消更新吗？')) return;
+                        _huStopProgress(false);
+                        _huShowProgress(false);
+                        _huShow('更新已取消', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
+                        setTimeout(_huClose, 1500);
+                        // 原生可能还在跑，没办法真正停，但 UI 关了用户可以继续用
+                    };
+                    $(document).on('click._hu', '#update-check-close', _huOnCancelDownload);
+                    $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huOnCancelDownload(); });
+                    $(document).on('click._hu', '#update-check-cancel', _huOnCancelDownload);
                     try { window.AndroidUpdate.check(HU_BASE_URL); }
                     catch (e) {
                         _huShowProgress(false);
