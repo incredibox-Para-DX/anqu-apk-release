@@ -6294,11 +6294,9 @@ const EventManager = {
                 if (m && m.version) {
                     try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
                 }
-                // 版本对比
+                // 版本对比（只读，不存！安装成功才存）
                 var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
                 var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
-                // 存最新版本
-                try { localStorage.setItem(HU_STORAGE_KEY, m.version || curVer); } catch (e) {}
                 if (typeof onResult === 'function') { onResult(m, hasUpdate); }
             },
             error: function() {
