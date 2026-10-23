@@ -6241,7 +6241,8 @@ const EventManager = {
                 $('#update-check-start').show().prop('disabled', false).text('开始检查');
             },
             error: function() {
-                $('#update-check-status')var curVer2 = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})(); .html('当前版本：' + curVer2 + '<br><span style="color:#f87171;">检查失败，服务器无法连接</span>');
+                var curVer2 = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                $('#update-check-status').html('当前版本：' + curVer2 + '<br><span style="color:#f87171;">检查失败，服务器无法连接</span>');
                 $('#update-check-start').show().prop('disabled', false).text('开始检查');
             }
         });
