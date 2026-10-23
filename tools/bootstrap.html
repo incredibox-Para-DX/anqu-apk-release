@@ -92,7 +92,8 @@
     el('bar').style.width = '100%';
     setText('资源已就绪，正在启动…', '');
     setTimeout(function () {
-      location.replace('https://localhost/index.html#r=' + Date.now());
+      // 用查询参数强制重新请求，读取内部存储里刚下载好的入口页
+      location.replace('https://localhost/index.html?r=' + Date.now());
     }, 600);
   }
 
@@ -101,7 +102,7 @@
     stopProgress();
     el('bar').style.width = '0%';
     setText('启动失败', msg || '无法连接更新服务器');
-    el('hint').textContent = '请检查网络后点击重试。若长期无法启动，可切换网络（Wi-Fi / 移动数据）后重试。';
+    el('hint').textContent = '请检查网络后点击重试；可切换 Wi-Fi / 移动数据再试。若持续失败，可在系统设置中清除本应用数据后重新打开。';
     el('retry').style.display = 'inline-block';
   }
 
