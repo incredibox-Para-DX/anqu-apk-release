@@ -1,28 +1,20 @@
 {
-  "version": "v2.1.0_hotfix.27",
+  "version": "v2.1.0_hotfix.28",
   "files": [
     {
       "path": "MiniGame/index.html",
       "size": 2314
     },
     {
-      "path": "progress/c001.txt",
-      "size": 16
-    },
-    {
       "path": "MiniGame/scripts/all.js",
       "size": 189889
-    },
-    {
-      "path": "progress/c002.txt",
-      "size": 16
     },
     {
       "path": "MiniGame/images/index.css",
       "size": 2053
     },
     {
-      "path": "progress/c003.txt",
+      "path": "progress/c001.txt",
       "size": 16
     },
     {
@@ -30,23 +22,15 @@
       "size": 75487
     },
     {
-      "path": "progress/c004.txt",
-      "size": 16
-    },
-    {
       "path": "css/main.css",
       "size": 52726
-    },
-    {
-      "path": "progress/c005.txt",
-      "size": 16
     },
     {
       "path": "css/styles.css",
       "size": 72115
     },
     {
-      "path": "progress/c006.txt",
+      "path": "progress/c002.txt",
       "size": 16
     },
     {
@@ -54,23 +38,15 @@
       "size": 85060
     },
     {
-      "path": "progress/c007.txt",
-      "size": 16
-    },
-    {
       "path": "js/inline-scripts.js",
       "size": 28608
-    },
-    {
-      "path": "progress/c008.txt",
-      "size": 16
     },
     {
       "path": "js/main.js",
       "size": 22702
     },
     {
-      "path": "progress/c009.txt",
+      "path": "progress/c003.txt",
       "size": 16
     },
     {
@@ -78,23 +54,15 @@
       "size": 38210
     },
     {
-      "path": "progress/c010.txt",
-      "size": 16
-    },
-    {
       "path": "js/script_new.js",
-      "size": 297700
-    },
-    {
-      "path": "progress/c011.txt",
-      "size": 16
+      "size": 297933
     },
     {
       "path": "js/synthesis.js",
       "size": 25801
     },
     {
-      "path": "progress/c012.txt",
+      "path": "progress/c004.txt",
       "size": 16
     },
     {
@@ -102,23 +70,15 @@
       "size": 6585
     },
     {
-      "path": "progress/c013.txt",
-      "size": 16
-    },
-    {
       "path": "libs/GSAP.js",
       "size": 72213
-    },
-    {
-      "path": "progress/c014.txt",
-      "size": 16
     },
     {
       "path": "libs/jquery.js",
       "size": 78748
     },
     {
-      "path": "progress/c015.txt",
+      "path": "progress/c005.txt",
       "size": 16
     },
     {
@@ -126,23 +86,15 @@
       "size": 73154
     },
     {
-      "path": "progress/c016.txt",
-      "size": 16
-    },
-    {
       "path": "xml/backgrounds.xml",
       "size": 8149
-    },
-    {
-      "path": "progress/c017.txt",
-      "size": 16
     },
     {
       "path": "xml/items.xml",
       "size": 93710
     },
     {
-      "path": "progress/c018.txt",
+      "path": "progress/c006.txt",
       "size": 16
     },
     {
@@ -150,23 +102,15 @@
       "size": 463
     },
     {
-      "path": "progress/c019.txt",
-      "size": 16
-    },
-    {
       "path": "xml/music-config.xml",
       "size": 4111
-    },
-    {
-      "path": "progress/c020.txt",
-      "size": 16
     },
     {
       "path": "xml/video-config.xml",
       "size": 101
     },
     {
-      "path": "progress/c021.txt",
+      "path": "progress/c007.txt",
       "size": 16
     },
     {
@@ -174,26 +118,18 @@
       "size": 2798082
     },
     {
-      "path": "progress/c022.txt",
-      "size": 16
-    },
-    {
       "path": "music-player/covers/BGM_Main_UI_Loop_A.jpg",
       "size": 270976
-    },
-    {
-      "path": "progress/c023.txt",
-      "size": 16
     },
     {
       "path": "index.html",
       "size": 100625
     },
     {
-      "path": "progress/c024.txt",
+      "path": "progress/c008.txt",
       "size": 16
     }
   ],
-  "fileCount": 48,
-  "totalSize": 4399966
+  "fileCount": 32,
+  "totalSize": 4399943
 }

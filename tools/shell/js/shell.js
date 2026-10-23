@@ -15,6 +15,10 @@
   var MARK_TIMEOUT = 6000;
   var TICK = 300;
 
+  // 测速结果缓存（1 小时）：上次最快的线路优先，省掉重复测速
+  var BASE_PICK_KEY = 'ab_fast_base';
+  var BASE_PICK_TTL = 3600 * 1000;
+
   var VERIFY_CODE = [
     'index.html',
     'css/main.css',
@@ -25,6 +29,7 @@
 
   var stage = 'code';
   var ci = 0;
+  var picked = false;
   var done = false;
   var failed = false;
   var timer = null;
@@ -261,8 +266,52 @@
     timer = setTimeout(next, timeout);
   }
 
+  // 并发测速：四个线路同时请求清单，谁先回谁最快，直接放到第一位下载
+  // （国内直连 raw 常常比镜像慢一个数量级，固定顺序会白白浪费时间）
+  function pickBase(cb) {
+    var cached = null;
+    try {
+      var raw = lsGet(BASE_PICK_KEY);
+      if (raw) {
+        var o = JSON.parse(raw);
+        if (o && o.base && (Date.now() - o.ts) < BASE_PICK_TTL &&
+            CODE_BASES.indexOf(o.base) >= 0) cached = o.base;
+      }
+    } catch (e) {}
+    if (cached) { cb(cached); return; }
+
+    var best = null;
+    var pending = CODE_BASES.length;
+    CODE_BASES.forEach(function (b) {
+      var start = Date.now();
+      get(b + '/manifest.json', function (ok, text) {
+        if (ok && parseText(text)) {
+          var ms = Date.now() - start;
+          if (!best || ms < best.ms) best = { base: b, ms: ms };
+        }
+        if (--pending > 0) return;
+        if (best) {
+          CODE_BASES = [best.base].concat(CODE_BASES.filter(function (x) {
+            return x !== best.base;
+          }));
+          try {
+            localStorage.setItem(BASE_PICK_KEY,
+              JSON.stringify({ base: best.base, ts: Date.now() }));
+          } catch (e) {}
+        }
+        cb(best ? best.base : CODE_BASES[0]);
+      }, 6000);
+    });
+  }
+
   function tryCode() {
     if (done) return;
+    if (!picked) {
+      picked = true;
+      setMsg('正在连接服务器…', false);
+      pickBase(function () { tryCode(); });
+      return;
+    }
     if (ci >= CODE_BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
     var base = CODE_BASES[ci++];
     stage = 'code';

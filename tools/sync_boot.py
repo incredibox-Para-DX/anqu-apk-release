@@ -62,6 +62,9 @@ BOOT_ORDER = CODE_FILES + bulk_files() + ["index.html"]
 
 TARGETS = [("boot", ""), ("boot2", ".m")]
 
+# 首次下载要插入的进度标记个数（越多进度越细，但请求也越多）
+MARK_COUNT = 8
+
 # 物品图 / 收藏室图：放在 media/ 下（启动加载页下载，路径仍按 www 根目录的 images/、collect/）
 MEDIA_ROOT = "media"
 MEDIA_DIRS = ["images", "collect"]
@@ -85,6 +88,11 @@ def build(dirname, suffix, version):
     os.makedirs(out_dir)
 
     files = []
+    total = len(BOOT_ORDER)
+    # 进度标记不是每个文件都插：每文件一个会让首次下载多出一倍的请求，
+    # 分批插入（约 MARK_COUNT 个）既能保证进度真实，又能明显提速
+    step = max(1, total // MARK_COUNT)
+    mi = 0
     for i, rel in enumerate(BOOT_ORDER, 1):
         src = os.path.join(ROOT, rel)
         if not os.path.isfile(src):
@@ -95,10 +103,12 @@ def build(dirname, suffix, version):
         shutil.copy2(src, dst)
         files.append({"path": rel, "size": os.path.getsize(src)})
 
-        # 每个文件后面跟一个进度标记，壳据此算真实进度
-        mark = "progress/c%03d.txt" % i
-        write_mark(out_dir, mark, version + suffix)
-        files.append({"path": mark, "size": len(version) + len(suffix)})
+        # 每 step 个文件后跟一个进度标记，壳据此算真实进度
+        if i % step == 0 or i == total:
+            mi += 1
+            mark = "progress/c%03d.txt" % mi
+            write_mark(out_dir, mark, version + suffix)
+            files.append({"path": mark, "size": len(version) + len(suffix)})
 
     out = {"version": version + suffix, "files": files, "fileCount": len(files),
            "totalSize": sum(f["size"] for f in files)}
