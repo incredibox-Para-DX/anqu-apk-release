@@ -6166,7 +6166,7 @@ const EventManager = {
     function _huClose() { try { EventManager.closeModal('update-check-modal'); } catch(e) {} }
 
     // ========== 红点徽章 ==========
-    // 在 sidebar-header h3(更多功能) / section-more-settings h4(更多设置) / 检查更新按钮上显示红点
+    // 红点位置：sidebar-header 更多功能 / 主界面 more-button / 检查更新按钮
     function _huEnsureDotContainer() {
         // 三个红点位置已在 index.html 预埋 + CSS 统一样式，这里只确保 DOM 里存在
         function _ensureDot(selector, html) {
