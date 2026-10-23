@@ -6150,6 +6150,8 @@ const EventManager = {
     var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
+    // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.11';
 
     /* ============================================================
      * 检查更新
@@ -6168,7 +6170,7 @@ const EventManager = {
         try { window.__huFetchAndCompare(function(m, hasUpdate) {
             if (hasUpdate) {
                 // 有更新：先弹确认（JS 层面拦截原生下载！）
-                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                var curVer = window.HU_BUILD_VERSION;
                 $('#update-check-status').html(
                     '<span style="color:#fbbf24;">发现新版本</span>' +
                     '<br>当前版本：' + curVer +
@@ -6188,8 +6190,6 @@ const EventManager = {
                     $('#update-check-progress').show();
                     $('#update-check-status').html('正在下载更新文件，请稍候…<br><span style="color:#64748b;font-size:11px;">请勿关闭本窗口</span>');
                     window.__huStartProgress();
-                    // 先存版本（以防原生下载完 callback 丢失 version 字段）
-                    try { localStorage.setItem(HU_STORAGE_KEY, window.__huLastManifestVersion || ''); } catch (e) {}
                     try { window.AndroidUpdate.check(HU_BASE_URL); } catch (e) {
                         $('#update-check-status').html('<span style="color:#f87171;">更新启动失败：' + e + '</span>');
                         $('#update-check-progress').hide();
@@ -6198,7 +6198,7 @@ const EventManager = {
                 });
             } else {
                 // 已是最新：显示信息 + 关闭按钮
-                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                var curVer = window.HU_BUILD_VERSION;
                 $('#update-check-status').html(
                     '<span style="color:#10b981;">当前已是最新版本</span>' +
                     '<br>当前版本：' + curVer +
@@ -6245,20 +6245,16 @@ const EventManager = {
         $('#update-check-start').hide();
         if (typeof window.showToast === 'function') window.showToast(msg);
         if (updated) {
-            $('#update-check-status').html('<span style="color:#10b981;">更新下载完成！点击"立即更新"生效</span>');
-            $('#update-check-confirm').show();
-            $('#update-check-confirm-info').html(msg + '<br>点击"立即更新"立即生效。');
+            // 下载完成 → 直接刷新，不再弹二次确认
+            $('#update-check-progress').show();
+            $('#update-check-progress-bar').css('width', '100%');
+            $('#update-check-progress-text').text('100%');
+            $('#update-check-status').html('<span style="color:#10b981;">更新完成，正在应用…</span>');
             $('#update-check-cancel').hide();
-            $('#update-check-later').show().text('稍后再说');
-            $('#update-check-confirm').show().off('click').on('click', function() {
-                try { EventManager.closeModal('update-check-modal'); } catch (e) {}
-                setTimeout(function() { location.reload(); }, 300);
-            });
-            $('#update-check-later').off('click').on('click', function() {
-                $('#update-check-cancel').show();
-                $('#update-check-later').hide();
-                $('#update-check-confirm').hide();
-            });
+            $('#update-check-later').hide();
+            $('#update-check-confirm').hide();
+            $('#update-check-start').hide();
+            setTimeout(function() { location.reload(); }, 800);
         } else {
             $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
             $('#update-check-start').show().text('开始检查');
@@ -6297,7 +6293,7 @@ const EventManager = {
                     try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
                 }
                 // 版本对比（只读，不存！安装成功才存）
-                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
+                var curVer = window.HU_BUILD_VERSION;
                 var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
                 if (typeof onResult === 'function') { onResult(m, hasUpdate); }
             },
@@ -6333,23 +6329,8 @@ const EventManager = {
         $('#update-check-progress-text').text('100%');
     };
     window.__huShowRedDot = function(show) {
-        if (show) {
-            $('[data-hudot]').show();
-        } else {
-            $('[data-hudot]').hide();
-        }
+        $('[data-hudot]').css('display', show ? 'block' : 'none');
     };
-    // 主界面按钮红点（如果 more-button 存在）
-    try {
-        var moreBtn = document.getElementById('more-button');
-        if (moreBtn && !moreBtn.querySelector('.hu-red-dot')) {
-            var dot = document.createElement('span');
-            dot.className = 'hu-red-dot';
-            dot.style.cssText = 'position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%;box-shadow:0 0 4px rgba(239,68,68,0.7);animation:huRedDotPulse 1.8s infinite;display:none;';
-            moreBtn.style.position = 'relative';
-            moreBtn.appendChild(dot);
-        }
-    } catch (e) {}
     // 自动检查（APP 启动 3s 后）
     setTimeout(function() {
         try {

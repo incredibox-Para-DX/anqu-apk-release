@@ -408,6 +408,23 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         top: 8px;
         right: 12px;
     }
+    .sidebar-btn { position: relative; }
+    .sidebar-header h3 { position: relative; display: inline-block; }
+    .sidebar-section-header h4 { position: relative; display: inline-block; }
+    .more-button { position: relative; }
+    .sidebar-header h3 .hu-red-dot,
+    .sidebar-section-header h4 .hu-red-dot {
+        top: 2px;
+        right: -8px;
+        width: 7px;
+        height: 7px;
+    }
+    .more-button .hu-red-dot {
+        top: 3px;
+        right: 4px;
+        width: 7px;
+        height: 7px;
+    }
     @keyframes huRedDotPulse {
         0%, 100% { opacity: 1; transform: scale(1); }
         50% { opacity: 0.7; transform: scale(0.85); }
@@ -445,7 +462,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<h3><i class="fas fa-bars"></i> 更多功能</h3>
+<h3><i class="fas fa-bars"></i> 更多功能<span class="hu-red-dot" data-hudot="sidebar-title" style="display:none;"></span></h3>
 <button class="sidebar-close" id="sidebar-close">&times;</button>
 </div>
 <div class="sidebar-content">
@@ -566,7 +583,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="sidebar-section collapsible">
 <div class="sidebar-section-header" data-target="section-more-settings">
-<h4><i class="fas fa-cog"></i> 更多设置</h4>
+<h4><i class="fas fa-cog"></i> 更多设置<span class="hu-red-dot" data-hudot="more-settings" style="display:none;"></span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-more-settings">
@@ -1011,7 +1028,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button id="pause-search-btn" class="btn btn-sound-2"><i class="fas fa-pause"></i> 暂停搜索</button>
 <div class="control-section">
 <button id="play-sound-btn" class="btn btn-sound"><i class="fas fa-volume-up"></i> “我出货了”</button>
-<button class="more-button" id="more-button"><i class="fas fa-ellipsis-h"></i> 更多功能</button>
+<button class="more-button" id="more-button"><i class="fas fa-ellipsis-h"></i> 更多功能<span class="hu-red-dot" data-hudot="more-btn" style="display:none;"></span></button>
 </div>
 </div>
 <div class="center-panel">
