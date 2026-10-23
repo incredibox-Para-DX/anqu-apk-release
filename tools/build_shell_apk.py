@@ -53,21 +53,23 @@ SHELL_FILES = {
     "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
     # 包内清单副本：远程清单拿不到时，壳用它算进度
-    "assets/www/media-manifest.json": os.path.join(REPO, "media", "manifest.json"),
     "assets/www/boot-manifest.json": os.path.join(REPO, "boot", "manifest.json"),
 }
 
-# 物品图 / 收藏室图也移除，由加载页统一下载
-REMOVE_PREFIXES = ("assets/www/images/", "assets/www/collect/", "assets/www/progress/")
+# 图片资源保留在包内，但改成 ASCII 文件名（仓库里的引用已同步改写）
+RENAME_MAP = json.load(open("/tmp/rename_map.json", encoding="utf-8"))
+
+# 只清理旧的下载残留目录，图片 / 收藏室图仍留在包内
+REMOVE_PREFIXES = ("assets/www/progress/",)
 
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 
 
 def mark_paths():
-    """从 media/ 与 boot/ 的清单里取出所有进度标记路径（progress/xxx.txt）。"""
+    """从 boot/ 清单里取出所有进度标记路径（progress/xxx.txt）。"""
     out = []
-    for rel in ("media/manifest.json", "boot/manifest.json"):
+    for rel in ("boot/manifest.json",):
         path = os.path.join(REPO, rel)
         if not os.path.isfile(path):
             sys.exit("缺少清单: " + rel)
@@ -93,7 +95,12 @@ def main():
                 removed += 1
                 continue
             data = src.read(info.filename)
-            new_info = zipfile.ZipInfo(info.filename, date_time=info.date_time)
+            name = info.filename
+            if name.startswith("assets/www/"):
+                rel = name[len("assets/www/"):]
+                if rel in RENAME_MAP:
+                    name = "assets/www/" + RENAME_MAP[rel]
+            new_info = zipfile.ZipInfo(name, date_time=info.date_time)
             new_info.compress_type = info.compress_type
             new_info.external_attr = info.external_attr
             new_info.internal_attr = info.internal_attr

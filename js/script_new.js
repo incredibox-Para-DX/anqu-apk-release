@@ -6151,7 +6151,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.21';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.22';
 
     /* ============================================================
      * 检查更新
