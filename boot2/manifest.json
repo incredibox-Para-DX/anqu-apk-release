@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.34.m",
+  "version": "v2.1.0_hotfix.35.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -46,10 +46,6 @@
       "size": 297051
     },
     {
-      "path": "progress/c001.txt",
-      "size": 18
-    },
-    {
       "path": "js/synthesis.js",
       "size": 25801
     },
@@ -92,10 +88,6 @@
     {
       "path": "audio/1020089352.mp3",
       "size": 74221
-    },
-    {
-      "path": "progress/c002.txt",
-      "size": 18
     },
     {
       "path": "audio/1034683967.mp3",
@@ -142,10 +134,6 @@
       "size": 35528
     },
     {
-      "path": "progress/c003.txt",
-      "size": 18
-    },
-    {
       "path": "audio/delete-click.mp3",
       "size": 47048
     },
@@ -188,10 +176,6 @@
     {
       "path": "audio/open-cover.mp3",
       "size": 53966
-    },
-    {
-      "path": "progress/c004.txt",
-      "size": 18
     },
     {
       "path": "audio/open-credits.mp3",
@@ -238,10 +222,6 @@
       "size": 71532
     },
     {
-      "path": "progress/c005.txt",
-      "size": 18
-    },
-    {
       "path": "audio/reset-game.mp3",
       "size": 61970
     },
@@ -284,10 +264,6 @@
     {
       "path": "audio/items/向量.mp3",
       "size": 18068
-    },
-    {
-      "path": "progress/c006.txt",
-      "size": 18
     },
     {
       "path": "audio/items/唱片机.mp3",
@@ -334,10 +310,6 @@
       "size": 26435
     },
     {
-      "path": "progress/c007.txt",
-      "size": 18
-    },
-    {
       "path": "audio/items/眼镜.mp3",
       "size": 23305
     },
@@ -382,10 +354,6 @@
       "size": 6696
     },
     {
-      "path": "progress/c008.txt",
-      "size": 18
-    },
-    {
       "path": "audio/items/音响2.mp3",
       "size": 67204
     },
@@ -400,12 +368,8 @@
     {
       "path": "index.html",
       "size": 99896
-    },
-    {
-      "path": "progress/c009.txt",
-      "size": 18
     }
   ],
-  "fileCount": 101,
-  "totalSize": 9306868
+  "fileCount": 92,
+  "totalSize": 9306706
 }

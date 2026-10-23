@@ -52,8 +52,6 @@ SHELL_FILES = {
     "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
     "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
-    # 包内清单副本：远程清单拿不到时，壳用它算进度
-    "assets/www/boot-manifest.json": os.path.join(REPO, "boot", "manifest.json"),
 }
 
 # 图片资源保留在包内，但改成 ASCII 文件名（仓库里的引用已同步改写）
@@ -81,22 +79,6 @@ if os.path.isdir(FONTS_DIR):
 
 SKIP = set(CODE_FILES)
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
-
-
-def mark_paths():
-    """从 boot/ 清单里取出所有进度标记路径（progress/xxx.txt）。"""
-    out = []
-    for rel in ("boot/manifest.json",):
-        path = os.path.join(REPO, rel)
-        if not os.path.isfile(path):
-            sys.exit("缺少清单: " + rel)
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        for item in data.get("files", []):
-            p = item.get("path", "")
-            if p.startswith("progress/") and p not in out:
-                out.append(p)
-    return out
 
 
 def main():
@@ -157,15 +139,7 @@ def main():
             info.external_attr = 0o644 << 16
             dst.writestr(info, data)
 
-        # 进度标记：包内同名文件写 "0"，下载完成后内部存储里的 "1" 会覆盖它
-        for rel in mark_paths():
-            info = zipfile.ZipInfo("assets/www/" + rel, date_time=(2026, 10, 23, 0, 0, 0))
-            info.compress_type = zipfile.ZIP_DEFLATED
-            info.external_attr = 0o644 << 16
-            dst.writestr(info, "0")
-
-    print(f"完成：保留 {kept} 项，删除 {removed} 项，壳文件 {len(SHELL_FILES)} 个，"
-          f"进度标记 {len(mark_paths())} 个")
+    print(f"完成：保留 {kept} 项，删除 {removed} 项，壳文件 {len(SHELL_FILES)} 个")
     print("输出:", OUT, f"{os.path.getsize(OUT)/1024/1024:.1f} MB")
 
     left = sorted(n for n in zipfile.ZipFile(OUT).namelist()

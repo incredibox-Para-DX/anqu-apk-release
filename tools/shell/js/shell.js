@@ -12,8 +12,7 @@
 
   var CODE_TIMEOUT = 120000;
   var PROBE_TIMEOUT = 8000;
-  var MARK_TIMEOUT = 6000;
-  var TICK = 300;
+  var EST_TICK = 200;
 
   // 测速结果缓存（1 小时）：上次最快的线路优先，省掉重复测速
   var BASE_PICK_KEY = 'ab_fast_base';
@@ -28,27 +27,14 @@
     'audio/click.mp3'
   ];
 
-  var stage = 'code';
   var ci = 0;
   var picked = false;
   var done = false;
   var failed = false;
   var timer = null;
-  var pollTimer = null;
+  var estTimer = null;
+  var EST_CAP = 92;
   var pct = 0;
-
-  var codeMarks = null;
-  var codeTotal = 0;
-  var codeVer = '';
-
-  var markList = null;
-  var markIdx = 0;
-  var markBase = 0;
-  var markSpan = 0;
-  var markTotal = 1;
-  var markExpect = '1';
-  var markProbing = false;
-  var pollGen = 0;
 
   var introDone = false;
   var pendingEnter = false;
@@ -96,7 +82,7 @@
     if (done) return;
     done = true;
     clearTimeout(timer);
-    stopPoll();
+    stopEstimate();
     setPct(100);
     setMsg(msg || '资源更新完成，正在进入…', true);
     if (introDone) { go(); return; }
@@ -106,7 +92,7 @@
   function fail(message) {
     if (done) return;
     clearTimeout(timer);
-    stopPoll();
+    stopEstimate();
     failed = true;
     var ov = $('loading-overlay');
     if (ov) ov.className = 'loading-overlay failed';
@@ -136,70 +122,21 @@
     }
   }
 
-  // 进度标记：包内文件内容是 "0"，下载写入内部存储后是清单版本号
-  function readMark(path, expect, cb) {
-    var xhr = new XMLHttpRequest();
-    var finished = false;
-    function finish(ok) {
-      if (finished) return;
-      finished = true;
-      cb(ok);
-    }
-    try {
-      xhr.open('GET', path + '?t=' + Date.now(), true);
-      xhr.timeout = MARK_TIMEOUT;
-      xhr.onload = function () {
-        finish(xhr.status === 200 &&
-               String(xhr.responseText || '').replace(/\s/g, '') === expect);
-      };
-      xhr.onerror = function () { finish(false); };
-      xhr.ontimeout = function () { finish(false); };
-      xhr.send();
-    } catch (e) {
-      finish(false);
-    }
+  // 下载进度：包内不再有进度标记文件，原生回调只给最终结果，
+  // 因此这里用单调递增的估算曲线推进（越接近上限推进越慢），
+  // 下载完成的回调到达后再直接跳到 100%。
+  function stopEstimate() {
+    if (estTimer) { clearInterval(estTimer); estTimer = null; }
   }
 
-  function stopPoll() {
-    pollGen++;
-    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
-    markProbing = false;
-  }
-
-  function startPoll(list, total, base, span, expect) {
-    stopPoll();
-    markList = list || [];
-    markTotal = total > 0 ? total : 1;
-    markBase = base;
-    markSpan = span;
-    markExpect = expect || '1';
-    markIdx = 0;
-    if (!markList.length) return;
-    pollTimer = setInterval(tick, TICK);
-    tick();
-  }
-
-  function tick() {
-    if (done) return;
-    if (markProbing) return;
-    if (!markList || markIdx >= markList.length) { stopPoll(); return; }
-    markProbing = true;
-    var probes = 0;
-    var gen = pollGen;
-    (function step() {
-      if (done || gen !== pollGen) { markProbing = false; return; }
-      if (!markList || markIdx >= markList.length) { markProbing = false; return; }
-      if (probes++ >= 4) { markProbing = false; return; }
-      var idx = markIdx;
-      readMark(markList[idx].path, markExpect, function (ok) {
-        if (done || gen !== pollGen) { markProbing = false; return; }
-        if (!ok) { markProbing = false; return; }
-        markIdx = idx + 1;
-        setPct(markBase + (markList[idx].cum / markTotal) * markSpan);
-        if (markIdx >= markList.length) { markProbing = false; stopPoll(); return; }
-        step();
-      });
-    })();
+  function startEstimate() {
+    stopEstimate();
+    estTimer = setInterval(function () {
+      if (done) { stopEstimate(); return; }
+      var next = pct + Math.max(0.2, (EST_CAP - pct) * 0.05);
+      if (next > EST_CAP) next = EST_CAP;
+      setPct(next);
+    }, EST_TICK);
   }
 
   function verifyCode(cb) {
@@ -216,44 +153,12 @@
     next();
   }
 
-  // 把 manifest 拆成「真实文件」「进度标记」两部分，标记记录自己前面已下载的字节数
-  function parseManifest(m) {
-    var res = { files: [], marks: [], total: 0 };
-    var list = (m && m.files) || [];
-    var cum = 0;
-    for (var i = 0; i < list.length; i++) {
-      var f = list[i];
-      if (!f || !f.path) continue;
-      if (f.path.indexOf('progress/') === 0) {
-        res.marks.push({ path: f.path, cum: cum });
-      } else {
-        res.files.push(f);
-        cum += (f.size || 0);
-      }
-    }
-    res.total = cum;
-    return res;
-  }
-
   function parseText(text) {
     try {
       var m = JSON.parse(text);
       if (m && m.files && m.files.length) return m;
     } catch (e) {}
     return null;
-  }
-
-  function loadManifest(base, localPath, cb) {
-    get(base + '/manifest.json', function (ok, text) {
-      if (ok) {
-        var m = parseText(text);
-        if (m) { cb(m); return; }
-      }
-      // 远程清单拿不到时用包内清单，保证进度条照样能跑
-      get(localPath, function (ok2, text2) {
-        cb(ok2 ? parseText(text2) : null);
-      }, 8000);
-    }, 20000);
   }
 
   function call(base, timeout, next) {
@@ -315,24 +220,15 @@
     }
     if (ci >= CODE_BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
     var base = CODE_BASES[ci++];
-    stage = 'code';
     setMsg('正在下载资源中…', true);
-    loadManifest(base, 'boot-manifest.json', function (m) {
-      if (m) {
-        var p = parseManifest(m);
-        codeVer = m.version || '';
-        codeMarks = p.marks;
-        codeTotal = p.total;
-      }
-      startPoll(codeMarks, codeTotal, 0, 95, codeVer);
-      call(base, CODE_TIMEOUT, tryCode);
-    });
+    startEstimate();
+    call(base, CODE_TIMEOUT, tryCode);
   }
 
   window.__onUpdateCheckResult = function (res) {
     if (done) return;
     clearTimeout(timer);
-    stopPoll();
+    stopEstimate();
     var updated = !!(res && res.updated);
 
     if (updated) {
