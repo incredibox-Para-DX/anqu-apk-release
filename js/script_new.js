@@ -6177,43 +6177,49 @@ const EventManager = {
 
     function _huShowProgress(show, pct, text) {
         var $w = $('#update-check-progress-wrap');
-        if (show === false) { $w.hide(); return; }
-        if (show === true) $w.show();
-        if (typeof pct === 'number') {
-            pct = Math.max(0, Math.min(100, pct));
-            $('#update-check-progress-bar').css('width', pct + '%');
-            $('#update-check-progress-pct').text(Math.round(pct) + '%');
+        // 宽容参数：show 可以是 boolean 或 number(当位置传反时自动兼容)
+        var actualShow = true, actualPct = null, actualText = null;
+        if (typeof show === 'boolean') { actualShow = show; actualPct = pct; actualText = text; }
+        else if (typeof show === 'number') { actualPct = show; actualText = pct; }
+        else if (typeof show === 'string') { actualText = show; }
+        
+        if (actualShow === false) { $w.hide(); return; }
+        $w.show();
+        if (typeof actualPct === 'number') {
+            var c = Math.max(0, Math.min(100, actualPct));
+            $('#update-check-progress-bar').css('width', c + '%');
+            $('#update-check-progress-pct').text(Math.round(c) + '%');
         }
-        if (text) $('#update-check-progress-text').text(text);
+        if (actualText) $('#update-check-progress-text').text(actualText);
     }
 
     function _huClose() { try { EventManager.closeModal('update-check-modal'); } catch(e) {} }
 
     var _huProgressTimer = null;
     function _huStartProgress(totalFiles) {
-        var startPct = 5;
-        var maxPct = 92;
+        var startPct = 10;
+        var maxPct = 93;
         var elapsed = 0;
-        var estSeconds = Math.max(15, totalFiles * 0.25);
-        _huShowProgress(true, startPct, '准备下载 ' + totalFiles + ' 个文件…');
+        var estSeconds = Math.max(8, Math.min(60, totalFiles * 0.08));
+        _huShowProgress(startPct, '准备下载 ' + totalFiles + ' 个文件…');
         _huProgressTimer = setInterval(function() {
             elapsed += 0.5;
             var frac = Math.min(1, elapsed / estSeconds);
-            var simulated = startPct + (maxPct - startPct) * Math.sqrt(frac);
+            var simulated = startPct + (maxPct - startPct) * frac;  // 匀速
             var filesDone = Math.round(totalFiles * frac);
             _huShowProgress(simulated, '正在下载 ' + filesDone + '/' + totalFiles + ' 个文件…');
-        }, 500);
+        }, 300);
     }
     function _huStopProgress(done) {
         if (_huProgressTimer) { clearInterval(_huProgressTimer); _huProgressTimer = null; }
         if (done === false) { _huShowProgress(false); return; }
-        _huShowProgress(true, done ? 100 : null, done ? '下载完成，正在应用…' : null);
+        _huShowProgress(done ? 100 : null, done ? '下载完成，正在应用…' : null);
     }
 
-    $(document).off('click', '#sidebar-update-check-btn._hu');
+    $(document).off('click._hu'); // 暴力清掉所有带 .hu 命名空间的委托事件
 
     $(document).on('click._hu', '#sidebar-update-check-btn', function() {
-        $('#update-check-close, #update-check-cancel, #update-check-confirm, #update-check-later, #update-check-modal').off('click._hu');
+        $(document).off('click._hu'); // 暴力清掉所有 .hu 命名空间的委托
         if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
             if (typeof window.showToast === 'function') window.showToast('当前版本不支持热更新');
             return;
@@ -6253,11 +6259,14 @@ const EventManager = {
                     + '最新版本：' + latestVer + '\n'
                     + '文件数量：' + filesCount + ' 个\n'
                     + '包大小：' + _huFmtSize(totalSize) + '\n\n是否立即更新？';
-                _huShowProgress(false);
+                // 确认框也显示进度条初始状态，让用户预期到会有进度
+                _huShowProgress(8, '准备就绪');
                 _huShow(hint, { showConfirm:true, showLater:true, cancelText:'稍后再说', disableCancel:false });
-                $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
-                $('#update-check-later').off('click._hu').on('click._hu', _huClose);
-                $('#update-check-confirm').off('click._hu').on('click._hu', function() {
+                $(document).off('click._hu', '#update-check-cancel');
+                $(document).off('click._hu', '#update-check-later');
+                $(document).on('click._hu', '#update-check-cancel', _huClose);
+                $(document).on('click._hu', '#update-check-later', _huClose);
+                $(document).off('click._hu', '#update-check-confirm'); $(document).on('click._hu', '#update-check-confirm', function() {
                     _huShow('正在下载并应用更新，请不要关闭应用…', { showConfirm:false, showLater:false, cancelText:'下载中…', disableCancel:true, hideCancel:true });
                     try { window.AndroidUpdate.check(HU_BASE_URL); }
                     catch (e) {
