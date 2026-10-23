@@ -6141,7 +6141,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.35';
+    window.HU_BUILD_VERSION = 'v2.1.0';
 
     /* ============================================================
      * 检查更新
@@ -6251,7 +6251,7 @@ const EventManager = {
      * 热更新：fetch manifest + 进度条 + 红点 + 自动检查
      * ============================================================ */
     window.__huProgressTimer = null;
-    // 简单版本对比：v2.1.0_hotfix.1 vs v2.1.0_hotfix.2 → 后者新
+    // 简单版本对比：v2.1.0 vs v2.1.1 → 后者新
     window.__huVersionGt = function(a, b) {
         if (!a) return false;
         if (!b) return true;  // 本地没存过版本 = 有更新
