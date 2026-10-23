@@ -6151,7 +6151,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.13';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.14';
 
     /* ============================================================
      * 检查更新
@@ -6353,6 +6353,244 @@ const EventManager = {
         }
         return window.__validateResourcePacksPromise;
     };
+
+    /* ============================================================
+     * 云同步（免注册同步码）
+     * ============================================================ */
+    var SYNC_API = '';  // 部署 Cloudflare Worker 后填入，如 https://anqu-sync.xxx.workers.dev
+    var SYNC_KEYS = [
+        'darkzone_simulator_stats',
+        'ab_shop_skills_v1',
+        'ab_collection_room_v1',
+        'ab_collection_room_v1_bak',
+        'ab_owned_backgrounds',
+        'ab_selected_bg_path',
+        'disabled_items_list',
+        'ab_skip_search_mask',
+        'ab_fps_mode',
+        'ab_font_preference'
+    ];
+    var SYNC_PROGRESS_KEYS = ['darkzone_simulator_stats', 'ab_shop_skills_v1', 'ab_collection_room_v1'];
+    var SYNC_CODE_KEY = 'ab_sync_code';
+    var SYNC_TIME_KEY = 'ab_sync_updated_at';
+    var SYNC_TIMER = null;
+    var SYNC_PENDING = null;
+
+    function syncStatus(text, color) {
+        var $el = $('#cloud-sync-status');
+        if (!$el.length) return;
+        $el.css('color', color || '#94a3b8').text(text || '');
+    }
+    function syncNorm(raw) {
+        return String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    }
+    function syncFmt(raw) {
+        var c = syncNorm(raw);
+        return c.length === 12 ? c.slice(0, 4) + '-' + c.slice(4, 8) + '-' + c.slice(8) : c;
+    }
+    function syncGetCode() {
+        try { return localStorage.getItem(SYNC_CODE_KEY) || ''; } catch (e) { return ''; }
+    }
+    function syncGenCode() {
+        var ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        var out = '';
+        for (var i = 0; i < 12; i++) out += ABC.charAt(Math.floor(Math.random() * ABC.length));
+        return out;
+    }
+    function syncHasLocalProgress() {
+        for (var i = 0; i < SYNC_PROGRESS_KEYS.length; i++) {
+            try { if (localStorage.getItem(SYNC_PROGRESS_KEYS[i]) !== null) return true; } catch (e) {}
+        }
+        return false;
+    }
+    function syncCollect() {
+        var out = {};
+        for (var i = 0; i < SYNC_KEYS.length; i++) {
+            var k = SYNC_KEYS[i];
+            try {
+                var v = localStorage.getItem(k);
+                if (v !== null) out[k] = v;
+            } catch (e) {}
+        }
+        return out;
+    }
+    function syncApply(remote) {
+        if (!remote || typeof remote !== 'object') return 0;
+        var n = 0;
+        for (var k in remote) {
+            if (!Object.prototype.hasOwnProperty.call(remote, k)) continue;
+            if (SYNC_KEYS.indexOf(k) === -1) continue;
+            try { localStorage.setItem(k, remote[k]); n++; } catch (e) {}
+        }
+        return n;
+    }
+    function syncApi(code) {
+        return SYNC_API.replace(/\/+$/, '') + '/' + code;
+    }
+    function syncUpload(silent, cb) {
+        var code = syncGetCode();
+        if (!SYNC_API) {
+            if (!silent) syncStatus('云端服务尚未部署，暂不可用', '#f87171');
+            if (cb) cb(false);
+            return;
+        }
+        if (!code) {
+            if (!silent) syncStatus('尚未生成同步码', '#f87171');
+            if (cb) cb(false);
+            return;
+        }
+        var payload = { data: syncCollect(), updatedAt: Date.now() };
+        if (!silent) syncStatus('正在上传…');
+        $.ajax({
+            url: syncApi(code),
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            dataType: 'json',
+            timeout: 10000,
+            success: function () {
+                try { localStorage.setItem(SYNC_TIME_KEY, String(payload.updatedAt)); } catch (e) {}
+                if (!silent) syncStatus('已同步到云端 · ' + new Date().toLocaleTimeString(), '#10b981');
+                if (cb) cb(true);
+            },
+            error: function () {
+                if (!silent) syncStatus('上传失败，请检查网络后重试', '#f87171');
+                if (cb) cb(false);
+            }
+        });
+    }
+    function syncDownload(code, cb) {
+        $.ajax({
+            url: syncApi(code),
+            method: 'GET',
+            dataType: 'json',
+            cache: false,
+            timeout: 10000,
+            success: function (res) { cb(res || null, null); },
+            error: function (xhr) {
+                cb(null, xhr.status === 404 ? '该同步码不存在，请检查后重试' : '无法连接云端，请检查网络');
+            }
+        });
+    }
+    function syncMarkDirty() {
+        if (!SYNC_API || !syncGetCode()) return;
+        if (SYNC_TIMER) clearTimeout(SYNC_TIMER);
+        SYNC_TIMER = setTimeout(function () { syncUpload(true); }, 3000);
+    }
+    function syncRefreshUi() {
+        var code = syncGetCode();
+        $('#cloud-sync-code').text(code ? syncFmt(code) : '尚未生成');
+        $('#cloud-sync-copy').prop('disabled', !code);
+    }
+    function syncApplyAndReload(remote, code) {
+        var n = syncApply(remote.data);
+        try {
+            localStorage.setItem(SYNC_CODE_KEY, code);
+            localStorage.setItem(SYNC_TIME_KEY, String(remote.updatedAt || Date.now()));
+        } catch (e) {}
+        syncStatus('已恢复 ' + n + ' 项进度，正在刷新…', '#10b981');
+        setTimeout(function () { location.reload(); }, 800);
+    }
+
+    // 监听本地进度变化 → 3 秒防抖自动上传
+    try {
+        var _syncOrigSet = Storage.prototype.setItem;
+        Storage.prototype.setItem = function (k, v) {
+            _syncOrigSet.call(this, k, v);
+            if (SYNC_KEYS.indexOf(k) !== -1) syncMarkDirty();
+        };
+    } catch (e) {}
+
+    if ($('#cloud-sync-modal').length) {
+        $('#sidebar-cloud-sync-btn').on('click', function () {
+            syncRefreshUi();
+            $('#cloud-sync-choice').hide();
+            $('#cloud-sync-input').val('');
+            if (!SYNC_API) syncStatus('云端服务尚未部署，部署后填入地址即可使用', '#fbbf24');
+            else syncStatus('');
+            EventManager.openModal('cloud-sync-modal');
+        });
+        $('#cloud-sync-close, #cloud-sync-close2').on('click', function () {
+            EventManager.closeModal('cloud-sync-modal');
+        });
+        $('#cloud-sync-modal').on('click', function (e) {
+            if ($(e.target).is(this)) EventManager.closeModal('cloud-sync-modal');
+        });
+        $('#cloud-sync-create').on('click', function () {
+            if (!SYNC_API) { syncStatus('云端服务尚未部署，部署后填入地址即可使用', '#f87171'); return; }
+            var code = syncGenCode();
+            try { localStorage.setItem(SYNC_CODE_KEY, code); } catch (e) {}
+            syncRefreshUi();
+            syncStatus('正在上传本地进度…');
+            syncUpload(false, function (ok) {
+                if (ok && typeof window.showToast === 'function') {
+                    window.showToast('同步码已生成，请务必记下');
+                }
+            });
+        });
+        $('#cloud-sync-copy').on('click', function () {
+            var code = syncGetCode();
+            if (!code) return;
+            var text = syncFmt(code);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function () {
+                    syncStatus('已复制：' + text, '#10b981');
+                }, function () { syncStatus('复制失败，请长按同步码手动复制', '#f87171'); });
+            } else {
+                syncStatus('请长按同步码手动复制：' + text, '#fbbf24');
+            }
+        });
+        $('#cloud-sync-now').on('click', function () { syncUpload(false); });
+        $('#cloud-sync-restore').on('click', function () {
+            if (!SYNC_API) { syncStatus('云端服务尚未部署，部署后填入地址即可使用', '#f87171'); return; }
+            var raw = $('#cloud-sync-input').val();
+            var code = syncNorm(raw);
+            if (code.length !== 12) { syncStatus('同步码格式不正确，应为 12 位字母数字', '#f87171'); return; }
+            $('#cloud-sync-choice').hide();
+            syncStatus('正在读取云端进度…');
+            syncDownload(code, function (res, err) {
+                if (!res || !res.data) { syncStatus(err || '云端没有该同步码的进度', '#f87171'); return; }
+                var time = res.updatedAt ? new Date(res.updatedAt).toLocaleString() : '未知时间';
+                if (!syncHasLocalProgress()) {
+                    syncApplyAndReload(res, code);
+                    return;
+                }
+                SYNC_PENDING = { res: res, code: code };
+                $('#cloud-sync-choice-text').html('本地已有进度，云端进度更新于 ' + time + '<br>请选择如何处理：');
+                $('#cloud-sync-choice').show();
+                syncStatus('');
+            });
+        });
+        $('#cloud-sync-use-cloud').on('click', function () {
+            if (!SYNC_PENDING) return;
+            $('#cloud-sync-choice').hide();
+            syncApplyAndReload(SYNC_PENDING.res, SYNC_PENDING.code);
+        });
+        $('#cloud-sync-keep-both').on('click', function () {
+            if (!SYNC_PENDING) return;
+            try {
+                localStorage.setItem('ab_sync_local_backup_' + Date.now(), JSON.stringify(syncCollect()));
+            } catch (e) {}
+            $('#cloud-sync-choice').hide();
+            syncApplyAndReload(SYNC_PENDING.res, SYNC_PENDING.code);
+        });
+        syncRefreshUi();
+    }
+
+    // 启动后检查云端是否有更新的进度
+    setTimeout(function () {
+        try {
+            var code = syncGetCode();
+            if (!SYNC_API || !code || !syncHasLocalProgress()) return;
+            syncDownload(code, function (res) {
+                if (!res || !res.updatedAt) return;
+                var localTime = Number(localStorage.getItem(SYNC_TIME_KEY) || 0);
+                if (res.updatedAt > localTime + 5000 && typeof window.showToast === 'function') {
+                    window.showToast('云端有更新的进度，可在「云同步」中恢复');
+                }
+            });
+        } catch (e) {}
+    }, 5000);
 
     // 初始化资源下载管理器
     ResourceDownloadManager.init();
