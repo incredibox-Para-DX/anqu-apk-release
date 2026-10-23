@@ -6145,8 +6145,8 @@ const EventManager = {
     });
 
     /* ============================================================
-     * 检查更新（正式版 v2）
-     * 固定 raw URL → fetch manifest.json → 版本对比 → 确认弹窗 → 原生下载 + 进度条
+     * 检查更新（正式版 v2.1）
+     * 修复：解绑后能再打开 / 双稍后按钮 / 有更新红点提示
      * ============================================================ */
     var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
@@ -6156,16 +6156,55 @@ const EventManager = {
         try { var el = document.getElementById('metaVersionDisplay'); if (el) { var m = (el.textContent || '').match(/v[\d\.\-_a-zA-Z]+/i); if (m) return m[0]; } } catch(e) {}
         return '';
     }
-
     function _huFmtSize(bytes) {
         if (!bytes) return '0 B';
         var u = ['B','KB','MB','GB']; var i = 0; var n = parseFloat(bytes);
         while (n >= 1024 && i < u.length-1) { n /= 1024; i++; }
         return n.toFixed(n >= 10 || i === 0 ? 0 : 1) + ' ' + u[i];
     }
-
     function _huTotalSize(files) { var t = 0; for (var i = 0; i < files.length; i++) t += (files[i] && files[i].size) || 0; return t; }
+    function _huClose() { try { EventManager.closeModal('update-check-modal'); } catch(e) {} }
 
+    // ========== 红点徽章 ==========
+    // 在 sidebar-header h3(更多功能) / section-more-settings h4(更多设置) / 检查更新按钮上显示红点
+    function _huEnsureDotContainer() {
+        // 给 更多功能 / 更多设置 / 检查更新 各自加一个 <span class="hu-red-dot" style="display:none;">
+        function _ensureDot(wrapper, htmlInside) {
+            var w = $(wrapper);
+            if (!w.length) return;
+            if (!w.find('.hu-red-dot').length) {
+                w.append(htmlInside || '<span class="hu-red-dot" style="display:none;width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block;margin-left:4px;vertical-align:middle;box-shadow:0 0 0 2px var(--sidebar-bg,#0f172a);"></span>');
+            }
+        }
+        _ensureDot('.sidebar-header h3'); // 更多功能 标题后面
+        _ensureDot('[data-target="section-more-settings"] h4'); // 更多设置 标题后面
+        // 检查更新按钮：在 <i class="fas fa-sync-alt"> 后面塞
+        var $btn = $('#sidebar-update-check-btn');
+        if ($btn.length && !$btn.find('.hu-red-dot').length) {
+            $btn.find('.fa-sync-alt').after('<span class="hu-red-dot" style="display:inline-block;width:8px;height:8px;background:#ef4444;border-radius:50%;margin-left:6px;margin-top:-4px;box-shadow:0 0 0 2px var(--sidebar-bg,#0f172a);"></span>');
+        }
+    }
+    function _huShowRedDot(show) {
+        _huEnsureDotContainer();
+        $('.hu-red-dot').css('display', show ? 'inline-block' : 'none');
+    }
+    function _huCheckForUpdateAndSetDot() {
+        fetch(HU_MANIFEST_URL, { cache:'no-store' })
+            .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+            .then(function(m) {
+                var latest = m.version || '';
+                var cur = _huGetVersion();
+                var nativeCur = '';
+                try { nativeCur = window.AndroidUpdate.currentVersion() || ''; } catch(e) {}
+                var need = !!latest && (latest !== cur) && (latest !== nativeCur);
+                _huShowRedDot(need);
+            })
+            .catch(function() {});
+    }
+    // APP 启动后 2s 自动检查一次（用户开 sidebar 也会看到红点）
+    setTimeout(_huCheckForUpdateAndSetDot, 2000);
+
+    // ========== Modal 辅助 ==========
     function _huShow(statusText, options) {
         options = options || {};
         $('#update-check-status').text(statusText);
@@ -6177,12 +6216,10 @@ const EventManager = {
 
     function _huShowProgress(show, pct, text) {
         var $w = $('#update-check-progress-wrap');
-        // 宽容参数：show 可以是 boolean 或 number(当位置传反时自动兼容)
         var actualShow = true, actualPct = null, actualText = null;
         if (typeof show === 'boolean') { actualShow = show; actualPct = pct; actualText = text; }
         else if (typeof show === 'number') { actualPct = show; actualText = pct; }
         else if (typeof show === 'string') { actualText = show; }
-        
         if (actualShow === false) { $w.hide(); return; }
         $w.show();
         if (typeof actualPct === 'number') {
@@ -6193,21 +6230,17 @@ const EventManager = {
         if (actualText) $('#update-check-progress-text').text(actualText);
     }
 
-    function _huClose() { try { EventManager.closeModal('update-check-modal'); } catch(e) {} }
-
     var _huProgressTimer = null;
     function _huStartProgress(totalFiles) {
-        var startPct = 10;
-        var maxPct = 93;
-        var elapsed = 0;
+        var startPct = 10, maxPct = 93, elapsed = 0;
         var estSeconds = Math.max(8, Math.min(60, totalFiles * 0.08));
         _huShowProgress(startPct, '准备下载 ' + totalFiles + ' 个文件…');
         _huProgressTimer = setInterval(function() {
             elapsed += 0.5;
             var frac = Math.min(1, elapsed / estSeconds);
-            var simulated = startPct + (maxPct - startPct) * frac;  // 匀速
-            var filesDone = Math.round(totalFiles * frac);
-            _huShowProgress(simulated, '正在下载 ' + filesDone + '/' + totalFiles + ' 个文件…');
+            var simulated = startPct + (maxPct - startPct) * frac;
+            var done = Math.round(totalFiles * frac);
+            _huShowProgress(simulated, '正在下载 ' + done + '/' + totalFiles + ' 个文件…');
         }, 300);
     }
     function _huStopProgress(done) {
@@ -6216,10 +6249,16 @@ const EventManager = {
         _huShowProgress(done ? 100 : null, done ? '下载完成，正在应用…' : null);
     }
 
-    $(document).off('click._hu'); // 暴力清掉所有带 .hu 命名空间的委托事件
-
+    // ========== 事件绑定（一次性，永远不解绑 sidebar 自身！）==========
+    $(document).off('click._hu');  // 先清掉可能残留的
     $(document).on('click._hu', '#sidebar-update-check-btn', function() {
-        $(document).off('click._hu'); // 暴力清掉所有 .hu 命名空间的委托
+        // 只解绑 modal 内部的按钮事件，sidebar 自身永远保留！
+        $(document).off('click._hu', '#update-check-close');
+        $(document).off('click._hu', '#update-check-cancel');
+        $(document).off('click._hu', '#update-check-confirm');
+        $(document).off('click._hu', '#update-check-later');
+        $(document).off('click._hu', '#update-check-modal');
+
         if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
             if (typeof window.showToast === 'function') window.showToast('当前版本不支持热更新');
             return;
@@ -6228,6 +6267,9 @@ const EventManager = {
         _huShow('正在检查更新，请稍候…', { showConfirm:false, showLater:false, cancelText:'检查中…', disableCancel:true, hideCancel:true });
         EventManager.openModal('update-check-modal');
         _huShowProgress(true, 2, '连接更新服务器…');
+
+        $(document).on('click._hu', '#update-check-close', _huClose);
+        $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
 
         var currentVer = _huGetVersion();
 
@@ -6248,45 +6290,43 @@ const EventManager = {
                     var msg = '已是最新版本';
                     if (nativeCurrent) msg += '（当前：' + nativeCurrent + '）';
                     else if (currentVer) msg += '（当前：' + currentVer + '）';
-                    _huShow(msg, { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
-                    $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+                    _huShow(msg, { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
+                    $(document).on('click._hu', '#update-check-cancel', _huClose);
                     setTimeout(_huClose, 2500);
                     return;
                 }
 
+                // ====== 有更新 → 确认框（只有"稍后再说"和"立即更新"，cancel 按钮隐藏！）======
                 var hint = '发现新版本！\n\n'
                     + '当前版本：' + (currentVer || '(未知)') + '\n'
                     + '最新版本：' + latestVer + '\n'
                     + '文件数量：' + filesCount + ' 个\n'
                     + '包大小：' + _huFmtSize(totalSize) + '\n\n是否立即更新？';
-                // 确认框也显示进度条初始状态，让用户预期到会有进度
                 _huShowProgress(8, '准备就绪');
-                _huShow(hint, { showConfirm:true, showLater:true, cancelText:'稍后再说', disableCancel:false });
-                $(document).off('click._hu', '#update-check-cancel');
-                $(document).off('click._hu', '#update-check-later');
-                $(document).on('click._hu', '#update-check-cancel', _huClose);
+                _huShow(hint, { showConfirm:true, showLater:true, cancelText:'稍后再说', disableCancel:false, hideCancel:true });
+                $(document).on('click._hu', '#update-check-cancel', _huClose);  // 仍然绑定（万一 showLater 变 showCancel）
                 $(document).on('click._hu', '#update-check-later', _huClose);
-                $(document).off('click._hu', '#update-check-confirm'); $(document).on('click._hu', '#update-check-confirm', function() {
+                $(document).on('click._hu', '#update-check-confirm', function() {
+                    _huShowProgress(12, '准备下载…');
                     _huShow('正在下载并应用更新，请不要关闭应用…', { showConfirm:false, showLater:false, cancelText:'下载中…', disableCancel:true, hideCancel:true });
                     try { window.AndroidUpdate.check(HU_BASE_URL); }
                     catch (e) {
                         _huShowProgress(false);
-                        _huShow('启动更新失败：' + e, { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
-                        $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+                        _huShow('启动更新失败：' + e, { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
+                        $(document).on('click._hu', '#update-check-cancel', _huClose);
                         return;
                     }
                     _huStartProgress(filesCount);
                 });
+                // 红点消失
+                _huShowRedDot(false);
             })
             .catch(function(err) {
                 _huShowProgress(false);
-                _huShow('检查更新失败：' + (err.message || err) + '\n请检查网络后重试', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
-                $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+                _huShow('检查更新失败：' + (err.message || err) + '\n请检查网络后重试', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
+                $(document).on('click._hu', '#update-check-cancel', _huClose);
             });
     });
-
-    $(document).on('click._hu', '#update-check-close', _huClose);
-    $(document).on('click._hu', '#update-check-modal', function(e) { if ($(e.target).is(this)) _huClose(); });
 
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);
@@ -6301,12 +6341,11 @@ const EventManager = {
             }, 1200);
         } else {
             _huShowProgress(false);
-            _huShow(hint || '当前已是最新版本', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false });
-            $('#update-check-cancel').off('click._hu').on('click._hu', _huClose);
+            _huShow(hint || '当前已是最新版本', { showConfirm:false, showLater:false, cancelText:'关闭', disableCancel:false, hideCancel:false });
+            $(document).on('click._hu', '#update-check-cancel', _huClose);
             setTimeout(_huClose, 2500);
         }
     };
-
 
     /* ============================================================
      * 资源校验（供登录前加载界面调用）：清理中断下载产生的损坏记录
