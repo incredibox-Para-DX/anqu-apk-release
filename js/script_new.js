@@ -6170,7 +6170,7 @@ const EventManager = {
                 // 有更新：先弹确认（JS 层面拦截原生下载！）
                 var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
                 $('#update-check-status').html(
-                    '<span style="color:#fbbf24;">📦 发现新版本！</span>' +
+                    '<span style="color:#fbbf24;">发现新版本</span>' +
                     '<br>当前版本：' + curVer +
                     '<br>最新版本：' + (m && m.version) +
                     '<br><span style="color:#94a3b8;font-size:11px;">点击"立即更新"开始下载</span>'
@@ -6198,7 +6198,7 @@ const EventManager = {
                 // 已是最新：显示信息 + 关闭按钮
                 var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})();
                 $('#update-check-status').html(
-                    '<span style="color:#10b981;">✅ 当前已是最新版本</span>' +
+                    '<span style="color:#10b981;">当前已是最新版本</span>' +
                     '<br>当前版本：' + curVer +
                     '<br>最新版本：' + (m && m.version)
                 );
@@ -6243,7 +6243,7 @@ const EventManager = {
         $('#update-check-start').hide();
         if (typeof window.showToast === 'function') window.showToast(msg);
         if (updated) {
-            $('#update-check-status').html('<span style="color:#10b981;">✅ 更新下载完成！点击"立即更新"生效</span>');
+            $('#update-check-status').html('<span style="color:#10b981;">更新下载完成！点击"立即更新"生效</span>');
             $('#update-check-confirm').show();
             $('#update-check-confirm-info').html(msg + '<br>点击"立即更新"立即生效。');
             $('#update-check-cancel').hide();
