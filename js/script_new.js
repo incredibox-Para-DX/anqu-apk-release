@@ -6151,113 +6151,109 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.11';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.12';
 
     /* ============================================================
      * 检查更新
      * ============================================================ */
     $('#sidebar-update-check-btn').on('click', function() {
-        // 隐藏 URL 输入框（固定用 HU_BASE_URL）
-        $('#update-check-url').closest('.input-group').hide();
+        window.__huBusy = false;
         $('#update-check-progress').hide();
+        $('#update-check-progress-bar').css('width', '0%');
+        $('#update-check-progress-text').text('0%');
         $('#update-check-confirm').hide();
         $('#update-check-later').hide();
-        $('#update-check-start').hide();
-        $('#update-check-cancel').text('关闭').show();
-        $('#update-check-status').html('<span style="color:#94a3b8;">正在连接服务器…</span>');
+        $('#update-check-cancel').show().text('关闭');
+        $('#update-check-close').show();
+        $('#update-check-status').html('<span style="color:#94a3b8;">正在检查更新…</span>');
         EventManager.openModal('update-check-modal');
-        // 先 fetch manifest 对比版本 → 再弹确认 → 再让原生下载
-        try { window.__huFetchAndCompare(function(m, hasUpdate) {
-            if (hasUpdate) {
-                // 有更新：先弹确认（JS 层面拦截原生下载！）
+        try {
+            window.__huFetchAndCompare(function(m, hasUpdate) {
+                if (!m) {
+                    $('#update-check-status').html('<span style="color:#f87171;">检查失败：无法连接更新服务器</span>');
+                    return;
+                }
                 var curVer = window.HU_BUILD_VERSION;
-                $('#update-check-status').html(
-                    '<span style="color:#fbbf24;">发现新版本</span>' +
-                    '<br>当前版本：' + curVer +
-                    '<br>最新版本：' + (m && m.version) +
-                    '<br><span style="color:#94a3b8;font-size:11px;">点击"立即更新"开始下载</span>'
-                );
-                $('#update-check-cancel').hide();
-                $('#update-check-later').show().text('稍后再说').off('click').on('click', function() {
-                    // 用户拒绝 → 关闭弹窗，不调原生
-                    EventManager.closeModal('update-check-modal');
-                });
-                $('#update-check-confirm').show().text('立即更新').off('click').on('click', function() {
-                    // 用户同意 → 调原生下载（这里才触发！）
+                if (hasUpdate) {
+                    // 第一步：确认是否更新（此时还没有下载任何东西）
+                    $('#update-check-status').html(
+                        '<span style="color:#fbbf24;">发现新版本</span>' +
+                        '<br>当前版本：' + curVer +
+                        '<br>最新版本：' + m.version
+                    );
                     $('#update-check-cancel').hide();
-                    $('#update-check-later').hide();
-                    $('#update-check-confirm').hide();
-                    $('#update-check-progress').show();
-                    $('#update-check-status').html('正在下载更新文件，请稍候…<br><span style="color:#64748b;font-size:11px;">请勿关闭本窗口</span>');
-                    window.__huStartProgress();
-                    try { window.AndroidUpdate.check(HU_BASE_URL); } catch (e) {
-                        $('#update-check-status').html('<span style="color:#f87171;">更新启动失败：' + e + '</span>');
-                        $('#update-check-progress').hide();
-                        $('#update-check-cancel').show();
-                    }
-                });
-            } else {
-                // 已是最新：显示信息 + 关闭按钮
-                var curVer = window.HU_BUILD_VERSION;
-                $('#update-check-status').html(
-                    '<span style="color:#10b981;">当前已是最新版本</span>' +
-                    '<br>当前版本：' + curVer +
-                    '<br>最新版本：' + (m && m.version)
-                );
-                $('#update-check-cancel').show().text('关闭');
-                $('#update-check-later').hide();
-                $('#update-check-confirm').hide();
-            }
-        }); } catch (e) {
+                    $('#update-check-later').show().text('稍后再说').off('click').on('click', function() {
+                        EventManager.closeModal('update-check-modal');
+                    });
+                    $('#update-check-confirm').show().text('立即更新').off('click').on('click', function() {
+                        // 第二步：用户确认后才开始下载
+                        window.__huBusy = true;
+                        $('#update-check-later').hide();
+                        $('#update-check-confirm').hide();
+                        $('#update-check-cancel').hide();
+                        $('#update-check-close').hide();
+                        $('#update-check-progress').show();
+                        $('#update-check-status').html('正在下载更新包，请稍候…<br><span style="color:#64748b;font-size:11px;">更新过程中请勿退出</span>');
+                        window.__huStartProgress();
+                        if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
+                            window.__huBusy = false;
+                            window.__huStopProgress();
+                            $('#update-check-progress').hide();
+                            $('#update-check-close').show();
+                            $('#update-check-cancel').show();
+                            $('#update-check-status').html('<span style="color:#f87171;">当前版本不支持热更新，请安装最新版 APP</span>');
+                            return;
+                        }
+                        try {
+                            window.AndroidUpdate.check(HU_BASE_URL);
+                        } catch (e) {
+                            window.__huBusy = false;
+                            window.__huStopProgress();
+                            $('#update-check-progress').hide();
+                            $('#update-check-close').show();
+                            $('#update-check-cancel').show();
+                            $('#update-check-status').html('<span style="color:#f87171;">更新启动失败：' + e + '</span>');
+                        }
+                    });
+                } else {
+                    $('#update-check-status').html(
+                        '<span style="color:#10b981;">当前已是最新版本</span>' +
+                        '<br>当前版本：' + curVer +
+                        '<br>最新版本：' + m.version
+                    );
+                }
+            });
+        } catch (e) {
             $('#update-check-status').html('<span style="color:#f87171;">检查失败：' + e + '</span>');
-            $('#update-check-cancel').show();
         }
     });
     $('#update-check-close, #update-check-cancel').on('click', function() {
+        if (window.__huBusy) return;  // 更新过程中不允许关闭
         EventManager.closeModal('update-check-modal');
     });
     $('#update-check-modal').on('click', function(e) {
-        if ($(e.target).is(this)) EventManager.closeModal('update-check-modal');
-    });
-    $('#update-check-start').on('click', function() {
-        var url = HU_BASE_URL;  // 固定 URL
-        if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
-            $('#update-check-status').text('当前版本不支持检查更新，请安装最新版 APP');
-            return;
-        }
-        $('#update-check-start').hide();
-        $('#update-check-progress').show();
-        $('#update-check-status').text('正在下载更新文件，请稍候…');
-        window.__huStartProgress();
-        try {
-            window.AndroidUpdate.check(url);
-        } catch (e) {
-            $('#update-check-start').show().prop('disabled', false).text('开始检查');
-            $('#update-check-progress').hide();
-            $('#update-check-status').text('检查失败：' + e);
-        }
+        if ($(e.target).is(this) && !window.__huBusy) EventManager.closeModal('update-check-modal');
     });
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);
-        var msg = (result && result.message) || (updated ? '更新已应用' : '当前已是最新版本');
         window.__huStopProgress();
-        $('#update-check-progress').hide();
-        $('#update-check-start').hide();
-        if (typeof window.showToast === 'function') window.showToast(msg);
         if (updated) {
-            // 下载完成 → 直接刷新，不再弹二次确认
+            // 下载完成 → 直接刷新生效
             $('#update-check-progress').show();
             $('#update-check-progress-bar').css('width', '100%');
             $('#update-check-progress-text').text('100%');
-            $('#update-check-status').html('<span style="color:#10b981;">更新完成，正在应用…</span>');
-            $('#update-check-cancel').hide();
+            $('#update-check-status').html('<span style="color:#10b981;">更新完成，正在刷新…</span>');
             $('#update-check-later').hide();
             $('#update-check-confirm').hide();
-            $('#update-check-start').hide();
+            $('#update-check-cancel').hide();
+            $('#update-check-close').hide();
             setTimeout(function() { location.reload(); }, 800);
         } else {
+            window.__huBusy = false;
+            $('#update-check-progress').hide();
+            $('#update-check-close').show();
+            $('#update-check-cancel').show().text('关闭');
             $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
-            $('#update-check-start').show().text('开始检查');
         }
     };
 
@@ -6339,7 +6335,7 @@ const EventManager = {
                     window.__huShowRedDot(true);
                     // 新增：toast 提示有更新
                     if (typeof window.showToast === 'function') {
-                        window.showToast('检测到新版本，请点击侧边栏"检查更新"');
+                        window.showToast('检测到新版本，请点击「检查更新」');
                     }
                 } else {
                     window.__huShowRedDot(false);
