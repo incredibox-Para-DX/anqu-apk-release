@@ -6416,6 +6416,39 @@ const EventManager = {
     });
 
     } // end _huSidebarCheckHandler
+    // ✅ 暴露到 window，供 index.html onclick 属性直接调用
+    window._huSidebarCheckHandler = _huSidebarCheckHandler;
+    
+    // ✅ 应急手动检查函数（给原生 onclick 降级用）
+    window.__huManualCheck = function() {
+        if (window._huSidebarCheckHandler) { _huSidebarCheckHandler(); return; }
+        // 极简版（即使上面全挂了也能走）
+        if (typeof window.AndroidUpdate !== 'function' || typeof window.AndroidUpdate.check !== 'function') {
+            if (typeof window.showToast === 'function') window.showToast('当前版本不支持热更新');
+            return;
+        }
+        var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
+        var $m = $('#update-check-modal');
+        if (!$m.length) {
+            // 动态创建 modal（极端降级）
+            $('body').append('<div class="modal-overlay" id="update-check-modal"><div class="modal-content" style="max-width:480px;width:92vw;"><div class="modal-header"><div class="modal-title">检查更新</div><button class="modal-close" id="update-check-close">&times;</button></div><div class="modal-body"><div id="update-check-status">正在检查更新…</div></div><div class="modal-footer"><button class="modal-btn" id="update-check-cancel">关闭</button></div></div></div>');
+        }
+        $('#update-check-modal').css('display','flex').addClass('show');
+        $('#update-check-status').text('正在检查更新，请稍候…');
+        $('#update-check-close, #update-check-cancel').on('click', function() {
+            $('#update-check-modal').removeClass('show');
+            setTimeout(function(){ $('#update-check-modal').css('display','none'); }, 300);
+        });
+        fetch(HU_BASE_URL + '/manifest.json?ts=' + Date.now(), { cache:'no-store' })
+            .then(function(r){ return r.json(); })
+            .then(function(m) {
+                $('#update-check-status').text('发现新版本：' + m.version + '，正在下载…');
+                window.AndroidUpdate.check(HU_BASE_URL);
+            })
+            .catch(function(e) {
+                $('#update-check-status').text('检查失败：' + e.message);
+            });
+    };
 
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);

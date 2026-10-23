@@ -548,7 +548,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-more-settings">
 <button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> 效果设置</button>
 <button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> 声音设置</button>
-<button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> 检查更新<span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
+<button class="sidebar-btn full-width" id="sidebar-update-check-btn" onclick="if(window._huSidebarCheckHandler){window._huSidebarCheckHandler();}else{window.__huManualCheck && window.__huManualCheck();}"><i class="fas fa-sync-alt"></i> 检查更新<span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
