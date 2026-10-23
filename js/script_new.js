@@ -6257,7 +6257,9 @@ const EventManager = {
                 $('#update-check-later').hide();
                 $('#update-check-confirm').hide();
             });
-            try { localStorage.setItem(HU_STORAGE_KEY, (result && result.version) || ''); } catch (e) {}
+            // 用 fetch 到的 manifest 版本（原生 callback 可能不带 version 字段）
+            var installedVer = window.__huLastManifestVersion || (result && result.version) || '';
+            try { localStorage.setItem(HU_STORAGE_KEY, installedVer); } catch (e) {}
         } else {
             $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
             $('#update-check-start').show().text('开始检查');
@@ -6352,8 +6354,15 @@ const EventManager = {
     setTimeout(function() {
         try {
             window.__huFetchAndCompare(function(m, hasUpdate) {
-                if (hasUpdate) { window.__huShowRedDot(true); }
-                else { window.__huShowRedDot(false); }
+                if (hasUpdate) {
+                    window.__huShowRedDot(true);
+                    // 新增：toast 提示有更新
+                    if (typeof window.showToast === 'function') {
+                        window.showToast('检测到新版本，请点击侧边栏"检查更新"');
+                    }
+                } else {
+                    window.__huShowRedDot(false);
+                }
             });
         } catch (e) {}
     }, 3000);
