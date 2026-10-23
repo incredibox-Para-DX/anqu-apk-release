@@ -6145,15 +6145,28 @@ const EventManager = {
     });
 
     /* ============================================================
+     * 热更新常量（安全增量：只加常量，不改旧代码逻辑）
+     * ============================================================ */
+    var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
+    var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
+    var HU_STORAGE_KEY = 'hotupdate_current_version';
+
+    /* ============================================================
      * 检查更新
      * ============================================================ */
     $('#sidebar-update-check-btn').on('click', function() {
-        var savedUrl = '';
-        try { savedUrl = localStorage.getItem('hotupdate_remote_url') || ''; } catch (e) {}
-        $('#update-check-url').val(savedUrl);
-        $('#update-check-status').text('本地更新包位置：Android/data/com.paraink.arenabreakout.safesimulator/files/hotupdate.zip');
-        $('#update-check-start').prop('disabled', false).text('开始检查');
+        // 隐藏 URL 输入框（固定用 HU_BASE_URL）
+        $('#update-check-url').closest('.input-group').hide();
+        $('#update-check-progress').hide();
+        $('#update-check-confirm').hide();
+        $('#update-check-later').hide();
+        $('#update-check-confirm').hide();
+        $('#update-check-start').show().prop('disabled', false).text('开始检查');
+        $('#update-check-cancel').text('关闭');
+        $('#update-check-status').text('正在检查更新，请稍候…');
         EventManager.openModal('update-check-modal');
+        // 自动 fetch manifest
+        try { window.__huFetchAndCompare(); } catch (e) {}
     });
     $('#update-check-close, #update-check-cancel').on('click', function() {
         EventManager.closeModal('update-check-modal');
@@ -6162,34 +6175,138 @@ const EventManager = {
         if ($(e.target).is(this)) EventManager.closeModal('update-check-modal');
     });
     $('#update-check-start').on('click', function() {
-        var url = ($('#update-check-url').val() || '').trim();
-        try { localStorage.setItem('hotupdate_remote_url', url); } catch (e) {}
+        var url = HU_BASE_URL;  // 固定 URL
         if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
             $('#update-check-status').text('当前版本不支持检查更新，请安装最新版 APP');
             return;
         }
-        $('#update-check-start').prop('disabled', true).text('检查中…');
-        $('#update-check-status').text('正在检查更新，请稍候…');
+        $('#update-check-start').hide();
+        $('#update-check-progress').show();
+        $('#update-check-status').text('正在下载更新文件，请稍候…');
+        window.__huStartProgress();
         try {
             window.AndroidUpdate.check(url);
         } catch (e) {
-            $('#update-check-start').prop('disabled', false).text('开始检查');
+            $('#update-check-start').show().prop('disabled', false).text('开始检查');
+            $('#update-check-progress').hide();
             $('#update-check-status').text('检查失败：' + e);
         }
     });
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);
         var msg = (result && result.message) || (updated ? '更新已应用' : '当前已是最新版本');
-        $('#update-check-start').prop('disabled', false).text('开始检查');
-        $('#update-check-status').text(msg);
+        window.__huStopProgress();
+        $('#update-check-progress').hide();
+        $('#update-check-start').hide();
         if (typeof window.showToast === 'function') window.showToast(msg);
         if (updated) {
-            setTimeout(function() {
+            $('#update-check-status').html('<span style="color:#10b981;">✅ 更新下载完成！点击"立即更新"生效</span>');
+            $('#update-check-confirm').show();
+            $('#update-check-confirm-info').html(msg + '<br>点击"立即更新"立即生效。');
+            $('#update-check-cancel').hide();
+            $('#update-check-later').show().text('稍后再说');
+            $('#update-check-confirm').show().off('click').on('click', function() {
                 try { EventManager.closeModal('update-check-modal'); } catch (e) {}
                 setTimeout(function() { location.reload(); }, 300);
-            }, 600);
+            });
+            $('#update-check-later').off('click').on('click', function() {
+                $('#update-check-cancel').show();
+                $('#update-check-later').hide();
+                $('#update-check-confirm').hide();
+            });
+            try { localStorage.setItem(HU_STORAGE_KEY, (result && result.version) || ''); } catch (e) {}
+        } else {
+            $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
+            $('#update-check-start').show().text('开始检查');
         }
     };
+
+    /* ============================================================
+     * 热更新：fetch manifest + 进度条 + 红点 + 自动检查
+     * ============================================================ */
+    window.__huProgressTimer = null;
+    window.__huFetchAndCompare = function() {
+        $.ajax({
+            url: HU_MANIFEST_URL + '?t=' + Date.now(),
+            dataType: 'json',
+            cache: false,
+            timeout: 8000,
+            success: function(m) {
+                try { localStorage.setItem(HU_STORAGE_KEY, m.version || ''); } catch (e) {}
+                // 显示版本信息
+                var info = '当前版本：v2.1.0';
+                if (m && m.version) info += '<br>服务器版本：' + m.version;
+                if (m && m.fileCount) info += '<br>文件数：' + m.fileCount;
+                if (m && m.totalSize) info += '<br>包大小：' + (m.totalSize / 1024 / 1024).toFixed(2) + ' MB';
+                $('#update-check-status').html(info);
+                $('#update-check-start').show().prop('disabled', false).text('开始检查');
+            },
+            error: function() {
+                $('#update-check-status').html('<span style="color:#f87171;">检查失败，服务器无法连接</span>');
+                $('#update-check-start').show().prop('disabled', false).text('开始检查');
+            }
+        });
+    };
+    window.__huStartProgress = function() {
+        window.__huStopProgress();
+        var pct = 10;
+        $('#update-check-progress-bar').css('width', pct + '%');
+        $('#update-check-progress-text').text(pct + '%');
+        window.__huProgressTimer = setInterval(function() {
+            // 模拟原生下载进度：平滑上升到 90% 停下（等 callback）
+            var prev = pct;
+            var delta = Math.max(1, Math.floor(Math.random() * 5) + 1);
+            pct = Math.min(90, prev + delta);
+            $('#update-check-progress-bar').css('width', pct + '%');
+            $('#update-check-progress-text').text(pct + '%');
+            if (pct >= 90) {
+                clearInterval(window.__huProgressTimer);
+                window.__huProgressTimer = null;
+            }
+        }, 400);
+    };
+    window.__huStopProgress = function() {
+        if (window.__huProgressTimer) {
+            clearInterval(window.__huProgressTimer);
+            window.__huProgressTimer = null;
+        }
+        $('#update-check-progress-bar').css('width', '100%');
+        $('#update-check-progress-text').text('100%');
+    };
+    window.__huShowRedDot = function(show) {
+        if (show) {
+            $('[data-hudot]').show();
+        } else {
+            $('[data-hudot]').hide();
+        }
+    };
+    // 主界面按钮红点（如果 more-button 存在）
+    try {
+        var moreBtn = document.getElementById('more-button');
+        if (moreBtn && !moreBtn.querySelector('.hu-red-dot')) {
+            var dot = document.createElement('span');
+            dot.className = 'hu-red-dot';
+            dot.style.cssText = 'position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%;box-shadow:0 0 4px rgba(239,68,68,0.7);animation:huRedDotPulse 1.8s infinite;display:none;';
+            moreBtn.style.position = 'relative';
+            moreBtn.appendChild(dot);
+        }
+    } catch (e) {}
+    // 自动检查（APP 启动 3s 后）
+    setTimeout(function() {
+        try {
+            $.ajax({
+                url: HU_MANIFEST_URL + '?t=' + Date.now(),
+                dataType: 'json', cache: false, timeout: 8000,
+                success: function(m) {
+                    var local = '';
+                    try { local = localStorage.getItem(HU_STORAGE_KEY) || ''; } catch (e) {}
+                    if (m && m.version && local && m.version !== local) {
+                        window.__huShowRedDot(true);
+                    }
+                }
+            });
+        } catch (e) {}
+    }, 3000);
 
     /* ============================================================
      * 资源校验（供登录前加载界面调用）：清理中断下载产生的损坏记录

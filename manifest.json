@@ -1,15 +1,15 @@
 {
-  "version": "v2.1.0-bg.11",
+  "version": "v2.1.0-bg.12",
   "files": [
     {
       "path": "index.html",
-      "size": 94924
+      "size": 96037
     },
     {
       "path": "js/script_new.js",
-      "size": 277627
+      "size": 283194
     }
   ],
   "fileCount": 2,
-  "totalSize": 372551
+  "totalSize": 379231
 }

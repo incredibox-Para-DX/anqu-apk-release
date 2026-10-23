@@ -548,7 +548,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-more-settings">
 <button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> 效果设置</button>
 <button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> 声音设置</button>
-<button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> 检查更新</button>
+<button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> 检查更新<span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
@@ -865,12 +865,24 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <input class="input-field" id="update-check-url" type="text" placeholder="https://example.com/update" autocomplete="off">
 </div>
 <div id="update-check-status" style="color:#94a3b8;font-size:12px;margin-top:10px;line-height:1.6;">
-本地更新包位置：Android/data/com.paraink.arenabreakout.safesimulator/files/hotupdate.zip
+正在检查更新，请稍候…
+</div>
+<div id="update-check-progress" style="display:none;margin-top:12px;">
+  <div style="background:#1e293b;border-radius:6px;height:8px;overflow:hidden;">
+    <div id="update-check-progress-bar" style="background:linear-gradient(90deg,#3b82f6,#60a5fa);height:100%;width:0%;transition:width .3s;border-radius:6px;"></div>
+  </div>
+  <div id="update-check-progress-text" style="color:#94a3b8;font-size:11px;margin-top:6px;text-align:center;">0%</div>
+</div>
+<div id="update-check-confirm" style="display:none;margin-top:12px;padding:10px;background:#1e293b;border-radius:6px;border:1px solid #334155;">
+  <div style="color:#f87171;font-size:13px;font-weight:600;margin-bottom:6px;"><i class="fas fa-exclamation-circle"></i> 发现新版本！</div>
+  <div id="update-check-confirm-info" style="color:#cbd5e1;font-size:12px;line-height:1.6;"></div>
 </div>
 </div>
 <div class="modal-footer">
 <button class="modal-btn" id="update-check-cancel">关闭</button>
+<button class="modal-btn" id="update-check-later" style="display:none;">稍后再说</button>
 <button class="modal-btn primary" id="update-check-start">开始检查</button>
+<button class="modal-btn primary" id="update-check-confirm" style="display:none;background:linear-gradient(135deg,#ef4444,#dc2626);">立即更新</button>
 </div>
 </div>
 </div>
