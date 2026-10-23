@@ -6233,14 +6233,15 @@ const EventManager = {
             timeout: 8000,
             success: function(m) {
                 try { localStorage.setItem(HU_STORAGE_KEY, m.version || ''); } catch (e) {}
-                // 显示版本信息
-                var info = '当前版本：v2.1.0';
+                // 显示版本信息（右上角同步）
+                if (m && m.version) { try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {} }
+                var curVer = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})(); var info = '当前版本：' + curVer;
                 if (m && m.version) info += '<br>最新版本：' + m.version;
                 $('#update-check-status').html(info);
                 $('#update-check-start').show().prop('disabled', false).text('开始检查');
             },
             error: function() {
-                $('#update-check-status').html('<span style="color:#f87171;">检查失败，服务器无法连接</span>');
+                $('#update-check-status')var curVer2 = (function(){try{return localStorage.getItem(HU_STORAGE_KEY) || 'v2.1.0'}catch(e){return 'v2.1.0'}})(); .html('当前版本：' + curVer2 + '<br><span style="color:#f87171;">检查失败，服务器无法连接</span>');
                 $('#update-check-start').show().prop('disabled', false).text('开始检查');
             }
         });
