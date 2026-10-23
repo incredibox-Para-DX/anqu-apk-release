@@ -150,6 +150,15 @@ def main():
         build(dirname, suffix, version)
     build_media()
 
+    # 应用内「检查更新」读的是根目录 manifest.json，这里与 boot/ 用同一份清单，
+    # 保证玩家手动热更能拿到 xml / css / libs 等全部代码文件
+    src = os.path.join(ROOT, "boot", "manifest.json")
+    with open(src, encoding="utf-8") as f:
+        data = json.load(f)
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"manifest.json 已同步 boot/ 清单：{data['version']}，{len(data['files'])} 项")
+
 
 if __name__ == "__main__":
     main()

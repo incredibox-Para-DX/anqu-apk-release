@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.23.m",
+  "version": "v2.1.0_hotfix.24.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -147,7 +147,7 @@
     },
     {
       "path": "xml/loading-tips.xml",
-      "size": 509
+      "size": 802
     },
     {
       "path": "progress/c19.txt",
@@ -179,5 +179,5 @@
     }
   ],
   "fileCount": 44,
-  "totalSize": 1329185
+  "totalSize": 1329478
 }

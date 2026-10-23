@@ -1,19 +1,183 @@
 {
-  "version": "v2.1.0_hotfix.23",
+  "version": "v2.1.0_hotfix.24",
   "files": [
     {
-      "path": "index.html",
-      "size": 99091
+      "path": "MiniGame/index.html",
+      "size": 2314
+    },
+    {
+      "path": "progress/c01.txt",
+      "size": 16
+    },
+    {
+      "path": "MiniGame/scripts/all.js",
+      "size": 189889
+    },
+    {
+      "path": "progress/c02.txt",
+      "size": 16
+    },
+    {
+      "path": "MiniGame/images/index.css",
+      "size": 2053
+    },
+    {
+      "path": "progress/c03.txt",
+      "size": 16
+    },
+    {
+      "path": "css/icon.css",
+      "size": 75487
+    },
+    {
+      "path": "progress/c04.txt",
+      "size": 16
+    },
+    {
+      "path": "css/main.css",
+      "size": 52726
+    },
+    {
+      "path": "progress/c05.txt",
+      "size": 16
+    },
+    {
+      "path": "css/styles.css",
+      "size": 72115
+    },
+    {
+      "path": "progress/c06.txt",
+      "size": 16
+    },
+    {
+      "path": "js/debug.js",
+      "size": 85060
+    },
+    {
+      "path": "progress/c07.txt",
+      "size": 16
+    },
+    {
+      "path": "js/inline-scripts.js",
+      "size": 28608
+    },
+    {
+      "path": "progress/c08.txt",
+      "size": 16
+    },
+    {
+      "path": "js/main.js",
+      "size": 22710
+    },
+    {
+      "path": "progress/c09.txt",
+      "size": 16
+    },
+    {
+      "path": "js/music.js",
+      "size": 38210
+    },
+    {
+      "path": "progress/c10.txt",
+      "size": 16
     },
     {
       "path": "js/script_new.js",
-      "size": 297335
+      "size": 297435
+    },
+    {
+      "path": "progress/c11.txt",
+      "size": 16
+    },
+    {
+      "path": "js/synthesis.js",
+      "size": 25801
+    },
+    {
+      "path": "progress/c12.txt",
+      "size": 16
     },
     {
       "path": "js/banned-words.js",
       "size": 6585
+    },
+    {
+      "path": "progress/c13.txt",
+      "size": 16
+    },
+    {
+      "path": "libs/GSAP.js",
+      "size": 72213
+    },
+    {
+      "path": "progress/c14.txt",
+      "size": 16
+    },
+    {
+      "path": "libs/jquery.js",
+      "size": 78748
+    },
+    {
+      "path": "progress/c15.txt",
+      "size": 16
+    },
+    {
+      "path": "libs/lodash.js",
+      "size": 73154
+    },
+    {
+      "path": "progress/c16.txt",
+      "size": 16
+    },
+    {
+      "path": "xml/backgrounds.xml",
+      "size": 8149
+    },
+    {
+      "path": "progress/c17.txt",
+      "size": 16
+    },
+    {
+      "path": "xml/items.xml",
+      "size": 93710
+    },
+    {
+      "path": "progress/c18.txt",
+      "size": 16
+    },
+    {
+      "path": "xml/loading-tips.xml",
+      "size": 802
+    },
+    {
+      "path": "progress/c19.txt",
+      "size": 16
+    },
+    {
+      "path": "xml/music-config.xml",
+      "size": 4111
+    },
+    {
+      "path": "progress/c20.txt",
+      "size": 16
+    },
+    {
+      "path": "xml/video-config.xml",
+      "size": 101
+    },
+    {
+      "path": "progress/c21.txt",
+      "size": 16
+    },
+    {
+      "path": "index.html",
+      "size": 99101
+    },
+    {
+      "path": "progress/c22.txt",
+      "size": 16
     }
   ],
-  "fileCount": 3,
-  "totalSize": 403011
+  "fileCount": 44,
+  "totalSize": 1329434
 }

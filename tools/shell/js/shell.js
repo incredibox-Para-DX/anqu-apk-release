@@ -86,13 +86,13 @@
     location.replace('index.html?r=' + Date.now());
   }
 
-  function enter() {
+  function enter(msg) {
     if (done) return;
     done = true;
     clearTimeout(timer);
     stopPoll();
     setPct(100);
-    setMsg('资源更新完成，正在进入…', true);
+    setMsg(msg || '资源更新完成，正在进入…', true);
     if (introDone) { go(); return; }
     pendingEnter = true;
   }
@@ -379,5 +379,15 @@
     tryCode();
   });
 
-  tryCode();
+  // 只有本机缺文件（首次安装）才自动热更；已下载过就直接进游戏，
+  // 后续版本交给应用内「更多设置 -> 检查更新」手动触发
+  function boot() {
+    verifyCode(function (ok) {
+      if (done) return;
+      if (ok) { enter('正在进入游戏…'); return; }
+      tryCode();
+    });
+  }
+
+  boot();
 })();
