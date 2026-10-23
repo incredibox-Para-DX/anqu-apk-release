@@ -421,7 +421,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<h3><i class="fas fa-bars"></i> 更多功能<span class="hu-red-dot" data-hudot="sidebar-header" style="display:none;"></span></h3>
+<h3><i class="fas fa-bars"></i> 更多功能</h3>
 <button class="sidebar-close" id="sidebar-close">&times;</button>
 </div>
 <div class="sidebar-content">
@@ -548,7 +548,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-more-settings">
 <button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> 效果设置</button>
 <button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> 声音设置</button>
-<button class="sidebar-btn full-width" id="sidebar-update-check-btn" onclick="if(window._huSidebarCheckHandler){window._huSidebarCheckHandler();}else{window.__huManualCheck && window.__huManualCheck();}"><i class="fas fa-sync-alt"></i> 检查更新<span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
+<button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> 检查更新</button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
@@ -854,29 +854,23 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 <div class="modal-overlay" id="update-check-modal">
-<div class="modal-content" style="max-width:480px;width:92vw;">
+<div class="modal-content" style="max-width:460px;width:92vw;">
 <div class="modal-header">
 <div class="modal-title"><i class="fas fa-sync-alt"></i> 检查更新</div>
 <button class="modal-close" id="update-check-close">&times;</button>
 </div>
 <div class="modal-body" style="text-align:left;">
-<div id="update-check-status" style="color:#cbd5e1;font-size:13px;line-height:1.8;padding:4px 0;white-space:pre-line;">
-正在检查更新，请稍候…
+<div class="input-group">
+<label class="input-label">远程更新地址（可选，留空只查本地更新包）</label>
+<input class="input-field" id="update-check-url" type="text" placeholder="https://example.com/update" autocomplete="off">
 </div>
-<div id="update-check-progress-wrap" style="display:none;margin-top:14px;">
-<div style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-bottom:6px;">
-<span id="update-check-progress-text">准备中…</span>
-<span id="update-check-progress-pct">0%</span>
-</div>
-<div style="background:#1e293b;border-radius:6px;height:8px;overflow:hidden;">
-<div id="update-check-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#f97316,#ef4444);border-radius:6px;transition:width .4s ease;"></div>
-</div>
+<div id="update-check-status" style="color:#94a3b8;font-size:12px;margin-top:10px;line-height:1.6;">
+本地更新包位置：Android/data/com.paraink.arenabreakout.safesimulator/files/hotupdate.zip
 </div>
 </div>
 <div class="modal-footer">
-<button class="modal-btn" id="update-check-later" style="display:none;">稍后再说</button>
 <button class="modal-btn" id="update-check-cancel">关闭</button>
-<button class="modal-btn primary" id="update-check-confirm" style="display:none;">立即更新</button>
+<button class="modal-btn primary" id="update-check-start">开始检查</button>
 </div>
 </div>
 </div>
@@ -981,7 +975,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button id="pause-search-btn" class="btn btn-sound-2"><i class="fas fa-pause"></i> 暂停搜索</button>
 <div class="control-section">
 <button id="play-sound-btn" class="btn btn-sound"><i class="fas fa-volume-up"></i> “我出货了”</button>
-<button class="more-button" id="more-button"><i class="fas fa-ellipsis-h"></i> 更多功能<span class="hu-red-dot" data-hudot="more-button" style="display:none;"></span></button>
+<button class="more-button" id="more-button"><i class="fas fa-ellipsis-h"></i> 更多功能</button>
 </div>
 </div>
 <div class="center-panel">
