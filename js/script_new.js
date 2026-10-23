@@ -6292,8 +6292,34 @@ const EventManager = {
         $('#update-check-close').css('display', ''); // 确保 X 显示
     }
     // ========== 事件绑定（一次性，永远不解绑 sidebar 自身！）==========
-    // ✅ sidebar 按钮：用独立 namespace，永远不 off
-    $(document).on('click.huSidebar', '#sidebar-update-check-btn', function() {
+    // ✅ sidebar 按钮：多重绑定保证不掉（jQuery 直接绑 + 原生 addEventListener）
+    function _huBindSidebarCheck() {
+        var $btn = $('#sidebar-update-check-btn');
+        if (!$btn.length) { setTimeout(_huBindSidebarCheck, 100); return; }
+        
+        // 移除旧的（如果有）
+        $btn.off('click.huCheck');
+        // jQuery 方式
+        $btn.on('click.huCheck', function(e) {
+            e.stopPropagation();
+            _huSidebarCheckHandler();
+        });
+        // 原生方式（双保险）
+        try {
+            if (!$btn[0].dataset.huBound) {
+                $btn[0].dataset.huBound = '1';
+                $btn[0].addEventListener('click', function() { _huSidebarCheckHandler(); });
+            }
+        } catch(e) {}
+    }
+    // DOM ready 后绑定
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _huBindSidebarCheck);
+    } else {
+        _huBindSidebarCheck();
+    }
+    
+    function _huSidebarCheckHandler() {
         // 只解绑 modal 内部的按钮事件（用直接绑的方式）
         $('#update-check-close').off('.hu');
         $('#update-check-cancel').off('.hu');
@@ -6388,6 +6414,8 @@ const EventManager = {
                 _huSetAutoClose(_huClose, 5000);
             });
     });
+
+    } // end _huSidebarCheckHandler
 
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);
