@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isOpeningModal = false;
         }, 10);
         const openSoundMap = {
-            'donate-modal': 'audio/open-donate.mp3',
+            'donate-modal': 'audio/buy.mp3',
             'achievements-modal': 'audio/open-achievements.mp3',
             'lottery-modal': 'audio/open-lottery.mp3'
         };

@@ -3468,8 +3468,12 @@ openSafe() {
             if (modalId !== 'item-tooltip') {
                 const openSoundMap = {
                     'bg-select-modal': 'audio/open-bg-select.mp3',
-                    'donate-modal': 'audio/open-donate.mp3',
+                    'donate-modal': 'audio/buy.mp3',
                     'credits-modal': 'audio/open-credits.mp3',
+                    'effect-settings-modal': 'audio/open-credits.mp3',
+                    'sound-settings-modal': 'audio/new-mail.mp3',
+                    'update-check-modal': 'audio/admin-open.mp3',
+                    'cloud-sync-modal': 'audio/open-leaderboard.mp3',
                     'view-leaderboard-modal': 'audio/open-leaderboard.mp3',
                     'music-playlist-modal': 'audio/open-music-playlist.mp3',
                     'submit-score-modal': 'audio/open-submit-score.mp3',
@@ -6151,7 +6155,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.26';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.27';
 
     /* ============================================================
      * 检查更新
