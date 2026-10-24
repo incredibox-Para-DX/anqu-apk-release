@@ -31,6 +31,7 @@ CODE_FILES = [
     "js/script_new.js",
     "js/synthesis.js",
     "js/banned-words.js",
+    "js/storage.js",
     "libs/GSAP.js",
     "libs/jquery.js",
     "libs/lodash.js",

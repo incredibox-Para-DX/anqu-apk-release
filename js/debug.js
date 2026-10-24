@@ -155,6 +155,7 @@
       '<div class="dt-row"><select id="storageType" class="dt-in" style="flex:1"><option value="ls">LocalStorage</option><option value="ss">SessionStorage</option><option value="ck">Cookie</option></select><button class="dt-btn ok" id="storageRefresh">刷新</button><button class="dt-btn warn" id="storageClearAll">清空</button></div>' +
       '<div class="dt-card" style="margin-top:8px"><span class="dt-label">🔑 新增 / 编辑 Key</span><div class="dt-row"><input type="text" id="storageNewKey" class="dt-in" placeholder="key" style="flex:1"><input type="text" id="storageNewVal" class="dt-in" placeholder="value" style="flex:1.5"><button class="dt-btn ok" id="storageAdd">添加</button></div></div>' +
       '<div class="dt-card" style="margin-top:8px"><span class="dt-label">📥 导入 JSON</span><textarea id="storageImport" class="dt-in" placeholder=\'{"key":"value"}\'></textarea><button class="dt-btn" id="storageImportBtn" style="margin-top:6px">导入</button></div>' +
+      '<div class="dt-card" style="margin-top:8px"><span class="dt-label">📤 存档备份 (LocalStorage 全量)</span><div class="dt-row" style="margin-top:6px"><button class="dt-btn ok" id="storageExportBtn">导出存档</button><button class="dt-btn" id="storageSnapBtn">立即快照</button><button class="dt-btn warn" id="storageRestoreBtn">恢复最近快照</button></div><div class="dt-label" id="storageSnapInfo" style="margin-top:6px;text-align:left;line-height:1.7"></div></div>' +
       '<div id="storageList" style="margin-top:8px"></div>' +
       '<div id="storageMsg" class="dt-label" style="text-align:center;padding:6px"></div>' +
     '</div></section>';
@@ -259,7 +260,7 @@
         panels.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-panel') === currentTab); });
         if (currentTab === 'log') renderLog();
         if (currentTab === 'device') refreshDevice();
-        if (currentTab === 'storage') renderStorage();
+        if (currentTab === 'storage') { renderStorage(); renderSnapInfo(); }
         if (currentTab === 'dom') refreshDom();
         if (currentTab === 'network') renderNetwork();
         if (currentTab === 'perf') refreshPerf();
@@ -737,6 +738,53 @@
     });
     Q('#storageImportBtn').addEventListener('click', function () {
       try { var obj = JSON.parse(Q('#storageImport').value); var n = 0; for (var k in obj) { storageSet(k, String(obj[k])); n++; } toast('导入 ' + n + ' 项'); renderStorage(); } catch (e) { toast('JSON解析失败:' + e.message, 'error'); }
+    });
+    Q('#storageExportBtn').addEventListener('click', function () {
+      if (!window.Save) { toast('存档层未加载', 'error'); return; }
+      try {
+        var r = Save.exportAll();
+        Q('#storageImport').value = r.text;
+        toast('已导出 ' + r.count + ' 项' + (r.skipped.length ? '，跳过 ' + r.skipped.length + ' 项缓存' : '') + '，复制上方文本框保存');
+        renderSnapInfo();
+      } catch (e) { toast('导出失败:' + e.message, 'error'); }
+    });
+    Q('#storageSnapBtn').addEventListener('click', function () {
+      if (!window.Save) { toast('存档层未加载', 'error'); return; }
+      Save.snapshot('manual').then(function (r) {
+        toast('快照完成，' + r.count + ' 项');
+        renderSnapInfo();
+      }).catch(function (e) { toast('快照失败:' + e.message, 'error'); });
+    });
+    Q('#storageRestoreBtn').addEventListener('click', function () {
+      if (!window.Save) { toast('存档层未加载', 'error'); return; }
+      Save.listSnapshots().then(function (list) {
+        if (!list.length) { toast('还没有快照', 'error'); return; }
+        var s = list[0];
+        confirmBox('恢复 ' + new Date(s.ts).toLocaleString() + ' 的快照 (' + s.count + ' 项)？当前存档会先自动备份', function () {
+          Save.restore(s.ts).then(function (r) {
+            toast('已恢复 ' + r.restored + ' 项，请重载页面');
+            renderStorage(); renderSnapInfo();
+          }).catch(function (e) { toast('恢复失败:' + e.message, 'error'); });
+        });
+      });
+    });
+  }
+
+  function renderSnapInfo() {
+    var el = Q('#storageSnapInfo'); if (!el) return;
+    if (!window.Save) { el.textContent = '存档层未加载 (js/storage.js)'; return; }
+    var st = Save.status();
+    var html = '代理: ' + (st.patched ? '已启用' : '未启用') + ' · 读 ' + st.reads + ' · 写 ' + st.writes;
+    if (st.fails) html += ' · 写失败 ' + st.fails + ' (已兜底)';
+    if (st.recovered) html += ' · 已补写 ' + st.recovered;
+    if (st.pending) html += ' · <b style="color:#f59e0b">待写回 ' + st.pending + '</b>';
+    if (st.lastError) html += '<br>最近错误: ' + esc(st.lastError);
+    el.innerHTML = html + '<br>快照: 读取中…';
+    Save.listSnapshots().then(function (list) {
+      var line = list.length ? list.map(function (s) {
+        return new Date(s.ts).toLocaleString() + ' (' + s.count + ' 项' + (s.skipped ? '，跳过 ' + s.skipped : '') + ')';
+      }).join('<br>') : '暂无';
+      el.innerHTML = html + '<br>快照: ' + line;
     });
   }
 
