@@ -182,12 +182,17 @@ previewCurrentBackground() {
 
     async loadBackgrounds() {
         try {
-            const response = await fetch(this.configPath);
-            if (!response.ok) {
-                this.backgrounds = [{ id: 1, name: '默认背景', path: 'pictures/background.mp4', price: 0 }];
-                return;
+            let text;
+            if (window.Net && Net.getText) {
+                text = await Net.getText(this.configPath, { timeout: 8000, retries: 1 });
+            } else {
+                const response = await fetch(this.configPath);
+                if (!response.ok) {
+                    this.backgrounds = [{ id: 1, name: '默认背景', path: 'pictures/background.mp4', price: 0 }];
+                    return;
+                }
+                text = await response.text();
             }
-            const text = await response.text();
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(text, "text/xml");
             const nodes = xmlDoc.getElementsByTagName('background');
@@ -353,6 +358,7 @@ previewCurrentBackground() {
         }
 
         this.renderPreview();
+        StatsManager.updateCoinBalances();
         EventManager.openModal('bg-select-modal');
     },
 
@@ -699,10 +705,11 @@ previewCurrentBackground() {
     const TooltipManager = {
         _hideTimer: null,
         
-        show(item, element) {
+        show(item, element, anchor) {
             const $tooltip = $('#item-tooltip');
+            const node = $tooltip[0];
             
-            if (!item.searched) {
+            if (!item.searched || !node) {
                 this.hide();
                 return;
             }
@@ -736,33 +743,60 @@ previewCurrentBackground() {
                 $('#tooltip-price').closest('.tooltip-price-row').show();
             }
 
-            const rect = element.getBoundingClientRect();
-            
-            let left = rect.right + 8;
-            let top = rect.top + (rect.height / 2) - 40;
-            
-            const tooltipWidth = 260;
-            const tooltipHeight = 110;
-            
-            if (left + tooltipWidth > window.innerWidth) {
-                left = rect.left - tooltipWidth - 8;
-            }
-            if (top < 5) top = 5;
-            if (top + tooltipHeight > window.innerHeight) {
-                top = window.innerHeight - tooltipHeight - 5;
+            // 锚点必须在点击瞬间取好：等 50ms 再取，物品可能已被重排/移除，
+            // 拿到全 0 的 rect 就会把弹窗丢到屏幕角落
+            if (!anchor) {
+                anchor = {};
+                if (element && element.getBoundingClientRect) {
+                    const r = element.getBoundingClientRect();
+                    if (r.width > 0 || r.height > 0) anchor.rect = r;
+                }
             }
 
-            $tooltip
-                .removeClass('item-tooltip-hide')
-                .addClass('item-tooltip-show')
-                .css({
-                    left: left + 'px',
-                    top: top + 'px',
-                    display: 'flex'
-                });
-            
-            $tooltip.data('initialLeft', left);
-            $tooltip.data('initialTop', top);
+            $tooltip.removeClass('item-tooltip-show item-tooltip-hide');
+            node.style.display = 'flex';
+
+            const pos = (window.ModalRegistry && ModalRegistry.positionPopup)
+                ? ModalRegistry.positionPopup(node, anchor, 8)
+                : this.fallbackPosition(node, anchor);
+
+            node.style.visibility = '';
+            $tooltip.addClass('item-tooltip-show');
+
+            if (pos) {
+                $tooltip.data('initialLeft', pos.left);
+                $tooltip.data('initialTop', pos.top);
+            }
+        },
+
+        // 注册表不可用时的兜底定位（同样按实测尺寸钳制）
+        fallbackPosition(node, anchor) {
+            node.style.visibility = 'hidden';
+            node.style.left = '0px';
+            node.style.top = '0px';
+            const w = node.offsetWidth || 260;
+            const h = node.offsetHeight || 110;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const r = anchor && anchor.rect;
+            let left;
+            let top;
+            if (r && (r.width > 0 || r.height > 0)) {
+                left = r.right + 8;
+                top = r.top + r.height / 2 - h / 2;
+            } else if (anchor && isFinite(anchor.x) && isFinite(anchor.y)) {
+                left = anchor.x + 12;
+                top = anchor.y - h - 12;
+            } else {
+                left = (vw - w) / 2;
+                top = (vh - h) / 2;
+            }
+            left = Math.max(8, Math.min(left, vw - w - 8));
+            top = Math.max(8, Math.min(top, vh - h - 8));
+            node.style.left = Math.round(left) + 'px';
+            node.style.top = Math.round(top) + 'px';
+            node.style.visibility = '';
+            return { left: Math.round(left), top: Math.round(top), width: w, height: h };
         },
         
         hide() {
@@ -889,7 +923,14 @@ previewCurrentBackground() {
             this.updateAccumulatedValueDisplay();
         },
         
+        // 背景商店 / 歌曲列表顶栏的科恩币余额
+        updateCoinBalances() {
+            const text = Utils.formatCurrency(State.totalAccumulatedValue);
+            $('#bg-coin-balance, #playlist-coin-balance').text(text);
+        },
+        
         updateAccumulatedValueDisplay() {
+            this.updateCoinBalances();
             const $accumulatedValue = $('#accumulated-value');
             if ($accumulatedValue.length) {
                 $accumulatedValue.html(`<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.totalAccumulatedValue)}`);
@@ -905,6 +946,9 @@ previewCurrentBackground() {
             State.sessionAccumulatedValue = 0;
         }
     };
+
+    // 供 music.js 等外部模块刷新顶栏科恩币余额
+    window.__refreshCoinBalances = () => StatsManager.updateCoinBalances();
 
     const TitleManager = {
         getCurrentTitle() {
@@ -2385,11 +2429,16 @@ previewCurrentBackground() {
     const GameCore = {
         async loadItemsFromXML() {
             try {
-                const response = await fetch('xml/items.xml');
-                if (!response.ok) {
-                    return this.getDefaultItems();
+                let text;
+                if (window.Net && Net.getText) {
+                    text = await Net.getText('xml/items.xml', { timeout: 8000, retries: 1 });
+                } else {
+                    const response = await fetch('xml/items.xml');
+                    if (!response.ok) {
+                        return this.getDefaultItems();
+                    }
+                    text = await response.text();
                 }
-                const text = await response.text();
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(text, "text/xml");
                 const nodes = xmlDoc.getElementsByTagName('item');
@@ -3503,36 +3552,9 @@ _runOpenSafe() {
             this.goToImage(type, nextIndex);
         }
         
+        // 开关音效 / 时长 / id 全部登记在 js/modal-registry.js
         showModal(modalId) {
-            if (modalId !== 'item-tooltip') {
-                const openSoundMap = {
-                    'bg-select-modal': 'audio/open-bg-select.mp3',
-                    'donate-modal': 'audio/buy.mp3',
-                    'credits-modal': 'audio/open-credits.mp3',
-                    'effect-settings-modal': 'audio/open-credits.mp3',
-                    'sound-settings-modal': 'audio/new-mail.mp3',
-                    'update-check-modal': 'audio/admin-open.mp3',
-                    'cloud-sync-modal': 'audio/open-leaderboard.mp3',
-                    'view-leaderboard-modal': 'audio/open-leaderboard.mp3',
-                    'music-playlist-modal': 'audio/open-music-playlist.mp3',
-                    'submit-score-modal': 'audio/open-submit-score.mp3',
-                    'title-modal': 'audio/open-title.mp3',
-                    'item-control-modal': 'audio/open-item-control.mp3',
-                    'custom-confirm-modal': 'audio/open-confirm-disable.mp3',
-                    'enable-confirm-modal': 'audio/open-confirm-enable.mp3',
-                    'accumulated-value-modal': 'audio/open-accumulated-value.mp3',
-                    'collect-page': 'audio/open-collect.mp3',
-                    'nickname-modal': 'audio/open-nickname.mp3',
-                    'notification-modal': 'audio/open-notification.mp3',
-                    'resource-download-modal': 'audio/delete-click.mp3'
-                };
-                const soundFile = openSoundMap[modalId] || 'audio/sidebar-open.mp3';
-                try {
-                    const audio = new Audio(soundFile);
-                    audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                    audio.play().catch(() => {});
-                } catch (e) {}
-            }
+            if (window.ModalRegistry) return ModalRegistry.open(modalId);
             const $modal = $(`#${modalId}`);
             if (!$modal.length) return;
             $modal.css('display', 'flex');
@@ -3540,11 +3562,7 @@ _runOpenSafe() {
         }
         
         closeModal(modalId) {
-            if (modalId !== 'item-tooltip') {
-                const audio = new Audio('audio/sidebar-close.mp3');
-                audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                audio.play().catch(() => {});
-            }
+            if (window.ModalRegistry) return ModalRegistry.close(modalId);
             const $modal = $(`#${modalId}`);
             if (!$modal.length) return;
             const hideDelay = $modal.hasClass('app-full-page') ? 360 : 300;
@@ -3718,6 +3736,7 @@ const EventManager = {
             if (!item || !item.searched) return;
 
             const $tooltip = $('#item-tooltip');
+            const element = this;
             
             if ($tooltip.is(':visible') && $tooltip.data('currentItemId') === itemId) {
                 TooltipManager.hide();
@@ -3725,10 +3744,18 @@ const EventManager = {
                 return;
             }
             
+            // 点击瞬间就把锚点定下来，避免 50ms 后元素已被重排导致弹窗落到屏幕角落
+            const rect = element.getBoundingClientRect();
+            const anchor = {
+                rect: (rect.width > 0 || rect.height > 0) ? rect : null,
+                x: e.clientX,
+                y: e.clientY
+            };
+            
             TooltipManager.hide();
             
             setTimeout(() => {
-                TooltipManager.show(item, this);
+                TooltipManager.show(item, element, anchor);
                 $tooltip.data('currentItemId', itemId);
                 
                 if (item.sound && _.trim(item.sound) !== '' && !State.isPaused) {
@@ -4100,35 +4127,9 @@ const EventManager = {
         $('#sidebar-overlay').css('display', 'none');
     },
     
+    // 开关音效 / 时长 / id 全部登记在 js/modal-registry.js
     openModal(modalId) {
-        const openSoundMap = {
-            'bg-select-modal': 'audio/open-bg-select.mp3',
-            'donate-modal': 'audio/buy.mp3',
-            'credits-modal': 'audio/open-credits.mp3',
-            'effect-settings-modal': 'audio/open-credits.mp3',
-            'sound-settings-modal': 'audio/new-mail.mp3',
-            'update-check-modal': 'audio/admin-open.mp3',
-            'cloud-sync-modal': 'audio/open-leaderboard.mp3',
-            'view-leaderboard-modal': 'audio/open-leaderboard.mp3',
-            'music-playlist-modal': 'audio/open-music-playlist.mp3',
-            'submit-score-modal': 'audio/open-submit-score.mp3',
-            'title-modal': 'audio/open-title.mp3',
-            'item-control-modal': 'audio/open-item-control.mp3',
-            'custom-confirm-modal': 'audio/open-confirm-disable.mp3',
-            'enable-confirm-modal': 'audio/open-confirm-enable.mp3',
-            'accumulated-value-modal': 'audio/open-accumulated-value.mp3',
-            'collect-page': 'audio/open-collect.mp3',
-            'nickname-modal': 'audio/open-nickname.mp3',
-            'notification-modal': 'audio/open-notification.mp3',
-            'resource-download-modal': 'audio/delete-click.mp3'
-        };
-        const soundFile = openSoundMap[modalId] || 'audio/sidebar-open.mp3';
-        try {
-            const audio = new Audio(soundFile);
-            audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-            audio.play().catch(() => {});
-        } catch (e) {}
-
+        if (window.ModalRegistry) return ModalRegistry.open(modalId);
         const $modal = $(`#${modalId}`);
         if (!$modal.length) return;
         $modal.css('display', 'flex');
@@ -4136,10 +4137,7 @@ const EventManager = {
     },
     
     closeModal(modalId) {
-        const audio = new Audio('audio/sidebar-close.mp3');
-        audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-        audio.play().catch(() => {});
-        
+        if (window.ModalRegistry) return ModalRegistry.close(modalId);
         const $modal = $(`#${modalId}`);
         if (!$modal.length) return;
         $modal.removeClass('show');
@@ -4352,9 +4350,13 @@ const EventManager = {
         async fetchManifestJson(urls) {
             let lastError = null;
             for (const url of urls) {
+                const finalUrl = url + (url.indexOf('?') === -1 ? '?t=' + Math.floor(Date.now() / 60000) : '');
                 try {
-                    // 不依赖 AbortController（旧版 WebView 无此 API），用竞速方式做超时
-                    const data = await new Promise((resolve, reject) => {
+                    if (window.Net && Net.getJSON) {
+                        return await Net.getJSON(finalUrl, { cache: 'no-store', timeout: 8000, retries: 0 });
+                    }
+                    // 网络层缺失时的兜底：竞速超时（旧版 WebView 无 AbortController）
+                    return await new Promise((resolve, reject) => {
                         let settled = false;
                         const finish = (fn, value) => {
                             if (settled) return;
@@ -4363,15 +4365,12 @@ const EventManager = {
                             fn(value);
                         };
                         const timer = setTimeout(() => finish(reject, new Error('timeout')), 8000);
-                        fetch(url + (url.indexOf('?') === -1 ? '?t=' + Math.floor(Date.now() / 60000) : ''), {
-                            cache: 'no-store'
-                        }).then(resp => {
+                        fetch(finalUrl, { cache: 'no-store' }).then(resp => {
                             if (!resp.ok) throw new Error('HTTP ' + resp.status);
                             return resp.json();
                         }).then(json => finish(resolve, json))
                           .catch(err => finish(reject, err));
                     });
-                    return data;
                 } catch (e) {
                     lastError = e;
                     console.warn('[RDM] manifest load failed', url, e);
@@ -5818,6 +5817,11 @@ const EventManager = {
                     try { URL.revokeObjectURL(t._blobUrl); } catch (e) {}
                     delete t._blobUrl;
                 }
+                // seek 用的包内音源 blob 也一并失效
+                if (t._seekBlobUrl) {
+                    try { URL.revokeObjectURL(t._seekBlobUrl); } catch (e) {}
+                    delete t._seekBlobUrl;
+                }
             });
         },
 
@@ -5887,7 +5891,7 @@ const EventManager = {
         const _origOpenSelector = BackgroundManager.openSelector;
         BackgroundManager.openSelector = function() {
             if (!RDM.isBackgroundsDownloaded()) {
-                if (window.showToast) window.showToast('请先下载背景资源后再打开背景设置');
+                if (window.showToast) window.showToast('请先下载背景资源后再打开背景商店');
                 RDM.openModal();
                 return;
             }
@@ -6159,7 +6163,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.47';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.49';
 
     /* ============================================================
      * 检查更新
@@ -6362,6 +6366,23 @@ const EventManager = {
     try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + window.HU_BUILD_VERSION); } catch(e) {}
     // fetch manifest + 版本对比 + 回调 (供 sidebar 按钮和自动检查共用)
     window.__huFetchAndCompare = function(onResult) {
+        var done = typeof onResult === 'function' ? onResult : function() {};
+        var apply = function(m) {
+            // 右上角同步为服务器最新版本
+            if (m && m.version) {
+                try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
+            }
+            // 版本对比（只读，不存！安装成功才存）
+            var curVer = window.HU_BUILD_VERSION;
+            var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
+            done(m, hasUpdate);
+        };
+        if (window.Net && Net.getJSON) {
+            Net.getJSON(HU_MANIFEST_URL, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
+                .then(apply)
+                .catch(function() { done(null, false); });
+            return;
+        }
         $.ajax({
             url: HU_MANIFEST_URL + '?t=' + Date.now(),
             dataType: 'json',
@@ -6526,6 +6547,20 @@ const EventManager = {
         }
         var payload = { data: syncCollect(), updatedAt: Date.now() };
         if (!silent) syncStatus('正在上传…');
+        var onOk = function () {
+            try { localStorage.setItem(SYNC_TIME_KEY, String(payload.updatedAt)); } catch (e) {}
+            if (!silent) syncStatus('已同步到云端 · ' + new Date().toLocaleTimeString(), '#10b981');
+            if (cb) cb(true);
+        };
+        var onFail = function () {
+            if (!silent) syncStatus('上传失败，请检查网络后重试', '#f87171');
+            if (cb) cb(false);
+        };
+        if (window.Net && Net.putJSON) {
+            Net.putJSON(syncApi(code), payload, { timeout: 10000, retries: 1 })
+                .then(onOk, onFail);
+            return;
+        }
         $.ajax({
             url: syncApi(code),
             method: 'PUT',
@@ -6533,18 +6568,19 @@ const EventManager = {
             data: JSON.stringify(payload),
             dataType: 'json',
             timeout: 10000,
-            success: function () {
-                try { localStorage.setItem(SYNC_TIME_KEY, String(payload.updatedAt)); } catch (e) {}
-                if (!silent) syncStatus('已同步到云端 · ' + new Date().toLocaleTimeString(), '#10b981');
-                if (cb) cb(true);
-            },
-            error: function () {
-                if (!silent) syncStatus('上传失败，请检查网络后重试', '#f87171');
-                if (cb) cb(false);
-            }
+            success: onOk,
+            error: onFail
         });
     }
     function syncDownload(code, cb) {
+        if (window.Net && Net.getJSON) {
+            Net.getJSON(syncApi(code), { cache: 'no-store', timeout: 10000 })
+                .then(function (res) { cb(res || null, null); })
+                .catch(function (e) {
+                    cb(null, (e && e.status === 404) ? '该同步码不存在，请检查后重试' : '无法连接云端，请检查网络');
+                });
+            return;
+        }
         $.ajax({
             url: syncApi(code),
             method: 'GET',

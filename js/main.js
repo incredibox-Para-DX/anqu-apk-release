@@ -66,8 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const clickAudio = document.getElementById('click-audio');
     
     let currentCreditIndex = 0;
-    let hefunClickCount = 0;
-    let hefunClickTimer = null;
     let hefunFontObserver = null;
     let debugUnlocked = false;
     
@@ -315,46 +313,17 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const handleNameClick = function() {
-        var currentName = $('#credits-name').text();
-        if (currentName === 'HEFUN') {
-            if (debugUnlocked) {
-                if (typeof showToast === 'function') {
-                    showToast('Debug mode is already enabled, no need to enable again');
-                } else {
-                    var toast = $('#toast-message');
-                    if (toast.length) {
-                        toast.text('Debug mode is already enabled, no need to enable again').addClass('show');
-                        setTimeout(function() {
-                            toast.removeClass('show');
-                        }, 2500);
-                    }
-                }
-                return;
-            }
-            
-            hefunClickCount++;
-            if (hefunClickTimer) clearTimeout(hefunClickTimer);
-            hefunClickTimer = setTimeout(function() {
-                hefunClickCount = 0;
-            }, 1000);
-            if (hefunClickCount >= 5) {
-                hefunClickCount = 0;
-                clearTimeout(hefunClickTimer);
-                debugUnlocked = true;
-                localStorage.setItem('ab_gm_unlocked', 'true');
-                setupGMDebugPersistent();
-                preloadFont();
-                
-                if (typeof showToast === 'function') {
-                    showToast('Debug mode has been enabled');
-                } else {
-                    var toast = $('#toast-message');
-                    if (toast.length) {
-                        toast.text('Debug mode has been enabled').addClass('show');
-                        setTimeout(function() {
-                            toast.removeClass('show');
-                        }, 2500);
-                    }
+        // GM 模式已改为通过兑换码 hefunadmin 解锁，不再支持点击名字解锁。
+        if (debugUnlocked) {
+            if (typeof showToast === 'function') {
+                showToast('Debug mode is already enabled, no need to enable again');
+            } else {
+                var toast = $('#toast-message');
+                if (toast.length) {
+                    toast.text('Debug mode is already enabled, no need to enable again').addClass('show');
+                    setTimeout(function() {
+                        toast.removeClass('show');
+                    }, 2500);
                 }
             }
         }
@@ -509,6 +478,24 @@ document.addEventListener('DOMContentLoaded', function() {
         preloadFont();
         setupGMDebugPersistent();
     }
+
+    // 供兑换码 hefunadmin 调用：立即开启 GM 模式（无需刷新页面）
+    window.__enableGM = function () {
+        if (debugUnlocked) return;
+        debugUnlocked = true;
+        try { localStorage.setItem('ab_gm_unlocked', 'true'); } catch (e) {}
+        try { document.body.setAttribute('data-gm', '1'); } catch (e) {}
+        var gmSection = document.getElementById('gm-debug-section');
+        if (gmSection) gmSection.style.display = 'block';
+        preloadFont();
+        setupGMDebugPersistent();
+        // index.html 里的 GM 调试小字与 debug.js 控制台
+        if (typeof window.__initGMDebugInfo === 'function') window.__initGMDebugInfo();
+        if (typeof window.__loadDebugConsole === 'function') window.__loadDebugConsole();
+        if (typeof showToast === 'function') {
+            showToast('Debug mode has been enabled');
+        }
+    };
     
     const donateModal = $('#donate-modal');
     const achievementsModal = $('#achievements-modal');

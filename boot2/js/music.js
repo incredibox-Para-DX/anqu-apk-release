@@ -19,12 +19,27 @@ class MusicPlayer {
             maxCacheSize: 20,
             isSeeking: false,
             pendingResume: false,
+            seekTarget: null,
+            seekToken: 0,
+            seekTimer: null,
+            seekDeadline: 0,
+            seekLastWrite: 0,
+            seekAttempts: 0,
+            seekCheck: null,
+            seekPaused: false,
+            pendingSeek: null,
+            pendingSeekResume: false,
+            blobBuildTrack: null,
+            blobBuildPromise: null,
             userPaused: false,
             discRotation: 0,
             discSpeed: 0.05,
             lastDiscTimestamp: performance.now(),
             _discAnimationId: null,
-            hasStartedPlayback: false
+            hasStartedPlayback: false,
+            pendingRestoreTime: null,
+            _lastSaveTime: 0,
+            _isRestoring: false
         });
         this.initImageCache();
         this.loadOwnedTracks();
@@ -47,6 +62,40 @@ class MusicPlayer {
     saveOwnedTracks() {
         try {
             localStorage.setItem(this.getOwnedStorageKey(), JSON.stringify(this.ownedTracks));
+        } catch (e) {}
+    }
+
+    // 上次播放状态：曲目索引 / 进度 / 音量 / 播放模式
+    getLastStateKey() {
+        return 'ab_music_last_state_v1';
+    }
+
+    loadPlayState() {
+        try {
+            const raw = localStorage.getItem(this.getLastStateKey());
+            if (!raw) return null;
+            const data = JSON.parse(raw);
+            return data && typeof data === 'object' ? data : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    savePlayState(force) {
+        try {
+            // 恢复播放状态期间（init）不写，避免把进度覆盖成 0
+            if (this._isRestoring) return;
+            const now = Date.now();
+            // 节流：非强制保存时最多每 2 秒写一次
+            if (!force && now - this._lastSaveTime < 2000) return;
+            this._lastSaveTime = now;
+            const data = {
+                index: this.currentTrackIndex,
+                time: this.audio && isFinite(this.audio.currentTime) ? this.audio.currentTime : 0,
+                volume: this.volume,
+                playMode: this.playMode
+            };
+            localStorage.setItem(this.getLastStateKey(), JSON.stringify(data));
         } catch (e) {}
     }
 
@@ -110,9 +159,27 @@ class MusicPlayer {
         await this.loadPlaylistFromXML();
         this.setupAudio();
         this.isInitialized = true;
-        this.loadTrack(0, false);
+
+        // 恢复上次播放的曲目与进度（不自动播放，保持暂停态）
+        this._isRestoring = true;
+        const saved = this.loadPlayState();
+        let startIndex = 0;
+        if (saved && _.isNumber(saved.index) && _.inRange(saved.index, 0, this.playlist.length)) {
+            startIndex = saved.index;
+        }
+        if (saved && _.isNumber(saved.volume)) this.setVolume(saved.volume);
+        if (saved && _.isNumber(saved.playMode)) this.playMode = saved.playMode;
+
+        this.loadTrack(startIndex, false);
+
+        if (saved && _.isNumber(saved.time) && saved.time > 1) {
+            this.pendingRestoreTime = saved.time;
+        }
+
         this.preloadCurrentCover();
         this.startDiscRotation();
+        this.bindUnloadSave();
+        this._isRestoring = false;
     }
 
     loadPlaylistFromXML() {
@@ -170,20 +237,40 @@ class MusicPlayer {
             },
             pause: () => {
                 this.isPlaying = false;
+                this.savePlayState(true);
+            },
+            timeupdate: () => {
+                this.savePlayState(false);
             },
             seeking: () => {
                 this.isSeeking = true;
             },
             seeked: () => {
-                this.isSeeking = false;
-                if (this.pendingResume && !this.userPaused) {
-                    this.pendingResume = false;
-                    this.play();
-                } else {
-                    this.pendingResume = false;
-                }
+                // seek 落地后立刻校验一次；seekTo 尚未接管时按普通 seek 收尾
+                if (this.seekTarget == null) { this.isSeeking = false; return; }
+                if (typeof this.seekCheck === 'function') this.seekCheck();
             },
             loadedmetadata: () => {
+                // 刚切到 blob 源：在这里恢复目标位置（blob 可 seek，写入即生效）
+                if (this.pendingSeek != null) {
+                    const target = this.pendingSeek;
+                    const resume = this.pendingSeekResume;
+                    this.pendingSeek = null;
+                    this.pendingSeekResume = false;
+                    try { this.audio.currentTime = target; } catch (e) {}
+                    this.isSeeking = false;
+                    this.seekTarget = null;
+                    if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+                    if (resume) this.audio.play().catch(() => {});
+                    return;
+                }
+                // 启动时恢复上次播放进度：seekTo 会自动处理 blob / 非 blob 音源
+                if (this.pendingRestoreTime != null) {
+                    const t = this.pendingRestoreTime;
+                    this.pendingRestoreTime = null;
+                    this.seekTo(t);
+                    return;
+                }
                 if (this.isSeeking && this.pendingResume && !this.userPaused) {
                     this.pendingResume = false;
                     this.isSeeking = false;
@@ -266,8 +353,17 @@ class MusicPlayer {
         this.currentTrackIndex = index;
         this.isSeeking = false;
         this.pendingResume = false;
+        this.seekTarget = null;
+        this.seekCheck = null;
+        this.seekPaused = false;
+        this.pendingSeek = null;
+        this.pendingSeekResume = false;
+        this.seekToken += 1;
+        if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
         
         const fileUrl = this.getFullPath(track.file);
+        // 同一首之前已转成 blob（例如单曲循环重启）：直接复用，保持可 seek
+        const playUrl = track._seekBlobUrl || fileUrl;
         
         if (track._blobUrl) {
             this.audio.src = track._blobUrl;
@@ -278,12 +374,15 @@ class MusicPlayer {
             return;
         }
         
-        // 直接用文件地址播放：不再额外 fetch 一遍转 blob（同一首会被下载两次，拖慢首屏）
-        this.audio.src = fileUrl;
+        // 直接用文件地址播放，首帧不等 fetch
+        this.audio.src = playUrl;
         this.audio.load();
         if (autoPlay) {
             this.audio.play().catch(() => {});
         }
+        // 包内音源由 WebViewAssetLoader 提供，不支持 Range，无法直接 seek；
+        // 播放开始后后台取成同源 blob，供拖动进度条时切换（不影响当前播放）
+        if (playUrl.indexOf('blob:') !== 0) this.prefetchSeekBlob(track, fileUrl);
     }
 
     playTrackByIndex(index) {
@@ -325,10 +424,12 @@ class MusicPlayer {
     setVolume(volume) {
         this.volume = _.clamp(volume, 0, 1);
         this.audio.volume = this.volume;
+        this.savePlayState(true);
     }
 
     togglePlayMode() {
         this.playMode = (this.playMode + 1) % this.playModes.length;
+        this.savePlayState(true);
         return this.playModes[this.playMode];
     }
 
@@ -336,23 +437,271 @@ class MusicPlayer {
         return this.playModes[this.playMode];
     }
 
-    seekTo(time) {
-        if (!this.audio.duration) return;
-        if (isNaN(time) || time === null || time === undefined) return;
-        
-        const targetTime = _.clamp(time, 0, this.audio.duration);
-        const wasPlaying = this.isPlaying && !this.userPaused;
-        
-        this.isSeeking = true;
-        if (wasPlaying) {
-            this.pendingResume = true;
-        } else {
-            this.pendingResume = false;
+    // 目标位置是否在浏览器给出的可 seek 区间内
+    canSeekTo(target) {
+        const audio = this.audio;
+        if (!audio) return false;
+        const ranges = audio.seekable;
+        // 还没拿到区间信息（刚换源）时先放行，交给 seeked 事件判断
+        if (!ranges || ranges.length === 0) return true;
+        for (let i = 0; i < ranges.length; i++) {
+            if (target >= ranges.start(i) - 0.5 && target <= ranges.end(i) + 0.5) return true;
         }
-        
-        try {
-            this.audio.currentTime = targetTime;
-        } catch (e) {}
+        return false;
+    }
+
+    seekTo(time) {
+        const audio = this.audio;
+        if (!audio) return false;
+        const duration = audio.duration;
+        if (!duration || isNaN(duration) || !isFinite(duration)) return false;
+        if (time === null || time === undefined || isNaN(time)) return false;
+
+        const target = _.clamp(Number(time), 0, Math.max(0, duration - 0.25));
+        if (!isFinite(target)) return false;
+
+        const src = audio.currentSrc || audio.src || '';
+        // blob 源（已下载曲目 / 已转换的包内曲目）可直接原生 seek
+        if (src.indexOf('blob:') === 0) return this.nativeSeek(target);
+
+        // 包内曲目由 WebViewAssetLoader 提供，响应不带 Content-Length 与 Range，
+        // 写 currentTime 会被静默忽略（表现就是进度条弹回）。先取成同源 blob，
+        // 再从 blob 源跳转；已下载曲目本来就是 blob，不会走到这里。
+        const track = this.playlist[this.currentTrackIndex];
+        if (track) {
+            this.seekViaBlob(track, target, src);
+            return true;
+        }
+        return this.nativeSeek(target);
+    }
+
+    // 原生 seek：seek 期间只等待，绝不重写 currentTime。
+    // 重写会把排队中的 seek 打断重启，听感上就是“卡两下”，最后还弹回原位。
+    nativeSeek(target) {
+        const audio = this.audio;
+        if (!audio) return false;
+
+        if (!this.canSeekTo(target)) {
+            console.warn('[MUSIC] 当前音源不可 seek，目标 ' + target.toFixed(1) + 's');
+            return false;
+        }
+
+        const shouldResume = !audio.paused && !this.userPaused;
+        const token = ++this.seekToken;
+
+        this.seekTarget = target;
+        this.isSeeking = true;
+        this.seekAttempts = 0;
+        this.seekLastWrite = 0;
+        this.seekPaused = false;
+        this.seekDeadline = Date.now() + 12000;
+
+        const stopTimer = () => {
+            if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+        };
+        const arm = ms => {
+            stopTimer();
+            this.seekTimer = setTimeout(() => check(), ms);
+        };
+        const finish = ok => {
+            if (token !== this.seekToken) return;
+            stopTimer();
+            this.seekCheck = null;
+            this.isSeeking = false;
+            this.seekTarget = null;
+            // 到位后若播放被中断才补一次 play；失败时不要再制造声音
+            const needResume = shouldResume && audio.paused && (ok || this.seekPaused);
+            this.seekPaused = false;
+            if (needResume) audio.play().catch(() => {});
+        };
+        const write = () => {
+            this.seekAttempts += 1;
+            this.seekLastWrite = Date.now();
+            try { audio.currentTime = target; } catch (e) {}
+        };
+        // 唯一的校验入口：由 seeked 事件和定时器共同驱动
+        const check = () => {
+            if (token !== this.seekToken) return;
+            if (Date.now() > this.seekDeadline) { finish(false); return; }
+
+            const drift = Math.abs((audio.currentTime || 0) - target);
+            if (!audio.seeking && drift <= 0.75) { finish(true); return; }
+
+            if (audio.seeking) {
+                // 慢设备边播边 seek 会拖很久：超过 2.5 秒先暂停，让浏览器专心完成 seek
+                if (!this.seekPaused && Date.now() - this.seekLastWrite > 2500) {
+                    this.seekPaused = true;
+                    try { audio.pause(); } catch (e) {}
+                }
+                arm(350);
+                return;
+            }
+
+            // 刚写过、seek 可能还没启动，先给浏览器一点时间
+            if (Date.now() - this.seekLastWrite < 900) { arm(350); return; }
+
+            // 位置仍是旧的：补写一次（最多 2 次，每次都会让音频卡一下）
+            if (this.seekAttempts < 2) { write(); arm(700); return; }
+
+            finish(false);
+        };
+        this.seekCheck = check;
+
+        // 元数据未就绪时写 currentTime 会被直接忽略，等 loadedmetadata 再写
+        if (audio.readyState < 1) {
+            $(audio).one('loadedmetadata', () => {
+                if (token !== this.seekToken) return;
+                write();
+                arm(500);
+            });
+            arm(2000);
+            return true;
+        }
+
+        write();
+        arm(300);
+        return true;
+    }
+
+    // 把不可 seek 的音源取成 blob 后再跳转
+    seekViaBlob(track, target, src) {
+        const token = ++this.seekToken;
+        this.isSeeking = true;
+        this.seekTarget = target;
+        if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+
+        const fail = () => {
+            if (token !== this.seekToken) return;
+            this.isSeeking = false;
+            this.seekTarget = null;
+            this.nativeSeek(target);
+        };
+
+        this.ensureSeekBlob(track, src).then(blobUrl => {
+            if (token !== this.seekToken) return;
+            if (!blobUrl) {
+                console.warn('[MUSIC] 无法读取音频字节，seek 退回原生实现');
+                fail();
+                return;
+            }
+
+            const audio = this.audio;
+            if ((audio.currentSrc || audio.src || '') === blobUrl) {
+                this.nativeSeek(target);
+                return;
+            }
+
+            // 切源到 blob，在 loadedmetadata 里恢复目标位置
+            this.pendingSeek = target;
+            this.pendingSeekResume = !audio.paused && !this.userPaused;
+            this.isSeeking = true;
+            this.seekTarget = target;
+            try { audio.pause(); } catch (e) {}
+            audio.src = blobUrl;
+            audio.load();
+
+            // 兜底：元数据迟迟不来也要放开锁，避免进度条一直卡住
+            this.seekTimer = setTimeout(() => {
+                if (token !== this.seekToken) return;
+                this.pendingSeek = null;
+                this.pendingSeekResume = false;
+                this.isSeeking = false;
+                this.seekTarget = null;
+                this.seekTimer = null;
+            }, 8000);
+        }).catch(fail);
+    }
+
+    // 同一首只转换一次；并发调用复用同一个 Promise
+    ensureSeekBlob(track, src) {
+        if (!track) return Promise.resolve(null);
+        if (track._seekBlobUrl) return Promise.resolve(track._seekBlobUrl);
+        if (this.blobBuildTrack === track && this.blobBuildPromise) return this.blobBuildPromise;
+
+        const url = src || this.getFullPath(track.file);
+        this.blobBuildTrack = track;
+        const p = this.fetchAsBlobUrl(url).then(blobUrl => {
+            if (blobUrl) {
+                track._seekBlobUrl = blobUrl;
+                // 只有当它仍是当前曲目时才清理别人的 blob，避免误回收正在播放的那首
+                if (this.playlist[this.currentTrackIndex] === track) this.trimSeekBlobs(track);
+            }
+            return blobUrl;
+        }).catch(() => null).then(res => {
+            this.blobBuildTrack = null;
+            this.blobBuildPromise = null;
+            return res;
+        });
+        this.blobBuildPromise = p;
+        return p;
+    }
+
+    // 只保留当前曲目的 blob，避免多首累计占用内存
+    trimSeekBlobs(keep) {
+        this.playlist.forEach(t => {
+            if (t === keep || !t._seekBlobUrl) return;
+            try { URL.revokeObjectURL(t._seekBlobUrl); } catch (e) {}
+            delete t._seekBlobUrl;
+        });
+    }
+
+    // 播放开始后后台预取 blob，用户第一次拖动时无需等待
+    prefetchSeekBlob(track, url) {
+        if (!track || !url || url.indexOf('blob:') === 0) return;
+        if (track._seekBlobUrl) return;
+        setTimeout(() => {
+            if (this.playlist[this.currentTrackIndex] !== track) return;
+            this.ensureSeekBlob(track, url).catch(() => {});
+        }, 1000);
+    }
+
+    async fetchAsBlobUrl(url) {
+        if (!url || url.indexOf('blob:') === 0) return null;
+        const type = /\.(m4a|mp4)$/i.test(url) ? 'audio/mp4' : 'audio/mpeg';
+        const candidates = [url];
+        // 页面若以 file:///android_asset 加载，再试 WebViewAssetLoader 的 https 入口
+        const m = String(url).match(/^file:\/\/\/android_asset\/(.+)$/);
+        if (m) candidates.push('https://appassets.androidplatform.net/assets/' + m[1]);
+
+        for (const u of candidates) {
+            try {
+                const res = await fetch(u, { cache: 'force-cache' });
+                if (res && res.ok) {
+                    const buf = await res.arrayBuffer();
+                    if (buf && buf.byteLength > 0) {
+                        return URL.createObjectURL(new Blob([buf], { type }));
+                    }
+                }
+            } catch (e) {}
+
+            // fetch 被拦时退回 XHR（部分 WebView 允许 file:// 的 XHR）
+            const viaXhr = await new Promise(resolve => {
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', u, true);
+                    xhr.responseType = 'arraybuffer';
+                    xhr.timeout = 15000;
+                    xhr.onload = () => {
+                        if ((xhr.status === 200 || xhr.status === 0) && xhr.response && xhr.response.byteLength > 0) {
+                            try { resolve(URL.createObjectURL(new Blob([xhr.response], { type }))); return; } catch (e) {}
+                        }
+                        resolve(null);
+                    };
+                    xhr.onerror = () => resolve(null);
+                    xhr.ontimeout = () => resolve(null);
+                    xhr.send();
+                } catch (e) { resolve(null); }
+            });
+            if (viaXhr) return viaXhr;
+        }
+        return null;
+    }
+
+    // 进度条显示用：seek 尚未落地时显示目标位置，避免来回跳
+    getDisplayTime() {
+        if (this.isSeeking && this.seekTarget != null) return this.seekTarget;
+        const t = this.audio ? this.audio.currentTime : 0;
+        return isFinite(t) ? t : 0;
     }
 
     formatTime(seconds) {
@@ -435,6 +784,16 @@ class MusicPlayer {
             this._discAnimationId = null;
         }
     }
+
+    // 页面隐藏 / 卸载时立即保存当前播放进度
+    bindUnloadSave() {
+        const save = () => this.savePlayState(true);
+        window.addEventListener('pagehide', save);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') save();
+        });
+        window.addEventListener('beforeunload', save);
+    }
 }
 
 $(function() {
@@ -469,6 +828,9 @@ $(function() {
     };
 
     let isDraggingProgress = false;
+    let dragRatio = null;
+    let suppressClick = false;
+    let lastTouchTs = 0;
 
     const playClickSound = () => {
         if (_.isFunction((window.Utils && window.Utils.playAudio))) {
@@ -590,30 +952,36 @@ $(function() {
         $els.volumeValue.text(`${Math.round(volume * 100)}%`);
     };
 
-    const seekProgress = e => {
+    const progressRatio = e => {
+        const x = getEventX(e);
+        if (x === null || isNaN(x)) return null;
+
+        const offset = $els.progressSlider.offset();
+        if (!offset) return null;
+
+        const width = $els.progressSlider.width();
+        if (width <= 0 || isNaN(width)) return null;
+
+        return _.clamp((x - offset.left) / width, 0, 1);
+    };
+
+    // 拖动过程中只画预览，不碰 audio：旧实现每次 move 都写 currentTime，
+    // 会不断打断缓冲，松手后进度条又被真实播放位置拉回去
+    const previewProgress = ratio => {
+        const player = window.musicPlayer;
+        const duration = (player && player.audio && player.audio.duration) || 0;
+        if (!(duration > 0)) return;
+        $els.progressFill.css('width', `${ratio * 100}%`);
+        $els.currentTime.text(player.formatTime(ratio * duration));
+    };
+
+    const commitSeek = ratio => {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized) || !player.audio) return;
-        
-        const x = getEventX(e);
-        if (x === null || isNaN(x)) return;
-        
-        const offset = $els.progressSlider.offset();
-        if (!offset) return;
-        
-        const width = $els.progressSlider.width();
-        if (width <= 0 || isNaN(width)) return;
-        
-        const position = Math.max(0, Math.min(x - offset.left, width));
         const duration = player.audio.duration || 0;
-        
-        if (duration > 0) {
-            const percent = (position / width) * 100;
-            const time = (position / width) * duration;
-            
-            player.seekTo(time);
-            $els.progressFill.css('width', `${percent}%`);
-            $els.currentTime.text(player.formatTime(time));
-        }
+        if (!(duration > 0)) return;
+        player.seekTo(ratio * duration);
+        previewProgress(ratio);
     };
 
     const openPlaylist = () => {
@@ -721,6 +1089,8 @@ $(function() {
             updateActionBar();
         }
 
+        // 顶栏科恩币余额（与技能商店同款）
+        if (window.__refreshCoinBalances) window.__refreshCoinBalances();
         $els.playlistModal.css('display', 'flex');
         setTimeout(() => $els.playlistModal.addClass('show'), 10);
     };
@@ -832,7 +1202,7 @@ $(function() {
         $els.modeBtn.html(`<i class="${mode.icon}"></i> ${mode.name}`);
 
         if ((player.audio && player.audio.duration) && !isDraggingProgress && !player.isSeeking) {
-            const currentTime = player.audio.currentTime || 0;
+            const currentTime = player.getDisplayTime ? player.getDisplayTime() : (player.audio.currentTime || 0);
             const duration = player.audio.duration || 0;
             const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
             $els.progressFill.css('width', `${percent}%`);
@@ -876,24 +1246,47 @@ $(function() {
     $els.volumeSlider.on('click', e => { e.stopPropagation(); setVolume(e); });
 
     $els.progressSlider
-        .on('click', e => {
-            e.stopPropagation();
-            e.preventDefault();
-            seekProgress(e);
-        })
         .on('mousedown touchstart', e => {
             e.stopPropagation();
             e.preventDefault();
+            if (e.type === 'touchstart') lastTouchTs = Date.now();
+            // 触摸后浏览器补发的 mousedown，忽略
+            else if (Date.now() - lastTouchTs < 800) return;
+            const ratio = progressRatio(e);
+            if (ratio === null) return;
             isDraggingProgress = true;
-            seekProgress(e);
+            dragRatio = ratio;
+            previewProgress(ratio);
+        })
+        .on('click', e => {
+            e.stopPropagation();
+            e.preventDefault();
+            // 拖拽结束后的 click 已经提交过 seek，避免重复
+            if (suppressClick) return;
+            const ratio = progressRatio(e);
+            if (ratio === null) return;
+            commitSeek(ratio);
         });
 
     $(document)
-        .on('mousemove touchmove', e => { if (isDraggingProgress) seekProgress(e); })
-        .on('mouseup touchend', () => {
-            if (isDraggingProgress) {
-                isDraggingProgress = false;
-            }
+        .on('mousemove touchmove', e => {
+            if (!isDraggingProgress) return;
+            if (e.type === 'touchmove') lastTouchTs = Date.now();
+            else if (Date.now() - lastTouchTs < 800) return;
+            const ratio = progressRatio(e);
+            if (ratio === null) return;
+            dragRatio = ratio;
+            previewProgress(ratio);
+        })
+        .on('mouseup touchend touchcancel', e => {
+            if (!isDraggingProgress) return;
+            if (e && e.type === 'touchend') lastTouchTs = Date.now();
+            else if (e && e.type === 'mouseup' && Date.now() - lastTouchTs < 800) return;
+            isDraggingProgress = false;
+            suppressClick = true;
+            setTimeout(() => { suppressClick = false; }, 400);
+            if (dragRatio !== null) commitSeek(dragRatio);
+            dragRatio = null;
         });
 
     $els.playlistClose.on('click', e => { e.stopPropagation(); closePlaylist(); });

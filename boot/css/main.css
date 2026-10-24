@@ -1091,6 +1091,8 @@
 
 .item-tooltip {
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: 19999;
     background: #111827;
     border: 1px solid #374151;

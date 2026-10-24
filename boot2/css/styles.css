@@ -2829,6 +2829,22 @@ video:empty {
     flex-shrink: 0;
     margin-left: auto;
 }
+/* 全屏页面顶栏的科恩币余额：沿用技能商店 stat-item 的视觉，仅压缩高度放进顶栏 */
+.modal-header .coin-item {
+    height: 28px;
+    padding: 0 10px;
+    gap: 3px;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    margin-right: 14px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+.modal-header .coin-item b {
+    color: #f59e0b;
+    font-size: 14px;
+    font-weight: 700;
+}
 .modal-overlay.app-full-page .modal-title {
     flex: 1 1 auto;
     justify-content: center;
