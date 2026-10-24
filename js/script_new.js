@@ -6142,7 +6142,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.39';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.40';
 
     /* ============================================================
      * 检查更新
@@ -6247,6 +6247,75 @@ const EventManager = {
             $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
         }
     };
+
+    /* ============================================================
+     * GM：自定义地址热更新（正式版里的私有测试通道）
+     * 只有解锁了 GM Debug 才看得到入口，不会影响普通玩家
+     * ============================================================ */
+    (function () {
+        var GM_HU_URL_KEY = 'ab_gm_hu_url';
+        var $btn = $('#gm-hotupdate-btn');
+        var $input = $('#gm-hotupdate-url');
+        var $status = $('#gm-hotupdate-status');
+        if (!$btn.length || !$input.length) return;
+
+        $('#gm-hotupdate-curver').text(window.HU_BUILD_VERSION || '-');
+        try {
+            var saved = localStorage.getItem(GM_HU_URL_KEY);
+            if (saved) $input.val(saved);
+        } catch (e) {}
+
+        function showStatus(html, color) {
+            $status.show().css('color', color || '#94a3b8').html(html);
+        }
+
+        // 允许填 base 目录，也允许直接贴 .../manifest.json
+        function normalizeUrl(raw) {
+            return String(raw || '').trim()
+                .replace(/\/+$/, '')
+                .replace(/\/manifest\.json$/i, '');
+        }
+
+        // 原生下载结束后会回调这里：成功会自动刷新，失败则把原因留在 GM 面板
+        var origUpdateResult = window.__onUpdateCheckResult;
+        window.__onUpdateCheckResult = function (result) {
+            if (window.__gmHuBusy) {
+                window.__gmHuBusy = false;
+                $btn.prop('disabled', false);
+                if (result && result.updated) {
+                    showStatus('更新已应用，正在刷新…', '#10b981');
+                } else {
+                    showStatus('未应用：地址不可达 / 下载失败 / manifest 的 version 与本地相同被跳过。<br>测试时请把私有 manifest 的 version 改成新值（如 ' + (window.HU_BUILD_VERSION || '') + '-test1）', '#f87171');
+                }
+            }
+            if (typeof origUpdateResult === 'function') return origUpdateResult.apply(this, arguments);
+        };
+
+        $btn.on('click', function () {
+            if (window.__gmHuBusy) return;
+            var url = normalizeUrl($input.val());
+            if (!/^https?:\/\//i.test(url)) {
+                showStatus('地址无效：必须以 http:// 或 https:// 开头', '#f87171');
+                return;
+            }
+            if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
+                showStatus('当前安装包不支持热更新（缺少 AndroidUpdate 桥）', '#f87171');
+                return;
+            }
+            try { localStorage.setItem(GM_HU_URL_KEY, url); } catch (e) {}
+            $input.val(url).blur();
+            window.__gmHuBusy = true;
+            $btn.prop('disabled', true);
+            showStatus('正在拉取：<br><span style="color:#60a5fa;">' + url + '/manifest.json</span><br>下载完成后自动刷新，请勿退出', '#fbbf24');
+            try {
+                window.AndroidUpdate.check(url);
+            } catch (e) {
+                window.__gmHuBusy = false;
+                $btn.prop('disabled', false);
+                showStatus('启动失败：' + e, '#f87171');
+            }
+        });
+    })();
 
     /* ============================================================
      * 热更新：fetch manifest + 进度条 + 红点 + 自动检查

@@ -447,7 +447,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.39</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.40</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -516,6 +516,12 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-gm">
 <button class="sidebar-btn" id="sidebar-item-control-btn"><i class="fas fa-sliders-h"></i> 物品池管理</button>
 <button class="sidebar-btn" id="edit-accumulated-value-btn"><i class="fas fa-coins"></i> 编辑总累计价值</button>
+<div style="padding:10px 2px 4px;">
+<div style="font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:6px;">自定义地址热更新（私有测试通道，不会推给其他玩家）<br>当前版本：<span id="gm-hotupdate-curver" style="color:#60a5fa;">-</span>，私有 manifest 的 version 必须与本地不同才会应用</div>
+<input class="input-field" id="gm-hotupdate-url" type="text" placeholder="https://example.com/私有目录" autocomplete="off" autocapitalize="off" spellcheck="false" style="font-size:12px;">
+<button class="sidebar-btn full-width" id="gm-hotupdate-btn" style="margin-top:8px;"><i class="fas fa-cloud-download-alt"></i> 从该地址热更新</button>
+<div id="gm-hotupdate-status" style="display:none;font-size:11px;line-height:1.7;margin-top:6px;color:#94a3b8;word-break:break-all;"></div>
+</div>
 </div>
 </div>
 <div class="sidebar-section collapsible">
