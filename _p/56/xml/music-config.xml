@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist>
+    <track>
+    <title>Darkness</title>
+    <artist>S1大厅背景音乐</artist>
+    <file>BGM_Main_UI_Loop_A.mp3</file>
+    <cover>covers/BGM_Main_UI_Loop_A.jpg</cover>
+    <price>0</price>
+  </track>
+  <track>
+    <title>DayBreak</title>
+    <artist>S4大厅背景音乐</artist>
+    <file>BGM_Main_UI_Loop_V2.mp3</file>
+    <cover>covers/BGM_Main_UI_Loop_V2.jpg</cover>
+    <price>50000</price>
+  </track>
+  <track>
+    <title>Detonation</title>
+    <artist>S9大厅背景音乐</artist>
+    <file>BGM_Main_UI_Loop_V3.mp3</file>
+    <cover>covers/BGM_Main_UI_Loop_V3.jpg</cover>
+    <price>80000</price>
+  </track>
+    <track>
+    <title>DeadPoint</title>
+    <artist>S12大厅背景音乐</artist>
+    <file>BGM_Main_UI_Loop_V4.mp3</file>
+    <cover>covers/BGM_Main_UI_Loop_V4.jpg</cover>
+    <price>100000</price>
+  </track>
+    <track>
+    <title>TALIA'S THEME</title>
+    <artist>S13大厅背景音乐</artist>
+    <file>TALIA'S THEME V1.mp3</file>
+    <cover>covers/TALIA.jpg</cover>
+    <price>120000</price>
+  </track>
+  <track>
+    <title>EXCALIBUR</title>
+    <artist>Cyberpunk2077联动专属背景音乐</artist>
+    <file>EXCALIBUR.mp3</file>
+    <cover>covers/EXCALIBUR.jpg</cover>
+    <price>150000</price>
+  </track>
+  <track>
+    <title>Blood Lament</title>
+    <artist>S14大厅背景音乐</artist>
+    <file>Blood Lament_MatchPrepare.mp3</file>
+    <cover>covers/Blood Lament_MatchPrepare.jpg</cover>
+    <price>120000</price>
+  </track>
+  <track>
+    <title>Fission</title>
+    <artist>S15大厅背景音乐</artist>
+    <file>Fission.mp3</file>
+    <cover>covers/Fission.jpg</cover>
+    <price>130000</price>
+  </track>
+  <track>
+    <title>Fusion</title>
+    <artist>S15大厅背景音乐</artist>
+    <file>Fusion.mp3</file>
+    <cover>covers/Fusion.jpg</cover>
+    <price>130000</price>
+  </track>
+   <track>
+    <title>Stay Away From This</title>
+    <artist>S16大厅背景音乐</artist>
+    <file>Stay away form this.mp3</file>
+    <cover>covers/Stay away form this.jpg</cover>
+    <price>140000</price>
+  </track>
+    <track>
+    <title>Obstruction</title>
+    <artist>S17大厅背景音乐</artist>
+    <file>Obstruction.mp3</file>
+    <cover>covers/Obstruction.jpg</cover>
+    <price>150000</price>
+  </track>
+    <track>
+    <title>Infection</title>
+    <artist>S17大厅背景音乐</artist>
+    <file>Infection.mp3</file>
+    <cover>covers/Infection.jpg</cover>
+    <price>150000</price>
+  </track>
+    <track>
+    <title>Variant Positive</title>
+    <artist>S18大厅背景音乐</artist>
+    <file>Variant Positive.mp3</file>
+    <cover>covers/Variant Positive.jpg</cover>
+    <price>160000</price>
+  </track>
+    <track>
+    <title>Dusk To Dawn</title>
+    <artist>暗区突围无限</artist>
+    <file>Dusk To Dawn.mp3</file>
+    <cover>covers/Dusk To Dawn.jpg</cover>
+    <price>200000</price>
+  </track>
+    <track>
+    <title>Freezing Winds</title>
+    <artist>军港来客</artist>
+    <file>Freezing Winds.mp3</file>
+    <cover>covers/Freezing Winds.jpg</cover>
+    <price>180000</price>
+  </track>
+    <track>
+    <title>全大厅背景音乐混音</title>
+    <artist>TR游戏评测</artist>
+    <file>Lobby Theme Remix.mp3</file>
+    <cover>covers/Lobby Theme Remix.jpg</cover>
+    <price>300000</price>
+  </track>
+  <track>
+    <title>币币机</title>
+    <artist>贩卖机音乐</artist>
+    <file>币币机.mp3</file>
+    <cover>covers/币币机.jpg</cover>
+    <price>50000</price>
+  </track>
+  <track>
+    <title>奥特卡片机</title>
+    <artist>贩卖机音乐</artist>
+    <file>奥特卡片机.mp3</file>
+    <cover>covers/奥特卡片机.jpg</cover>
+    <price>50000</price>
+  </track>
+  <track>
+    <title>大力招财•2026</title>
+    <artist>贩卖机音乐</artist>
+    <file>大力招财2026.mp3</file>
+    <cover>covers/大力招财2026.jpg</cover>
+    <price>50000</price>
+  </track>
+  <track>
+    <title>末路狂飙</title>
+    <artist>卡莫纳唱片</artist>
+    <file>混乱狂飙.mp3</file>
+    <cover>covers/混乱狂飙.jpg</cover>
+    <price>100000</price>
+  </track>
+</playlist>
