@@ -440,7 +440,178 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         50% { opacity: 0.7; transform: scale(0.85); }
     }
 
+    /* ===== 全局错误边界 ===== */
+    #ab-err-boundary {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(8, 11, 15, 0.82);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+    }
+    #ab-err-boundary .ab-err-panel {
+        width: 100%;
+        max-width: 340px;
+        padding: 22px 20px 18px;
+        border-radius: 14px;
+        background: #141a22;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+        text-align: center;
+    }
+    #ab-err-boundary .ab-err-icon {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.14);
+        color: #ef4444;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 44px;
+        text-align: center;
+    }
+    #ab-err-boundary .ab-err-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #f1f5f9;
+        margin-bottom: 8px;
+    }
+    #ab-err-boundary .ab-err-desc {
+        font-size: 12.5px;
+        line-height: 1.6;
+        color: #94a3b8;
+    }
+    #ab-err-boundary .ab-err-detail {
+        margin-top: 10px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        font-size: 11px;
+        line-height: 1.5;
+        color: #7b8595;
+        word-break: break-all;
+        text-align: left;
+        max-height: 84px;
+        overflow: auto;
+    }
+    #ab-err-boundary .ab-err-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+    }
+    #ab-err-boundary .ab-err-btn {
+        flex: 1;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.06);
+        color: #cbd5e1;
+        font-size: 13px;
+        cursor: pointer;
+    }
+    #ab-err-boundary .ab-err-btn.primary {
+        background: #2f6fd0;
+        border-color: #2f6fd0;
+        color: #ffffff;
+        font-weight: 600;
+    }
+    #ab-err-boundary .ab-err-btn:active {
+        opacity: 0.8;
+    }
+
 </style>
+<script>
+/* 全局错误边界：把「点哪都没反应」降级成「可重新载入」的提示层 */
+(function () {
+    var shown = false;
+    var cooldownUntil = 0;
+    var host = null;
+
+    function build() {
+        var el = document.createElement('div');
+        el.id = 'ab-err-boundary';
+        el.setAttribute('role', 'alert');
+        el.innerHTML =
+            '<div class="ab-err-panel">' +
+                '<div class="ab-err-icon">!</div>' +
+                '<div class="ab-err-title">界面出现异常</div>' +
+                '<div class="ab-err-desc">游戏脚本触发了未处理的错误，部分功能可能已经失效。</div>' +
+                '<div class="ab-err-detail"></div>' +
+                '<div class="ab-err-actions">' +
+                    '<button type="button" class="ab-err-btn primary" data-act="reload">重新载入</button>' +
+                    '<button type="button" class="ab-err-btn" data-act="dismiss">继续使用</button>' +
+                '</div>' +
+            '</div>';
+        el.addEventListener('click', function (e) {
+            var act = e.target && e.target.getAttribute ? e.target.getAttribute('data-act') : null;
+            if (act === 'reload') {
+                location.reload();
+            } else if (act === 'dismiss') {
+                el.style.display = 'none';
+                shown = false;
+                cooldownUntil = Date.now() + 20000;
+            }
+        });
+        (document.body || document.documentElement).appendChild(el);
+        return el;
+    }
+
+    function show(msg) {
+        if (shown || Date.now() < cooldownUntil) return;
+        shown = true;
+        if (!host || !host.parentNode) host = build();
+        host.style.display = 'flex';
+        var detail = host.querySelector('.ab-err-detail');
+        if (detail) {
+            var ver = window.HU_BUILD_VERSION || '';
+            detail.textContent = (ver ? ver + ' · ' : '') + msg;
+        }
+        window.__abLastError = msg;
+    }
+
+    function onError(msg) {
+        try {
+            if (window.console && console.error) console.error('[error-boundary]', msg);
+        } catch (_) {}
+        setTimeout(function () { show(msg); }, 0);
+    }
+
+    window.addEventListener('error', function (e) {
+        /* 图片/脚本 404 等资源加载失败不弹窗，只处理脚本运行时异常 */
+        if (!e) return;
+        if (e.target && e.target !== window && !e.message) return;
+        if (!e.message && !e.error) return;
+        var where = '';
+        try {
+            if (e.filename) {
+                var parts = String(e.filename).split('/');
+                where = ' @' + parts[parts.length - 1] + ':' + (e.lineno || 0);
+            }
+        } catch (_) {}
+        onError(String(e.message || e.error) + where);
+    }, true);
+
+    window.addEventListener('unhandledrejection', function (e) {
+        var r = e && e.reason;
+        var name = r && r.name ? String(r.name) : '';
+        var msg = r && r.message ? String(r.message) : String(r || '');
+        /* 网络失败/主动取消不是界面异常，避免弱网下误弹 */
+        if (name === 'AbortError') return;
+        if (/failed to fetch|networkerror|load failed|network request failed|timeout|request aborted|aborterror|the user aborted/i.test(msg)) return;
+        onError('Promise: ' + (msg || name || 'unhandled rejection'));
+    });
+
+    window.__abShowError = show;
+})();
+</script>
 <script>
 (function(){
     var gm = localStorage.getItem('ab_gm_unlocked') === 'true';
@@ -454,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.43</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.44</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
