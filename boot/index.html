@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.45</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.46</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1504,22 +1504,78 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         if (loading) loading.style.display = 'none';
     }
 
-    // localStorage 缓存读写
-    function saveNotifCache(html) {
-        try {
-            localStorage.setItem(NOTIFICATION_CACHE_KEY, JSON.stringify({ html: html, ts: Date.now() }));
-        } catch (e) {}
+    /* ---- 公告缓存放 IndexedDB：公告页有几 MB，留在 localStorage 会挤占存档配额 ---- */
+    var NDB_NAME = 'ab_notice_db';
+    var NDB_STORE = 'html';
+    var notifDbPromise = null;
+
+    function notifDb() {
+        if (notifDbPromise) return notifDbPromise;
+        notifDbPromise = new Promise(function (resolve, reject) {
+            if (!window.indexedDB) { reject(new Error('no indexedDB')); return; }
+            var req = indexedDB.open(NDB_NAME, 1);
+            req.onupgradeneeded = function () {
+                var db = req.result;
+                if (!db.objectStoreNames.contains(NDB_STORE)) {
+                    db.createObjectStore(NDB_STORE, { keyPath: 'id' });
+                }
+            };
+            req.onsuccess = function () { resolve(req.result); };
+            req.onerror = function () { reject(req.error || new Error('idb open failed')); };
+        });
+        return notifDbPromise;
     }
+
+    function saveNotifCache(html) {
+        notifDb().then(function (db) {
+            var tx = db.transaction(NDB_STORE, 'readwrite');
+            tx.objectStore(NDB_STORE).put({ id: 'latest', html: html, ts: Date.now() });
+        }).catch(function () {});
+    }
+
+    function readNotifCacheAsync() {
+        return notifDb().then(function (db) {
+            return new Promise(function (resolve) {
+                var tx = db.transaction(NDB_STORE, 'readonly');
+                var req = tx.objectStore(NDB_STORE).get('latest');
+                req.onsuccess = function () {
+                    var rec = req.result;
+                    if (!rec || !rec.html) { resolve(null); return; }
+                    if (rec.ts && (Date.now() - rec.ts) > NOTIFICATION_CACHE_TTL) { resolve(null); return; }
+                    resolve(rec.html);
+                };
+                req.onerror = function () { resolve(null); };
+            });
+        }).catch(function () { return null; });
+    }
+
+    /* 同步读取只用内存副本，避免把几 MB 字符串反复从磁盘拉起 */
     function readNotifCache() {
+        return cachedHtml;
+    }
+
+    /* 老版本把公告 HTML 塞在 localStorage，首次启动搬到 IndexedDB 并删除旧 key */
+    function migrateLegacyNotifCache() {
+        var raw = null;
+        try { raw = localStorage.getItem(NOTIFICATION_CACHE_KEY); } catch (e) { return; }
+        if (!raw) return;
+        var html = null;
         try {
-            var raw = localStorage.getItem(NOTIFICATION_CACHE_KEY);
-            if (!raw) return null;
             var parsed = JSON.parse(raw);
-            if (!parsed || !parsed.html) return null;
-            // 30min TTL 过期判定
-            if (parsed.ts && (Date.now() - parsed.ts) > NOTIFICATION_CACHE_TTL) return null;
-            return parsed.html;
-        } catch (e) { return null; }
+            if (parsed && parsed.html && parsed.html.length > 0) html = parsed.html;
+        } catch (e) {}
+        if (!html) {
+            try { localStorage.removeItem(NOTIFICATION_CACHE_KEY); } catch (e) {}
+            return;
+        }
+        notifDb().then(function (db) {
+            var tx = db.transaction(NDB_STORE, 'readwrite');
+            tx.objectStore(NDB_STORE).put({ id: 'latest', html: html, ts: Date.now() });
+            tx.oncomplete = function () {
+                /* 只有写入成功才删旧 key，IndexedDB 不可用时保留原样 */
+                try { localStorage.removeItem(NOTIFICATION_CACHE_KEY); } catch (e) {}
+            };
+        }).catch(function () {});
     }
 
     // fetch 竞速超时（不依赖 AbortController，旧 WebView 兼容）
@@ -1656,6 +1712,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         }, 6000);
     }
 
+    /* 释放老版本留在 localStorage 里的几 MB 公告缓存 */
+    migrateLegacyNotifCache();
+
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         scheduleNotificationPreload();
     } else {
@@ -1666,7 +1725,17 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         if (!modal) return;
         modal.style.display = 'flex';
         requestAnimationFrame(function () { modal.classList.add('show'); });
-        if (!rendered) loadNotification(false);
+        if (!rendered) {
+            if (cachedHtml) {
+                loadNotification(false);
+            } else {
+                showLoading();
+                readNotifCacheAsync().then(function (html) {
+                    if (html) cachedHtml = html;
+                    loadNotification(false);
+                }).catch(function () { loadNotification(false); });
+            }
+        }
         playUISound('audio/open-notification.mp3');
     }
 
