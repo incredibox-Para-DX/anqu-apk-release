@@ -1418,7 +1418,6 @@ previewCurrentBackground() {
             '法厄同之钟': 'collect/img_f70f42c369.jpg',
             '黄金哑铃': 'collect/img_7b748eb857.jpg',
             '机械手臂': 'collect/img_f923762915.jpg',
-            '热成像模块': 'collect/img_9aaa9d9296.png',
             '原子钟核心': 'collect/img_93d5c9d9b5.jpg',
             '宝石项链': 'collect/img_31a2709271.jpg',
             '“新边疆”模型': 'collect/img_7c8eb5c849.jpg',
@@ -1471,6 +1470,8 @@ previewCurrentBackground() {
                 if (!item || !item.name) return;
                 // 旧版调试菜单写入的是“计算机验算模块”，与游戏内名称不一致，会多出一条重复项
                 const name = item.name === '计算机验算模块' ? '验算模块' : item.name;
+                // 已从收藏室下架的藏品，旧存档里丢掉，避免继续显示
+                if (!this.COLLECT_MAP[name]) return;
                 const image = this.COLLECT_MAP[name] || item.image;
                 const exist = _.find(out, { name: name });
                 if (exist) {
@@ -6141,7 +6142,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.38';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.39';
 
     /* ============================================================
      * 检查更新

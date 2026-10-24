@@ -826,10 +826,6 @@
       "size": 626161
     },
     {
-      "path": "collect/img_9aaa9d9296.png",
-      "size": 989355
-    },
-    {
       "path": "collect/img_b3431e7295.jpg",
       "size": 698912
     },
@@ -862,6 +858,6 @@
       "size": 720648
     }
   ],
-  "fileCount": 215,
-  "totalSize": 44866625
+  "fileCount": 214,
+  "totalSize": 43877270
 }

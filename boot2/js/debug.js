@@ -923,7 +923,6 @@
     '法厄同之钟': 'collect/img_f70f42c369.jpg',
     '黄金哑铃': 'collect/img_7b748eb857.jpg',
     '机械手臂': 'collect/img_f923762915.jpg',
-    '热成像模块': 'collect/img_9aaa9d9296.png',
     '原子钟核心': 'collect/img_93d5c9d9b5.jpg',
     '宝石项链': 'collect/img_31a2709271.jpg',
     '“新边疆”模型': 'collect/img_7c8eb5c849.jpg',

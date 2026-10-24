@@ -80,6 +80,8 @@ if os.path.isdir(FONTS_DIR):
 SKIP = set(CODE_FILES)
 SKIP.update({"assets/www/css/shell.css", "assets/www/js/shell.js"})
 SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
+# 已从收藏室下架、仓库 media/collect 里也不存在的旧图，包里一并清掉
+SKIP.add("assets/www/collect/img_9aaa9d9296.png")
 
 
 def main():
