@@ -660,10 +660,10 @@
 }
 .music-volume-slider {
     width: 100%;
-    height: 4px;
+    height: 8px;
     margin-top: 10px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -674,9 +674,10 @@
     left: 0;
     height: 100%;
     background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
+    border-radius: 4px;
     width: 50%;
     transition: width 0.2s ease;
+    pointer-events: none; /* 让点击穿透到滑块轨道 */
 }
 .music-volume-label {
     display: flex;
@@ -748,6 +749,33 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+/* 本地导入曲目的删除按钮：两段式确认，第一次点亮红色，3 秒内再点才删 */
+.playlist-item-del {
+    flex-shrink: 0;
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 13px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+.playlist-item-del:hover {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.12);
+}
+.playlist-item.del-armed .playlist-item-del {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.2);
 }
 .playlist-container::-webkit-scrollbar {
     width: 6px;
@@ -1920,6 +1948,230 @@ audio {
     border-radius: 8px;
     object-fit: contain;
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* 本地音乐编辑弹窗 */
+#custom-music-edit-modal {
+    z-index: 10002 !important;
+}
+/* 从 app-full-page 弹窗（背景商店 / 播放列表，z-index 10001）内打开的二级弹窗，
+   必须高于 10001，否则会被父弹窗遮挡 */
+#bg-settings-modal,
+#gm-hotupdate-modal,
+#gm-modal-center-modal {
+    z-index: 10002 !important;
+}
+.custom-music-edit-content {
+    width: 420px;
+    max-width: 92vw;
+}
+.custom-music-edit-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.cm-edit-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.cm-edit-row > label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e5e7eb;
+}
+.cm-edit-row input[type="text"] {
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+.cm-edit-row input[type="text"]:focus {
+    border-color: #3b82f6;
+}
+.cm-edit-cover-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.cm-edit-cover-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.3);
+}
+.cm-edit-cover-btn,
+.cm-edit-file-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    color: #93c5fd;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.cm-edit-cover-btn:hover,
+.cm-edit-file-btn:hover {
+    background: rgba(59, 130, 246, 0.25);
+    color: #fff;
+}
+.cm-edit-file-btn {
+    width: fit-content;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#cm-edit-audio-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 240px;
+}
+.custom-music-edit-footer {
+    display: flex;
+    gap: 10px;
+}
+.modal-btn.cancel {
+    background: rgba(255,255,255,0.1);
+}
+.modal-btn.cancel:hover {
+    background: rgba(255,255,255,0.2);
+}
+.modal-btn.confirm {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    border-color: rgba(66, 153, 225, 0.4);
+}
+.modal-btn.confirm:hover {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+
+/* 背景设置弹窗 */
+/* 固定 modal-body 最小高度为展开后的高度，避免勾选/切换时因行显隐导致弹窗上下跳动错位 */
+#bg-settings-modal .modal-body {
+    min-height: 400px;
+}
+.bg-setting-row {
+    margin-bottom: 16px;
+}
+.bg-setting-row:last-child {
+    margin-bottom: 0;
+}
+.bg-setting-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #e5e7eb;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.bg-setting-label:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.14);
+}
+.bg-setting-label input[type="checkbox"] {
+    accent-color: #3b82f6;
+    width: 16px;
+    height: 16px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.bg-setting-group-title {
+    font-size: 13px;
+    color: #e5e7eb;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.bg-setting-options-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.bg-setting-options-row {
+    display: flex;
+    gap: 8px;
+}
+/* 原生 radio 隐藏，用 label 当按钮，兼容旧 WebView（不用 :has） */
+.bg-setting-options-col input[type="radio"],
+.bg-setting-options-row input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+.bg-setting-option,
+.bg-timer-opt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 13px;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    user-select: none;
+}
+.bg-timer-opt {
+    flex: 1;
+}
+.bg-setting-option:hover,
+.bg-timer-opt:hover {
+    background: rgba(59,130,246,0.15);
+    border-color: rgba(59,130,246,0.4);
+    color: #93c5fd;
+}
+/* 选中态：input 与 label 是兄弟节点，用 + 选择器，全浏览器兼容 */
+.bg-setting-options-col input[type="radio"]:checked + .bg-setting-option,
+.bg-setting-options-row input[type="radio"]:checked + .bg-timer-opt {
+    background: rgba(59,130,246,0.18);
+    border-color: #3b82f6;
+    color: #93c5fd;
+    box-shadow: 0 0 0 1px rgba(59,130,246,0.25);
+}
+.bg-settings-info {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+/* 喜好背景置顶标记 */
+.bg-thumb.favorited::after {
+    content: '\f005';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: #fbbf24;
+    font-size: 14px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    z-index: 3;
+}
+#bg-favorite-btn.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #fff !important;
 }
 #record-disc {
     transform: rotate(0deg);

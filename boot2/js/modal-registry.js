@@ -87,6 +87,12 @@
 
         if (!options.silent && !cfg.silent) play(cfg.openSound);
 
+        // 支持调用方指定层级（如弹窗中心打开的弹窗需要高于自身）
+        if (options.zIndex != null) {
+            if (node._origZIndex === undefined) node._origZIndex = node.style.zIndex || '';
+            node.style.zIndex = options.zIndex;
+        }
+
         node.style.display = 'flex';
         if (cfg.kind === 'modal') {
             setTimeout(function () { node.classList.add('show'); }, cfg.showDelay);
@@ -111,7 +117,14 @@
         node.classList.remove('show');
         setTimeout(function () {
             // 期间被重新打开就不要隐藏，避免快速开关时闪一下
-            if (!node.classList.contains('show')) node.style.display = 'none';
+            if (!node.classList.contains('show')) {
+                node.style.display = 'none';
+                // 恢复弹窗中心临时设置的层级
+                if (node._origZIndex !== undefined) {
+                    node.style.zIndex = node._origZIndex;
+                    delete node._origZIndex;
+                }
+            }
         }, cfg.hideDelay);
         var pos = openIds.indexOf(id);
         if (pos !== -1) openIds.splice(pos, 1);

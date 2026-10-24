@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.54</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.65</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -694,12 +694,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-gm">
 <button class="sidebar-btn" id="sidebar-item-control-btn"><i class="fas fa-sliders-h"></i> 物品池管理</button>
 <button class="sidebar-btn" id="edit-accumulated-value-btn"><i class="fas fa-coins"></i> 编辑总累计价值</button>
-<div style="padding:10px 2px 4px;">
-<div style="font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:6px;">自定义地址热更新（私有测试通道，不会推给其他玩家）<br>当前版本：<span id="gm-hotupdate-curver" style="color:#60a5fa;">-</span>，私有 manifest 的 version 必须与本地不同才会应用</div>
-<input class="input-field" id="gm-hotupdate-url" type="text" placeholder="https://example.com/私有目录" autocomplete="off" autocapitalize="off" spellcheck="false" style="font-size:12px;">
-<button class="sidebar-btn full-width" id="gm-hotupdate-btn" style="margin-top:8px;"><i class="fas fa-cloud-download-alt"></i> 从该地址热更新</button>
-<div id="gm-hotupdate-status" style="display:none;font-size:11px;line-height:1.7;margin-top:6px;color:#94a3b8;word-break:break-all;"></div>
-</div>
+<button class="sidebar-btn full-width" id="gm-hotupdate-open-btn" style="margin-top:6px;"><i class="fas fa-cloud-download-alt"></i> 私链热更新</button>
+<button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> 弹窗中心</button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
@@ -801,6 +797,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="app-page-actions">
 <span class="stat-item coin-item"><img src="images/img_b353ca7f64.png" alt="科恩币" style="height:1.2em;vertical-align:middle;margin-right:3px;"><b id="playlist-coin-balance">0</b></span>
 <span class="playlist-page-count" id="playlist-page-count"></span>
+<button class="app-page-action-btn" id="playlist-import-btn"><i class="fas fa-file-import"></i> 导入</button>
 </div>
 </div>
 <div class="modal-body playlist-page-body">
@@ -808,6 +805,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="playlist-empty" id="playlist-empty">播放列表为空</div>
 </div>
 </div>
+<input type="file" id="playlist-import-input" accept="audio/*" multiple style="display:none;">
 </div>
 </div>
 <div class="modal-overlay" id="submit-score-modal">
@@ -901,6 +899,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-header">
 <div class="modal-title"><i class="fas fa-palette"></i> 背景商店</div>
 <span class="stat-item coin-item"><img src="images/img_b353ca7f64.png" alt="科恩币" style="height:1.2em;vertical-align:middle;margin-right:3px;"><b id="bg-coin-balance">0</b></span>
+<button class="app-page-action-btn" id="bg-settings-open-btn" title="背景设置" style="margin-left:6px;margin-right:10px;"><i class="fas fa-sliders-h"></i> 背景设置</button>
 <button class="app-page-back-btn" id="bg-select-close"><i class="fas fa-arrow-left"></i> 返回</button>
 </div>
 <div class="modal-body bg-select-modal-body">
@@ -910,6 +909,48 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="modal-btn" id="bg-preview-btn" style="width:100px!important;height:30px!important;min-width:100px!important;max-width:100px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-play"></i> 预览</button>
 <button class="modal-btn" id="bg-buy-btn" style="width:100px!important;height:30px!important;min-width:100px!important;max-width:100px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-shopping-cart"></i> 购买</button>
 <button class="modal-btn primary" id="bg-confirm-btn" style="width:100px!important;height:30px!important;min-width:100px!important;max-width:100px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-hand-pointer"></i> 切换</button>
+<button class="modal-btn" id="bg-favorite-btn" style="width:110px!important;height:30px!important;min-width:110px!important;max-width:110px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-star"></i> 加入喜好</button>
+</div>
+</div>
+</div>
+<!-- 背景设置弹窗 -->
+<div class="modal-overlay" id="bg-settings-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-sliders-h"></i> 背景设置</div>
+<button class="modal-close" id="bg-settings-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:16px;">
+<div class="bg-setting-row">
+<label class="bg-setting-label">
+<input type="checkbox" id="bg-favorites-play">
+<span>播放喜好的壁纸（仅在已加入喜好的背景间切换）</span>
+</label>
+</div>
+<div class="bg-setting-row" id="bg-switch-mode-row" style="display:none;">
+<div class="bg-setting-group-title">切换方式</div>
+<div class="bg-setting-options-col">
+<input type="radio" id="bg-mode-timer" name="bg-switch-mode" value="timer">
+<label for="bg-mode-timer" class="bg-setting-option">定时切换</label>
+<input type="radio" id="bg-mode-reopen" name="bg-switch-mode" value="reopen">
+<label for="bg-mode-reopen" class="bg-setting-option">每次重新打开游戏更换</label>
+</div>
+</div>
+<div class="bg-setting-row" id="bg-timer-row" style="display:none;">
+<div class="bg-setting-group-title">定时切换间隔</div>
+<div class="bg-setting-options-row">
+<input type="radio" id="bg-timer-5" name="bg-timer" value="5">
+<label for="bg-timer-5" class="bg-timer-opt">5 分钟</label>
+<input type="radio" id="bg-timer-15" name="bg-timer" value="15">
+<label for="bg-timer-15" class="bg-timer-opt">15 分钟</label>
+<input type="radio" id="bg-timer-30" name="bg-timer" value="30">
+<label for="bg-timer-30" class="bg-timer-opt">30 分钟</label>
+</div>
+</div>
+<div id="bg-settings-info" class="bg-settings-info"></div>
+</div>
+<div class="modal-footer" style="padding:0 16px 16px;">
+<button class="modal-btn primary full-width" id="bg-settings-save"><i class="fas fa-check"></i> 保存</button>
 </div>
 </div>
 </div>
@@ -1318,6 +1359,34 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i> 公告加载中...
 </div>
 <iframe id="notification-iframe" src="about:blank" style="width:100%;height:100%;border:none;display:block;" referrerpolicy="no-referrer"></iframe>
+</div>
+</div>
+</div>
+<!-- 私链热更新弹窗 -->
+<div class="modal-overlay" id="gm-hotupdate-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-cloud-download-alt"></i> 私链热更新</div>
+<button class="modal-close" id="gm-hotupdate-modal-close">&times;</button>
+</div>
+<div class="modal-body">
+<div style="font-size:12px;color:#94a3b8;line-height:1.7;margin-bottom:10px;">自定义地址热更新（私有测试通道，不会推给其他玩家）。<br>当前版本：<span id="gm-hotupdate-curver" style="color:#60a5fa;">-</span><br>私有 manifest 的 version 必须与本地不同才会应用。</div>
+<input class="input-field" id="gm-hotupdate-url" type="text" placeholder="https://example.com/私有目录" autocomplete="off" autocapitalize="off" spellcheck="false" style="font-size:12px;">
+<button class="sidebar-btn full-width" id="gm-hotupdate-btn" style="margin-top:10px;"><i class="fas fa-cloud-download-alt"></i> 从该地址热更新</button>
+<div id="gm-hotupdate-status" style="display:none;font-size:11px;line-height:1.7;margin-top:8px;color:#94a3b8;word-break:break-all;"></div>
+</div>
+</div>
+</div>
+<!-- GM 弹窗中心 -->
+<div class="modal-overlay" id="gm-modal-center-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-window-restore"></i> 弹窗中心</div>
+<button class="modal-close" id="gm-modal-center-close">&times;</button>
+</div>
+<div class="modal-body" id="gm-modal-center-body" style="max-height:60vh;overflow-y:auto;">
+<div style="color:#94a3b8;font-size:12px;margin-bottom:10px;">点击按钮打开对应的游戏弹窗（用于测试）。</div>
+<div id="gm-modal-center-list" style="display:flex;flex-direction:column;gap:6px;"></div>
 </div>
 </div>
 </div>

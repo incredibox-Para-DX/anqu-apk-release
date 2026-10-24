@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.54.m",
+  "version": "v2.1.0_hotfix.65.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,11 +19,11 @@
     },
     {
       "path": "css/main.css",
-      "size": 53489
+      "size": 59687
     },
     {
       "path": "css/styles.css",
-      "size": 72523
+      "size": 73828
     },
     {
       "path": "js/debug.js",
@@ -31,7 +31,7 @@
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 28608
+      "size": 28536
     },
     {
       "path": "js/main.js",
@@ -39,11 +39,11 @@
     },
     {
       "path": "js/modal-registry.js",
-      "size": 7571
+      "size": 8119
     },
     {
       "path": "js/music.js",
-      "size": 61117
+      "size": 89589
     },
     {
       "path": "js/net.js",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 307963
+      "size": 321250
     },
     {
       "path": "js/synthesis.js",
@@ -102,10 +102,14 @@
       "size": 101
     },
     {
+      "path": "music-player/covers/custom-music-default.png",
+      "size": 482218
+    },
+    {
       "path": "index.html",
-      "size": 113748
+      "size": 117529
     }
   ],
-  "fileCount": 26,
-  "totalSize": 1415614
+  "fileCount": 27,
+  "totalSize": 1951351
 }

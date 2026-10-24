@@ -462,8 +462,6 @@ previewCurrentBackground() {
         this.selectedIndex = this.currentIndex;
         this.applyBackground(bg.path);
         EventManager.closeModal('bg-select-modal');
-
-        if (window.showToast) window.showToast(`背景已切换为: ${bg.name}`);
     },
 
     buyCurrentBackground() {
@@ -477,7 +475,6 @@ previewCurrentBackground() {
             $thumb.find('.bg-thumb-lock').remove();
             $thumb.find('.bg-thumb-price').html('<span style="color:#4ade80;">已解锁</span>');
             this.renderPreview();
-            if (window.showToast) window.showToast(result.message);
         } else {
             if (window.showToast) window.showToast(result.message);
         }
@@ -1423,7 +1420,7 @@ previewCurrentBackground() {
             $detail.find('#shop-back-btn').on('click', () => this.renderGrid());
             $detail.find('#shop-buy-btn').on('click', () => {
                 const result = this.purchase(id);
-                if (window.showToast) window.showToast(result.message);
+                if (!result.success && window.showToast) window.showToast(result.message);
                 const buySfx = new Audio('audio/buy.mp3');
                 buySfx.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 buySfx.play().catch(() => {});
@@ -3874,7 +3871,42 @@ const EventManager = {
         $(document).on('click', '#bg-preview-btn', () => {
             BackgroundManager.previewCurrentBackground();
         });
-        
+
+        // 加入 / 取消喜好
+        $('#bg-favorite-btn').on('click', () => {
+            const bg = BackgroundManager.backgrounds[BackgroundManager.currentIndex];
+            if (!bg) return;
+            BackgroundFavorites.toggle(bg.id);
+            BackgroundFavorites.updateFavoriteBtn();
+            BackgroundManager.buildGrid();
+            if (window.showToast) {
+                window.showToast(BackgroundFavorites.has(bg.id) ? '已加入喜好' : '已取消喜好');
+            }
+        });
+
+        // 背景设置弹窗
+        $('#bg-settings-open-btn').on('click', () => {
+            BackgroundFavorites.openSettingsModal();
+        });
+        $('#bg-settings-close').on('click', () => BackgroundFavorites.closeSettingsModal());
+        $('#bg-settings-save').on('click', () => BackgroundFavorites.saveSettings());
+        $('#bg-favorites-play').on('change', function () {
+            $('#bg-switch-mode-row').toggle(this.checked);
+            if (!this.checked) {
+                $('#bg-timer-row').hide();
+            } else {
+                // 重新评估定时间隔行（切换方式可能已是 timer，此时 radio change 不会再次触发）
+                const mode = $('input[name="bg-switch-mode"]:checked').val() || 'timer';
+                $('#bg-timer-row').toggle(mode === 'timer');
+            }
+        });
+        $('input[name="bg-switch-mode"]').on('change', function () {
+            $('#bg-timer-row').toggle($(this).val() === 'timer' && this.checked);
+        });
+        $('#bg-settings-modal').on('click', function (e) {
+            if ($(e.target).is(this)) BackgroundFavorites.closeSettingsModal();
+        });
+
         $('#bg-select-modal').on('click', function(e) {
             if ($(e.target).is(this)) {
                 Utils.playAudio('click-audio', { volume: 1 });
@@ -5890,7 +5922,11 @@ const EventManager = {
         // 音乐资源路径解析（同步，从缓存取；未缓存则返回原路径或默认）
         getCachedMusicPath(path) {
             if (!path) return path;
+            // blob: 是本地导入音乐的内嵌封面或音频，直接返回，不能回退成默认资源
+            if (path.indexOf('blob:') === 0) return path;
             if (path === this.defaultMusicFile || path === this.defaultMusicCover) return path;
+            // 本地导入音乐的默认封面是内置静态资源，不走音乐缓存回退
+            if (path.indexOf('custom-music-default') !== -1) return path;
             if (this.musicBlobCache[path]) return this.musicBlobCache[path];
             // IndexedDB 缓存还没恢复完：先返回原路径。
             // 此时若回退成默认音乐，会出现“封面是当前曲目、声音却是默认曲目”的错位。
@@ -6064,6 +6100,123 @@ const EventManager = {
             });
         };
 
+        /* ============================================================
+         * 背景喜好 + 背景设置（定时切换 / 每次重开更换）
+         * ============================================================ */
+        const BG_FAV_KEY = 'ab_bg_favorites';
+        const BG_SETTINGS_KEY = 'ab_bg_settings';
+        window.BackgroundFavorites = {
+            _ids: [],
+            _timer: null,
+            init() {
+                try { this._ids = JSON.parse(localStorage.getItem(BG_FAV_KEY) || '[]'); } catch (e) { this._ids = []; }
+                this.settings = this._loadSettings();
+                this._applyReopenSwitch();
+            },
+            _loadSettings() {
+                try { return JSON.parse(localStorage.getItem(BG_SETTINGS_KEY) || '{}'); } catch (e) { return {}; }
+            },
+            _saveSettings() {
+                try { localStorage.setItem(BG_SETTINGS_KEY, JSON.stringify(this.settings)); } catch (e) {}
+            },
+            has(id) { return this._ids.indexOf(id) !== -1; },
+            toggle(id) {
+                const i = this._ids.indexOf(id);
+                if (i === -1) this._ids.push(id); else this._ids.splice(i, 1);
+                try { localStorage.setItem(BG_FAV_KEY, JSON.stringify(this._ids)); } catch (e) {}
+            },
+            getFavoriteBackgrounds() {
+                return BackgroundManager.backgrounds.filter(bg => this.has(bg.id));
+            },
+            updateFavoriteBtn() {
+                const bg = BackgroundManager.backgrounds[BackgroundManager.currentIndex];
+                const $btn = $('#bg-favorite-btn');
+                if (!bg) { $btn.removeClass('active').html('<i class="fas fa-star"></i> 加入喜好'); return; }
+                if (this.has(bg.id)) {
+                    $btn.addClass('active').html('<i class="fas fa-star"></i> 取消喜好');
+                } else {
+                    $btn.removeClass('active').html('<i class="fas fa-star"></i> 加入喜好');
+                }
+            },
+            openSettingsModal() {
+                const s = this.settings;
+                $('#bg-favorites-play').prop('checked', !!s.playFavorites);
+                $('#bg-switch-mode-row').toggle(!!s.playFavorites);
+                $('input[name="bg-switch-mode"]').val([s.switchMode || 'timer']);
+                $('#bg-timer-row').toggle(!!s.playFavorites && (s.switchMode || 'timer') === 'timer');
+                $('input[name="bg-timer"]').val([String(s.timer || 15)]);
+                const favCount = this._ids.length;
+                $('#bg-settings-info').html(favCount
+                    ? `当前已喜好 ${favCount} 个背景。`
+                    : '还没有喜好的背景，请先在背景商店中加入喜好。');
+                if (window.ModalRegistry) ModalRegistry.open('bg-settings-modal');
+                else { $('#bg-settings-modal').css('display', 'flex'); setTimeout(() => $('#bg-settings-modal').addClass('show'), 10); }
+            },
+            closeSettingsModal() {
+                if (window.ModalRegistry) ModalRegistry.close('bg-settings-modal');
+                else { $('#bg-settings-modal').removeClass('show'); setTimeout(() => $('#bg-settings-modal').css('display', 'none'), 300); }
+            },
+            saveSettings() {
+                this.settings.playFavorites = $('#bg-favorites-play').is(':checked');
+                this.settings.switchMode = $('input[name="bg-switch-mode"]:checked').val() || 'timer';
+                this.settings.timer = Number($('input[name="bg-timer"]:checked').val() || 15);
+                this._saveSettings();
+                this.applyCycling();
+                if (window.showToast) window.showToast('背景设置已保存');
+                this.closeSettingsModal();
+            },
+            applyCycling() {
+                if (this._timer) { clearInterval(this._timer); this._timer = null; }
+                if (!this.settings.playFavorites) return;
+                const favs = this.getFavoriteBackgrounds();
+                if (favs.length < 2) return;
+                if (this.settings.switchMode === 'timer') {
+                    const ms = (this.settings.timer || 15) * 60 * 1000;
+                    this._timer = setInterval(() => this._switchToNextFavorite(), ms);
+                }
+            },
+            _switchToNextFavorite() {
+                const favs = this.getFavoriteBackgrounds();
+                if (favs.length < 2) return;
+                const cur = BackgroundManager.backgrounds[BackgroundManager.currentIndex];
+                let idx = favs.findIndex(b => b.id === (cur && cur.id));
+                idx = (idx + 1) % favs.length;
+                const realIdx = BackgroundManager.backgrounds.indexOf(favs[idx]);
+                if (realIdx !== -1) {
+                    BackgroundManager.currentIndex = realIdx;
+                    BackgroundManager.confirmSelection();
+                }
+            },
+            _applyReopenSwitch() {
+                if (!this.settings.playFavorites) return;
+                if (this.settings.switchMode !== 'reopen') return;
+                const favs = this.getFavoriteBackgrounds();
+                if (favs.length === 0) return;
+                // 随机选一个喜好背景
+                const pick = favs[Math.floor(Math.random() * favs.length)];
+                const realIdx = BackgroundManager.backgrounds.indexOf(pick);
+                if (realIdx !== -1) {
+                    BackgroundManager.currentIndex = realIdx;
+                    BackgroundManager.confirmSelection();
+                }
+            }
+        };
+        BackgroundFavorites.init();
+        // 背景列表加载完成后再应用「每次重开更换」（init 时 backgrounds 可能为空）
+        const _origLoadBackgrounds = BackgroundManager.loadBackgrounds;
+        BackgroundManager.loadBackgrounds = async function () {
+            const r = await _origLoadBackgrounds.call(this);
+            BackgroundFavorites._applyReopenSwitch();
+            return r;
+        };
+        // 卡片选中时更新喜好按钮状态
+        const _origRenderPreview = BackgroundManager.renderPreview;
+        BackgroundManager.renderPreview = async function () {
+            const r = _origRenderPreview ? await _origRenderPreview.call(this) : undefined;
+            BackgroundFavorites.updateFavoriteBtn();
+            return r;
+        };
+
         // buildGrid - 立即渲染卡片，缩略图按需异步加载（不再为每张卡创建 video）
         BackgroundManager.buildGrid = function() {
             const self = this;
@@ -6072,15 +6225,24 @@ const EventManager = {
             if (this.backgrounds.length === 0) return;
 
             const frag = document.createDocumentFragment();
-            this.backgrounds.forEach((bg, index) => {
+            // 喜好的背景置顶
+            const favIds = BackgroundFavorites._ids;
+            const sorted = this.backgrounds.slice().sort((a, b) => {
+                const af = favIds.indexOf(a.id) !== -1 ? 1 : 0;
+                const bf = favIds.indexOf(b.id) !== -1 ? 1 : 0;
+                return bf - af;
+            });
+            sorted.forEach((bg) => {
+                const index = self.backgrounds.indexOf(bg);
                 const isVideo = /\.(mp4|webm)(\?|$)/i.test(bg.path);
                 const unlocked = self.isBackgroundUnlocked(bg.id);
                 const el = document.createElement('div');
-                el.className = 'bg-thumb' + (unlocked ? ' unlocked' : ' locked') + (index === self.currentIndex ? ' selected' : '');
+                el.className = 'bg-thumb' + (unlocked ? ' unlocked' : ' locked')
+                    + (index === self.currentIndex ? ' selected' : '')
+                    + (BackgroundFavorites.has(bg.id) ? ' favorited' : '');
                 el.setAttribute('data-index', index);
                 el.innerHTML =
                     '<div class="bg-thumb-img">' +
-                        (isVideo ? '<span class="bg-thumb-play"><i class="fas fa-play"></i></span>' : '') +
                         '<img alt="" decoding="async">' +
                         (!unlocked ? '<div class="bg-thumb-lock"><i class="fas fa-lock"></i></div>' : '') +
                     '</div>' +
@@ -6161,14 +6323,14 @@ const EventManager = {
         });
 
         // renderPreview - buildGrid 现在是异步的，需要等待完成
-        const _origRenderPreview = BackgroundManager.renderPreview;
+        const _origRenderPreviewGrid = BackgroundManager.renderPreview;
         BackgroundManager.renderPreview = async function() {
             if (this.backgrounds.length === 0) return;
             const $grid = $('#bg-grid');
             if ($grid.children('.bg-thumb').length === 0) {
                 await this.buildGrid();
             }
-            return _origRenderPreview.call(this);
+            return _origRenderPreviewGrid.call(this);
         };
     })();
 
@@ -6196,6 +6358,8 @@ const EventManager = {
         const btn = target && target.closest ? target.closest('#music-playlist-btn') : null;
         if (!btn) return;
         if (ResourceDownloadManager.isMusicDownloaded()) return;
+        // 已经导入了本地音乐的玩家，不依赖音乐资源包也能进入列表管理自己的曲目
+        if (window.musicPlayer && window.musicPlayer.customTracks && window.musicPlayer.customTracks.length > 0) return;
         e.preventDefault();
         e.stopPropagation();
         if (window.showToast) window.showToast('请先下载音乐资源包后再打开音乐列表');
@@ -6232,7 +6396,7 @@ const EventManager = {
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.54';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.65';
 
     /* ============================================================
      * 检查更新
@@ -6404,6 +6568,94 @@ const EventManager = {
                 window.__gmHuBusy = false;
                 $btn.prop('disabled', false);
                 showStatus('启动失败：' + e, '#f87171');
+            }
+        });
+    })();
+
+    /* ============================================================
+     * GM：私链热更新弹窗 / 弹窗中心
+     * ============================================================ */
+    (function () {
+        // 私链热更新弹窗
+        $('#gm-hotupdate-open-btn').on('click', function () {
+            if (window.ModalRegistry) ModalRegistry.open('gm-hotupdate-modal');
+            else {
+                $('#gm-hotupdate-modal').css('display', 'flex');
+                setTimeout(() => $('#gm-hotupdate-modal').addClass('show'), 10);
+            }
+        });
+        $('#gm-hotupdate-modal-close').on('click', function () {
+            if (window.ModalRegistry) ModalRegistry.close('gm-hotupdate-modal');
+            else {
+                $('#gm-hotupdate-modal').removeClass('show');
+                setTimeout(() => $('#gm-hotupdate-modal').css('display', 'none'), 300);
+            }
+        });
+
+        // 弹窗中心：列出游戏内所有弹窗，点击即可打开
+        function buildModalCenterList() {
+            var $list = $('#gm-modal-center-list').empty();
+            var ids = window.ModalRegistry ? window.ModalRegistry.list() : [];
+            // 排除自身和 item-tooltip
+            ids = ids.filter(function (id) {
+                return id !== 'gm-modal-center-modal' && id !== 'item-tooltip';
+            });
+            ids.sort();
+
+            // 需要走专属打开流程（含初始化）的弹窗，直接显示 DOM 会内容为空或异常
+            var SPECIAL_OPENERS = {
+                'music-playlist-modal': function () {
+                    if (window.__openMusicPlaylist) window.__openMusicPlaylist(false);
+                },
+                'bg-select-modal': function () {
+                    if (window.BackgroundManager && BackgroundManager.openSelector) BackgroundManager.openSelector();
+                }
+            };
+
+            ids.forEach(function (id) {
+                // 优先读取弹窗内的中文标题，找不到则用 id
+                var $node = $('#' + id);
+                var title = '';
+                if ($node.length) {
+                    var $t = $node.find('.modal-title').first();
+                    title = ($t.text() || '').trim();
+                }
+                var label = title ? (title + ' <span style="color:#64748b;font-size:11px;margin-left:6px;">(' + id + ')</span>') : id;
+                var $btn = $('<button class="sidebar-btn" style="text-align:left;justify-content:flex-start;padding:8px 12px;"></button>')
+                    .html('<i class="fas fa-window-maximize" style="margin-right:8px;color:#60a5fa;"></i>' + label)
+                    .on('click', function () {
+                        // 先立刻关掉弹窗中心（不等关闭动画，否则其 z-index 10002 会遮挡刚打开的弹窗）
+                        var $center = $('#gm-modal-center-modal');
+                        $center.removeClass('show').css('display', 'none');
+                        var opener = SPECIAL_OPENERS[id];
+                        if (opener) {
+                            setTimeout(opener, 30);
+                        } else if (window.ModalRegistry) {
+                            ModalRegistry.open(id);
+                        } else {
+                            $('#' + id).css('display', 'flex');
+                            setTimeout(() => $('#' + id).addClass('show'), 10);
+                        }
+                    });
+                $list.append($btn);
+            });
+            if (!ids.length) {
+                $list.html('<div style="color:#64748b;font-size:12px;">暂无已注册的弹窗</div>');
+            }
+        }
+        $('#gm-modal-center-btn').on('click', function () {
+            buildModalCenterList();
+            if (window.ModalRegistry) ModalRegistry.open('gm-modal-center-modal');
+            else {
+                $('#gm-modal-center-modal').css('display', 'flex');
+                setTimeout(() => $('#gm-modal-center-modal').addClass('show'), 10);
+            }
+        });
+        $('#gm-modal-center-close').on('click', function () {
+            if (window.ModalRegistry) ModalRegistry.close('gm-modal-center-modal');
+            else {
+                $('#gm-modal-center-modal').removeClass('show');
+                setTimeout(() => $('#gm-modal-center-modal').css('display', 'none'), 300);
             }
         });
     })();

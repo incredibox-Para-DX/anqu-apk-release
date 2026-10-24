@@ -481,10 +481,7 @@
                         delete window.__resourceValidationNotice;
                         setTimeout(() => { try { if (window.showToast) window.showToast(notice); } catch (e) {} }, 1200);
                     }
-                    try {
-                        enterGameAudio.currentTime = 0;
-                        enterGameAudio.play().catch(() => {});
-                    } catch (e) {}
+                    // 进入游戏不再播放 enter-game.mp3（用户反馈听感像退出弹窗音效）
 
                     this.style.pointerEvents = 'none';
                     this.style.opacity = '0';

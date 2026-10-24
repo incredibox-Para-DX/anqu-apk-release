@@ -49,7 +49,14 @@ class MusicPlayer {
             // 切歌后待补写新曲目起点，避免退出后恢复到上一首
             _pendingSwitchCommit: false,
             _switchUnblockTimer: null,
-            _restoreGuardTimer: null
+            _restoreGuardTimer: null,
+            // 本地导入的音乐：元数据与音频字节都存在独立的 IndexedDB
+            customTracks: [],
+            _customMusicDb: null,
+            customMusicMaxSize: 40 * 1024 * 1024,
+            // 导入的本地音乐在没有扫描到内嵌封面时使用这张默认封面
+            // 注意：basePath 已是 'music-player/'，这里不要再加前缀，否则 getFullPath 会拼接成 music-player/music-player/...
+            customMusicDefaultCover: 'covers/custom-music-default.png'
         });
         this.initImageCache();
         this.loadOwnedTracks();
@@ -99,26 +106,36 @@ class MusicPlayer {
             if (this._blockSave) return;
             // seek 进行中位置不可信：只有强制保存（退出/暂停）且目标明确时按目标位置写
             if (this.isSeeking && (!force || this.seekTarget == null)) return;
-            const audio = this.audio;
-            // 没有元数据时 currentTime 无意义
-            if (!audio || audio.readyState < 1) return;
+
             const now = Date.now();
             // 节流：非强制保存时最多每 2 秒写一次
             if (!force && now - this._lastSaveTime < 2000) return;
             this._lastSaveTime = now;
-            const t = this.isSeeking ? this.seekTarget : audio.currentTime;
-            if (!isFinite(t) || t < 0) return;
 
-            // 本次会话从未播放过、也未主动切歌/拖动（例如打开 App 看一眼就退出）：
-            // 此时的 currentTime 恒为 0，不能拿它覆盖上次的真实进度，
-            // 只把音量/播放模式写回，索引与进度沿用旧值。
-            const prev = this.loadPlayState();
-            const keepProgress = !this.hasStartedPlayback && !this._userActed && prev && _.isNumber(prev.time);
+            const prev = this.loadPlayState() || {};
+            const audio = this.audio;
+            const hasMeta = audio && audio.readyState >= 1;
 
+            // 索引与进度只有在元数据就绪时才更新；否则沿用上次保存值，
+            // 避免音频未加载就把进度抹成 0。
+            let index = _.isNumber(prev.index) ? prev.index : this._audioTrackIndex;
+            let time = prev.time;
+
+            if (hasMeta) {
+                const t = this.isSeeking ? this.seekTarget : audio.currentTime;
+                if (isFinite(t) && t >= 0) {
+                    // 本次会话从未播放过、也未主动切歌/拖动（例如打开 App 看一眼就退出）：
+                    // 此时的 currentTime 恒为 0，不能拿它覆盖上次的真实进度。
+                    const keepProgress = !this.hasStartedPlayback && !this._userActed && _.isNumber(prev.time);
+                    index = keepProgress ? prev.index : this._audioTrackIndex;
+                    time = keepProgress ? prev.time : t;
+                }
+            }
+
+            // 音量与播放模式始终保存，不依赖音频是否加载完成
             const data = {
-                // 用音源真正绑定的索引，而不是可能已切到下一首的 currentTrackIndex
-                index: keepProgress ? prev.index : this._audioTrackIndex,
-                time: keepProgress ? prev.time : t,
+                index: index,
+                time: time,
                 volume: this.volume,
                 playMode: this.playMode
             };
@@ -127,6 +144,10 @@ class MusicPlayer {
     }
 
     isTrackOwned(index) {
+        // 本地导入的曲目默认属于自己，且不写入 ownedTracks，
+        // 这样删除任意一首都不会影响内置曲目的索引
+        const track = this.playlist && this.playlist[index];
+        if (track && track.isCustom) return true;
         return this.ownedTracks.includes(index);
     }
 
@@ -197,6 +218,8 @@ class MusicPlayer {
         } catch (e) {}
 
         await this.loadPlaylistFromXML();
+        // 本地导入的曲目追加在内置曲目之后，索引因此保持稳定
+        await this.loadCustomTracks();
         this.setupAudio();
         this.isInitialized = true;
 
@@ -283,8 +306,347 @@ class MusicPlayer {
 
     getFullPath(filename) {
         if (!filename) return '';
-        if (_.startsWith(filename, '/') || /^https?:\/\//.test(filename)) return filename;
+        if (_.startsWith(filename, '/') || /^https?:\/\//.test(filename) || _.startsWith(filename, 'blob:')) return filename;
         return this.basePath + filename;
+    }
+
+    /* ============================================================
+     * 本地导入音乐
+     * 音频字节与元数据放在独立的 IndexedDB（ab_custom_music），
+     * 不写 localStorage，避免几十 MB 的音频撑爆 5MB 配额。
+     * ============================================================ */
+    openCustomMusicDB() {
+        if (!window.indexedDB) return Promise.reject(new Error('indexedDB unavailable'));
+        if (this._customMusicDb) return Promise.resolve(this._customMusicDb);
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open('ab_custom_music', 1);
+            req.onupgradeneeded = e => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('tracks')) {
+                    db.createObjectStore('tracks', { keyPath: 'id' });
+                }
+            };
+            req.onsuccess = e => {
+                this._customMusicDb = e.target.result;
+                resolve(this._customMusicDb);
+            };
+            req.onerror = e => reject(e.target.error || new Error('open db failed'));
+        });
+    }
+
+    // 用游标读取，兼容旧版 WebView（不一定有 getAll）
+    readCustomTrackRecords() {
+        return this.openCustomMusicDB().then(db => new Promise((resolve, reject) => {
+            const tx = db.transaction('tracks', 'readonly');
+            const req = tx.objectStore('tracks').openCursor();
+            const list = [];
+            req.onsuccess = e => {
+                const cursor = e.target.result;
+                if (!cursor) { resolve(list); return; }
+                if (cursor.value) list.push(cursor.value);
+                cursor.continue();
+            };
+            req.onerror = () => reject(req.error);
+        }));
+    }
+
+    async loadCustomTracks() {
+        try {
+            const records = await this.readCustomTrackRecords();
+            records.sort((a, b) => (Number(a.addedAt) || 0) - (Number(b.addedAt) || 0));
+            records.forEach(record => this.appendCustomTrack(record));
+        } catch (e) {}
+    }
+
+    appendCustomTrack(record) {
+        if (!record || !record.blob || !record.id) return null;
+        if (_.some(this.customTracks, t => t && t.customId === record.id)) return null;
+        let blob = record.blob;
+        // 部分 WebView 读回来的 blob 会丢 type，补上保证能解码
+        if (!blob.type) {
+            try { blob = new Blob([blob], { type: record.type || 'audio/mpeg' }); } catch (e) {}
+        }
+        // 封面：优先用扫描到的内嵌封面，没有就用默认封面
+        let cover = this.customMusicDefaultCover;
+        let coverBlobUrl = '';
+        if (record.coverBlob) {
+            try {
+                let cb = record.coverBlob;
+                if (!cb.type) cb = new Blob([cb], { type: record.coverType || 'image/png' });
+                coverBlobUrl = URL.createObjectURL(cb);
+                cover = coverBlobUrl;
+            } catch (e) { cover = this.customMusicDefaultCover; }
+        }
+        const track = {
+            title: record.title || this.getCustomTitle(record.name || '本地音乐'),
+            artist: record.artist || '本地导入',
+            file: '',
+            cover: cover,
+            duration: 0,
+            price: 0,
+            isCustom: true,
+            customId: record.id,
+            _blobUrl: URL.createObjectURL(blob),
+            _coverBlobUrl: coverBlobUrl
+        };
+        this.playlist.push(track);
+        this.customTracks.push(track);
+        return track;
+    }
+
+    getCustomTitle(name) {
+        const raw = String(name || '本地音乐').replace(/\.[^.]+$/, '').trim();
+        return (raw || '本地音乐').slice(0, 40);
+    }
+
+    // 读取 mp3 的 ID3v2 标签，提取标题/作者/内嵌封面。
+    // 没扫到就返回空字段，导入时用文件名当标题、默认封面兜底。
+    async parseAudioTags(blob) {
+        const out = { title: '', artist: '', coverBlob: null, coverType: '' };
+        try {
+            const head = await blob.slice(0, 10).arrayBuffer();
+            const dv = new DataView(head);
+            if (String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2)) !== 'ID3') return out;
+            const major = dv.getUint8(3);
+            const flags = dv.getUint8(5);
+            const unsync = (flags & 0x80) !== 0;
+            const size = ((dv.getUint8(6) & 0x7f) << 21) | ((dv.getUint8(7) & 0x7f) << 14)
+                | ((dv.getUint8(8) & 0x7f) << 7) | (dv.getUint8(9) & 0x7f);
+            const body = new Uint8Array(await blob.slice(10, 10 + size).arrayBuffer());
+            const data = unsync ? this._unsyncBytes(body) : body;
+            let pos = 0;
+            const frameSizeIsSynchsafe = (major === 4);
+            const readText = (arr, start, encoding) => {
+                if (encoding === 1 || encoding === 2) {
+                    // UTF-16：终止符是 0x00 0x00，必须两字节两字节地找，否则会把 ASCII 字符的高字节 0x00 当成终止符
+                    let i = start;
+                    while (i + 1 < arr.length && !(arr[i] === 0 && arr[i + 1] === 0)) i += 2;
+                    const slice = arr.slice(start, i);
+                    try {
+                        return new TextDecoder('utf-16').decode(slice).replace(/\u0000/g, '').trim();
+                    } catch (e) { return ''; }
+                }
+                let i = start;
+                while (i < arr.length && arr[i] !== 0) i++;
+                const slice = arr.slice(start, i);
+                try {
+                    const enc = encoding === 3 ? 'utf-8' : 'iso-8859-1';
+                    return new TextDecoder(enc).decode(slice).replace(/\u0000/g, '').trim();
+                } catch (e) {
+                    return '';
+                }
+            };
+            while (pos + 10 <= data.length) {
+                const id = String.fromCharCode(data[pos], data[pos + 1], data[pos + 2], data[pos + 3]);
+                if (id.charCodeAt(0) === 0 || !/[A-Z0-9]{4}/.test(id)) break;
+                let fsize;
+                if (frameSizeIsSynchsafe) {
+                    fsize = ((data[pos + 4] & 0x7f) << 21) | ((data[pos + 5] & 0x7f) << 14)
+                        | ((data[pos + 6] & 0x7f) << 7) | (data[pos + 7] & 0x7f);
+                } else {
+                    // v2.3 帧大小是 32 位大端，用乘法避免 <<24 在 JS 里变负数
+                    fsize = data[pos + 4] * 0x1000000 + (data[pos + 5] << 16) + (data[pos + 6] << 8) + data[pos + 7];
+                }
+                if (fsize <= 0 || pos + 10 + fsize > data.length) break;
+                const frame = data.subarray(pos + 10, pos + 10 + fsize);
+                if (id === 'TIT2' && frame.length > 1) {
+                    out.title = readText(frame, 1, frame[0]);
+                } else if (id === 'TPE1' && frame.length > 1) {
+                    out.artist = readText(frame, 1, frame[0]);
+                } else if (id === 'APIC' && frame.length > 1) {
+                    const enc = frame[0];
+                    let j = 1;
+                    while (j < frame.length && frame[j] !== 0) j++;
+                    const mime = new TextDecoder('ascii').decode(frame.subarray(1, j));
+                    j++; // picture type
+                    if (j < frame.length) j++;
+                    // description：UTF-16 的终止符是 0x00 0x00，需两字节步进
+                    let k = j;
+                    if (enc === 1 || enc === 2) {
+                        while (k + 1 < frame.length && !(frame[k] === 0 && frame[k + 1] === 0)) k += 2;
+                        k += 2; // 跳过 UTF-16 终止符 0x00 0x00
+                    } else {
+                        while (k < frame.length && frame[k] !== 0) k++;
+                        k++; // 跳过单字节终止符
+                    }
+                    if (k < frame.length) {
+                        const imgBytes = frame.subarray(k);
+                        out.coverBlob = new Blob([imgBytes], { type: mime || 'image/png' });
+                        out.coverType = mime || 'image/png';
+                    }
+                }
+                pos += 10 + fsize;
+            }
+        } catch (e) { /* 解析失败就走默认值 */ }
+        return out;
+    }
+
+    _unsyncBytes(arr) {
+        const out = [];
+        for (let i = 0; i < arr.length; i++) {
+            out.push(arr[i]);
+            if (arr[i] === 0xff && arr[i + 1] === 0x00) i++;
+        }
+        return new Uint8Array(out);
+    }
+
+    async importCustomMusicFiles(files) {
+        const list = Array.prototype.slice.call(files || []);
+        if (!list.length) return 0;
+        let added = 0;
+        let failed = 0;
+        for (let i = 0; i < list.length; i++) {
+            const file = list[i];
+            if (!file) continue;
+            const isAudio = /^audio\//.test(file.type || '')
+                || /\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(file.name || '');
+            if (!isAudio) { failed++; continue; }
+            if (file.size > this.customMusicMaxSize) {
+                if (window.showToast) {
+                    window.showToast('「' + (file.name || '文件') + '」超过 40MB，已跳过');
+                }
+                failed++;
+                continue;
+            }
+            try {
+                const tags = await this.parseAudioTags(file);
+                const record = {
+                    id: 'cm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                    title: tags.title || this.getCustomTitle(file.name),
+                    artist: tags.artist || '本地导入',
+                    name: file.name || '本地音乐',
+                    type: file.type || '',
+                    blob: file,
+                    size: file.size,
+                    coverBlob: tags.coverBlob,
+                    coverType: tags.coverType,
+                    addedAt: Date.now()
+                };
+                const db = await this.openCustomMusicDB();
+                await new Promise((resolve, reject) => {
+                    const tx = db.transaction('tracks', 'readwrite');
+                    tx.objectStore('tracks').put(record);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject(tx.error || new Error('write failed'));
+                });
+                if (this.appendCustomTrack(record)) added++;
+                else failed++;
+            } catch (e) {
+                failed++;
+            }
+        }
+        if (window.showToast) {
+            if (added) {
+                window.showToast('已导入 ' + added + ' 首本地音乐，长按曲目可修改名称/作者/封面' + (failed ? '，' + failed + ' 首失败' : ''));
+            } else if (failed) {
+                window.showToast('导入失败，可能是存储空间不足或格式不支持');
+            }
+        }
+        return added;
+    }
+
+    // 长按弹窗保存修改后的元数据/封面/音频
+    async updateCustomTrack(index, patch) {
+        const track = this.playlist[index];
+        if (!track || !track.isCustom) return false;
+        try {
+            const db = await this.openCustomMusicDB();
+            const rec = await new Promise((resolve, reject) => {
+                const tx = db.transaction('tracks', 'readonly');
+                const req = tx.objectStore('tracks').get(track.customId);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+            if (!rec) return false;
+            if (patch.title != null) rec.title = String(patch.title).trim() || this.getCustomTitle(rec.name);
+            if (patch.artist != null) rec.artist = String(patch.artist).trim() || '本地导入';
+            if (patch.coverBlob) {
+                rec.coverBlob = patch.coverBlob;
+                rec.coverType = patch.coverBlob.type || 'image/png';
+            }
+            if (patch.blob) {
+                rec.blob = patch.blob;
+                rec.type = patch.blob.type || rec.type;
+                rec.size = patch.blob.size;
+                rec.name = patch.name || rec.name;
+            }
+            const blobChanged = !!patch.blob;
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction('tracks', 'readwrite');
+                tx.objectStore('tracks').put(rec);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+            // 释放旧的 blob url，按新数据重建
+            if (track._blobUrl) { try { URL.revokeObjectURL(track._blobUrl); } catch (e) {} }
+            if (track._coverBlobUrl) { try { URL.revokeObjectURL(track._coverBlobUrl); } catch (e) {} }
+            let audioBlob = rec.blob;
+            if (!audioBlob.type) audioBlob = new Blob([audioBlob], { type: rec.type || 'audio/mpeg' });
+            track._blobUrl = URL.createObjectURL(audioBlob);
+            let cover = this.customMusicDefaultCover;
+            let coverUrl = '';
+            if (rec.coverBlob) {
+                let cb = rec.coverBlob;
+                if (!cb.type) cb = new Blob([cb], { type: rec.coverType || 'image/png' });
+                coverUrl = URL.createObjectURL(cb);
+                cover = coverUrl;
+            }
+            track._coverBlobUrl = coverUrl;
+            track.cover = cover;
+            track.title = rec.title;
+            track.artist = rec.artist;
+            // 只有更换了音频文件才需要切源；改名称/作者/封面不中断当前播放
+            if (blobChanged && this.currentTrackIndex === index) {
+                this.loadTrack(index, false);
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    async deleteCustomTrack(index) {
+        const track = this.playlist[index];
+        if (!track || !track.isCustom) return false;
+        const wasCurrent = index === this.currentTrackIndex;
+        if (wasCurrent) {
+            try { this.audio.pause(); } catch (e) {}
+            this.isPlaying = false;
+        }
+        if (track._blobUrl) {
+            try { URL.revokeObjectURL(track._blobUrl); } catch (e) {}
+            delete track._blobUrl;
+        }
+        this.playlist.splice(index, 1);
+        this.customTracks = this.customTracks.filter(t => t !== track);
+        // 删的是当前曲目之前的：当前索引整体前移一位
+        if (!wasCurrent && index < this.currentTrackIndex) {
+            this.currentTrackIndex -= 1;
+            this._audioTrackIndex -= 1;
+            this.savePlayState(true);
+        }
+        try {
+            const db = await this.openCustomMusicDB();
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction('tracks', 'readwrite');
+                tx.objectStore('tracks').delete(track.customId);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        } catch (e) {}
+        if (wasCurrent) {
+            // 优先接替原位置，没有则退回最后一首已解锁曲目
+            const owned = this.getOwnedIndices();
+            if (owned.length) {
+                let target = owned[0];
+                for (let i = 0; i < owned.length; i++) {
+                    target = owned[i];
+                    if (owned[i] >= index) break;
+                }
+                this.loadTrack(target, false);
+            }
+        }
+        return true;
     }
 
     setupAudio() {
@@ -453,7 +815,7 @@ class MusicPlayer {
         this.seekToken += 1;
         if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
         
-        const fileUrl = this.getFullPath(track.file);
+        const fileUrl = track._blobUrl || this.getFullPath(track.file);
         // 之前缓存的 blob 若来自另一个源（例如启动时缓存未就绪、按默认音乐转出来的），
         // 继续复用会播成默认音乐而界面还显示当前曲目，这里强制丢弃重建
         if (track._seekBlobUrl && track._seekBlobSrc && track._seekBlobSrc !== fileUrl) {
@@ -972,6 +1334,11 @@ $(function() {
         return null;
     };
 
+    // 曲名来自本地文件名，插进 HTML 前必须转义
+    const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+
     const playBuySound = () => {
         try {
             const buyAudio = new Audio('audio/buy.mp3');
@@ -1110,16 +1477,18 @@ $(function() {
         previewProgress(ratio);
     };
 
-    const openPlaylist = () => {
+    const openPlaylist = (silent) => {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized)) return;
 
-        // 先播放音效，避免被DOM操作卡没
-        try {
-            const openAudio = new Audio('audio/open-music-playlist.mp3');
-            openAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-            openAudio.play().catch(() => {});
-        } catch (e) {}
+        // 先播放音效，避免被DOM操作卡没（删除后重绘时静默）
+        if (!silent) {
+            try {
+                const openAudio = new Audio('audio/open-music-playlist.mp3');
+                openAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                openAudio.play().catch(() => {});
+            } catch (e) {}
+        }
 
         injectBuyButtonStyles();
 
@@ -1135,28 +1504,51 @@ $(function() {
 
         _.forEach(player.playlist, (track, index) => {
             const coverPath = player.getFullPath(track.cover);
+            const safeTitle = escapeHtml(track.title);
+            const safeArtist = escapeHtml(track.artist);
             const owned = player.isTrackOwned(index);
             const isActive = index === player.currentTrackIndex && owned;
             const coverHtml = coverPath
-                ? `<img class="playlist-cover-img" src="${coverPath}" alt="${track.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                ? `<img class="playlist-cover-img" src="${coverPath}" alt="${safeTitle}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                    <div style="display:none;align-items:center;justify-content:center;width:100%;height:100%;font-size:24px;background:linear-gradient(135deg,#667eea,#764ba2);">🎵</div>`
                 : `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:24px;background:linear-gradient(135deg,#667eea,#764ba2);">🎵</div>`;
-            $els.playlistContainer.append(
-                $(`<div class="playlist-item ${isActive ? 'active' : ''} ${owned ? '' : 'playlist-item-locked'}" data-index="${index}">
+            const $item = $(`<div class="playlist-item ${isActive ? 'active' : ''} ${owned ? '' : 'playlist-item-locked'}" data-index="${index}">
                     <div class="playlist-item-cover">
                         ${coverHtml}
                         ${!owned ? '<div class="playlist-lock-icon"><i class="fas fa-lock"></i></div>' : ''}
                     </div>
-                    <div class="playlist-item-title">${track.title}</div>
-                    <div class="playlist-item-artist">${track.artist}</div>
+                    <div class="playlist-item-title">${safeTitle}</div>
+                    <div class="playlist-item-artist">${safeArtist}</div>
                 </div>`).on('click', function() {
                     playItemClickSound();
                     selectedIndex = index;
                     $els.playlistContainer.find('.playlist-item').removeClass('active');
                     $(this).addClass('active');
                     updateActionBar();
-                })
-            );
+                });
+            // 长按导入的音乐 → 弹出编辑弹窗
+            if (track.isCustom) {
+                (function() {
+                    let pressTimer = null;
+                    let pressed = false;
+                    const startPress = () => {
+                        pressed = true;
+                        pressTimer = setTimeout(() => {
+                            if (pressed) {
+                                pressed = false;
+                                openCustomMusicEdit(index);
+                            }
+                        }, 600);
+                    };
+                    const cancelPress = () => {
+                        pressed = false;
+                        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+                    };
+                    $item.on('touchstart mousedown', startPress);
+                    $item.on('touchend touchmove mouseup mouseleave click', cancelPress);
+                })();
+            }
+            $els.playlistContainer.append($item);
         });
 
         const $actionBar = $(`
@@ -1166,9 +1558,13 @@ $(function() {
                     <div class="playlist-selected-price" id="pl-sel-price"></div>
                 </div>
                 <button class="playlist-action-btn" id="pl-action-btn" disabled>播放</button>
+                <button class="playlist-action-btn del" id="pl-del-btn" style="display:none;"><i class="fas fa-trash-alt"></i> 删除</button>
             </div>
         `);
         $els.playlistContainer.append($actionBar);
+
+        let delArmed = false;
+        let disarmTimer = null;
 
         const updateActionBar = () => {
             const track = player.playlist[selectedIndex];
@@ -1177,7 +1573,12 @@ $(function() {
             const $title = $('#pl-sel-title');
             const $price = $('#pl-sel-price');
             const $btn = $('#pl-action-btn');
+            const $del = $('#pl-del-btn');
             $title.text(track.title);
+            // 切换选中项时重置删除两段式状态
+            delArmed = false;
+            if (disarmTimer) { clearTimeout(disarmTimer); disarmTimer = null; }
+            $del.removeClass('del-armed').html('<i class="fas fa-trash-alt"></i> 删除');
             if (owned) {
                 $price.text('已解锁');
                 $price.css('color', '#4ade80');
@@ -1186,6 +1587,12 @@ $(function() {
                 $price.html(`<i class="fas fa-coins"></i> ${player.formatPrice(player.getTrackPrice(selectedIndex))}`);
                 $price.css('color', '#f5c34d');
                 $btn.text('购买').removeClass('play').addClass('buy').prop('disabled', false);
+            }
+            // 删除按钮只对导入的本地音乐显示
+            if (track.isCustom) {
+                $del.css('display', '').prop('disabled', false);
+            } else {
+                $del.css('display', 'none');
             }
         };
 
@@ -1199,7 +1606,7 @@ $(function() {
                 playBuySound();
                 setTimeout(() => {
                     const result = player.purchaseTrack(selectedIndex);
-                    if (window.showToast) window.showToast(result.message);
+                    if (!result.success && window.showToast) window.showToast(result.message);
                     if (result.success) {
                         updateMusicControls();
                         const $item = $els.playlistContainer.find(`.playlist-item[data-index="${selectedIndex}"]`);
@@ -1211,6 +1618,30 @@ $(function() {
             }
         });
 
+        // 操作栏删除按钮：两段式确认
+        $('#pl-del-btn').on('click', () => {
+            const track = player.playlist[selectedIndex];
+            if (!track || !track.isCustom) return;
+            playItemClickSound();
+            if (!delArmed) {
+                delArmed = true;
+                $('#pl-del-btn').addClass('del-armed').html('<i class="fas fa-exclamation-triangle"></i> 再点一次确认删除');
+                disarmTimer = setTimeout(() => {
+                    delArmed = false;
+                    $('#pl-del-btn').removeClass('del-armed').html('<i class="fas fa-trash-alt"></i> 删除');
+                }, 3000);
+                return;
+            }
+            delArmed = false;
+            if (disarmTimer) { clearTimeout(disarmTimer); disarmTimer = null; }
+            player.deleteCustomTrack(selectedIndex).then(ok => {
+                if (!ok) return;
+                updateMusicControls();
+                if (window.showToast) window.showToast('已删除本地音乐');
+                openPlaylist(true);
+            });
+        });
+
         if (selectedIndex >= 0 && selectedIndex < player.playlist.length) {
             updateActionBar();
         }
@@ -1219,6 +1650,146 @@ $(function() {
         if (window.__refreshCoinBalances) window.__refreshCoinBalances();
         $els.playlistModal.css('display', 'flex');
         setTimeout(() => $els.playlistModal.addClass('show'), 10);
+    };
+
+    // 长按导入的本地音乐 → 编辑弹窗：改名称/作者/封面/更换音频文件
+    const openCustomMusicEdit = (index) => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+        const track = player.playlist[index];
+        if (!track || !track.isCustom) return;
+
+        // 先移除可能存在的旧弹窗
+        $('#custom-music-edit-modal').remove();
+
+        const coverPath = player.getFullPath(track.cover);
+        const coverPreview = coverPath ? coverPath : player.customMusicDefaultCover;
+
+        const $modal = $(`
+            <div class="modal-overlay" id="custom-music-edit-modal">
+                <div class="modal-content custom-music-edit-content">
+                    <div class="modal-header">
+                        <div class="modal-title"><i class="fas fa-edit"></i> 编辑本地音乐</div>
+                        <button class="modal-close" id="cm-edit-close"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body custom-music-edit-body">
+                        <div class="cm-edit-row">
+                            <label>歌曲名称</label>
+                            <input type="text" id="cm-edit-title" maxlength="40" placeholder="歌曲名称">
+                        </div>
+                        <div class="cm-edit-row">
+                            <label>作者</label>
+                            <input type="text" id="cm-edit-artist" maxlength="40" placeholder="作者">
+                        </div>
+                        <div class="cm-edit-row cm-edit-cover-row">
+                            <label>歌曲封面</label>
+                            <div class="cm-edit-cover-area">
+                                <img class="cm-edit-cover-preview" id="cm-edit-cover-preview" src="${coverPreview}" alt="封面预览">
+                                <label class="cm-edit-cover-btn" for="cm-edit-cover-input">
+                                    <i class="fas fa-image"></i> 选择图片
+                                </label>
+                                <input type="file" id="cm-edit-cover-input" accept="image/*" style="display:none;">
+                            </div>
+                        </div>
+                        <div class="cm-edit-row">
+                            <label>更换歌曲文件</label>
+                            <label class="cm-edit-file-btn" for="cm-edit-audio-input">
+                                <i class="fas fa-music"></i> <span id="cm-edit-audio-name">点击选择新的音频文件</span>
+                            </label>
+                            <input type="file" id="cm-edit-audio-input" accept="audio/*" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="modal-footer custom-music-edit-footer">
+                        <button class="modal-btn cancel" id="cm-edit-cancel">取消</button>
+                        <button class="modal-btn confirm" id="cm-edit-save">保存</button>
+                    </div>
+                </div>
+            </div>
+        `);
+        $('body').append($modal);
+        // 编辑弹窗必须始终在播放列表之上：播放列表可能从弹窗中心以 z-index 10003 打开，
+        // 这里动态取播放列表当前层级 +1，避免硬编码被超过
+        const plZ = parseInt($('#music-playlist-modal').css('z-index')) || 10001;
+        $modal.css('z-index', plZ + 1);
+
+        const $title = $('#cm-edit-title');
+        const $artist = $('#cm-edit-artist');
+        const $coverInput = $('#cm-edit-cover-input');
+        const $coverPreview = $('#cm-edit-cover-preview');
+        const $audioInput = $('#cm-edit-audio-input');
+        const $audioName = $('#cm-edit-audio-name');
+
+        $title.val(track.title);
+        $artist.val(track.artist);
+
+        let newCoverBlob = null;
+        let newAudioBlob = null;
+        let newAudioName = '';
+
+        $coverInput.on('change', function() {
+            const file = this.files && this.files[0];
+            if (!file) return;
+            if (!/^image\//.test(file.type || '')) {
+                if (window.showToast) window.showToast('请选择图片文件');
+                return;
+            }
+            newCoverBlob = file;
+            try {
+                $coverPreview.attr('src', URL.createObjectURL(file));
+            } catch (e) {}
+        });
+
+        $audioInput.on('change', function() {
+            const file = this.files && this.files[0];
+            if (!file) return;
+            const isAudio = /^audio\//.test(file.type || '')
+                || /\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(file.name || '');
+            if (!isAudio) {
+                if (window.showToast) window.showToast('请选择音频文件');
+                return;
+            }
+            if (file.size > player.customMusicMaxSize) {
+                if (window.showToast) window.showToast('文件超过 40MB，已忽略');
+                return;
+            }
+            newAudioBlob = file;
+            newAudioName = file.name || '本地音乐';
+            $audioName.text(newAudioName);
+        });
+
+        const close = () => {
+            $modal.removeClass('show');
+            setTimeout(() => $modal.remove(), 200);
+        };
+
+        $('#cm-edit-close, #cm-edit-cancel').on('click', close);
+        $modal.on('click', e => { if (e.target === $modal[0]) close(); });
+
+        $('#cm-edit-save').on('click', () => {
+            const patch = {
+                title: $title.val(),
+                artist: $artist.val()
+            };
+            if (newCoverBlob) {
+                patch.coverBlob = newCoverBlob;
+            }
+            if (newAudioBlob) {
+                patch.blob = newAudioBlob;
+                patch.name = newAudioName;
+            }
+            player.updateCustomTrack(index, patch).then(ok => {
+                if (!ok) {
+                    if (window.showToast) window.showToast('保存失败');
+                    return;
+                }
+                if (window.showToast) window.showToast('已保存修改');
+                updateMusicControls();
+                close();
+                openPlaylist(true);
+            });
+        });
+
+        setTimeout(() => $modal.addClass('show'), 10);
     };
 
     const closePlaylist = () => {
@@ -1369,7 +1940,30 @@ $(function() {
         });
     });
 
-    $els.volumeSlider.on('click', e => { e.stopPropagation(); setVolume(e); });
+    // 音量滑块：支持点击 + 拖动（原仅 click，移动端难以精确调整）
+    let isDraggingVolume = false;
+    const handleVolumeEvent = e => {
+        e.stopPropagation();
+        const x = getEventX(e);
+        if (x === null || isNaN(x)) return;
+        const offset = $els.volumeSlider.offset();
+        if (!offset) return;
+        const volume = _.clamp((x - offset.left) / $els.volumeSlider.width(), 0, 1);
+        window.musicPlayer.setVolume(volume);
+        $els.volumeFill.css('width', `${volume * 100}%`);
+        $els.volumeValue.text(`${Math.round(volume * 100)}%`);
+    };
+    $els.volumeSlider
+        .on('mousedown touchstart', e => {
+            e.preventDefault();
+            isDraggingVolume = true;
+            handleVolumeEvent(e);
+        })
+        .on('click', e => { e.stopPropagation(); handleVolumeEvent(e); });
+    $(document).on('mousemove touchmove', e => {
+        if (isDraggingVolume) handleVolumeEvent(e);
+    });
+    $(document).on('mouseup touchend', () => { isDraggingVolume = false; });
 
     $els.progressSlider
         .on('mousedown touchstart', e => {
@@ -1415,6 +2009,29 @@ $(function() {
             dragRatio = null;
         });
 
+    // 本地音乐导入：选择文件后直接进播放列表末尾
+    const importInput = document.getElementById('playlist-import-input');
+    const triggerImport = e => {
+        e.stopPropagation();
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+        if (!importInput) return;
+        importInput.value = '';
+        importInput.click();
+    };
+    $('#playlist-import-btn').on('click', triggerImport);
+    if (importInput) {
+        importInput.addEventListener('change', function() {
+            const player = window.musicPlayer;
+            const files = importInput.files;
+            if (!(player && player.isInitialized) || !files || !files.length) return;
+            player.importCustomMusicFiles(files).then(added => {
+                updateMusicControls();
+                if (added) openPlaylist(true);
+            });
+        });
+    }
+
     $els.playlistClose.on('click', e => { e.stopPropagation(); closePlaylist(); });
     $els.playlistModal.on('click', e => { if (e.target === $els.playlistModal[0]) closePlaylist(); });
 
@@ -1437,4 +2054,8 @@ $(function() {
     };
     controlsRafId = requestAnimationFrame(controlsLoop);
     updateMusicControls();
+
+    // 暴露给 GM 弹窗中心等外部调用，保证走完整初始化流程
+    window.__openMusicPlaylist = openPlaylist;
+    window.__openCustomMusicEdit = openCustomMusicEdit;
 });

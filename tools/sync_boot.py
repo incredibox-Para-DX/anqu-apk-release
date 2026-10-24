@@ -43,6 +43,7 @@ CODE_FILES = [
     "xml/loading-tips.xml",
     "xml/music-config.xml",
     "xml/video-config.xml",
+    "music-player/covers/custom-music-default.png",
 ]
 
 # 首次打开只下载代码文件；audio / music-player 均在 APK 内

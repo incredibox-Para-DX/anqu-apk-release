@@ -1618,10 +1618,10 @@ input:checked + .slider:before {
 
 .music-volume-slider {
     width: 100%;
-    height: 4px;
+    height: 8px;
     margin-top: 10px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -1633,9 +1633,10 @@ input:checked + .slider:before {
     left: 0;
     height: 100%;
     background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
+    border-radius: 4px;
     width: 50%;
     transition: width 0.2s ease;
+    pointer-events: none; /* 让点击穿透到滑块轨道 */
 }
 
 .music-volume-label {
@@ -1910,6 +1911,25 @@ input:checked + .slider:before {
 
 .playlist-action-btn:active:not(:disabled) {
     transform: scale(0.96);
+}
+
+/* 操作栏删除按钮：仅导入的本地音乐显示，两段式确认 */
+.playlist-action-btn.del {
+    flex: 0 0 auto;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: #fff;
+}
+.playlist-action-btn.del:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+.playlist-action-btn.del.del-armed {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    animation: del-pulse 0.8s ease-in-out infinite;
+}
+@keyframes del-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
 }
 
 .playlist-selected-info {
@@ -2205,6 +2225,19 @@ video::-internal-track-segment {
     -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
 }
 
+/* 背景商店 & 歌曲列表：标题绝对居中，避免因左右按钮宽度不等导致偏左 */
+#bg-select-modal .modal-header,
+#music-playlist-modal .modal-header {
+    position: relative;
+}
+#bg-select-modal .modal-title,
+#music-playlist-modal .modal-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
 .bg-select-modal-body {
     padding: 12px 0;
 }
@@ -2298,19 +2331,19 @@ video::-internal-track-segment {
 .bg-thumb {
     background: rgba(255,255,255,0.04);
     border-radius: 8px;
-    overflow: hidden;
     cursor: pointer;
+    position: relative;
     border: 2px solid transparent;
-    contain: layout paint style;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    /* 不能用 overflow:hidden / contain（含 paint/layout），否则选中态 box-shadow 光晕会被裁剪或坐标偏移 */
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .bg-thumb:hover {
     transform: translateY(-2px);
     border-color: rgba(255,255,255,0.2);
 }
 .bg-thumb.selected {
-    border-color: #3b82f6;
-    box-shadow: 0 0 8px rgba(59,130,246,0.3);
+    /* 移除蓝框，改用轻微背景色区分选中态 */
+    background: rgba(59,130,246,0.12);
 }
 .bg-thumb.locked .bg-thumb-img {
     filter: brightness(0.5);
@@ -2323,6 +2356,7 @@ video::-internal-track-segment {
     padding-top: 56.25%;
     background: #0b0f14;
     overflow: hidden;
+    border-radius: 6px;
 }
 .bg-thumb-img img,
 .bg-thumb-img video {
@@ -2873,7 +2907,8 @@ video:empty {
     grid-auto-rows: min-content;
     gap: 12px;
     align-content: start;
-    padding: 2px 2px 12px;
+    /* 给选中态 10px box-shadow 光晕留足空间，避免被 overflow 裁剪造成蓝框错位 */
+    padding: 12px;
 }
 
 /* ============================================================
