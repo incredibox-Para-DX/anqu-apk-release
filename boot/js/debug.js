@@ -779,6 +779,7 @@
     if (st.recovered) html += ' · 已补写 ' + st.recovered;
     if (st.pending) html += ' · <b style="color:#f59e0b">待写回 ' + st.pending + '</b>';
     if (st.lastError) html += '<br>最近错误: ' + esc(st.lastError);
+    if (Save.syncKeys) html += '<br>云同步: ' + Save.syncKeys().length + ' 项（核心 ' + Save.syncCoreKeys().length + ' 项）';
     el.innerHTML = html + '<br>快照: 读取中…';
     Save.listSnapshots().then(function (list) {
       var line = list.length ? list.map(function (s) {

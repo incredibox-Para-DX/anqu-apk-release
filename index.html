@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.46</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.47</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1481,7 +1481,10 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     var loadingTimer = null;
     var rendered = false;
 
-    if (iframe) iframe.addEventListener('load', function () { hideLoading(); });
+    if (iframe) iframe.addEventListener('load', function () {
+        // srcdoc 被清空时浏览器也会触发 load，此时不能当加载完成
+        if (iframe.srcdoc && iframe.srcdoc.length > 0) hideLoading();
+    });
 
     function playUISound(file) {
         try {
@@ -1602,6 +1605,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 
     // 多源顺序尝试（前两个走 fetch→srcdoc，最后一个 GitHub Pages 走 iframe.src）
     async function tryAllSources(forceReload) {
+        // 离线：直接给本地缓存/内置文案，不等两个远程源各自超时
+        if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+            showOfflineFallback();
+            return true;
+        }
         if (iframe.contentWindow) {
             try { iframe.srcdoc = ''; } catch (e) {}
         }
@@ -1622,6 +1630,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
             }
         }
         // 源 2: GitHub Pages → iframe.src 兜底（允许 iframe 自行加载）
+        // 离线时 iframe.src 会一直空白且跨域无法判断成败，直接给缓存/内置文案
+        if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+            showOfflineFallback();
+            return true;
+        }
         try {
             iframe.removeAttribute('srcdoc');
             iframe.src = NOTIFICATION_URLS[2] + (forceReload ? ('?t=' + Date.now()) : '');

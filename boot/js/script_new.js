@@ -6159,7 +6159,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.46';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.47';
 
     /* ============================================================
      * 检查更新
@@ -6442,7 +6442,8 @@ const EventManager = {
      * 云同步（免注册同步码）
      * ============================================================ */
     var SYNC_API = 'https://anqu-sync.sdfgasdfgwe7.workers.dev';  // Cloudflare Worker 云同步地址
-    var SYNC_KEYS = [
+    // 同步范围登记在 js/storage.js 的 SYNC_REGISTRY，新增存档字段只需改那一处
+    var SYNC_KEYS = (window.Save && Save.syncKeys) ? Save.syncKeys() : [
         'darkzone_simulator_stats',
         'ab_shop_skills_v1',
         'ab_collection_room_v1',
@@ -6454,7 +6455,7 @@ const EventManager = {
         'ab_fps_mode',
         'ab_font_preference'
     ];
-    var SYNC_PROGRESS_KEYS = ['darkzone_simulator_stats', 'ab_shop_skills_v1', 'ab_collection_room_v1'];
+    var SYNC_PROGRESS_KEYS = (window.Save && Save.syncCoreKeys) ? Save.syncCoreKeys() : ['darkzone_simulator_stats', 'ab_shop_skills_v1', 'ab_collection_room_v1'];
     var SYNC_CODE_KEY = 'ab_sync_code';
     var SYNC_TIME_KEY = 'ab_sync_updated_at';
     var SYNC_TIMER = null;

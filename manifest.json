@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.46",
+  "version": "v2.1.0_hotfix.47",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -27,7 +27,7 @@
     },
     {
       "path": "js/debug.js",
-      "size": 88353
+      "size": 88488
     },
     {
       "path": "js/inline-scripts.js",
@@ -43,7 +43,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 301963
+      "size": 302173
     },
     {
       "path": "js/synthesis.js",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/storage.js",
-      "size": 14576
+      "size": 15826
     },
     {
       "path": "libs/GSAP.js",
@@ -91,9 +91,9 @@
     },
     {
       "path": "index.html",
-      "size": 109782
+      "size": 110421
     }
   ],
   "fileCount": 23,
-  "totalSize": 1363910
+  "totalSize": 1366144
 }

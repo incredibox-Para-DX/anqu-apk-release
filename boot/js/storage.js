@@ -247,6 +247,32 @@
         });
     }
 
+    /* ---------------- 云同步登记表 ---------------- */
+    /* 会被云同步的字段只在这里登记一次，script_new.js 自动跟随，避免漏同步。
+       sync: 参与上传/下载；core: 参与「本机是否已有进度」的判定 */
+    var SYNC_REGISTRY = {
+        'darkzone_simulator_stats': { sync: true, core: true },
+        'ab_shop_skills_v1': { sync: true, core: true },
+        'ab_collection_room_v1': { sync: true, core: true },
+        'ab_collection_room_v1_bak': { sync: true },
+        'ab_owned_backgrounds': { sync: true },
+        'ab_selected_bg_path': { sync: true },
+        'disabled_items_list': { sync: true },
+        'ab_skip_search_mask': { sync: true },
+        'ab_fps_mode': { sync: true },
+        'ab_font_preference': { sync: true }
+    };
+
+    function registryKeys(wantCore) {
+        var out = [];
+        for (var k in SYNC_REGISTRY) {
+            if (!Object.prototype.hasOwnProperty.call(SYNC_REGISTRY, k)) continue;
+            var cfg = SYNC_REGISTRY[k];
+            if (wantCore ? cfg.core : cfg.sync) out.push(k);
+        }
+        return out;
+    }
+
     /* ---------------- 导出 / 导入 ---------------- */
 
     function exportFlat() {
@@ -324,6 +350,8 @@
         },
         exportAll: exportFlat,
         importAll: importFlat,
+        syncKeys: function () { return registryKeys(false); },
+        syncCoreKeys: function () { return registryKeys(true); },
         snapshot: snapshot,
         listSnapshots: listSnapshots,
         restore: restore,
