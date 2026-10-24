@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="A simple HTML5 Template">
+<meta name="author" content="dron">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="images/index.css">
+<title>水果忍者</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+#view {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+}
+</style>
+</head>
+<body>
+<div id="extra"></div>
+<em style="display:none;"></em>
+<em style="display:none;">  </em>
+<em style="display:none;"> </em>
+<em style="display:none;"></em>
+<em style="display:none;"></em>
+<a id="fork" href="https://github.com/ChineseDron/fruit-ninja" target="_blank" style="display:none;"></a>
+<canvas id="view" width="640" height="480"></canvas>
+<div id="desc" style="display:none;">
+	<div><a href="http://weibo.com/baidujs" target="_blank"></a></div>
+	<div id="browser"></div>
+</div>
+<script src="scripts/all.js"></script>
+</body>
+</html>
+<!-- 返回主页面按钮（注入） -->
+<div id="__mg_back_btn" style="position:fixed;top:12px;left:12px;z-index:2147483647;background:rgba(0,0,0,0.75);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;font-family:-apple-system,sans-serif;cursor:pointer;border:1px solid rgba(255,255,255,0.2);box-shadow:0 2px 8px rgba(0,0,0,0.4);user-select:none;display:none;">← 返回</div>
+<script>
+(function(){
+    var btn = document.getElementById('__mg_back_btn');
+    if (!btn) return;
+    // 延迟显示，避免和游戏加载冲突
+    setTimeout(function(){ btn.style.display = 'block'; }, 1500);
+    btn.addEventListener('click', function(){
+        try {
+            // 如果有 history 记录，回退
+            if (history.length > 1) {
+                history.back();
+            } else {
+                // 直接跳回主页面
+                location.href = '../index.html';
+            }
+        } catch(e) {}
+    });
+})();
+</script>
