@@ -2,9 +2,13 @@
   'use strict';
 
   // 代码：raw 为主线路（jsDelivr 的 @main 会长期缓存旧文件），boot2 用于下载不完整时强制重下
+  // Worker 反代走 Cloudflare 边缘，国内通常明显快于直连 raw；未部署时会测速失败自动回落
+  var PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/main';
   var CODE_BASES = [
+    PROXY_BASE + '/boot',
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
+    PROXY_BASE + '/boot2',
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2'
   ];

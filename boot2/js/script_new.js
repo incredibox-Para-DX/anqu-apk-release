@@ -6161,12 +6161,13 @@ const EventManager = {
      * ============================================================ */
     var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
-    // 兜底源：raw 在国内偶尔不可达时才试 jsDelivr。
-    // 不能优先用 CDN：jsDelivr 对 @main 有较长缓存，会拿到旧 manifest 导致版本误判。
-    var HU_MANIFEST_FALLBACK_URL = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/manifest.json';
+    // Cloudflare Worker 反代（供国内加速）；未部署时自动回落 raw，不影响发版
+    var HU_PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/main';
+    // 最后兜底：jsDelivr。仓库体积控制不当会超 50MB 限制返回 403，只作末位候选
+    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.50';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.51';
 
     /* ============================================================
      * 检查更新
@@ -6220,7 +6221,8 @@ const EventManager = {
                             return;
                         }
                         try {
-                            window.AndroidUpdate.check(HU_BASE_URL);
+                            // 用刚才 manifest 竞速选中的 base（可能是 Worker 反代），保证下载与版本一致
+                            window.AndroidUpdate.check(window.__huActiveBase || HU_BASE_URL);
                         } catch (e) {
                             window.__huBusy = false;
                             window.__huStopProgress();
@@ -6368,10 +6370,15 @@ const EventManager = {
     // 右上角版本号立即同步为当前构建版本（不等 manifest 返回）
     try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + window.HU_BUILD_VERSION); } catch(e) {}
     // fetch manifest + 版本对比 + 回调 (供 sidebar 按钮和自动检查共用)
-    // 主源 raw 失败时才退到 jsDelivr 兜底，保证弱网下仍能检查更新
+    // 主源并发竞速：Worker 反代（国内快）与 raw 直连同时请求，谁先回用谁；
+    // 两路都失败才退到 jsDelivr 兜底。选中的 base 同时用于后续原生下载，保证版本一致。
     window.__huFetchAndCompare = function(onResult) {
         var done = typeof onResult === 'function' ? onResult : function() {};
-        var apply = function(m) {
+        var finished = false;
+        var apply = function(m, base) {
+            if (finished) return;
+            finished = true;
+            if (base) window.__huActiveBase = base;
             // 右上角同步为服务器最新版本
             if (m && m.version) {
                 try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
@@ -6381,36 +6388,36 @@ const EventManager = {
             var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
             done(m, hasUpdate);
         };
-        var tryFallback = function() {
+        var failAll = function() {
+            if (finished) return;
+            finished = true;
+            done(null, false);
+        };
+        var getOnce = function(base, ok, err) {
+            var url = base + '/manifest.json';
             if (window.Net && Net.getJSON) {
-                Net.getJSON(HU_MANIFEST_FALLBACK_URL, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
-                    .then(apply)
-                    .catch(function() { done(null, false); });
+                Net.getJSON(url, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
+                    .then(function(m) { ok(m, base); })
+                    .catch(err);
                 return;
             }
             $.ajax({
-                url: HU_MANIFEST_FALLBACK_URL + '?t=' + Date.now(),
+                url: url + '?t=' + Date.now(),
                 dataType: 'json',
                 cache: false,
                 timeout: 8000,
-                success: apply,
-                error: function() { done(null, false); }
+                success: function(m) { ok(m, base); },
+                error: err
             });
         };
-        if (window.Net && Net.getJSON) {
-            Net.getJSON(HU_MANIFEST_URL, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
-                .then(apply)
-                .catch(tryFallback);
-            return;
-        }
-        $.ajax({
-            url: HU_MANIFEST_URL + '?t=' + Date.now(),
-            dataType: 'json',
-            cache: false,
-            timeout: 8000,
-            success: apply,
-            error: tryFallback
-        });
+        var pending = 2;
+        var onErr = function() {
+            if (finished) return;
+            if (--pending > 0) return;
+            getOnce(HU_JD_BASE, apply, failAll);
+        };
+        getOnce(HU_PROXY_BASE, apply, onErr);
+        getOnce(HU_BASE_URL, apply, onErr);
     };
     window.__huStartProgress = function() {
         window.__huStopProgress();
