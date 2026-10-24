@@ -363,7 +363,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const updateCreditInfo = () => {
         const person = CREDITS_LIST[currentCreditIndex];
         if (person) {
-            creditsAvatar.attr('src', person.avatar).attr('alt', person.name).removeClass('active');
+            // 头像只在制作人员弹窗真正打开时才加载（HEFUN 的 GIF 有 4MB+，不参与首屏）
+            if (creditsModal.hasClass('show') || creditsModal.css('display') === 'flex') {
+                if (creditsAvatar.attr('src') !== person.avatar) {
+                    creditsAvatar.attr('src', person.avatar);
+                }
+            } else {
+                creditsAvatar.attr('data-avatar-src', person.avatar);
+            }
+            creditsAvatar.attr('alt', person.name).removeClass('active');
             setTimeout(() => creditsAvatar.addClass('active'), 10);
             creditsName.text(person.name);
             creditsRole.text(person.role);
@@ -484,6 +492,17 @@ document.addEventListener('DOMContentLoaded', function() {
         updateIndicators();
     });
     
+    // 弹窗打开（加上 .show）后再补加载头像，避免首屏拉取 4MB+ 的 GIF
+    if (creditsModal.length && window.MutationObserver) {
+        new MutationObserver(function () {
+            if (!creditsModal.hasClass('show')) return;
+            const pending = creditsAvatar.attr('data-avatar-src');
+            if (pending && creditsAvatar.attr('src') !== pending) {
+                creditsAvatar.attr('src', pending);
+            }
+        }).observe(creditsModal[0], { attributes: true, attributeFilter: ['class', 'style'] });
+    }
+
     initCreditsCarousel();
     
     if (debugUnlocked) {

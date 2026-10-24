@@ -1017,21 +1017,7 @@
     transform: translateY(0) scale(1);
     opacity: 1;
 }
-@font-face {
-    font-family: 'Arena Breakout1';
-    src: url('fonts/Arena Breakout.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Arena Breakout2';
-    src: url('fonts/Arena Breakout 2.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+/* Arena Breakout 字体声明统一放在 index.html 的 <head>（此文件里的旧路径会 404，已移除） */
 
 .top-right-meta {
     position: fixed;

@@ -155,6 +155,7 @@ class MusicPlayer {
 
     setupAudio() {
         this.audio.volume = this.volume;
+        this.audio.preload = 'metadata'; // 只取时长信息，避免启动即缓冲整首曲子
         const audio = this.audio;
         
         $(audio).on({
@@ -277,32 +278,12 @@ class MusicPlayer {
             return;
         }
         
+        // 直接用文件地址播放：不再额外 fetch 一遍转 blob（同一首会被下载两次，拖慢首屏）
         this.audio.src = fileUrl;
-        
-        fetch(fileUrl)
-            .then(response => {
-                if (!response.ok) throw new Error('HTTP ' + response.status);
-                return response.blob();
-            })
-            .then(blob => {
-                const blobUrl = URL.createObjectURL(blob);
-                track._blobUrl = blobUrl;
-                
-                if (this.currentTrackIndex === index) {
-                    this.audio.src = blobUrl;
-                    this.audio.load();
-                    if (autoPlay) {
-                        this.audio.play().catch(() => {});
-                    }
-                }
-            })
-            .catch(err => {
-                this.audio.src = fileUrl;
-                this.audio.load();
-                if (autoPlay) {
-                    this.audio.play().catch(() => {});
-                }
-            });
+        this.audio.load();
+        if (autoPlay) {
+            this.audio.play().catch(() => {});
+        }
     }
 
     playTrackByIndex(index) {

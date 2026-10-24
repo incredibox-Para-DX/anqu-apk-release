@@ -22,6 +22,13 @@
     font-style: normal;
     font-display: swap;
 }
+/* 字体统一由 CSS 变量控制，避免启动时遍历全部节点写内联样式（首屏优化） */
+:root {
+    --ab-font-stack: 'Arena Breakout1', 'Microsoft YaHei', sans-serif;
+}
+body, body *:not(.fas):not(.far):not(.fab):not(.fa):not(.fa-solid):not(.font-preview) {
+    font-family: var(--ab-font-stack) !important;
+}
 #gm-debug-section { display: none !important; }
 body[data-gm="1"] #gm-debug-section { display: block !important; }
 .profile-title-row {
@@ -447,7 +454,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.40</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.41</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1453,6 +1460,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     }
 
     // 页面加载后预取（后台静默，失败不影响）
+    // 只缓存 HTML 文本，不写入 iframe：避免启动阶段解析 3MB+ 的公告页
     function preloadNotification() {
         fetch(NOTIFICATION_URLS[0], { cache: 'default' })
             .then(function (resp) { if (resp.ok) return resp.text(); throw 0; })
@@ -1460,19 +1468,26 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
                 if (html && html.length > 0) {
                     cachedHtml = html;
                     saveNotifCache(html);
-                    if (iframe && !rendered && modal.style.display !== 'flex') {
-                        iframe.srcdoc = html;
-                        rendered = true;
-                    }
                 }
             })
             .catch(function () {});
     }
 
+    // 首屏期间不预取公告，等进入游戏后再在空闲时拉取
+    function scheduleNotificationPreload() {
+        setTimeout(function () {
+            if (window.requestIdleCallback) {
+                window.requestIdleCallback(preloadNotification, { timeout: 4000 });
+            } else {
+                preloadNotification();
+            }
+        }, 6000);
+    }
+
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(preloadNotification, 800);
+        scheduleNotificationPreload();
     } else {
-        window.addEventListener('load', function () { setTimeout(preloadNotification, 800); });
+        window.addEventListener('load', scheduleNotificationPreload);
     }
 
     function openNotification() {
@@ -1524,11 +1539,8 @@ window.__loadDebugConsole = function () {
 
     function a(n) {
         var r = n === 'arena1' ? e : t;
-        document.body.style.fontFamily = r + ', Microsoft YaHei, sans-serif';
-        document.querySelectorAll('*').forEach(function(e) {
-            if (e.classList && (e.classList.contains('fas') || e.classList.contains('far') || e.classList.contains('fab') || e.classList.contains('fa') || e.classList.contains('font-preview'))) return;
-            e.style.setProperty('font-family', r + ', Microsoft YaHei, sans-serif', 'important')
-        });
+        // 只改一个 CSS 变量，由样式表统一生效，不再逐个节点写内联样式
+        document.documentElement.style.setProperty('--ab-font-stack', r + ', Microsoft YaHei, sans-serif');
         n === 'arena1' ? u() : v();
         localStorage.setItem('ab_font_preference', n);
         o = n
