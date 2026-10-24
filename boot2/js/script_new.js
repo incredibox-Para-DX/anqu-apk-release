@@ -3891,17 +3891,7 @@ const EventManager = {
         $('#bg-settings-close').on('click', () => BackgroundFavorites.closeSettingsModal());
         $('#bg-settings-save').on('click', () => BackgroundFavorites.saveSettings());
         $('#bg-favorites-play').on('change', function () {
-            $('#bg-switch-mode-row').toggle(this.checked);
-            if (!this.checked) {
-                $('#bg-timer-row').hide();
-            } else {
-                // 重新评估定时间隔行（切换方式可能已是 timer，此时 radio change 不会再次触发）
-                const mode = $('input[name="bg-switch-mode"]:checked').val() || 'timer';
-                $('#bg-timer-row').toggle(mode === 'timer');
-            }
-        });
-        $('input[name="bg-switch-mode"]').on('change', function () {
-            $('#bg-timer-row').toggle($(this).val() === 'timer' && this.checked);
+            $('#bg-settings-desc').toggle(this.checked);
         });
         $('#bg-settings-modal').on('click', function (e) {
             if ($(e.target).is(this)) BackgroundFavorites.closeSettingsModal();
@@ -6141,10 +6131,7 @@ const EventManager = {
             openSettingsModal() {
                 const s = this.settings;
                 $('#bg-favorites-play').prop('checked', !!s.playFavorites);
-                $('#bg-switch-mode-row').toggle(!!s.playFavorites);
-                $('input[name="bg-switch-mode"]').val([s.switchMode || 'timer']);
-                $('#bg-timer-row').toggle(!!s.playFavorites && (s.switchMode || 'timer') === 'timer');
-                $('input[name="bg-timer"]').val([String(s.timer || 15)]);
+                $('#bg-settings-desc').toggle(!!s.playFavorites);
                 const favCount = this._ids.length;
                 $('#bg-settings-info').html(favCount
                     ? `当前已喜好 ${favCount} 个背景。`
@@ -6158,8 +6145,6 @@ const EventManager = {
             },
             saveSettings() {
                 this.settings.playFavorites = $('#bg-favorites-play').is(':checked');
-                this.settings.switchMode = $('input[name="bg-switch-mode"]:checked').val() || 'timer';
-                this.settings.timer = Number($('input[name="bg-timer"]:checked').val() || 15);
                 this._saveSettings();
                 this.applyCycling();
                 if (window.showToast) window.showToast('背景设置已保存');
@@ -6167,13 +6152,7 @@ const EventManager = {
             },
             applyCycling() {
                 if (this._timer) { clearInterval(this._timer); this._timer = null; }
-                if (!this.settings.playFavorites) return;
-                const favs = this.getFavoriteBackgrounds();
-                if (favs.length < 2) return;
-                if (this.settings.switchMode === 'timer') {
-                    const ms = (this.settings.timer || 15) * 60 * 1000;
-                    this._timer = setInterval(() => this._switchToNextFavorite(), ms);
-                }
+                // 已移除定时切换，仅保留"每次进入游戏随机切换"，无需定时器
             },
             _switchToNextFavorite() {
                 const favs = this.getFavoriteBackgrounds();
@@ -6189,7 +6168,6 @@ const EventManager = {
             },
             _applyReopenSwitch() {
                 if (!this.settings.playFavorites) return;
-                if (this.settings.switchMode !== 'reopen') return;
                 const favs = this.getFavoriteBackgrounds();
                 if (favs.length === 0) return;
                 // 随机选一个喜好背景
@@ -6396,7 +6374,7 @@ const EventManager = {
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.65';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.66';
 
     /* ============================================================
      * 检查更新

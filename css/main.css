@@ -2059,9 +2059,9 @@ audio {
 }
 
 /* 背景设置弹窗 */
-/* 固定 modal-body 最小高度为展开后的高度，避免勾选/切换时因行显隐导致弹窗上下跳动错位 */
 #bg-settings-modal .modal-body {
-    min-height: 400px;
+    /* 内容已简化为静态，无需固定最小高度，避免弹窗过高错位 */
+    min-height: 0;
 }
 .bg-setting-row {
     margin-bottom: 16px;

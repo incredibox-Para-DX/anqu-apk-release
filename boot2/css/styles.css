@@ -2342,8 +2342,7 @@ video::-internal-track-segment {
     border-color: rgba(255,255,255,0.2);
 }
 .bg-thumb.selected {
-    /* 移除蓝框，改用轻微背景色区分选中态 */
-    background: rgba(59,130,246,0.12);
+    /* 选中态不额外加框/背景，保持与未选中一致 */
 }
 .bg-thumb.locked .bg-thumb-img {
     filter: brightness(0.5);

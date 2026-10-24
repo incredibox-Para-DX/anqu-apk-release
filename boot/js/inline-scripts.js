@@ -142,7 +142,7 @@
     };
 
     const setSpecialVolume = (volume) => {
-        currentVolume = Math.max(0, volume);
+        if (volume != null) currentVolume = Math.max(0, volume);
         if (gainNode) gainNode.gain.value = currentVolume * (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
     };
 
