@@ -6161,9 +6161,12 @@ const EventManager = {
      * ============================================================ */
     var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
+    // 兜底源：raw 在国内偶尔不可达时才试 jsDelivr。
+    // 不能优先用 CDN：jsDelivr 对 @main 有较长缓存，会拿到旧 manifest 导致版本误判。
+    var HU_MANIFEST_FALLBACK_URL = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.49';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.50';
 
     /* ============================================================
      * 检查更新
@@ -6365,6 +6368,7 @@ const EventManager = {
     // 右上角版本号立即同步为当前构建版本（不等 manifest 返回）
     try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + window.HU_BUILD_VERSION); } catch(e) {}
     // fetch manifest + 版本对比 + 回调 (供 sidebar 按钮和自动检查共用)
+    // 主源 raw 失败时才退到 jsDelivr 兜底，保证弱网下仍能检查更新
     window.__huFetchAndCompare = function(onResult) {
         var done = typeof onResult === 'function' ? onResult : function() {};
         var apply = function(m) {
@@ -6377,10 +6381,26 @@ const EventManager = {
             var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
             done(m, hasUpdate);
         };
+        var tryFallback = function() {
+            if (window.Net && Net.getJSON) {
+                Net.getJSON(HU_MANIFEST_FALLBACK_URL, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
+                    .then(apply)
+                    .catch(function() { done(null, false); });
+                return;
+            }
+            $.ajax({
+                url: HU_MANIFEST_FALLBACK_URL + '?t=' + Date.now(),
+                dataType: 'json',
+                cache: false,
+                timeout: 8000,
+                success: apply,
+                error: function() { done(null, false); }
+            });
+        };
         if (window.Net && Net.getJSON) {
             Net.getJSON(HU_MANIFEST_URL, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
                 .then(apply)
-                .catch(function() { done(null, false); });
+                .catch(tryFallback);
             return;
         }
         $.ajax({
@@ -6388,19 +6408,8 @@ const EventManager = {
             dataType: 'json',
             cache: false,
             timeout: 8000,
-            success: function(m) {
-                // 右上角同步为服务器最新版本
-                if (m && m.version) {
-                    try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
-                }
-                // 版本对比（只读，不存！安装成功才存）
-                var curVer = window.HU_BUILD_VERSION;
-                var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
-                if (typeof onResult === 'function') { onResult(m, hasUpdate); }
-            },
-            error: function() {
-                if (typeof onResult === 'function') { onResult(null, false); }
-            }
+            success: apply,
+            error: tryFallback
         });
     };
     window.__huStartProgress = function() {
