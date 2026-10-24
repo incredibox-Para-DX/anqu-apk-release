@@ -2903,6 +2903,18 @@ previewCurrentBackground() {
     const GameController = {
 openSafe() {
     if (State.isOpenSafeBtnDisabled) return;
+    try {
+        this._runOpenSafe();
+    } catch (e) {
+        /* 生成流程异常时不能让按钮永久停在"生成中..."，否则整局都无法再开保险 */
+        console.error('[openSafe] 开保险流程异常：', e);
+        State.isOpenSafeBtnDisabled = false;
+        $('#open-safe-btn').prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
+        if (window.showToast) window.showToast('开保险失败，请重试');
+    }
+},
+
+_runOpenSafe() {
     State.isOpenSafeBtnDisabled = true;
     
     const $openButton = $('#open-safe-btn');
@@ -2910,6 +2922,8 @@ openSafe() {
     
     Utils.playAudio('open-safe-audio', { volume: 1 });
     this.resetGameState();
+    /* resetGameState 会把防重入标志写回 false，这里补回，保证生成期间真正防重复点击 */
+    State.isOpenSafeBtnDisabled = true;
 
     ShopManager.consumeLimitedUse('supply_tide');
     const tideActive = ShopManager.isEnabled('supply_tide');
@@ -3319,6 +3333,9 @@ openSafe() {
                 State.isSearching = false;
                 State.isPaused = false;
                 State.currentSearch = null;
+                /* 一轮搜完：恢复"打开保险"按钮，避免按钮一直 disabled 导致点了完全没反应 */
+                State.isOpenSafeBtnDisabled = false;
+                $('#open-safe-btn').prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
                 $('#pause-search-btn').html('<i class="fas fa-pause"></i> 暂停搜索');
                 UIManager.updatePauseButtonState();
                 UIManager.updateResetButtonState();
@@ -6142,7 +6159,7 @@ const EventManager = {
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.42';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.43';
 
     /* ============================================================
      * 检查更新
