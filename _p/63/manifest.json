@@ -1,0 +1,115 @@
+{
+  "version": "v2.1.0_hotfix.63-p1",
+  "files": [
+    {
+      "path": "MiniGame/index.html",
+      "size": 2314
+    },
+    {
+      "path": "MiniGame/scripts/all.js",
+      "size": 189889
+    },
+    {
+      "path": "MiniGame/images/index.css",
+      "size": 2053
+    },
+    {
+      "path": "css/icon.css",
+      "size": 75487
+    },
+    {
+      "path": "css/main.css",
+      "size": 59616
+    },
+    {
+      "path": "css/styles.css",
+      "size": 73381
+    },
+    {
+      "path": "js/debug.js",
+      "size": 87023
+    },
+    {
+      "path": "js/inline-scripts.js",
+      "size": 28536
+    },
+    {
+      "path": "js/main.js",
+      "size": 23527
+    },
+    {
+      "path": "js/modal-registry.js",
+      "size": 8119
+    },
+    {
+      "path": "js/music.js",
+      "size": 88622
+    },
+    {
+      "path": "js/net.js",
+      "size": 7315
+    },
+    {
+      "path": "js/redeem.js",
+      "size": 4126
+    },
+    {
+      "path": "js/script_new.js",
+      "size": 321250
+    },
+    {
+      "path": "js/synthesis.js",
+      "size": 25801
+    },
+    {
+      "path": "js/banned-words.js",
+      "size": 6585
+    },
+    {
+      "path": "js/storage.js",
+      "size": 15826
+    },
+    {
+      "path": "libs/GSAP.js",
+      "size": 72213
+    },
+    {
+      "path": "libs/jquery.js",
+      "size": 78748
+    },
+    {
+      "path": "libs/lodash.js",
+      "size": 73154
+    },
+    {
+      "path": "xml/backgrounds.xml",
+      "size": 8149
+    },
+    {
+      "path": "xml/items.xml",
+      "size": 93710
+    },
+    {
+      "path": "xml/loading-tips.xml",
+      "size": 463
+    },
+    {
+      "path": "xml/music-config.xml",
+      "size": 4111
+    },
+    {
+      "path": "xml/video-config.xml",
+      "size": 101
+    },
+    {
+      "path": "music-player/covers/custom-music-default.png",
+      "size": 482218
+    },
+    {
+      "path": "index.html",
+      "size": 117529
+    }
+  ],
+  "fileCount": 27,
+  "totalSize": 1949866
+}
