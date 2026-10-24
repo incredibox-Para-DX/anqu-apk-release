@@ -4306,6 +4306,10 @@ const EventManager = {
         minigameLastResult: null,
 
         init() {
+            // 音乐缓存就绪信号（供 MusicPlayer 启动时等待，避免回退成默认音乐）
+            if (!this.musicCacheReady) {
+                this.musicCacheReady = new Promise(res => { this._musicCacheResolve = res; });
+            }
             this.bindEvents();
             // 先用本地状态渲染，避免弱网/离线时下载界面长时间空白
             this.refreshUI();
@@ -4317,7 +4321,8 @@ const EventManager = {
                         this.validateDownloads()
                             .then(() => this.preloadMusicCache())
                             .then(() => this.refreshUI())
-                            .catch(() => {});
+                            .catch(() => {})
+                            .then(() => this.notifyMusicCacheReady());
                     };
                     if (window.requestIdleCallback) {
                         window.requestIdleCallback(runDeferred, { timeout: 8000 });
@@ -4325,7 +4330,10 @@ const EventManager = {
                         setTimeout(runDeferred, 4000);
                     }
                 })
-                .catch(() => {});
+                .catch(() => {
+                    // 清单加载失败也要放行，避免 MusicPlayer 一直等缓存
+                    this.notifyMusicCacheReady();
+                });
         },
 
         bindEvents() {
@@ -5786,6 +5794,10 @@ const EventManager = {
         },
         // 音乐路径缓存：预先把已下载的音乐 blob URL 缓存起来，供 MusicPlayer 同步使用
         musicBlobCache: {},
+        // 缓存就绪信号：MusicPlayer 初始化时若在此前加载曲目，会回退成默认音乐
+        musicCacheReady: null,
+        _musicCacheResolve: null,
+        musicCacheLoaded: false,
 
         async preloadMusicCache() {
             const tracks = (this.musicManifest && this.musicManifest.tracks) || [];
@@ -5806,6 +5818,56 @@ const EventManager = {
                     }
                 } catch (e) {}
             }
+            if (tracks.length) this.musicCacheLoaded = true;
+            // 缓存到位后校正可能已按默认资源加载的当前曲目
+            this.reconcileMusicSource();
+        },
+
+        // 通知等待方：音乐缓存已就绪（或已确认无可加载资源）
+        notifyMusicCacheReady() {
+            if (this._musicCacheResolve) {
+                this._musicCacheResolve();
+                this._musicCacheResolve = null;
+            }
+            this.reconcileMusicSource();
+        },
+
+        // 曲目实际播放源与正确资源不一致时（常见于启动早于缓存就绪），重新加载并找回进度
+        reconcileMusicSource() {
+            try {
+                const p = window.musicPlayer;
+                if (!p || !p.isInitialized || !p.audio || !p.playlist) return;
+                const track = p.playlist[p.currentTrackIndex];
+                if (!track) return;
+                const correct = p.getFullPath(track.file);
+                const cur = p.audio.currentSrc || p.audio.src || '';
+                if (!correct || !cur) return;
+                // 已是正确资源，或正在用该曲目自己的 blob，则无需处理
+                if (cur === correct) return;
+                if (track._seekBlobUrl && cur === track._seekBlobUrl && track._seekBlobSrc === correct) return;
+                // 清掉可能被污染的 blob（例如按默认音乐转出来的那份）
+                if (track._seekBlobUrl) {
+                    try { URL.revokeObjectURL(track._seekBlobUrl); } catch (e) {}
+                    delete track._seekBlobUrl;
+                    delete track._seekBlobSrc;
+                }
+                // 用已保存的原始进度；此时 audio.currentTime 可能已被短时长资源 clamp 坏
+                const saved = typeof p.loadPlayState === 'function' ? p.loadPlayState() : null;
+                const keepTime = (saved && saved.index === p.currentTrackIndex && _.isNumber(saved.time))
+                    ? saved.time
+                    : (p.audio.currentTime || 0);
+                p.loadTrack(p.currentTrackIndex, false);
+                if (keepTime > 1) {
+                    p.pendingRestoreTime = keepTime;
+                    const audio = p.audio;
+                    // seekTo 返回 false（元数据未就绪）时保留 pendingRestoreTime，交给 loadedmetadata
+                    if (audio && audio.readyState >= 1 && typeof p.seekTo === 'function') {
+                        if (p.seekTo(keepTime)) p.pendingRestoreTime = null;
+                    }
+                }
+                if (typeof p.preloadCurrentCover === 'function') p.preloadCurrentCover();
+                console.log('[RDM] 已校正曲目播放源：' + (track.title || ''));
+            } catch (e) {}
         },
 
         // 下载完成后清除旧的音频缓存，确保下次播放使用新下载的文件
@@ -5830,6 +5892,9 @@ const EventManager = {
             if (!path) return path;
             if (path === this.defaultMusicFile || path === this.defaultMusicCover) return path;
             if (this.musicBlobCache[path]) return this.musicBlobCache[path];
+            // IndexedDB 缓存还没恢复完：先返回原路径。
+            // 此时若回退成默认音乐，会出现“封面是当前曲目、声音却是默认曲目”的错位。
+            if (!this.musicCacheLoaded) return path;
             // 未下载回退到默认
             return path.indexOf('covers/') !== -1 ? this.defaultMusicCover : this.defaultMusicFile;
         }
@@ -6167,7 +6232,7 @@ const EventManager = {
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.51';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.54';
 
     /* ============================================================
      * 检查更新

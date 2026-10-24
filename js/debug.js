@@ -492,34 +492,6 @@
       else if (e.key === 'Escape' && panelEl.classList.contains('open')) { openDev(false); }
     });
 
-    // FAB 拖拽
-    var fab = Q('#' + FAB_ID);
-    var dragging = false, startX = 0, startY = 0, origLeft = 0, origTop = 0, moved = false;
-    var onStart = function (e) {
-      var pt = e.touches ? e.touches[0] : e;
-      dragging = true; moved = false;
-      startX = pt.clientX; startY = pt.clientY;
-      var r = fab.getBoundingClientRect();
-      origLeft = r.left; origTop = r.top;
-      fab.style.right = 'auto'; fab.style.bottom = 'auto';
-      fab.style.left = origLeft + 'px'; fab.style.top = origTop + 'px';
-    };
-    var onMove = function (e) {
-      if (!dragging) return;
-      var pt = e.touches ? e.touches[0] : e;
-      var dx = pt.clientX - startX, dy = pt.clientY - startY;
-      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
-      fab.style.left = Math.max(0, Math.min(innerWidth - fab.offsetWidth, origLeft + dx)) + 'px';
-      fab.style.top = Math.max(0, Math.min(innerHeight - fab.offsetHeight, origTop + dy)) + 'px';
-      if (e.cancelable) e.preventDefault();
-    };
-    var onEnd = function (e) { if (dragging && moved) { e.preventDefault(); e.stopPropagation(); } dragging = false; };
-    fab.addEventListener('mousedown', onStart);
-    fab.addEventListener('touchstart', onStart, { passive: false });
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('touchmove', onMove, { passive: false });
-    document.addEventListener('mouseup', onEnd);
-    document.addEventListener('touchend', onEnd);
   }
 
   function loopFps() {

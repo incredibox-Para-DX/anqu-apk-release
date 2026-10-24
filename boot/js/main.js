@@ -312,23 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }), 100);
     };
     
-    const handleNameClick = function() {
-        // GM 模式已改为通过兑换码 hefunadmin 解锁，不再支持点击名字解锁。
-        if (debugUnlocked) {
-            if (typeof showToast === 'function') {
-                showToast('Debug mode is already enabled, no need to enable again');
-            } else {
-                var toast = $('#toast-message');
-                if (toast.length) {
-                    toast.text('Debug mode is already enabled, no need to enable again').addClass('show');
-                    setTimeout(function() {
-                        toast.removeClass('show');
-                    }, 2500);
-                }
-            }
-        }
-    };
-    
     const updateCreditInfo = () => {
         const person = CREDITS_LIST[currentCreditIndex];
         if (person) {
@@ -450,8 +433,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     $(document).on('click', '#credits-avatar', handleAvatarClick);
-    
-    $(document).on('click', '#credits-name', handleNameClick);
     
     $(document).on('click', '.compact-indicator', function() {
         const index = $(this).index();

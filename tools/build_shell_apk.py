@@ -79,9 +79,18 @@ if os.path.isdir(FONTS_DIR):
 
 SKIP = set(CODE_FILES)
 SKIP.update({"assets/www/css/shell.css", "assets/www/js/shell.js"})
-SKIP.update({"META-INF/MANIFEST.MF", "META-INF/APP.SF", "META-INF/APP.RSA"})
 # 已从收藏室下架、仓库 media/collect 里也不存在的旧图，包里一并清掉
 SKIP.add("assets/www/collect/img_9aaa9d9296.png")
+
+
+def is_old_signature(name):
+    """旧签名文件一律剔除（签名文件名随工具而异：APP.* / ANDROID.* / CERT.*）"""
+    if not name.startswith("META-INF/"):
+        return False
+    base = name[len("META-INF/"):].upper()
+    if "/" in base:
+        return False
+    return base == "MANIFEST.MF" or base.endswith((".SF", ".RSA", ".DSA", ".EC"))
 
 
 def main():
@@ -93,7 +102,7 @@ def main():
 
     with zipfile.ZipFile(OUT, "w") as dst:
         for info in src.infolist():
-            if info.filename in SKIP or info.filename.startswith(REMOVE_PREFIXES):
+            if info.filename in SKIP or info.filename.startswith(REMOVE_PREFIXES) or is_old_signature(info.filename):
                 removed += 1
                 continue
             data = src.read(info.filename)
