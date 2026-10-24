@@ -1,0 +1,33 @@
+{
+  "version": "v2.1.0_hotfix.48-p4",
+  "files": [
+    {
+      "path": "index.html",
+      "size": 111857
+    },
+    {
+      "path": "css/main.css",
+      "size": 53489
+    },
+    {
+      "path": "css/styles.css",
+      "size": 72499
+    },
+    {
+      "path": "js/music.js",
+      "size": 51317
+    },
+    {
+      "path": "js/script_new.js",
+      "size": 303412
+    },
+    {
+      "path": "js/net.js",
+      "size": 7315
+    },
+    {
+      "path": "js/modal-registry.js",
+      "size": 7571
+    }
+  ]
+}
