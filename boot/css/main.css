@@ -2325,3 +2325,28 @@ textarea.dt-in{
     font-family: 'Avicii', sans-serif !important;
     letter-spacing: 0.5px;
 }
+
+/* 资源下载弹窗：整体改深灰配色，去掉刺眼的白框与白色进度条 */
+#resource-download-modal .modal-content {
+    background: linear-gradient(135deg, rgba(40, 43, 48, 0.97) 0%, rgba(26, 29, 33, 0.97) 100%) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55) !important;
+}
+#resource-download-modal .modal-body > div[style*="border:1px solid"] {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+#resource-download-modal .modal-body div[style*="background:#e2e8f0"] {
+    background: #3a3f46 !important;
+}
+#resource-download-modal .modal-body div[style*="color:#64748b"] {
+    color: #a7adb5 !important;
+}
+#resource-download-modal .modal-body div[style*="color:#94a3b8"] {
+    color: #868d96 !important;
+}
+#rd-bg-progress-bar,
+#rd-music-progress-bar,
+#rd-title-progress-bar {
+    background: linear-gradient(90deg, #5f6672, #9299a3) !important;
+}
