@@ -2453,7 +2453,8 @@ previewCurrentBackground() {
                 `);
                 
                 $row.find('.item-toggle').on('change', function() {
-                    const itemId = parseInt($(this).data('id'));
+                    // 不能用 parseInt：Mod 物品 id 是字符串（mod_xxx_0），parseInt 会变 NaN 导致开关失效
+                    const itemId = $(this).data('id');
                     const disabled = !$(this).is(':checked');
                     ItemControlManager.toggleItem(itemId, disabled);
                     $row.css('opacity', disabled ? 0.4 : 1);
@@ -6598,7 +6599,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.76';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.77';
 
     /* ============================================================
      * 检查更新

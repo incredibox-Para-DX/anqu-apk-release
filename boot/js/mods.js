@@ -11,9 +11,6 @@
     var REPO_RAW_MAIN = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
 
     var LIMITS = {
-        zip: 10 * 1024 * 1024,
-        image: 500 * 1024,
-        audio: 8 * 1024 * 1024,
         items: 30,
         tracks: 10,
         bgs: 10,
@@ -220,9 +217,6 @@
                 return fetch(url, { cache: 'no-store' }).then(function (r) {
                     if (!r.ok) throw new Error('HTTP ' + r.status);
                     return r.blob();
-                }).then(function (blob) {
-                    if (blob.size > LIMITS.zip) throw new Error('文件超过 10MB 限制');
-                    return blob;
                 }).catch(function (e) { return tryOne(i + 1); });
             }
             return tryOne(0);
@@ -328,18 +322,13 @@
             var self = this;
             sourceLabel = sourceLabel || '安装';
             if (!w.JSZip) return Promise.reject(new Error('ZIP 解析组件未加载'));
-            if (zipBlob.size > LIMITS.zip) return Promise.reject(new Error('文件超过 10MB 限制'));
             var zip = null, modJson = null, modId = null, storedBytes = 0;
             var assetRecs = [];
 
-            function readFile(name, max, isImage) {
+            function readFile(name) {
                 var f = zip.file(name);
                 if (!f) return Promise.resolve(null);
-                return f.async('blob').then(function (blob) {
-                    if (max && blob.size > max) throw new Error(name + ' 超过 ' + fmtSize(max));
-                    if (isImage && blob.size > LIMITS.image) throw new Error(name + ' 超过 500KB');
-                    return blob;
-                });
+                return f.async('blob');
             }
 
             return w.JSZip.loadAsync(zipBlob).then(function (z) {
@@ -372,7 +361,7 @@
                     var tasks = [];
                     // 展示资源
                     ['thumb.png', 'avatar.png', 'screen-1.png', 'screen-2.png', 'screen-3.png'].forEach(function (n) {
-                        tasks.push(readFile(resolveName(n) || n, LIMITS.image, true).then(function (blob) {
+                        tasks.push(readFile(resolveName(n) || n).then(function (blob) {
                             if (!blob) return;
                             var path = 'mods/' + modId + '/' + n;
                             storedBytes += blob.size;
@@ -391,10 +380,7 @@
                     contentFiles.forEach(function (rel) {
                         rel = String(rel || '').replace(/\\/g, '/').replace(/^\.\//, '');
                         if (!rel || rel.indexOf('..') !== -1) return;
-                        var isAudio = /\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(rel);
-                        var isImg = /\.(png|jpe?g|webp)$/i.test(rel);
-                        var max = isAudio ? LIMITS.audio : (isImg ? LIMITS.image : LIMITS.audio);
-                        tasks.push(readFile(resolveName(rel) || rel, max, isImg).then(function (blob) {
+                        tasks.push(readFile(resolveName(rel) || rel).then(function (blob) {
                             if (!blob) return;
                             var path = 'mods/' + modId + '/' + rel;
                             storedBytes += blob.size;
@@ -949,8 +935,8 @@
         /* ---------- 事件绑定 ---------- */
         bind: function () {
             var self = this;
-            if ($('#mod-entry-btn').length) {
-                $('#mod-entry-btn').on('click', function () { self.openLibrary(); });
+            if ($('#sidebar-mod-library-btn').length) {
+                $('#sidebar-mod-library-btn').on('click', function () { self.openLibrary(); });
             }
             if ($('#sidebar-mod-guide-btn').length) {
                 $('#sidebar-mod-guide-btn').on('click', function () { openModal('mod-guide-page'); });
@@ -959,10 +945,7 @@
             $('#mod-library-close').on('click', function () { closeModal('mod-library-page'); });
             $('#mod-detail-close').on('click', function () { closeModal('mod-detail-modal'); });
             $('#mod-detail-modal').on('click', function (e) { if ($(e.target).is(this)) closeModal('mod-detail-modal'); });
-            // 打开模板链接
-            $('#mod-template-download').on('click', function () {
-                w.open(self.TEMPLATE_URL, '_blank');
-            });
+            // 复制模板链接（仅允许复制访问，不提供内置直接下载）
             $('#mod-template-copy').on('click', function () {
                 var url = self.TEMPLATE_URL;
                 if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { toast('链接已复制'); });

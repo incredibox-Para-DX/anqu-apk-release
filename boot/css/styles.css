@@ -3241,22 +3241,6 @@ video:empty {
 }
 
 /* ==================== MOD 库 ==================== */
-#mod-entry-btn {
-    position: fixed; top: 27px; left: 33px;
-    width: 58px; height: 58px; border-radius: 50%;
-    background: rgba(120, 140, 170, 0.10);
-    border: 1px solid rgba(150, 175, 210, 0.22);
-    color: #c9d6ea; font-size: 15px; font-weight: 800; letter-spacing: 1px;
-    cursor: pointer; z-index: 98765;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s cubic-bezier(0.341, 1.544, 0.682, 1);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 5px 23px rgba(0, 0, 0, 0.33);
-    font-family: 'Arena Breakout1', 'Microsoft YaHei', sans-serif;
-}
-#mod-entry-btn:hover { background: rgba(140, 170, 210, 0.22); transform: scale(1.06); }
-#mod-entry-btn:active { transform: scale(0.95); }
-
 /* 指南页 */
 .mod-guide-section { margin-bottom: 18px; }
 .mod-guide-section h4 { margin: 0 0 8px; font-size: 15px; color: #e2e8f0; display: flex; align-items: center; gap: 8px; }
