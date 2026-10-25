@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.69.m",
+  "version": "v2.1.0_hotfix.70.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -106,10 +106,34 @@
       "size": 482218
     },
     {
+      "path": "pictures/skills/bounty_agreement.png",
+      "size": 34510
+    },
+    {
+      "path": "pictures/skills/destiny_pity.png",
+      "size": 37870
+    },
+    {
+      "path": "pictures/skills/lucky_streak.png",
+      "size": 35518
+    },
+    {
+      "path": "pictures/skills/prophet.png",
+      "size": 45880
+    },
+    {
+      "path": "pictures/skills/supply_tide.png",
+      "size": 35836
+    },
+    {
+      "path": "pictures/skills/swift_hands.png",
+      "size": 34310
+    },
+    {
       "path": "index.html",
       "size": 116934
     }
   ],
-  "fileCount": 27,
-  "totalSize": 1957406
+  "fileCount": 33,
+  "totalSize": 2181330
 }

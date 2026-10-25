@@ -44,6 +44,12 @@ CODE_FILES = [
     "xml/music-config.xml",
     "xml/video-config.xml",
     "music-player/covers/custom-music-default.png",
+    "pictures/skills/bounty_agreement.png",
+    "pictures/skills/destiny_pity.png",
+    "pictures/skills/lucky_streak.png",
+    "pictures/skills/prophet.png",
+    "pictures/skills/supply_tide.png",
+    "pictures/skills/swift_hands.png",
 ]
 
 # 首次打开只下载代码文件；audio / music-player 均在 APK 内
