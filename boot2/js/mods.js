@@ -37,10 +37,11 @@
         if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
         return (bytes / 1024 / 1024).toFixed(2) + ' MB';
     }
-    function openModal(id) {
+    function openModal(id, zIndex) {
         var $m = $('#' + id);
         if (!$m.length) return;
-        if (w.ModalRegistry) { w.ModalRegistry.open(id); return; }
+        if (w.ModalRegistry) { w.ModalRegistry.open(id, zIndex ? { zIndex: zIndex } : undefined); return; }
+        if (zIndex) $m.css('z-index', zIndex);
         $m.css('display', 'flex');
         setTimeout(function () { $m.addClass('show'); }, 10);
     }
@@ -742,6 +743,43 @@
             if (tab === 'store') this.renderStoreList();
             if (tab === 'mine') this.renderMineList();
         },
+        /* 远程图片：主线路 + 备用线路自动回退（worker 未部署新仓库时会自动走 jsDelivr/raw） */
+        _assetImg: function (path, cls, alt) {
+            if (!path) return '';
+            var urls = this.baseUrls.map(function (b) { return b + path; });
+            return '<img src="' + esc(urls[0]) + '" data-modfb="' + esc(urls.slice(1).join('|')) +
+                '" class="' + (cls || '') + '" alt="' + esc(alt || '') + '" loading="lazy">';
+        },
+        _applyImgFallback: function (im) {
+            var fb = (im.getAttribute('data-modfb') || '').split('|').filter(Boolean);
+            if (fb.length) {
+                im.setAttribute('data-modfb', fb.slice(1).join('|'));
+                im.src = fb[0];
+            } else {
+                im.removeAttribute('data-modfb');
+                im.style.visibility = 'hidden';
+            }
+        },
+        // 图片可能在插入 DOM 前就已报错（错误事件丢失），插入后扫一次坏图
+        _sweepBrokenImgs: function (root) {
+            var self = this;
+            var imgs = (root || document).querySelectorAll('img[data-modfb]');
+            Array.prototype.forEach.call(imgs, function (im) {
+                if (im.complete && im.naturalWidth === 0) self._applyImgFallback(im);
+            });
+        },
+        _bindImgFallback: function () {
+            if (this._imgFallbackBound) return;
+            this._imgFallbackBound = true;
+            var self = this;
+            // error 事件不冒泡，jQuery 委托捕不到，必须用原生捕获阶段监听
+            document.addEventListener('error', function (e) {
+                var im = e.target;
+                if (!im || im.tagName !== 'IMG' || !im.hasAttribute('data-modfb')) return;
+                self._applyImgFallback(im);
+            }, true);
+        },
+
         _thumbUrl: function (id, name) {
             var p = 'mods/' + id + '/' + name;
             return this._blobUrls[p] || '';
@@ -808,10 +846,9 @@
                 items.forEach(function (x) {
                     var installed = self.isInstalled(x.id);
                     var typeName = { item: '物品', music: '音乐', background: '背景' }[x.type] || x.type;
-                    var thumbUrl = x.thumb ? (self.baseUrls[0] + x.thumb) : '';
                     var $row = $(
                         '<div class="mod-row" data-id="' + esc(x.id) + '">' +
-                        '<div class="mod-row-thumb">' + (thumbUrl ? '<img src="' + esc(thumbUrl) + '" loading="lazy" onerror="this.style.display=\'none\'">' : '<i class="fas fa-box"></i>') + '</div>' +
+                        '<div class="mod-row-thumb">' + (x.thumb ? self._assetImg(x.thumb) : '<i class="fas fa-box"></i>') + '</div>' +
                         '<div class="mod-row-main">' +
                         '<div class="mod-row-name">' + esc(x.name) + ' <span class="mod-type-badge">' + typeName + '</span>' + (installed ? '<span class="mod-installed-badge">已安装</span>' : '') + '</div>' +
                         '<div class="mod-row-desc">' + esc(x.desc) + '</div>' +
@@ -822,6 +859,8 @@
                     $row.find('.mod-detail-btn, .mod-row-thumb, .mod-row-main').on('click', function () { self.openDetail(x); });
                     $list.append($row);
                 });
+                // 列表图片可能插入前就已失败，插入后统一扫一次
+                self._sweepBrokenImgs($list[0]);
             });
         },
         openDetail: function (x) {
@@ -831,24 +870,32 @@
             var meta = this._meta[x.id];
             var typeName = { item: '物品', music: '音乐', background: '背景' }[x.type] || x.type;
             var avatarUrl = x.avatar ? (this.baseUrls[0] + x.avatar) : '';
+            var avatarHtml = '';
             if (installed && meta && meta.thumbs && meta.thumbs.avatar) {
-                avatarUrl = this._thumbUrl(x.id, meta.thumbs.avatar);
+                avatarHtml = '<img src="' + esc(this._thumbUrl(x.id, meta.thumbs.avatar)) + '" alt="">';
+            } else if (x.avatar) {
+                avatarHtml = this._assetImg(x.avatar);
             }
             var screenUrls = [];
             if (installed && meta && meta.thumbs && meta.thumbs.screens) {
                 meta.thumbs.screens.forEach(function (n) { screenUrls.push(self._thumbUrl(x.id, n)); });
-            } else if (Array.isArray(x.screens)) {
-                x.screens.forEach(function (p) { screenUrls.push(self.baseUrls[0] + p); });
             }
             screenUrls = screenUrls.filter(Boolean).slice(0, LIMITS.screens);
+            var remoteScreens = [];
+            if (!screenUrls.length && Array.isArray(x.screens)) {
+                remoteScreens = x.screens.slice(0, LIMITS.screens);
+            }
 
             var screensHtml = '';
-            if (screenUrls.length) {
-                screensHtml = '<div class="mod-detail-screens">' + screenUrls.map(function (u, i) {
-                    return '<div class="mod-screen"><img src="' + esc(u) + '" loading="lazy" alt=""></div>';
-                }).join('') + '</div>' + (screenUrls.length > 1 ? '<div class="mod-screen-dots">' + screenUrls.map(function (_, i) {
-                    return '<i class="' + (i === 0 ? 'active' : '') + '"></i>';
-                }).join('') + '</div>' : '');
+            var screenCount = screenUrls.length || remoteScreens.length;
+            if (screenCount) {
+                var screenItems = screenUrls.length
+                    ? screenUrls.map(function (u) { return '<div class="mod-screen"><img src="' + esc(u) + '" loading="lazy" alt=""></div>'; })
+                    : remoteScreens.map(function (p) { return '<div class="mod-screen">' + self._assetImg(p, '', '') + '</div>'; });
+                screensHtml = '<div class="mod-detail-screens">' + screenItems.join('') + '</div>' +
+                    (screenCount > 1 ? '<div class="mod-screen-dots">' + screenItems.map(function (_, i) {
+                        return '<i class="' + (i === 0 ? 'active' : '') + '"></i>';
+                    }).join('') + '</div>' : '');
             }
 
             var actionHtml;
@@ -865,7 +912,7 @@
 
             $('#mod-detail-body').html(
                 '<div class="mod-detail-author">' +
-                '<div class="mod-detail-avatar">' + (avatarUrl ? '<img src="' + esc(avatarUrl) + '" alt="">' : '<i class="fas fa-user"></i>') + '</div>' +
+                '<div class="mod-detail-avatar">' + (avatarHtml || (avatarUrl ? '<img src="' + esc(avatarUrl) + '" alt="">' : '<i class="fas fa-user"></i>')) + '</div>' +
                 '<div><div class="mod-detail-author-name">' + esc(x.author || '未知作者') + '</div>' +
                 '<div class="mod-detail-meta">' + typeName + ' · ' + fmtSize(x.size) + ' · v' + esc(x.version || '1.0.0') + '</div></div></div>' +
                 '<div class="mod-detail-name">' + esc(x.name) + '</div>' +
@@ -916,7 +963,8 @@
                     self.renderStoreList();
                 }).catch(function (e) { toast(String(e.message || e)); });
             });
-            openModal('mod-detail-modal');
+            // 详情弹窗必须显示在 Mod 库整页（z-index 10001）之上
+            openModal('mod-detail-modal', 10050);
         },
         importLocalFile: function (file) {
             var self = this;
@@ -984,10 +1032,12 @@
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
+            ModManager._bindImgFallback();
             ModManager.bind();
             setTimeout(function () { ModManager.init(); }, 1200);
         });
     } else {
+        ModManager._bindImgFallback();
         ModManager.bind();
         setTimeout(function () { ModManager.init(); }, 1200);
     }
