@@ -1,6 +1,7 @@
 /* 兑换码模块：
  * - Camona     → 累计价值 +20,000,000，仅一次
  * - hefunadmin → 进入 GM 模式，仅一次
+ * - Destiny    → 解锁技能「命运保底」，仅一次
  * 已用码持久化在 localStorage.ab_redeem_codes_v1
  */
 (function (w) {
@@ -27,6 +28,22 @@
                     try { localStorage.setItem('ab_gm_unlocked', 'true'); } catch (e) {}
                 }
                 return 'GM 模式已开启';
+            }
+        },
+        'Destiny': {
+            once: true,
+            grant: function () {
+                if (typeof w.__unlockSkillByRedeem === 'function') {
+                    const r = w.__unlockSkillByRedeem('destiny_pity');
+                    return r.success ? r.message : '技能解锁失败';
+                }
+                // 兜底：直接写入技能状态
+                try {
+                    var st = JSON.parse(localStorage.getItem('ab_shop_skills_v1') || '{}');
+                    if (!st.destiny_pity) st.destiny_pity = { owned: true, enabled: true, remaining: 0 };
+                    localStorage.setItem('ab_shop_skills_v1', JSON.stringify(st));
+                    return '技能「命运保底」已解锁';
+                } catch (e) { return '技能解锁失败'; }
             }
         }
     };

@@ -1124,6 +1124,15 @@ previewCurrentBackground() {
                 desc: '接下来20次搜索必出高价值物品',
                 type: 'limited',
                 uses: 20
+            },
+            {
+                id: 'destiny_pity',
+                name: '命运保底',
+                icon: 'pictures/skills/destiny_pity.png',
+                price: 0,
+                unlockBy: 'redeem',
+                desc: '连续开保险未出橙色/红色时，越靠近保底概率越高，到达保底次数时必出橙色及以上道具；触发一次保底后，下次保底次数 -1，直到某次提前出后恢复为 10。兑换码请通过交流群 1082453829 获取',
+                type: 'permanent'
             }
         ],
         state: {},
@@ -1171,6 +1180,10 @@ previewCurrentBackground() {
             const skill = this.getSkill(id);
             if (!skill) return { success: false, message: '技能不存在' };
             const st = this.getSkillState(id);
+            // 兑换解锁项只能通过兑换码获得，不能用金币购买
+            if (skill.unlockBy === 'redeem') {
+                return { success: false, message: '该技能需通过兑换码解锁' };
+            }
 
             if (skill.type === 'permanent' && st.owned) {
                 return { success: false, message: '已拥有此技能' };
@@ -1343,6 +1356,7 @@ previewCurrentBackground() {
             this.skills.forEach(skill => {
                 const st = this.getSkillState(skill.id);
                 const isLimited = skill.type === 'limited';
+                const isRedeemUnlocked = skill.unlockBy === 'redeem';
                 const exhausted = isLimited && st.remaining <= 0;
                 const showOwned = st.owned && (!isLimited || st.remaining > 0);
                 const showPrice = !st.owned || exhausted;
@@ -1350,7 +1364,9 @@ previewCurrentBackground() {
                 const ownedBadge = showOwned ? '<div class="shop-owned-badge">已拥有</div>' : '';
                 const limitedInfo = (isLimited && st.owned) ? `<div class="shop-limited-info">剩余 ${st.remaining} 次</div>` : '';
                 const permanentInfo = (skill.type === 'permanent' && st.owned) ? '<div class="shop-limited-info">永久</div>' : '';
-                const priceInfo = showPrice ? `<div class="shop-price"><i class="fas fa-coins"></i> ${Utils.formatCurrency(skill.price)}</div>` : '';
+                // 兑换解锁项在卡片上显示「兑换码解锁」而非金币价
+                const priceInfo = showPrice && !isRedeemUnlocked ? `<div class="shop-price"><i class="fas fa-coins"></i> ${Utils.formatCurrency(skill.price)}</div>` : '';
+                const redeemHint = isRedeemUnlocked && !st.owned ? '<div class="shop-price"><i class="fas fa-key"></i> 兑换码解锁</div>' : '';
 
                 const $card = $(`
                     <div class="shop-skill-card" data-id="${skill.id}">
@@ -1360,6 +1376,7 @@ previewCurrentBackground() {
                         ${limitedInfo}
                         ${permanentInfo}
                         ${priceInfo}
+                        ${redeemHint}
                     </div>
                 `);
                 $card.on('click', () => this.showDetail(skill.id));
@@ -1378,13 +1395,17 @@ previewCurrentBackground() {
             $detail.show().empty();
 
             const isLimited = skill.type === 'limited';
+            const isRedeemOnly = skill.unlockBy === 'redeem';
             const exhausted = isLimited && st.remaining <= 0;
             const atMaxLimit = isLimited && (st.remaining + skill.uses > 100);
-            const canBuy = (skill.type === 'permanent' && !st.owned) || (isLimited && !atMaxLimit);
+            // 兑换解锁项没有金币购买，只能通过兑换码获取
+            const canBuy = (!isRedeemOnly) && ((skill.type === 'permanent' && !st.owned) || (isLimited && !atMaxLimit));
 
             let actionHtml = '';
             if (canBuy) {
                 actionHtml = `<button id="shop-buy-btn" class="shop-buy-btn"><i class="fas fa-coins"></i> 购买 ${Utils.formatCurrency(skill.price)}</button>`;
+            } else if (isRedeemOnly && !st.owned) {
+                actionHtml = '<div class="shop-exhausted-text" style="color:#60a5fa;">该技能需通过兑换码解锁，请查看技能描述</div>';
             }
 
             let toggleHtml = '';
@@ -3034,6 +3055,35 @@ _runOpenSafe() {
         _.includes(['red', 'orange', 'gold'], item.rarity) &&
         !disabledPurpleIds.includes(item.id) && (sampleEnabled || !item.isSample)
     );
+
+    // 命运保底逻辑：连续 N 次未出橙/红，第 N 次保底触发；越靠近保底概率越高，触发后下次阈值 -1
+    const DESTINY_KEY = 'ab_destiny_pity_state';
+    let destinyState = { consecutive: 0, threshold: 10 };
+    try {
+        var ds = JSON.parse(localStorage.getItem(DESTINY_KEY));
+        if (ds && typeof ds.consecutive === 'number' && typeof ds.threshold === 'number') {
+            destinyState = ds;
+        }
+    } catch (e) {}
+    const destinyOwned = ShopManager.isEnabled('destiny_pity');
+    let destinyPityTriggered = false;
+    let destinyForceOrange = false;
+    if (destinyOwned && highQualityItems.length > 0 && destinyState.threshold > 0) {
+        destinyState.consecutive++;
+        if (destinyState.consecutive >= destinyState.threshold) {
+            // 保底触发：必出橙色（不强制红，给玩家留一点惊喜空间）
+            destinyPityTriggered = true;
+            destinyForceOrange = true;
+        } else {
+            // 递增概率：从第 threshold-3 次开始有概率提前出
+            var earlyChance = Math.max(0, (destinyState.consecutive - (destinyState.threshold - 3)) / 3);
+            if (Math.random() < earlyChance) {
+                destinyPityTriggered = true;
+                destinyForceOrange = true;
+            }
+        }
+    }
+    try { localStorage.setItem(DESTINY_KEY, JSON.stringify(destinyState)); } catch (e) {}
     
     if (!_.isEmpty(highQualityItems)) {
         let hqCount = _.random(1, 4);
@@ -3062,6 +3112,32 @@ _runOpenSafe() {
                 }
             }
         });
+    }
+
+    // 命运保底：若触发保底，强制插入一个橙色物品（如已有则改为红色）
+    if (destinyOwned && destinyPityTriggered) {
+        // 已出橙/红则重置连续计数并恢复阈值；本次保底触发后下次阈值 -1
+        let hasOrangeOrRed = _.some(items, function(it) { return it.rarity === 'red' || it.rarity === 'orange'; });
+        var nextThreshold = destinyState.threshold - 1;
+        if (nextThreshold < 3) nextThreshold = 3;
+        if (hasOrangeOrRed || destinyForceOrange) {
+            // 提前出了或保底触发，重置连续计数为 0
+            destinyState.consecutive = 0;
+            destinyState.threshold = 10;
+        } else {
+            // 没出橙/红，阈值降到 nextThreshold（保底次数缩短）
+            destinyState.threshold = nextThreshold;
+        }
+        // 保底强制插入橙色（若格子满就放弃）
+        if (destinyForceOrange) {
+            const orangeItem = GameCore.getRandomItemByRarity('orange');
+            if (orangeItem) {
+                orangeItem.id = itemId++;
+                const placed = GameCore.tryPlaceItemWithRotation(_.cloneDeep(orangeItem), State.grid);
+                if (placed) items.push(placed);
+            }
+        }
+        try { localStorage.setItem(DESTINY_KEY, JSON.stringify(destinyState)); } catch (e) {}
     }
 
     // 不再强行填充剩余空格，物品之间允许有空隙，避免过多单格物品填充
@@ -4274,35 +4350,43 @@ const EventManager = {
     const ResourceDownloadManager = {
         // CDN 优先（国内可访问），GitHub raw 作为兜底
         bgManifestUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/manifest.json'
         ],
         bgBaseUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/'
         ],
         musicManifestUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-music-resources@main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/manifest.json'
         ],
         musicBaseUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-music-resources@main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/'
         ],
         // 段位徽章图标资源包（结构同背景/音乐：manifest.json + 图标文件）
         titleManifestUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-title-resources@main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-title-resources/main/manifest.json'
         ],
         titleBaseUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-title-resources@main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-title-resources/main/'
         ],
         minigameManifestUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-minigame-resources@main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json'
         ],
         minigameBaseUrls: [
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-minigame-resources@main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-minigame-resources/main/'
         ],
@@ -6391,7 +6475,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.68';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.69';
 
     /* ============================================================
      * 检查更新
@@ -7089,5 +7173,19 @@ const EventManager = {
 
     // 初始化资源下载管理器
     ResourceDownloadManager.init();
+
+    // 暴露兑换解锁接口（供 redeem.js 调用）
+    window.__unlockSkillByRedeem = function(id) {
+        if (typeof ShopManager === 'undefined') return { success: false, message: '技能系统未就绪' };
+        const skill = ShopManager.getSkill(id);
+        if (!skill || skill.unlockBy !== 'redeem') return { success: false, message: '技能不存在或不是兑换解锁项' };
+        const st = ShopManager.getSkillState(id);
+        if (st.owned) return { success: false, message: '该技能已拥有' };
+        st.owned = true;
+        st.enabled = true;
+        ShopManager.save();
+        ShopManager.applyAllEffects();
+        return { success: true, message: `已解锁技能「${skill.name}」` };
+    };
 
 });
