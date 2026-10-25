@@ -6552,7 +6552,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.71';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.72';
 
     /* ============================================================
      * 检查更新
@@ -6848,30 +6848,52 @@ const EventManager = {
     window.__huFetchAndCompare = function(onResult) {
         var done = typeof onResult === 'function' ? onResult : function() {};
         var finished = false;
-        var apply = function(m, base) {
+        // 三路并发：Worker / raw GitHub / jsDelivr 同时请求，选版本号最大的有效结果
+        // （避免 jsDelivr 缓存旧 manifest 导致误判「已是最新」）
+        var curVer = window.HU_BUILD_VERSION || '';
+        var bestM = null;
+        var bestBase = null;
+        var bestVer = '';
+        var settle = function() {
             if (finished) return;
             finished = true;
-            if (base) window.__huActiveBase = base;
-            // 右上角同步为服务器最新版本
-            if (m && m.version) {
-                try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + m.version); } catch(e) {}
+            if (!bestM) {
+                // 所有源都失败或返回的 manifest 版本异常（<= 本地版本），视为网络错误
+                done(null, false);
+                return;
             }
-            // 版本对比（只读，不存！安装成功才存）
-            var curVer = window.HU_BUILD_VERSION;
-            var hasUpdate = !!(m && m.version && window.__huVersionGt(m.version, curVer));
-            done(m, hasUpdate);
+            // 最高版本等于本地版本 → 真的已最新
+            var hasUpdate = window.__huVersionGt(bestVer, curVer);
+            window.__huActiveBase = bestBase;
+            try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + bestVer); } catch(e) {}
+            done(bestM, hasUpdate);
         };
-        var failAll = function() {
+        var record = function(m, base) {
+            if (!m || !m.version) return;
+            // 拒绝异常旧版本（缓存回滚或脏数据），只有严格大于当前最佳才替换
+            if (window.__huVersionGt(m.version, bestVer)) {
+                bestM = m;
+                bestBase = base;
+                bestVer = m.version;
+            }
+        };
+        var gotOne = function(m, base) {
+            record(m, base);
+            settle();
+        };
+        var failOne = function() {
             if (finished) return;
-            finished = true;
-            done(null, false);
+            // 三路都失败才 truly done(null,false)
+            // pending 计数在三路并发里不再需要，这里直接等定时器
         };
-        var getOnce = function(base, ok, err) {
+        var getOnce = function(base, cb) {
             var url = base + '/manifest.json';
+            var settled = false;
+            function finish(m) { if (!settled) { settled = true; cb(m, base); } }
             if (window.Net && Net.getJSON) {
                 Net.getJSON(url, { timeout: 8000, retries: 1, cache: 'no-store', cacheBust: true })
-                    .then(function(m) { ok(m, base); })
-                    .catch(err);
+                    .then(function(m) { finish(m); })
+                    .catch(function() { finish(null); });
                 return;
             }
             $.ajax({
@@ -6879,18 +6901,16 @@ const EventManager = {
                 dataType: 'json',
                 cache: false,
                 timeout: 8000,
-                success: function(m) { ok(m, base); },
-                error: err
+                success: function(m) { finish(m); },
+                error: function() { finish(null); }
             });
         };
-        var pending = 2;
-        var onErr = function() {
-            if (finished) return;
-            if (--pending > 0) return;
-            getOnce(HU_JD_BASE, apply, failAll);
-        };
-        getOnce(HU_PROXY_BASE, apply, onErr);
-        getOnce(HU_BASE_URL, apply, onErr);
+        // 三路并发，任意一路拿到有效结果且版本 >= 本地即停止等待；全部失败则 done(null,false)
+        getOnce(HU_PROXY_BASE, gotOne);
+        getOnce(HU_BASE_URL, gotOne);
+        getOnce(HU_JD_BASE, gotOne);
+        // 最长等 15s，超时也算失败
+        setTimeout(settle, 15000);
     };
     window.__huStartProgress = function() {
         window.__huStopProgress();
