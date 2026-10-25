@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.75</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.76</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -716,6 +716,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="sidebar-synthesis-btn"><i class="fas fa-flask"></i> 样本合成台</button>
 <button class="sidebar-btn full-width" id="sidebar-resource-download-btn"><i class="fas fa-download"></i> 资源下载</button>
 <button class="sidebar-btn full-width" id="sidebar-redeem-btn"><i class="fas fa-gift"></i> 兑换码</button>
+<button class="sidebar-btn full-width" id="sidebar-mod-guide-btn"><i class="fas fa-cubes"></i> Mod制作与上传</button>
 <button class="sidebar-btn" id="sidebar-minigame-btn"><i class="fas fa-apple-alt"></i> 小游戏·暗区水果忍者</button>
 <button class="sidebar-btn" id="sidebar-map-btn"><i class="fas fa-map"></i> 小游戏·熟图模拟器</button>
 </div>
@@ -1531,6 +1532,153 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     }
 })();
 </script>
+<!-- MOD 入口圆钮（左上角固定） -->
+<button id="mod-entry-btn" title="MOD库">MOD</button>
+
+<!-- Mod 制作与上传 指南页 -->
+<div class="modal-overlay app-full-page" id="mod-guide-page">
+<div class="modal-content bg-select-modal-content">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-cubes"></i> Mod 制作与上传</div>
+<div class="app-page-actions"><button class="app-page-back-btn" id="mod-guide-close"><i class="fas fa-arrow-left"></i> 返回</button></div>
+</div>
+<div class="modal-body" style="padding:16px;overflow-y:auto;">
+<div class="mod-guide-section">
+<h4><i class="fas fa-download"></i> 第一步：下载官方模板</h4>
+<p>模板内已包含 3 个示例物品、全部必需图片和一份中文说明，照着改即可。</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+<button class="modal-btn primary" id="mod-template-download" style="flex:1;min-width:150px;"><i class="fas fa-cloud-download-alt"></i> 下载 ZIP 模板</button>
+<button class="modal-btn" id="mod-template-copy" style="flex:0 0 auto;"><i class="fas fa-link"></i> 复制链接</button>
+</div>
+<div class="mod-guide-link">gofile：https://gofile.io/d/T0Vvb27Y（若失效请到交流群反馈）</div>
+</div>
+<div class="mod-guide-section">
+<h4><i class="fas fa-list-check"></i> 第二步：制作你的模组</h4>
+<p>解压模板 → 替换 <code>content/</code> 里的图片 → 用记事本修改 <code>mod.json</code> → 重新打包为 zip（<b>选中里面的文件打包，不要连外层文件夹</b>）。</p>
+<div class="mod-guide-tree"><pre>你的模组.zip
+├─ mod.json          模组定义（名称/作者/类型/内容列表）
+├─ thumb.png         列表缩略图 300x180
+├─ avatar.png        作者头像 128x128
+├─ screen-1.png      详情展示图（可选，最多 3 张）
+└─ content/
+   ├─ items/         （物品类）物品图片
+   ├─ music/         （音乐类）音频 mp3 等
+   └─ backgrounds/   （背景类）图片或视频</pre></div>
+<details class="mod-guide-details">
+<summary>物品类 mod.json 写法</summary>
+<pre>{
+  "name": "我的物品模组",
+  "author": "你的名字",
+  "version": "1.0.0",
+  "type": "item",
+  "desc": "一句话简介",
+  "items": [
+    { "name": "物品名", "width": 1, "height": 1,
+      "value": 50000, "rarity": "purple",
+      "image": "content/items/物品图.png",
+      "desc": "物品描述" }
+  ]
+}</pre>
+</details>
+<details class="mod-guide-details">
+<summary>音乐类 mod.json 写法</summary>
+<pre>{
+  "name": "我的音乐模组", "author": "你的名字",
+  "version": "1.0.0", "type": "music", "desc": "简介",
+  "tracks": [
+    { "title": "歌名", "artist": "歌手",
+      "file": "content/music/歌.mp3",
+      "cover": "content/music/封面.png" }
+  ]
+}</pre>
+</details>
+<details class="mod-guide-details">
+<summary>背景类 mod.json 写法</summary>
+<pre>{
+  "name": "我的背景模组", "author": "你的名字",
+  "version": "1.0.0", "type": "background", "desc": "简介",
+  "backgrounds": [
+    { "name": "背景名", "file": "content/backgrounds/背景.png" }
+  ]
+}</pre>
+</details>
+</div>
+<div class="mod-guide-section">
+<h4><i class="fas fa-triangle-exclamation"></i> 硬性规则（违反无法通过审核）</h4>
+<ul class="mod-guide-rules">
+<li><b>物品类模组不允许出现 price / 价格 字段</b></li>
+<li>物品 value 上限 4,000,000，请参考游戏内同类物品定价</li>
+<li>物品 rarity 只能是 purple / gold / orange / red；width 1~5、height 1~6</li>
+<li>单张图片 ≤ 500KB，整个 zip ≤ 10MB</li>
+<li>thumb.png、avatar.png 必填；screen 最多 3 张</li>
+<li>名称与描述不得包含违规内容</li>
+</ul>
+</div>
+<div class="mod-guide-section">
+<h4><i class="fas fa-paper-plane"></i> 第三步：提交审核</h4>
+<p>把你打包好的 zip 发给作者 QQ，审核通过后即会上架 Mod 库，全服玩家可下载。</p>
+<div class="mod-guide-qq">
+<span>作品投稿 QQ：<b>2312367270</b></span>
+<button class="modal-btn" id="mod-qq-copy" style="padding:6px 12px;"><i class="fas fa-copy"></i> 复制QQ</button>
+</div>
+<div class="mod-guide-link">能力投稿&amp;意见反馈交流群：1082453829</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- MOD库 整页 -->
+<div class="modal-overlay app-full-page" id="mod-library-page">
+<div class="modal-content bg-select-modal-content">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-cubes"></i> MOD库</div>
+<div class="app-page-actions">
+<span class="mod-space-badge" id="mod-space-summary"></span>
+<button class="app-page-back-btn" id="mod-library-close"><i class="fas fa-arrow-left"></i> 返回</button>
+</div>
+</div>
+<div class="mod-tabs">
+<button class="mod-tab-btn active" data-tab="mine">我的MOD</button>
+<button class="mod-tab-btn" data-tab="store">MOD资源管理</button>
+<button class="mod-tab-btn" data-tab="import">从本地导入MOD</button>
+</div>
+<div class="modal-body mod-body" style="padding:0 16px 16px;">
+<div id="mod-tab-mine"><div id="mod-mine-list" class="mod-list"></div></div>
+<div id="mod-tab-store" style="display:none;">
+<div class="mod-store-toolbar">
+<input id="mod-store-search" class="input-field" placeholder="搜索模组名称 / 简介 / 作者" autocomplete="off">
+<select id="mod-store-filter" class="input-field mod-filter-select">
+<option value="all">全部</option>
+<option value="item">物品类</option>
+<option value="music">音乐类</option>
+<option value="background">背景类</option>
+</select>
+</div>
+<div id="mod-store-list" class="mod-list"></div>
+</div>
+<div id="mod-tab-import" style="display:none;">
+<div class="mod-import-box">
+<i class="fas fa-file-archive"></i>
+<p>选择作者打包好的 .zip 模组文件导入（与上架审核使用同一套校验规则）</p>
+<button class="modal-btn primary" id="mod-import-pick"><i class="fas fa-folder-open"></i> 选择 ZIP 文件</button>
+<input type="file" id="mod-import-file" accept=".zip,application/zip" style="display:none;">
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 模组详情弹窗 -->
+<div class="modal-overlay" id="mod-detail-modal">
+<div class="modal-content" style="max-width:480px;width:92vw;max-height:88vh;display:flex;flex-direction:column;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-box-open"></i> 模组详情</div>
+<button class="modal-close" id="mod-detail-close">&times;</button>
+</div>
+<div class="modal-body" id="mod-detail-body" style="overflow-y:auto;flex:1;"></div>
+</div>
+</div>
+
 <script src="js/net.js"></script>
 <script src="js/storage.js"></script>
 <script src="libs/jquery.js"></script>
@@ -1539,6 +1687,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/modal-registry.js"></script>
 <script src="js/inline-scripts.js"></script>
 <script src="js/script_new.js"></script>
+<script src="libs/jszip.min.js"></script>
+<script src="js/mods.js"></script>
 <script src="js/music.js"></script>
 <script src="js/main.js"></script>
 <script src="js/redeem.js"></script>

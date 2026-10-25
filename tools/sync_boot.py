@@ -38,6 +38,8 @@ CODE_FILES = [
     "libs/GSAP.js",
     "libs/jquery.js",
     "libs/lodash.js",
+    "libs/jszip.min.js",
+    "js/mods.js",
     "xml/backgrounds.xml",
     "xml/items.xml",
     "xml/loading-tips.xml",

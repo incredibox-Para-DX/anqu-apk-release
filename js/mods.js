@@ -1,0 +1,1011 @@
+/* Mod 库核心：清单拉取 / ZIP 下载解析校验 / IndexedDB 存储 / 装载注入 / 本地导入 / UI 渲染
+ * 依赖：JSZip（window.JSZip）、jQuery、lodash
+ * 虚拟资源路径约定：mods/<modId>/<zip 内相对路径>，由 ModManager.resolvePath 转成 blob URL
+ */
+(function (w) {
+    'use strict';
+
+    var WORKER = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
+    var GH = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-mods-resources/main';
+    var JD = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main';
+    var REPO_RAW_MAIN = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
+
+    var LIMITS = {
+        zip: 10 * 1024 * 1024,
+        image: 500 * 1024,
+        audio: 8 * 1024 * 1024,
+        items: 30,
+        tracks: 10,
+        bgs: 10,
+        screens: 3,
+        valueMax: 4000000,
+        entries: 200
+    };
+    var RARITIES = ['purple', 'gold', 'orange', 'red'];
+    var TYPES = ['item', 'music', 'background'];
+
+    var DB_NAME = 'anqu_mods';
+    var INSTALLED_KEY = 'ab_mods_installed_v1';
+    var GUIDE_QQ = '2312367270';
+    var TEMPLATE_URL = 'https://gofile.io/d/T0Vvb27Y';
+
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+    function fmtSize(bytes) {
+        bytes = Number(bytes) || 0;
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    }
+    function openModal(id) {
+        var $m = $('#' + id);
+        if (!$m.length) return;
+        if (w.ModalRegistry) { w.ModalRegistry.open(id); return; }
+        $m.css('display', 'flex');
+        setTimeout(function () { $m.addClass('show'); }, 10);
+    }
+    function closeModal(id) {
+        var $m = $('#' + id);
+        if (!$m.length) return;
+        if (w.ModalRegistry) { w.ModalRegistry.close(id); return; }
+        $m.removeClass('show');
+        setTimeout(function () { $m.css('display', 'none'); }, 300);
+    }
+    function toast(msg) { if (w.showToast) w.showToast(msg); }
+
+    var ModManager = {
+        LIMITS: LIMITS,
+        GUIDE_QQ: GUIDE_QQ,
+        TEMPLATE_URL: TEMPLATE_URL,
+        TEMPLATE_MIRROR: REPO_RAW_MAIN + '/tools/mod-template/anqu-mod-template-v1.zip',
+        manifestUrls: [
+            WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/mods.json',
+            JD + '/mods.json',
+            GH + '/mods.json'
+        ],
+        baseUrls: [
+            WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
+            JD + '/',
+            GH + '/'
+        ],
+        _db: null,
+        _manifest: null,
+        _manifestTs: 0,
+        _blobUrls: {},
+        _meta: {},        // modId -> meta（含 enabled）
+        _itemsCache: null,
+        _bgCache: null,
+        _storeFilter: 'all',
+        _storeSearch: '',
+        _currentTab: 'mine',
+        _detailId: null,
+
+        /* ---------- IndexedDB ---------- */
+        openDB: function () {
+            var self = this;
+            if (this._db) return Promise.resolve(this._db);
+            return new Promise(function (resolve, reject) {
+                if (!w.indexedDB) { reject(new Error('当前环境不支持本地存储')); return; }
+                var req = indexedDB.open(DB_NAME, 1);
+                req.onupgradeneeded = function (e) {
+                    var db = e.target.result;
+                    if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'id' });
+                    if (!db.objectStoreNames.contains('assets')) db.createObjectStore('assets', { keyPath: 'path' });
+                };
+                req.onsuccess = function (e) { self._db = e.target.result; resolve(self._db); };
+                req.onerror = function () { reject(req.error || new Error('打开本地存储失败')); };
+            });
+        },
+        _tx: function (store, mode, fn) {
+            return this.openDB().then(function (db) {
+                return new Promise(function (resolve, reject) {
+                    var tx = db.transaction(store, mode);
+                    var os = tx.objectStore(store);
+                    var out = fn(os);
+                    tx.oncomplete = function () { resolve(out && out.result !== undefined ? out.result : out); };
+                    tx.onerror = function () { reject(tx.error); };
+                    tx.onabort = function () { reject(tx.error); };
+                });
+            });
+        },
+        getAllMeta: function () {
+            return this._tx('meta', 'readonly', function (os) {
+                var res = [];
+                var o = { result: res };
+                os.openCursor().onsuccess = function (e) {
+                    var c = e.target.result;
+                    if (!c) return;
+                    res.push(c.value);
+                    c.continue();
+                };
+                return o;
+            });
+        },
+        getAsset: function (path) {
+            return this._tx('assets', 'readonly', function (os) {
+                return os.get(path);
+            });
+        },
+        putAssets: function (records) {
+            var self = this;
+            if (!records.length) return Promise.resolve();
+            return this.openDB().then(function (db) {
+                return new Promise(function (resolve, reject) {
+                    var tx = db.transaction('assets', 'readwrite');
+                    var os = tx.objectStore('assets');
+                    records.forEach(function (r) { os.put(r); });
+                    tx.oncomplete = function () { resolve(); };
+                    tx.onerror = function () { reject(tx.error); };
+                });
+            });
+        },
+        putMeta: function (meta) {
+            var self = this;
+            return this.openDB().then(function (db) {
+                return new Promise(function (resolve, reject) {
+                    var tx = db.transaction('meta', 'readwrite');
+                    tx.objectStore('meta').put(meta);
+                    tx.oncomplete = function () { resolve(); };
+                    tx.onerror = function () { reject(tx.error); };
+                });
+            });
+        },
+        deleteMetaAndAssets: function (modId) {
+            var self = this;
+            return this.openDB().then(function (db) {
+                return new Promise(function (resolve, reject) {
+                    var tx = db.transaction(['meta', 'assets'], 'readwrite');
+                    tx.objectStore('meta').delete(modId);
+                    var os = tx.objectStore('assets');
+                    var prefix = 'mods/' + modId + '/';
+                    os.openCursor().onsuccess = function (e) {
+                        var c = e.target.result;
+                        if (!c) return;
+                        if (String(c.key).indexOf(prefix) === 0) c.delete();
+                        c.continue();
+                    };
+                    tx.oncomplete = function () { resolve(); };
+                    tx.onerror = function () { reject(tx.error); };
+                });
+            });
+        },
+
+        /* ---------- 已安装注册表（localStorage 仅存开关状态） ---------- */
+        getInstalled: function () {
+            try { return JSON.parse(localStorage.getItem(INSTALLED_KEY) || '{}') || {}; } catch (e) { return {}; }
+        },
+        saveInstalled: function (obj) {
+            try { localStorage.setItem(INSTALLED_KEY, JSON.stringify(obj)); } catch (e) {}
+        },
+        isInstalled: function (id) { return !!this._meta[id]; },
+        isEnabled: function (id) { return !!(this._meta[id] && this._meta[id].enabled); },
+
+        /* ---------- 清单 ---------- */
+        fetchManifest: function (force) {
+            var self = this;
+            var now = Date.now();
+            if (!force && this._manifest && now - this._manifestTs < 5 * 60 * 1000) {
+                return Promise.resolve(this._manifest);
+            }
+            function tryOne(base) {
+                var url = base;
+                return fetch(url, { cache: 'no-store' })
+                    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                    .then(function (m) { if (!m || !Array.isArray(m.mods)) throw new Error('bad manifest'); return m; });
+            }
+            var chain = Promise.reject();
+            this.manifestUrls.forEach(function (u) {
+                chain = chain.catch(function () { return tryOne(u); });
+            });
+            return chain.then(function (m) {
+                self._manifest = m;
+                self._manifestTs = Date.now();
+                return m;
+            }).catch(function () {
+                self._manifest = { version: 0, mods: [] };
+                self._manifestTs = Date.now();
+                return self._manifest;
+            });
+        },
+
+        /* ---------- ZIP 下载 ---------- */
+        downloadZip: function (relFile) {
+            var bases = this.baseUrls.slice();
+            function tryOne(i) {
+                if (i >= bases.length) return Promise.reject(new Error('全部下载线路失败'));
+                var url = bases[i] + relFile;
+                return fetch(url, { cache: 'no-store' }).then(function (r) {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.blob();
+                }).then(function (blob) {
+                    if (blob.size > LIMITS.zip) throw new Error('文件超过 10MB 限制');
+                    return blob;
+                }).catch(function (e) { return tryOne(i + 1); });
+            }
+            return tryOne(0);
+        },
+
+        /* ---------- 校验 ---------- */
+        _checkText: function (v, max, name) {
+            v = String(v == null ? '' : v).trim();
+            if (!v) return name + '不能为空';
+            if ([...v].length > max) return name + '超过 ' + max + ' 字';
+            return '';
+        },
+        validate: function (json, zip, zipSize) {
+            var err = '';
+            if (typeof json !== 'object' || !json) return 'mod.json 格式错误';
+            if (json.price !== undefined || json['价格'] !== undefined) return '模组不允许包含价格字段';
+            if (!TYPES.includes(json.type)) return 'type 必须是 item / music / background';
+            err = this._checkText(json.name, 20, '模组名称'); if (err) return err;
+            err = this._checkText(json.author, 16, '作者名'); if (err) return err;
+            err = this._checkText(json.version, 16, '版本号'); if (err) return err;
+            err = this._checkText(json.desc, 60, '模组简介'); if (err) return err;
+
+            function normPath(p) {
+                p = String(p || '').replace(/\\/g, '/').replace(/^\.\//, '');
+                if (!p || p.indexOf('..') !== -1 || p.charAt(0) === '/') return '';
+                return p;
+            }
+            function zipEntry(p) {
+                var f = zip.file(p);
+                return f || null;
+            }
+            function checkImage(p, label) {
+                var f = zipEntry(p);
+                if (!f) return (label || p) + ' 在 zip 内不存在';
+                if (!/\.(png|jpe?g|webp)$/i.test(p)) return (label || p) + ' 必须是 png/jpg/webp';
+                return '';
+            }
+
+            // 展示图
+            if (!zipEntry('thumb.png')) return '缺少 thumb.png（列表缩略图）';
+            if (!zipEntry('avatar.png')) return '缺少 avatar.png（作者头像）';
+            var screenCount = 0;
+            for (var s = 1; s <= LIMITS.screens; s++) if (zipEntry('screen-' + s + '.png')) screenCount++;
+
+            if (json.type === 'item') {
+                if (!Array.isArray(json.items) || !json.items.length) return 'items 不能为空';
+                if (json.items.length > LIMITS.items) return '物品数量超过 ' + LIMITS.items + ' 个';
+                for (var i = 0; i < json.items.length; i++) {
+                    var it = json.items[i] || {};
+                    var tag = '第 ' + (i + 1) + ' 个物品：';
+                    if (it.price !== undefined || it['价格'] !== undefined) return tag + '不允许包含价格字段';
+                    err = this._checkText(it.name, 12, tag + '名称'); if (err) return err;
+                    err = this._checkText(it.desc, 60, tag + '描述'); if (err) return err;
+                    var wd = parseInt(it.width, 10), ht = parseInt(it.height, 10);
+                    if (!(wd >= 1 && wd <= 5)) return tag + 'width 必须是 1~5';
+                    if (!(ht >= 1 && ht <= 6)) return tag + 'height 必须是 1~6';
+                    var val = parseInt(it.value, 10);
+                    if (!(val >= 1 && val <= LIMITS.valueMax)) return tag + 'value 必须是 1~' + LIMITS.valueMax;
+                    if (!RARITIES.includes(it.rarity)) return tag + 'rarity 必须是 purple/gold/orange/red';
+                    var ip = normPath(it.image);
+                    if (!ip) return tag + 'image 路径非法';
+                    err = checkImage(ip, tag + '图片'); if (err) return err;
+                }
+            } else if (json.type === 'music') {
+                if (!Array.isArray(json.tracks) || !json.tracks.length) return 'tracks 不能为空';
+                if (json.tracks.length > LIMITS.tracks) return '曲目数量超过 ' + LIMITS.tracks + ' 首';
+                for (var t = 0; t < json.tracks.length; t++) {
+                    var tr = json.tracks[t] || {};
+                    var tg = '第 ' + (t + 1) + ' 首：';
+                    err = this._checkText(tr.title, 40, tg + '标题'); if (err) return err;
+                    var tp = normPath(tr.file);
+                    if (!tp || !zipEntry(tp)) return tg + '音频文件不存在';
+                    if (!/\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(tp)) return tg + '音频格式不支持';
+                }
+            } else {
+                if (!Array.isArray(json.backgrounds) || !json.backgrounds.length) return 'backgrounds 不能为空';
+                if (json.backgrounds.length > LIMITS.bgs) return '背景数量超过 ' + LIMITS.bgs + ' 个';
+                for (var b = 0; b < json.backgrounds.length; b++) {
+                    var bg = json.backgrounds[b] || {};
+                    var bgTag = '第 ' + (b + 1) + ' 个背景：';
+                    err = this._checkText(bg.name, 16, bgTag + '名称'); if (err) return err;
+                    var bp = normPath(bg.file);
+                    if (!bp || !zipEntry(bp)) return bgTag + '文件不存在';
+                    if (!/\.(png|jpe?g|webp|mp4|webm)$/i.test(bp)) return bgTag + '必须是图片或视频';
+                }
+            }
+            return '';
+        },
+
+        _mimeOf: function (p) {
+            var m = /\.([a-z0-9]+)$/i.exec(p);
+            var ext = m ? m[1].toLowerCase() : '';
+            return {
+                png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp',
+                mp3: 'audio/mpeg', m4a: 'audio/mp4', aac: 'audio/aac', wav: 'audio/wav',
+                ogg: 'audio/ogg', flac: 'audio/flac',
+                mp4: 'video/mp4', webm: 'video/webm'
+            }[ext] || 'application/octet-stream';
+        },
+
+        /* ---------- 安装 ---------- */
+        installFromZip: function (zipBlob, listMeta, sourceLabel) {
+            var self = this;
+            sourceLabel = sourceLabel || '安装';
+            if (!w.JSZip) return Promise.reject(new Error('ZIP 解析组件未加载'));
+            if (zipBlob.size > LIMITS.zip) return Promise.reject(new Error('文件超过 10MB 限制'));
+            var zip = null, modJson = null, modId = null, storedBytes = 0;
+            var assetRecs = [];
+
+            function readFile(name, max, isImage) {
+                var f = zip.file(name);
+                if (!f) return Promise.resolve(null);
+                return f.async('blob').then(function (blob) {
+                    if (max && blob.size > max) throw new Error(name + ' 超过 ' + fmtSize(max));
+                    if (isImage && blob.size > LIMITS.image) throw new Error(name + ' 超过 500KB');
+                    return blob;
+                });
+            }
+
+            return w.JSZip.loadAsync(zipBlob).then(function (z) {
+                zip = z;
+                var names = Object.keys(z.files).filter(function (n) { return !z.files[n].dir; });
+                if (names.length > LIMITS.entries) throw new Error('zip 内文件数超过 ' + LIMITS.entries);
+                var namesLow = names.map(function (n) { return n.toLowerCase(); });
+                // mod.json 可能在根目录或唯一一级子目录
+                var modPath = names.find(function (n) { return /^mod\.json$/i.test(n); });
+                if (!modPath) {
+                    var nested = names.find(function (n) { return /^[^/]+\/mod\.json$/i.test(n); });
+                    if (nested) modPath = nested;
+                }
+                if (!modPath) throw new Error('zip 内缺少 mod.json');
+                var rootDir = modPath.indexOf('/') === -1 ? '' : modPath.replace(/mod\.json$/i, '');
+                // 统一把子目录根忽略：读取时优先 rootDir
+                function resolveName(n) {
+                    if (rootDir && zip.file(rootDir + n)) return rootDir + n;
+                    if (zip.file(n)) return n;
+                    return null;
+                }
+                return zip.file(modPath).async('string').then(function (txt) {
+                    try { modJson = JSON.parse(txt); } catch (e) { throw new Error('mod.json 不是合法 JSON（常见原因：多写了逗号或引号）'); }
+                    // 校验用 rootDir 映射后的 zip
+                    var proxy = { file: function (n) { var real = resolveName(n); return real ? zip.file(real) : null; } };
+                    var err = self.validate(modJson, proxy, zipBlob.size);
+                    if (err) throw new Error(err);
+
+                    modId = 'mod_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+                    var tasks = [];
+                    // 展示资源
+                    ['thumb.png', 'avatar.png', 'screen-1.png', 'screen-2.png', 'screen-3.png'].forEach(function (n) {
+                        tasks.push(readFile(resolveName(n) || n, LIMITS.image, true).then(function (blob) {
+                            if (!blob) return;
+                            var path = 'mods/' + modId + '/' + n;
+                            storedBytes += blob.size;
+                            assetRecs.push({ path: path, blob: blob, mime: self._mimeOf(n) });
+                        }));
+                    });
+                    // 内容资源
+                    var contentFiles = [];
+                    if (modJson.type === 'item') {
+                        modJson.items.forEach(function (it) { contentFiles.push(it.image); });
+                    } else if (modJson.type === 'music') {
+                        modJson.tracks.forEach(function (tr) { if (tr.cover) contentFiles.push(tr.cover); contentFiles.push(tr.file); });
+                    } else {
+                        modJson.backgrounds.forEach(function (bg) { contentFiles.push(bg.file); });
+                    }
+                    contentFiles.forEach(function (rel) {
+                        rel = String(rel || '').replace(/\\/g, '/').replace(/^\.\//, '');
+                        if (!rel || rel.indexOf('..') !== -1) return;
+                        var isAudio = /\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(rel);
+                        var isImg = /\.(png|jpe?g|webp)$/i.test(rel);
+                        var max = isAudio ? LIMITS.audio : (isImg ? LIMITS.image : LIMITS.audio);
+                        tasks.push(readFile(resolveName(rel) || rel, max, isImg).then(function (blob) {
+                            if (!blob) return;
+                            var path = 'mods/' + modId + '/' + rel;
+                            storedBytes += blob.size;
+                            assetRecs.push({ path: path, blob: blob, mime: self._mimeOf(rel) });
+                        }));
+                    });
+                    return Promise.all(tasks);
+                }).then(function () {
+                    var meta = {
+                        id: modId,
+                        name: String(modJson.name).trim(),
+                        author: String(modJson.author).trim(),
+                        version: String(modJson.version).trim(),
+                        type: modJson.type,
+                        desc: String(modJson.desc).trim(),
+                        size: zipBlob.size,
+                        storedBytes: storedBytes,
+                        installedAt: Date.now(),
+                        enabled: true,
+                        itemDefs: modJson.type === 'item' ? modJson.items : [],
+                        trackDefs: modJson.type === 'music' ? modJson.tracks : [],
+                        bgDefs: modJson.type === 'background' ? modJson.backgrounds : [],
+                        thumbs: {
+                            thumb: resolveNameStatic('thumb.png'),
+                            avatar: resolveNameStatic('avatar.png'),
+                            screens: screenList()
+                        }
+                    };
+                    function resolveNameStatic(n) { return zip.file(n) ? n : null; }
+                    function screenList() {
+                        var out = [];
+                        for (var i = 1; i <= LIMITS.screens; i++) {
+                            var n = 'screen-' + i + '.png';
+                            if (zip.file(n)) out.push(n);
+                        }
+                        return out;
+                    }
+                    // 修正展示资源路径（若 zip 有外层目录，上面 readFile 用的是 resolveName 的真实名，
+                    // 但存 blob 时统一用标准名，故元数据里用标准名）
+                    meta.thumbs = { thumb: zip.file('thumb.png') ? 'thumb.png' : null, avatar: zip.file('avatar.png') ? 'avatar.png' : null, screens: screenList() };
+
+                    return self.putAssets(assetRecs).then(function () { return self.putMeta(meta); }).then(function () {
+                        self._meta[modId] = meta;
+                        self.invalidateCache();
+                        // 关键：预载新安装资源的 blob URL，否则物品图片为空
+                        return self.preloadBlobs();
+                    }).then(function () {
+                        return self.applyMod(meta).then(function () {
+                            return meta;
+                        });
+                    });
+                });
+            }).catch(function (e) {
+                // 清掉可能已写入的半成品
+                if (modId) {
+                    self.deleteMetaAndAssets(modId).catch(function () {});
+                }
+                throw e;
+            });
+        },
+
+        /* ---------- 资源路径解析 ---------- */
+        resolvePath: function (path) {
+            if (!path || typeof path !== 'string') return path;
+            if (path.indexOf('mods/') !== 0) return path;
+            if (this._blobUrls[path]) return this._blobUrls[path];
+            return ''; // 异步预载未完成时返回空，调用方兜底
+        },
+        isModPath: function (path) { return typeof path === 'string' && path.indexOf('mods/') === 0; },
+        isModVideo: function (path) {
+            var rec = this.getBgRecord(path);
+            return !!(rec && rec.isVideo);
+        },
+        getBgRecord: function (path) {
+            var metas = this._meta;
+            for (var id in metas) {
+                var m = metas[id];
+                if (m.type !== 'background') continue;
+                for (var i = 0; i < m.bgDefs.length; i++) {
+                    if ('mods/' + id + '/' + String(m.bgDefs[i].file).replace(/^\.\//, '') === path) {
+                        return { isVideo: /\.(mp4|webm)$/i.test(m.bgDefs[i].file) };
+                    }
+                }
+            }
+            return null;
+        },
+        // 预载所有资源 blob URL（页面启动或安装后）
+        preloadBlobs: function () {
+            var self = this;
+            return this.openDB().then(function (db) {
+                return new Promise(function (resolve) {
+                    var tx = db.transaction('assets', 'readonly');
+                    var req = tx.objectStore('assets').openCursor();
+                    req.onsuccess = function (e) {
+                        var c = e.target.result;
+                        if (!c) { resolve(); return; }
+                        var rec = c.value;
+                        if (rec && rec.path && !self._blobUrls[rec.path]) {
+                            try {
+                                self._blobUrls[rec.path] = URL.createObjectURL(
+                                    rec.blob.type ? rec.blob : new Blob([rec.blob], { type: rec.mime || 'application/octet-stream' })
+                                );
+                            } catch (e2) {}
+                        }
+                        c.continue();
+                    };
+                    req.onerror = function () { resolve(); };
+                });
+            });
+        },
+
+        /* ---------- 注入 ---------- */
+        invalidateCache: function () {
+            this._itemsCache = null;
+            this._bgCache = null;
+        },
+        getEnabledItems: function () {
+            if (this._itemsCache) return this._itemsCache;
+            var out = [];
+            var self = this;
+            var hook = w.__modHooks || {};
+            Object.keys(this._meta).forEach(function (id) {
+                var m = self._meta[id];
+                if (m.type !== 'item' || !m.enabled) return;
+                m.itemDefs.forEach(function (def, idx) {
+                    var imgPath = 'mods/' + id + '/' + String(def.image).replace(/^\.\//, '');
+                    var imgUrl = self.resolvePath(imgPath);
+                    out.push({
+                        id: 'mod_' + id + '_' + idx,
+                        name: String(def.name),
+                        fullName: String(def.name),
+                        width: parseInt(def.width, 10),
+                        height: parseInt(def.height, 10),
+                        value: Math.min(parseInt(def.value, 10) || 1, LIMITS.valueMax),
+                        image: imgUrl || '',
+                        rarity: def.rarity,
+                        sound: '',
+                        desc: String(def.desc || ''),
+                        imgScale: 1.0,
+                        isSample: false,
+                        isMod: true,
+                        modId: id,
+                        searchTime: hook.searchTime ? hook.searchTime(def.rarity) : 0.25,
+                        weight: hook.calcWeight ? hook.calcWeight(parseInt(def.value, 10) || 1) : 10
+                    });
+                });
+            });
+            this._itemsCache = out;
+            return out;
+        },
+        getEnabledBackgrounds: function () {
+            if (this._bgCache) return this._bgCache;
+            var out = [];
+            var self = this;
+            Object.keys(this._meta).forEach(function (id) {
+                var m = self._meta[id];
+                if (m.type !== 'background' || !m.enabled) return;
+                m.bgDefs.forEach(function (def, idx) {
+                    out.push({
+                        id: 'mod_' + id + '_bg_' + idx,
+                        name: String(def.name),
+                        path: 'mods/' + id + '/' + String(def.file).replace(/^\.\//, ''),
+                        price: 0,
+                        _isMod: true
+                    });
+                });
+            });
+            this._bgCache = out;
+            return out;
+        },
+        // 追加背景（供 script_new 的 loadBackgrounds/初始化后调用）
+        applyBackgroundsToManager: function () {
+            if (w.__modHooks && w.__modHooks.appendModBackgrounds) {
+                w.__modHooks.appendModBackgrounds(this.getEnabledBackgrounds());
+            }
+        },
+        // 音乐：把启用中 Mod 的曲目写入 ab_custom_music 并挂到播放列表
+        applyMusic: function (meta) {
+            return this._applyMusicMeta(meta).catch(function () {});
+        },
+        _applyMusicMeta: function (meta) {
+            var self = this;
+            var player = w.musicPlayer;
+            if (!player || !player.openCustomMusicDB) return Promise.resolve();
+            return player.openCustomMusicDB().then(function (db) {
+                var seq = Promise.resolve();
+                meta.trackDefs.forEach(function (tr, i) {
+                    seq = seq.then(function () {
+                        var recId = 'mod_' + meta.id + '_' + i;
+                        var audioPath = 'mods/' + meta.id + '/' + String(tr.file).replace(/^\.\//, '');
+                        return self.getAsset(audioPath).then(function (rec) {
+                            if (!rec || !rec.blob) return;
+                            var coverPath = tr.cover ? 'mods/' + meta.id + '/' + String(tr.cover).replace(/^\.\//, '') : null;
+                            var coverBlob = null, coverType = '';
+                            var p = coverPath ? self.getAsset(coverPath).then(function (c) {
+                                if (c && c.blob) { coverBlob = c.blob; coverType = c.mime || 'image/png'; }
+                            }) : Promise.resolve();
+                            return p.then(function () {
+                                var record = {
+                                    id: recId,
+                                    title: String(tr.title || 'Mod 曲目'),
+                                    artist: String(tr.artist || meta.author || 'Mod'),
+                                    name: String(tr.title || 'Mod 曲目'),
+                                    type: rec.mime || 'audio/mpeg',
+                                    blob: rec.blob,
+                                    size: rec.blob.size,
+                                    coverBlob: coverBlob,
+                                    coverType: coverType,
+                                    addedAt: Date.now(),
+                                    isMod: true,
+                                    modId: meta.id
+                                };
+                                return new Promise(function (resolve) {
+                                    var tx = db.transaction('tracks', 'readwrite');
+                                    tx.objectStore('tracks').put(record);
+                                    tx.oncomplete = function () { resolve(); };
+                                    tx.onerror = function () { resolve(); };
+                                }).then(function () {
+                                    if (player.appendCustomTrack) player.appendCustomTrack(record);
+                                });
+                            });
+                        });
+                    });
+                });
+                return seq;
+            });
+        },
+        unapplyMusic: function (meta) {
+            var self = this;
+            var player = w.musicPlayer;
+            if (!player) return Promise.resolve();
+            var ids = {};
+            meta.trackDefs.forEach(function (tr, i) { ids['mod_' + meta.id + '_' + i] = true; });
+            // 从播放列表移除
+            try {
+                for (var i = player.playlist.length - 1; i >= 0; i--) {
+                    var t = player.playlist[i];
+                    if (t && t.isCustom && ids[t.customId]) {
+                        try { if (t._blobUrl) URL.revokeObjectURL(t._blobUrl); } catch (e) {}
+                        try { if (t._coverBlobUrl) URL.revokeObjectURL(t._coverBlobUrl); } catch (e) {}
+                        player.playlist.splice(i, 1);
+                        if (player.currentTrackIndex >= player.playlist.length) {
+                            player.currentTrackIndex = Math.max(0, player.playlist.length - 1);
+                        }
+                    }
+                }
+                // 若正在播放被移除的曲目，停止
+                var cur = player.playlist[player.currentTrackIndex];
+                if (!cur || (player.customTracks || []).every(function (x) { return !(x.isCustom && ids[x.customId]); })) {
+                    if (ids[(cur && cur.customId) || '']) { try { player.audio.pause(); } catch (e) {} }
+                }
+            } catch (e) {}
+            return player.openCustomMusicDB().then(function (db) {
+                return new Promise(function (resolve) {
+                    var tx = db.transaction('tracks', 'readwrite');
+                    var os = tx.objectStore('tracks');
+                    Object.keys(ids).forEach(function (rid) { os.delete(rid); });
+                    tx.oncomplete = function () { resolve(); };
+                    tx.onerror = function () { resolve(); };
+                });
+            }).catch(function () {});
+        },
+        // 应用一个 Mod（安装后 / 启动恢复）
+        applyMod: function (meta) {
+            var self = this;
+            var promises = [];
+            if (meta.type === 'item') {
+                self.invalidateCache();
+                if (w.__modHooks && w.__modHooks.refreshItemPool) w.__modHooks.refreshItemPool();
+            } else if (meta.type === 'background') {
+                self.invalidateCache();
+                self.applyBackgroundsToManager();
+            } else if (meta.type === 'music') {
+                promises.push(self.applyMusic(meta));
+            }
+            return Promise.all(promises);
+        },
+        unapplyMod: function (meta) {
+            if (meta.type === 'item') {
+                this.invalidateCache();
+                if (w.__modHooks && w.__modHooks.refreshItemPool) w.__modHooks.refreshItemPool();
+            } else if (meta.type === 'background') {
+                this.invalidateCache();
+                this.applyBackgroundsToManager();
+            } else if (meta.type === 'music') {
+                return this.unapplyMusic(meta);
+            }
+            return Promise.resolve();
+        },
+
+        /* ---------- 开关 / 删除 ---------- */
+        toggle: function (id) {
+            var meta = this._meta[id];
+            if (!meta) return Promise.reject(new Error('模组不存在'));
+            meta.enabled = !meta.enabled;
+            var self = this;
+            return this.putMeta(meta).then(function () {
+                return meta.enabled ? self.applyMod(meta) : self.unapplyMod(meta);
+            }).then(function () {
+                toast(meta.enabled ? '已启用「' + meta.name + '」' : '已停用「' + meta.name + '」');
+            });
+        },
+        remove: function (id) {
+            var self = this;
+            var meta = this._meta[id];
+            if (!meta) return Promise.resolve();
+            return this.unapplyMod(meta).catch(function () {}).then(function () {
+                // 释放 blob URL
+                Object.keys(self._blobUrls).forEach(function (p) {
+                    if (p.indexOf('mods/' + id + '/') === 0) {
+                        try { URL.revokeObjectURL(self._blobUrls[p]); } catch (e) {}
+                        delete self._blobUrls[p];
+                    }
+                });
+                delete self._meta[id];
+                self.invalidateCache();
+                return self.deleteMetaAndAssets(id);
+            });
+        },
+        getSpaceUsage: function () {
+            var total = 0, count = 0;
+            for (var id in this._meta) { total += Number(this._meta[id].storedBytes) || 0; count++; }
+            return { bytes: total, count: count };
+        },
+
+        /* ---------- 启动 ---------- */
+        init: function () {
+            var self = this;
+            return this.openDB().then(function () { return self.getAllMeta(); }).then(function (list) {
+                list.forEach(function (m) { self._meta[m.id] = m; });
+                return self.preloadBlobs();
+            }).then(function () {
+                // 恢复启用中的 Mod
+                var seq = Promise.resolve();
+                Object.keys(self._meta).forEach(function (id) {
+                    var m = self._meta[id];
+                    if (m.enabled) seq = seq.then(function () { return self.applyMod(m); });
+                });
+                return seq;
+            }).then(function () {
+                self.renderMineList();
+                self.renderStoreList();
+            }).catch(function () {});
+        },
+
+        /* ---------- UI ---------- */
+        openLibrary: function () {
+            this.switchTab(this._currentTab || 'mine');
+            openModal('mod-library-page');
+            this.renderMineList();
+            this.renderStoreList();
+        },
+        switchTab: function (tab) {
+            this._currentTab = tab;
+            $('#mod-library-page .mod-tab-btn').removeClass('active');
+            $('#mod-library-page .mod-tab-btn[data-tab="' + tab + '"]').addClass('active');
+            $('#mod-tab-mine, #mod-tab-store, #mod-tab-import').hide();
+            $('#mod-tab-' + tab).show();
+            if (tab === 'store') this.renderStoreList();
+            if (tab === 'mine') this.renderMineList();
+        },
+        _thumbUrl: function (id, name) {
+            var p = 'mods/' + id + '/' + name;
+            return this._blobUrls[p] || '';
+        },
+        renderMineList: function () {
+            var self = this;
+            var $list = $('#mod-mine-list');
+            if (!$list.length) return;
+            var usage = this.getSpaceUsage();
+            $('#mod-space-summary').text('已用 ' + fmtSize(usage.bytes) + ' · 共 ' + usage.count + ' 个模组');
+            $list.empty();
+            var ids = Object.keys(this._meta).sort(function (a, b) {
+                return self._meta[a].installedAt - self._meta[b].installedAt;
+            });
+            if (!ids.length) {
+                $list.html('<div class="mod-empty">还没有安装的 Mod<br><span>去「MOD资源管理」下载，或在「从本地导入MOD」导入 zip</span></div>');
+                return;
+            }
+            ids.forEach(function (id) {
+                var m = self._meta[id];
+                var thumb = m.thumbs && m.thumbs.thumb ? self._thumbUrl(id, m.thumbs.thumb) : '';
+                var typeName = { item: '物品', music: '音乐', background: '背景' }[m.type] || m.type;
+                var $row = $(
+                    '<div class="mod-row" data-id="' + esc(id) + '">' +
+                    '<div class="mod-row-thumb">' + (thumb ? '<img src="' + thumb + '" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
+                    '<div class="mod-row-main">' +
+                    '<div class="mod-row-name">' + esc(m.name) + ' <span class="mod-type-badge">' + typeName + '</span></div>' +
+                    '<div class="mod-row-sub">' + fmtSize(m.storedBytes) + ' · ' + esc(m.author) + '</div>' +
+                    '</div>' +
+                    '<label class="switch mod-switch"><input type="checkbox" ' + (m.enabled ? 'checked' : '') + '><span class="slider round"></span></label>' +
+                    '<button class="mod-del-btn" title="删除"><i class="fas fa-trash-alt"></i></button>' +
+                    '</div>'
+                );
+                $row.find('.mod-switch input').on('change', function () {
+                    self.toggle(id).then(function () { self.renderMineList(); self.renderStoreList(); }).catch(function (e) { toast(String(e.message || e)); });
+                });
+                $row.find('.mod-del-btn').on('click', function () {
+                    if (!w.confirm('确定删除「' + m.name + '」？')) return;
+                    self.remove(id).then(function () {
+                        toast('已删除');
+                        self.renderMineList();
+                        self.renderStoreList();
+                    });
+                });
+                $list.append($row);
+            });
+        },
+        renderStoreList: function () {
+            var self = this;
+            var $list = $('#mod-store-list');
+            if (!$list.length) return;
+            this.fetchManifest().then(function (m) {
+                var items = (m.mods || []).filter(function (x) {
+                    if (self._storeFilter !== 'all' && x.type !== self._storeFilter) return false;
+                    var kw = self._storeSearch.trim().toLowerCase();
+                    if (!kw) return true;
+                    return (String(x.name || '') + String(x.desc || '') + String(x.author || '')).toLowerCase().indexOf(kw) !== -1;
+                });
+                $list.empty();
+                if (!items.length) {
+                    $list.html('<div class="mod-empty">暂无模组<br><span>' + (m.mods && m.mods.length ? '没有符合筛选条件的模组' : '官方 Mod 仓库尚未配置或无内容') + '</span></div>');
+                    return;
+                }
+                items.forEach(function (x) {
+                    var installed = self.isInstalled(x.id);
+                    var typeName = { item: '物品', music: '音乐', background: '背景' }[x.type] || x.type;
+                    var thumbUrl = x.thumb ? (self.baseUrls[0] + x.thumb) : '';
+                    var $row = $(
+                        '<div class="mod-row" data-id="' + esc(x.id) + '">' +
+                        '<div class="mod-row-thumb">' + (thumbUrl ? '<img src="' + esc(thumbUrl) + '" loading="lazy" onerror="this.style.display=\'none\'">' : '<i class="fas fa-box"></i>') + '</div>' +
+                        '<div class="mod-row-main">' +
+                        '<div class="mod-row-name">' + esc(x.name) + ' <span class="mod-type-badge">' + typeName + '</span>' + (installed ? '<span class="mod-installed-badge">已安装</span>' : '') + '</div>' +
+                        '<div class="mod-row-desc">' + esc(x.desc) + '</div>' +
+                        '</div>' +
+                        '<button class="mod-detail-btn">详情</button>' +
+                        '</div>'
+                    );
+                    $row.find('.mod-detail-btn, .mod-row-thumb, .mod-row-main').on('click', function () { self.openDetail(x); });
+                    $list.append($row);
+                });
+            });
+        },
+        openDetail: function (x) {
+            var self = this;
+            this._detailId = x.id;
+            var installed = this.isInstalled(x.id);
+            var meta = this._meta[x.id];
+            var typeName = { item: '物品', music: '音乐', background: '背景' }[x.type] || x.type;
+            var avatarUrl = x.avatar ? (this.baseUrls[0] + x.avatar) : '';
+            if (installed && meta && meta.thumbs && meta.thumbs.avatar) {
+                avatarUrl = this._thumbUrl(x.id, meta.thumbs.avatar);
+            }
+            var screenUrls = [];
+            if (installed && meta && meta.thumbs && meta.thumbs.screens) {
+                meta.thumbs.screens.forEach(function (n) { screenUrls.push(self._thumbUrl(x.id, n)); });
+            } else if (Array.isArray(x.screens)) {
+                x.screens.forEach(function (p) { screenUrls.push(self.baseUrls[0] + p); });
+            }
+            screenUrls = screenUrls.filter(Boolean).slice(0, LIMITS.screens);
+
+            var screensHtml = '';
+            if (screenUrls.length) {
+                screensHtml = '<div class="mod-detail-screens">' + screenUrls.map(function (u, i) {
+                    return '<div class="mod-screen"><img src="' + esc(u) + '" loading="lazy" alt=""></div>';
+                }).join('') + '</div>' + (screenUrls.length > 1 ? '<div class="mod-screen-dots">' + screenUrls.map(function (_, i) {
+                    return '<i class="' + (i === 0 ? 'active' : '') + '"></i>';
+                }).join('') + '</div>' : '');
+            }
+
+            var actionHtml;
+            if (installed) {
+                var m = meta;
+                actionHtml = '<div class="mod-detail-action">' +
+                    '<label class="switch mod-switch"><input type="checkbox" id="mod-detail-toggle" ' + (m.enabled ? 'checked' : '') + '><span class="slider round"></span></label>' +
+                    '<span class="mod-detail-toggle-label">' + (m.enabled ? '已启用' : '已停用') + '</span>' +
+                    '<button class="modal-btn danger" id="mod-detail-del" style="margin-left:auto;"><i class="fas fa-trash-alt"></i> 删除</button>' +
+                    '</div>';
+            } else {
+                actionHtml = '<button class="modal-btn primary full-width" id="mod-detail-download"><i class="fas fa-download"></i> 下载并安装</button>';
+            }
+
+            $('#mod-detail-body').html(
+                '<div class="mod-detail-author">' +
+                '<div class="mod-detail-avatar">' + (avatarUrl ? '<img src="' + esc(avatarUrl) + '" alt="">' : '<i class="fas fa-user"></i>') + '</div>' +
+                '<div><div class="mod-detail-author-name">' + esc(x.author || '未知作者') + '</div>' +
+                '<div class="mod-detail-meta">' + typeName + ' · ' + fmtSize(x.size) + ' · v' + esc(x.version || '1.0.0') + '</div></div></div>' +
+                '<div class="mod-detail-name">' + esc(x.name) + '</div>' +
+                screensHtml +
+                '<div class="mod-detail-desc">' + esc(x.desc || '') + '</div>' +
+                actionHtml
+            );
+            // 翻页圆点
+            var $scr = $('#mod-detail-body .mod-detail-screens');
+            if ($scr.length) {
+                $scr.on('scroll', function () {
+                    var idx = Math.round(this.scrollLeft / this.clientWidth);
+                    $scr.next('.mod-screen-dots').find('i').removeClass('active').eq(idx).addClass('active');
+                });
+            }
+            var $dl = $('#mod-detail-download');
+            if ($dl.length) {
+                $dl.on('click', function () {
+                    if ($dl.data('busy')) return;
+                    $dl.data('busy', 1).prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> 下载中…');
+                    self.downloadZip(x.file).then(function (blob) {
+                        $dl.html('<i class="fas fa-spinner fa-spin"></i> 安装中…');
+                        return self.installFromZip(blob, x, 'download');
+                    }).then(function () {
+                        toast('已安装「' + x.name + '」');
+                        closeModal('mod-detail-modal');
+                        self.renderMineList();
+                        self.renderStoreList();
+                    }).catch(function (e) {
+                        toast('下载失败：' + String(e.message || e));
+                        $dl.data('busy', 0).prop('disabled', false).html('<i class="fas fa-download"></i> 下载并安装');
+                    });
+                });
+            }
+            $('#mod-detail-del').on('click', function () {
+                if (!w.confirm('确定删除「' + x.name + '」？')) return;
+                self.remove(x.id).then(function () {
+                    toast('已删除');
+                    closeModal('mod-detail-modal');
+                    self.renderMineList();
+                    self.renderStoreList();
+                });
+            });
+            $('#mod-detail-toggle').on('change', function () {
+                self.toggle(x.id).then(function () {
+                    closeModal('mod-detail-modal');
+                    self.renderMineList();
+                    self.renderStoreList();
+                }).catch(function (e) { toast(String(e.message || e)); });
+            });
+            openModal('mod-detail-modal');
+        },
+        importLocalFile: function (file) {
+            var self = this;
+            if (!file) return;
+            if (!/\.zip$/i.test(file.name || '')) { toast('请选择 zip 文件'); return; }
+            toast('正在校验并安装…');
+            this.installFromZip(file, null, 'local').then(function (meta) {
+                toast('已导入「' + meta.name + '」' + (meta.enabled ? '（已启用）' : ''));
+                self.renderMineList();
+                self.switchTab('mine');
+            }).catch(function (e) {
+                toast('导入失败：' + String(e.message || e));
+            });
+        },
+
+        /* ---------- 事件绑定 ---------- */
+        bind: function () {
+            var self = this;
+            if ($('#mod-entry-btn').length) {
+                $('#mod-entry-btn').on('click', function () { self.openLibrary(); });
+            }
+            if ($('#sidebar-mod-guide-btn').length) {
+                $('#sidebar-mod-guide-btn').on('click', function () { openModal('mod-guide-page'); });
+            }
+            $('#mod-guide-close').on('click', function () { closeModal('mod-guide-page'); });
+            $('#mod-library-close').on('click', function () { closeModal('mod-library-page'); });
+            $('#mod-detail-close').on('click', function () { closeModal('mod-detail-modal'); });
+            $('#mod-detail-modal').on('click', function (e) { if ($(e.target).is(this)) closeModal('mod-detail-modal'); });
+            // 打开模板链接
+            $('#mod-template-download').on('click', function () {
+                w.open(self.TEMPLATE_URL, '_blank');
+            });
+            $('#mod-template-copy').on('click', function () {
+                var url = self.TEMPLATE_URL;
+                if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { toast('链接已复制'); });
+                else toast(url);
+            });
+            $('#mod-qq-copy').on('click', function () {
+                if (navigator.clipboard) navigator.clipboard.writeText(GUIDE_QQ).then(function () { toast('QQ 已复制：' + GUIDE_QQ); });
+                else toast('QQ：' + GUIDE_QQ);
+            });
+            // tab 切换
+            $('#mod-library-page').on('click', '.mod-tab-btn', function () {
+                self.switchTab($(this).data('tab'));
+            });
+            // 搜索 & 筛选
+            $('#mod-store-search').on('input', function () {
+                self._storeSearch = this.value || '';
+                self.renderStoreList();
+            });
+            $('#mod-store-filter').on('change', function () {
+                self._storeFilter = this.value || 'all';
+                self.renderStoreList();
+            });
+            // 本地导入
+            $('#mod-import-pick').on('click', function () {
+                var inp = document.getElementById('mod-import-file');
+                if (inp) { inp.value = ''; inp.click(); }
+            });
+            $('#mod-import-file').on('change', function () {
+                var f = this.files && this.files[0];
+                if (f) self.importLocalFile(f);
+            });
+        }
+    };
+
+    w.ModManager = ModManager;
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            ModManager.bind();
+            setTimeout(function () { ModManager.init(); }, 1200);
+        });
+    } else {
+        ModManager.bind();
+        setTimeout(function () { ModManager.init(); }, 1200);
+    }
+})(window);

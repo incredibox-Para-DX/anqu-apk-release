@@ -88,6 +88,8 @@ const BackgroundManager = {
     },
 
     isBackgroundUnlocked(bgId) {
+        // Mod 背景（字符串 id 带 mod_ 前缀）：始终解锁
+        if (typeof bgId === 'string' && bgId.indexOf('mod_') === 0) return true;
         const owned = this.getOwnedBackgrounds();
         return owned.includes(Number(bgId));
     },
@@ -3679,6 +3681,13 @@ _runOpenSafe() {
         
         updateItemPool() {
             allItemsConfig = itemsConfig.slice();
+            // Mod 物品合并（启用中的物品类 Mod）
+            if (window.ModManager && typeof window.ModManager.getEnabledItems === 'function') {
+                try {
+                    var modItems = window.ModManager.getEnabledItems();
+                    if (modItems && modItems.length) allItemsConfig = allItemsConfig.concat(modItems);
+                } catch (e) {}
+            }
         }
     };
 
@@ -6452,6 +6461,19 @@ const EventManager = {
                 if (!bg) return;
                 const img = el.querySelector('.bg-thumb-img img');
                 if (!img) return;
+                // Mod 背景：直接从本地 blob 解析
+                if (window.ModManager && window.ModManager.isModPath(bg.path)) {
+                    const modUrl = window.ModManager.resolvePath(bg.path);
+                    if (modUrl) {
+                        if (window.ModManager.isModVideo(bg.path)) {
+                            posterQueue.push({ el, img, orig: bg.path, src: modUrl });
+                            runPosterQueue();
+                        } else {
+                            img.src = modUrl;
+                        }
+                    }
+                    return;
+                }
                 const isVideo = /\.(mp4|webm)(\?|$)/i.test(bg.path);
                 const remote = RDM.getBgRemoteUrl(bg.path);
                 const applyImage = (src) => {
@@ -6576,7 +6598,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.75';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.76';
 
     /* ============================================================
      * 检查更新
@@ -7291,6 +7313,47 @@ const EventManager = {
             forceFocus(t);
         }, true);
     })();
+
+    // ===== Mod 库接入桥 =====
+    window.__modHooks = {
+        refreshItemPool: function () { SettingsManager.updateItemPool(); },
+        calcWeight: function (v) { return GameCore.calculateItemWeight(v); },
+        searchTime: function (r) { return _.get(Config.searchTimes, r, Config.searchTimes.purple); },
+        // 替换 BackgroundManager.backgrounds 中的 Mod 背景部分
+        appendModBackgrounds: function (list) {
+            var base = BackgroundManager.backgrounds.filter(function (b) {
+                return !(typeof b.id === 'string' && b.id.indexOf('mod_') === 0);
+            });
+            BackgroundManager.backgrounds = base.concat(list || []);
+            // 若背景选择器正在显示，重建网格
+            try {
+                if ($('#bg-select-modal').hasClass('show') && BackgroundManager.buildGrid) BackgroundManager.buildGrid();
+            } catch (e) {}
+        }
+    };
+    // 背景类 Mod：加载完成后追加
+    var __origLoadBgs = BackgroundManager.loadBackgrounds;
+    BackgroundManager.loadBackgrounds = async function () {
+        var r = await __origLoadBgs.call(this);
+        if (window.ModManager && window.ModManager.getEnabledBackgrounds) {
+            try {
+                var modBgs = window.ModManager.getEnabledBackgrounds();
+                if (modBgs && modBgs.length) this.backgrounds = this.backgrounds.concat(modBgs);
+            } catch (e) {}
+        }
+        return r;
+    };
+    // 背景类 Mod：applyBackground 支持虚拟路径 mods/...（转 blob URL + 视频标记）
+    var __origApplyBg = BackgroundManager.applyBackground;
+    BackgroundManager.applyBackground = function (path, isVideoHint, fallbackPath, skipSave) {
+        if (typeof path === 'string' && path.indexOf('mods/') === 0 && window.ModManager) {
+            var rec = window.ModManager.getBgRecord(path);
+            if (rec) isVideoHint = rec.isVideo;
+            var resolved = window.ModManager.resolvePath(path);
+            if (resolved) path = resolved;
+        }
+        return __origApplyBg.call(this, path, isVideoHint, fallbackPath, skipSave);
+    };
 
     // 初始化资源下载管理器
     ResourceDownloadManager.init();

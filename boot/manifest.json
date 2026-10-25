@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.75",
+  "version": "v2.1.0_hotfix.76",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,7 +23,7 @@
     },
     {
       "path": "css/styles.css",
-      "size": 73796
+      "size": 81524
     },
     {
       "path": "js/debug.js",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 333852
+      "size": 337154
     },
     {
       "path": "js/synthesis.js",
@@ -80,6 +80,14 @@
     {
       "path": "libs/lodash.js",
       "size": 73154
+    },
+    {
+      "path": "libs/jszip.min.js",
+      "size": 97630
+    },
+    {
+      "path": "js/mods.js",
+      "size": 51581
     },
     {
       "path": "xml/backgrounds.xml",
@@ -131,9 +139,9 @@
     },
     {
       "path": "index.html",
-      "size": 117725
+      "size": 124453
     }
   ],
-  "fileCount": 33,
-  "totalSize": 2188630
+  "fileCount": 35,
+  "totalSize": 2355599
 }
