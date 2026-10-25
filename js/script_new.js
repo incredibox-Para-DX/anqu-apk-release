@@ -597,6 +597,13 @@ previewCurrentBackground() {
 
         /* 启动时恢复自定义背景（存在则覆盖默认背景） */
         restore() {
+            // 轮放开启时不恢复自定义背景
+            const playFavorites = typeof BackgroundFavorites !== 'undefined' && BackgroundFavorites.settings && BackgroundFavorites.settings.playFavorites;
+            if (playFavorites) {
+                this.setFlag(false);
+                this.updateClearButton();
+                return Promise.resolve(false);
+            }
             if (!this.hasCustom()) {
                 this.updateClearButton();
                 return Promise.resolve(false);
@@ -614,7 +621,9 @@ previewCurrentBackground() {
         },
 
         pick() {
-            const input = document.getElementById('custom-bg-file-input');
+            // 优先用背景设置弹窗里的文件输入（移动端/新版入口）
+            let input = document.getElementById('bg-settings-custom-file-input');
+            if (!input) input = document.getElementById('custom-bg-file-input');
             if (!input) return;
             // 重置 value，保证重复选择同一个文件也能触发 change
             input.value = '';
@@ -677,9 +686,18 @@ previewCurrentBackground() {
 
         updateClearButton() {
             const $btn = $('#sidebar-custom-bg-clear-btn');
-            if (!$btn.length) return;
-            if (this.hasCustom()) $btn.show();
-            else $btn.hide();
+            if ($btn.length) {
+                if (this.hasCustom()) $btn.show(); else $btn.hide();
+            }
+            // 同步背景设置弹窗内的清除按钮状态
+            const $settingsBtn = $('#bg-settings-custom-bg-clear-btn');
+            if ($settingsBtn.length) {
+                if (this.hasCustom()) $settingsBtn.show(); else $settingsBtn.hide();
+            }
+            const $settingsPickBtn = $('#bg-settings-custom-bg-btn');
+            if ($settingsPickBtn.length) {
+                if (this.hasCustom()) $settingsPickBtn.hide(); else $settingsPickBtn.show();
+            }
         },
 
         bind() {
@@ -687,6 +705,16 @@ previewCurrentBackground() {
                 this.pick();
             });
             $('#sidebar-custom-bg-clear-btn').on('click', () => this.clear());
+            // 背景设置弹窗内的文件输入
+            const settingsInput = document.getElementById('bg-settings-custom-file-input');
+            if (settingsInput) {
+                settingsInput.addEventListener('change', () => {
+                    const file = settingsInput.files && settingsInput.files[0];
+                    this.handleFile(file);
+                    settingsInput.value = '';
+                });
+            }
+            // 侧边栏旧入口（保留兼容）
             const input = document.getElementById('custom-bg-file-input');
             if (input) {
                 input.addEventListener('change', () => {
@@ -3967,7 +3995,25 @@ const EventManager = {
         $('#bg-settings-close').on('click', () => BackgroundFavorites.closeSettingsModal());
         $('#bg-settings-save').on('click', () => BackgroundFavorites.saveSettings());
         $('#bg-favorites-play').on('change', function () {
+            BackgroundFavorites._syncCustomBgRow();
+            // 立即处理：开启轮放则删自定义；关闭轮放保留自定义
+            if (this.checked) {
+                BackgroundFavorites._deleteCustomBg();
+            }
             $('#bg-settings-desc').toggle(this.checked);
+        });
+        // 背景设置弹窗内自定义背景按钮
+        $('#bg-settings-custom-bg-btn').on('click', () => {
+            if (window.CustomBackground) window.CustomBackground.pick();
+        });
+        $('#bg-settings-custom-bg-clear-btn').on('click', () => {
+            if (window.CustomBackground) window.CustomBackground.clear();
+        });
+        $('#bg-settings-custom-file-input').on('change', function () {
+            const file = this.files && this.files[0];
+            if (file && window.CustomBackground) window.CustomBackground.handleFile(file);
+            // 重置让同一文件可重复选
+            this.value = '';
         });
         $('#bg-settings-modal').on('click', function (e) {
             if ($(e.target).is(this)) BackgroundFavorites.closeSettingsModal();
@@ -6225,19 +6271,49 @@ const EventManager = {
                 $('#bg-settings-info').html(favCount
                     ? `当前已喜好 ${favCount} 个背景。`
                     : '还没有喜好的背景，请先在背景商店中加入喜好。');
+                // 同步自定义背景按钮状态：轮放开启时隐藏自定义区，关闭时显示
+                this._syncCustomBgRow();
                 if (window.ModalRegistry) ModalRegistry.open('bg-settings-modal');
                 else { $('#bg-settings-modal').css('display', 'flex'); setTimeout(() => $('#bg-settings-modal').addClass('show'), 10); }
+            },
+            _syncCustomBgRow() {
+                const play = $('#bg-favorites-play').is(':checked');
+                const hasCustom = window.CustomBackground && window.CustomBackground.hasCustom();
+                if (play) {
+                    $('#bg-settings-custom-row').hide();
+                } else {
+                    $('#bg-settings-custom-row').show();
+                    if (window.CustomBackground) {
+                        if (hasCustom) {
+                            $('#bg-settings-custom-bg-clear-btn').show();
+                            $('#bg-settings-custom-bg-btn').hide();
+                        } else {
+                            $('#bg-settings-custom-bg-clear-btn').hide();
+                            $('#bg-settings-custom-bg-btn').show();
+                        }
+                    }
+                }
             },
             closeSettingsModal() {
                 if (window.ModalRegistry) ModalRegistry.close('bg-settings-modal');
                 else { $('#bg-settings-modal').removeClass('show'); setTimeout(() => $('#bg-settings-modal').css('display', 'none'), 300); }
             },
             saveSettings() {
+                const wasPlaying = this.settings.playFavorites;
                 this.settings.playFavorites = $('#bg-favorites-play').is(':checked');
                 this._saveSettings();
                 this.applyCycling();
+                // 轮放开启时：立即清除自定义背景
+                if (this.settings.playFavorites && !wasPlaying) {
+                    this._deleteCustomBg();
+                }
                 if (window.showToast) window.showToast('背景设置已保存');
                 this.closeSettingsModal();
+            },
+            // 清除自定义背景并回退到默认/喜好背景
+            _deleteCustomBg() {
+                if (!window.CustomBackground || !window.CustomBackground.hasCustom()) return;
+                window.CustomBackground.clear(true).catch(() => {});
             },
             applyCycling() {
                 if (this._timer) { clearInterval(this._timer); this._timer = null; }
@@ -6255,8 +6331,9 @@ const EventManager = {
                 if (!BackgroundManager.isBackgroundUnlocked(pick.id)) return null;
                 BackgroundManager.currentIndex = realIdx;
                 BackgroundManager.selectedIndex = realIdx;
-                // 同步应用（applyBackground 会同时写入 storageKey），不走 async 的 confirmSelection，避免竞态
+                // 应用喜好背景时清除自定义背景（避免两者冲突）
                 BackgroundManager.applyBackground(pick.path);
+                BackgroundFavorites._deleteCustomBg();
                 return pick;
             },
             _switchToNextFavorite() {
@@ -6475,7 +6552,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.70';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.71';
 
     /* ============================================================
      * 检查更新
