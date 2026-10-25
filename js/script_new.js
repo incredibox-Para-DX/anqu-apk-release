@@ -6316,9 +6316,9 @@ const EventManager = {
                 try {
                     // 1. 清除 localStorage 标志（立即生效）
                     window.CustomBackground.setFlag(false);
-                    // 2. 删除 IndexedDB 数据库（异步，但标记已清除足够）
+                    // 2. 删除 IndexedDB 数据库
                     if (typeof indexedIDB !== 'undefined') {
-                        const dbReq = indexedDB.deleteDatabase(window.CustomBackground.dbName);
+                        const dbReq = indexedIDB.deleteDatabase(window.CustomBackground.dbName);
                         dbReq.onsuccess = () => { window.CustomBackground._db = null; };
                         dbReq.onerror = () => { window.CustomBackground._db = null; };
                     }
@@ -6330,6 +6330,12 @@ const EventManager = {
                     // 4. 更新按钮状态
                     if (window.CustomBackground.updateClearButton) {
                         window.CustomBackground.updateClearButton();
+                    }
+                    // 5. 回退到默认背景（关键：屏幕视觉也要同步清除）
+                    if (window.BackgroundManager) {
+                        const defaultBg = window.BackgroundManager.backgrounds.find(b => Number(b.id) === 1)
+                            || window.BackgroundManager.backgrounds[0];
+                        if (defaultBg) window.BackgroundManager.applyBackground(defaultBg.path);
                     }
                 } catch (e) {}
             },
@@ -6570,7 +6576,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.73';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.74';
 
     /* ============================================================
      * 检查更新
