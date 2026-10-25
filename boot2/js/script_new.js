@@ -6389,8 +6389,9 @@ const EventManager = {
     // 最后兜底：jsDelivr。仓库体积控制不当会超 50MB 限制返回 403，只作末位候选
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
-    // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.66';
+    // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
+    // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.68';
 
     /* ============================================================
      * 检查更新

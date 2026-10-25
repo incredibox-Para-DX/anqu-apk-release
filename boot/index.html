@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.66</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.68</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -898,9 +898,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-content bg-select-modal-content">
 <div class="modal-header">
 <div class="modal-title"><i class="fas fa-palette"></i> 背景商店</div>
+<div class="app-page-actions">
 <span class="stat-item coin-item"><img src="images/img_b353ca7f64.png" alt="科恩币" style="height:1.2em;vertical-align:middle;margin-right:3px;"><b id="bg-coin-balance">0</b></span>
-<button class="app-page-action-btn" id="bg-settings-open-btn" title="背景设置" style="margin-left:6px;margin-right:10px;"><i class="fas fa-sliders-h"></i> 背景设置</button>
+<button class="app-page-action-btn" id="bg-settings-open-btn" title="背景设置"><i class="fas fa-sliders-h"></i> 背景设置</button>
 <button class="app-page-back-btn" id="bg-select-close"><i class="fas fa-arrow-left"></i> 返回</button>
+</div>
 </div>
 <div class="modal-body bg-select-modal-body">
 <div class="bg-grid" id="bg-grid"></div>
@@ -2260,7 +2262,8 @@ if (document.readyState === 'loading') {
         el._hideTimer = setTimeout(() => {
             try {
                 const toastEndAudio = new Audio('audio/toastend.mp3');
-                toastEndAudio.volume = 0.565;
+                // 与出现音一致，尊重「弹窗提示音量」（__TOAST_VOLUME__）
+                toastEndAudio.volume = 0.565 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
                 toastEndAudio.play().catch(() => {});
             } catch (e) {}
             el.classList.remove('show');
