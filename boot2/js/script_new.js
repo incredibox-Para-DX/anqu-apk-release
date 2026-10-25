@@ -1159,7 +1159,7 @@ previewCurrentBackground() {
                 icon: 'pictures/skills/destiny_pity.png',
                 price: 0,
                 unlockBy: 'redeem',
-                desc: '连续开保险未出橙色/红色时，越靠近保底概率越高，到达保底次数时必出橙色及以上道具；触发一次保底后，下次保底次数 -1，直到某次提前出后恢复为 10。兑换码请通过交流群 1082453829 获取',
+                desc: '连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次',
                 type: 'permanent'
             }
         ],
@@ -6313,7 +6313,25 @@ const EventManager = {
             // 清除自定义背景并回退到默认/喜好背景
             _deleteCustomBg() {
                 if (!window.CustomBackground || !window.CustomBackground.hasCustom()) return;
-                window.CustomBackground.clear(true).catch(() => {});
+                try {
+                    // 1. 清除 localStorage 标志（立即生效）
+                    window.CustomBackground.setFlag(false);
+                    // 2. 删除 IndexedDB 数据库（异步，但标记已清除足够）
+                    if (typeof indexedIDB !== 'undefined') {
+                        const dbReq = indexedDB.deleteDatabase(window.CustomBackground.dbName);
+                        dbReq.onsuccess = () => { window.CustomBackground._db = null; };
+                        dbReq.onerror = () => { window.CustomBackground._db = null; };
+                    }
+                    // 3. 清除内存中的 blob URL
+                    if (window.CustomBackground._objectUrl) {
+                        try { URL.revokeObjectURL(window.CustomBackground._objectUrl); } catch (e) {}
+                        window.CustomBackground._objectUrl = null;
+                    }
+                    // 4. 更新按钮状态
+                    if (window.CustomBackground.updateClearButton) {
+                        window.CustomBackground.updateClearButton();
+                    }
+                } catch (e) {}
             },
             applyCycling() {
                 if (this._timer) { clearInterval(this._timer); this._timer = null; }
@@ -6552,7 +6570,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.72';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.73';
 
     /* ============================================================
      * 检查更新
