@@ -4197,15 +4197,20 @@ const EventManager = {
             TitleManager.updateTitleDisplay();
             
             await BackgroundManager.loadBackgrounds();
-            const savedPath = localStorage.getItem(BackgroundManager.storageKey);
-            if (!savedPath) {
-                BackgroundManager.applyBackground(BackgroundManager.backgrounds[0].path);
-            } else {
-                BackgroundManager.loadSavedBackground();
+            // 「播放喜好的壁纸」：开启时每次进入随机切换一张喜好背景（确定性应用并持久化），
+            // 此时跳过「上次保存/默认背景」与「自定义背景恢复」，避免覆盖随机结果
+            const enteredFavorite = BackgroundFavorites.pickRandomFavoriteOnEntry();
+            if (!enteredFavorite) {
+                const savedPath = localStorage.getItem(BackgroundManager.storageKey);
+                if (!savedPath) {
+                    BackgroundManager.applyBackground(BackgroundManager.backgrounds[0].path);
+                } else {
+                    BackgroundManager.loadSavedBackground();
+                }
             }
             // 自定义（相册上传）背景优先于内置背景
             CustomBackground.bind();
-            CustomBackground.restore();
+            if (!enteredFavorite) CustomBackground.restore();
 
             // 效果设置：动画帧率（30 / 60 / 无上限）
             (function initFpsOption() {
@@ -6154,6 +6159,22 @@ const EventManager = {
                 if (this._timer) { clearInterval(this._timer); this._timer = null; }
                 // 已移除定时切换，仅保留"每次进入游戏随机切换"，无需定时器
             },
+            // 每次进入游戏：若开启「播放喜好的壁纸」，则随机切换一张喜好背景并应用+持久化。
+            // 返回选中的背景；未开启/无喜好/全部未解锁时返回 null（调用方回退到保存的或默认背景）。
+            pickRandomFavoriteOnEntry() {
+                if (!this.settings.playFavorites) return null;
+                const favs = this.getFavoriteBackgrounds();
+                if (favs.length === 0) return null;
+                const pick = favs[Math.floor(Math.random() * favs.length)];
+                const realIdx = BackgroundManager.backgrounds.indexOf(pick);
+                if (realIdx === -1) return null;
+                if (!BackgroundManager.isBackgroundUnlocked(pick.id)) return null;
+                BackgroundManager.currentIndex = realIdx;
+                BackgroundManager.selectedIndex = realIdx;
+                // 同步应用（applyBackground 会同时写入 storageKey），不走 async 的 confirmSelection，避免竞态
+                BackgroundManager.applyBackground(pick.path);
+                return pick;
+            },
             _switchToNextFavorite() {
                 const favs = this.getFavoriteBackgrounds();
                 if (favs.length < 2) return;
@@ -6180,13 +6201,8 @@ const EventManager = {
             }
         };
         BackgroundFavorites.init();
-        // 背景列表加载完成后再应用「每次重开更换」（init 时 backgrounds 可能为空）
-        const _origLoadBackgrounds = BackgroundManager.loadBackgrounds;
-        BackgroundManager.loadBackgrounds = async function () {
-            const r = await _origLoadBackgrounds.call(this);
-            BackgroundFavorites._applyReopenSwitch();
-            return r;
-        };
+        // 「每次进入游戏随机切换喜好背景」由游戏启动流程调用 BackgroundFavorites.pickRandomFavoriteOnEntry() 处理，
+        // 不再包装 loadBackgrounds（避免与启动处的 loadSavedBackground 竞态覆盖随机结果）
         // 卡片选中时更新喜好按钮状态
         const _origRenderPreview = BackgroundManager.renderPreview;
         BackgroundManager.renderPreview = async function () {

@@ -414,12 +414,6 @@
             loginRevealed = true;
             try { setProgress(100); } catch (e) {}
 
-            try {
-                const endAudio = new Audio('audio/loading-end.mp3');
-                endAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                endAudio.play().catch(() => {});
-            } catch (e) {}
-
             if (loadingSpinner) {
                 loadingSpinner.style.transition = 'opacity 0.431s ease, transform 0.423s ease';
                 loadingSpinner.style.opacity = '0';

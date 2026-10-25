@@ -906,10 +906,10 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="bg-grid" id="bg-grid"></div>
 </div>
 <div class="modal-footer bg-select-modal-footer" style="display:flex;justify-content:center;align-items:center;gap:10px;padding:10px 16px;">
-<button class="modal-btn" id="bg-preview-btn" style="width:100px!important;height:30px!important;min-width:100px!important;max-width:100px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-play"></i> 预览</button>
-<button class="modal-btn" id="bg-buy-btn" style="width:100px!important;height:30px!important;min-width:100px!important;max-width:100px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-shopping-cart"></i> 购买</button>
-<button class="modal-btn primary" id="bg-confirm-btn" style="width:100px!important;height:30px!important;min-width:100px!important;max-width:100px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-hand-pointer"></i> 切换</button>
-<button class="modal-btn" id="bg-favorite-btn" style="width:110px!important;height:30px!important;min-width:110px!important;max-width:110px!important;min-height:30px!important;font-size:13px!important;padding:4px 12px!important;line-height:1!important;"><i class="fas fa-star"></i> 加入喜好</button>
+<button class="modal-btn" id="bg-preview-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-play"></i> 预览</button>
+<button class="modal-btn" id="bg-buy-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-shopping-cart"></i> 购买</button>
+<button class="modal-btn primary" id="bg-confirm-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-hand-pointer"></i> 切换</button>
+<button class="modal-btn" id="bg-favorite-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-star"></i> 加入喜好</button>
 </div>
 </div>
 </div>
@@ -2250,7 +2250,8 @@ if (document.readyState === 'loading') {
         if (!el) return;
         try {
             const toastAudio = new Audio('audio/toast.mp3');
-            toastAudio.volume = 0.555;
+            // 尊重「弹窗提示音量」滑块（__TOAST_VOLUME__，独立于界面音效音量），此前硬编码 0.555 导致调滑块不生效
+            toastAudio.volume = 0.555 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
             toastAudio.play().catch(() => {});
         } catch (e) {}
         el.textContent = msg;
