@@ -6599,7 +6599,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.78';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.79';
 
     /* ============================================================
      * 检查更新
@@ -6926,12 +6926,7 @@ const EventManager = {
         };
         var gotOne = function(m, base) {
             record(m, base);
-            settle();
-        };
-        var failOne = function() {
-            if (finished) return;
-            // 三路都失败才 truly done(null,false)
-            // pending 计数在三路并发里不再需要，这里直接等定时器
+            if (--pending <= 0) settle();
         };
         var getOnce = function(base, cb) {
             var url = base + '/manifest.json';
@@ -6952,12 +6947,13 @@ const EventManager = {
                 error: function() { finish(null); }
             });
         };
-        // 三路并发，任意一路拿到有效结果且版本 >= 本地即停止等待；全部失败则 done(null,false)
+        // 三路并发，全部返回（成功/失败）后再选最高版本，避免不同线路缓存新旧不一致导致版本号跳变
+        var pending = 3;
         getOnce(HU_PROXY_BASE, gotOne);
         getOnce(HU_BASE_URL, gotOne);
         getOnce(HU_JD_BASE, gotOne);
-        // 最长等 15s，超时也算失败
-        setTimeout(settle, 15000);
+        // 兜底：最长等 12s，超时直接结算（用已收到的最高版本）
+        setTimeout(settle, 12000);
     };
     window.__huStartProgress = function() {
         window.__huStopProgress();

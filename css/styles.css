@@ -3361,3 +3361,49 @@ video:empty {
 .mod-detail-desc { font-size: 13px; color: #94a3b8; line-height: 1.8; margin-bottom: 16px; white-space: pre-wrap; }
 .mod-detail-action { display: flex; align-items: center; gap: 12px; }
 .mod-detail-toggle-label { font-size: 13px; color: #cbd5e1; }
+
+/* ===== MOD 库 v2 修补 ===== */
+/* 标题真正居中：左占位 + 中标题 + 右操作 三列 */
+.mod-page-header { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+.mod-page-header .modal-title { justify-content: center; }
+.mod-page-header .app-page-actions { justify-self: end; }
+.mod-header-side { min-width: 1px; }
+
+/* 筛选按钮组 */
+.mod-filter-group { display: flex; gap: 8px; margin-bottom: 10px; }
+.mod-filter-btn {
+    flex: 1; padding: 7px 6px; border-radius: 8px; cursor: pointer;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #94a3b8; font-size: 12.5px; transition: all .18s ease;
+}
+.mod-filter-btn.active { background: rgba(96,165,250,0.16); border-color: rgba(96,165,250,0.45); color: #dbeafe; font-weight: 600; }
+.mod-filter-btn:active { transform: scale(0.97); }
+
+/* 行悬停反馈 */
+.mod-row { transition: background .18s ease, border-color .18s ease; }
+.mod-row:hover { background: rgba(255,255,255,0.075); border-color: rgba(255,255,255,0.15); }
+
+/* 详情弹窗：放大 + 图片限高 */
+.mod-detail-content { max-width: 620px !important; width: 94vw !important; max-height: 92vh !important; display: flex; flex-direction: column; }
+#mod-detail-body { padding: 4px 16px 16px; }
+.mod-detail-screens { background: #0b0f14; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }
+.mod-screen { display: flex; align-items: center; justify-content: center; height: 190px; }
+.mod-screen img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+.mod-detail-author { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 12px; }
+.mod-detail-name { margin-top: 14px; }
+.mod-detail-desc { background: rgba(0,0,0,0.18); border-radius: 8px; padding: 10px 12px; }
+.mod-detail-action { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: 4px; }
+
+/* 统一确认弹窗 */
+.mod-confirm-content { max-width: 380px !important; width: 88vw !important; }
+.mod-confirm-text { color: #e2e8f0; font-size: 14px; line-height: 1.7; }
+
+/* 指南页：分区卡片化 */
+.mod-guide-section {
+    background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+}
+.mod-guide-section h4 { margin-bottom: 10px; }
+
+/* 我的MOD 空间徽标 */
+.mod-space-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; padding: 3px 10px; }

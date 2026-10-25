@@ -8,7 +8,7 @@ mod.json        模组的"大脑"，所有内容都在这里定义（必填）
 thumb.png       列表缩略图，建议 360x202（必填）
 avatar.png      作者头像，建议 128x128（必填）
 screen-1~3.png  详情页展示图，最多 3 张（可选）
-content/        内容文件目录：物品图片放 content/items/
+content/        内容文件目录：物品图片/音效放 content/items/
 
 二、mod.json 字段说明（物品类）
 ----------------------------------------
@@ -18,21 +18,22 @@ version 版本号（必填，如 1.0.0）
 type    模组类型（必填，物品类固定填 "item"）
 desc    模组简介（必填，≤60 字）
 
-items   物品数组，每个物品：
+items   物品数组（最多 30 个），每个物品：
   name    物品名（≤12 字）
   width   占格宽（1~5）
   height  占格高（1~6）
-  value   物品价值（1~4000000，禁止虚高）
+  value   物品价值（1~4000000）
   rarity  稀有度：purple / gold / orange / red
   image   图片路径，相对 zip 根目录，如 content/items/xx.png
+  sound   音效路径（可选），mp3/wav/ogg，如 content/items/xx.wav
   desc    物品描述（≤60 字）
 
 三、硬性规则（违反无法通过审核）
 ----------------------------------------
-1. 禁止出现 price / 价格 字段——物品类模组没有价格概念
-2. value 上限 4,000,000，请按游戏内同类物品合理定价
-3. 单张图片 ≤ 500KB，整个 zip ≤ 10MB
-4. 图片请用 PNG / JPG，深色背景效果最佳
+1. value 上限 4,000,000
+2. 单张图片请控制在 500KB 内（更省流量，非强制）
+3. 图片请用 PNG / JPG，深色背景效果最佳
+4. thumb.png、avatar.png 必填
 5. 名称与描述不得含违规内容
 
 四、制作步骤（三步）

@@ -37,8 +37,6 @@ def pick_entry(names, wanted):
 def validate(mod, names, zip_size):
     if not isinstance(mod, dict):
         fail('mod.json 不是对象')
-    if 'price' in mod or '价格' in mod:
-        fail('模组不允许包含 price/价格 字段')
     t = mod.get('type')
     if t not in TYPES:
         fail('type 必须是 item/music/background')
@@ -67,8 +65,6 @@ def validate(mod, names, zip_size):
             tag = '第 %d 个物品：' % i
             if not isinstance(it, dict):
                 fail(tag + '格式错误')
-            if 'price' in it or '价格' in it:
-                fail(tag + '不允许包含价格字段')
             if not str(it.get('name', '')).strip():
                 fail(tag + '名称不能为空')
             try:
@@ -89,6 +85,13 @@ def validate(mod, names, zip_size):
                 fail(tag + '图片不存在：' + str(it.get('image')))
             if not re.search(r'\.(png|jpe?g|webp)$', p, re.I):
                 fail(tag + '图片必须是 png/jpg/webp')
+            snd = it.get('sound')
+            if snd:
+                sp = entry(snd)
+                if not sp:
+                    fail(tag + '音效文件不存在：' + str(snd))
+                if not re.search(r'\.(mp3|m4a|aac|wav|ogg)$', sp, re.I):
+                    fail(tag + '音效必须是 mp3/wav/ogg 等格式')
     elif t == 'music':
         tracks = mod.get('tracks') or []
         if not isinstance(tracks, list) or not tracks:

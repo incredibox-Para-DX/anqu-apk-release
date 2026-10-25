@@ -24,7 +24,7 @@
     var DB_NAME = 'anqu_mods';
     var INSTALLED_KEY = 'ab_mods_installed_v1';
     var GUIDE_QQ = '2312367270';
-    var TEMPLATE_URL = 'https://gofile.io/d/T0Vvb27Y';
+    var TEMPLATE_URL = 'https://gofile.io/d/6L3o4zBS';
 
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -61,13 +61,13 @@
         TEMPLATE_MIRROR: REPO_RAW_MAIN + '/tools/mod-template/anqu-mod-template-v1.zip',
         manifestUrls: [
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/mods.json',
-            JD + '/mods.json',
-            GH + '/mods.json'
+            GH + '/mods.json',
+            JD + '/mods.json'
         ],
         baseUrls: [
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
-            JD + '/',
-            GH + '/'
+            GH + '/',
+            JD + '/'
         ],
         _db: null,
         _manifest: null,
@@ -181,6 +181,15 @@
         isInstalled: function (id) { return !!this._meta[id]; },
         isEnabled: function (id) { return !!(this._meta[id] && this._meta[id].enabled); },
 
+        _fetchTimeout: function (url, ms) {
+            if (typeof AbortController === 'undefined') return fetch(url, { cache: 'no-store' });
+            var ctl = new AbortController();
+            var t = setTimeout(function () { ctl.abort(); }, ms || 6000);
+            return fetch(url, { cache: 'no-store', signal: ctl.signal }).then(function (r) {
+                clearTimeout(t); return r;
+            }, function (e) { clearTimeout(t); throw e; });
+        },
+
         /* ---------- 清单 ---------- */
         fetchManifest: function (force) {
             var self = this;
@@ -190,10 +199,11 @@
             }
             function tryOne(base) {
                 var url = base;
-                return fetch(url, { cache: 'no-store' })
+                return ModManager._fetchTimeout(url, 6000)
                     .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
                     .then(function (m) { if (!m || !Array.isArray(m.mods)) throw new Error('bad manifest'); return m; });
             }
+            // jsDelivr 分支缓存忽略查询参数，保持原 URL；链路顺序：worker → raw（新）→ jsDelivr（兜底）
             var chain = Promise.reject();
             this.manifestUrls.forEach(function (u) {
                 chain = chain.catch(function () { return tryOne(u); });
@@ -215,7 +225,7 @@
             function tryOne(i) {
                 if (i >= bases.length) return Promise.reject(new Error('全部下载线路失败'));
                 var url = bases[i] + relFile;
-                return fetch(url, { cache: 'no-store' }).then(function (r) {
+                return ModManager._fetchTimeout(url, 20000).then(function (r) {
                     if (!r.ok) throw new Error('HTTP ' + r.status);
                     return r.blob();
                 }).catch(function (e) { return tryOne(i + 1); });
@@ -233,7 +243,6 @@
         validate: function (json, zip, zipSize) {
             var err = '';
             if (typeof json !== 'object' || !json) return 'mod.json 格式错误';
-            if (json.price !== undefined || json['价格'] !== undefined) return '模组不允许包含价格字段';
             if (!TYPES.includes(json.type)) return 'type 必须是 item / music / background';
             err = this._checkText(json.name, 20, '模组名称'); if (err) return err;
             err = this._checkText(json.author, 16, '作者名'); if (err) return err;
@@ -268,7 +277,6 @@
                 for (var i = 0; i < json.items.length; i++) {
                     var it = json.items[i] || {};
                     var tag = '第 ' + (i + 1) + ' 个物品：';
-                    if (it.price !== undefined || it['价格'] !== undefined) return tag + '不允许包含价格字段';
                     err = this._checkText(it.name, 12, tag + '名称'); if (err) return err;
                     err = this._checkText(it.desc, 60, tag + '描述'); if (err) return err;
                     var wd = parseInt(it.width, 10), ht = parseInt(it.height, 10);
@@ -280,6 +288,11 @@
                     var ip = normPath(it.image);
                     if (!ip) return tag + 'image 路径非法';
                     err = checkImage(ip, tag + '图片'); if (err) return err;
+                    if (it.sound) {
+                        var sp = normPath(it.sound);
+                        if (!sp || !zipEntry(sp)) return tag + '音效文件不存在';
+                        if (!/\.(mp3|m4a|aac|wav|ogg)$/i.test(sp)) return tag + '音效必须是 mp3/wav/ogg 等格式';
+                    }
                 }
             } else if (json.type === 'music') {
                 if (!Array.isArray(json.tracks) || !json.tracks.length) return 'tracks 不能为空';
@@ -319,12 +332,12 @@
         },
 
         /* ---------- 安装 ---------- */
-        installFromZip: function (zipBlob, listMeta, sourceLabel) {
+        installFromZip: function (zipBlob, listMeta) {
             var self = this;
-            sourceLabel = sourceLabel || '安装';
             if (!w.JSZip) return Promise.reject(new Error('ZIP 解析组件未加载'));
-            var zip = null, modJson = null, modId = null, storedBytes = 0;
+            var zip = null, modJson = null, modId = null, storedBytes = 0, wrote = false;
             var assetRecs = [];
+            var idOverride = listMeta && listMeta.id ? String(listMeta.id) : null;
 
             function readFile(name) {
                 var f = zip.file(name);
@@ -332,7 +345,24 @@
                 return f.async('blob');
             }
 
-            return w.JSZip.loadAsync(zipBlob).then(function (z) {
+            // 已上架模组用清单 id（稳定），本地导入用内容哈希（防重复安装）
+            var hashReady = this._hashBlob(zipBlob);
+            var idReady = idOverride ? Promise.resolve(idOverride)
+                : hashReady.then(function (h) { return 'mod_' + h + '_' + zipBlob.size.toString(36); });
+            var contentHash = '';
+
+            return Promise.all([idReady, hashReady]).then(function (res) {
+                modId = res[0];
+                contentHash = res[1];
+                if (self._meta[modId]) throw new Error('该模组已安装，如需重装请先删除');
+                // 相同内容（换了个来源/id）也拦截
+                var dupId = null;
+                Object.keys(self._meta).forEach(function (k) {
+                    if (!dupId && self._meta[k].hash && self._meta[k].hash === contentHash) dupId = k;
+                });
+                if (dupId) throw new Error('相同内容的模组已安装（' + self._meta[dupId].name + '），如需重装请先删除');
+                return w.JSZip.loadAsync(zipBlob);
+            }).then(function (z) {
                 zip = z;
                 var names = Object.keys(z.files).filter(function (n) { return !z.files[n].dir; });
                 if (names.length > LIMITS.entries) throw new Error('zip 内文件数超过 ' + LIMITS.entries);
@@ -358,7 +388,7 @@
                     var err = self.validate(modJson, proxy, zipBlob.size);
                     if (err) throw new Error(err);
 
-                    modId = 'mod_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+                    // modId 已在入口确定（清单 id 或内容哈希）
                     var tasks = [];
                     // 展示资源
                     ['thumb.png', 'avatar.png', 'screen-1.png', 'screen-2.png', 'screen-3.png'].forEach(function (n) {
@@ -372,7 +402,7 @@
                     // 内容资源
                     var contentFiles = [];
                     if (modJson.type === 'item') {
-                        modJson.items.forEach(function (it) { contentFiles.push(it.image); });
+                        modJson.items.forEach(function (it) { contentFiles.push(it.image); if (it.sound) contentFiles.push(it.sound); });
                     } else if (modJson.type === 'music') {
                         modJson.tracks.forEach(function (tr) { if (tr.cover) contentFiles.push(tr.cover); contentFiles.push(tr.file); });
                     } else {
@@ -392,6 +422,7 @@
                 }).then(function () {
                     var meta = {
                         id: modId,
+                        hash: contentHash,
                         name: String(modJson.name).trim(),
                         author: String(modJson.author).trim(),
                         version: String(modJson.version).trim(),
@@ -425,6 +456,7 @@
 
                     return self.putAssets(assetRecs).then(function () { return self.putMeta(meta); }).then(function () {
                         self._meta[modId] = meta;
+                        wrote = true;
                         self.invalidateCache();
                         // 关键：预载新安装资源的 blob URL，否则物品图片为空
                         return self.preloadBlobs();
@@ -435,11 +467,20 @@
                     });
                 });
             }).catch(function (e) {
-                // 清掉可能已写入的半成品
-                if (modId) {
+                // 仅在已开始写入时清理，避免误删已安装的同 id 模组
+                if (wrote && modId) {
                     self.deleteMetaAndAssets(modId).catch(function () {});
+                    delete self._meta[modId];
                 }
                 throw e;
+            });
+        },
+
+        _hashBlob: function (blob) {
+            return blob.arrayBuffer().then(function (buf) {
+                var a = new Uint8Array(buf), h = 2166136261 >>> 0;
+                for (var i = 0; i < a.length; i++) { h ^= a[i]; h = Math.imul(h, 16777619) >>> 0; }
+                return ('00000000' + h.toString(16)).slice(-8);
             });
         },
 
@@ -518,7 +559,7 @@
                         value: Math.min(parseInt(def.value, 10) || 1, LIMITS.valueMax),
                         image: imgUrl || '',
                         rarity: def.rarity,
-                        sound: '',
+                        sound: def.sound ? (self.resolvePath('mods/' + id + '/' + String(def.sound).replace(/^\.\//, '')) || '') : '',
                         desc: String(def.desc || ''),
                         imgScale: 1.0,
                         isSample: false,
@@ -780,6 +821,43 @@
             }, true);
         },
 
+        _metaToListShape: function (m) {
+            return {
+                id: m.id, name: m.name, type: m.type, author: m.author, version: m.version,
+                desc: m.desc, size: m.size, file: '', thumb: '', avatar: '', screens: []
+            };
+        },
+        // 统一风格确认弹窗（替代原生 confirm）
+        _confirm: function (text, onOk) {
+            var $m = $('#mod-confirm-modal');
+            if (!$m.length) $m = $(this._confirmHtml());
+            $m.find('#mod-confirm-text').text(text);
+            $m.find('#mod-confirm-ok').off('click').on('click', function () {
+                closeModal('mod-confirm-modal');
+                setTimeout(onOk, 60);
+            });
+            openModal('mod-confirm-modal', 10100);
+        },
+        _confirmHtml: function () {
+            var html = '<div class="modal-overlay" id="mod-confirm-modal">' +
+                '<div class="modal-content mod-confirm-content">' +
+                '<div class="modal-header"><div class="modal-title"><i class="fas fa-triangle-exclamation" style="color:#f59e0b"></i> 确认操作</div>' +
+                '<button class="modal-close" id="mod-confirm-close">&times;</button></div>' +
+                '<div class="modal-body" style="text-align:center;padding:18px 16px;"><div id="mod-confirm-text" class="mod-confirm-text"></div></div>' +
+                '<div class="modal-footer" style="justify-content:center;gap:12px;padding:0 16px 16px;">' +
+                '<button class="modal-btn" id="mod-confirm-cancel" style="min-width:110px;">取消</button>' +
+                '<button class="modal-btn danger" id="mod-confirm-ok" style="min-width:110px;">确定</button></div>' +
+                '</div></div>';
+            var $m = $(html).appendTo('body');
+            $m.find('#mod-confirm-close, #mod-confirm-cancel').on('click', function () { closeModal('mod-confirm-modal'); });
+            $m.on('click', function (e) { if ($(e.target).is(this)) closeModal('mod-confirm-modal'); });
+            return $m;
+        },
+        hideDetail: function () {
+            if (this._detailTimer) { clearInterval(this._detailTimer); this._detailTimer = null; }
+            closeModal('mod-detail-modal');
+        },
+
         _thumbUrl: function (id, name) {
             var p = 'mods/' + id + '/' + name;
             return this._blobUrls[p] || '';
@@ -813,17 +891,23 @@
                     '<button class="mod-del-btn" title="删除"><i class="fas fa-trash-alt"></i></button>' +
                     '</div>'
                 );
-                $row.find('.mod-switch input').on('change', function () {
-                    self.toggle(id).then(function () { self.renderMineList(); self.renderStoreList(); }).catch(function (e) { toast(String(e.message || e)); });
+                $row.find('.mod-switch input').on('change', function (e) {
+                    e.stopPropagation();
+                    self.toggle(id).then(function () { self.renderMineList(); self.renderStoreList(); }).catch(function (e2) { toast(String(e2.message || e2)); });
                 });
-                $row.find('.mod-del-btn').on('click', function () {
-                    if (!w.confirm('确定删除「' + m.name + '」？')) return;
-                    self.remove(id).then(function () {
-                        toast('已删除');
-                        self.renderMineList();
-                        self.renderStoreList();
+                $row.find('.mod-del-btn').on('click', function (e) {
+                    e.stopPropagation();
+                    self._confirm('确定删除「' + m.name + '」？删除后需重新下载。', function () {
+                        self.remove(id).then(function () {
+                            toast('已删除');
+                            self.renderMineList();
+                            self.renderStoreList();
+                        });
                     });
                 });
+                // 点击行主体 / 缩略图查看详情（已安装模组的详情）
+                $row.on('click', function () { self.openDetail(self._metaToListShape(m)); });
+                $row.find('.mod-row-thumb, .mod-row-main').css('cursor', 'pointer');
                 $list.append($row);
             });
         },
@@ -920,13 +1004,27 @@
                 '<div class="mod-detail-desc">' + esc(x.desc || '') + '</div>' +
                 actionHtml
             );
-            // 翻页圆点
+            // 翻页圆点 + 5 秒自动轮播
             var $scr = $('#mod-detail-body .mod-detail-screens');
+            if (this._detailTimer) { clearInterval(this._detailTimer); this._detailTimer = null; }
             if ($scr.length) {
                 $scr.on('scroll', function () {
-                    var idx = Math.round(this.scrollLeft / this.clientWidth);
+                    var idx = Math.round(this.scrollLeft / Math.max(1, this.clientWidth));
                     $scr.next('.mod-screen-dots').find('i').removeClass('active').eq(idx).addClass('active');
                 });
+                if (screenCount > 1) {
+                    var total = screenCount;
+                    this._detailTimer = setInterval(function () {
+                        var el = $scr[0];
+                        if (!el || !document.body.contains(el)) {
+                            if (self._detailTimer) { clearInterval(self._detailTimer); self._detailTimer = null; }
+                            return;
+                        }
+                        var idx = Math.round(el.scrollLeft / Math.max(1, el.clientWidth));
+                        idx = (idx + 1) % total;
+                        el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
+                    }, 5000);
+                }
             }
             var $dl = $('#mod-detail-download');
             if ($dl.length) {
@@ -938,7 +1036,7 @@
                         return self.installFromZip(blob, x, 'download');
                     }).then(function () {
                         toast('已安装「' + x.name + '」');
-                        closeModal('mod-detail-modal');
+                        self.hideDetail();
                         self.renderMineList();
                         self.renderStoreList();
                     }).catch(function (e) {
@@ -948,17 +1046,18 @@
                 });
             }
             $('#mod-detail-del').on('click', function () {
-                if (!w.confirm('确定删除「' + x.name + '」？')) return;
-                self.remove(x.id).then(function () {
-                    toast('已删除');
-                    closeModal('mod-detail-modal');
-                    self.renderMineList();
-                    self.renderStoreList();
+                self._confirm('确定删除「' + x.name + '」？删除后需重新下载。', function () {
+                    self.remove(x.id).then(function () {
+                        toast('已删除');
+                        self.hideDetail();
+                        self.renderMineList();
+                        self.renderStoreList();
+                    });
                 });
             });
             $('#mod-detail-toggle').on('change', function () {
                 self.toggle(x.id).then(function () {
-                    closeModal('mod-detail-modal');
+                    self.hideDetail();
                     self.renderMineList();
                     self.renderStoreList();
                 }).catch(function (e) { toast(String(e.message || e)); });
@@ -991,8 +1090,8 @@
             }
             $('#mod-guide-close').on('click', function () { closeModal('mod-guide-page'); });
             $('#mod-library-close').on('click', function () { closeModal('mod-library-page'); });
-            $('#mod-detail-close').on('click', function () { closeModal('mod-detail-modal'); });
-            $('#mod-detail-modal').on('click', function (e) { if ($(e.target).is(this)) closeModal('mod-detail-modal'); });
+            $('#mod-detail-close').on('click', function () { self.hideDetail(); });
+            $('#mod-detail-modal').on('click', function (e) { if ($(e.target).is(this)) self.hideDetail(); });
             // 复制模板链接（仅允许复制访问，不提供内置直接下载）
             $('#mod-template-copy').on('click', function () {
                 var url = self.TEMPLATE_URL;
@@ -1012,8 +1111,9 @@
                 self._storeSearch = this.value || '';
                 self.renderStoreList();
             });
-            $('#mod-store-filter').on('change', function () {
-                self._storeFilter = this.value || 'all';
+            $('#mod-store-filter').on('click', '.mod-filter-btn', function () {
+                $(this).addClass('active').siblings().removeClass('active');
+                self._storeFilter = $(this).data('f') || 'all';
                 self.renderStoreList();
             });
             // 本地导入

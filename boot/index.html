@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.78</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.79</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1536,7 +1536,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <!-- Mod 制作与上传 指南页 -->
 <div class="modal-overlay app-full-page" id="mod-guide-page">
 <div class="modal-content bg-select-modal-content">
-<div class="modal-header">
+<div class="modal-header mod-page-header">
+<div class="mod-header-side"></div>
 <div class="modal-title"><i class="fas fa-cubes"></i> Mod 制作与上传</div>
 <div class="app-page-actions"><button class="app-page-back-btn" id="mod-guide-close"><i class="fas fa-arrow-left"></i> 返回</button></div>
 </div>
@@ -1547,7 +1548,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
 <button class="modal-btn primary" id="mod-template-copy" style="flex:1;"><i class="fas fa-link"></i> 复制模板下载链接</button>
 </div>
-<div class="mod-guide-link">gofile：https://gofile.io/d/T0Vvb27Y（若失效请到交流群反馈）</div>
+<div class="mod-guide-link">gofile：https://gofile.io/d/6L3o4zBS（若失效请到交流群反馈）</div>
 </div>
 <div class="mod-guide-section">
 <h4><i class="fas fa-list-check"></i> 第二步：制作你的模组</h4>
@@ -1603,11 +1604,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="mod-guide-section">
 <h4><i class="fas fa-triangle-exclamation"></i> 硬性规则（违反无法通过审核）</h4>
 <ul class="mod-guide-rules">
-<li><b>物品类模组不允许出现 price / 价格 字段</b></li>
-<li>物品 value 上限 4,000,000，请参考游戏内同类物品定价</li>
+<li>物品 value 上限 4,000,000</li>
 <li>物品 rarity 只能是 purple / gold / orange / red；width 1~5、height 1~6</li>
 <li>thumb.png、avatar.png 必填；screen 最多 3 张</li>
 <li>名称与描述不得包含违规内容</li>
+<li>可选：物品支持音效字段 sound（mp3/wav/ogg）</li>
 </ul>
 </div>
 <div class="mod-guide-section">
@@ -1626,7 +1627,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <!-- MOD库 整页 -->
 <div class="modal-overlay app-full-page" id="mod-library-page">
 <div class="modal-content bg-select-modal-content">
-<div class="modal-header">
+<div class="modal-header mod-page-header">
+<div class="mod-header-side"></div>
 <div class="modal-title"><i class="fas fa-cubes"></i> MOD库</div>
 <div class="app-page-actions">
 <span class="mod-space-badge" id="mod-space-summary"></span>
@@ -1643,12 +1645,12 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div id="mod-tab-store" style="display:none;">
 <div class="mod-store-toolbar">
 <input id="mod-store-search" class="input-field" placeholder="搜索模组名称 / 简介 / 作者" autocomplete="off">
-<select id="mod-store-filter" class="input-field mod-filter-select">
-<option value="all">全部</option>
-<option value="item">物品类</option>
-<option value="music">音乐类</option>
-<option value="background">背景类</option>
-</select>
+</div>
+<div class="mod-filter-group" id="mod-store-filter">
+<button class="mod-filter-btn active" data-f="all">全部</button>
+<button class="mod-filter-btn" data-f="item">物品</button>
+<button class="mod-filter-btn" data-f="music">音乐</button>
+<button class="mod-filter-btn" data-f="background">背景</button>
 </div>
 <div id="mod-store-list" class="mod-list"></div>
 </div>
@@ -1666,7 +1668,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 
 <!-- 模组详情弹窗 -->
 <div class="modal-overlay" id="mod-detail-modal">
-<div class="modal-content" style="max-width:480px;width:92vw;max-height:88vh;display:flex;flex-direction:column;">
+<div class="modal-content mod-detail-content">
 <div class="modal-header">
 <div class="modal-title"><i class="fas fa-box-open"></i> 模组详情</div>
 <button class="modal-close" id="mod-detail-close">&times;</button>

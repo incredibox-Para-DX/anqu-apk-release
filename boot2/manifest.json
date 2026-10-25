@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.78.m",
+  "version": "v2.1.0_hotfix.79.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,7 +23,7 @@
     },
     {
       "path": "css/styles.css",
-      "size": 80753
+      "size": 83327
     },
     {
       "path": "js/debug.js",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 337271
+      "size": 337150
     },
     {
       "path": "js/synthesis.js",
@@ -87,7 +87,7 @@
     },
     {
       "path": "js/mods.js",
-      "size": 53177
+      "size": 59221
     },
     {
       "path": "xml/backgrounds.xml",
@@ -139,9 +139,9 @@
     },
     {
       "path": "index.html",
-      "size": 124261
+      "size": 124330
     }
   ],
   "fileCount": 35,
-  "totalSize": 2356349
+  "totalSize": 2364915
 }

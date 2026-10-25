@@ -30,7 +30,8 @@
       "value": 300000,
       "rarity": "orange",
       "image": "content/items/medkit.png",
-      "desc": "高级单兵急救包，内含全套手术器械与稀缺药剂。"
+      "desc": "高级单兵急救包，内含全套手术器械与稀缺药剂。",
+      "sound": "content/items/medkit.wav"
     }
   ]
 }
