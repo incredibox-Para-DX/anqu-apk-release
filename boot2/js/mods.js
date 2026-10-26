@@ -72,6 +72,7 @@
         _db: null,
         _manifest: null,
         _manifestTs: 0,
+        MANIFEST_CACHE_KEY: 'ab_mods_manifest_cache_v2',
         _blobUrls: {},
         _meta: {},        // modId -> meta（含 enabled）
         _itemsCache: null,
@@ -213,14 +214,27 @@
                     if (!best || (Number(m.version) || 0) > (Number(best.version) || 0)) best = m;
                 });
                 if (best) {
+                    // 本地持久化的已知最佳清单：网络只拿到旧版本时用它，避免市场凭空少模组
+                    var cached = null;
+                    try { cached = JSON.parse(localStorage.getItem(self.MANIFEST_CACHE_KEY) || 'null'); } catch (e) {}
+                    if (cached && Array.isArray(cached.mods) && (Number(cached.version) || 0) > (Number(best.version) || 0)) {
+                        self._manifest = cached;
+                        self._manifestTs = Date.now();
+                        return cached;
+                    }
                     self._manifest = best;
                     self._manifestTs = Date.now();
+                    try { localStorage.setItem(self.MANIFEST_CACHE_KEY, JSON.stringify({ version: best.version, mods: best.mods })); } catch (e) {}
                     return best;
                 }
-                // 全部失败：保留旧数据，不缓存空结果
+                // 全部失败：优先用内存、再回退到本地缓存
                 if (self._manifest && Array.isArray(self._manifest.mods) && self._manifest.mods.length) {
                     return self._manifest;
                 }
+                try {
+                    var c2 = JSON.parse(localStorage.getItem(self.MANIFEST_CACHE_KEY) || 'null');
+                    if (c2 && Array.isArray(c2.mods) && c2.mods.length) return c2;
+                } catch (e) {}
                 return { version: 0, mods: [] };
             });
         },
@@ -791,6 +805,11 @@
         /* ---------- 启动 ---------- */
         init: function () {
             var self = this;
+            // 启动时先载入本地缓存清单，市场可立即展示（网络回来后自动更新）
+            try {
+                var c = JSON.parse(localStorage.getItem(this.MANIFEST_CACHE_KEY) || 'null');
+                if (c && Array.isArray(c.mods) && c.mods.length) { this._manifest = c; this._manifestTs = 0; }
+            } catch (e) {}
             return this.openDB().then(function () { return self.getAllMeta(); }).then(function (list) {
                 list.forEach(function (m) { self._meta[m.id] = m; });
                 return self.preloadBlobs();

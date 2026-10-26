@@ -4175,7 +4175,7 @@ const EventManager = {
             const audio = new Audio('audio/open-confirm-disable.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
             audio.play().catch(() => {});
-            $('#custom-confirm-modal').css('display', 'flex');
+            $('#custom-confirm-modal').css({ display: 'flex', zIndex: 10100 });
             _.delay(() => $('#custom-confirm-modal').addClass('show'), 10);
         });
         
@@ -4226,7 +4226,7 @@ const EventManager = {
             const audio = new Audio('audio/open-confirm-enable.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
             audio.play().catch(() => {});
-            $('#enable-confirm-modal').css('display', 'flex');
+            $('#enable-confirm-modal').css({ display: 'flex', zIndex: 10100 });
             _.delay(() => $('#enable-confirm-modal').addClass('show'), 10);
         });
 
@@ -6614,7 +6614,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.91';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.92';
 
     /* ============================================================
      * 检查更新
