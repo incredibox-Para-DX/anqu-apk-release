@@ -88,6 +88,8 @@ const BackgroundManager = {
     },
 
     isBackgroundUnlocked(bgId) {
+        // Mod 背景（字符串 id 带 mod_ 前缀）：始终解锁
+        if (typeof bgId === 'string' && bgId.indexOf('mod_') === 0) return true;
         const owned = this.getOwnedBackgrounds();
         return owned.includes(Number(bgId));
     },
@@ -908,6 +910,8 @@ previewCurrentBackground() {
                     const currentWeek = this.getCurrentWeek();
                     if (stats.weeklyAccumulatedWeek === currentWeek) {
                         State.weeklyAccumulatedValue = stats.weeklyAccumulatedValue || 0;
+                        // 必须把周次写回 State，否则重启后首次收益会被误判为跨周而清零
+                        State.weeklyAccumulatedWeek = currentWeek;
                     } else {
                         State.weeklyAccumulatedValue = 0;
                         State.weeklyAccumulatedWeek = currentWeek;
@@ -943,7 +947,14 @@ previewCurrentBackground() {
                 State.weeklyAccumulatedValue = 0;
                 State.weeklyAccumulatedWeek = currentWeek;
             }
-            State.weeklyAccumulatedValue += value;
+            // 物品池被改动（存在被禁用的物品）时，本次收益不计入本周累计价值（防刷榜）
+            let poolModified = false;
+            try {
+                poolModified = ItemControlManager.getDisabledItems().length > 0;
+            } catch (e) {}
+            if (!poolModified) {
+                State.weeklyAccumulatedValue += value;
+            }
             this.saveAccumulatedStats();
             this.updateAccumulatedValueDisplay();
         },
@@ -2451,7 +2462,8 @@ previewCurrentBackground() {
                 `);
                 
                 $row.find('.item-toggle').on('change', function() {
-                    const itemId = parseInt($(this).data('id'));
+                    // 不能用 parseInt：Mod 物品 id 是字符串（mod_xxx_0），parseInt 会变 NaN 导致开关失效
+                    const itemId = $(this).data('id');
                     const disabled = !$(this).is(':checked');
                     ItemControlManager.toggleItem(itemId, disabled);
                     $row.css('opacity', disabled ? 0.4 : 1);
@@ -3173,7 +3185,13 @@ _runOpenSafe() {
     if (_.isEmpty(items)) {
         State.isOpenSafeBtnDisabled = false;
         $openButton.prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
-        if (window.showToast) window.showToast('所有物品已被禁用，无法生成');
+        // 失败时也保证可以重置：清理可能残留的搜索/遮罩状态
+        try {
+            $('#reset-btn').prop('disabled', false).removeClass('disabled').css({ opacity: '1', cursor: 'pointer' });
+            UIManager.updatePauseButtonState();
+            $('#searching-overlay').attr('hidden', '');
+        } catch (e) {}
+        if (window.showToast) window.showToast('所有物品已被禁用，请到物品池重新启用');
         return;
     }
     
@@ -3509,7 +3527,7 @@ _runOpenSafe() {
         },
         
         resetGame() {
-            if (State.items.length === 0 && State.inventory.length === 0) return;
+            const hadItems = State.items.length > 0 || State.inventory.length > 0;
             
             if (State.searchTimer) {
                 cancelAnimationFrame(State.searchTimer);
@@ -3523,7 +3541,7 @@ _runOpenSafe() {
             this.stopOpenSafeSound();
             SoundManager.clearCache();
             
-            Utils.playAudio('reset-game-audio', { volume: 1 });
+            if (hadItems) Utils.playAudio('reset-game-audio', { volume: 1 });
             
             this.resetGameState();
             
@@ -3679,6 +3697,13 @@ _runOpenSafe() {
         
         updateItemPool() {
             allItemsConfig = itemsConfig.slice();
+            // Mod 物品合并（启用中的物品类 Mod）
+            if (window.ModManager && typeof window.ModManager.getEnabledItems === 'function') {
+                try {
+                    var modItems = window.ModManager.getEnabledItems();
+                    if (modItems && modItems.length) allItemsConfig = allItemsConfig.concat(modItems);
+                } catch (e) {}
+            }
         }
     };
 
@@ -4081,6 +4106,14 @@ const EventManager = {
     bindItemControlEvents() {
         // 物品池管理不再需要密码校验，点开直接进入
         $('#sidebar-item-control-btn').on('click', () => {
+            // 需解锁（赞助兑换码）
+            var unlocked = false;
+            try { unlocked = localStorage.getItem('ab_item_control_unlocked') === '1'; } catch (e) {}
+            if (!unlocked) {
+                if (window.ModalRegistry) ModalRegistry.open('item-unlock-modal');
+                else { $('#item-unlock-modal').css('display', 'flex'); setTimeout(function(){ $('#item-unlock-modal').addClass('show'); }, 10); }
+                return;
+            }
             ItemControlManager.renderItemList();
             const audio = new Audio('audio/open-item-control.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
@@ -4089,6 +4122,23 @@ const EventManager = {
             _.delay(() => $('#item-control-modal').addClass('show'), 10);
         });
         
+        $('#item-unlock-close').on('click', () => {
+            $('#item-unlock-modal').removeClass('show');
+            _.delay(() => $('#item-unlock-modal').css('display', 'none'), 300);
+        });
+        $('#item-unlock-qq-copy').on('click', () => {
+            if (navigator.clipboard) navigator.clipboard.writeText('2312367270').then(() => { if (window.showToast) window.showToast('QQ 已复制：2312367270'); });
+            else if (window.showToast) window.showToast('QQ：2312367270');
+        });
+        $('#item-unlock-gotoredeem').on('click', () => {
+            $('#item-unlock-modal').removeClass('show');
+            _.delay(() => {
+                $('#item-unlock-modal').css('display', 'none');
+                if (window.ModalRegistry) ModalRegistry.open('redeem-code-modal');
+                else { $('#redeem-code-modal').css('display', 'flex'); setTimeout(() => $('#redeem-code-modal').addClass('show'), 10); }
+            }, 260);
+        });
+
         $('#item-control-close').on('click', () => {
             const audio = new Audio('audio/sidebar-close.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
@@ -4150,7 +4200,7 @@ const EventManager = {
             const audio = new Audio('audio/open-confirm-disable.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
             audio.play().catch(() => {});
-            $('#custom-confirm-modal').css('display', 'flex');
+            $('#custom-confirm-modal').css({ display: 'flex', zIndex: 10100 });
             _.delay(() => $('#custom-confirm-modal').addClass('show'), 10);
         });
         
@@ -4201,7 +4251,7 @@ const EventManager = {
             const audio = new Audio('audio/open-confirm-enable.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
             audio.play().catch(() => {});
-            $('#enable-confirm-modal').css('display', 'flex');
+            $('#enable-confirm-modal').css({ display: 'flex', zIndex: 10100 });
             _.delay(() => $('#enable-confirm-modal').addClass('show'), 10);
         });
 
@@ -6316,8 +6366,8 @@ const EventManager = {
                 try {
                     // 1. 清除 localStorage 标志（立即生效）
                     window.CustomBackground.setFlag(false);
-                    // 2. 删除 IndexedDB 数据库（异步，但标记已清除足够）
-                    if (typeof indexedIDB !== 'undefined') {
+                    // 2. 删除 IndexedDB 数据库
+                    if (typeof indexedDB !== 'undefined') {
                         const dbReq = indexedDB.deleteDatabase(window.CustomBackground.dbName);
                         dbReq.onsuccess = () => { window.CustomBackground._db = null; };
                         dbReq.onerror = () => { window.CustomBackground._db = null; };
@@ -6330,6 +6380,12 @@ const EventManager = {
                     // 4. 更新按钮状态
                     if (window.CustomBackground.updateClearButton) {
                         window.CustomBackground.updateClearButton();
+                    }
+                    // 5. 回退到默认背景（关键：屏幕视觉也要同步清除）
+                    if (window.BackgroundManager) {
+                        const defaultBg = window.BackgroundManager.backgrounds.find(b => Number(b.id) === 1)
+                            || window.BackgroundManager.backgrounds[0];
+                        if (defaultBg) window.BackgroundManager.applyBackground(defaultBg.path);
                     }
                 } catch (e) {}
             },
@@ -6446,6 +6502,19 @@ const EventManager = {
                 if (!bg) return;
                 const img = el.querySelector('.bg-thumb-img img');
                 if (!img) return;
+                // Mod 背景：直接从本地 blob 解析
+                if (window.ModManager && window.ModManager.isModPath(bg.path)) {
+                    const modUrl = window.ModManager.resolvePath(bg.path);
+                    if (modUrl) {
+                        if (window.ModManager.isModVideo(bg.path)) {
+                            posterQueue.push({ el, img, orig: bg.path, src: modUrl });
+                            runPosterQueue();
+                        } else {
+                            img.src = modUrl;
+                        }
+                    }
+                    return;
+                }
                 const isVideo = /\.(mp4|webm)(\?|$)/i.test(bg.path);
                 const remote = RDM.getBgRemoteUrl(bg.path);
                 const applyImage = (src) => {
@@ -6570,7 +6639,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.73';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.95';
 
     /* ============================================================
      * 检查更新
@@ -6689,10 +6758,8 @@ const EventManager = {
         if (!$btn.length || !$input.length) return;
 
         $('#gm-hotupdate-curver').text(window.HU_BUILD_VERSION || '-');
-        try {
-            var saved = localStorage.getItem(GM_HU_URL_KEY);
-            if (saved) $input.val(saved);
-        } catch (e) {}
+        // 不自动回填历史链接（每次测试手动输入，避免旧地址残留）
+        try { localStorage.removeItem(GM_HU_URL_KEY); } catch (e) {}
 
         function showStatus(html, color) {
             $status.show().css('color', color || '#94a3b8').html(html);
@@ -6731,10 +6798,10 @@ const EventManager = {
                 showStatus('当前安装包不支持热更新（缺少 AndroidUpdate 桥）', '#f87171');
                 return;
             }
-            try { localStorage.setItem(GM_HU_URL_KEY, url); } catch (e) {}
-            $input.val(url).blur();
             window.__gmHuBusy = true;
             $btn.prop('disabled', true);
+            // 开始更新后清空输入框，避免链接残留
+            $input.val('').blur();
             showStatus('正在拉取：<br><span style="color:#60a5fa;">' + url + '/manifest.json</span><br>下载完成后自动刷新，请勿退出', '#fbbf24');
             try {
                 window.AndroidUpdate.check(url);
@@ -6743,6 +6810,67 @@ const EventManager = {
                 $btn.prop('disabled', false);
                 showStatus('启动失败：' + e, '#f87171');
             }
+        });
+    })();
+
+    /* ============================================================
+     * GM：管理后台（资源管理 / 榜单管理）—— 整页 iframe
+     * ============================================================ */
+    (function () {
+        var $page = $('#admin-frame-page');
+        var iframe = document.getElementById('admin-frame');
+        if (!$page.length || !iframe) return;
+        function openAdmin(src, title) {
+            $('#admin-frame-title').text(title);
+            iframe.src = src;
+            $page.css('display', 'flex');
+            setTimeout(function () { $page.addClass('show'); }, 10);
+        }
+        $('#gm-resource-admin-btn').on('click', function () { openAdmin('admin/anqu-admin.html', '资源管理'); });
+        $('#gm-leaderboard-admin-btn').on('click', function () { openAdmin('admin/leaderboard-admin.html', '榜单管理'); });
+        $('#admin-frame-close').on('click', function () {
+            $page.removeClass('show');
+            setTimeout(function () {
+                $page.css('display', 'none');
+                iframe.src = 'about:blank';
+            }, 320);
+        });
+    })();
+
+    /* ============================================================
+     * GM：Mod 上传（本地 zip → GitHub 仓库）
+     * ============================================================ */
+    (function () {
+        var TOKEN_KEY = 'ab_gh_token';
+        var $tok = $('#gm-mod-token');
+        var $btn = $('#gm-mod-upload-btn');
+        var $file = $('#gm-mod-upload-file');
+        var $status = $('#gm-mod-upload-status');
+        if (!$btn.length) return;
+        try { var savedTok = localStorage.getItem(TOKEN_KEY); if (savedTok) $tok.val(savedTok); } catch (e) {}
+        function status(html, color) { $status.css('color', color || '#94a3b8').html(html); }
+        $btn.on('click', function () {
+            var token = ($tok.val() || '').trim();
+            if (!token) { status('请先填写 GitHub Token', '#f87171'); return; }
+            try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+            $file.val(''); $file.click();
+        });
+        $file.on('change', function () {
+            var f = this.files && this.files[0];
+            if (!f) return;
+            var token = ($tok.val() || '').trim();
+            if (!window.ModManager || !window.ModManager.gmUploadZip) { status('ModManager 未就绪', '#f87171'); return; }
+            $btn.prop('disabled', true);
+            status('开始上传：' + f.name);
+            window.ModManager.gmUploadZip(f, token, function (t) { status(t); }).then(function (entry) {
+                status('✅ 上传成功：' + (entry && entry.name ? entry.name : '') + '<br>CDN 缓存生效后（约 1~10 分钟）市场可见', '#34d399');
+                try { if (window.showToast) window.showToast('Mod 已上传并发布'); } catch (e) {}
+                if (window.ModManager) { window.ModManager.renderStoreList(); }
+            }).catch(function (e) {
+                status('❌ ' + String(e && (e.message || e)), '#f87171');
+            }).then(function () {
+                $btn.prop('disabled', false);
+            });
         });
     })();
 
@@ -6883,7 +7011,7 @@ const EventManager = {
             // 最高版本等于本地版本 → 真的已最新
             var hasUpdate = window.__huVersionGt(bestVer, curVer);
             window.__huActiveBase = bestBase;
-            try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + bestVer); } catch(e) {}
+            // 顶部版本号固定显示本地构建版本（服务器版本受各线路缓存影响会跳变，只在更新弹窗里展示）
             done(bestM, hasUpdate);
         };
         var record = function(m, base) {
@@ -6897,12 +7025,7 @@ const EventManager = {
         };
         var gotOne = function(m, base) {
             record(m, base);
-            settle();
-        };
-        var failOne = function() {
-            if (finished) return;
-            // 三路都失败才 truly done(null,false)
-            // pending 计数在三路并发里不再需要，这里直接等定时器
+            if (--pending <= 0) settle();
         };
         var getOnce = function(base, cb) {
             var url = base + '/manifest.json';
@@ -6923,12 +7046,13 @@ const EventManager = {
                 error: function() { finish(null); }
             });
         };
-        // 三路并发，任意一路拿到有效结果且版本 >= 本地即停止等待；全部失败则 done(null,false)
+        // 三路并发，全部返回（成功/失败）后再选最高版本，避免不同线路缓存新旧不一致导致版本号跳变
+        var pending = 3;
         getOnce(HU_PROXY_BASE, gotOne);
         getOnce(HU_BASE_URL, gotOne);
         getOnce(HU_JD_BASE, gotOne);
-        // 最长等 15s，超时也算失败
-        setTimeout(settle, 15000);
+        // 兜底：最长等 12s，超时直接结算（用已收到的最高版本）
+        setTimeout(settle, 12000);
     };
     window.__huStartProgress = function() {
         window.__huStopProgress();
@@ -7285,6 +7409,65 @@ const EventManager = {
             forceFocus(t);
         }, true);
     })();
+
+    // ===== Mod 库接入桥 =====
+    window.__modHooks = {
+        refreshItemPool: function () { SettingsManager.updateItemPool(); },
+        // 开关/删除物品类 Mod 后清空当前局（否则盘面残留旧物品）
+        resetBoard: function () {
+            try { if (State.items && State.items.length) GameController.resetGame(); } catch (e) {}
+        },
+        // 背景类 Mod 被删除/停用：若当前正在使用它的背景，立即回退到默认背景
+        clearModBackgroundIfCurrent: function (modId) {
+            try {
+                var key = BackgroundManager.storageKey;
+                var cur = localStorage.getItem(key);
+                if (cur && cur.indexOf('mods/' + modId + '/') === 0) {
+                    localStorage.removeItem(key);
+                    var def = BackgroundManager.backgrounds.find(function (b) { return Number(b.id) === 1; })
+                        || BackgroundManager.backgrounds[0];
+                    if (def) BackgroundManager.applyBackground(def.path);
+                }
+                if ($('#bg-select-modal').hasClass('show') && BackgroundManager.buildGrid) BackgroundManager.buildGrid();
+            } catch (e) {}
+        },
+        calcWeight: function (v) { return GameCore.calculateItemWeight(v); },
+        searchTime: function (r) { return _.get(Config.searchTimes, r, Config.searchTimes.purple); },
+        // 替换 BackgroundManager.backgrounds 中的 Mod 背景部分
+        appendModBackgrounds: function (list) {
+            var base = BackgroundManager.backgrounds.filter(function (b) {
+                return !(typeof b.id === 'string' && b.id.indexOf('mod_') === 0);
+            });
+            BackgroundManager.backgrounds = base.concat(list || []);
+            // 若背景选择器正在显示，重建网格
+            try {
+                if ($('#bg-select-modal').hasClass('show') && BackgroundManager.buildGrid) BackgroundManager.buildGrid();
+            } catch (e) {}
+        }
+    };
+    // 背景类 Mod：加载完成后追加
+    var __origLoadBgs = BackgroundManager.loadBackgrounds;
+    BackgroundManager.loadBackgrounds = async function () {
+        var r = await __origLoadBgs.call(this);
+        if (window.ModManager && window.ModManager.getEnabledBackgrounds) {
+            try {
+                var modBgs = window.ModManager.getEnabledBackgrounds();
+                if (modBgs && modBgs.length) this.backgrounds = this.backgrounds.concat(modBgs);
+            } catch (e) {}
+        }
+        return r;
+    };
+    // 背景类 Mod：applyBackground 支持虚拟路径 mods/...（转 blob URL + 视频标记）
+    var __origApplyBg = BackgroundManager.applyBackground;
+    BackgroundManager.applyBackground = function (path, isVideoHint, fallbackPath, skipSave) {
+        if (typeof path === 'string' && path.indexOf('mods/') === 0 && window.ModManager) {
+            var rec = window.ModManager.getBgRecord(path);
+            if (rec) isVideoHint = rec.isVideo;
+            var resolved = window.ModManager.resolvePath(path);
+            if (resolved) path = resolved;
+        }
+        return __origApplyBg.call(this, path, isVideoHint, fallbackPath, skipSave);
+    };
 
     // 初始化资源下载管理器
     ResourceDownloadManager.init();

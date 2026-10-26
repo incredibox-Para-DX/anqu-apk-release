@@ -2,6 +2,7 @@
  * - Camona     → 累计价值 +20,000,000，仅一次
  * - hefunadmin → 进入 GM 模式，仅一次
  * - Destiny    → 解锁技能「命运保底」，仅一次
+ * - ItemPool   → 解锁「物品池管理」功能，仅一次
  * 已用码持久化在 localStorage.ab_redeem_codes_v1
  */
 (function (w) {
@@ -28,6 +29,13 @@
                     try { localStorage.setItem('ab_gm_unlocked', 'true'); } catch (e) {}
                 }
                 return 'GM 模式已开启';
+            }
+        },
+        'ItemPool': {
+            once: true,
+            grant: function () {
+                try { localStorage.setItem('ab_item_control_unlocked', '1'); } catch (e) {}
+                return '「物品池管理」已解锁';
             }
         },
         'Destiny': {

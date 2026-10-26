@@ -3239,3 +3239,197 @@ video:empty {
 .section-more-settings h4 .hu-red-dot {
     margin-top: -2px;
 }
+
+/* ==================== MOD 库 ==================== */
+/* 指南页 */
+.mod-guide-section { margin-bottom: 18px; }
+.mod-guide-section h4 { margin: 0 0 8px; font-size: 15px; color: #e2e8f0; display: flex; align-items: center; gap: 8px; }
+.mod-guide-section p { margin: 0 0 8px; font-size: 13px; color: #94a3b8; line-height: 1.7; }
+.mod-guide-section code { background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+.mod-guide-tree pre, .mod-guide-details pre {
+    background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px; padding: 10px 12px; font-size: 12px; line-height: 1.7;
+    color: #a8c3e8; overflow-x: auto; margin: 8px 0 0; white-space: pre;
+}
+.mod-guide-details { margin-top: 8px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; }
+.mod-guide-details summary {
+    padding: 9px 12px; cursor: pointer; font-size: 13px; color: #93c5fd;
+    background: rgba(255,255,255,0.04); user-select: none;
+}
+.mod-guide-details[open] summary { border-bottom: 1px solid rgba(255,255,255,0.08); }
+.mod-guide-details pre { border: 0; border-radius: 0; margin: 0; }
+.mod-guide-rules { margin: 0; padding-left: 18px; }
+.mod-guide-rules li { font-size: 13px; color: #94a3b8; line-height: 1.8; }
+.mod-guide-rules li b { color: #fbbf24; }
+.mod-guide-link { font-size: 11.5px; color: #64748b; margin-top: 8px; word-break: break-all; }
+.mod-guide-qq {
+    display: flex; align-items: center; gap: 12px; margin-top: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #e2e8f0;
+}
+.mod-guide-qq b { color: #60a5fa; font-size: 16px; }
+
+/* 库页 */
+.mod-tabs { display: flex; gap: 8px; padding: 0 16px 10px; }
+.mod-tab-btn {
+    flex: 1; padding: 9px 8px; border-radius: 8px; cursor: pointer;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #94a3b8; font-size: 13.5px; font-weight: 600;
+    transition: all 0.2s ease;
+}
+.mod-tab-btn.active { background: rgba(96,165,250,0.18); border-color: rgba(96,165,250,0.45); color: #dbeafe; }
+.mod-body { display: flex; flex-direction: column; min-height: 0; }
+#mod-tab-mine, #mod-tab-store { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.mod-space-badge { font-size: 12px; color: #94a3b8; margin-right: 10px; white-space: nowrap; }
+.mod-store-toolbar { display: flex; gap: 8px; margin-bottom: 10px; }
+.mod-store-toolbar .input-field { flex: 1; margin: 0; }
+.mod-filter-select { flex: 0 0 110px !important; background: rgba(255,255,255,0.06) !important; color: #e2e8f0; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px; font-size: 13px; }
+.mod-list { flex: 1; overflow-y: auto; min-height: 120px; }
+.mod-row {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 10px; padding: 10px 12px; margin-bottom: 8px;
+}
+.mod-row-thumb {
+    width: 72px; height: 42px; border-radius: 6px; overflow: hidden; flex: 0 0 auto;
+    background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center;
+    color: #475569; font-size: 18px;
+}
+.mod-row-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.mod-row-main { flex: 1; min-width: 0; cursor: pointer; }
+.mod-row-name { font-size: 14px; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.mod-row-sub { font-size: 11.5px; color: #64748b; margin-top: 3px; }
+.mod-row-desc {
+    font-size: 12px; color: #94a3b8; margin-top: 3px; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.mod-type-badge {
+    font-size: 10.5px; padding: 1px 7px; border-radius: 999px;
+    background: rgba(96,165,250,0.15); color: #93c5fd; border: 1px solid rgba(96,165,250,0.3);
+    font-weight: 500;
+}
+.mod-installed-badge {
+    font-size: 10.5px; padding: 1px 7px; border-radius: 999px;
+    background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.3);
+}
+.mod-detail-btn {
+    flex: 0 0 auto; padding: 7px 14px; border-radius: 7px; cursor: pointer;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+    color: #cbd5e1; font-size: 12.5px;
+}
+.mod-detail-btn:hover { background: rgba(255,255,255,0.16); }
+.mod-switch { transform: scale(0.82); flex: 0 0 auto; }
+.mod-del-btn {
+    flex: 0 0 auto; width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+    background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.28); color: #f87171;
+    display: flex; align-items: center; justify-content: center;
+}
+.mod-del-btn:hover { background: rgba(239,68,68,0.22); }
+.mod-empty { text-align: center; padding: 48px 20px; color: #64748b; font-size: 14px; line-height: 2; }
+.mod-empty span { font-size: 12px; }
+
+/* 本地导入 */
+.mod-import-box {
+    margin: 20px auto; max-width: 520px; text-align: center;
+    border: 1px dashed rgba(255,255,255,0.18); border-radius: 12px; padding: 32px 20px;
+    background: rgba(255,255,255,0.03);
+}
+.mod-import-box > i { font-size: 40px; color: #475569; margin-bottom: 12px; display: block; }
+.mod-import-box p { font-size: 13px; color: #94a3b8; margin: 0 0 16px; line-height: 1.7; }
+
+/* 详情弹窗 */
+.mod-detail-author { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.mod-detail-avatar {
+    width: 48px; height: 48px; border-radius: 50%; overflow: hidden; flex: 0 0 auto;
+    background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center;
+    color: #64748b; font-size: 20px; border: 1px solid rgba(255,255,255,0.12);
+}
+.mod-detail-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.mod-detail-author-name { font-size: 14px; font-weight: 600; color: #e2e8f0; }
+.mod-detail-meta { font-size: 11.5px; color: #64748b; margin-top: 3px; }
+.mod-detail-name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.mod-detail-screens {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    border-radius: 10px; margin-bottom: 6px; -webkit-overflow-scrolling: touch;
+}
+.mod-detail-screens::-webkit-scrollbar { display: none; }
+.mod-screen { flex: 0 0 100%; scroll-snap-align: center; }
+.mod-screen img { width: 100%; display: block; border-radius: 10px; background: #0b0f14; }
+.mod-screen-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; }
+.mod-screen-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+.mod-screen-dots i.active { background: #60a5fa; }
+.mod-detail-desc { font-size: 13px; color: #94a3b8; line-height: 1.8; margin-bottom: 16px; white-space: pre-wrap; }
+.mod-detail-action { display: flex; align-items: center; gap: 12px; }
+.mod-detail-toggle-label { font-size: 13px; color: #cbd5e1; }
+
+/* ===== MOD 库 v2 修补 ===== */
+/* 标题真正居中：左占位 + 中标题 + 右操作 三列 */
+.mod-page-header { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
+.mod-page-header .modal-title { justify-content: center; }
+.mod-page-header .app-page-actions { justify-self: end; }
+.mod-header-side { min-width: 1px; }
+
+/* 筛选按钮组 */
+.mod-filter-group { display: flex; gap: 8px; margin-bottom: 10px; }
+.mod-filter-btn {
+    flex: 1; padding: 7px 6px; border-radius: 8px; cursor: pointer;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #94a3b8; font-size: 12.5px; transition: all .18s ease;
+}
+.mod-filter-btn.active { background: rgba(96,165,250,0.16); border-color: rgba(96,165,250,0.45); color: #dbeafe; font-weight: 600; }
+.mod-filter-btn:active { transform: scale(0.97); }
+
+/* 行悬停反馈 */
+.mod-row { transition: background .18s ease, border-color .18s ease; }
+.mod-row:hover { background: rgba(255,255,255,0.075); border-color: rgba(255,255,255,0.15); }
+
+/* 详情弹窗：放大 + 图片限高 */
+.mod-detail-content { max-width: 620px !important; width: 94vw !important; max-height: 92vh !important; display: flex; flex-direction: column; }
+#mod-detail-body { padding: 4px 16px 16px; }
+.mod-detail-screens { background: #0b0f14; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; }
+.mod-screen { display: flex; align-items: center; justify-content: center; height: 190px; }
+.mod-screen img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+.mod-detail-author { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 12px; }
+.mod-detail-name { margin-top: 14px; }
+.mod-detail-desc { background: rgba(0,0,0,0.18); border-radius: 8px; padding: 10px 12px; }
+.mod-detail-action { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: 4px; }
+
+/* 统一确认弹窗 */
+.mod-confirm-content { max-width: 380px !important; width: 88vw !important; }
+.mod-confirm-text { color: #e2e8f0; font-size: 14px; line-height: 1.7; }
+
+/* 指南页：分区卡片化 */
+.mod-guide-section {
+    background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
+}
+.mod-guide-section h4 { margin-bottom: 10px; }
+
+/* 我的MOD 空间徽标 */
+.mod-space-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; padding: 3px 10px; }
+
+/* 详情弹窗高度补足 */
+.mod-detail-content { height: 96vh !important; max-height: 96vh !important; }
+#mod-detail-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+
+/* 详情弹窗：用弹性图片区填满高度，消除底部空白 */
+#mod-detail-body { display: flex; flex-direction: column; }
+#mod-detail-body .mod-detail-screens { flex: 1 1 auto; min-height: 150px; }
+#mod-detail-body .mod-screen { height: 100%; min-height: 150px; }
+#mod-detail-body .mod-screen img { height: 100%; }
+
+/* 解除全局 .modal-body 的高度上限，让详情内容区撑满弹窗 */
+#mod-detail-body { max-height: none !important; margin-bottom: 0 !important; }
+
+/* 模组远程图片：预载成功后再淡入，避免闪动 */
+img.mod-img { opacity: 0; transition: opacity 0.22s ease; }
+img.mod-img.mod-img-loaded { opacity: 1; }
+
+/* 物品池管理：整页显示 */
+.item-control-modal-content { width: 100% !important; max-width: none !important; height: 100% !important; max-height: none !important; display: flex; flex-direction: column; padding-top: 6px; }
+.item-control-modal-body { flex: 1 1 auto; min-height: 0; max-height: none !important; overflow-y: auto; }
+
+/* 物品池整页：仅列表滚动，避免下拉菜单被滚动容器裁切/压层 */
+.item-control-modal-body { overflow: hidden !important; display: flex; flex-direction: column; }
+#item-control-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.item-control-modal-body .dropdown-menu { z-index: 9500; }

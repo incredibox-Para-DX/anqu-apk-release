@@ -1,0 +1,37 @@
+{
+  "name": "示例物品模组",
+  "author": "官方示例",
+  "version": "1.0.0",
+  "type": "item",
+  "desc": "官方示例模组：包含 3 个物品，展示 mod.json 的标准写法。把示例物品换成你自己的，再替换图片即可。",
+  "items": [
+    {
+      "name": "鎏金怀表",
+      "width": 1,
+      "height": 1,
+      "value": 150000,
+      "rarity": "gold",
+      "image": "content/items/gold_watch.png",
+      "desc": "禁忌之地遗留的古董怀表，表盘内侧刻有已消失企业的徽记。"
+    },
+    {
+      "name": "紫晶饮料",
+      "width": 1,
+      "height": 1,
+      "value": 8000,
+      "rarity": "purple",
+      "image": "content/items/purple_can.png",
+      "desc": "从泄露试验场流出的功能饮料，罐体在黑暗中微微发光。"
+    },
+    {
+      "name": "军用急救包",
+      "width": 2,
+      "height": 1,
+      "value": 300000,
+      "rarity": "orange",
+      "image": "content/items/medkit.png",
+      "desc": "高级单兵急救包，内含全套手术器械与稀缺药剂。",
+      "sound": "content/items/medkit.wav"
+    }
+  ]
+}
