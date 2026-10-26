@@ -6639,7 +6639,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.93';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.94';
 
     /* ============================================================
      * 检查更新
@@ -6810,6 +6810,43 @@ const EventManager = {
                 $btn.prop('disabled', false);
                 showStatus('启动失败：' + e, '#f87171');
             }
+        });
+    })();
+
+    /* ============================================================
+     * GM：Mod 上传（本地 zip → GitHub 仓库）
+     * ============================================================ */
+    (function () {
+        var TOKEN_KEY = 'ab_gh_token';
+        var $tok = $('#gm-mod-token');
+        var $btn = $('#gm-mod-upload-btn');
+        var $file = $('#gm-mod-upload-file');
+        var $status = $('#gm-mod-upload-status');
+        if (!$btn.length) return;
+        try { var savedTok = localStorage.getItem(TOKEN_KEY); if (savedTok) $tok.val(savedTok); } catch (e) {}
+        function status(html, color) { $status.css('color', color || '#94a3b8').html(html); }
+        $btn.on('click', function () {
+            var token = ($tok.val() || '').trim();
+            if (!token) { status('请先填写 GitHub Token', '#f87171'); return; }
+            try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+            $file.val(''); $file.click();
+        });
+        $file.on('change', function () {
+            var f = this.files && this.files[0];
+            if (!f) return;
+            var token = ($tok.val() || '').trim();
+            if (!window.ModManager || !window.ModManager.gmUploadZip) { status('ModManager 未就绪', '#f87171'); return; }
+            $btn.prop('disabled', true);
+            status('开始上传：' + f.name);
+            window.ModManager.gmUploadZip(f, token, function (t) { status(t); }).then(function (entry) {
+                status('✅ 上传成功：' + (entry && entry.name ? entry.name : '') + '<br>CDN 缓存生效后（约 1~10 分钟）市场可见', '#34d399');
+                try { if (window.showToast) window.showToast('Mod 已上传并发布'); } catch (e) {}
+                if (window.ModManager) { window.ModManager.renderStoreList(); }
+            }).catch(function (e) {
+                status('❌ ' + String(e && (e.message || e)), '#f87171');
+            }).then(function () {
+                $btn.prop('disabled', false);
+            });
         });
     })();
 

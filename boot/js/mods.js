@@ -504,6 +504,130 @@
             });
         },
 
+        /* ---------- GM：ZIP 直传 GitHub 仓库 ---------- */
+        GM_REPO: 'incredibox-Para-DX/anqu-mods-resources',
+        GM_BRANCH: 'main',
+        _ghApi: function (token, method, path, body) {
+            return fetch('https://api.github.com' + path, {
+                method: method,
+                headers: {
+                    'Authorization': 'token ' + token,
+                    'Accept': 'application/vnd.github+json',
+                    'Content-Type': 'application/json'
+                },
+                body: body ? JSON.stringify(body) : undefined
+            }).then(function (r) {
+                if (!r.ok) return r.text().then(function (t) {
+                    var msg = t;
+                    try { msg = JSON.parse(t).message || t; } catch (e) {}
+                    throw new Error('GitHub ' + r.status + '：' + String(msg).slice(0, 120));
+                });
+                return r.status === 204 ? {} : r.json();
+            });
+        },
+        _b64: function (buf) {
+            var bytes = new Uint8Array(buf), bin = '', chunk = 0x8000;
+            for (var i = 0; i < bytes.length; i += chunk) {
+                bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+            }
+            return btoa(bin);
+        },
+        _ghPutFile: function (token, path, base64, message) {
+            var self = this;
+            var api = '/repos/' + this.GM_REPO + '/contents/' + path;
+            return this._ghApi(token, 'GET', api + '?ref=' + this.GM_BRANCH).then(function (info) {
+                return self._ghApi(token, 'PUT', api, { message: message, content: base64, branch: self.GM_BRANCH, sha: info.sha });
+            }).catch(function (e) {
+                // 文件不存在时直接新建
+                if (String(e.message).indexOf('404') === -1) throw e;
+                return self._ghApi(token, 'PUT', api, { message: message, content: base64, branch: self.GM_BRANCH });
+            });
+        },
+        gmUploadZip: function (file, token, onStatus) {
+            var self = this;
+            var st = onStatus || function () {};
+            if (!token) return Promise.reject(new Error('请先填写 GitHub Token'));
+            if (!/\.zip$/i.test(file.name || '')) return Promise.reject(new Error('请选择 zip 文件'));
+            st('解析 zip…');
+            var createdEntry = null;
+            return w.JSZip.loadAsync(file).then(function (zip) {
+                var names = Object.keys(zip.files).filter(function (n) { return !zip.files[n].dir; });
+                var modPath = names.find(function (n) { return /^mod\.json$/i.test(n); })
+                    || names.find(function (n) { return /^[^/]+\/mod\.json$/i.test(n); });
+                if (!modPath) throw new Error('zip 内缺少 mod.json');
+                var rootDir = modPath.indexOf('/') === -1 ? '' : modPath.replace(/mod\.json$/i, '');
+                function resolveName(n) {
+                    if (rootDir && zip.file(rootDir + n)) return rootDir + n;
+                    if (zip.file(n)) return n;
+                    return null;
+                }
+                return zip.file(modPath).async('string').then(function (txt) {
+                    var mod;
+                    try { mod = JSON.parse(txt); } catch (e) { throw new Error('mod.json 不是合法 JSON'); }
+                    var proxy = { file: function (n) { var real = resolveName(n); return real ? zip.file(real) : null; } };
+                    var err = self.validate(mod, proxy, file.size);
+                    if (err) throw new Error(err);
+                    var slug = 'mod_' + Date.now().toString(36);
+                    var jobs = [];
+                    jobs.push({ path: 'mods/' + slug + '/mod.zip', asyncB64: file.arrayBuffer().then(function (b) { return self._b64(b); }) });
+                    var screens = [];
+                    function add(name, dest) {
+                        var real = resolveName(name);
+                        if (!real) return false;
+                        jobs.push({ path: 'mods/' + slug + '/' + dest, asyncB64: zip.file(real).async('arraybuffer').then(function (b) { return self._b64(b); }) });
+                        return true;
+                    }
+                    add('thumb.png', 'thumb.png');
+                    add('avatar.png', 'avatar.png');
+                    for (var i = 1; i <= 3; i++) {
+                        if (add('screen-' + i + '.png', 'screen-' + i + '.png')) screens.push('mods/' + slug + '/screen-' + i + '.png');
+                    }
+                    var entry = {
+                        id: slug,
+                        name: String(mod.name).trim(),
+                        type: mod.type,
+                        author: String(mod.author).trim(),
+                        version: String(mod.version).trim(),
+                        desc: String(mod.desc).trim(),
+                        size: file.size,
+                        file: 'mods/' + slug + '/mod.zip',
+                        thumb: 'mods/' + slug + '/thumb.png',
+                        avatar: 'mods/' + slug + '/avatar.png',
+                        screens: screens,
+                        updatedAt: Date.now()
+                    };
+                    createdEntry = entry;
+                    var seq = Promise.resolve();
+                    jobs.forEach(function (job, idx) {
+                        seq = seq.then(function () {
+                            st('上传文件 ' + (idx + 1) + '/' + (jobs.length + 1) + '：' + job.path.split('/').pop());
+                            return job.asyncB64.then(function (b64) {
+                                return self._ghPutFile(token, job.path, b64, '上传模组文件 ' + job.path);
+                            });
+                        });
+                    });
+                    return seq.then(function () {
+                        st('更新 mods.json…');
+                        var api = '/repos/' + self.GM_REPO + '/contents/mods.json';
+                        return self._ghApi(token, 'GET', api + '?ref=' + self.GM_BRANCH).then(function (info) {
+                            var raw;
+                            try { raw = decodeURIComponent(escape(atob(String(info.content || '').replace(/\n/g, '')))); } catch (e) { raw = '{}'; }
+                            var manifest;
+                            try { manifest = JSON.parse(raw); } catch (e) { manifest = { version: 0, mods: [] }; }
+                            manifest.version = (Number(manifest.version) || 0) + 1;
+                            manifest.mods = (manifest.mods || []).filter(function (m) { return m && m.id !== entry.id; }).concat([entry]);
+                            var b64 = self._b64(new TextEncoder().encode(JSON.stringify(manifest, null, 2)).buffer);
+                            return self._ghApi(token, 'PUT', api, { message: '发布模组：' + entry.name, content: b64, branch: self.GM_BRANCH, sha: info.sha });
+                        });
+                    });
+                });
+            }).then(function () {
+                st('完成');
+                self._manifestTs = 0;
+                return self.fetchManifest(true);
+            }).then(function () { return createdEntry; });
+        },
+
         /* ---------- 资源路径解析 ---------- */
         resolvePath: function (path) {
             if (!path || typeof path !== 'string') return path;
