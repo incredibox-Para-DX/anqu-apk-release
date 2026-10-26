@@ -1,5 +1,5 @@
 {
-  "version": "v2.2.0.m",
+  "version": "v2.2.1.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,7 +23,7 @@
     },
     {
       "path": "css/styles.css",
-      "size": 84823
+      "size": 85192
     },
     {
       "path": "js/debug.js",
@@ -35,7 +35,7 @@
     },
     {
       "path": "js/main.js",
-      "size": 23527
+      "size": 23930
     },
     {
       "path": "js/modal-registry.js",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 343812
+      "size": 343928
     },
     {
       "path": "js/synthesis.js",
@@ -68,6 +68,10 @@
     {
       "path": "js/storage.js",
       "size": 15826
+    },
+    {
+      "path": "js/i18n.js",
+      "size": 14494
     },
     {
       "path": "libs/GSAP.js",
@@ -147,9 +151,9 @@
     },
     {
       "path": "index.html",
-      "size": 126493
+      "size": 127958
     }
   ],
-  "fileCount": 37,
-  "totalSize": 2469093
+  "fileCount": 38,
+  "totalSize": 2485940
 }

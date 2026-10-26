@@ -3433,3 +3433,8 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 .item-control-modal-body { overflow: hidden !important; display: flex; flex-direction: column; }
 #item-control-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
 .item-control-modal-body .dropdown-menu { z-index: 9500; }
+
+/* i18n 语言选择器 */
+.lang-opt { flex: 0 0 auto; padding: 5px 12px; font-size: 12px; border-radius: 8px; border: 1px solid #2c333c; background: #1a1f26; color: #cbd5e1; cursor: pointer; transition: all .15s; }
+.lang-opt:hover { border-color: #3b4452; color: #fff; }
+.lang-opt.active { background: #248DFB; border-color: #248DFB; color: #fff; font-weight: 600; }

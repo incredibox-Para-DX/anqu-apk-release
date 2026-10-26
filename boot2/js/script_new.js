@@ -1043,7 +1043,7 @@ previewCurrentBackground() {
             const current = this.getCurrentTitle();
             const $titleEl = $('#profile-title');
             if ($titleEl.length) {
-                $titleEl.text(current.name);
+                $titleEl.text(window.i18nRankName ? window.i18nRankName(current.name) : current.name);
             }
         },
         
@@ -1052,7 +1052,7 @@ previewCurrentBackground() {
             const next = this.getNextTitle();
             const progress = this.getProgress();
             
-            $('#title-current-name').text(current.name);
+            $('#title-current-name').text(window.i18nRankName ? window.i18nRankName(current.name) : current.name);
             const $icon = $('#title-current-icon');
             if ($icon.length) {
                 // 未下载资源包时先用内置 SVG 占位图，已下载则替换为 IndexedDB blob
@@ -6639,7 +6639,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.2.0';
+    window.HU_BUILD_VERSION = 'v2.2.1';
 
     /* ============================================================
      * 检查更新

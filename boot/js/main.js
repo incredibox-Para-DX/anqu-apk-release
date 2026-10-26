@@ -600,4 +600,13 @@ document.addEventListener('DOMContentLoaded', function() {
         preloadFont();
         setupGMDebugPersistent();
     }
+
+    // i18n：语言切换后刷新动态内容（段位名等）并重建选择器高亮
+    if (window.I18N) {
+        window.I18N.onChange = function () {
+            try { if (window.TitleManager && window.TitleManager.updateTitleDisplay) window.TitleManager.updateTitleDisplay(); } catch (e) {}
+            try { I18N.buildSelector(); } catch (e) {}
+        };
+        I18N.buildSelector();
+    }
 });

@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.0</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.1</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -643,13 +643,13 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="sidebar" id="sidebar">
 <div class="sidebar-header">
-<h3><i class="fas fa-bars"></i> 更多功能</h3>
+<h3><i class="fas fa-bars"></i> <span data-i18n="nav_more">更多功能</span></h3>
 <button class="sidebar-close" id="sidebar-close">&times;</button>
 </div>
 <div class="sidebar-content">
 <div class="sidebar-section default-open" id="profile-section-wrapper">
 <div class="sidebar-section-header" data-target="section-personal">
-<h4><i class="fas fa-chart-line"></i> 个人数据</h4>
+<h4><i class="fas fa-chart-line"></i> <span data-i18n="sec_personal">个人数据</span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-personal">
@@ -665,7 +665,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <i class="fas fa-pen" id="profile-edit-nickname-icon"></i>
 </div>
 <div class="profile-title-row" id="profile-title-row">
-<span class="title-label">段位</span>
+<span class="title-label" data-i18n="rank">段位</span>
 <span id="profile-title" class="profile-title-text">暗区新锐</span>
 <i class="fas fa-chevron-right title-arrow" id="profile-title-arrow"></i>
 </div>
@@ -677,59 +677,59 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 <div class="stats-item">
-<div class="stats-label">总累计价值</div>
+<div class="stats-label" data-i18n="total_value">总累计价值</div>
 <div class="stats-value" id="accumulated-value">¥0</div>
 </div>
 <div class="stats-item">
-<div class="stats-label">本周累计价值</div>
+<div class="stats-label" data-i18n="weekly_value">本周累计价值</div>
 <div class="stats-value" id="weekly-accumulated-value" style="color:#248DFB;">¥0</div>
 </div>
 </div>
 </div>
 <div class="sidebar-section" id="gm-debug-section">
 <div class="sidebar-section-header" data-target="section-gm">
-<h4><i class="fas fa-boxes"></i> GM Debug</h4>
+<h4><i class="fas fa-boxes"></i> <span data-i18n="sec_gm">GM Debug</span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-gm">
-<button class="sidebar-btn" id="edit-accumulated-value-btn"><i class="fas fa-coins"></i> 编辑总累计价值</button>
-<button class="sidebar-btn full-width" id="gm-hotupdate-open-btn" style="margin-top:6px;"><i class="fas fa-cloud-download-alt"></i> 私链热更新</button>
-<button class="sidebar-btn full-width" id="gm-resource-admin-btn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> 资源管理</button>
-<button class="sidebar-btn full-width" id="gm-leaderboard-admin-btn"><i class="fas fa-ranking-star"></i> 榜单管理</button>
-<button class="sidebar-btn full-width" id="gm-mod-upload-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> Mod上传</button>
+<button class="sidebar-btn" id="edit-accumulated-value-btn"><i class="fas fa-coins"></i> <span data-i18n="gm_edit_value">编辑总累计价值</span></button>
+<button class="sidebar-btn full-width" id="gm-hotupdate-open-btn" style="margin-top:6px;"><i class="fas fa-cloud-download-alt"></i> <span data-i18n="gm_hotupdate">私链热更新</span></button>
+<button class="sidebar-btn full-width" id="gm-resource-admin-btn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> <span data-i18n="gm_resource">资源管理</span></button>
+<button class="sidebar-btn full-width" id="gm-leaderboard-admin-btn"><i class="fas fa-ranking-star"></i> <span data-i18n="gm_board">榜单管理</span></button>
+<button class="sidebar-btn full-width" id="gm-mod-upload-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> <span data-i18n="gm_upload">Mod上传</span></button>
 <input type="file" id="gm-mod-upload-file" accept=".zip,application/zip" style="display:none;">
 <input class="input-field" id="gm-mod-token" type="text" placeholder="GitHub Token（仅保存在本机）" style="font-size:11px;margin-top:6px;" autocomplete="off" spellcheck="false">
 <div id="gm-mod-upload-status" style="font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.6;"></div>
-<button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> 弹窗中心</button>
+<button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> <span data-i18n="gm_center">弹窗中心</span></button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
 <div class="sidebar-section-header" data-target="section-other">
-<h4><i class="fas fa-ellipsis-h"></i> 其他功能</h4>
+<h4><i class="fas fa-ellipsis-h"></i> <span data-i18n="sec_other">其他功能</span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-other">
-<button class="sidebar-btn full-width" id="sidebar-notification-btn"><i class="fas fa-bullhorn"></i> 查看最新公告</button>
-<button class="sidebar-btn full-width" id="sidebar-shop-btn"><i class="fas fa-store"></i> 能力商店</button>
+<button class="sidebar-btn full-width" id="sidebar-notification-btn"><i class="fas fa-bullhorn"></i> <span data-i18n="btn_notice">查看最新公告</span></button>
+<button class="sidebar-btn full-width" id="sidebar-shop-btn"><i class="fas fa-store"></i> <span data-i18n="btn_shop">能力商店</span></button>
 <div class="leaderboard-buttons">
-<button class="sidebar-btn full-width" id="sidebar-view-leaderboard-btn"><i class="fas fa-ranking-star"></i> 周累价值排行榜</button>
+<button class="sidebar-btn full-width" id="sidebar-view-leaderboard-btn"><i class="fas fa-ranking-star"></i> <span data-i18n="btn_leaderboard">周累价值排行榜</span></button>
 </div>
-<button class="sidebar-btn" id="sidebar-bg-select-btn"><i class="fas fa-palette"></i> 背景商店</button>
-<button class="sidebar-btn" id="sidebar-custom-bg-btn" style="display:none;"><i class="fas fa-image"></i> 自定义背景</button>
-<button class="sidebar-btn" id="sidebar-custom-bg-clear-btn" style="display:none;"><i class="fas fa-trash-alt"></i> 清除自定义背景</button>
-<button class="sidebar-btn" id="sidebar-item-control-btn"><i class="fas fa-sliders-h"></i> 物品池管理</button>
-<button class="sidebar-btn full-width" id="sidebar-collect-btn"><i class="fas fa-gem"></i> 收藏室</button>
-<button class="sidebar-btn full-width" id="sidebar-synthesis-btn"><i class="fas fa-flask"></i> 样本合成台</button>
-<button class="sidebar-btn full-width" id="sidebar-resource-download-btn"><i class="fas fa-download"></i> 资源下载</button>
-<button class="sidebar-btn full-width" id="sidebar-redeem-btn"><i class="fas fa-gift"></i> 兑换码</button>
-<button class="sidebar-btn full-width" id="sidebar-mod-library-btn"><i class="fas fa-cubes"></i> MOD</button>
-<button class="sidebar-btn" id="sidebar-minigame-btn"><i class="fas fa-apple-alt"></i> 小游戏·暗区水果忍者</button>
-<button class="sidebar-btn" id="sidebar-map-btn"><i class="fas fa-map"></i> 小游戏·熟图模拟器</button>
+<button class="sidebar-btn" id="sidebar-bg-select-btn"><i class="fas fa-palette"></i> <span data-i18n="btn_bg_shop">背景商店</span></button>
+<button class="sidebar-btn" id="sidebar-custom-bg-btn" style="display:none;"><i class="fas fa-image"></i> <span data-i18n="btn_custom_bg">自定义背景</span></button>
+<button class="sidebar-btn" id="sidebar-custom-bg-clear-btn" style="display:none;"><i class="fas fa-trash-alt"></i> <span data-i18n="btn_clear_bg">清除自定义背景</span></button>
+<button class="sidebar-btn" id="sidebar-item-control-btn"><i class="fas fa-sliders-h"></i> <span data-i18n="btn_item_pool">物品池管理</span></button>
+<button class="sidebar-btn full-width" id="sidebar-collect-btn"><i class="fas fa-gem"></i> <span data-i18n="btn_collect">收藏室</span></button>
+<button class="sidebar-btn full-width" id="sidebar-synthesis-btn"><i class="fas fa-flask"></i> <span data-i18n="btn_synth">样本合成台</span></button>
+<button class="sidebar-btn full-width" id="sidebar-resource-download-btn"><i class="fas fa-download"></i> <span data-i18n="btn_download">资源下载</span></button>
+<button class="sidebar-btn full-width" id="sidebar-redeem-btn"><i class="fas fa-gift"></i> <span data-i18n="btn_redeem">兑换码</span></button>
+<button class="sidebar-btn full-width" id="sidebar-mod-library-btn"><i class="fas fa-cubes"></i> <span data-i18n="btn_mod">MOD</span></button>
+<button class="sidebar-btn" id="sidebar-minigame-btn"><i class="fas fa-apple-alt"></i> <span data-i18n="btn_minigame_fruit">小游戏·暗区水果忍者</span></button>
+<button class="sidebar-btn" id="sidebar-map-btn"><i class="fas fa-map"></i> <span data-i18n="btn_minigame_map">小游戏·熟图模拟器</span></button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
 <div class="sidebar-section-header" data-target="section-music">
-<h4><i class="fas fa-music"></i> 背景音乐</h4>
+<h4><i class="fas fa-music"></i> <span data-i18n="sec_music">背景音乐</span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-music">
@@ -774,19 +774,23 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="sidebar-section collapsible">
 <div class="sidebar-section-header" data-target="section-more-settings">
-<h4><i class="fas fa-cog"></i> 更多设置<span class="hu-red-dot" data-hudot="more-settings" style="display:none;"></span></h4>
+<h4><i class="fas fa-cog"></i> <span data-i18n="sec_settings">更多设置</span><span class="hu-red-dot" data-hudot="more-settings" style="display:none;"></span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-more-settings">
-<button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> 效果设置</button>
-<button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> 声音设置</button>
-<button class="sidebar-btn full-width" id="sidebar-cloud-sync-btn"><i class="fas fa-cloud"></i> 云同步</button>
-<button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> 检查更新<span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
+<div class="lang-row" style="margin-bottom:8px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:6px;" data-i18n="set_language">语言</div>
+<div id="lang-select" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+</div>
+<button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> <span data-i18n="set_effect">效果设置</span></button>
+<button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> <span data-i18n="set_sound">声音设置</span></button>
+<button class="sidebar-btn full-width" id="sidebar-cloud-sync-btn"><i class="fas fa-cloud"></i> <span data-i18n="set_cloud">云同步</span></button>
+<button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> <span data-i18n="set_check">检查更新</span><span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
 </div>
 </div>
 <div class="sidebar-section collapsible">
 <div class="sidebar-section-header" data-target="section-info">
-<h4><i class="fas fa-info-circle"></i> 更多信息</h4>
+<h4><i class="fas fa-info-circle"></i> <span data-i18n="sec_info">更多信息</span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
 </div>
 <div class="sidebar-section-body" id="section-info">
@@ -1713,6 +1717,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 
 <script src="js/net.js"></script>
 <script src="js/storage.js"></script>
+<script src="js/i18n.js"></script>
 <script src="libs/jquery.js"></script>
 <script src="libs/lodash.js"></script>
 <script src="libs/GSAP.js"></script>
