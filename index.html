@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.5</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.6</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -2451,7 +2451,7 @@ if (document.readyState === 'loading') {
             toastAudio.volume = 0.555 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
             toastAudio.play().catch(() => {});
         } catch (e) {}
-        el.textContent = msg;
+        el.textContent = (window.I18N && I18N.tr) ? I18N.tr(msg) : msg;
         el.classList.add('show');
         clearTimeout(el._hideTimer);
         el._hideTimer = setTimeout(() => {

@@ -306,7 +306,60 @@
         nick_new_ph: ['输入新昵称', '輸入新暱稱', 'Enter new nickname', 'Новый ник'],
         count_left: ['获取次数:', '獲取次數:', 'Obtained:', 'Получено:'],
         not_generated2: ['尚未生成', '尚未生成', 'Not generated', 'Не создано'],
-        need_download: ['需下载', '需下載', 'Download', 'Скачать']
+        need_download: ['需下载', '需下載', 'Download', 'Скачать'],
+
+        /* ---------- 离心机（样本合成） ---------- */
+        synth_centrifuge: ['离心机', '離心機', 'Centrifuge', 'Центрифуга'],
+        synth_again: ['重新合成', '重新合成', 'Re-synthesize', 'Заново'],
+        synth_sample: ['样本', '樣本', 'Sample', 'Образец'],
+        synth_done_banner: ['合成完成', '合成完成', 'Synthesis complete', 'Готово'],
+        synth_incubator: ['保温箱', '保溫箱', 'Incubator', 'Инкубатор'],
+        synth_els: ['ELS还原样本', 'ELS還原樣本', 'ELS sample', 'ELS-образец'],
+        synth_drag_hint: ['到保温箱进行合成', '到保溫箱進行合成', 'into the incubator to synthesize', 'в инкубатор для синтеза'],
+        synth_count_label: ['已合成', '已合成', 'Synthesized', 'Синтезировано'],
+
+        /* ---------- 技能商店 ---------- */
+        shop_title: ['技能商店', '技能商店', 'Skill Shop', 'Магазин навыков'],
+        skill_swift: ['迅捷巧手', '迅捷巧手', 'Swift Hands', 'Быстрые руки'],
+        skill_swift_d: ['增加保险的搜索速度', '增加保險的搜尋速度', 'Faster safe searching', 'Быстрый поиск'],
+        skill_bounty: ['赏金协议', '賞金協議', 'Bounty Pact', 'Контракт за голову'],
+        skill_bounty_d: ['提前显示物品稀有度', '提前顯示物品稀有度', 'Reveal item rarity early', 'Редкость заранее'],
+        skill_tide: ['物资潮汐', '物資潮汐', 'Supply Tide', 'Прилив припасов'],
+        skill_tide_d: ['接下来20次搜索爆率双倍', '接下來20次搜尋爆率雙倍', '2x drop rate for next 20 searches', 'x2 дроп 20 поисков'],
+        skill_prophet: ['先知', '先知', 'Prophet', 'Пророк'],
+        skill_prophet_d: ['打开保险时提前知道本次最高价值物品', '打開保險時提前知道本次最高價值物品', 'Know the top-value item in advance', 'Заранее топ-предмет'],
+        skill_lucky: ['红运当头', '紅運當頭', 'Lucky Streak', 'Полоса удачи'],
+        skill_lucky_d: ['接下来20次搜索必出高价值物品', '接下來20次搜尋必出高價值物品', 'High-value guarantee for next 20 searches', 'Гарантия топ-предмета 20'],
+        skill_destiny: ['命运保底', '命運保底', 'Destiny Pity', 'Гарант судьбы'],
+        skill_destiny_d: ['连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次', '連續開保險未出橙色/紅色道具時，第10次必出橙色及以上；觸發保底後下次保底次數-1（最低3次）。若在保底前就開出橙/紅，保底重置為10次', 'If 10 opens yield no orange/red, guarantee orange+; after triggering, threshold -1 (min 3). Orange/red before threshold resets to 10.', 'Если 10 открытий без оранж./красного — гарантия оранж.+; после срабатывания порог -1 (мин 3).'],
+        skill_owned: ['已拥有', '已擁有', 'Owned', 'В наличии'],
+        skill_left: ['剩余次数', '剩餘次數', 'Uses left', 'Осталось'],
+        skill_redeem: ['兑换码解锁', '兌換碼解鎖', 'Redeem to unlock', 'Открыть кодом'],
+        skill_redeem_hint: ['该技能需通过兑换码解锁，请查看技能描述', '該技能需通過兌換碼解鎖，請查看技能描述', 'Unlock via redeem code; see description', 'Откройте кодом'],
+
+        /* ---------- 检查更新 ---------- */
+        up_checking: ['正在检查更新…', '正在檢查更新…', 'Checking for updates…', 'Проверка обновлений…'],
+        up_found: ['发现新版本', '發現新版本', 'New version found', 'Новая версия'],
+        up_cur: ['当前版本：', '當前版本：', 'Current: ', 'Текущая: '],
+        up_latest: ['最新版本：', '最新版本：', 'Latest: ', 'Последняя: '],
+        up_is_latest: ['当前已是最新版本', '當前已是最新版本', 'Already up to date', 'Уже последняя версия'],
+        up_downloading: ['正在下载更新包，请稍候…', '正在下載更新包，請稍候…', 'Downloading update, please wait…', 'Загрузка обновления…'],
+        up_no_exit: ['更新过程中请勿退出', '更新過程中請勿退出', 'Do not exit during update', 'Не выходите'],
+        up_done_refresh: ['更新完成，正在刷新…', '更新完成，正在刷新…', 'Update done, refreshing…', 'Готово, обновление…'],
+        up_fail_net: ['检查失败：无法连接更新服务器', '檢查失敗：無法連接更新伺服器', 'Check failed: no server', 'Ошибка: нет сервера'],
+
+        /* ---------- 制作人员 / 赞助 / 公告 ---------- */
+        credits_title: ['制作人员列表', '製作人員列表', 'Credits', 'Авторы'],
+        donate_title: ['赞赏本项目', '讚賞本項目', 'Support us', 'Поддержать проект'],
+        credits_avatar: ['制作人员头像', '製作人員頭像', 'Staff avatar', 'Аватар автора'],
+        notice_loading: ['公告加载中...', '公告載入中...', 'Loading announcement...', 'Загрузка объявления...'],
+
+        /* ---------- 资源下载 / 输入框预填 ---------- */
+        res_dl_pack: ['下载资源包', '下載資源包', 'Download pack', 'Скачать пакет'],
+        res_dl_minigame: ['下载小游戏资源包', '下載小遊戲資源包', 'Download mini-game pack', 'Скачать мини-игру'],
+        ph_value: ['例如：500000、1.5M、200K', '例如：500000、1.5M、200K', 'e.g. 500000, 1.5M, 200K', 'напр. 500000, 1.5M, 200K'],
+        ph_nick_rank: ['输入昵称参与排行', '輸入昵稱參與排行', 'Enter nickname to rank', 'Введите ник'],
+        ph_item_search: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск предметов...']
     };
 
     var cur = 'zh-CN';
@@ -448,6 +501,28 @@
             while ((n = walker.nextNode())) _translateTextNode(n);
         } catch (e) {}
     }
+    // 属性翻译：placeholder / title / img[alt]
+    function _translateAttrs(root) {
+        if (!root || !root.querySelectorAll) return;
+        var els = root.querySelectorAll('[placeholder],[title],img[alt]');
+        for (var i = 0; i < els.length; i++) {
+            var el = els[i];
+            for (var a = 0; a < 3; a++) {
+                var attr = a === 0 ? 'placeholder' : (a === 1 ? 'title' : 'alt');
+                if (!el.hasAttribute || !el.hasAttribute(attr)) continue;
+                var v = el.getAttribute(attr);
+                if (!v) continue;
+                var k = REV[v.trim()];
+                if (!k) continue;
+                var tr = I18N.t(k);
+                if (v !== tr) {
+                    el.__i18nAttrOrig = el.__i18nAttrOrig || {};
+                    if (el.__i18nAttrOrig[attr] == null) el.__i18nAttrOrig[attr] = v;
+                    el.setAttribute(attr, tr);
+                }
+            }
+        }
+    }
     I18N.translateAll = function () {
         if (!document.body) return;
         var walker, n;
@@ -462,6 +537,18 @@
         }
         // 再按当前语言翻译
         for (var j = 0; j < list.length; j++) _translateTextNode(list[j]);
+        // 属性：先还原再翻译
+        try {
+            var all = document.body.getElementsByTagName('*');
+            for (var e = 0; e < all.length; e++) {
+                var el = all[e];
+                if (el.__i18nAttrOrig) {
+                    for (var at in el.__i18nAttrOrig) { if (el.__i18nAttrOrig.hasOwnProperty(at)) el.setAttribute(at, el.__i18nAttrOrig[at]); }
+                    el.__i18nAttrOrig = null;
+                }
+            }
+        } catch (e2) {}
+        _translateAttrs(document.body);
     };
     I18N.startObserver = function () {
         if (I18N._obs || !window.MutationObserver || !document.body) return;
@@ -471,7 +558,7 @@
                 if (m.type === 'childList') {
                     for (var j = 0; j < m.addedNodes.length; j++) {
                         var nd = m.addedNodes[j];
-                        if (nd.nodeType === 1) _walkTranslate(nd);
+                        if (nd.nodeType === 1) { _walkTranslate(nd); _translateAttrs(nd); }
                         else if (nd.nodeType === 3) _translateTextNode(nd);
                     }
                 } else if (m.type === 'characterData') {

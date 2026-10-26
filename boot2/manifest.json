@@ -1,5 +1,5 @@
 {
-  "version": "v2.2.5.m",
+  "version": "v2.2.6.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -71,7 +71,7 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 38565
+      "size": 46326
     },
     {
       "path": "libs/GSAP.js",
@@ -151,9 +151,9 @@
     },
     {
       "path": "index.html",
-      "size": 128591
+      "size": 128633
     }
   ],
   "fileCount": 38,
-  "totalSize": 2511358
+  "totalSize": 2519161
 }
