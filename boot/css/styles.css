@@ -3424,3 +3424,7 @@ video:empty {
 /* 模组远程图片：预载成功后再淡入，避免闪动 */
 img.mod-img { opacity: 0; transition: opacity 0.22s ease; }
 img.mod-img.mod-img-loaded { opacity: 1; }
+
+/* 物品池管理：整页显示 */
+.item-control-modal-content { width: 100% !important; max-width: none !important; height: 100% !important; max-height: none !important; display: flex; flex-direction: column; padding-top: 6px; }
+.item-control-modal-body { flex: 1 1 auto; min-height: 0; max-height: none !important; overflow-y: auto; }

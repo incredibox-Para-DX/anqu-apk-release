@@ -945,7 +945,14 @@ previewCurrentBackground() {
                 State.weeklyAccumulatedValue = 0;
                 State.weeklyAccumulatedWeek = currentWeek;
             }
-            State.weeklyAccumulatedValue += value;
+            // 物品池被改动（存在被禁用的物品）时，本次收益不计入本周累计价值（防刷榜）
+            let poolModified = false;
+            try {
+                poolModified = ItemControlManager.getDisabledItems().length > 0;
+            } catch (e) {}
+            if (!poolModified) {
+                State.weeklyAccumulatedValue += value;
+            }
             this.saveAccumulatedStats();
             this.updateAccumulatedValueDisplay();
         },
@@ -6605,7 +6612,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.89';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.90';
 
     /* ============================================================
      * 检查更新

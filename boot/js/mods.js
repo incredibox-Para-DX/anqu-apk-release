@@ -1152,7 +1152,7 @@
                 $('#sidebar-mod-library-btn').on('click', function () { self.openLibrary(); });
             }
             if ($('#mod-doc-btn').length) {
-                $('#mod-doc-btn').on('click', function () { openModal('mod-guide-page'); });
+                $('#mod-doc-btn').on('click', function () { openModal('mod-guide-page', 10060); });
             }
             $('#mod-guide-close').on('click', function () { closeModal('mod-guide-page'); });
             $('#mod-library-close').on('click', function () { closeModal('mod-library-page'); });
