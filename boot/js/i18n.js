@@ -239,7 +239,74 @@
         not_generated: ['尚未生成', '尚未生成', 'Not generated', 'Не создано'],
         step1: ['第一步：下载官方模板', '第一步：下載官方模板', 'Step 1: Get the template', 'Шаг 1: шаблон'],
         step2: ['第二步：制作你的模组', '第二步：製作你的模組', 'Step 2: Build your mod', 'Шаг 2: создание'],
-        step3: ['第三步：提交审核', '第三步：提交審核', 'Step 3: Submit', 'Шаг 3: отправка']
+        step3: ['第三步：提交审核', '第三步：提交審核', 'Step 3: Submit', 'Шаг 3: отправка'],
+
+        /* ---------- 弹窗通用 ---------- */
+        b_upload: ['上传', '上傳', 'Upload', 'Загрузить'],
+        b_preview: ['预览', '預覽', 'Preview', 'Просмотр'],
+        b_clear: ['清除', '清除', 'Clear', 'Очистить'],
+        b_import: ['导入', '匯入', 'Import', 'Импорт'],
+        b_save_short: ['保存', '儲存', 'Save', 'Сохранить'],
+        b_confirm_edit: ['确认修改', '確認修改', 'Confirm', 'Подтвердить'],
+        b_refresh: ['刷新', '刷新', 'Refresh', 'Обновить'],
+        b_locked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
+        b_next: ['下一个', '下一個', 'Next', 'Далее'],
+
+        /* ---------- 段位 / 排行榜 ---------- */
+        title_cur: ['当前段位', '當前段位', 'Current rank', 'Текущее звание'],
+        title_next_progress: ['下一个段位进度', '下一個段位進度', 'Next rank progress', 'До след. звания'],
+        title_dl_icons: ['下载段位图标资源包', '下載段位圖示資源包', 'Download rank icons', 'Скачать значки'],
+        title_icons_all: ['段位图标资源包已全部下载', '段位圖示資源包已全部下載', 'Rank icons downloaded', 'Значки скачаны'],
+        title_icons_desc: ['包含个人信息里全部段位徽章图标', '包含個人信息裡全部段位徽章圖示', 'All rank badge icons', 'Все значки званий'],
+        lb_week: ['本周排行榜', '本週排行榜', 'Weekly ranking', 'Рейтинг недели'],
+        lb_submit_weekly: ['提交本周累计价值上榜', '提交本週累計價値上榜', 'Submit to weekly board', 'В рейтинг недели'],
+
+        /* ---------- 云同步 ---------- */
+        cloud_my_code: ['我的同步码', '我的同步碼', 'My sync code', 'Мой код'],
+        cloud_gen: ['生成同步码并上传', '生成同步碼並上傳', 'Generate & upload', 'Создать и загрузить'],
+        cloud_input_ph: ['输入同步码，如 AB7K-9QX2-M3FD', '輸入同步碼，如 AB7K-9QX2-M3FD', 'Enter code, e.g. AB7K-...', 'Введите код'],
+        cloud_restore: ['从云端恢复', '從雲端恢復', 'Restore from cloud', 'Из облака'],
+        cloud_overwrite: ['用云端覆盖', '用雲端覆蓋', 'Overwrite local', 'Заменить'],
+        cloud_restore_code: ['用同步码恢复', '用同步碼恢復', 'Restore by code', 'По коду'],
+        cloud_backup: ['备份本地后恢复', '備份本地後恢復', 'Backup then restore', 'Резерв и восстановление'],
+        cloud_sync_now: ['立即同步', '立即同步', 'Sync now', 'Синхр.'],
+        cloud_copy_code: ['复制同步码', '複製同步碼', 'Copy code', 'Копировать'],
+        cloud_desc: ['同步码就是你的存档凭证，记下它，换设备输入即可恢复进度。', '同步碼就是你的存檔憑証，記下它，換設備輸入即可恢復進度。', 'The code is your save key; enter it on another device.', 'Код — ключ к сохранению.'],
+
+        /* ---------- 背景商店 / 资源 ---------- */
+        bg_setting: ['背景设置', '背景設置', 'Background', 'Фон'],
+        bg_dl_pack: ['下载背景资源包', '下載背景資源包', 'Download BG pack', 'Скачать фоны'],
+        bg_pack_all: ['背景资源包已全部下载', '背景資源包已全部下載', 'BG pack downloaded', 'Фоны скачаны'],
+        bg_pack_desc: ['包含全部背景资源', '包含全部背景資源', 'All backgrounds', 'Все фоны'],
+        bg_auto_rotate: ['开启后每次进入游戏将随机切换一张喜好的壁纸。', '開啟後每次進入遊戲將隨機切換一張喜好的壁紙。', 'Randomize a favorite wallpaper each launch.', 'Случайные обои при запуске.'],
+        bg_play_fav: ['播放喜好的壁纸', '播放喜好的壁紙', 'Play favorite wallpapers', 'Любимые обои'],
+        bg_custom_note: ['自定义背景（开启「播放喜好的壁纸」后将自动清除）', '自定義背景（開啟「播放喜好的壁紙」後將自動清除）', 'Custom BG (auto-cleared if favorites play)', 'Свой фон'],
+        bg_upload_custom: ['上传自定义背景', '上傳自定義背景', 'Upload custom BG', 'Загрузить фон'],
+        res_music_pack: ['下载音乐资源包', '下載音樂資源包', 'Download music pack', 'Скачать музыку'],
+        res_music_all: ['音乐资源包已全部下载', '音樂資源包已全部下載', 'Music pack downloaded', 'Музыка скачана'],
+        res_music_desc: ['包含全部音乐资源与音乐封面', '包含全部音樂資源與音樂封面', 'All music & covers', 'Вся музыка'],
+        res_music_rel: ['音乐相关资源包', '音樂相關資源包', 'Music packs', 'Музыка'],
+
+        /* ---------- 设置详情补充 ---------- */
+        set_flash: ['物品闪光特效', '物品閃光特效', 'Item flash FX', 'Эффект лута'],
+        set_sample_refresh: ['样本是否刷新', '樣本是否刷新', 'Refresh samples', 'Обновление'],
+
+        /* ---------- Mod 教程 / 投稿 ---------- */
+        mod_upload_notice: ['上传须知（违反无法通过审核）', '上傳須知（違反無法通過審核）', 'Upload rules', 'Правила'],
+        mod_no_violate: ['名称与描述不得包含违规内容', '名稱與描述不得包含違規內容', 'No violating names/desc', 'Без нарушений'],
+        mod_value_limit: ['物品 value 上限 4,000,000', '物品 value 上限 4,000,000', 'Item value ≤ 4,000,000', 'value ≤ 4 000 000'],
+        mod_sound_opt: ['可选：物品支持音效字段 sound（mp3/wav/ogg）', '可選：物品支持音效欄位 sound（mp3/wav/ogg）', 'Optional: sound (mp3/wav/ogg)', 'Опц.: sound'],
+        mod_thumb_rule: ['thumb.png、avatar.png 必填；screen 最多 3 张', 'thumb.png、avatar.png 必填；screen 最多 3 張', 'thumb/avatar required; ≤3 screens', 'thumb/avatar обязат.'],
+        mod_zip_rule: ['选中里面的文件打包，不要连外层文件夹', '選中裡面的檔案打包，不要連外層資料夾', 'Zip inner files only', 'Только файлы'],
+        mod_contact: ['作品投稿 QQ：', '作品投稿 QQ：', 'Submit via QQ:', 'Подача: QQ'],
+
+        /* ---------- 采集 / 昵称 ---------- */
+        nick_yours: ['你的昵称', '你的暱稱', 'Your nickname', 'Ваш ник'],
+        nick_edit: ['修改昵称', '修改暱稱', 'Edit nickname', 'Изменить ник'],
+        nick_new_ph: ['输入新昵称', '輸入新暱稱', 'Enter new nickname', 'Новый ник'],
+        count_left: ['获取次数:', '獲取次數:', 'Obtained:', 'Получено:'],
+        not_generated2: ['尚未生成', '尚未生成', 'Not generated', 'Не создано'],
+        need_download: ['需下载', '需下載', 'Download', 'Скачать']
     };
 
     var cur = 'zh-CN';
@@ -266,7 +333,9 @@
         ['保存失败：', ['保存失败：', '儲存失敗：', 'Save failed: ', 'Ошибка сохранения: ']],
         ['完成：', ['完成：', '完成：', 'Done: ', 'Готово: ']],
         ['全部下载完成', ['全部下载完成', '全部下載完成', 'All downloads done', 'Всё скачано']],
-        ['已用 ', ['已用 ', '已用 ', 'Used ', 'Использован ']]
+        ['已用 ', ['已用 ', '已用 ', 'Used ', 'Использован ']],
+        ['欢迎，', ['歡迎，', 'Welcome, ', 'Добро пожаловать, ']],
+        ['需下载', ['需下載', 'Need download', 'Нужно скачать']]
     ];
 
     var I18N = {
@@ -302,6 +371,7 @@
             try { document.documentElement.setAttribute('lang', cur === 'zh-TW' ? 'zh-Hant' : cur); } catch (e) {}
             if (!silent) {
                 I18N.translateStatic();
+                try { if (I18N.translateAll) I18N.translateAll(); } catch (e) {}
                 if (typeof I18N.onChange === 'function') I18N.onChange(cur);
             }
         },
@@ -323,6 +393,8 @@
         },
         init: function () {
             I18N.translateStatic();
+            try { if (I18N.translateAll) I18N.translateAll(); } catch (e) {}
+            try { if (I18N.startObserver) I18N.startObserver(); } catch (e) {}
             try { document.documentElement.setAttribute('lang', cur === 'zh-TW' ? 'zh-Hant' : cur); } catch (e) {}
         }
     };
@@ -337,6 +409,78 @@
         return I18N.t('rank_' + i, zhName);
     };
     I18N.refreshDynamic = function () { if (typeof I18N.onChange === 'function') I18N.onChange(I18N.getLang()); };
+
+    /* ===== 自动翻译层：遍历文本节点 + MutationObserver =====
+     * 只要文本（trim 后）命中词表中文原文，就按当前语言替换；
+     * 覆盖静态 HTML、弹窗内容、JS 重渲染后的节点；切换语言时先还原再重译。 */
+    function _skipParent(node) {
+        var p = node.parentNode;
+        while (p) {
+            var n = p.nodeName ? p.nodeName.toUpperCase() : '';
+            if (n === 'SCRIPT' || n === 'STYLE' || n === 'TEXTAREA' || n === 'INPUT' || n === 'NOSCRIPT') return true;
+            p = p.parentNode;
+        }
+        return false;
+    }
+    function _translateTextNode(node) {
+        if (!node || node.nodeType !== 3 || _skipParent(node)) return;
+        var cur = node.nodeValue;
+        if (cur == null) return;
+        var trimmed = cur.trim();
+        if (!trimmed) return;
+        var key = REV[trimmed];
+        if (!key) return;
+        var pre = (cur.match(/^\s*/) || [''])[0];
+        var post = (cur.match(/\s*$/) || [''])[0];
+        var target = pre + I18N.t(key) + post;
+        if (cur !== target) {
+            if (node.__i18nOrig == null) node.__i18nOrig = trimmed;
+            node.nodeValue = target;
+        }
+    }
+    function _walkTranslate(root) {
+        if (!root) return;
+        if (root.nodeType === 3) { _translateTextNode(root); return; }
+        if (root.nodeType !== 1 && root.nodeType !== 9 && root.nodeType !== 11) return;
+        try {
+            var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+            var n;
+            while ((n = walker.nextNode())) _translateTextNode(n);
+        } catch (e) {}
+    }
+    I18N.translateAll = function () {
+        if (!document.body) return;
+        var walker, n;
+        var list = [];
+        try {
+            walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+            while ((n = walker.nextNode())) list.push(n);
+        } catch (e) { return; }
+        // 先还原成中文原文
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].__i18nOrig != null) { list[i].nodeValue = list[i].__i18nOrig; list[i].__i18nOrig = null; }
+        }
+        // 再按当前语言翻译
+        for (var j = 0; j < list.length; j++) _translateTextNode(list[j]);
+    };
+    I18N.startObserver = function () {
+        if (I18N._obs || !window.MutationObserver || !document.body) return;
+        I18N._obs = new MutationObserver(function (muts) {
+            for (var i = 0; i < muts.length; i++) {
+                var m = muts[i];
+                if (m.type === 'childList') {
+                    for (var j = 0; j < m.addedNodes.length; j++) {
+                        var nd = m.addedNodes[j];
+                        if (nd.nodeType === 1) _walkTranslate(nd);
+                        else if (nd.nodeType === 3) _translateTextNode(nd);
+                    }
+                } else if (m.type === 'characterData') {
+                    _translateTextNode(m.target);
+                }
+            }
+        });
+        I18N._obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+    };
 
     // 语言选择器 UI（若页面里有 #lang-select 容器则填充）
     function buildSelector() {

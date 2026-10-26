@@ -433,7 +433,7 @@
 
             if (loadingStatusText) {
                 loadingStatusText.style.transition = 'all 0.552s ease';
-                loadingStatusText.innerHTML = '<span style="font-size:87%;font-style:italic;color:#93c5fd;">欢迎，' + playerNickname + '</span>';
+                loadingStatusText.innerHTML = '<span style="font-size:87%;font-style:italic;color:#93c5fd;">' + (window.I18N ? I18N.tr('欢迎，') : '欢迎，') + playerNickname + '</span>';
                 loadingStatusText.style.color = '#93c5fd';
                 loadingStatusText.style.fontSize = '20.1px';
                 loadingStatusText.style.fontWeight = 'normal';
