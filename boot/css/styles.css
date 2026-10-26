@@ -3420,3 +3420,7 @@ video:empty {
 
 /* 解除全局 .modal-body 的高度上限，让详情内容区撑满弹窗 */
 #mod-detail-body { max-height: none !important; margin-bottom: 0 !important; }
+
+/* 模组远程图片：预载成功后再淡入，避免闪动 */
+img.mod-img { opacity: 0; transition: opacity 0.22s ease; }
+img.mod-img.mod-img-loaded { opacity: 1; }

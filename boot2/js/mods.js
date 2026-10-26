@@ -821,62 +821,48 @@
             if (tab === 'store') this.renderStoreList();
             if (tab === 'mine') this.renderMineList();
         },
-        /* 远程图片：主线路 + 备用线路自动回退，并记住可用线路避免反复闪图 */
+        /* 远程图片：离屏预载成功后再显示，彻底避免换线路时的闪动 */
         _imgResolved: {},
         _assetImg: function (path, cls, alt) {
             if (!path) return '';
-            var known = this._imgResolved[path];
-            var urls = known ? [known] : this.baseUrls.map(function (b) { return b + path; });
-            return '<img src="' + esc(urls[0]) + '" data-modpath="' + esc(path) + '" data-modfb="' + esc(urls.slice(1).join('|')) +
-                '" class="' + (cls || '') + '" alt="' + esc(alt || '') + '" loading="lazy">';
+            return '<img data-modpath="' + esc(path) + '" class="mod-img ' + (cls || '') + '" alt="' + esc(alt || '') + '">';
         },
-        _applyImgFallback: function (im) {
-            var fb = (im.getAttribute('data-modfb') || '').split('|').filter(Boolean);
-            if (fb.length) {
-                im.setAttribute('data-modfb', fb.slice(1).join('|'));
-                im.src = fb[0];
-            } else {
-                im.removeAttribute('data-modfb');
-                im.style.visibility = 'hidden';
-            }
-        },
-        // 图片可能在插入 DOM 前就已报错，或请求挂起（无 load 也无 error），用扫描 + 超时兜底
-        _sweepBrokenImgs: function (root) {
+        // 为 root 内所有待加载的模组远程图片做预载（优先用已验证线路）
+        _loadModImgs: function (root) {
             var self = this;
-            var imgs = (root || document).querySelectorAll('img[data-modfb]');
+            var imgs = (root || document).querySelectorAll('img[data-modpath]');
             Array.prototype.forEach.call(imgs, function (im) {
-                if (im.complete && im.naturalWidth === 0) self._applyImgFallback(im);
-                self._armImgTimer(im);
+                if (im.getAttribute('data-loading') === '1') return;
+                im.setAttribute('data-loading', '1');
+                var path = im.getAttribute('data-modpath');
+                var known = self._imgResolved[path];
+                var candidates = known ? [known] : self.baseUrls.map(function (b) { return b + path; });
+                (function tryNext(i) {
+                    if (i >= candidates.length) { im.style.visibility = 'hidden'; return; }
+                    var probe = new Image();
+                    var done = false;
+                    var timer = setTimeout(function () {
+                        if (done) return;
+                        done = true; probe.src = ''; tryNext(i + 1);
+                    }, 3000);
+                    probe.onload = function () {
+                        if (done) return;
+                        done = true; clearTimeout(timer);
+                        if (!probe.naturalWidth) { tryNext(i + 1); return; }
+                        self._imgResolved[path] = candidates[i];
+                        im.src = candidates[i];
+                        im.classList.add('mod-img-loaded');
+                    };
+                    probe.onerror = function () {
+                        if (done) return;
+                        done = true; clearTimeout(timer);
+                        tryNext(i + 1);
+                    };
+                    probe.src = candidates[i];
+                })(0);
             });
         },
-        _armImgTimer: function (im) {
-            var self = this;
-            if (im._modImgTimer) return;
-            im._modImgTimer = setTimeout(function () {
-                im._modImgTimer = null;
-                if (!im.getAttribute('data-modfb')) return;
-                if (im.naturalWidth > 0) return; // 已成功
-                self._applyImgFallback(im);      // 失败或挂起 → 换下一条线路
-                self._armImgTimer(im);
-            }, 3000);
-        },
-        _bindImgFallback: function () {
-            if (this._imgFallbackBound) return;
-            this._imgFallbackBound = true;
-            var self = this;
-            // error 事件不冒泡，jQuery 委托捕不到，必须用原生捕获阶段监听
-            document.addEventListener('error', function (e) {
-                var im = e.target;
-                if (!im || im.tagName !== 'IMG' || !im.hasAttribute('data-modfb')) return;
-                self._applyImgFallback(im);
-            }, true);
-            // 只有真正加载成功的线路才记入缓存（避免把挂起的 raw 缓存下来）
-            document.addEventListener('load', function (e) {
-                var im = e.target;
-                if (!im || im.tagName !== 'IMG' || !im.getAttribute('data-modpath')) return;
-                if (im.naturalWidth > 0) self._imgResolved[im.getAttribute('data-modpath')] = im.src;
-            }, true);
-        },
+        _bindImgFallback: function () { /* 旧回退机制已由 _loadModImgs 取代 */ },
 
         _metaToListShape: function (m) {
             return {
@@ -1017,7 +1003,7 @@
                     $list.append($row);
                 });
                 // 列表图片可能插入前就已失败，插入后统一扫一次
-                self._sweepBrokenImgs($list[0]);
+                self._loadModImgs($list[0]);
             });
         },
         openDetail: function (x) {
@@ -1138,7 +1124,7 @@
             // 详情弹窗必须显示在 Mod 库整页（z-index 10001）之上
             openModal('mod-detail-modal', 10050);
             // 详情内远程图片同样挂超时兜底
-            this._sweepBrokenImgs(document.getElementById('mod-detail-body'));
+            this._loadModImgs(document.getElementById('mod-detail-body'));
         },
         importLocalFile: function (file) {
             var self = this;
@@ -1208,12 +1194,10 @@
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
-            ModManager._bindImgFallback();
             ModManager.bind();
             setTimeout(function () { ModManager.init(); }, 1200);
         });
     } else {
-        ModManager._bindImgFallback();
         ModManager.bind();
         setTimeout(function () { ModManager.init(); }, 1200);
     }
