@@ -26,7 +26,8 @@ const ALLOWED_REPOS = [
   'incredibox-Para-DX/anqu-music-resources',
   'incredibox-Para-DX/anqu-title-resources',
   'incredibox-Para-DX/anqu-minigame-resources',
-  'incredibox-Para-DX/anqu-mods-resources'
+  'incredibox-Para-DX/anqu-mods-resources',
+  'incredibox-Para-DX/anqu-announcements'
 ];
 
 const UPSTREAM_BASE = 'https://raw.githubusercontent.com';

@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.94.m",
+  "version": "v2.1.0_hotfix.95.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 342680
+      "size": 343822
     },
     {
       "path": "js/synthesis.js",
@@ -88,6 +88,14 @@
     {
       "path": "js/mods.js",
       "size": 72082
+    },
+    {
+      "path": "admin/anqu-admin.html",
+      "size": 61264
+    },
+    {
+      "path": "admin/leaderboard-admin.html",
+      "size": 19413
     },
     {
       "path": "xml/backgrounds.xml",
@@ -139,9 +147,9 @@
     },
     {
       "path": "index.html",
-      "size": 125646
+      "size": 126503
     }
   ],
-  "fileCount": 35,
-  "totalSize": 2386437
+  "fileCount": 37,
+  "totalSize": 2469113
 }

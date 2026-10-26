@@ -6639,7 +6639,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.94';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.95';
 
     /* ============================================================
      * 检查更新
@@ -6810,6 +6810,30 @@ const EventManager = {
                 $btn.prop('disabled', false);
                 showStatus('启动失败：' + e, '#f87171');
             }
+        });
+    })();
+
+    /* ============================================================
+     * GM：管理后台（资源管理 / 榜单管理）—— 整页 iframe
+     * ============================================================ */
+    (function () {
+        var $page = $('#admin-frame-page');
+        var iframe = document.getElementById('admin-frame');
+        if (!$page.length || !iframe) return;
+        function openAdmin(src, title) {
+            $('#admin-frame-title').text(title);
+            iframe.src = src;
+            $page.css('display', 'flex');
+            setTimeout(function () { $page.addClass('show'); }, 10);
+        }
+        $('#gm-resource-admin-btn').on('click', function () { openAdmin('admin/anqu-admin.html', '资源管理'); });
+        $('#gm-leaderboard-admin-btn').on('click', function () { openAdmin('admin/leaderboard-admin.html', '榜单管理'); });
+        $('#admin-frame-close').on('click', function () {
+            $page.removeClass('show');
+            setTimeout(function () {
+                $page.css('display', 'none');
+                iframe.src = 'about:blank';
+            }, 320);
         });
     })();
 

@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.94</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.95</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -694,6 +694,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-gm">
 <button class="sidebar-btn" id="edit-accumulated-value-btn"><i class="fas fa-coins"></i> 编辑总累计价值</button>
 <button class="sidebar-btn full-width" id="gm-hotupdate-open-btn" style="margin-top:6px;"><i class="fas fa-cloud-download-alt"></i> 私链热更新</button>
+<button class="sidebar-btn full-width" id="gm-resource-admin-btn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> 资源管理</button>
+<button class="sidebar-btn full-width" id="gm-leaderboard-admin-btn"><i class="fas fa-ranking-star"></i> 榜单管理</button>
 <button class="sidebar-btn full-width" id="gm-mod-upload-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> Mod上传</button>
 <input type="file" id="gm-mod-upload-file" accept=".zip,application/zip" style="display:none;">
 <input class="input-field" id="gm-mod-token" type="text" placeholder="GitHub Token（仅保存在本机）" style="font-size:11px;margin-top:6px;" autocomplete="off" spellcheck="false">
@@ -1681,6 +1683,20 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="modal-btn" id="item-unlock-qq-copy" style="min-width:132px;"><i class="fas fa-copy"></i> 复制QQ</button>
 <button class="modal-btn primary" id="item-unlock-gotoredeem" style="min-width:132px;"><i class="fas fa-gift"></i> 去兑换码</button>
 </div>
+</div>
+</div>
+
+<!-- 管理后台 整页 iframe -->
+<div class="modal-overlay app-full-page" id="admin-frame-page">
+<div class="modal-content">
+<div class="modal-header mod-page-header">
+<div class="mod-header-side"></div>
+<div class="modal-title" id="admin-frame-title">管理后台</div>
+<div class="app-page-actions">
+<button class="app-page-back-btn" id="admin-frame-close"><i class="fas fa-arrow-left"></i> 返回</button>
+</div>
+</div>
+<iframe id="admin-frame" src="about:blank" style="flex:1 1 auto;min-height:0;width:100%;border:0;display:block;background:#0b0e13;"></iframe>
 </div>
 </div>
 

@@ -40,6 +40,8 @@ CODE_FILES = [
     "libs/lodash.js",
     "libs/jszip.min.js",
     "js/mods.js",
+    "admin/anqu-admin.html",
+    "admin/leaderboard-admin.html",
     "xml/backgrounds.xml",
     "xml/items.xml",
     "xml/loading-tips.xml",
