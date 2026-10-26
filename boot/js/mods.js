@@ -788,10 +788,11 @@
             this.renderStoreList();
         },
         switchTab: function (tab) {
+            if (tab === 'import') tab = this._currentTab || 'mine'; // 导入不走页面切换
             this._currentTab = tab;
             $('#mod-library-page .mod-tab-btn').removeClass('active');
             $('#mod-library-page .mod-tab-btn[data-tab="' + tab + '"]').addClass('active');
-            $('#mod-tab-mine, #mod-tab-store, #mod-tab-import').hide();
+            $('#mod-tab-mine, #mod-tab-store').hide();
             $('#mod-tab-' + tab).show();
             if (tab === 'store') this.renderStoreList();
             if (tab === 'mine') this.renderMineList();
@@ -957,7 +958,8 @@
                     if (self._storeFilter !== 'all' && x.type !== self._storeFilter) return false;
                     var kw = self._storeSearch.trim().toLowerCase();
                     if (!kw) return true;
-                    return (String(x.name || '') + String(x.desc || '') + String(x.author || '')).toLowerCase().indexOf(kw) !== -1;
+                    // 搜索只匹配名称与作者，不包含简介
+                    return (String(x.name || '') + ' ' + String(x.author || '')).toLowerCase().indexOf(kw) !== -1;
                 });
                 $list.empty();
                 if (!items.length) {
@@ -1109,9 +1111,10 @@
             if (!file) return;
             if (!/\.zip$/i.test(file.name || '')) { toast('请选择 zip 文件'); return; }
             toast('正在校验并安装…');
-            this.installFromZip(file, null, 'local').then(function (meta) {
+            this.installFromZip(file, null).then(function (meta) {
                 toast('已导入「' + meta.name + '」' + (meta.enabled ? '（已启用）' : ''));
                 self.renderMineList();
+                self.renderStoreList();
                 self.switchTab('mine');
             }).catch(function (e) {
                 toast('导入失败：' + String(e.message || e));
@@ -1141,8 +1144,8 @@
                 if (navigator.clipboard) navigator.clipboard.writeText(GUIDE_QQ).then(function () { toast('QQ 已复制：' + GUIDE_QQ); });
                 else toast('QQ：' + GUIDE_QQ);
             });
-            // tab 切换
-            $('#mod-library-page').on('click', '.mod-tab-btn', function () {
+            // tab 切换（导入按钮单独处理）
+            $('#mod-library-page').on('click', '.mod-tab-btn[data-tab]', function () {
                 self.switchTab($(this).data('tab'));
             });
             // 搜索 & 筛选
@@ -1155,8 +1158,8 @@
                 self._storeFilter = $(this).data('f') || 'all';
                 self.renderStoreList();
             });
-            // 本地导入
-            $('#mod-import-pick').on('click', function () {
+            // 从本地导入：直接唤起文件选择，不切页
+            $('#mod-import-tab-btn').on('click', function () {
                 var inp = document.getElementById('mod-import-file');
                 if (inp) { inp.value = ''; inp.click(); }
             });

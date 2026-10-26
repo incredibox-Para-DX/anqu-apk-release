@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.82</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.1.0_hotfix.83</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1548,7 +1548,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
 <button class="modal-btn primary" id="mod-template-copy" style="flex:1;"><i class="fas fa-link"></i> 复制模板下载链接</button>
 </div>
-<div class="mod-guide-link">gofile：https://gofile.io/d/6L3o4zBS（若失效请到交流群反馈）</div>
+<div class="mod-guide-link">若失效请到交流群反馈</div>
 </div>
 <div class="mod-guide-section">
 <h4><i class="fas fa-list-check"></i> 第二步：制作你的模组</h4>
@@ -1638,7 +1638,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="mod-tabs">
 <button class="mod-tab-btn active" data-tab="mine">我的MOD</button>
 <button class="mod-tab-btn" data-tab="store">MOD资源管理</button>
-<button class="mod-tab-btn" data-tab="import">从本地导入MOD</button>
+<button class="mod-tab-btn" id="mod-import-tab-btn">从本地导入MOD</button>
 </div>
 <div class="modal-body mod-body" style="padding:0 16px 16px;">
 <div id="mod-tab-mine"><div id="mod-mine-list" class="mod-list"></div></div>
@@ -1654,14 +1654,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div id="mod-store-list" class="mod-list"></div>
 </div>
-<div id="mod-tab-import" style="display:none;">
-<div class="mod-import-box">
-<i class="fas fa-file-archive"></i>
-<p>选择作者打包好的 .zip 模组文件导入（与上架审核使用同一套校验规则）</p>
-<button class="modal-btn primary" id="mod-import-pick"><i class="fas fa-folder-open"></i> 选择 ZIP 文件</button>
 <input type="file" id="mod-import-file" accept=".zip,application/zip" style="display:none;">
-</div>
-</div>
 </div>
 </div>
 </div>
