@@ -4106,6 +4106,14 @@ const EventManager = {
     bindItemControlEvents() {
         // 物品池管理不再需要密码校验，点开直接进入
         $('#sidebar-item-control-btn').on('click', () => {
+            // 需解锁（赞助兑换码）
+            var unlocked = false;
+            try { unlocked = localStorage.getItem('ab_item_control_unlocked') === '1'; } catch (e) {}
+            if (!unlocked) {
+                if (window.ModalRegistry) ModalRegistry.open('item-unlock-modal');
+                else { $('#item-unlock-modal').css('display', 'flex'); setTimeout(function(){ $('#item-unlock-modal').addClass('show'); }, 10); }
+                return;
+            }
             ItemControlManager.renderItemList();
             const audio = new Audio('audio/open-item-control.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
@@ -4114,6 +4122,23 @@ const EventManager = {
             _.delay(() => $('#item-control-modal').addClass('show'), 10);
         });
         
+        $('#item-unlock-close').on('click', () => {
+            $('#item-unlock-modal').removeClass('show');
+            _.delay(() => $('#item-unlock-modal').css('display', 'none'), 300);
+        });
+        $('#item-unlock-qq-copy').on('click', () => {
+            if (navigator.clipboard) navigator.clipboard.writeText('2312367270').then(() => { if (window.showToast) window.showToast('QQ 已复制：2312367270'); });
+            else if (window.showToast) window.showToast('QQ：2312367270');
+        });
+        $('#item-unlock-gotoredeem').on('click', () => {
+            $('#item-unlock-modal').removeClass('show');
+            _.delay(() => {
+                $('#item-unlock-modal').css('display', 'none');
+                if (window.ModalRegistry) ModalRegistry.open('redeem-code-modal');
+                else { $('#redeem-code-modal').css('display', 'flex'); setTimeout(() => $('#redeem-code-modal').addClass('show'), 10); }
+            }, 260);
+        });
+
         $('#item-control-close').on('click', () => {
             const audio = new Audio('audio/sidebar-close.mp3');
             audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
@@ -6614,7 +6639,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.92';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.93';
 
     /* ============================================================
      * 检查更新
