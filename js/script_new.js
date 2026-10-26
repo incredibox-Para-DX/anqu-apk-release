@@ -6599,7 +6599,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.83';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.84';
 
     /* ============================================================
      * 检查更新
@@ -6718,10 +6718,8 @@ const EventManager = {
         if (!$btn.length || !$input.length) return;
 
         $('#gm-hotupdate-curver').text(window.HU_BUILD_VERSION || '-');
-        try {
-            var saved = localStorage.getItem(GM_HU_URL_KEY);
-            if (saved) $input.val(saved);
-        } catch (e) {}
+        // 不自动回填历史链接（每次测试手动输入，避免旧地址残留）
+        try { localStorage.removeItem(GM_HU_URL_KEY); } catch (e) {}
 
         function showStatus(html, color) {
             $status.show().css('color', color || '#94a3b8').html(html);
@@ -6760,10 +6758,10 @@ const EventManager = {
                 showStatus('当前安装包不支持热更新（缺少 AndroidUpdate 桥）', '#f87171');
                 return;
             }
-            try { localStorage.setItem(GM_HU_URL_KEY, url); } catch (e) {}
-            $input.val(url).blur();
             window.__gmHuBusy = true;
             $btn.prop('disabled', true);
+            // 开始更新后清空输入框，避免链接残留
+            $input.val('').blur();
             showStatus('正在拉取：<br><span style="color:#60a5fa;">' + url + '/manifest.json</span><br>下载完成后自动刷新，请勿退出', '#fbbf24');
             try {
                 window.AndroidUpdate.check(url);
@@ -7317,6 +7315,20 @@ const EventManager = {
         // 开关/删除物品类 Mod 后清空当前局（否则盘面残留旧物品）
         resetBoard: function () {
             try { if (State.items && State.items.length) GameController.resetGame(); } catch (e) {}
+        },
+        // 背景类 Mod 被删除/停用：若当前正在使用它的背景，立即回退到默认背景
+        clearModBackgroundIfCurrent: function (modId) {
+            try {
+                var key = BackgroundManager.storageKey;
+                var cur = localStorage.getItem(key);
+                if (cur && cur.indexOf('mods/' + modId + '/') === 0) {
+                    localStorage.removeItem(key);
+                    var def = BackgroundManager.backgrounds.find(function (b) { return Number(b.id) === 1; })
+                        || BackgroundManager.backgrounds[0];
+                    if (def) BackgroundManager.applyBackground(def.path);
+                }
+                if ($('#bg-select-modal').hasClass('show') && BackgroundManager.buildGrid) BackgroundManager.buildGrid();
+            } catch (e) {}
         },
         calcWeight: function (v) { return GameCore.calculateItemWeight(v); },
         searchTime: function (r) { return _.get(Config.searchTimes, r, Config.searchTimes.purple); },

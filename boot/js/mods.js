@@ -651,30 +651,38 @@
             });
         },
         unapplyMusic: function (meta) {
-            var self = this;
             var player = w.musicPlayer;
             if (!player) return Promise.resolve();
             var ids = {};
             meta.trackDefs.forEach(function (tr, i) { ids['mod_' + meta.id + '_' + i] = true; });
-            // 从播放列表移除
+            var cur = player.playlist[player.currentTrackIndex];
+            var removedCurrent = !!(cur && cur.isCustom && ids[cur.customId]);
+            // 从播放列表 / customTracks 移除
+            for (var i = player.playlist.length - 1; i >= 0; i--) {
+                var t = player.playlist[i];
+                if (t && t.isCustom && ids[t.customId]) {
+                    try { if (t._blobUrl) URL.revokeObjectURL(t._blobUrl); } catch (e) {}
+                    try { if (t._coverBlobUrl) URL.revokeObjectURL(t._coverBlobUrl); } catch (e) {}
+                    player.playlist.splice(i, 1);
+                }
+            }
             try {
-                for (var i = player.playlist.length - 1; i >= 0; i--) {
-                    var t = player.playlist[i];
-                    if (t && t.isCustom && ids[t.customId]) {
-                        try { if (t._blobUrl) URL.revokeObjectURL(t._blobUrl); } catch (e) {}
-                        try { if (t._coverBlobUrl) URL.revokeObjectURL(t._coverBlobUrl); } catch (e) {}
-                        player.playlist.splice(i, 1);
-                        if (player.currentTrackIndex >= player.playlist.length) {
-                            player.currentTrackIndex = Math.max(0, player.playlist.length - 1);
-                        }
-                    }
-                }
-                // 若正在播放被移除的曲目，停止
-                var cur = player.playlist[player.currentTrackIndex];
-                if (!cur || (player.customTracks || []).every(function (x) { return !(x.isCustom && ids[x.customId]); })) {
-                    if (ids[(cur && cur.customId) || '']) { try { player.audio.pause(); } catch (e) {} }
-                }
+                player.customTracks = (player.customTracks || []).filter(function (t) { return !(t && ids[t.customId]); });
             } catch (e) {}
+            if (removedCurrent) {
+                // 删除/停用后不再播放：停止当前音频，不自动切歌
+                try { player.audio.pause(); } catch (e) {}
+                player.isPlaying = false;
+                player.userPaused = true;
+                try { player.audio.removeAttribute('src'); player.audio.load(); } catch (e) {}
+                player.currentTrackIndex = 0;
+                player._audioTrackIndex = 0;
+                if (player.playlist.length && typeof player.loadTrack === 'function') {
+                    try { player.loadTrack(0, false); } catch (e) {}
+                }
+            } else if (player.currentTrackIndex >= player.playlist.length) {
+                player.currentTrackIndex = Math.max(0, player.playlist.length - 1);
+            }
             return player.openCustomMusicDB().then(function (db) {
                 return new Promise(function (resolve) {
                     var tx = db.transaction('tracks', 'readwrite');
@@ -696,6 +704,7 @@
             } else if (meta.type === 'background') {
                 self.invalidateCache();
                 self.applyBackgroundsToManager();
+                if (w.__modHooks && w.__modHooks.clearModBackgroundIfCurrent) w.__modHooks.clearModBackgroundIfCurrent(meta.id);
             } else if (meta.type === 'music') {
                 promises.push(self.applyMusic(meta));
             }
@@ -709,6 +718,7 @@
             } else if (meta.type === 'background') {
                 this.invalidateCache();
                 this.applyBackgroundsToManager();
+                if (w.__modHooks && w.__modHooks.clearModBackgroundIfCurrent) w.__modHooks.clearModBackgroundIfCurrent(meta.id);
             } else if (meta.type === 'music') {
                 return this.unapplyMusic(meta);
             }
@@ -739,6 +749,7 @@
             }
             if (meta.type === 'background') {
                 try { this.applyBackgroundsToManager(); } catch (e) {}
+                if (w.__modHooks && w.__modHooks.clearModBackgroundIfCurrent) w.__modHooks.clearModBackgroundIfCurrent(id);
             }
             return this.unapplyMusicIfNeeded(meta).then(function () {
                 Object.keys(self._blobUrls).forEach(function (p) {
