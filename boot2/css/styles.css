@@ -3407,3 +3407,7 @@ video:empty {
 
 /* 我的MOD 空间徽标 */
 .mod-space-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; padding: 3px 10px; }
+
+/* 详情弹窗高度补足 */
+.mod-detail-content { height: 96vh !important; max-height: 96vh !important; }
+#mod-detail-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }

@@ -692,6 +692,7 @@
             if (meta.type === 'item') {
                 self.invalidateCache();
                 if (w.__modHooks && w.__modHooks.refreshItemPool) w.__modHooks.refreshItemPool();
+                if (w.__modHooks && w.__modHooks.resetBoard) w.__modHooks.resetBoard();
             } else if (meta.type === 'background') {
                 self.invalidateCache();
                 self.applyBackgroundsToManager();
@@ -704,6 +705,7 @@
             if (meta.type === 'item') {
                 this.invalidateCache();
                 if (w.__modHooks && w.__modHooks.refreshItemPool) w.__modHooks.refreshItemPool();
+                if (w.__modHooks && w.__modHooks.resetBoard) w.__modHooks.resetBoard();
             } else if (meta.type === 'background') {
                 this.invalidateCache();
                 this.applyBackgroundsToManager();
@@ -729,18 +731,28 @@
             var self = this;
             var meta = this._meta[id];
             if (!meta) return Promise.resolve();
-            return this.unapplyMod(meta).catch(function () {}).then(function () {
-                // 释放 blob URL
+            // 先移除注册与缓存并刷新物品池，避免残留（unapply 依赖 _meta 状态）
+            delete this._meta[id];
+            this.invalidateCache();
+            if (w.__modHooks && w.__modHooks.refreshItemPool) {
+                try { w.__modHooks.refreshItemPool(); } catch (e) {}
+            }
+            if (meta.type === 'background') {
+                try { this.applyBackgroundsToManager(); } catch (e) {}
+            }
+            return this.unapplyMusicIfNeeded(meta).then(function () {
                 Object.keys(self._blobUrls).forEach(function (p) {
                     if (p.indexOf('mods/' + id + '/') === 0) {
                         try { URL.revokeObjectURL(self._blobUrls[p]); } catch (e) {}
                         delete self._blobUrls[p];
                     }
                 });
-                delete self._meta[id];
-                self.invalidateCache();
                 return self.deleteMetaAndAssets(id);
             });
+        },
+        unapplyMusicIfNeeded: function (meta) {
+            if (meta && meta.type === 'music') return this.unapplyMusic(meta).catch(function () {});
+            return Promise.resolve();
         },
         getSpaceUsage: function () {
             var total = 0, count = 0;
@@ -784,11 +796,13 @@
             if (tab === 'store') this.renderStoreList();
             if (tab === 'mine') this.renderMineList();
         },
-        /* 远程图片：主线路 + 备用线路自动回退（worker 未部署新仓库时会自动走 jsDelivr/raw） */
+        /* 远程图片：主线路 + 备用线路自动回退，并记住可用线路避免反复闪图 */
+        _imgResolved: {},
         _assetImg: function (path, cls, alt) {
             if (!path) return '';
-            var urls = this.baseUrls.map(function (b) { return b + path; });
-            return '<img src="' + esc(urls[0]) + '" data-modfb="' + esc(urls.slice(1).join('|')) +
+            var known = this._imgResolved[path];
+            var urls = known ? [known] : this.baseUrls.map(function (b) { return b + path; });
+            return '<img src="' + esc(urls[0]) + '" data-modpath="' + esc(path) + '" data-modfb="' + esc(urls.slice(1).join('|')) +
                 '" class="' + (cls || '') + '" alt="' + esc(alt || '') + '" loading="lazy">';
         },
         _applyImgFallback: function (im) {
@@ -801,13 +815,25 @@
                 im.style.visibility = 'hidden';
             }
         },
-        // 图片可能在插入 DOM 前就已报错（错误事件丢失），插入后扫一次坏图
+        // 图片可能在插入 DOM 前就已报错，或请求挂起（无 load 也无 error），用扫描 + 超时兜底
         _sweepBrokenImgs: function (root) {
             var self = this;
             var imgs = (root || document).querySelectorAll('img[data-modfb]');
             Array.prototype.forEach.call(imgs, function (im) {
                 if (im.complete && im.naturalWidth === 0) self._applyImgFallback(im);
+                self._armImgTimer(im);
             });
+        },
+        _armImgTimer: function (im) {
+            var self = this;
+            if (im._modImgTimer) return;
+            im._modImgTimer = setTimeout(function () {
+                im._modImgTimer = null;
+                if (!im.getAttribute('data-modfb')) return;
+                if (im.naturalWidth > 0) return; // 已成功
+                self._applyImgFallback(im);      // 失败或挂起 → 换下一条线路
+                self._armImgTimer(im);
+            }, 3000);
         },
         _bindImgFallback: function () {
             if (this._imgFallbackBound) return;
@@ -818,6 +844,12 @@
                 var im = e.target;
                 if (!im || im.tagName !== 'IMG' || !im.hasAttribute('data-modfb')) return;
                 self._applyImgFallback(im);
+            }, true);
+            // 只有真正加载成功的线路才记入缓存（避免把挂起的 raw 缓存下来）
+            document.addEventListener('load', function (e) {
+                var im = e.target;
+                if (!im || im.tagName !== 'IMG' || !im.getAttribute('data-modpath')) return;
+                if (im.naturalWidth > 0) self._imgResolved[im.getAttribute('data-modpath')] = im.src;
             }, true);
         },
 
@@ -891,6 +923,7 @@
                     '<button class="mod-del-btn" title="删除"><i class="fas fa-trash-alt"></i></button>' +
                     '</div>'
                 );
+                $row.find('.mod-switch').on('click', function (e) { e.stopPropagation(); });
                 $row.find('.mod-switch input').on('change', function (e) {
                     e.stopPropagation();
                     self.toggle(id).then(function () { self.renderMineList(); self.renderStoreList(); }).catch(function (e2) { toast(String(e2.message || e2)); });
@@ -916,6 +949,10 @@
             var $list = $('#mod-store-list');
             if (!$list.length) return;
             this.fetchManifest().then(function (m) {
+                // 相同数据不重复渲染，避免切页时缩略图闪动
+                var key = [m.version, self._storeFilter, self._storeSearch, Object.keys(self._meta).join(',')].join('|');
+                if (self._storeRenderKey === key && $list.children().length) return;
+                self._storeRenderKey = key;
                 var items = (m.mods || []).filter(function (x) {
                     if (self._storeFilter !== 'all' && x.type !== self._storeFilter) return false;
                     var kw = self._storeSearch.trim().toLowerCase();
@@ -1064,6 +1101,8 @@
             });
             // 详情弹窗必须显示在 Mod 库整页（z-index 10001）之上
             openModal('mod-detail-modal', 10050);
+            // 详情内远程图片同样挂超时兜底
+            this._sweepBrokenImgs(document.getElementById('mod-detail-body'));
         },
         importLocalFile: function (file) {
             var self = this;

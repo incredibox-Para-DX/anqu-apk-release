@@ -6599,7 +6599,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.79';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.81';
 
     /* ============================================================
      * 检查更新
@@ -6912,7 +6912,7 @@ const EventManager = {
             // 最高版本等于本地版本 → 真的已最新
             var hasUpdate = window.__huVersionGt(bestVer, curVer);
             window.__huActiveBase = bestBase;
-            try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + bestVer); } catch(e) {}
+            // 顶部版本号固定显示本地构建版本（服务器版本受各线路缓存影响会跳变，只在更新弹窗里展示）
             done(bestM, hasUpdate);
         };
         var record = function(m, base) {
@@ -7314,6 +7314,10 @@ const EventManager = {
     // ===== Mod 库接入桥 =====
     window.__modHooks = {
         refreshItemPool: function () { SettingsManager.updateItemPool(); },
+        // 开关/删除物品类 Mod 后清空当前局（否则盘面残留旧物品）
+        resetBoard: function () {
+            try { if (State.items && State.items.length) GameController.resetGame(); } catch (e) {}
+        },
         calcWeight: function (v) { return GameCore.calculateItemWeight(v); },
         searchTime: function (r) { return _.get(Config.searchTimes, r, Config.searchTimes.purple); },
         // 替换 BackgroundManager.backgrounds 中的 Mod 背景部分
