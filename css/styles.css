@@ -3411,3 +3411,12 @@ video:empty {
 /* 详情弹窗高度补足 */
 .mod-detail-content { height: 96vh !important; max-height: 96vh !important; }
 #mod-detail-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+
+/* 详情弹窗：用弹性图片区填满高度，消除底部空白 */
+#mod-detail-body { display: flex; flex-direction: column; }
+#mod-detail-body .mod-detail-screens { flex: 1 1 auto; min-height: 150px; }
+#mod-detail-body .mod-screen { height: 100%; min-height: 150px; }
+#mod-detail-body .mod-screen img { height: 100%; }
+
+/* 解除全局 .modal-body 的高度上限，让详情内容区撑满弹窗 */
+#mod-detail-body { max-height: none !important; margin-bottom: 0 !important; }
