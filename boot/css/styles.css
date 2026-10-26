@@ -3428,3 +3428,8 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 /* 物品池管理：整页显示 */
 .item-control-modal-content { width: 100% !important; max-width: none !important; height: 100% !important; max-height: none !important; display: flex; flex-direction: column; padding-top: 6px; }
 .item-control-modal-body { flex: 1 1 auto; min-height: 0; max-height: none !important; overflow-y: auto; }
+
+/* 物品池整页：仅列表滚动，避免下拉菜单被滚动容器裁切/压层 */
+.item-control-modal-body { overflow: hidden !important; display: flex; flex-direction: column; }
+#item-control-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.item-control-modal-body .dropdown-menu { z-index: 9500; }
