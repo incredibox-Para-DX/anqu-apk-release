@@ -1,5 +1,5 @@
 {
-  "version": "v2.1.0_hotfix.88",
+  "version": "v2.1.0_hotfix.89",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -87,7 +87,7 @@
     },
     {
       "path": "js/mods.js",
-      "size": 63256
+      "size": 63440
     },
     {
       "path": "xml/backgrounds.xml",
@@ -139,9 +139,9 @@
     },
     {
       "path": "index.html",
-      "size": 123806
+      "size": 123787
     }
   ],
   "fileCount": 35,
-  "totalSize": 2370756
+  "totalSize": 2370921
 }

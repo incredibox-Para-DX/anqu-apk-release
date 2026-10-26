@@ -198,22 +198,26 @@
                 return Promise.resolve(this._manifest);
             }
             function tryOne(base) {
-                var url = base;
-                return ModManager._fetchTimeout(url, 6000)
+                return ModManager._fetchTimeout(base, 6000)
                     .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-                    .then(function (m) { if (!m || !Array.isArray(m.mods)) throw new Error('bad manifest'); return m; });
+                    .then(function (m) { if (!m || !Array.isArray(m.mods)) throw new Error('bad manifest'); return m; })
+                    .catch(function () { return null; });
             }
-            // jsDelivr 分支缓存忽略查询参数，保持原 URL；链路顺序：worker → raw（新）→ jsDelivr（兜底）
-            var chain = Promise.reject();
-            this.manifestUrls.forEach(function (u) {
-                chain = chain.catch(function () { return tryOne(u); });
-            });
-            return chain.then(function (m) {
-                self._manifest = m;
-                self._manifestTs = Date.now();
-                return m;
-            }).catch(function () {
-                // 拉取失败：不清空已有列表，也不缓存空结果（下次重试）
+            // 三路并发取最高 version：各线路（raw / jsDelivr）缓存刷新时间不一致，
+            // 串行取首个成功会拿到旧清单（例如只含早期模组）
+            var tasks = this.manifestUrls.map(tryOne);
+            return Promise.all(tasks).then(function (list) {
+                var best = null;
+                list.forEach(function (m) {
+                    if (!m) return;
+                    if (!best || (Number(m.version) || 0) > (Number(best.version) || 0)) best = m;
+                });
+                if (best) {
+                    self._manifest = best;
+                    self._manifestTs = Date.now();
+                    return best;
+                }
+                // 全部失败：保留旧数据，不缓存空结果
                 if (self._manifest && Array.isArray(self._manifest.mods) && self._manifest.mods.length) {
                     return self._manifest;
                 }
@@ -1147,8 +1151,8 @@
             if ($('#sidebar-mod-library-btn').length) {
                 $('#sidebar-mod-library-btn').on('click', function () { self.openLibrary(); });
             }
-            if ($('#sidebar-mod-guide-btn').length) {
-                $('#sidebar-mod-guide-btn').on('click', function () { openModal('mod-guide-page'); });
+            if ($('#mod-doc-btn').length) {
+                $('#mod-doc-btn').on('click', function () { openModal('mod-guide-page'); });
             }
             $('#mod-guide-close').on('click', function () { closeModal('mod-guide-page'); });
             $('#mod-library-close').on('click', function () { closeModal('mod-library-page'); });
