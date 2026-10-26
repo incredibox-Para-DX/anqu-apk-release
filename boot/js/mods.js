@@ -213,9 +213,11 @@
                 self._manifestTs = Date.now();
                 return m;
             }).catch(function () {
-                self._manifest = { version: 0, mods: [] };
-                self._manifestTs = Date.now();
-                return self._manifest;
+                // 拉取失败：不清空已有列表，也不缓存空结果（下次重试）
+                if (self._manifest && Array.isArray(self._manifest.mods) && self._manifest.mods.length) {
+                    return self._manifest;
+                }
+                return { version: 0, mods: [] };
             });
         },
 
@@ -751,14 +753,25 @@
                 try { this.applyBackgroundsToManager(); } catch (e) {}
                 if (w.__modHooks && w.__modHooks.clearModBackgroundIfCurrent) w.__modHooks.clearModBackgroundIfCurrent(id);
             }
-            return this.unapplyMusicIfNeeded(meta).then(function () {
+            return this.unapplyMusicIfNeeded(meta).catch(function () {}).then(function () {
                 Object.keys(self._blobUrls).forEach(function (p) {
                     if (p.indexOf('mods/' + id + '/') === 0) {
                         try { URL.revokeObjectURL(self._blobUrls[p]); } catch (e) {}
                         delete self._blobUrls[p];
                     }
                 });
-                return self.deleteMetaAndAssets(id);
+                return self.deleteMetaAndAssets(id).catch(function () {});
+            }).then(function () {
+                // 与 IndexedDB 对齐一次，避免内存与存储脱节导致列表错乱
+                return self.getAllMeta().then(function (list) {
+                    var fresh = {};
+                    list.forEach(function (m) { fresh[m.id] = m; });
+                    self._meta = fresh;
+                    self.invalidateCache();
+                }).catch(function () {});
+            }).then(function () {
+                self.renderMineList();
+                self.renderStoreList();
             });
         },
         unapplyMusicIfNeeded: function (meta) {
@@ -914,7 +927,7 @@
             $('#mod-space-summary').text('已用 ' + fmtSize(usage.bytes) + ' · 共 ' + usage.count + ' 个模组');
             $list.empty();
             var ids = Object.keys(this._meta).sort(function (a, b) {
-                return self._meta[a].installedAt - self._meta[b].installedAt;
+                return (Number(self._meta[a].installedAt) || 0) - (Number(self._meta[b].installedAt) || 0);
             });
             if (!ids.length) {
                 $list.html('<div class="mod-empty">还没有安装的 Mod<br><span>去「MOD资源管理」下载，或在「从本地导入MOD」导入 zip</span></div>');
