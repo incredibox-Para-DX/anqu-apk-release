@@ -227,7 +227,7 @@
             function tryOne(i) {
                 if (i >= bases.length) return Promise.reject(new Error('全部下载线路失败'));
                 var url = bases[i] + relFile;
-                return ModManager._fetchTimeout(url, 20000).then(function (r) {
+                return ModManager._fetchTimeout(url, 8000).then(function (r) {
                     if (!r.ok) throw new Error('HTTP ' + r.status);
                     return r.blob();
                 }).catch(function (e) { return tryOne(i + 1); });
@@ -930,7 +930,7 @@
                 return (Number(self._meta[a].installedAt) || 0) - (Number(self._meta[b].installedAt) || 0);
             });
             if (!ids.length) {
-                $list.html('<div class="mod-empty">还没有安装的 Mod<br><span>去「MOD资源管理」下载，或在「从本地导入MOD」导入 zip</span></div>');
+                $list.html('<div class="mod-empty">还没有安装的 Mod<br><span>去「MOD市场」下载，或在「从本地导入MOD」导入 zip</span></div>');
                 return;
             }
             ids.forEach(function (id) {
@@ -969,12 +969,22 @@
                 $list.append($row);
             });
         },
+        _storeSeq: 0,
         renderStoreList: function () {
             var self = this;
             var $list = $('#mod-store-list');
             if (!$list.length) return;
-            this.fetchManifest().then(function (m) {
-                // 相同数据不重复渲染，避免切页时缩略图闪动
+            var seq = ++this._storeSeq;
+            this.fetchManifest().then(function (m0) {
+                // 丢弃过期渲染（并发调用时只保留最新一次）
+                if (seq !== self._storeSeq) return;
+                // 拿到的清单为空但内存里还有上次成功的数据 → 用旧的，不清空列表
+                var m = m0;
+                if ((!m || !m.mods || !m.mods.length) && self._manifest && self._manifest.mods && self._manifest.mods.length) {
+                    m = self._manifest;
+                }
+                if (!m || !Array.isArray(m.mods)) m = { version: 0, mods: [] };
+                // 相同数据不重复渲染（避免切页缩略图闪动）；已安装状态变化会进 key
                 var key = [m.version, self._storeFilter, self._storeSearch, Object.keys(self._meta).join(',')].join('|');
                 if (self._storeRenderKey === key && $list.children().length) return;
                 self._storeRenderKey = key;
