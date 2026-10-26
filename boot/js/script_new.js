@@ -3176,7 +3176,13 @@ _runOpenSafe() {
     if (_.isEmpty(items)) {
         State.isOpenSafeBtnDisabled = false;
         $openButton.prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
-        if (window.showToast) window.showToast('所有物品已被禁用，无法生成');
+        // 失败时也保证可以重置：清理可能残留的搜索/遮罩状态
+        try {
+            $('#reset-btn').prop('disabled', false).removeClass('disabled').css({ opacity: '1', cursor: 'pointer' });
+            UIManager.updatePauseButtonState();
+            $('#searching-overlay').attr('hidden', '');
+        } catch (e) {}
+        if (window.showToast) window.showToast('所有物品已被禁用，请到物品池重新启用');
         return;
     }
     
@@ -3512,7 +3518,7 @@ _runOpenSafe() {
         },
         
         resetGame() {
-            if (State.items.length === 0 && State.inventory.length === 0) return;
+            const hadItems = State.items.length > 0 || State.inventory.length > 0;
             
             if (State.searchTimer) {
                 cancelAnimationFrame(State.searchTimer);
@@ -3526,7 +3532,7 @@ _runOpenSafe() {
             this.stopOpenSafeSound();
             SoundManager.clearCache();
             
-            Utils.playAudio('reset-game-audio', { volume: 1 });
+            if (hadItems) Utils.playAudio('reset-game-audio', { volume: 1 });
             
             this.resetGameState();
             
@@ -6599,7 +6605,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.84';
+    window.HU_BUILD_VERSION = 'v2.1.0_hotfix.85';
 
     /* ============================================================
      * 检查更新
