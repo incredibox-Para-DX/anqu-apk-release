@@ -1,0 +1,21 @@
+{
+  "name": "示例音乐模组",
+  "author": "官方示例",
+  "version": "1.0.0",
+  "type": "music",
+  "desc": "官方示例：包含 2 首曲目，展示音乐类 mod.json 的标准写法。替换成你的音乐和封面即可。",
+  "tracks": [
+    {
+      "title": "示例曲一 · 晨风",
+      "artist": "官方示例",
+      "file": "content/music/track-1.wav",
+      "cover": "content/music/cover-1.png"
+    },
+    {
+      "title": "示例曲二 · 落日",
+      "artist": "官方示例",
+      "file": "content/music/track-2.wav",
+      "cover": "content/music/cover-2.png"
+    }
+  ]
+}
