@@ -1,5 +1,5 @@
 {
-  "version": "v2.2.1",
+  "version": "v2.2.2",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -35,7 +35,7 @@
     },
     {
       "path": "js/main.js",
-      "size": 23930
+      "size": 24314
     },
     {
       "path": "js/modal-registry.js",
@@ -71,7 +71,7 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 14494
+      "size": 24840
     },
     {
       "path": "libs/GSAP.js",
@@ -151,9 +151,9 @@
     },
     {
       "path": "index.html",
-      "size": 127958
+      "size": 128216
     }
   ],
   "fileCount": 38,
-  "totalSize": 2485940
+  "totalSize": 2496928
 }

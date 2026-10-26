@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.1</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.2</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -759,7 +759,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="music-control-btn" id="music-next-btn"><i class="fas fa-step-forward"></i></button>
 </div>
 <div class="music-extra-controls">
-<button class="music-control-btn" id="music-mode-btn"><i class="fas fa-retweet"></i> 顺序播放</button>
+<button class="music-control-btn" id="music-mode-btn"><i class="fas fa-retweet"></i> <span data-i18n="music_mode">顺序播放</span></button>
 <button class="music-control-btn" id="music-playlist-btn"><i class="fas fa-list"></i> 播放列表</button>
 </div>
 <div class="music-volume-slider" id="music-volume-slider">
@@ -813,7 +813,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="modal-body playlist-page-body">
 <div class="playlist-container" id="playlist-container">
-<div class="playlist-empty" id="playlist-empty">播放列表为空</div>
+<div class="playlist-empty" id="playlist-empty" data-i18n="music_playlist_empty">播放列表为空</div>
 </div>
 </div>
 <input type="file" id="playlist-import-input" accept="audio/*" multiple style="display:none;">
@@ -903,8 +903,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div id="item-control-list"></div>
 </div>
 <div class="modal-footer item-control-modal-footer">
-<button class="modal-btn disable-btn" id="disable-all-items-btn"><i class="fas fa-ban"></i>全部禁用</button>
-<button class="modal-btn primary enable-btn" id="enable-all-items-btn"><i class="fas fa-check"></i>全部启用</button>
+<button class="modal-btn disable-btn" id="disable-all-items-btn"><i class="fas fa-ban"></i><span data-i18n="pool_all_off">全部禁用</span></button>
+<button class="modal-btn primary enable-btn" id="enable-all-items-btn"><i class="fas fa-check"></i><span data-i18n="pool_all_on">全部启用</span></button>
 </div>
 </div>
 </div>
@@ -973,7 +973,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div id="redeem-code-result" style="margin-top:10px;font-size:13px;min-height:18px;"></div>
 </div>
 <div class="modal-footer" style="padding:0 16px 16px;">
-<button class="modal-btn primary full-width" id="redeem-code-submit"><i class="fas fa-check"></i> 确认兑换</button>
+<button class="modal-btn primary full-width" id="redeem-code-submit"><i class="fas fa-check"></i> <span data-i18n="redeem_confirm">确认兑换</span></button>
 </div>
 </div>
 </div>
@@ -1574,7 +1574,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
    ├─ music/         （音乐类）音频 mp3 等
    └─ backgrounds/   （背景类）图片或视频</pre></div>
 <details class="mod-guide-details">
-<summary>物品类 mod.json 写法</summary>
+<summary data-i18n="mod_doc_item">物品类 mod.json 写法</summary>
 <pre>{
   "name": "我的物品模组",
   "author": "你的名字",
@@ -1590,7 +1590,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 }</pre>
 </details>
 <details class="mod-guide-details">
-<summary>音乐类 mod.json 写法</summary>
+<summary data-i18n="mod_doc_music">音乐类 mod.json 写法</summary>
 <pre>{
   "name": "我的音乐模组", "author": "你的名字",
   "version": "1.0.0", "type": "music", "desc": "简介",
@@ -1602,7 +1602,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 }</pre>
 </details>
 <details class="mod-guide-details">
-<summary>背景类 mod.json 写法</summary>
+<summary data-i18n="mod_doc_bg">背景类 mod.json 写法</summary>
 <pre>{
   "name": "我的背景模组", "author": "你的名字",
   "version": "1.0.0", "type": "background", "desc": "简介",

@@ -608,5 +608,14 @@ document.addEventListener('DOMContentLoaded', function() {
             try { I18N.buildSelector(); } catch (e) {}
         };
         I18N.buildSelector();
+        // 自动翻译所有 toast（未收录的回退原文）
+        (function () {
+            var orig = window.showToast;
+            if (typeof orig !== 'function') return;
+            window.showToast = function (msg, dur) {
+                try { if (I18N.tr) msg = I18N.tr(msg); } catch (e) {}
+                return orig.call(this, msg, dur);
+            };
+        })();
     }
 });

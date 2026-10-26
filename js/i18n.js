@@ -138,7 +138,92 @@
         /* ---------- 物品池解锁 ---------- */
         ip_unlocked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
         ip_sponsor: ['解锁「物品池管理」需赞助', '解鎖「物品池管理」需贊助', 'Unlock Item Pool via sponsor', 'Доступ по спонсору'],
-        ip_gocode: ['在「兑换码」中输入即可解锁。', '在「兌換碼」中輸入即可解鎖。', 'Redeem a code to unlock.', 'Введите код, чтобы открыть.']
+        ip_gocode: ['在「兑换码」中输入即可解锁。', '在「兌換碼」中輸入即可解鎖。', 'Redeem a code to unlock.', 'Введите код, чтобы открыть.'],
+
+        /* ---------- 通用状态 / toast ---------- */
+        t_downloading: ['正在下载...', '正在下載...', 'Downloading...', 'Загрузка...'],
+        t_done: ['已完成', '已完成', 'Done', 'Готово'],
+        t_notdl: ['未下载', '未下載', 'Not downloaded', 'Не скачано'],
+        t_retry: ['开保险失败，请重试', '開保險失敗，請重試', 'Failed to open safe, retry', 'Ошибка, повторите'],
+        t_updated: ['总累计价值已更新', '總累計價值已更新', 'Total value updated', 'Ценность обновлена'],
+        t_before_end: ['前面没有收藏品了', '前面沒有收藏品了', 'No more items before', 'Выше нет предметов'],
+        t_after_end: ['后面没有收藏品了', '後面沒有收藏品了', 'No more items after', 'Ниже нет предметов'],
+        t_save_fail_small: ['保存失败，请换一张体积更小的文件重试', '儲存失敗，請換一張體積更小的檔案重試', 'Save failed, use a smaller file', 'Не удалось сохранить'],
+        t_default_bg: ['已恢复默认背景', '已恢復默認背景', 'Default BG restored', 'Фон по умолчанию'],
+        t_cloud_newer: ['云端有更新的进度，可在「云同步」中恢复', '雲端有更新的進度，可在「雲同步」中恢復', 'Newer progress in cloud; restore via Cloud Sync', 'В облаке новый прогресс'],
+        t_sync_code: ['同步码已生成，请务必记下', '同步碼已生成，請務必記下', 'Sync code generated; save it', 'Код создан, запишите'],
+        t_new_version: ['检测到新版本，请点击「检查更新」', '檢測到新版本，請點擊「檢查更新」', 'New version found; tap Check update', 'Есть новая версия'],
+        t_times_up: ['次数已用完，请重新购买', '次數已用完，請重新購買', 'Uses left: 0, buy more', 'Без покупок'],
+        t_later: ['稍后再说', '稍後再說', 'Maybe later', 'Позже'],
+        t_now: ['立即更新', '立即更新', 'Update now', 'Обновить'],
+        t_close: ['关闭', '關閉', 'Close', 'Закрыть'],
+        t_sel_value: ['请输入数值', '請輸入數值', 'Enter a value', 'Введите число'],
+        t_sel_value_k: ['请输入有效数值（支持 K/M 单位）', '請輸入有效數值（支持 K/M 單位）', 'Enter a value (K/M ok)', 'Введите (K/M)'],
+        t_sel_bg: ['请选择一个背景', '請選擇一個背景', 'Pick a background', 'Выберите фон'],
+        t_sel_media: ['请选择图片或视频文件', '請選擇圖片或影片檔案', 'Pick an image or video', 'Выберите файл'],
+        t_sel_audio: ['请选择音频文件', '請選擇音訊檔案', 'Pick an audio file', 'Выберите аудио'],
+        t_sel_img: ['请选择图片文件', '請選擇圖片檔案', 'Pick an image file', 'Выберите картинку'],
+        t_reslist_fail: ['资源清单加载失败，请检查网络后点击下载重试', '資源清單載入失敗，請檢查網絡後點擊下載重試', 'Failed to load manifest; retry', 'Ошибка списка'],
+        t_bg_list_empty: ['背景列表为空，请检查配置文件', '背景列表為空，請檢查配置檔案', 'Background list is empty', 'Список пуст'],
+        t_bg_saved: ['背景设置已保存', '背景設置已保存', 'Background saved', 'Фон сохранён'],
+        t_bg_list_fail: ['背景资源列表加载失败，请检查网络', '背景資源列表載入失敗，請檢查網絡', 'Failed to load backgrounds', 'Ошибка загрузки'],
+        t_bg_done: ['背景资源包已下载完成', '背景資源包已下載完成', 'Backgrounds downloaded', 'Фоны готовы'],
+        t_bg_locked: ['该背景尚未解锁，请先购买', '該背景尚未解鎖，請先購買', 'BG locked; buy first', 'Фон заблокирован'],
+        t_bg_need_res: ['请先下载背景资源后再打开背景商店', '請先下載背景資源後再打開背景商店', 'Download resources first', 'Сначала скачайте'],
+        t_title_list_fail: ['段位图标清单加载失败，请检查网络', '段位圖示清單載入失敗，請檢查網絡', 'Failed to load rank icons', 'Ошибка значков'],
+        t_title_done: ['段位图标资源包已下载完成', '段位圖示資源包已下載完成', 'Rank icons downloaded', 'Значки готовы'],
+        t_title_need_dl: ['请先在资源下载中下载段位图标', '請先在資源下載中下載段位圖示', 'Download rank icons first', 'Сначала значки'],
+        t_music_list_fail: ['音乐资源列表加载失败，请检查网络', '音樂資源列表載入失敗，請檢查網絡', 'Failed to load music list', 'Ошибка списка'],
+        t_music_done: ['音乐资源包已下载完成', '音樂資源包已下載完成', 'Music pack downloaded', 'Музыка готова'],
+        t_music_need_res: ['请先下载音乐资源包后再打开音乐列表', '請先下載音樂資源包後再打開音樂列表', 'Download music pack first', 'Сначала музыка'],
+        t_minigame_fail: ['小游戏启动失败', '小遊戲啟動失敗', 'Mini-game failed to start', 'Ошибка запуска'],
+        t_minigame_done: ['小游戏资源包已下载完成', '小遊戲資源包已下載完成', 'Mini-game resources done', 'Ресурсы готовы'],
+        t_minigame_fail_list: ['小游戏资源清单加载失败，请检查网络', '小遊戲資源清單載入失敗，請檢查網絡', 'Failed to load mini-game list', 'Ошибка списка'],
+        t_pool_all_on: ['所有物品已被启用', '所有物品已被啟用', 'All items enabled', 'Всё включено'],
+        t_pool_all_off: ['所有物品已被禁用', '所有物品已被禁用', 'All items disabled', 'Всё выключено'],
+        t_pool_off_hint: ['所有物品已被禁用，请到物品池重新启用', '所有物品已被禁用，請到物品池重新啟用', 'All disabled; re-enable in Item Pool', 'Всё выключено'],
+        t_qq_copied: ['QQ 已复制：2312367270', 'QQ 已複製：2312367270', 'QQ copied: 2312367270', 'QQ скопирован'],
+
+        /* ---------- 音乐 ---------- */
+        t_m_saved: ['已保存修改', '已儲存修改', 'Changes saved', 'Изменено'],
+        t_m_del: ['已删除本地音乐', '已刪除本地音樂', 'Local music deleted', 'Удалено'],
+        t_m_unlock: ['已解锁', '已解鎖', 'Unlocked', 'Открыто'],
+        t_m_play: ['播放', '播放', 'Play', 'Играть'],
+        t_m_locked: ['该歌曲未解锁, 需在播放列表中购买', '該歌曲未解鎖, 需在播放列表中購買', 'Track locked; buy in playlist', 'Трек заблокирован'],
+        t_m_import_fail: ['导入失败，可能是存储空间不足或格式不支持', '匯入失敗，可能是儲存空間不足或格式不支持', 'Import failed (space/format)', 'Ошибка импорта'],
+        t_m_buy: ['购买', '購買', 'Buy', 'Купить'],
+        t_m_imported: ['已导入', '已匯入', 'Imported', 'Импортировано'],
+
+        /* ---------- Mod ---------- */
+        t_mod_deleted: ['已删除', '已刪除', 'Deleted', 'Удалено'],
+        t_mod_used: ['已用', '已用', 'Used', 'Использован'],
+        t_mod_verifying: ['正在校验并安装…', '正在校驗並安裝…', 'Verifying & installing…', 'Проверка…'],
+        t_mod_pick_zip: ['请选择 zip 文件', '請選擇 zip 檔案', 'Select a zip file', 'Выберите zip'],
+        t_mod_link_copied: ['链接已复制', '連結已複製', 'Link copied', 'Ссылка скопирована'],
+        t_mod_installed: ['已安装', '已安裝', 'Installed', 'Установлено'],
+        t_mod_imported: ['已导入', '已匯入', 'Imported', 'Импортировано'],
+
+        /* ---------- 物品池 / Mod 文档 ---------- */
+        pool_all_off: ['全部禁用', '全部禁用', 'Disable all', 'Выкл. все'],
+        pool_all_on: ['全部启用', '全部啟用', 'Enable all', 'Вкл. все'],
+        mod_doc_item: ['物品类 mod.json 写法', '物品類 mod.json 寫法', 'Item mod.json guide', 'Item mod.json'],
+        mod_doc_music: ['音乐类 mod.json 写法', '音樂類 mod.json 寫法', 'Music mod.json guide', 'Music mod.json'],
+        mod_doc_bg: ['背景类 mod.json 写法', '背景類 mod.json 寫法', 'BG mod.json guide', 'BG mod.json'],
+
+        /* ---------- 合成 ---------- */
+        t_synth_selected: ['已选中', '已選中', 'Selected', 'Выбрано'],
+        t_synth_done: ['六种样本已全部合成', '六種樣本已全部合成', 'All six samples synthesized', 'Все образцы'],
+
+        /* ---------- 设置详情 ---------- */
+        set_fps_lag: ['高帧率', '高幀率', 'High FPS', 'Выс. FPS'],
+        set_fps_smooth: ['流畅', '流暢', 'Smooth', 'Плавный'],
+        set_vol_label: ['音量', '音量', 'Volume', 'Громкость'],
+        music_now_selected: ['未选择歌曲', '未選擇歌曲', 'No song selected', 'Нет песни'],
+        music_now_hint: ['请选择一首歌曲', '請選擇一首歌曲', 'Pick a song', 'Выберите песню'],
+        music_mode: ['顺序播放', '順序播放', 'Sequential', 'По порядку'],
+        music_playlist: ['播放列表', '播放列表', 'Playlist', 'Плейлист'],
+        music_playlist_empty: ['播放列表为空', '播放列表為空', 'Playlist is empty', 'Плейлист пуст'],
+        music_search_ph: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск...']
     };
 
     var cur = 'zh-CN';
@@ -149,6 +234,10 @@
 
     function idx() { return LANG_INDEX[cur] || 0; }
 
+    // 反查索引：zh-CN 原文 → key（供 I18N.tr(中文) 使用）
+    var REV = {};
+    for (var __k in M) REV[M[__k][0]] = __k;
+
     var I18N = {
         LANGS: LANGS,
         getLang: function () { return cur; },
@@ -158,6 +247,13 @@
             var v = row[idx()];
             if (v === '' || v == null) v = row[0];
             return (v == null) ? (typeof fallback !== 'undefined' ? fallback : key) : v;
+        },
+        // 按中文原文反查：命中则当前语言文案，未命中原样返回（安全回退）
+        tr: function (zh) {
+            var s = String(zh == null ? '' : zh);
+            var k = REV[s];
+            if (k) return I18N.t(k);
+            return zh;
         },
         has: function (key) { var r = M[key]; return !!(r && (r[idx()] || r[0])); },
         addEntries: function (obj) { // 允许后续文件扩展词表
