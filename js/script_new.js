@@ -2847,7 +2847,7 @@ previewCurrentBackground() {
         updateInventory() {
             const $inventoryList = $('#inventory-list');
             if (_.isEmpty(State.inventory)) {
-                $inventoryList.html('<div class="inventory-empty">点击"打开保险"开始搜索物品</div>');
+                $inventoryList.html('<div class="inventory-empty">' + (window.I18N ? I18N.tr('点击"打开保险"开始搜索物品') : '点击"打开保险"开始搜索物品') + '</div>');
                 return;
             }
             $inventoryList.empty();
@@ -6115,6 +6115,8 @@ const EventManager = {
     window.ResourceDownloadManager = ResourceDownloadManager;
     // 段位图标下载完成后需要刷新段位弹窗
     window.TitleManager = TitleManager;
+    // 供 i18n 切换语言后重绘动态区域
+    window.UIManager = UIManager;
 
     /* ============================================================
      * 覆盖 BackgroundManager 方法
@@ -6639,7 +6641,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.2.2';
+    window.HU_BUILD_VERSION = 'v2.2.3';
 
     /* ============================================================
      * 检查更新

@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.2</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.2.3</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -822,7 +822,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-overlay" id="submit-score-modal">
 <div class="modal-content">
 <div class="modal-header">
-<div class="modal-title"><i class="fas fa-upload"></i> 提交分数</div>
+<div class="modal-title"><i class="fas fa-upload"></i> <span data-i18n="lb_submit">提交分数</span></div>
 <button class="modal-close" id="submit-score-close">&times;</button>
 </div>
 <div class="modal-body">
@@ -925,7 +925,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="modal-btn" id="bg-preview-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-play"></i> 预览</button>
 <button class="modal-btn" id="bg-buy-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-shopping-cart"></i> 购买</button>
 <button class="modal-btn primary" id="bg-confirm-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-hand-pointer"></i> 切换</button>
-<button class="modal-btn" id="bg-favorite-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-star"></i> 加入喜好</button>
+<button class="modal-btn" id="bg-favorite-btn" style="flex:1 1 0!important;min-width:0!important;height:30px!important;font-size:13px!important;padding:4px 8px!important;line-height:1.2!important;"><i class="fas fa-star"></i> <span data-i18n="bg_fav">加入喜好</span></button>
 </div>
 </div>
 </div>
@@ -1257,7 +1257,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="collect-nav" id="collect-next"><i class="fas fa-chevron-right"></i></button>
 <div class="collect-lock" id="collect-lock"><i class="fas fa-lock"></i></div>
 <div class="collect-name" id="collect-name"></div>
-<div class="collect-count-row" id="collect-count-row"><span class="collect-label">获取次数:</span><b id="collect-count"></b></div>
+<div class="collect-count-row" id="collect-count-row"><span class="collect-label" data-i18n="obtain_count">获取次数:</span><b id="collect-count"></b></div>
 <div class="collect-time-row" id="collect-time-row"><span class="collect-label">第一次获取:</span><b id="collect-time"></b></div>
 <div class="collect-dots" id="collect-dots"></div>
 </div>
@@ -1280,20 +1280,20 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="stats-section">
 <div class="stats-grid">
 <div class="stat-item">
-<div class="stat-label">总价值 :</div>
+<div class="stat-label" data-i18n="stat_total">总价值 :</div>
 <div class="stat-value" id="total-value">¥0</div>
 </div>
 <div class="stat-item">
-<div class="stat-label">最高价值 :</div>
+<div class="stat-label" data-i18n="stat_highest">最高价值 :</div>
 <div class="stat-value" id="highest-value">¥0</div>
 </div>
 </div>
 </div>
 <div class="control-section">
-<button id="open-safe-btn" class="btn btn-open"><i class="fas fa-hand-pointer"></i> 打开保险</button>
+<button id="open-safe-btn" class="btn btn-open"><i class="fas fa-hand-pointer"></i> <span data-i18n="open_safe">打开保险</span></button>
 <button id="reset-btn" class="btn btn-reset"><i class="fas fa-redo"></i> 重置</button>
 </div>
-<button id="pause-search-btn" class="btn btn-sound-2"><i class="fas fa-pause"></i> 暂停搜索</button>
+<button id="pause-search-btn" class="btn btn-sound-2"><i class="fas fa-pause"></i> <span data-i18n="pause_search">暂停搜索</span></button>
 <div class="control-section">
 <button id="play-sound-btn" class="btn btn-sound"><i class="fas fa-volume-up"></i> “我出货了”</button>
 <button class="more-button" id="more-button"><i class="fas fa-ellipsis-h"></i> 更多功能<span class="hu-red-dot" data-hudot="more-btn" style="display:none;"></span></button>
@@ -1304,7 +1304,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="safe-container">
 <div class="safe-grid" id="safe-grid">
 <div class="searching-overlay-center" id="searching-overlay" hidden>
-<div class="ss-text">搜索中</div>
+<div class="ss-text" data-i18n="searching">搜索中</div>
 <div class="ss-time" id="ss-time">0.00</div>
 </div>
 </div>
@@ -1316,7 +1316,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="inventory-section">
 <div class="inventory-container">
 <div class="inventory-list" id="inventory-list">
-<div class="inventory-empty">尚未发现任何物品</div>
+<div class="inventory-empty" data-i18n="inv_empty">尚未发现任何物品</div>
 </div>
 </div>
 </div>
@@ -1555,14 +1555,14 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="modal-body" style="padding:16px;overflow-y:auto;">
 <div class="mod-guide-section">
-<h4><i class="fas fa-download"></i> 第一步：下载官方模板</h4>
+<h4><i class="fas fa-download"></i> <span data-i18n="step1">第一步：下载官方模板</span></h4>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
 <button class="modal-btn primary" id="mod-template-copy" style="flex:1;"><i class="fas fa-link"></i> 复制模板下载链接</button>
 </div>
 <div class="mod-guide-link">若失效请到交流群反馈</div>
 </div>
 <div class="mod-guide-section">
-<h4><i class="fas fa-list-check"></i> 第二步：制作你的模组</h4>
+<h4><i class="fas fa-list-check"></i> <span data-i18n="step2">第二步：制作你的模组</span></h4>
 <p>解压模板 → 替换 <code>content/</code> 里的图片 → 用记事本修改 <code>mod.json</code> → 重新打包为 zip（<b>选中里面的文件打包，不要连外层文件夹</b>）。</p>
 <div class="mod-guide-tree"><pre>你的模组.zip
 ├─ mod.json          模组定义（名称/作者/类型/内容列表）
@@ -1623,7 +1623,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </ul>
 </div>
 <div class="mod-guide-section">
-<h4><i class="fas fa-paper-plane"></i> 第三步：提交审核</h4>
+<h4><i class="fas fa-paper-plane"></i> <span data-i18n="step3">第三步：提交审核</span></h4>
 <p>把你打包好的 zip 发给作者 QQ，审核通过后即会上架 Mod 库，全服玩家可下载。</p>
 <div class="mod-guide-qq">
 <span>作品投稿 QQ：<b>2312367270</b></span>

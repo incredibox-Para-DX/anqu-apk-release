@@ -605,6 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.I18N) {
         window.I18N.onChange = function () {
             try { if (window.TitleManager && window.TitleManager.updateTitleDisplay) window.TitleManager.updateTitleDisplay(); } catch (e) {}
+            try { if (window.UIManager && window.UIManager.updateInventory) window.UIManager.updateInventory(); } catch (e) {}
             try { I18N.buildSelector(); } catch (e) {}
         };
         I18N.buildSelector();

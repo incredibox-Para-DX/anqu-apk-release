@@ -223,7 +223,23 @@
         music_mode: ['顺序播放', '順序播放', 'Sequential', 'По порядку'],
         music_playlist: ['播放列表', '播放列表', 'Playlist', 'Плейлист'],
         music_playlist_empty: ['播放列表为空', '播放列表為空', 'Playlist is empty', 'Плейлист пуст'],
-        music_search_ph: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск...']
+        music_search_ph: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск...'],
+
+        /* ---------- 主界面 / 弹窗 ---------- */
+        open_safe: ['打开保险', '打開保險', 'Open safe', 'Открыть сейф'],
+        pause_search: ['暂停搜索', '暫停搜索', 'Pause search', 'Пауза'],
+        searching: ['搜索中', '搜尋中', 'Searching', 'Поиск'],
+        inv_empty: ['尚未发现任何物品', '尚未發現任何物品', 'No items found', 'Ничего не найдено'],
+        inv_hint: ['点击"打开保险"开始搜索物品', '點擊「打開保險」開始搜索物品', 'Tap "Open safe" to start', 'Нажмите «Открыть сейф»'],
+        stat_total: ['总价值 :', '總價值 :', 'Total :', 'Всего :'],
+        stat_highest: ['最高价值 :', '最高價值 :', 'Highest :', 'Максимум :'],
+        obtain_count: ['获取次数:', '獲取次數:', 'Obtained:', 'Получено:'],
+        lb_submit: ['提交分数', '提交分數', 'Submit score', 'Отправить'],
+        bg_fav: ['加入喜好', '加入喜好', 'Add to favorites', 'В избранное'],
+        not_generated: ['尚未生成', '尚未生成', 'Not generated', 'Не создано'],
+        step1: ['第一步：下载官方模板', '第一步：下載官方模板', 'Step 1: Get the template', 'Шаг 1: шаблон'],
+        step2: ['第二步：制作你的模组', '第二步：製作你的模組', 'Step 2: Build your mod', 'Шаг 2: создание'],
+        step3: ['第三步：提交审核', '第三步：提交審核', 'Step 3: Submit', 'Шаг 3: отправка']
     };
 
     var cur = 'zh-CN';
@@ -237,6 +253,21 @@
     // 反查索引：zh-CN 原文 → key（供 I18N.tr(中文) 使用）
     var REV = {};
     for (var __k in M) REV[M[__k][0]] = __k;
+
+    // 前缀规则：拼接型文案（如「已安装「X」」「下载失败：e」），只译前缀，保留后段
+    var PREFIX = [
+        ['已安装「', ['已安装「', '已安裝「', 'Installed 「', 'Установлено 「']],
+        ['已导入「', ['已导入「', '已匯入「', 'Imported 「', 'Импортировано 「']],
+        ['已安装 ', ['已安装 ', '已安裝 ', 'Installed ', 'Установлено ']],
+        ['已导入 ', ['已导入 ', '已匯入 ', 'Imported ', 'Импортировано ']],
+        ['下载失败：', ['下载失败：', '下載失敗：', 'Download failed: ', 'Ошибка загрузки: ']],
+        ['导入失败：', ['导入失败：', '匯入失敗：', 'Import failed: ', 'Ошибка импорта: ']],
+        ['删除失败：', ['删除失败：', '刪除失敗：', 'Delete failed: ', 'Ошибка удаления: ']],
+        ['保存失败：', ['保存失败：', '儲存失敗：', 'Save failed: ', 'Ошибка сохранения: ']],
+        ['完成：', ['完成：', '完成：', 'Done: ', 'Готово: ']],
+        ['全部下载完成', ['全部下载完成', '全部下載完成', 'All downloads done', 'Всё скачано']],
+        ['已用 ', ['已用 ', '已用 ', 'Used ', 'Использован ']]
+    ];
 
     var I18N = {
         LANGS: LANGS,
@@ -253,6 +284,11 @@
             var s = String(zh == null ? '' : zh);
             var k = REV[s];
             if (k) return I18N.t(k);
+            // 前缀规则（拼接型）
+            for (var i = 0; i < PREFIX.length; i++) {
+                var pre = PREFIX[i][0];
+                if (s.indexOf(pre) === 0) return PREFIX[i][1][idx()] + s.slice(pre.length);
+            }
             return zh;
         },
         has: function (key) { var r = M[key]; return !!(r && (r[idx()] || r[0])); },
