@@ -183,6 +183,13 @@
         t_pool_all_off: ['所有物品已被禁用', '所有物品已被禁用', 'All items disabled', 'Всё выключено'],
         t_pool_off_hint: ['所有物品已被禁用，请到物品池重新启用', '所有物品已被禁用，請到物品池重新啟用', 'All disabled; re-enable in Item Pool', 'Всё выключено'],
         t_qq_copied: ['QQ 已复制：2312367270', 'QQ 已複製：2312367270', 'QQ copied: 2312367270', 'QQ скопирован'],
+        t_bg_fav_on: ['已加入喜好', '已加入喜好', 'Added to favorites', 'В избранное'],
+        t_bg_fav_off: ['已取消喜好', '已取消喜好', 'Removed from favorites', 'Из избранного'],
+        t_bg_video_on: ['已应用自定义视频背景', '已應用自定義視頻背景', 'Custom video BG applied', 'Видео-фон применён'],
+        t_bg_image_on: ['已应用自定义图片背景', '已應用自定義圖片背景', 'Custom image BG applied', 'Фон применён'],
+        t_nothing_del: ['未检测到已下载资源，无需删除', '未檢測到下載資源，無需刪除', 'No downloaded resources to delete', 'Нечего удалять'],
+        t_clear_fail: ['清除失败，请重试', '清除失敗，請重試', 'Clear failed, retry', 'Ошибка очистки'],
+        t_qq_plain: ['QQ：2312367270', 'QQ：2312367270', 'QQ: 2312367270', 'QQ: 2312367270'],
 
         /* ---------- 音乐 ---------- */
         t_m_saved: ['已保存修改', '已儲存修改', 'Changes saved', 'Изменено'],
