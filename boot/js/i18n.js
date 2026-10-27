@@ -581,7 +581,7 @@
         no_image: ['暂无图片', '暫無圖片', 'No image', 'Нет изображения'],
         no_modals: ['暂无已注册的弹窗', '暫無已註冊的彈窗', 'No registered modals', 'Нет окон'],
         no_mods: ['暂无模组', '暫無模組', 'No mods', 'Нет модов'],
-        turbo_label: ['开启极速模式 (迅捷巧手+物资汐汐)', '開啟極速模式 (迅捷巧手+物資汐汐)', 'Enable turbo (Swift Hands + Supply Tide)', 'Турбо (навыки)'],
+        turbo_label: ['开启极速模式 (迅捷巧手+物资潮汐)', '開啟極速模式 (迅捷巧手+物資潮汐)', 'Enable turbo (Swift Hands + Supply Tide)', 'Турбо (навыки)'],
         sim_delay: ['模拟延迟:', '模擬延遲:', 'Sim delay: ', 'Задержка: '],
         fetching_: ['正在拉取：', '正在拉取：', 'Fetching: ', 'Загрузка: '],
         check_fail_: ['检查失败：', '檢查失敗：', 'Check failed: ', 'Ошибка проверки: '],
@@ -600,6 +600,12 @@
         gm_total_koen: ['累计价值 (柯恩币)', '累計價值 (柯恩幣)', 'Total value (Koen)', 'Ценность (Кён)'],
         gm_storage_change2: ['存储变化', '存儲變化', 'Storage change', 'Изменение хранилища'],
         gm_longtask_colon: ['长任务:', '長任務:', 'Long tasks: ', 'Длинные задачи: '],
+        dbg_assert: ['断言测试', '斷言測試', 'Assertion test', 'Тест утверждений'],
+        dbg_url_clip: ['URL / 剪贴板', 'URL / 剪貼簿', 'URL / Clipboard', 'URL / Буфер'],
+        dbg_import_json: ['导入 JSON', '匯入 JSON', 'Import JSON', 'Импорт JSON'],
+        dbg_core: ['核', '核', 'core', 'ядро'],
+        tap_resume_exact: ['点击继续下载', '點擊繼續下載', 'Tap to resume', 'Нажмите продолжить'],
+        tap_retry_exact: ['点击重试', '點擊重試', 'Tap to retry', 'Нажмите повторить'],
         m_repeat_one: ['单曲循环', '單曲循環', 'Repeat One', 'Повтор одного'],
         m_shuffle: ['随机播放', '隨機播放', 'Shuffle', 'Перемешать'],
         t_delete_again: ['再点一次删除', '再點一次刪除', 'Tap delete again', 'Нажмите ещё раз'],
@@ -858,6 +864,9 @@
         ['白色', ['白色', '白色', 'White', 'Белый']],
         ['金色', ['金色', '金色', 'Gold', 'Золотой']],
         ['游戏: ', ['游戏: ', '遊戲: ', 'Game: ', 'Игра: ']],
+        ['JS错误', ['JS错误', 'JS錯誤', 'JS error', 'Ошибка JS']],
+        ['存储变化', ['存储变化', '存儲變化', 'Storage change', 'Изменение хранилища']],
+        ['点击', ['点击', '點擊', 'Click', 'Клик']],
         ['成功购买背景: ', ['成功购买背景: ', '成功購買背景: ', 'Purchased BG: ', 'Куплен фон: ']],
         ['成功购买: ', ['成功购买: ', '成功購買: ', 'Purchased: ', 'Куплено: ']],
         ['已解锁技能「', ['已解锁技能「', '已解鎖技能「', 'Skill unlocked 「', 'Навык открыт «']],
@@ -1009,6 +1018,8 @@
         s = s.replace(/特遣队员/g, ru ? 'Оперативник' : 'Operator');
         s = s.replace(/点击继续下载/g, ru ? 'нажмите продолжить' : 'tap to resume');
         s = s.replace(/点击重试/g, ru ? 'нажмите повторить' : 'tap to retry');
+        s = s.replace(/(\d+)\s*核/g, '$1' + (ru ? ' ядер' : ' cores'));
+        s = s.replace(/开$/, ru ? 'вкл' : 'on').replace(/关$/, ru ? 'выкл' : 'off');
         s = s.replace(/制作/g, '');
         s = s.replace(/，/g, ', ').replace(/。/g, '.').replace(/、/g, ', ').replace(/：/g, ': ').replace(/！/g, '!').replace(/？/g, '?');
         return s;
