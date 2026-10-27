@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.12.m",
+  "version": "v2.3.0_hotfix.13.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -71,19 +71,19 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 115220
+      "size": 111879
     },
     {
       "path": "js/item-i18n.js",
-      "size": 109876
+      "size": 109785
     },
     {
       "path": "js/bg-i18n.js",
-      "size": 4813
+      "size": 4762
     },
     {
       "path": "js/gm-i18n.js",
-      "size": 25647
+      "size": 25596
     },
     {
       "path": "libs/GSAP.js",
@@ -167,5 +167,5 @@
     }
   ],
   "fileCount": 41,
-  "totalSize": 2730953
+  "totalSize": 2727419
 }

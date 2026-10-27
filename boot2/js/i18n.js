@@ -1,17 +1,11 @@
-/* ============================================================
- * i18n.js · 暗区保险模拟 语言切换
- * 词表格式：key → [zh-CN, zh-TW, en, ru]，缺项回退 zh-CN（第 0 项）
- * 用法：I18N.t('key', fallback?)  取当前语言文案
- * 切换：I18N.setLang('en')  → 持久化 + 触发 I18N.onChange 重渲染
- * ============================================================ */
+
 (function () {
     var LANG_KEY = 'ab_app_lang';
     var LANGS = ['zh-CN', 'zh-TW', 'en', 'ru'];
     var LANG_INDEX = { 'zh-CN': 0, 'zh-TW': 1, 'en': 2, 'ru': 3 };
 
-    // key → [zh-CN, zh-TW, en, ru]
     var M = {
-        /* ---------- 顶栏 / 通用 ---------- */
+        
         app_title: ['暗区突围保险模拟', '暗區突圍保險模擬', 'Arena Breakout Safebox', 'Симулятор страхового ящика'],
         loading: ['加载中...', '載入中...', 'Loading...', 'Загрузка...'],
         loading_dots: ['加载中…', '載入中…', 'Loading…', 'Загрузка…'],
@@ -28,7 +22,7 @@
         import_: ['导入', '匯入', 'Import', 'Импорт'],
         open: ['打开', '開啟', 'Open', 'Открыть'],
 
-        /* ---------- 侧边栏分组 ---------- */
+        
         nav_more: ['更多功能', '更多功能', 'More', 'Ещё'],
         sec_personal: ['个人数据', '個人數據', 'Profile', 'Профиль'],
         sec_gm: ['GM Debug', 'GM Debug', 'GM Debug', 'GM Debug'],
@@ -37,7 +31,7 @@
         sec_settings: ['更多设置', '更多設置', 'Settings', 'Настройки'],
         sec_info: ['更多信息', '更多信息', 'More Info', 'Подробнее'],
 
-        /* ---------- 个人数据 ---------- */
+        
         rank: ['段位', '段位', 'Rank', 'Звание'],
         uid: ['UID', 'UID', 'UID', 'UID'],
         total_value: ['总累计价值', '總累計價值', 'Total Value', 'Совокупная ценность'],
@@ -47,7 +41,7 @@
         next_rank: ['下一个段位进度', '下一個段位進度', 'Next rank progress', 'До следующего звания'],
         cur_rank: ['当前段位', '當前段位', 'Current rank', 'Текущее звание'],
 
-        /* ---------- 其他功能 按钮 ---------- */
+        
         btn_notice: ['查看最新公告', '查看最新公告', 'View notices', 'Просматривать'],
         btn_shop: ['能力商店', '能力商店', 'Ability Shop', 'Магазин'],
         btn_leaderboard: ['周累价值排行榜', '周累價值排行榜', 'Weekly Leaderboard', 'Рейтинг недели'],
@@ -63,7 +57,7 @@
         btn_minigame_fruit: ['小游戏·暗区水果忍者', '小遊戲·暗區水果忍者', 'Mini · Fruit Ninja', 'Мини: Фрукты'],
         btn_minigame_map: ['小游戏·熟图模拟器', '小遊戲·熟圖模擬器', 'Mini · Map Sim', 'Мини: Карта'],
 
-        /* ---------- GM ---------- */
+        
         gm_edit_value: ['编辑总累计价值', '編輯總累計價值', 'Edit total value', 'Правка ценности'],
         gm_hotupdate: ['私链热更新', '私鏈熱更新', 'Private hot-update', 'Секр. апдейт'],
         gm_resource: ['资源管理', '資源管理', 'Resources', 'Ресурсы'],
@@ -71,7 +65,7 @@
         gm_upload: ['Mod上传', 'Mod上傳', 'Upload Mod', 'Загрузить'],
         gm_center: ['弹窗中心', '彈窗中心', 'Modals', 'Окна'],
 
-        /* ---------- 设置 ---------- */
+        
         set_effect: ['效果设置', '效果設置', 'Effects', 'Эффекты'],
         set_sound: ['声音设置', '聲音設置', 'Sound', 'Звук'],
         set_cloud: ['云同步', '雲同步', 'Cloud sync', 'Облако'],
@@ -91,7 +85,7 @@
         set_cn_font: ['切换为国服字体', '切換為國服字體', 'CN font', 'Кит. шрифт'],
         set_intl_font: ['切换为国际服字体', '切換為國際服字體', 'INTL font', 'Глоб. шрифт'],
 
-        /* ---------- 稀有度 ---------- */
+        
         rar_white: ['白色', '白色', 'White', 'Белый'],
         rar_orange: ['橙色', '橙色', 'Orange', 'Оранжевый'],
         rar_purple: ['紫色', '紫色', 'Purple', 'Фиолетовый'],
@@ -100,7 +94,7 @@
         collectible: ['收藏品', '收藏品', 'Collectible', 'Коллекц.'],
         cohen: ['柯恩币', '柯恩幣', 'Koen Coin', 'Монета Кён'],
 
-        /* ---------- 段位名 ---------- */
+        
         rank_0: ['暗区新锐', '暗區新銳', 'Recruit', 'Новобранец'],
         rank_1: ['暗区尖兵', '暗區尖兵', 'Vanguard', 'Вангард'],
         rank_2: ['暗区精英', '暗區精英', 'Elite', 'Элита'],
@@ -109,13 +103,13 @@
         rank_5: ['暗区王牌', '暗區王牌', 'Ace', 'Ас'],
         rank_6: ['暗区传说', '暗區傳說', 'Legend', 'Легенда'],
 
-        /* ---------- 语言选项 ---------- */
+        
         lang_zhcn: ['简体中文', '簡體中文', 'Simplified', 'Кит. (упр.)'],
         lang_zhtw: ['繁體中文', '繁體中文', 'Traditional', 'Кит. (трад.)'],
         lang_en: ['English', 'English', 'English', 'English'],
         lang_ru: ['Русский', 'Русский', 'Русский', 'Русский'],
 
-        /* ---------- Mod / 市场 ---------- */
+        
         mod_mine: ['我的MOD', '我的MOD', 'My Mods', 'Мои MOD'],
         mod_store: ['MOD市场', 'MOD市場', 'MOD Store', 'Магазин'],
         mod_import: ['从本地导入MOD', '從本地匯入MOD', 'Import from device', 'С устройства'],
@@ -126,7 +120,7 @@
         mod_music: ['音乐', '音樂', 'Music', 'Музыка'],
         mod_bg: ['背景', '背景', 'Background', 'Фон'],
 
-        /* ---------- 兑换码 ---------- */
+        
         redeem_title: ['兑换码', '兌換碼', 'Redeem', 'Коды'],
         redeem_ph: ['请输入兑换码', '請輸入兌換碼', 'Enter a code', 'Введите код'],
         redeem_confirm: ['确认兑换', '確認兌換', 'Redeem', 'Активировать'],
@@ -135,12 +129,12 @@
             'Enter a code to get a reward. Each code works once.',
             'Код даёт награду, действует один раз.'],
 
-        /* ---------- 物品池解锁 ---------- */
+        
         ip_unlocked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
         ip_sponsor: ['解锁「物品池管理」需赞助', '解鎖「物品池管理」需贊助', 'Unlock Item Pool via sponsor', 'Доступ по спонсору'],
         ip_gocode: ['在「兑换码」中输入即可解锁。', '在「兌換碼」中輸入即可解鎖。', 'Redeem a code to unlock.', 'Введите код, чтобы открыть.'],
 
-        /* ---------- 通用状态 / toast ---------- */
+        
         t_downloading: ['正在下载...', '正在下載...', 'Downloading...', 'Загрузка...'],
         t_done: ['已完成', '已完成', 'Done', 'Готово'],
         t_notdl: ['未下载', '未下載', 'Not downloaded', 'Не скачано'],
@@ -191,7 +185,7 @@
         t_clear_fail: ['清除失败，请重试', '清除失敗，請重試', 'Clear failed, retry', 'Ошибка очистки'],
         t_qq_plain: ['QQ：2312367270', 'QQ：2312367270', 'QQ: 2312367270', 'QQ: 2312367270'],
 
-        /* ---------- 音乐 ---------- */
+        
         t_m_saved: ['已保存修改', '已儲存修改', 'Changes saved', 'Изменено'],
         t_m_del: ['已删除本地音乐', '已刪除本地音樂', 'Local music deleted', 'Удалено'],
         t_m_unlock: ['已解锁', '已解鎖', 'Unlocked', 'Открыто'],
@@ -201,7 +195,7 @@
         t_m_buy: ['购买', '購買', 'Buy', 'Купить'],
         t_m_imported: ['已导入', '已匯入', 'Imported', 'Импортировано'],
 
-        /* ---------- Mod ---------- */
+        
         t_mod_deleted: ['已删除', '已刪除', 'Deleted', 'Удалено'],
         t_mod_used: ['已用', '已用', 'Used', 'Использован'],
         t_mod_verifying: ['正在校验并安装…', '正在校驗並安裝…', 'Verifying & installing…', 'Проверка…'],
@@ -210,18 +204,18 @@
         t_mod_installed: ['已安装', '已安裝', 'Installed', 'Установлено'],
         t_mod_imported: ['已导入', '已匯入', 'Imported', 'Импортировано'],
 
-        /* ---------- 物品池 / Mod 文档 ---------- */
+        
         pool_all_off: ['全部禁用', '全部禁用', 'Disable all', 'Выкл. все'],
         pool_all_on: ['全部启用', '全部啟用', 'Enable all', 'Вкл. все'],
         mod_doc_item: ['物品类 mod.json 写法', '物品類 mod.json 寫法', 'Item mod.json guide', 'Item mod.json'],
         mod_doc_music: ['音乐类 mod.json 写法', '音樂類 mod.json 寫法', 'Music mod.json guide', 'Music mod.json'],
         mod_doc_bg: ['背景类 mod.json 写法', '背景類 mod.json 寫法', 'BG mod.json guide', 'BG mod.json'],
 
-        /* ---------- 合成 ---------- */
+        
         t_synth_selected: ['已选中', '已選中', 'Selected', 'Выбрано'],
         t_synth_done: ['六种样本已全部合成', '六種樣本已全部合成', 'All six samples synthesized', 'Все образцы'],
 
-        /* ---------- 设置详情 ---------- */
+        
         set_fps_lag: ['高帧率', '高幀率', 'High FPS', 'Выс. FPS'],
         set_fps_smooth: ['流畅', '流暢', 'Smooth', 'Плавный'],
         set_vol_label: ['音量', '音量', 'Volume', 'Громкость'],
@@ -232,7 +226,7 @@
         music_playlist_empty: ['播放列表为空', '播放列表為空', 'Playlist is empty', 'Плейлист пуст'],
         music_search_ph: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск...'],
 
-        /* ---------- 主界面 / 弹窗 ---------- */
+        
         open_safe: ['打开保险', '打開保險', 'Open safe', 'Открыть сейф'],
         pause_search: ['暂停搜索', '暫停搜索', 'Pause search', 'Пауза'],
         searching: ['搜索中', '搜尋中', 'Searching', 'Поиск'],
@@ -248,7 +242,7 @@
         step2: ['第二步：制作你的模组', '第二步：製作你的模組', 'Step 2: Build your mod', 'Шаг 2: создание'],
         step3: ['第三步：提交审核', '第三步：提交審核', 'Step 3: Submit', 'Шаг 3: отправка'],
 
-        /* ---------- 弹窗通用 ---------- */
+        
         b_upload: ['上传', '上傳', 'Upload', 'Загрузить'],
         b_preview: ['预览', '預覽', 'Preview', 'Просмотр'],
         b_clear: ['清除', '清除', 'Clear', 'Очистить'],
@@ -259,7 +253,7 @@
         b_locked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
         b_next: ['下一个', '下一個', 'Next', 'Далее'],
 
-        /* ---------- 段位 / 排行榜 ---------- */
+        
         title_cur: ['当前段位', '當前段位', 'Current rank', 'Текущее звание'],
         title_next_progress: ['下一个段位进度', '下一個段位進度', 'Next rank progress', 'До след. звания'],
         title_dl_icons: ['下载段位图标资源包', '下載段位圖示資源包', 'Download rank icons', 'Скачать значки'],
@@ -268,7 +262,7 @@
         lb_week: ['本周排行榜', '本週排行榜', 'Weekly ranking', 'Рейтинг недели'],
         lb_submit_weekly: ['提交本周累计价值上榜', '提交本週累計價値上榜', 'Submit to weekly board', 'В рейтинг недели'],
 
-        /* ---------- 云同步 ---------- */
+        
         cloud_my_code: ['我的同步码', '我的同步碼', 'My sync code', 'Мой код'],
         cloud_gen: ['生成同步码并上传', '生成同步碼並上傳', 'Generate & upload', 'Создать и загрузить'],
         cloud_input_ph: ['输入同步码，如 AB7K-9QX2-M3FD', '輸入同步碼，如 AB7K-9QX2-M3FD', 'Enter code, e.g. AB7K-...', 'Введите код'],
@@ -280,7 +274,7 @@
         cloud_copy_code: ['复制同步码', '複製同步碼', 'Copy code', 'Копировать'],
         cloud_desc: ['同步码就是你的存档凭证，记下它，换设备输入即可恢复进度。', '同步碼就是你的存檔憑証，記下它，換設備輸入即可恢復進度。', 'The code is your save key; enter it on another device.', 'Код — ключ к сохранению.'],
 
-        /* ---------- 背景商店 / 资源 ---------- */
+        
         bg_setting: ['背景设置', '背景設置', 'Background', 'Фон'],
         bg_dl_pack: ['下载背景资源包', '下載背景資源包', 'Download BG pack', 'Скачать фоны'],
         bg_pack_all: ['背景资源包已全部下载', '背景資源包已全部下載', 'BG pack downloaded', 'Фоны скачаны'],
@@ -294,11 +288,11 @@
         res_music_desc: ['包含全部音乐资源与音乐封面', '包含全部音樂資源與音樂封面', 'All music & covers', 'Вся музыка'],
         res_music_rel: ['音乐相关资源包', '音樂相關資源包', 'Music packs', 'Музыка'],
 
-        /* ---------- 设置详情补充 ---------- */
+        
         set_flash: ['物品闪光特效', '物品閃光特效', 'Item flash FX', 'Эффект лута'],
         set_sample_refresh: ['样本是否刷新', '樣本是否刷新', 'Refresh samples', 'Обновление'],
 
-        /* ---------- Mod 教程 / 投稿 ---------- */
+        
         mod_upload_notice: ['上传须知（违反无法通过审核）', '上傳須知（違反無法通過審核）', 'Upload rules', 'Правила'],
         mod_no_violate: ['名称与描述不得包含违规内容', '名稱與描述不得包含違規內容', 'No violating names/desc', 'Без нарушений'],
         mod_value_limit: ['物品 value 上限 4,000,000', '物品 value 上限 4,000,000', 'Item value ≤ 4,000,000', 'value ≤ 4 000 000'],
@@ -307,7 +301,7 @@
         mod_zip_rule: ['选中里面的文件打包，不要连外层文件夹', '選中裡面的檔案打包，不要連外層資料夾', 'Zip inner files only', 'Только файлы'],
         mod_contact: ['作品投稿 QQ：', '作品投稿 QQ：', 'Submit via QQ:', 'Подача: QQ'],
 
-        /* ---------- 采集 / 昵称 ---------- */
+        
         nick_yours: ['你的昵称', '你的暱稱', 'Your nickname', 'Ваш ник'],
         nick_edit: ['修改昵称', '修改暱稱', 'Edit nickname', 'Изменить ник'],
         nick_new_ph: ['输入新昵称', '輸入新暱稱', 'Enter new nickname', 'Новый ник'],
@@ -315,7 +309,7 @@
         not_generated2: ['尚未生成', '尚未生成', 'Not generated', 'Не создано'],
         need_download: ['需下载', '需下載', 'Download', 'Скачать'],
 
-        /* ---------- 离心机（样本合成） ---------- */
+        
         synth_centrifuge: ['离心机', '離心機', 'Centrifuge', 'Центрифуга'],
         synth_again: ['重新合成', '重新合成', 'Re-synthesize', 'Заново'],
         synth_sample: ['样本', '樣本', 'Sample', 'Образец'],
@@ -325,7 +319,7 @@
         synth_drag_hint: ['到保温箱进行合成', '到保溫箱進行合成', 'into the incubator to synthesize', 'в инкубатор для синтеза'],
         synth_count_label: ['已合成', '已合成', 'Synthesized', 'Синтезировано'],
 
-        /* ---------- 技能商店 ---------- */
+        
         shop_title: ['技能商店', '技能商店', 'Skill Shop', 'Магазин навыков'],
         skill_swift: ['迅捷巧手', '迅捷巧手', 'Swift Hands', 'Быстрые руки'],
         skill_swift_d: ['增加保险的搜索速度', '增加保險的搜尋速度', 'Faster safe searching', 'Быстрый поиск'],
@@ -344,7 +338,7 @@
         skill_redeem: ['兑换码解锁', '兌換碼解鎖', 'Redeem to unlock', 'Открыть кодом'],
         skill_redeem_hint: ['该技能需通过兑换码解锁，请查看技能描述', '該技能需通過兌換碼解鎖，請查看技能描述', 'Unlock via redeem code; see description', 'Откройте кодом'],
 
-        /* ---------- 检查更新 ---------- */
+        
         up_checking: ['正在检查更新…', '正在檢查更新…', 'Checking for updates…', 'Проверка обновлений…'],
         up_found: ['发现新版本', '發現新版本', 'New version found', 'Новая версия'],
         up_cur: ['当前版本：', '當前版本：', 'Current: ', 'Текущая: '],
@@ -355,20 +349,20 @@
         up_done_refresh: ['更新完成，正在刷新…', '更新完成，正在刷新…', 'Update done, refreshing…', 'Готово, обновление…'],
         up_fail_net: ['检查失败：无法连接更新服务器', '檢查失敗：無法連接更新伺服器', 'Check failed: no server', 'Ошибка: нет сервера'],
 
-        /* ---------- 制作人员 / 赞助 / 公告 ---------- */
+        
         credits_title: ['制作人员列表', '製作人員列表', 'Credits', 'Авторы'],
         donate_title: ['赞赏本项目', '讚賞本項目', 'Support us', 'Поддержать проект'],
         credits_avatar: ['制作人员头像', '製作人員頭像', 'Staff avatar', 'Аватар автора'],
         notice_loading: ['公告加载中...', '公告載入中...', 'Loading announcement...', 'Загрузка объявления...'],
 
-        /* ---------- 资源下载 / 输入框预填 ---------- */
+        
         res_dl_pack: ['下载资源包', '下載資源包', 'Download pack', 'Скачать пакет'],
         res_dl_minigame: ['下载小游戏资源包', '下載小遊戲資源包', 'Download mini-game pack', 'Скачать мини-игру'],
         ph_value: ['例如：500000、1.5M、200K', '例如：500000、1.5M、200K', 'e.g. 500000, 1.5M, 200K', 'напр. 500000, 1.5M, 200K'],
         ph_nick_rank: ['输入昵称参与排行', '輸入昵稱參與排行', 'Enter nickname to rank', 'Введите ник'],
         ph_item_search: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск предметов...'],
 
-        /* ---------- 制作人员职位 ---------- */
+        
         role_main: ['主程序＆主设计', '主程式＆主設計', 'Lead Programmer & Designer', 'Гл. программист и дизайнер'],
         role_test: ['测试', '測試', 'Testing', 'Тестирование'],
         role_edit: ['编辑', '編輯', 'Editing', 'Редактура'],
@@ -397,20 +391,20 @@
         luck_tip: ['运气也是实力的一部分', '運氣也是實力的一部分', 'Luck is part of skill', 'Удача — тоже навык'],
         moddoc_rarity_note: ['物品 rarity 只能是 purple / gold / orange / red；width 1~5、height 1~6', '物品 rarity 只能是 purple / gold / orange / red；width 1~5、height 1~6', 'Item rarity: purple/gold/orange/red; width 1~5, height 1~6', 'rarity: purple/gold/orange/red; width 1~5, height 1~6'],
 
-        /* ---------- 加载 tips ---------- */
+        
         tip_noluck: ['没出货多摸就有了', '沒出貨多摸就有了', 'No luck? Just keep searching.', 'Нет дропа — ищите ещё.'],
         tip_leaderboard: ['"更多"中有周排行榜，欢迎各位积极参与', '"更多"中有週排行榜，歡迎各位積極參與', 'Weekly leaderboard is under "More" — join in!', 'Рейтинг недели в «Ещё»'],
         tip_credits: ['制作人员名单中有社媒传送门哦', '製作人員名單中有社媒傳送門哦', 'Social links are in the Credits.', 'Соцсети — в разделе авторов.'],
         tip_free: ['此软件完全免费，圈钱的圈一分死一个亩', '此軟件完全免費，圈錢的圈一分死一個畝', 'This app is completely free.', 'Приложение полностью бесплатное.'],
 
-        /* ---------- 通用 UI ---------- */
+        
         special_thanks: ['特别感谢', '特別感謝', 'Special Thanks', 'Особая благодарность'],
         redeem_camona: ['兑换成功！累计价值 +20M', '兌換成功！累計價值 +20M', 'Redeemed! Total value +20M', 'Активировано! Ценность +20M'],
         net_down: ['网络断开', '網絡斷開', 'Network disconnected', 'Сеть отключена'],
         net_error: ['网络异常', '網絡異常', 'Network error', 'Ошибка сети'],
         net_restored: ['网络恢复', '網絡恢復', 'Network restored', 'Сеть восстановлена'],
 
-        /* ---------- GM 面板 ---------- */
+        
         gm_turbo_confirm: ['开启极速模式将解锁「迅捷巧手」+「物资潮汐」并刷新页面，确定?', '開啟極速模式將解鎖「迅捷巧手」+「物資潮汐」並刷新頁面，確定?', 'Turbo mode unlocks Swift Hands + Supply Tide and reloads the page. Continue?', 'Турбо-режим откроет навыки и перезагрузит. Продолжить?'],
         gm_reset_value: ['确定清零累计价值?', '確定清零累計價值?', 'Reset total value?', 'Сбросить ценность?'],
         gm_reset_skills: ['重置全部技能?', '重置全部技能?', 'Reset all skills?', 'Сбросить все навыки?'],
@@ -534,7 +528,7 @@
         confirm_enable_all: ['确定要启用所有物品吗？', '確定要啟用所有物品嗎？', 'Enable all items?', 'Включить все предметы?'],
         confirm_disable_all: ['确定要禁用所有物品吗？', '確定要禁用所有物品嗎？', 'Disable all items?', 'Отключить все предметы?'],
 
-        /* ---------- index.html 内联脚本 toast ---------- */
+        
         uid_copied: ['UID已复制到剪贴板', 'UID已複製到剪貼簿', 'UID copied to clipboard', 'UID скопирован'],
         lb_noupdate: ['你的累计价值没有提高，无需更新', '你的累計價值沒有提高，無需更新', 'Total value did not increase; nothing to update', 'Ценность не выросла'],
         toggle_skiplogin_off: ['关闭跳过加载登录', '關閉跳過載入登入', 'Turn off skip-load login', 'Выкл. пропуск входа'],
@@ -701,7 +695,7 @@
         unknown_time: ['未知时间', '未知時間', 'Unknown time', 'Неизвестное время'],
         unknown_error: ['未知错误', '未知錯誤', 'Unknown error', 'Неизвестная ошибка'],
 
-        /* ---------- 校验错误（模组导入） ---------- */
+        
         v_bg_empty: ['backgrounds 不能为空', 'backgrounds 不能為空', 'backgrounds cannot be empty', 'backgrounds не может быть пустым'],
         v_items_empty: ['items 不能为空', 'items 不能為空', 'items cannot be empty', 'items не может быть пустым'],
         v_tracks_empty: ['tracks 不能为空', 'tracks 不能為空', 'tracks cannot be empty', 'tracks не может быть пустым'],
@@ -732,7 +726,7 @@
         v_bg_max: ['背景数量超过', '背景數量超過', 'too many backgrounds', 'слишком много фонов'],
         v_tracks_max: ['曲目数量超过', '曲目數量超過', 'too many tracks', 'слишком много треков'],
 
-        /* ---------- 云同步 / 热更新 / 其他 ---------- */
+        
         cloud_not_deployed: ['云端服务尚未部署，暂不可用', '雲端服務尚未部署，暫不可用', 'Cloud service not deployed yet', 'Облако не развёрнуто'],
         cloud_deploy_hint: ['云端服务尚未部署，部署后填入地址即可使用', '雲端服務尚未部署，部署後填入地址即可使用', 'Cloud not deployed; fill in the URL after deploying', 'Облако не развёрнуто; укажите URL'],
         cloud_no_net: ['无法连接云端，请检查网络', '無法連線雲端，請檢查網絡', 'Cannot reach cloud; check network', 'Нет связи с облаком'],
@@ -784,7 +778,7 @@
         and_failed: ['，失败 ', '，失敗 ', ', failed ', ', ошибок '],
         tap_incubator2: ['，点击保温箱放入', '，點擊保溫箱放入', ', tap the incubator to place', ', нажмите инкубатор'],
 
-        /* ---------- GM / 上传 ---------- */
+        
         gm_on: ['GM 模式已开启', 'GM 模式已開啟', 'GM mode enabled', 'GM включён'],
         gh_token_local: ['GitHub Token（仅保存在本机）', 'GitHub Token（僅保存在本機）', 'GitHub Token (local only)', 'GitHub Token (локально)'],
         mod_published: ['Mod 已上传并发布', 'Mod 已上傳並發布', 'Mod uploaded & published', 'Мод загружен'],
@@ -818,11 +812,9 @@
 
     function idx() { return LANG_INDEX[cur] || 0; }
 
-    // 反查索引：zh-CN 原文 → key（供 I18N.tr(中文) 使用）
     var REV = {};
     for (var __k in M) REV[M[__k][0]] = __k;
 
-    // 前缀规则：拼接型文案（如「已安装「X」」「下载失败：e」），只译前缀，保留后段
     var PREFIX = [
         ['已安装「', ['已安装「', '已安裝「', 'Installed 「', 'Установлено 「']],
         ['已导入「', ['已导入「', '已匯入「', 'Imported 「', 'Импортировано 「']],
@@ -899,12 +891,10 @@
             if (v === '' || v == null) v = row[0];
             return (v == null) ? (typeof fallback !== 'undefined' ? fallback : key) : v;
         },
-        // 按中文原文反查：命中则当前语言文案，未命中原样返回（安全回退）
         tr: function (zh) {
             var s = String(zh == null ? '' : zh);
             var k = REV[s];
             if (k) return I18N.t(k);
-            // 前缀规则（拼接型）
             for (var i = 0; i < PREFIX.length; i++) {
                 var pre = PREFIX[i][0];
                 if (s.indexOf(pre) === 0) return PREFIX[i][1][idx()] + s.slice(pre.length);
@@ -926,7 +916,6 @@
                 if (typeof I18N.onChange === 'function') I18N.onChange(cur);
             }
         },
-        // 刷新所有 data-i18n / data-i18n-ph / data-i18n-title
         translateStatic: function () {
             var i;
             var els = document.querySelectorAll('[data-i18n]');
@@ -952,7 +941,6 @@
 
     window.I18N = I18N;
 
-    // 段位名（中文）→ 当前语言；未知名称回退原值
     var RANK_NAMES = ['暗区新锐', '暗区尖兵', '暗区精英', '暗区专家', '暗区大师', '暗区王牌', '暗区传说'];
     window.i18nRankName = function (zhName) {
         var i = RANK_NAMES.indexOf(zhName);
@@ -961,9 +949,7 @@
     };
     I18N.refreshDynamic = function () { if (typeof I18N.onChange === 'function') I18N.onChange(I18N.getLang()); };
 
-    /* ===== 自动翻译层：遍历文本节点 + MutationObserver =====
-     * 只要文本（trim 后）命中词表中文原文，就按当前语言替换；
-     * 覆盖静态 HTML、弹窗内容、JS 重渲染后的节点；切换语言时先还原再重译。 */
+    
     function _skipParent(node) {
         var p = node.parentNode;
         while (p) {
@@ -973,7 +959,6 @@
         }
         return false;
     }
-    // 数字/量词直译（共 N 个模组、N 次、N 首、第 N 等），仅英/俄
     function _translateNumeric(trimmed) {
         var lang = I18N.getLang();
         if (lang !== 'en' && lang !== 'ru') return null;
@@ -987,7 +972,6 @@
         if ((m = trimmed.match(/^第\s*(\d+)$/))) return (ru ? '№ ' : 'No. ') + m[1];
         return null;
     }
-    // 清理残留中量词单位
     function _cleanupUnits(s) {
         var lang = I18N.getLang();
         if (lang === 'zh-CN') return s;
@@ -1035,7 +1019,6 @@
         var key = REV[trimmed];
         if (key) targetTr = I18N.t(key);
         else {
-            // 开头带 emoji/符号的（如“⚡ 技能 & 加速”），剥掉前导非文字再查
             var stripped = trimmed.replace(/^[^\u4e00-\u9fffA-Za-z\u0400-\u04ff]+/, '');
             if (stripped && stripped !== trimmed && REV[stripped]) {
                 var lead = trimmed.slice(0, trimmed.length - stripped.length);
@@ -1073,7 +1056,6 @@
             while ((n = walker.nextNode())) _translateTextNode(n);
         } catch (e) {}
     }
-    // 属性翻译：placeholder / title / img[alt]
     function _translateAttrs(root) {
         if (!root || !root.querySelectorAll) return;
         var els = root.querySelectorAll('[placeholder],[title],img[alt]');
@@ -1103,13 +1085,10 @@
             walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
             while ((n = walker.nextNode())) list.push(n);
         } catch (e) { return; }
-        // 先还原成中文原文
         for (var i = 0; i < list.length; i++) {
             if (list[i].__i18nOrig != null) { list[i].nodeValue = list[i].__i18nOrig; list[i].__i18nOrig = null; }
         }
-        // 再按当前语言翻译
         for (var j = 0; j < list.length; j++) _translateTextNode(list[j]);
-        // 属性：先还原再翻译
         try {
             var all = document.body.getElementsByTagName('*');
             for (var e = 0; e < all.length; e++) {
@@ -1141,7 +1120,6 @@
         I18N._obs.observe(document.body, { childList: true, subtree: true, characterData: true });
     };
 
-    // 语言选择器 UI（若页面里有 #lang-select 容器则填充）
     function buildSelector() {
         var box = document.getElementById('lang-select');
         if (!box) return;

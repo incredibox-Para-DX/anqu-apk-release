@@ -1,4 +1,4 @@
-/* 自动生成：物品名称/简介四语言翻译表（不参与逻辑，仅显示） */
+
 (function(){
   if (!window.I18N || !I18N.addEntries) { window.__ITEM_I18N_PENDING = true; return; }
   function def(key, row){ var o={}; o[key]=row; I18N.addEntries(o); }

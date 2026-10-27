@@ -1,4 +1,4 @@
-/* 自动生成：背景名称四语言翻译表 */
+
 (function(){
   if (!window.I18N || !I18N.addEntries) return;
   function def(k,row){ var o={}; o[k]=row; I18N.addEntries(o); }

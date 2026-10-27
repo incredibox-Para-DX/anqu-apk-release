@@ -1,4 +1,4 @@
-/* 自动生成：GM 调试面板文案四语言 */
+
 (function(){
   if (!window.I18N || !I18N.addEntries) return;
   function def(k,row){ var o={}; o[k]=row; I18N.addEntries(o); }
