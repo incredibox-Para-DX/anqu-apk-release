@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.19</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.20</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -707,21 +707,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div id="gm-ipcode-out" style="font-size:12px;color:#34d399;margin-top:6px;word-break:break-all;line-height:1.6;"></div>
 <button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> <span data-i18n="gm_center">弹窗中心</span></button>
 <button class="sidebar-btn full-width" id="gm-toast-center-btn" style="margin-top:6px;"><i class="fas fa-comment-dots"></i> Toast 中心</button>
-</div>
-</div>
-<!-- GM：Toast 中心 -->
-<div class="modal-overlay" id="gm-toast-center-modal">
-<div class="modal-content" style="max-width:460px;width:92vw;max-height:80vh;display:flex;flex-direction:column;">
-<div class="modal-header">
-<div class="modal-title"><i class="fas fa-comment-dots"></i> Toast 中心</div>
-<button class="modal-close" id="gm-toast-center-close">&times;</button>
-</div>
-<div style="padding:8px 14px;display:flex;gap:8px;align-items:center;">
-<input type="text" id="gm-toast-search" class="input-field" placeholder="搜索 toast…" style="flex:1;font-size:12px;" autocomplete="off">
-</div>
-<div class="modal-body" id="gm-toast-center-list" style="overflow-y:auto;flex:1;padding:0 14px 14px;"></div>
-</div>
-</div>
 </div>
 </div>
 <div class="sidebar-section collapsible">
@@ -1733,6 +1718,20 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-body" style="padding:16px;">
 <div id="first-lang-options" style="display:grid; gap:10px;"></div>
 </div>
+</div>
+</div>
+
+<!-- GM：Toast 中心 -->
+<div class="modal-overlay" id="gm-toast-center-modal">
+<div class="modal-content" style="max-width:460px;width:92vw;max-height:80vh;display:flex;flex-direction:column;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-comment-dots"></i> Toast 中心</div>
+<button class="modal-close" id="gm-toast-center-close">&times;</button>
+</div>
+<div style="padding:8px 14px;display:flex;gap:8px;align-items:center;">
+<input type="text" id="gm-toast-search" class="input-field" placeholder="搜索 toast…" style="flex:1;font-size:12px;" autocomplete="off">
+</div>
+<div class="modal-body" id="gm-toast-center-list" style="overflow-y:auto;flex:1;padding:0 14px 14px;"></div>
 </div>
 </div>
 
