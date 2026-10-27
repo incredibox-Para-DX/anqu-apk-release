@@ -596,6 +596,7 @@
     }
     function _translateTextNode(node) {
         if (!node || node.nodeType !== 3 || _skipParent(node)) return;
+        if (I18N.getLang() === 'zh-CN') return; // 默认语言无需翻译，省开销
         var cur = node.nodeValue;
         if (cur == null) return;
         var trimmed = cur.trim();
