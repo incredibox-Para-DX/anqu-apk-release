@@ -92,12 +92,12 @@
         set_intl_font: ['切换为国际服字体', '切換為國際服字體', 'INTL font', 'Глоб. шрифт'],
 
         /* ---------- 稀有度 ---------- */
-        rar_white: ['白色', '白色', '白色', '白色'],
-        rar_orange: ['橙色', '橙色', '橙色', '橙色'],
-        rar_purple: ['紫色', '紫色', '紫色', '紫色'],
-        rar_red: ['红色', '红色', '红色', '红色'],
-        rar_gold: ['金色', '金色', '金色', '金色'],
-        collectible: ['收藏品', '收藏品', '收藏品', '收藏品'],
+        rar_white: ['白色', '白色', 'White', 'Белый'],
+        rar_orange: ['橙色', '橙色', 'Orange', 'Оранжевый'],
+        rar_purple: ['紫色', '紫色', 'Purple', 'Фиолетовый'],
+        rar_red: ['红色', '紅色', 'Red', 'Красный'],
+        rar_gold: ['金色', '金色', 'Gold', 'Золотой'],
+        collectible: ['收藏品', '收藏品', 'Collectible', 'Коллекц.'],
         cohen: ['柯恩币', '柯恩幣', 'Koen Coin', 'Монета Кён'],
 
         /* ---------- 段位名 ---------- */
@@ -567,7 +567,17 @@
         upload_ok: ['✅ 上传成功：', '✅ 上傳成功：', '✅ Upload success: ', '✅ Загружено: '],
         ip_unlocked_msg: ['「物品池管理」已解锁', '「物品池管理」已解鎖', '“Item Pool” unlocked', '«Склад» открыт'],
         all_routes_failed: ['全部下载线路失败', '全部下載線路失敗', 'All download routes failed', 'Все каналы недоступны'],
-        restored_: ['已恢复', '已恢復', 'Restored', 'Восстановлено']
+        restored_: ['已恢复', '已恢復', 'Restored', 'Восстановлено'],
+        go_fetch_mod: ['去「MOD市场」下载，或在「从本地导入MOD」导入 zip', '去「MOD市場」下載，或在「從本地匯入MOD」匯入 zip', 'Download in MOD Store, or import a zip from device', 'Скачайте в магазине или импортируйте zip'],
+        go_redeem: ['去兑换码', '去兌換碼', 'Go to Redeem', 'К кодам'],
+        copy_qq: ['复制QQ', '複製QQ', 'Copy QQ', 'Копировать QQ'],
+        login_btn: ['登录', '登入', 'Login', 'Войти'],
+        details_: ['详情', '詳情', 'Details', 'Детали'],
+        group_chat: ['软件交流群 : 1082453829', '軟件交流群 : 1082453829', 'QQ group: 1082453829', 'QQ-группа: 1082453829'],
+        no_mod_installed: ['还没有安装的 Mod', '還沒有安裝的 Mod', 'No mods installed yet', 'Модов пока нет'],
+        moddoc_submit: ['把你打包好的 zip 发给作者 QQ，审核通过后即会上架 Mod 库，全服玩家可下载。', '把你打包好的 zip 發給作者 QQ，審核通過後即會上架 Mod 庫，全服玩家可下載。', 'Send your zip to the author via QQ; once approved it goes live in the Mod library.', 'Отправьте zip автору в QQ; после проверки мод появится в библиотеке.'],
+        slogan_free: ['此软件完全免费，圈钱的圈一分死一亩', '此軟件完全免費，圈錢的圈一分死一畝', 'This app is completely free', 'Приложение полностью бесплатное'],
+        slogan_follow: ['关注盒饭谢谢喵', '關注盒飯謝謝喵', 'Follow HeFan, thanks~', 'Подпишитесь на HeFan']
     };
 
     var cur = 'zh-CN';
@@ -610,7 +620,11 @@
         ['第 ', ['第 ', '第 ', 'No. ', '№ ']],
         ['· 共 ', ['· 共 ', '· 共 ', '· Total ', '· Всего ']],
         ['全部下载完成 (', ['全部下载完成 (', '全部下載完成 (', 'All downloads done (', 'Всё скачано (']],
-        ['已恢复 ', ['已恢復 ', 'Restored ', 'Восстановлено ']]
+        ['已恢复 ', ['已恢复 ', '已恢復 ', 'Restored ', 'Восстановлено ']],
+        ['→ 重新打包为 zip（', ['→ 重新打包为 zip（', '→ 重新打包為 zip（', '→ Repack as zip (', '→ Перепакуйте в zip (']],
+        ['里的图片 → 用记事本修改', ['里的图片 → 用记事本修改', '裡的圖片 → 用記事本修改', 'images → edit with Notepad', 'изображения → блокнот']],
+        ['里的图片', ['里的图片', '裡的圖片', 'images', 'изображения']],
+        ['本软件由', ['本软件由', '本軟件由', 'Made by ', 'Сделано: ']]
     ];
 
     var I18N = {
@@ -697,6 +711,45 @@
         }
         return false;
     }
+    // 数字/量词直译（共 N 个模组、N 次、N 首、第 N 等），仅英/俄
+    function _translateNumeric(trimmed) {
+        var lang = I18N.getLang();
+        if (lang !== 'en' && lang !== 'ru') return null;
+        var ru = lang === 'ru', m;
+        if ((m = trimmed.match(/^共\s*(\d+)\s*个模组$/))) return (ru ? 'Всего ' : '') + m[1] + (ru ? ' модов' : ' mods');
+        if ((m = trimmed.match(/^(\d+)\s*个模组$/))) return m[1] + (ru ? ' модов' : ' mods');
+        if ((m = trimmed.match(/^共\s*(\d+)\s*首$/))) return m[1] + (ru ? ' треков' : ' songs');
+        if ((m = trimmed.match(/^(\d+)\s*首$/))) return m[1] + (ru ? ' треков' : ' songs');
+        if ((m = trimmed.match(/^(\d+)\s*次$/))) return m[1] + (ru ? ' раз' : ' times');
+        if ((m = trimmed.match(/^(\d+)\s*个$/))) return String(m[1]);
+        if ((m = trimmed.match(/^第\s*(\d+)$/))) return (ru ? '№ ' : 'No. ') + m[1];
+        return null;
+    }
+    // 清理残留中量词单位
+    function _cleanupUnits(s) {
+        var lang = I18N.getLang();
+        if (lang === 'zh-CN') return s;
+        if (lang === 'zh-TW') return s.replace(/个/g, '個').replace(/特遣队员/g, '特遣隊員');
+        if (lang !== 'en' && lang !== 'ru') return s;
+        var ru = lang === 'ru';
+        s = s.replace(/(\d+)\s*个模组/g, '$1' + (ru ? ' модов' : ' mods'));
+        s = s.replace(/(\d+)\s*个物品/g, '$1' + (ru ? ' предм.' : ' items'));
+        s = s.replace(/(\d+)\s*个背景/g, '$1' + (ru ? ' фонов' : ' backgrounds'));
+        s = s.replace(/(\d+)\s*个文件/g, '$1' + (ru ? ' файлов' : ' files'));
+        s = s.replace(/(\d+)\s*个/g, '$1');
+        s = s.replace(/(\d+)\s*次/g, '$1' + (ru ? ' раз' : ' times'));
+        s = s.replace(/(\d+)\s*首/g, '$1' + (ru ? ' треков' : ' songs'));
+        s = s.replace(/共\s*/g, ru ? 'Всего ' : 'Total ');
+        s = s.replace(/第\s*/g, ru ? '№ ' : 'No. ');
+        s = s.replace(/个模组/g, ru ? 'модов' : 'mods');
+        s = s.replace(/模组/g, ru ? 'моды' : 'mods');
+        s = s.replace(/个/g, '');
+        s = s.replace(/次/g, '');
+        s = s.replace(/首/g, '');
+        s = s.replace(/特遣队员/g, ru ? 'Оперативник' : 'Operator');
+        s = s.replace(/制作/g, '');
+        return s;
+    }
     function _translateTextNode(node) {
         if (!node || node.nodeType !== 3 || _skipParent(node)) return;
         if (I18N.getLang() === 'zh-CN') return; // 默认语言无需翻译，省开销
@@ -712,8 +765,14 @@
                 var pre0 = PREFIX[i][0];
                 if (trimmed.indexOf(pre0) === 0) { targetTr = PREFIX[i][1][idx()] + trimmed.slice(pre0.length); break; }
             }
+            if (targetTr == null) targetTr = _translateNumeric(trimmed);
+        }
+        if (targetTr == null) {
+            var cleaned = _cleanupUnits(trimmed);
+            if (cleaned !== trimmed) targetTr = cleaned;
         }
         if (targetTr == null) return;
+        targetTr = _cleanupUnits(targetTr);
         var preWs = (cur.match(/^\s*/) || [''])[0];
         var postWs = (cur.match(/\s*$/) || [''])[0];
         var target = preWs + targetTr + postWs;
