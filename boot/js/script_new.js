@@ -6650,7 +6650,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0';
+    window.HU_BUILD_VERSION = 'v2.3.0.hotfix.1';
 
     /* ============================================================
      * 检查更新
@@ -6977,24 +6977,23 @@ const EventManager = {
      * 热更新：fetch manifest + 进度条 + 红点 + 自动检查
      * ============================================================ */
     window.__huProgressTimer = null;
-    // 版本对比：v2.1.0_hotfix.37 与 v2.1.1
-    // 规则：先比 major.minor；相同则比 hotfix 号（无 hotfix 视为 0）；再相同比 patch
-    // 这样 v2.1.0_hotfix.37 (hotfix=37) > v2.1.1 (hotfix=0)，避免误判旧版为更新
+    // 版本对比：支持 v2.3.0.hotfix.5 与 v2.1.0_hotfix.37（下划线/点均可）
+    // 规则：依次比 major → minor → patch → hotfix（无 hotfix 视为 0）
     window.__huVersionGt = function(a, b) {
         if (!a) return false;
         if (!b) return true;  // 本地没存过版本 = 有更新
         function parse(v) {
-            var hm = v.match(/_hotfix\.(\d+)/);
+            var hm = v.match(/[._]hotfix\.(\d+)/);
             var hotfix = hm ? parseInt(hm[1], 10) : 0;
-            var main = v.replace(/_hotfix\.\d+/, '').replace(/[^0-9.]/g, '').split('.').map(Number);
+            var main = v.replace(/[._]hotfix\.\d+/, '').replace(/[^0-9.]/g, '').split('.').map(Number);
             return { major: main[0] || 0, minor: main[1] || 0, patch: main[2] || 0, hotfix: hotfix };
         }
         var pa = parse(a);
         var pb = parse(b);
         if (pa.major !== pb.major) return pa.major > pb.major;
         if (pa.minor !== pb.minor) return pa.minor > pb.minor;
-        if (pa.hotfix !== pb.hotfix) return pa.hotfix > pb.hotfix;
         if (pa.patch !== pb.patch) return pa.patch > pb.patch;
+        if (pa.hotfix !== pb.hotfix) return pa.hotfix > pb.hotfix;
         return false;
     };
     // 右上角版本号立即同步为当前构建版本（不等 manifest 返回）
