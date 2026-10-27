@@ -4460,44 +4460,44 @@ const EventManager = {
     const ResourceDownloadManager = {
         // CDN 优先（国内可访问），GitHub raw 作为兜底
         bgManifestUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/manifest.json',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/manifest.json'
         ],
         bgBaseUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/'
         ],
         musicManifestUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-music-resources@main/manifest.json',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/manifest.json'
         ],
         musicBaseUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-music-resources@main/',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/'
         ],
         // 段位徽章图标资源包（结构同背景/音乐：manifest.json + 图标文件）
         titleManifestUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-title-resources@main/manifest.json',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-title-resources/main/manifest.json'
         ],
         titleBaseUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-title-resources@main/',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-title-resources/main/'
         ],
         minigameManifestUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-minigame-resources@main/manifest.json',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json'
         ],
         minigameBaseUrls: [
-            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-minigame-resources@main/',
+            'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-minigame-resources/main/'
         ],
         bgManifestCacheKey: 'ab_bg_manifest_cache_v1',
@@ -6660,7 +6660,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.20';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.21';
 
     /* ============================================================
      * 检查更新

@@ -65,9 +65,9 @@
             JD + '/mods.json'
         ],
         baseUrls: [
+            JD + '/',
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
-            GH + '/',
-            JD + '/'
+            GH + '/'
         ],
         _db: null,
         _manifest: null,
