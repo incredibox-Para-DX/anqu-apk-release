@@ -73,6 +73,34 @@
         _manifest: null,
         _manifestTs: 0,
         MANIFEST_CACHE_KEY: 'ab_mods_manifest_cache_v2',
+        SUPA_URL: 'https://fgkfgyudwbhmmrqvtfup.supabase.co',
+        SUPA_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI',
+        _dlCounts: null,
+        _dlCountsTs: 0,
+        bumpDownload: function (modId) {
+            if (!modId) return Promise.resolve();
+            var self = this;
+            return fetch(this.SUPA_URL + '/rest/v1/rpc/increment_mod_download', {
+                method: 'POST',
+                headers: { 'apikey': this.SUPA_KEY, 'Authorization': 'Bearer ' + this.SUPA_KEY, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ p_mod_id: String(modId) })
+            }).then(function (r) { return r.ok ? r.json().catch(function () { return null; }) : null; }).catch(function () { return null; }).then(function () {
+                if (self._dlCounts) self._dlCounts[modId] = (self._dlCounts[modId] || 0) + 1;
+            });
+        },
+        fetchDownloadCounts: function (force) {
+            var self = this;
+            var now = Date.now();
+            if (!force && this._dlCounts && now - this._dlCountsTs < 60 * 1000) return Promise.resolve(this._dlCounts);
+            return fetch(this.SUPA_URL + '/rest/v1/ab_mod_downloads?select=mod_id,count', {
+                headers: { 'apikey': this.SUPA_KEY, 'Authorization': 'Bearer ' + this.SUPA_KEY }
+            }).then(function (r) { return r.ok ? r.json() : []; }).then(function (rows) {
+                var m = {};
+                (rows || []).forEach(function (x) { if (x && x.mod_id != null) m[x.mod_id] = Number(x.count) || 0; });
+                self._dlCounts = m; self._dlCountsTs = Date.now();
+                return m;
+            }).catch(function () { return self._dlCounts || {}; });
+        },
         _blobUrls: {},
         _meta: {},        // modId -> meta（含 enabled）
         _itemsCache: null,
@@ -1108,7 +1136,8 @@
             var $list = $('#mod-store-list');
             if (!$list.length) return;
             var seq = ++this._storeSeq;
-            this.fetchManifest().then(function (m0) {
+            Promise.all([this.fetchManifest(), this.fetchDownloadCounts()]).then(function (res) {
+                var m0 = res[0], counts = res[1] || {};
                 // 丢弃过期渲染（并发调用时只保留最新一次）
                 if (seq !== self._storeSeq) return;
                 // 拿到的清单为空但内存里还有上次成功的数据 → 用旧的，不清空列表
@@ -1140,7 +1169,7 @@
                         '<div class="mod-row" data-id="' + esc(x.id) + '">' +
                         '<div class="mod-row-thumb">' + (x.thumb ? self._assetImg(x.thumb) : '<i class="fas fa-box"></i>') + '</div>' +
                         '<div class="mod-row-main">' +
-                        '<div class="mod-row-name">' + esc(x.name) + ' <span class="mod-type-badge">' + typeName + '</span>' + (installed ? '<span class="mod-installed-badge">已安装</span>' : '') + '</div>' +
+                        '<div class="mod-row-name">' + esc(x.name) + ' <span class="mod-type-badge">' + typeName + '</span>' + (installed ? '<span class="mod-installed-badge">已安装</span>' : '') + '<span class="mod-dl-count" style="font-size:11px;color:#8b949e;margin-left:6px;">⬇ ' + (counts[x.id] || 0) + '</span></div>' +
                         '<div class="mod-row-desc">' + esc(x.desc) + '</div>' +
                         '</div>' +
                         '<button class="mod-detail-btn">详情</button>' +
@@ -1241,6 +1270,7 @@
                         $dl.html('<i class="fas fa-spinner fa-spin"></i> 安装中…');
                         return self.installFromZip(blob, x, 'download');
                     }).then(function () {
+                        try { self.bumpDownload(x.id); } catch (e) {}
                         toast('已安装「' + x.name + '」');
                         self.hideDetail();
                         self.renderMineList();
