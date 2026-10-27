@@ -350,7 +350,7 @@
                 if (placed.indexOf(name) !== -1) return;
                 $('.synth-sample-card').removeClass('selected');
                 $(this).addClass('selected');
-                toast('已选中 ' + name + '，点击保温箱放入');
+                toast('已选中 ' + (window.I18N ? I18N.trFull(name) : name) + '，点击保温箱放入');
             });
 
             $(document).on('click', '#synth-restart-btn', function () {

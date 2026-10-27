@@ -850,6 +850,8 @@
         ['剩余次数', ['剩余次数', '剩餘次數', 'Uses left', 'Осталось']],
         ['剩余 ', ['剩余 ', '剩餘 ', 'Left ', 'Осталось ']],
         ['购买 ', ['购买 ', '購買 ', 'Buy ', 'Купить ']],
+        ['购买需要', ['购买需要', '購買需要', 'Cost', 'Стоимость']],
+        ['已选中 ', ['已选中 ', '已選中 ', 'Selected ', 'Выбрано ']],
         ['红色', ['红色', '紅色', 'Red', 'Красный']],
         ['橙色', ['橙色', '橙色', 'Orange', 'Оранжевый']],
         ['紫色', ['紫色', '紫色', 'Purple', 'Фиолетовый']],
@@ -902,6 +904,29 @@
                 if (s.indexOf(pre) === 0) return PREFIX[i][1][idx()] + s.slice(pre.length);
             }
             return zh;
+        },
+        trFull: function (zh) {
+            var raw = String(zh == null ? '' : zh);
+            var s = raw.trim();
+            if (!s) return zh;
+            var out = null;
+            var k = REV[s];
+            if (k) out = I18N.t(k);
+            else {
+                var stripped = s.replace(/^[^\u4e00-\u9fffA-Za-z\u0400-\u04ff]+/, '');
+                if (stripped && stripped !== s && REV[stripped]) {
+                    out = s.slice(0, s.length - stripped.length) + I18N.t(REV[stripped]);
+                } else {
+                    for (var i = 0; i < PREFIX.length; i++) {
+                        var pre = PREFIX[i][0];
+                        if (s.indexOf(pre) === 0) { out = PREFIX[i][1][idx()] + s.slice(pre.length); break; }
+                    }
+                    if (out == null) out = _translateNumeric(s);
+                    if (out == null) { var c = _cleanupUnits(s); if (c !== s) out = c; }
+                }
+            }
+            if (out == null) return zh;
+            return _cleanupUnits(out);
         },
         has: function (key) { var r = M[key]; return !!(r && (r[idx()] || r[0])); },
         addEntries: function (obj) { // 允许后续文件扩展词表
@@ -1003,6 +1028,8 @@
         s = s.replace(/首/g, '');
         s = s.replace(/特遣队员/g, ru ? 'Оперативник' : 'Operator');
         s = s.replace(/点击继续下载/g, ru ? 'нажмите продолжить' : 'tap to resume');
+        s = s.replace(/点击保温箱放入/g, ru ? 'нажмите инкубатор' : 'tap the incubator to place');
+        s = s.replace(/保温箱放入/g, ru ? 'в инкубатор' : 'into the incubator');
         s = s.replace(/点击重试/g, ru ? 'нажмите повторить' : 'tap to retry');
         s = s.replace(/(\d+)\s*核/g, '$1' + (ru ? ' ядер' : ' cores'));
         s = s.replace(/开$/, ru ? 'вкл' : 'on').replace(/关$/, ru ? 'выкл' : 'off');
