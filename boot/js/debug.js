@@ -131,6 +131,9 @@
       '<div class="dt-card"><span class="dt-label">保存的片段（点击执行，长按删除）</span><div id="snippetList" class="dt-row"></div><div class="dt-row" style="margin-top:6px"><input type="text" id="snippetName" class="dt-in" placeholder="名称" style="flex:1"><input type="text" id="snippetCode" class="dt-in" placeholder="代码" style="flex:2"><button class="dt-btn ok" id="saveSnippet">保存</button></div></div>' +
       '<div class="dt-card"><span class="dt-label">检测 / 选取</span><div class="dt-row"><button class="dt-btn" id="detectLibs">检测库</button><button class="dt-btn" id="globalBtn">全局变量</button><button class="dt-btn" id="pickElBtn">🎯 点选元素</button><button class="dt-btn" id="measureBtn">📐 测量模式</button></div><div id="toolOut" class="dt-kv" style="margin-top:6px"></div></div>' +
       '<div class="dt-card"><span class="dt-label">URL / 剪贴板</span><div class="dt-row"><button class="dt-btn" id="parseUrl">解析当前URL</button><button class="dt-btn" id="copyUrl">复制URL</button><button class="dt-btn" id="readClip">读取剪贴板</button></div><div id="urlOut" class="dt-kv" style="margin-top:6px"></div></div>' +
+      '<div class="dt-card"><span class="dt-label">快捷入口</span><div class="dt-row"><button class="dt-btn" data-dt-open="sidebar-item-control-btn">物品池</button><button class="dt-btn" data-dt-open="sidebar-shop-btn">技能商店</button><button class="dt-btn" data-dt-open="sidebar-synthesis-btn">合成台</button><button class="dt-btn" data-dt-open="sidebar-mod-library-btn">MOD库</button><button class="dt-btn" data-dt-open="sidebar-collect-btn">收藏室</button></div></div>' +
+      '<div class="dt-card"><span class="dt-label">存储用量</span><div class="dt-row"><button class="dt-btn" id="storageUsageBtn">统计 localStorage</button></div><div id="storageUsageOut" class="dt-net-body" style="margin-top:6px"></div></div>' +
+      '<div class="dt-card"><span class="dt-label">维护</span><div class="dt-row"><button class="dt-btn warn" id="clearCachesBtn">清缓存并重载</button></div></div>' +
     '</div></section>';
   }
 
@@ -165,6 +168,7 @@
     return '<section class="dt-panel" data-panel="network"><div class="dt-scroll">' +
       '<div class="dt-row"><button class="dt-btn" id="netRefresh">刷新</button><button class="dt-btn" id="netClear">清空</button><button class="dt-btn ok" id="netTest">测试请求</button><button class="dt-btn warn" id="netOffline">模拟离线</button><button class="dt-btn" id="netHar">导出HAR</button><span class="dt-label" style="margin:0">状态: <b id="netStatus"></b></span></div>' +
       '<div id="netOut" class="dt-kv" style="margin-top:8px"></div>' +
+      '<div class="dt-card" style="margin-top:10px"><span class="dt-label">线路测速（worker / jsDelivr / raw）</span><div class="dt-row"><button class="dt-btn ok" id="speedTestBtn">开始测速</button></div><div id="speedTestOut" class="dt-net-body" style="margin-top:6px"></div></div>' +
     '</div></section>';
   }
 
@@ -585,6 +589,33 @@
     Q('#parseUrl').addEventListener('click', function () { var u = new URL(location.href); Q('#urlOut').textContent = '协议:' + u.protocol + '\n域名:' + u.host + '\n路径:' + u.pathname + '\n参数:' + JSON.stringify(Object.fromEntries(u.searchParams)); });
     Q('#copyUrl').addEventListener('click', function () { navigator.clipboard.writeText(location.href).then(function () { toast('已复制'); }); });
     Q('#readClip').addEventListener('click', function () { navigator.clipboard.readText().then(function (t) { Q('#urlOut').textContent = t; }).catch(function (e) { toast('无权限', 'error'); }); });
+    // 快捷入口：直接打开对应页面
+    document.querySelectorAll('[data-dt-open]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var el = document.getElementById(b.getAttribute('data-dt-open'));
+        if (el) { try { el.click(); } catch (e) {} }
+        openDev(false);
+      });
+    });
+    // 存储用量（localStorage 各项大小排序）
+    if (Q('#storageUsageBtn')) Q('#storageUsageBtn').addEventListener('click', function () {
+      try {
+        var arr = [], total = 0;
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i), v = localStorage.getItem(k) || '';
+          var s = (k.length + v.length) * 2; total += s; arr.push([k, s]);
+        }
+        arr.sort(function (a, b) { return b[1] - a[1]; });
+        Q('#storageUsageOut').textContent = '共 ' + localStorage.length + ' 项，约 ' + (total / 1024).toFixed(1) + ' KB\n' + arr.map(function (x) { return x[0] + '  ' + (x[1] / 1024).toFixed(1) + ' KB'; }).join('\n');
+      } catch (e) { Q('#storageUsageOut').textContent = String(e); }
+    });
+    // 清缓存并重载
+    if (Q('#clearCachesBtn')) Q('#clearCachesBtn').addEventListener('click', function () {
+      confirmBox('清空所有 cache 缓存并重载?(不删 localStorage)', function () {
+        try { if (window.caches && caches.keys) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }); } catch (e) {}
+        setTimeout(function () { location.reload(); }, 400);
+      });
+    });
 
     Q('#saveSnippet').addEventListener('click', function () {
       var name = Q('#snippetName').value.trim();
@@ -798,6 +829,27 @@
     Q('#netTest').addEventListener('click', function () { fetch(location.href).then(function (r) { netLogs.push({ method: 'GET', url: location.href, status: r.status, time: 0 }); renderNetwork(); addLog('success', '测试请求完成'); }).catch(function (e) { addLog('error', '测试请求失败:' + e.message); }); });
     Q('#netOffline').addEventListener('click', function () { window.__DT_OFFLINE__ = !window.__DT_OFFLINE__; toast(window.__DT_OFFLINE__ ? '已模拟离线(fetch会被拒绝)' : '恢复'); });
     Q('#netHar').addEventListener('click', exportHAR);
+    // 线路测速：并发测 worker / jsDelivr / raw 延迟
+    if (Q('#speedTestBtn')) Q('#speedTestBtn').addEventListener('click', function () {
+      var urls = [
+        ['worker', 'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/main/manifest.json'],
+        ['jsDelivr', 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/manifest.json'],
+        ['raw', 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/manifest.json']
+      ];
+      var out = Q('#speedTestOut');
+      out.textContent = '测速中…\n';
+      urls.forEach(function (u) {
+        var name = u[0], url = u[1], t0 = Date.now(), done = false;
+        var timer = setTimeout(function () { if (!done) { done = true; out.textContent += name + ': 超时(>6s)\n'; } }, 6000);
+        fetch(url + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) {
+          if (done) return; done = true; clearTimeout(timer);
+          out.textContent += name + ': ' + (r.ok ? 'OK ' + (Date.now() - t0) + 'ms' : 'HTTP ' + r.status) + '\n';
+        }).catch(function () {
+          if (done) return; done = true; clearTimeout(timer);
+          out.textContent += name + ': 失败 ' + (Date.now() - t0) + 'ms\n';
+        });
+      });
+    });
     if (window.fetch && !window.__DT_NET_HOOKED__) {
       var orig = window.fetch;
       window.fetch = function () { if (window.__DT_OFFLINE__) return Promise.reject(new Error('Network offline (mocked)')); return orig.apply(this, arguments); };
