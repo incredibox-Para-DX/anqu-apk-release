@@ -49,6 +49,11 @@ html, body {
 (function(){
     var btn = document.getElementById('__mg_back_btn');
     if (!btn) return;
+    // 按主应用当前语言显示“返回”（iframe 不加载主 i18n，读 localStorage）
+    var lang = 'zh-CN';
+    try { lang = localStorage.getItem('ab_app_lang') || (window.parent && window.parent.I18N && window.parent.I18N.getLang()) || 'zh-CN'; } catch(e) {}
+    var backMap = { 'en': '← Back', 'ru': '← Назад', 'zh-TW': '← 返回', 'zh-CN': '← 返回' };
+    btn.textContent = backMap[lang] || '← 返回';
     // 延迟显示，避免和游戏加载冲突
     setTimeout(function(){ btn.style.display = 'block'; }, 1500);
     btn.addEventListener('click', function(){

@@ -747,8 +747,8 @@ previewCurrentBackground() {
             }
             
             $('#tooltip-img').attr('src', item.image || '');
-            $('#tooltip-name').text(item.fullName || item.name || '');
-            $('#tooltip-desc').text(item.desc || '世界观内容待补充。');
+            $('#tooltip-name').text(window.I18N ? I18N.tr(item.fullName || item.name || '') : (item.fullName || item.name || ''));
+            $('#tooltip-desc').text(window.I18N ? I18N.tr(item.desc || '世界观内容待补充。') : (item.desc || '世界观内容待补充。'));
             
             /* 物品详情弹窗显示对应稀有度底色 */
             const rarityBgColors = {
@@ -2119,7 +2119,7 @@ previewCurrentBackground() {
             const $info = Utils.createElement('div', { className: 'inventory-info' });
             const $name = Utils.createElement('div', {
                 className: 'inventory-name',
-                textContent: item.fullName || item.name,
+                textContent: window.I18N ? I18N.tr(item.fullName || item.name) : (item.fullName || item.name),
                 style: { color: rarityColor }
             });
             const $details = Utils.createElement('div', { className: 'inventory-details' });
@@ -2231,7 +2231,7 @@ previewCurrentBackground() {
             
             const $name = Utils.createElement('div', {
                 className: 'item-name',
-                textContent: item.name,
+                textContent: window.I18N ? I18N.tr(item.name) : item.name,
                 style: {
                     position: 'absolute',
                     top: '2px',
@@ -2459,8 +2459,8 @@ previewCurrentBackground() {
                             }
                         </div>
                         <div style="flex:1;min-width:0;">
-                            <div style="color:${color};font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.name}</div>
-                            <div style="color:#64748b;font-size:11px;">${rarityLabel} · ${item.width}x${item.height} · ID: ${item.id}</div>
+                            <div style="color:${color};font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${window.I18N ? I18N.tr(item.name) : item.name}</div>
+                            <div style="color:#64748b;font-size:11px;">${window.I18N ? I18N.tr(rarityLabel) : rarityLabel} · ${item.width}x${item.height} · ID: ${item.id}</div>
                         </div>
                         <label class="item-toggle-switch">
                             <input type="checkbox" class="item-toggle" data-id="${item.id}" ${isDisabled ? '' : 'checked'}>
@@ -6660,7 +6660,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.11';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.12';
 
     /* ============================================================
      * 检查更新
