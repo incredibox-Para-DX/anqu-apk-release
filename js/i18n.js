@@ -533,6 +533,36 @@
         items_no_spawn: ['这将导致无法生成任何物品。', '這將導致無法生成任何物品。', 'This will stop all item spawning.', 'Предметы не будут появляться.'],
         confirm_enable_all: ['确定要启用所有物品吗？', '確定要啟用所有物品嗎？', 'Enable all items?', 'Включить все предметы?'],
         confirm_disable_all: ['确定要禁用所有物品吗？', '確定要禁用所有物品嗎？', 'Disable all items?', 'Отключить все предметы?'],
+
+        /* ---------- index.html 内联脚本 toast ---------- */
+        uid_copied: ['UID已复制到剪贴板', 'UID已複製到剪貼簿', 'UID copied to clipboard', 'UID скопирован'],
+        lb_noupdate: ['你的累计价值没有提高，无需更新', '你的累計價值沒有提高，無需更新', 'Total value did not increase; nothing to update', 'Ценность не выросла'],
+        toggle_skiplogin_off: ['关闭跳过加载登录', '關閉跳過載入登入', 'Turn off skip-load login', 'Выкл. пропуск входа'],
+        copy_fail_manual: ['复制失败，请手动复制', '複製失敗，請手動複製', 'Copy failed; copy manually', 'Ошибка копирования'],
+        avatar_updated: ['头像已更新', '頭像已更新', 'Avatar updated', 'Аватар обновлён'],
+        minigame_mgr_notready: ['小游戏资源管理器未初始化，请稍候再试', '小遊戲資源管理器未初始化，請稍候再試', 'Mini-game resource manager not ready; retry', 'Менеджер мини-игр не готов'],
+        skiplogin_off_done: ['已关闭跳过加载登录，下次启动显示加载页', '已關閉跳過載入登入，下次啟動顯示載入頁', 'Skip-load login off; loading page shows next launch', 'Пропуск входа выкл.'],
+        font_cn_done: ['已切换到国服字体', '已切換為國服字體', 'Switched to CN font', 'Кит. шрифт'],
+        font_intl_done: ['已切换到国际服字体', '已切換為國際服字體', 'Switched to INTL font', 'Глоб. шрифт'],
+        skiplogin_on_done: ['已开启跳过加载登录，下次启动直接进入', '已開啟跳過載入登入，下次啟動直接進入', 'Skip-load login on; enters directly next launch', 'Пропуск входа вкл.'],
+        lb_cleared: ['已清除你的上榜累计价值', '已清除你的上榜累計價值', 'Cleared your leaderboard value', 'Ваша ценность удалена'],
+        submit_ok: ['提交成功！', '提交成功！', 'Submitted!', 'Отправлено!'],
+        op_failed: ['操作失败', '操作失敗', 'Operation failed', 'Ошибка операции'],
+        nick_empty: ['昵称不能为空', '昵稱不能為空', 'Nickname cannot be empty', 'Ник не может быть пустым'],
+        nick_too_long: ['昵称不能超过12个字符', '昵稱不能超過12個字符', 'Nickname max 12 chars', 'Ник: макс 12'],
+        nick_banned: ['昵称包含违规词汇', '昵稱包含違規詞彙', 'Nickname contains banned words', 'Ник содержит запрет'],
+        nick_updated: ['昵称已更新', '昵稱已更新', 'Nickname updated', 'Ник обновлён'],
+        lb_zero: ['累计价值为0，无法上传', '累計價值為0，無法上傳', 'Total value is 0; cannot upload', 'Ценность 0'],
+        value_updated: ['累计价值已更新！', '累計價值已更新！', 'Total value updated!', 'Ценность обновлена!'],
+        net_cache: ['网络异常，显示上次缓存数据', '網絡異常，顯示上次緩存數據', 'Network error; showing cached data', 'Сеть: кэш-данные'],
+        net_req_fail: ['网络请求异常，请检查网络后重试', '網絡請求異常，請檢查網絡後重試', 'Network error; check connection and retry', 'Ошибка сети; повторите'],
+        lb_empty: ['暂无排行数据，快来上榜吧', '暫無排行數據，快來上榜吧', 'No ranking data yet; be the first!', 'Рейтинг пуст'],
+        lb_req_fail: ['排行榜请求异常，请检查网络后点击「刷新」重试', '排行榜請求異常，請檢查網絡後點擊「刷新」重試', 'Leaderboard request failed; tap Refresh', 'Ошибка рейтинга'],
+        anonymous_: ['匿名', '匿名', 'Anonymous', 'Аноним'],
+        me_tag_: ['我', '我', 'Me', 'Я'],
+        tog_on: ['开', '開', 'On', 'Вкл'],
+        tog_off: ['关', '關', 'Off', 'Выкл'],
+        unknown_plain: ['未知', '未知', 'Unknown', 'Неизвестно'],
         m_repeat_one: ['单曲循环', '單曲循環', 'Repeat One', 'Повтор одного'],
         m_shuffle: ['随机播放', '隨機播放', 'Shuffle', 'Перемешать'],
         t_delete_again: ['再点一次删除', '再點一次刪除', 'Tap delete again', 'Нажмите ещё раз'],
@@ -801,6 +831,9 @@
         ['文件过大，请选择小于', ['文件过大，请选择小于', '檔案過大，請選擇小於', 'File too large; pick under ', 'Файл велик; < ']],
         ['次数已达上限，需使用至', ['次数已达上限，需使用至', '次數已達上限，需使用至', 'At limit; use below ', 'Лимит; используйте до ']],
         ['已下载 ', ['已下载 ', '已下載 ', 'Downloaded ', 'Скачано ']],
+        ['提交失败 (', ['提交失败 (', '提交失敗 (', 'Submit failed (', 'Ошибка отправки (']],
+        ['请求失败 (', ['请求失败 (', '請求失敗 (', 'Request failed (', 'Ошибка запроса (']],
+        ['展开下 ', ['展开下 ', '展開下 ', 'Show next ', 'Показать ещё ']],
         ['预览: ', ['预览: ', '預覽: ', 'Preview: ', 'Просмотр: ']],
         ['失败:', ['失败:', '失敗:', 'Failed: ', 'Ошибка: ']],
         ['导入失败', ['导入失败', '匯入失敗', 'Import failed', 'Ошибка импорта']],
@@ -917,6 +950,8 @@
         var ru = lang === 'ru';
         s = s.replace(/(\d+)年(\d+)月(\d+)日/g, ru ? '$3.$2.$1' : '$2/$3/$1');
         s = s.replace(/次以下才能购买/g, ru ? ' для покупки' : ' to buy');
+        s = s.replace(/(\d+)\s*名（剩余\s*/g, '$1' + (ru ? ' (осталось ' : ' (remaining '));
+        s = s.replace(/(\d+)\s*名）/g, '$1)');
         s = s.replace(/ MB 的图片或视频/g, ' MB');
         s = s.replace(/的图片或视频/g, '');
         s = s.replace(/，价值 /g, ru ? ', ценность ' : ', value ');
