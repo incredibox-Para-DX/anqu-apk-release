@@ -6654,13 +6654,13 @@ const EventManager = {
     var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     // Cloudflare Worker 反代（供国内加速）；未部署时自动回落 raw，不影响发版
-    var HU_PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/main';
+    var HU_PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/main';
     // 最后兜底：jsDelivr。仓库体积控制不当会超 50MB 限制返回 403，只作末位候选
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.13';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.14';
 
     /* ============================================================
      * 检查更新
@@ -7030,11 +7030,14 @@ const EventManager = {
             }
             // 最高版本等于本地版本 → 真的已最新
             var hasUpdate = window.__huVersionGt(bestVer, curVer);
-            window.__huActiveBase = bestBase;
+            // 同版本优先走 Worker（国内可达）；否则用最高版本对应 base
+            window.__huActiveBase = (workerM && bestM && workerM.version === bestM.version) ? HU_PROXY_BASE : bestBase;
             // 顶部版本号固定显示本地构建版本（服务器版本受各线路缓存影响会跳变，只在更新弹窗里展示）
             done(bestM, hasUpdate);
         };
+        var workerM = null;
         var record = function(m, base) {
+            if (base === HU_PROXY_BASE && m && m.version) workerM = m;
             if (!m || !m.version) return;
             // 拒绝异常旧版本（缓存回滚或脏数据），只有严格大于当前最佳才替换
             if (window.__huVersionGt(m.version, bestVer)) {

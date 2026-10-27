@@ -856,6 +856,8 @@
         ['白色', ['白色', '白色', 'White', 'Белый']],
         ['金色', ['金色', '金色', 'Gold', 'Золотой']],
         ['游戏: ', ['游戏: ', '遊戲: ', 'Game: ', 'Игра: ']],
+        ['当前版本', ['当前版本', '當前版本', 'Current version', 'Текущая версия']],
+        ['最新版本', ['最新版本', '最新版本', 'Latest version', 'Последняя версия']],
         ['JS错误', ['JS错误', 'JS錯誤', 'JS error', 'Ошибка JS']],
         ['存储变化', ['存储变化', '存儲變化', 'Storage change', 'Изменение хранилища']],
         ['点击', ['点击', '點擊', 'Click', 'Клик']],
@@ -1139,6 +1141,31 @@
         }
     }
     I18N.buildSelector = buildSelector;
+
+    // 首次启动语言选择弹窗（登录后调用）
+    I18N.showFirstLaunchPicker = function (onDone) {
+        var modal = document.getElementById('first-lang-modal');
+        var box = document.getElementById('first-lang-options');
+        if (!modal || !box) { if (onDone) onDone(); return; }
+        var labels = { 'zh-CN': '简体中文', 'zh-TW': '繁體中文', 'en': 'English', 'ru': 'Русский' };
+        box.innerHTML = '';
+        LANGS.forEach(function (l) {
+            var b = document.createElement('button');
+            b.className = 'first-lang-opt';
+            b.setAttribute('data-lang', l);
+            b.textContent = labels[l] || l;
+            b.onclick = function () {
+                I18N.setLang(l);
+                try { localStorage.setItem('ab_lang_chosen', '1'); } catch (e) {}
+                modal.classList.remove('show');
+                setTimeout(function () { modal.style.display = 'none'; }, 260);
+                if (onDone) onDone();
+            };
+            box.appendChild(b);
+        });
+        modal.style.display = 'flex';
+        setTimeout(function () { modal.classList.add('show'); }, 10);
+    };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { I18N.init(); buildSelector(); });
     else { I18N.init(); buildSelector(); }
 })();

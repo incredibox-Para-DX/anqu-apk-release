@@ -3439,6 +3439,10 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 .lang-opt:hover { border-color: #3b4452; color: #fff; }
 .lang-opt.active { background: #248DFB; border-color: #248DFB; color: #fff; font-weight: 600; }
 
+/* 首次启动语言选择按钮 */
+.first-lang-opt { padding: 14px 16px; font-size: 16px; border-radius: 10px; border: 1px solid #2c333c; background: #1a1f26; color: #e2e8f0; cursor: pointer; transition: all .15s; width: 100%; text-align: center; }
+.first-lang-opt:hover { border-color: #248DFB; background: #243040; color: #fff; }
+
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
 html[lang="ru"] .sidebar-btn,
