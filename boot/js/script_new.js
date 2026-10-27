@@ -4005,6 +4005,10 @@ const EventManager = {
         $('#bg-favorite-btn').on('click', () => {
             const bg = BackgroundManager.backgrounds[BackgroundManager.currentIndex];
             if (!bg) return;
+            if (!BackgroundManager.isBackgroundUnlocked(bg.id)) {
+                if (window.showToast) window.showToast('该背景尚未解锁，请先购买');
+                return;
+            }
             BackgroundFavorites.toggle(bg.id);
             BackgroundFavorites.updateFavoriteBtn();
             BackgroundManager.buildGrid();
@@ -6308,7 +6312,12 @@ const EventManager = {
             updateFavoriteBtn() {
                 const bg = BackgroundManager.backgrounds[BackgroundManager.currentIndex];
                 const $btn = $('#bg-favorite-btn');
-                if (!bg) { $btn.removeClass('active').html('<i class="fas fa-star"></i> 加入喜好'); return; }
+                if (!bg) { $btn.prop('disabled', false).removeClass('active').html('<i class="fas fa-star"></i> 加入喜好'); return; }
+                if (!BackgroundManager.isBackgroundUnlocked(bg.id)) {
+                    $btn.prop('disabled', true).removeClass('active').html('<i class="fas fa-star"></i> 加入喜好');
+                    return;
+                }
+                $btn.prop('disabled', false);
                 if (this.has(bg.id)) {
                     $btn.addClass('active').html('<i class="fas fa-star"></i> 取消喜好');
                 } else {
@@ -6641,7 +6650,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.2.8';
+    window.HU_BUILD_VERSION = 'v2.2.9';
 
     /* ============================================================
      * 检查更新

@@ -1,5 +1,5 @@
 {
-  "version": "v2.2.8",
+  "version": "v2.2.9",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 344087
+      "size": 344593
     },
     {
       "path": "js/synthesis.js",
@@ -71,7 +71,7 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 47325
+      "size": 60862
     },
     {
       "path": "js/item-i18n.js",
@@ -159,5 +159,5 @@
     }
   ],
   "fileCount": 39,
-  "totalSize": 2630076
+  "totalSize": 2644119
 }

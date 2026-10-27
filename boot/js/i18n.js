@@ -98,7 +98,7 @@
         rar_red: ['红色', '红色', '红色', '红色'],
         rar_gold: ['金色', '金色', '金色', '金色'],
         collectible: ['收藏品', '收藏品', '收藏品', '收藏品'],
-        cohen: ['柯恩币', '柯恩币', '柯恩币', '柯恩币'],
+        cohen: ['柯恩币', '柯恩幣', 'Koen Coin', 'Монета Кён'],
 
         /* ---------- 段位名 ---------- */
         rank_0: ['暗区新锐', '暗區新銳', 'Recruit', 'Новобранец'],
@@ -366,7 +366,110 @@
         res_dl_minigame: ['下载小游戏资源包', '下載小遊戲資源包', 'Download mini-game pack', 'Скачать мини-игру'],
         ph_value: ['例如：500000、1.5M、200K', '例如：500000、1.5M、200K', 'e.g. 500000, 1.5M, 200K', 'напр. 500000, 1.5M, 200K'],
         ph_nick_rank: ['输入昵称参与排行', '輸入昵稱參與排行', 'Enter nickname to rank', 'Введите ник'],
-        ph_item_search: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск предметов...']
+        ph_item_search: ['搜索物品名称...', '搜尋物品名稱...', 'Search items...', 'Поиск предметов...'],
+
+        /* ---------- 制作人员职位 ---------- */
+        role_main: ['主程序＆主设计', '主程式＆主設計', 'Lead Programmer & Designer', 'Гл. программист и дизайнер'],
+        role_test: ['测试', '測試', 'Testing', 'Тестирование'],
+        role_edit: ['编辑', '編輯', 'Editing', 'Редактура'],
+        role_vocal: ['声乐', '聲樂', 'Vocals', 'Вокал'],
+        role_promo: ['宣传', '宣傳', 'Promotion', 'Промо'],
+        role_lead: ['项目负责', '項目負責', 'Project Lead', 'Руководитель'],
+        role_studio: ['魔方工作室群暗区突围项目组', '魔方工作室群暗區突圍項目組', 'MoCube Studio Arena Breakout Team', 'MoCube Studio'],
+        m_repeat_one: ['单曲循环', '單曲循環', 'Repeat One', 'Повтор одного'],
+        m_shuffle: ['随机播放', '隨機播放', 'Shuffle', 'Перемешать'],
+        t_delete_again: ['再点一次删除', '再點一次刪除', 'Tap delete again', 'Нажмите ещё раз'],
+        confirm_delete: ['确定删除', '確定刪除', 'Confirm delete', 'Подтвердить удаление'],
+        confirm_delete_pre: ['确定删除「', '確定刪除「', 'Confirm delete 「', 'Удалить «'],
+        deleted_pre: ['已删除（', '已刪除（', 'Deleted (', 'Удалено ('],
+        drag_hint: ['拖拽', '拖拽', 'Drag', 'Перетащите'],
+        tap_incubator: ['点击保温箱放入', '點擊保溫箱放入', 'Tap the incubator to place', 'Нажмите инкубатор'],
+        coin_name: ['科恩币', '科恩幣', 'Koen Coin', 'Монета Кён'],
+        qq_group: ['能力投稿＆意见反馈交流群 : 1082453829', '能力投稿＆意見回饋交流群 : 1082453829', 'Contribution & feedback QQ group: 1082453829', 'QQ-группа: 1082453829'],
+        qq_group2: ['能力投稿&意见反馈交流群：1082453829', '能力投稿&意見回饋交流群：1082453829', 'Contribution & feedback QQ group: 1082453829', 'QQ-группа: 1082453829'],
+        got_drop: ['我出货了', '我出貨了', 'I got a drop', 'Мне выпало'],
+        got_drop_q: ['“我出货了”', '“我出貨了”', '“I got a drop”', '«Мне выпало»'],
+        synth_all_done_pre: ['六种样本已全部合成', '六種樣本已全部合成', 'All six samples synthesized', 'Все шесть образцов'],
+        first_obtained: ['第一次获取:', '第一次獲取:', 'First obtained:', 'Впервые получено:'],
+        collected: ['已收集', '已收集', 'Collected', 'Собрано'],
+        not_collected: ['未收集', '未收集', 'Not collected', 'Не собрано'],
+        placed: ['已放入', '已放入', 'Placed', 'Помещено'],
+        pool_enabled: ['已启用', '已啟用', 'Enabled', 'Включено'],
+        pool_disabled: ['已停用', '已停用', 'Disabled', 'Отключено'],
+        pool_enabled_pre: ['已启用「', '已啟用「', 'Enabled 「', 'Включено «'],
+        pool_disabled_pre: ['已停用「', '已停用「', 'Disabled 「', 'Отключено «'],
+        pool_enable_items: ['启用物品', '啟用物品', 'Enable items', 'Включить предметы'],
+        pool_disable_items: ['禁用物品', '禁用物品', 'Disable items', 'Отключить предметы'],
+        bg_unknown: ['未知背景', '未知背景', 'Unknown BG', 'Неизвестный фон'],
+        bg_default: ['默认背景', '默認背景', 'Default BG', 'Фон по умолчанию'],
+        bg_fav_add: ['加入喜好', '加入喜好', 'Add to favorites', 'В избранное'],
+        bg_fav_remove: ['取消喜好', '取消喜好', 'Remove favorite', 'Убрать из избранного'],
+        bg_no_fav: ['还没有喜好的背景，请先在背景商店中加入喜好。', '還沒有喜好的背景，請先在背景商店中加入喜好。', 'No favorite backgrounds yet; add some in the BG shop.', 'Нет избранных фонов.'],
+        bg_cur_fav_pre: ['当前已喜好 ', '當前已喜好 ', 'Favorited ', 'В избранном '],
+        bg_locked_buy: ['该背景尚未解锁，请先购买', '該背景尚未解鎖，請先購買', 'BG locked; buy first', 'Фон заблокирован'],
+        bg_custom_image: ['自定义图片背景', '自定義圖片背景', 'Custom image BG', 'Свой фон-картинка'],
+        bg_custom_video: ['自定义视频背景', '自定義視頻背景', 'Custom video BG', 'Свой видео-фон'],
+        need_: ['需要', '需要', 'Need', 'Нужно'],
+        buy_success: ['购买成功!', '購買成功!', 'Purchase success!', 'Покупка успешна!'],
+        buy_fail_pre: ['购买失败', '購買失敗', 'Purchase failed', 'Ошибка покупки'],
+        owned_skill: ['已拥有此技能', '已擁有此技能', 'Already owned', 'Уже есть'],
+        owned_this_skill: ['该技能已拥有', '該技能已擁有', 'Already owned', 'Уже есть'],
+        owned_bg: ['已拥有此背景', '已擁有此背景', 'Already owned', 'Уже есть'],
+        owned_song: ['已拥有该歌曲', '已擁有該歌曲', 'Already owned', 'Уже есть'],
+        skill_unlock_code: ['该技能需通过兑换码解锁', '該技能需通過兌換碼解鎖', 'Unlock via redeem code', 'Открыть кодом'],
+        rank_d0: ['初入暗区', '初入暗區', 'New to the Dark Zone', 'Новичок в Тёмной зоне'],
+        rank_d1: ['累计价值突破1M', '累計價值突破1M', 'Total value over 1M', 'Ценность > 1M'],
+        rank_d2: ['累计价值突破10M', '累計價值突破10M', 'Total value over 10M', 'Ценность > 10M'],
+        rank_d3: ['累计价值突破50M', '累計價值突破50M', 'Total value over 50M', 'Ценность > 50M'],
+        rank_d4: ['累计价值突破100M', '累計價值突破100M', 'Total value over 100M', 'Ценность > 100M'],
+        rank_d5: ['累计价值突破500M', '累計價值突破500M', 'Total value over 500M', 'Ценность > 500M'],
+        rank_d6: ['累计价值突破1000M', '累計價值突破1000M', 'Total value over 1000M', 'Ценность > 1000M'],
+        max_rank: ['已达到最高段位', '已達到最高段位', 'Max rank reached', 'Макс. звание'],
+        max_rank2: ['已最高段位', '已最高段位', 'Max rank', 'Макс. звание'],
+        copied_pre: ['已复制：', '已複製：', 'Copied: ', 'Скопировано: '],
+        copy_fail: ['复制失败', '複製失敗', 'Copy failed', 'Ошибка копирования'],
+        please_wait: ['请稍候...', '請稍候...', 'Please wait...', 'Подождите...'],
+        uploading: ['正在上传…', '正在上傳…', 'Uploading…', 'Загрузка…'],
+        sync_no_progress: ['云端没有该同步码的进度', '雲端沒有該同步碼的進度', 'No cloud progress for this code', 'Нет прогресса для кода'],
+        sync_code_notfound: ['该同步码不存在，请检查后重试', '該同步碼不存在，請檢查後重試', 'Sync code not found', 'Код не найден'],
+        sync_code_invalid: ['同步码格式不正确，应为 12 位字母数字', '同步碼格式不正確，應為 12 位字母數字', 'Invalid code (12 alphanumerics)', 'Неверный код (12 симв.)'],
+        sync_not_gen: ['尚未生成同步码', '尚未生成同步碼', 'Sync code not generated', 'Код не создан'],
+        sync_copy_fail: ['复制失败，请长按同步码手动复制', '複製失敗，請長按同步碼手動複製', 'Copy failed; long-press the code', 'Не скопировано; удерживайте код'],
+        redeem_invalid: ['兑换码无效', '兌換碼無效', 'Invalid code', 'Неверный код'],
+        redeem_used: ['该兑换码已使用', '該兌換碼已使用', 'Code already used', 'Код уже использован'],
+        redeem_fail: ['兑换失败，请稍后重试', '兌換失敗，請稍後重試', 'Redeem failed, retry', 'Ошибка активации'],
+        redeem_get: ['获取兑换码，', '獲取兌換碼，', 'Get a code, ', 'Получить код, '],
+        mod_name_f: ['模组名称', '模組名稱', 'Mod name', 'Название мода'],
+        mod_desc_f: ['模组简介', '模組簡介', 'Mod description', 'Описание мода'],
+        author_f: ['作者名', '作者名', 'Author', 'Автор'],
+        version_f: ['版本号', '版本號', 'Version', 'Версия'],
+        desc_f: ['描述', '描述', 'Description', 'Описание'],
+        file_f: ['文件', '檔案', 'File', 'Файл'],
+        title_f: ['标题', '標題', 'Title', 'Заголовок'],
+        image_f: ['图片', '圖片', 'Image', 'Изображение'],
+        mod_not_found: ['模组不存在', '模組不存在', 'Mod not found', 'Мод не найден'],
+        mod_no_match: ['没有符合筛选条件的模组', '沒有符合篩選條件的模組', 'No mods match the filter', 'Нет подходящих модов'],
+        mod_same_installed_pre: ['相同内容的模组已安装（', '相同內容的模組已安裝（', 'Same mod already installed (', 'Такой мод уже установлен ('],
+        mod_installed_retry: ['该模组已安装，如需重装请先删除', '該模組已安裝，如需重裝請先刪除', 'Already installed; delete to reinstall', 'Уже установлен; удалите'],
+        feature_locked: ['功能未解锁', '功能未解鎖', 'Feature locked', 'Функция закрыта'],
+        fetching_list: ['正在获取资源清单...', '正在獲取資源清單...', 'Fetching resource list...', 'Загрузка списка...'],
+        res_pack: ['资源包', '資源包', 'Resource pack', 'Пакет ресурсов'],
+        download_all: ['全部下载', '全部下載', 'Download all', 'Скачать всё'],
+        download_failed: ['下载失败', '下載失敗', 'Download failed', 'Ошибка загрузки'],
+        resuming: ['继续下载中...', '繼續下載中...', 'Resuming download...', 'Продолжение...'],
+        paused_resume: ['已暂停 · 点击「继续下载」恢复', '已暫停 · 點擊「繼續下載」恢復', 'Paused · tap Resume', 'Пауза · нажмите'],
+        res_unavailable: ['资源包暂不可用：远程资源未上传或网络异常', '資源包暫不可用：遠程資源未上傳或網絡異常', 'Resource unavailable: not uploaded or network error', 'Пакет недоступен'],
+        minigame_pack: ['小游戏资源包', '小遊戲資源包', 'Mini-game pack', 'Пакет мини-игр'],
+        music_pack: ['音乐资源包', '音樂資源包', 'Music pack', 'Музыкальный пакет'],
+        bg_pack: ['背景资源包', '背景資源包', 'BG pack', 'Пакет фонов'],
+        title_pack: ['段位图标资源包', '段位圖示資源包', 'Rank icon pack', 'Пакет значков'],
+        upload_fail: ['上传失败，请检查网络后重试', '上傳失敗，請檢查網絡後重試', 'Upload failed; check network', 'Ошибка загрузки'],
+        report_group: ['若失效请到交流群反馈', '若失效請到交流群反饋', 'If broken, report to the group', 'Сообщите в группу'],
+        sponsor_qq: ['赞助后联系 QQ', '贊助後聯繫 QQ', 'Contact QQ after sponsoring', 'Связь QQ после поддержки'],
+        lore_tbd: ['世界观内容待补充。', '世界觀內容待補充。', 'Lore to be added.', 'Лор будет добавлен.'],
+        unknown_author: ['未知作者', '未知作者', 'Unknown author', 'Неизвестный автор'],
+        unknown_time: ['未知时间', '未知時間', 'Unknown time', 'Неизвестное время'],
+        unknown_error: ['未知错误', '未知錯誤', 'Unknown error', 'Неизвестная ошибка']
     };
 
     var cur = 'zh-CN';
@@ -395,7 +498,16 @@
         ['全部下载完成', ['全部下载完成', '全部下載完成', 'All downloads done', 'Всё скачано']],
         ['已用 ', ['已用 ', '已用 ', 'Used ', 'Использован ']],
         ['欢迎，', ['歡迎，', 'Welcome, ', 'Добро пожаловать, ']],
-        ['需下载', ['需下載', 'Need download', 'Нужно скачать']]
+        ['需下载', ['需下載', 'Need download', 'Нужно скачать']],
+        ['确定删除「', ['确定删除「', '確定刪除「', 'Confirm delete 「', 'Удалить «']],
+        ['已删除（', ['已删除（', '已刪除（', 'Deleted (', 'Удалено (']],
+        ['已启用「', ['已启用「', '已啟用「', 'Enabled 「', 'Включено «']],
+        ['已停用「', ['已停用「', '已停用「', 'Disabled 「', 'Отключено «']],
+        ['已复制：', ['已复制：', '已複製：', 'Copied: ', 'Скопировано: ']],
+        ['当前已喜好 ', ['当前已喜好 ', '當前已喜好 ', 'Favorited ', 'В избранном ']],
+        ['购买失败', ['购买失败', '購買失敗', 'Purchase failed', 'Ошибка покупки']],
+        ['六种样本已全部合成', ['六种样本已全部合成', '六種樣本已全部合成', 'All six samples synthesized', 'Все шесть образцов']],
+        ['第一次获取:', ['第一次获取:', '第一次獲取:', 'First obtained:', 'Впервые получено:']]
     ];
 
     var I18N = {
@@ -488,11 +600,19 @@
         if (cur == null) return;
         var trimmed = cur.trim();
         if (!trimmed) return;
+        var targetTr = null;
         var key = REV[trimmed];
-        if (!key) return;
-        var pre = (cur.match(/^\s*/) || [''])[0];
-        var post = (cur.match(/\s*$/) || [''])[0];
-        var target = pre + I18N.t(key) + post;
+        if (key) targetTr = I18N.t(key);
+        else {
+            for (var i = 0; i < PREFIX.length; i++) {
+                var pre0 = PREFIX[i][0];
+                if (trimmed.indexOf(pre0) === 0) { targetTr = PREFIX[i][1][idx()] + trimmed.slice(pre0.length); break; }
+            }
+        }
+        if (targetTr == null) return;
+        var preWs = (cur.match(/^\s*/) || [''])[0];
+        var postWs = (cur.match(/\s*$/) || [''])[0];
+        var target = preWs + targetTr + postWs;
         if (cur !== target) {
             if (node.__i18nOrig == null) node.__i18nOrig = trimmed;
             node.nodeValue = target;
