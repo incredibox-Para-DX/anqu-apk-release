@@ -38,6 +38,7 @@ CODE_FILES = [
     "js/i18n.js",
     "js/item-i18n.js",
     "js/bg-i18n.js",
+    "js/gm-i18n.js",
     "libs/GSAP.js",
     "libs/jquery.js",
     "libs/lodash.js",

@@ -563,6 +563,43 @@
         tog_on: ['开', '開', 'On', 'Вкл'],
         tog_off: ['关', '關', 'Off', 'Выкл'],
         unknown_plain: ['未知', '未知', 'Unknown', 'Неизвестно'],
+        notice_fail: ['公告暂时无法加载', '公告暫時無法載入', 'Announcement unavailable', 'Объявление недоступно'],
+        notice_net: ['网络连接异常或公告服务器暂不可用。', '網絡連接異常或公告伺服器暫不可用。', 'Network or announcement server unavailable.', 'Сеть/сервер объявлений недоступны.'],
+        notice_retry: ['请检查网络后点击右上角「刷新」重试。', '請檢查網絡後點擊右上角「刷新」重試。', 'Check network, then tap Refresh (top right).', 'Проверьте сеть и нажмите «Обновить».'],
+        crash_msg: ['游戏脚本触发了未处理的错误，部分功能可能已经失效。', '遊戲腳本觸發了未處理的錯誤，部分功能可能已經失效。', 'The game script hit an unhandled error; some features may be broken.', 'Скрипт игры вызвал ошибку; часть функций может не работать.'],
+        ui_abnormal: ['界面出现异常', '介面出現異常', 'UI error', 'Сбой интерфейса'],
+        dl_ing: ['下载中…', '下載中…', 'Downloading…', 'Загрузка…'],
+        hu_dl_hint: ['下载完成后自动刷新，请勿退出', '下載完成後自動刷新，請勿退出', 'Auto-refresh when done; do not exit', 'Авто-обновление; не выходите'],
+        installing_: ['安装中…', '安裝中…', 'Installing…', 'Установка…'],
+        generating_: ['生成中...', '生成中...', 'Generating...', 'Создание...'],
+        pause_dl: ['暂停下载', '暫停下載', 'Pause download', 'Пауза'],
+        resume_dl: ['继续下载', '繼續下載', 'Resume download', 'Продолжить'],
+        continue_use: ['继续使用', '繼續使用', 'Continue', 'Продолжить'],
+        continue_search: ['继续搜索', '繼續搜尋', 'Continue searching', 'Продолжить поиск'],
+        reload_: ['重新载入', '重新載入', 'Reload', 'Перезагрузить'],
+        load_items: ['加载物品', '載入物品', 'Load items', 'Загрузить предметы'],
+        no_image: ['暂无图片', '暫無圖片', 'No image', 'Нет изображения'],
+        no_modals: ['暂无已注册的弹窗', '暫無已註冊的彈窗', 'No registered modals', 'Нет окон'],
+        no_mods: ['暂无模组', '暫無模組', 'No mods', 'Нет модов'],
+        turbo_label: ['开启极速模式 (迅捷巧手+物资汐汐)', '開啟極速模式 (迅捷巧手+物資汐汐)', 'Enable turbo (Swift Hands + Supply Tide)', 'Турбо (навыки)'],
+        sim_delay: ['模拟延迟:', '模擬延遲:', 'Sim delay: ', 'Задержка: '],
+        fetching_: ['正在拉取：', '正在拉取：', 'Fetching: ', 'Загрузка: '],
+        check_fail_: ['检查失败：', '檢查失敗：', 'Check failed: ', 'Ошибка проверки: '],
+        detect_select: ['检测 / 选取', '檢測 / 選取', 'Detect / select', 'Проверка / выбор'],
+        how_proceed: ['请选择如何处理：', '請選擇如何處理：', 'How to proceed?', 'Как поступить?'],
+        upload_file_: ['上传文件', '上傳檔案', 'Upload file', 'Загрузить файл'],
+        upload_modfile_: ['上传模组文件', '上傳模組檔案', 'Upload mod file', 'Загрузить файл мода'],
+        cloud_sync_: ['云同步:', '雲同步:', 'Cloud sync: ', 'Облако: '],
+        mem_: ['内存:', '記憶體:', 'Memory: ', 'Память: '],
+        success_: ['成功', '成功', 'Success', 'Успешно'],
+        set_to_: ['设为', '設為', 'Set to', 'Установить'],
+        gm_auto_farm: ['自动农场', '自動農場', 'Auto-farm', 'Авто-фарм'],
+        gm_pick_el: ['点选元素', '點選元素', 'Pick element', 'Выбрать элемент'],
+        gm_tap_page_el: ['点击页面元素', '點擊頁面元素', 'Tap page element', 'Тап по элементу'],
+        gm_precise_spawn: ['精确刷物品', '精確刷物品', 'Precise item spawn', 'Точный спавн'],
+        gm_total_koen: ['累计价值 (柯恩币)', '累計價值 (柯恩幣)', 'Total value (Koen)', 'Ценность (Кён)'],
+        gm_storage_change2: ['存储变化', '存儲變化', 'Storage change', 'Изменение хранилища'],
+        gm_longtask_colon: ['长任务:', '長任務:', 'Long tasks: ', 'Длинные задачи: '],
         m_repeat_one: ['单曲循环', '單曲循環', 'Repeat One', 'Повтор одного'],
         m_shuffle: ['随机播放', '隨機播放', 'Shuffle', 'Перемешать'],
         t_delete_again: ['再点一次删除', '再點一次刪除', 'Tap delete again', 'Нажмите ещё раз'],
@@ -987,6 +1024,14 @@
         var key = REV[trimmed];
         if (key) targetTr = I18N.t(key);
         else {
+            // 开头带 emoji/符号的（如“⚡ 技能 & 加速”），剥掉前导非文字再查
+            var stripped = trimmed.replace(/^[^\u4e00-\u9fffA-Za-z\u0400-\u04ff]+/, '');
+            if (stripped && stripped !== trimmed && REV[stripped]) {
+                var lead = trimmed.slice(0, trimmed.length - stripped.length);
+                targetTr = lead + I18N.t(REV[stripped]);
+            }
+        }
+        if (targetTr == null) {
             for (var i = 0; i < PREFIX.length; i++) {
                 var pre0 = PREFIX[i][0];
                 if (trimmed.indexOf(pre0) === 0) { targetTr = PREFIX[i][1][idx()] + trimmed.slice(pre0.length); break; }
