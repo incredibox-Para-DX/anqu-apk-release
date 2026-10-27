@@ -1633,7 +1633,17 @@ previewCurrentBackground() {
         formatTime(ts) {
             if (!ts) return '';
             const d = new Date(ts);
-            return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${d.getMinutes()}`;
+            const lang = (window.I18N ? I18N.getLang() : 'zh-CN');
+            const pad = n => String(n).padStart(2, '0');
+            const hh = pad(d.getHours()), mm = pad(d.getMinutes());
+            if (lang === 'en') {
+                const mon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()];
+                return mon + ' ' + d.getDate() + ', ' + d.getFullYear() + ' ' + hh + ':' + mm;
+            }
+            if (lang === 'ru') {
+                return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() + ' ' + hh + ':' + mm;
+            }
+            return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${hh}:${mm}`;
         },
 
         open() {
@@ -6650,7 +6660,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.4';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.5';
 
     /* ============================================================
      * 检查更新

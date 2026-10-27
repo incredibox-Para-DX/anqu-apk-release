@@ -3438,3 +3438,24 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 .lang-opt { flex: 0 0 auto; padding: 5px 12px; font-size: 12px; border-radius: 8px; border: 1px solid #2c333c; background: #1a1f26; color: #cbd5e1; cursor: pointer; transition: all .15s; }
 .lang-opt:hover { border-color: #3b4452; color: #fff; }
 .lang-opt.active { background: #248DFB; border-color: #248DFB; color: #fff; font-weight: 600; }
+
+/* 俄语长文本：允许换行、略缩，避免撑破布局 */
+html[lang="ru"] button,
+html[lang="ru"] .sidebar-btn,
+html[lang="ru"] .sidebar-section-header h4,
+html[lang="ru"] .modal-title,
+html[lang="ru"] .lang-opt,
+html[lang="ru"] .shop-price,
+html[lang="ru"] .shop-skill-name,
+html[lang="ru"] .shop-detail-desc,
+html[lang="ru"] .stats-label,
+html[lang="ru"] .item-name,
+html[lang="ru"] .bg-thumb-price,
+html[lang="ru"] .title-list-item {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+}
+html[lang="ru"] .sidebar-btn,
+html[lang="ru"] .modal-btn,
+html[lang="ru"] .lang-opt { font-size: 0.9em; line-height: 1.25; }
