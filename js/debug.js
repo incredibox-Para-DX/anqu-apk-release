@@ -1394,6 +1394,15 @@
           var g = function (t) { var e = n.getElementsByTagName(t)[0]; return e ? e.textContent : ''; };
           return { id: g('id'), name: g('name'), width: g('width'), height: g('height'), value: parseInt(g('value'), 10) || 0, rarity: g('rarity') || 'white', desc: g('desc'), sound: g('sound'), image: g('image'), weight: g('weight') };
         });
+        // 加入已启用的 Mod 物品（否则调试面板刷不出 Mod 物品）
+        try {
+          var modItems = (window.ModManager && window.ModManager.getEnabledItems) ? window.ModManager.getEnabledItems() : [];
+          if (modItems && modItems.length) {
+            gameItems = gameItems.concat(modItems.map(function (x) {
+              return { id: x.id, name: x.name, width: x.width, height: x.height, value: x.value, rarity: x.rarity || 'white', desc: x.desc || '', image: x.image, weight: x.weight };
+            }));
+          }
+        } catch (e) {}
         renderGameItems();
         addLog('success', '游戏: 物品列表加载 ' + gameItems.length + ' 件');
       } catch (e) { toast('解析物品失败:' + e.message, 'error'); }
@@ -1447,6 +1456,7 @@
   }
 
   function toast(msg, type) {
+    if (window.showToast) { try { window.showToast(msg); return; } catch (e) {} }
     var o = document.createElement('div');
     o.style.cssText = 'position:fixed;left:50%;top:20px;transform:translateX(-50%);z-index:' + (MAXZ() + 2) + ';background:' + (type === 'error' ? '#7f1d1d' : '#14532d') + ';color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.4);opacity:0;transition:opacity .2s';
     o.textContent = msg;

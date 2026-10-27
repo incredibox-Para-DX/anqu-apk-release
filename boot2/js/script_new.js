@@ -6660,7 +6660,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.21';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.22';
 
     /* ============================================================
      * 检查更新
@@ -6877,13 +6877,36 @@ const EventManager = {
     (function () {
         var $btn = $('#gm-ipcode-gen-btn');
         if (!$btn.length) return;
+        var lastCode = '';
+        function openModal(id) {
+            if (window.ModalRegistry) { try { ModalRegistry.open(id); return; } catch (e) {} }
+            var $m = $('#' + id); $m.css('display', 'flex'); setTimeout(function () { $m.addClass('show'); }, 10);
+        }
+        function closeModal(id) {
+            if (window.ModalRegistry) { try { ModalRegistry.close(id); return; } catch (e) {} }
+            var $m = $('#' + id); $m.removeClass('show'); setTimeout(function () { $m.css('display', 'none'); }, 300);
+        }
+        function fallbackCopy(text) {
+            try { var ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch (e) {}
+        }
+        $('#gm-ipcode-open-btn').on('click', function () { openModal('gm-ipcode-modal'); });
+        $('#gm-ipcode-close').on('click', function () { closeModal('gm-ipcode-modal'); });
         $btn.on('click', function () {
             var uid = ($('#gm-ipcode-uid').val() || '').trim();
             var $out = $('#gm-ipcode-out');
-            if (!uid) { $out.css('color', '#f87171').text('请输入 UID'); return; }
+            if (!uid) { $out.css('color', '#f87171').text('请输入 UID'); $('#gm-ipcode-copy').hide(); return; }
             var code = (window.RedeemCode && window.RedeemCode.ipGrantCode) ? window.RedeemCode.ipGrantCode(uid) : '';
-            if (!code) { $out.css('color', '#f87171').text('生成失败'); return; }
+            if (!code) { $out.css('color', '#f87171').text('生成失败'); $('#gm-ipcode-copy').hide(); return; }
+            lastCode = code;
             $out.css('color', '#34d399').html(uid + ' →<br><b>' + code + '</b><br><span style="color:#94a3b8;font-size:11px;">发给对方，在「兑换码」输入即可解锁（仅对该 UID 有效）</span>');
+            $('#gm-ipcode-copy').show();
+        });
+        $('#gm-ipcode-copy').on('click', function () {
+            if (!lastCode) return;
+            var done = function () { try { if (window.showToast) window.showToast('已复制：' + lastCode); } catch (e) {} };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(lastCode).then(done).catch(function () { fallbackCopy(lastCode); done(); });
+            } else { fallbackCopy(lastCode); done(); }
         });
     })();
 
@@ -6921,6 +6944,14 @@ const EventManager = {
         var $file = $('#gm-mod-upload-file');
         var $status = $('#gm-mod-upload-status');
         if (!$btn.length) return;
+        $('#gm-mod-upload-open-btn').on('click', function () {
+            if (window.ModalRegistry) { try { ModalRegistry.open('gm-mod-upload-modal'); return; } catch (e) {} }
+            $('#gm-mod-upload-modal').css('display', 'flex'); setTimeout(function () { $('#gm-mod-upload-modal').addClass('show'); }, 10);
+        });
+        $('#gm-mod-upload-close').on('click', function () {
+            if (window.ModalRegistry) { try { ModalRegistry.close('gm-mod-upload-modal'); return; } catch (e) {} }
+            $('#gm-mod-upload-modal').removeClass('show'); setTimeout(function () { $('#gm-mod-upload-modal').css('display', 'none'); }, 300);
+        });
         try { var savedTok = localStorage.getItem(TOKEN_KEY); if (savedTok) $tok.val(savedTok); } catch (e) {}
         function status(html, color) { $status.css('color', color || '#94a3b8').html(html); }
         $btn.on('click', function () {

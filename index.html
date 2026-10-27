@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.21</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.22</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -697,14 +697,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="gm-hotupdate-open-btn" style="margin-top:6px;"><i class="fas fa-cloud-download-alt"></i> <span data-i18n="gm_hotupdate">私链热更新</span></button>
 <button class="sidebar-btn full-width" id="gm-resource-admin-btn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> <span data-i18n="gm_resource">资源管理</span></button>
 <button class="sidebar-btn full-width" id="gm-leaderboard-admin-btn"><i class="fas fa-ranking-star"></i> <span data-i18n="gm_board">榜单管理</span></button>
-<button class="sidebar-btn full-width" id="gm-mod-upload-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> <span data-i18n="gm_upload">Mod上传</span></button>
-<input type="file" id="gm-mod-upload-file" accept=".zip,application/zip" style="display:none;">
-<input class="input-field" id="gm-mod-token" type="text" placeholder="GitHub Token（仅保存在本机）" style="font-size:11px;margin-top:6px;" autocomplete="off" spellcheck="false">
-<div id="gm-mod-upload-status" style="font-size:11px;color:#94a3b8;margin-top:4px;line-height:1.6;"></div>
-<div style="margin-top:10px;font-size:11px;color:#94a3b8;">物品池授权码（输入对方 UID 生成）</div>
-<input class="input-field" id="gm-ipcode-uid" type="text" placeholder="目标玩家 UID" style="font-size:11px;margin-top:4px;" autocomplete="off" spellcheck="false">
-<button class="sidebar-btn full-width" id="gm-ipcode-gen-btn" style="margin-top:6px;"><i class="fas fa-key"></i> 生成授权码</button>
-<div id="gm-ipcode-out" style="font-size:12px;color:#34d399;margin-top:6px;word-break:break-all;line-height:1.6;"></div>
+<button class="sidebar-btn full-width" id="gm-mod-upload-open-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> <span data-i18n="gm_upload">Mod 上传</span></button>
+<button class="sidebar-btn full-width" id="gm-ipcode-open-btn" style="margin-top:6px;"><i class="fas fa-key"></i> 物品池授权码</button>
 <button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> <span data-i18n="gm_center">弹窗中心</span></button>
 <button class="sidebar-btn full-width" id="gm-toast-center-btn" style="margin-top:6px;"><i class="fas fa-comment-dots"></i> Toast 中心</button>
 </div>
@@ -1732,6 +1726,39 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <input type="text" id="gm-toast-search" class="input-field" placeholder="搜索 toast…" style="flex:1;font-size:12px;" autocomplete="off">
 </div>
 <div class="modal-body" id="gm-toast-center-list" style="overflow-y:auto;flex:1;padding:0 14px 14px;"></div>
+</div>
+</div>
+
+<!-- GM：Mod 上传 -->
+<div class="modal-overlay" id="gm-mod-upload-modal">
+<div class="modal-content" style="max-width:460px;width:92vw;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-upload"></i> Mod 上传</div>
+<button class="modal-close" id="gm-mod-upload-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:16px;">
+<input class="input-field" id="gm-mod-token" type="text" placeholder="GitHub Token（仅保存在本机）" style="width:100%;box-sizing:border-box;font-size:12px;" autocomplete="off" spellcheck="false">
+<button class="sidebar-btn full-width" id="gm-mod-upload-btn" style="margin-top:10px;"><i class="fas fa-file-archive"></i> <span data-i18n="gm_upload">选择 zip 并上传</span></button>
+<input type="file" id="gm-mod-upload-file" accept=".zip,application/zip" style="display:none;">
+<div id="gm-mod-upload-status" style="font-size:12px;color:#94a3b8;margin-top:8px;line-height:1.6;"></div>
+</div>
+</div>
+</div>
+
+<!-- GM：物品池授权码 -->
+<div class="modal-overlay" id="gm-ipcode-modal">
+<div class="modal-content" style="max-width:460px;width:92vw;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-key"></i> 物品池授权码</div>
+<button class="modal-close" id="gm-ipcode-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:16px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;line-height:1.6;">输入对方 UID 生成专属授权码（仅该 UID 设备可用）</div>
+<input class="input-field" id="gm-ipcode-uid" type="text" placeholder="目标玩家 UID" style="width:100%;box-sizing:border-box;font-size:12px;" autocomplete="off" spellcheck="false">
+<button class="sidebar-btn full-width" id="gm-ipcode-gen-btn" style="margin-top:10px;"><i class="fas fa-key"></i> 生成授权码</button>
+<div id="gm-ipcode-out" style="font-size:13px;color:#34d399;margin-top:8px;word-break:break-all;line-height:1.6;"></div>
+<button class="sidebar-btn full-width" id="gm-ipcode-copy" style="margin-top:8px;display:none;"><i class="fas fa-copy"></i> 复制授权码</button>
+</div>
 </div>
 </div>
 
