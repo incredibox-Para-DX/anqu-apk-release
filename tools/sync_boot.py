@@ -24,7 +24,6 @@ CODE_FILES = [
     "css/icon.css",
     "css/main.css",
     "css/styles.css",
-    "debug-console.css",
     "js/debug.js",
     "js/inline-scripts.js",
     "js/main.js",
