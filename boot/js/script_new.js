@@ -6660,7 +6660,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.16';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.17';
 
     /* ============================================================
      * 检查更新
@@ -6831,6 +6831,22 @@ const EventManager = {
                 $btn.prop('disabled', false);
                 showStatus('启动失败：' + e, '#f87171');
             }
+        });
+    })();
+
+    /* ============================================================
+     * GM：物品池授权码生成（按 UID 远程下发）
+     * ============================================================ */
+    (function () {
+        var $btn = $('#gm-ipcode-gen-btn');
+        if (!$btn.length) return;
+        $btn.on('click', function () {
+            var uid = ($('#gm-ipcode-uid').val() || '').trim();
+            var $out = $('#gm-ipcode-out');
+            if (!uid) { $out.css('color', '#f87171').text('请输入 UID'); return; }
+            var code = (window.RedeemCode && window.RedeemCode.ipGrantCode) ? window.RedeemCode.ipGrantCode(uid) : '';
+            if (!code) { $out.css('color', '#f87171').text('生成失败'); return; }
+            $out.css('color', '#34d399').html(uid + ' →<br><b>' + code + '</b><br><span style="color:#94a3b8;font-size:11px;">发给对方，在「兑换码」输入即可解锁（仅对该 UID 有效）</span>');
         });
     })();
 

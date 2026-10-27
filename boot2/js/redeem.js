@@ -10,6 +10,24 @@
 
     var USED_KEY = 'ab_redeem_codes_v1';
 
+    // ===== 按 UID 的物品池授权码（远程下发用） =====
+    var IP_SECRET = 'anqu_itempool_2026_v1';
+    function fnv(str) {
+        var h = 0x811c9dc5;
+        for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = (h * 0x01000193) >>> 0; }
+        return h >>> 0;
+    }
+    function ipGrantCode(uid) {
+        uid = String(uid || '').trim();
+        if (!uid) return '';
+        var a = fnv(IP_SECRET + '|ip|' + uid);
+        var b = fnv(uid + '|ip|' + IP_SECRET + '|x');
+        var raw = (a.toString(36) + b.toString(36)).toUpperCase().replace(/[^A-Z0-9]/g, '');
+        while (raw.length < 10) raw += 'X';
+        return 'IP' + raw.slice(0, 4) + '-' + raw.slice(4, 8);
+    }
+    function normCode(s) { return String(s || '').toUpperCase().replace(/[\s\-]/g, ''); }
+
     var CODES = {
         'Camona': {
             once: true,
@@ -91,6 +109,15 @@
         }
         var def = CODES[code];
         if (!def) {
+            // 针对单个 UID 的物品池授权码（远程下发，仅该设备有效）
+            try {
+                var myUid = (typeof w.getUid === 'function' && w.getUid()) || localStorage.getItem('ab_uid_clean') || '';
+                if (myUid && normCode(code) === normCode(ipGrantCode(myUid))) {
+                    localStorage.setItem('ab_item_control_unlocked', '1');
+                    showResult('「物品池管理」已解锁', true);
+                    return;
+                }
+            } catch (e) {}
             showResult('兑换码无效', false);
             return;
         }
@@ -145,5 +172,5 @@
         bind();
     }
 
-    w.RedeemCode = { redeem: redeem, isUsed: isUsed, list: function () { return Object.keys(CODES); } };
+    w.RedeemCode = { redeem: redeem, isUsed: isUsed, list: function () { return Object.keys(CODES); }, ipGrantCode: ipGrantCode };
 })(window);
