@@ -520,6 +520,19 @@
         net_down2: ['网络已断开', '網絡已斷開', 'Network disconnected', 'Сеть отключена'],
         gm_not_enabled: ['未启用', '未啟用', 'Not enabled', 'Не включено'],
         song_name: ['歌曲名称', '歌曲名稱', 'Song name', 'Название песни'],
+        author_ph: ['作者', '作者', 'Author', 'Автор'],
+        gm_confirm_enable: ['确认启用', '確認啟用', 'Confirm enable', 'Включить'],
+        gm_confirm_op: ['确认操作', '確認操作', 'Confirm', 'Подтвердить'],
+        gm_confirm_disable: ['确认禁用', '確認禁用', 'Confirm disable', 'Отключить'],
+        music_edit_local: ['编辑本地音乐', '編輯本地音樂', 'Edit local music', 'Изменить музыку'],
+        music_select_song: ['请选择歌曲', '請選擇歌曲', 'Select a song', 'Выберите песню'],
+        music_change_file: ['更换歌曲文件', '更換歌曲檔案', 'Change song file', 'Сменить файл'],
+        music_pick_audio: ['点击选择新的音频文件', '點擊選擇新的音訊檔案', 'Tap to choose a new audio file', 'Выберите новый аудиофайл'],
+        pick_image: ['选择图片', '選擇圖片', 'Choose image', 'Выберите картинку'],
+        items_resume: ['所有物品将恢复正常生成。', '所有物品將恢復正常生成。', 'All items will resume spawning.', 'Предметы снова появятся.'],
+        items_no_spawn: ['这将导致无法生成任何物品。', '這將導致無法生成任何物品。', 'This will stop all item spawning.', 'Предметы не будут появляться.'],
+        confirm_enable_all: ['确定要启用所有物品吗？', '確定要啟用所有物品嗎？', 'Enable all items?', 'Включить все предметы?'],
+        confirm_disable_all: ['确定要禁用所有物品吗？', '確定要禁用所有物品嗎？', 'Disable all items?', 'Отключить все предметы?'],
         m_repeat_one: ['单曲循环', '單曲循環', 'Repeat One', 'Повтор одного'],
         m_shuffle: ['随机播放', '隨機播放', 'Shuffle', 'Перемешать'],
         t_delete_again: ['再点一次删除', '再點一次刪除', 'Tap delete again', 'Нажмите ещё раз'],
@@ -778,6 +791,17 @@
         ['白色', ['白色', '白色', 'White', 'Белый']],
         ['金色', ['金色', '金色', 'Gold', 'Золотой']],
         ['游戏: ', ['游戏: ', '遊戲: ', 'Game: ', 'Игра: ']],
+        ['成功购买背景: ', ['成功购买背景: ', '成功購買背景: ', 'Purchased BG: ', 'Куплен фон: ']],
+        ['成功购买: ', ['成功购买: ', '成功購買: ', 'Purchased: ', 'Куплено: ']],
+        ['已解锁技能「', ['已解锁技能「', '已解鎖技能「', 'Skill unlocked 「', 'Навык открыт «']],
+        ['总累计价值不足，需要', ['总累计价值不足，需要', '總累計價值不足，需要', 'Not enough total value; need ', 'Мало ценности; нужно ']],
+        ['总累计价值不足, 需要', ['总累计价值不足, 需要', '總累計價值不足, 需要', 'Not enough total value; need ', 'Мало ценности; нужно ']],
+        ['需要总累计价值达到: ', ['需要总累计价值达到: ', '需要總累計價值達到: ', 'Required total value: ', 'Нужна ценность: ']],
+        ['本次最高价值物品为【', ['本次最高价值物品为【', '本次最高價值物品為【', 'This search top item is 【', 'Топ-предмет: 【']],
+        ['文件过大，请选择小于', ['文件过大，请选择小于', '檔案過大，請選擇小於', 'File too large; pick under ', 'Файл велик; < ']],
+        ['次数已达上限，需使用至', ['次数已达上限，需使用至', '次數已達上限，需使用至', 'At limit; use below ', 'Лимит; используйте до ']],
+        ['已下载 ', ['已下载 ', '已下載 ', 'Downloaded ', 'Скачано ']],
+        ['预览: ', ['预览: ', '預覽: ', 'Preview: ', 'Просмотр: ']],
         ['失败:', ['失败:', '失敗:', 'Failed: ', 'Ошибка: ']],
         ['导入失败', ['导入失败', '匯入失敗', 'Import failed', 'Ошибка импорта']],
         ['QQ 已复制：', ['QQ 已复制：', 'QQ 已複製：', 'QQ copied: ', 'QQ скопирован: ']],
@@ -891,6 +915,11 @@
         if (lang === 'zh-TW') return s.replace(/个/g, '個').replace(/特遣队员/g, '特遣隊員');
         if (lang !== 'en' && lang !== 'ru') return s;
         var ru = lang === 'ru';
+        s = s.replace(/(\d+)年(\d+)月(\d+)日/g, ru ? '$3.$2.$1' : '$2/$3/$1');
+        s = s.replace(/次以下才能购买/g, ru ? ' для покупки' : ' to buy');
+        s = s.replace(/ MB 的图片或视频/g, ' MB');
+        s = s.replace(/的图片或视频/g, '');
+        s = s.replace(/，价值 /g, ru ? ', ценность ' : ', value ');
         s = s.replace(/(\d+)\s*个模组/g, '$1' + (ru ? ' модов' : ' mods'));
         s = s.replace(/(\d+)\s*个物品/g, '$1' + (ru ? ' предм.' : ' items'));
         s = s.replace(/(\d+)\s*个背景/g, '$1' + (ru ? ' фонов' : ' backgrounds'));
@@ -906,7 +935,10 @@
         s = s.replace(/次/g, '');
         s = s.replace(/首/g, '');
         s = s.replace(/特遣队员/g, ru ? 'Оперативник' : 'Operator');
+        s = s.replace(/点击继续下载/g, ru ? 'нажмите продолжить' : 'tap to resume');
+        s = s.replace(/点击重试/g, ru ? 'нажмите повторить' : 'tap to retry');
         s = s.replace(/制作/g, '');
+        s = s.replace(/，/g, ', ').replace(/。/g, '.').replace(/、/g, ', ').replace(/：/g, ': ').replace(/！/g, '!').replace(/？/g, '?');
         return s;
     }
     function _translateTextNode(node) {
