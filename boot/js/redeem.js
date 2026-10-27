@@ -96,9 +96,8 @@
 
     function showResult(msg, ok) {
         var el = document.getElementById('redeem-code-result');
-        if (!el) return;
-        el.textContent = msg;
-        el.style.color = ok ? '#34d399' : '#f87171';
+        if (el) { el.textContent = msg; el.style.color = ok ? '#34d399' : '#f87171'; }
+        try { if (w.showToast) w.showToast(msg); } catch (e) {}
     }
 
     function redeem(input) {
@@ -156,9 +155,13 @@
                 else if (modal) { modal.classList.remove('show'); setTimeout(function () { modal.style.display = 'none'; }, 300); }
             });
         }
-        if (submit) {
-            submit.addEventListener('click', function () { redeem(input ? input.value : ''); });
-        }
+        // 事件委托：即使按钮被重渲染、或点到内部图标/文字，也能触发兑换
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.closest && e.target.closest('#redeem-code-submit')) {
+                var i2 = document.getElementById('redeem-code-input');
+                redeem(i2 ? i2.value : '');
+            }
+        });
         if (input) {
             input.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter') { redeem(input.value); }
