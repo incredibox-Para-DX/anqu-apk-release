@@ -422,7 +422,7 @@
         },
         has: function (key) { var r = M[key]; return !!(r && (r[idx()] || r[0])); },
         addEntries: function (obj) { // 允许后续文件扩展词表
-            for (var k in obj) if (obj.hasOwnProperty(k)) M[k] = obj[k];
+            for (var k in obj) if (obj.hasOwnProperty(k)) { M[k] = obj[k]; if (obj[k] && obj[k][0] != null) REV[obj[k][0]] = k; }
         },
         setLang: function (lang, silent) {
             if (LANGS.indexOf(lang) === -1) return;
