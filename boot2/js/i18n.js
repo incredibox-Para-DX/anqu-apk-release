@@ -375,7 +375,7 @@
         role_vocal: ['声乐', '聲樂', 'Vocals', 'Вокал'],
         role_promo: ['宣传', '宣傳', 'Promotion', 'Промо'],
         role_lead: ['项目负责', '項目負責', 'Project Lead', 'Руководитель'],
-        role_studio: ['魔方工作室群暗区突围项目组', '魔方工作室群暗區突圍項目組', 'Tencent MoCube Studio · Arena Breakout', 'Tencent MoCube Studio · Arena Breakout'],
+        role_studio: ['魔方工作室群暗区突围项目组', '魔方工作室群暗區突圍項目組', 'MoreFun Studios · Arena Breakout', 'MoreFun Studios · Arena Breakout'],
         skill_purchased: ['已购买', '已購買', 'Purchased', 'Куплено'],
         skill_permanent: ['永久', '永久', 'Permanent', 'Навсегда'],
         skill_out_of_uses: ['次数已用完，可重新购买', '次數已用完，可重新購買', 'Out of uses; buy again', 'Лимит исчерпан'],
