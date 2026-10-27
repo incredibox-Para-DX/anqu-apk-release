@@ -107,6 +107,7 @@
         _bgCache: null,
         _storeFilter: 'all',
         _storeSearch: '',
+        _storeSort: 'default',
         _currentTab: 'mine',
         _detailId: null,
 
@@ -1147,7 +1148,7 @@
                 }
                 if (!m || !Array.isArray(m.mods)) m = { version: 0, mods: [] };
                 // 相同数据不重复渲染（避免切页缩略图闪动）；已安装状态变化会进 key
-                var key = [m.version, self._storeFilter, self._storeSearch, Object.keys(self._meta).join(',')].join('|');
+                var key = [m.version, self._storeFilter, self._storeSearch, self._storeSort, Object.keys(self._meta).join(',')].join('|');
                 if (self._storeRenderKey === key && $list.children().length) return;
                 self._storeRenderKey = key;
                 var items = (m.mods || []).filter(function (x) {
@@ -1161,6 +1162,11 @@
                 if (!items.length) {
                     $list.html('<div class="mod-empty">暂无模组<br><span>' + (m.mods && m.mods.length ? '没有符合筛选条件的模组' : '官方 Mod 仓库尚未配置或无内容') + '</span></div>');
                     return;
+                }
+                if (self._storeSort === 'new') {
+                    items.sort(function (a, b) { return (Number(b.updatedAt) || 0) - (Number(a.updatedAt) || 0); });
+                } else if (self._storeSort === 'hot') {
+                    items.sort(function (a, b) { return (counts[b.id] || 0) - (counts[a.id] || 0); });
                 }
                 items.forEach(function (x) {
                     var installed = self.isInstalled(x.id);
@@ -1354,6 +1360,22 @@
                 $(this).addClass('active').siblings().removeClass('active');
                 self._storeFilter = $(this).data('f') || 'all';
                 self.renderStoreList();
+            });
+            // 排序：默认 / 最新 / 最热
+            $('#mod-store-sort').on('click', '.mod-filter-btn[data-s]', function () {
+                $(this).addClass('active').siblings().removeClass('active');
+                self._storeSort = $(this).data('s') || 'default';
+                self.renderStoreList();
+            });
+            // 刷新：强制重拉清单 + 下载量
+            $('#mod-store-refresh').on('click', function () {
+                var $b = $(this); if ($b.prop('disabled')) return;
+                $b.prop('disabled', true);
+                self._storeRenderKey = '';
+                Promise.all([self.fetchManifest(true), self.fetchDownloadCounts(true)]).then(function () {
+                    self.renderStoreList();
+                    try { if (window.showToast) window.showToast('已刷新'); } catch (e) {}
+                }).catch(function () {}).then(function () { $b.prop('disabled', false); });
             });
             // 从本地导入：直接唤起文件选择，不切页
             $('#mod-import-tab-btn').on('click', function () {

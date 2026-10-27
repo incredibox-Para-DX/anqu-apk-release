@@ -18,6 +18,9 @@ create policy "read_mod_downloads"
   for select
   using (true);
 
+-- 3.1) RLS 之外还需表级权限：给 anon 授予 SELECT（否则报 permission denied）
+grant select on public.ab_mod_downloads to anon;
+
 -- 4) 原子自增函数（客户端只调这个，无需写权限）
 create or replace function public.increment_mod_download(p_mod_id text)
 returns void
