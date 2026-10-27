@@ -6660,7 +6660,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.18';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.19';
 
     /* ============================================================
      * 检查更新
@@ -6832,6 +6832,43 @@ const EventManager = {
                 showStatus('启动失败：' + e, '#f87171');
             }
         });
+    })();
+
+    /* ============================================================
+     * GM：Toast 中心（调用/测试全部 toast）
+     * ============================================================ */
+    (function () {
+        var $btn = $('#gm-toast-center-btn');
+        if (!$btn.length) return;
+        var $list = $('#gm-toast-center-list');
+        var $search = $('#gm-toast-search');
+        function render(filter) {
+            var arr = window.__TOAST_CATALOG__ || [];
+            filter = (filter || '').trim();
+            $list.empty();
+            var shown = 0;
+            arr.forEach(function (msg) {
+                if (filter && msg.indexOf(filter) === -1) return;
+                shown++;
+                $('<div></div>')
+                    .css({ padding: '9px 12px', marginBottom: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', cursor: 'pointer', fontSize: '12px', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.06)', lineHeight: '1.5', wordBreak: 'break-word' })
+                    .text(msg)
+                    .on('click', function () { try { if (window.showToast) window.showToast(msg); } catch (e) {} })
+                    .appendTo($list);
+            });
+            if (!shown) $list.html('<div style="color:#64748b;font-size:12px;text-align:center;padding:20px;">无匹配</div>');
+        }
+        $btn.on('click', function () {
+            render('');
+            if ($search.length) $search.val('');
+            if (window.ModalRegistry) ModalRegistry.open('gm-toast-center-modal');
+            else { $('#gm-toast-center-modal').css('display', 'flex'); setTimeout(function () { $('#gm-toast-center-modal').addClass('show'); }, 10); }
+        });
+        $('#gm-toast-center-close').on('click', function () {
+            if (window.ModalRegistry) ModalRegistry.close('gm-toast-center-modal');
+            else { $('#gm-toast-center-modal').removeClass('show'); setTimeout(function () { $('#gm-toast-center-modal').css('display', 'none'); }, 300); }
+        });
+        $search.on('input', function () { render(this.value); });
     })();
 
     /* ============================================================

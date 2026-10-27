@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.18",
+  "version": "v2.3.0_hotfix.19",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -55,7 +55,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 346712
+      "size": 348813
     },
     {
       "path": "js/synthesis.js",
@@ -84,6 +84,10 @@
     {
       "path": "js/gm-i18n.js",
       "size": 25596
+    },
+    {
+      "path": "js/toast-catalog.js",
+      "size": 3806
     },
     {
       "path": "libs/GSAP.js",
@@ -163,9 +167,9 @@
     },
     {
       "path": "index.html",
-      "size": 129812
+      "size": 130742
     }
   ],
-  "fileCount": 41,
-  "totalSize": 2735324
+  "fileCount": 42,
+  "totalSize": 2742161
 }
