@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.46</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.47</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -686,6 +686,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="stats-value" id="weekly-accumulated-value" style="color:#248DFB;">¥0</div>
 </div>
 <button class="sidebar-btn full-width" id="sidebar-mod-library-btn" style="margin-top:10px;position:relative;"><i class="fas fa-cubes"></i> <span data-i18n="btn_mod">MOD</span><span class="mod-new-dot" id="mod-new-dot" aria-hidden="true"></span></button>
+<button class="sidebar-btn full-width" id="mod-editor-open-btn"><i class="fas fa-pen-ruler"></i> <span data-i18n="mod_editor">Mod 编辑器</span></button>
 </div>
 </div>
 <div class="sidebar-section" id="gm-debug-section">
@@ -1326,12 +1327,13 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="modal-overlay me-modal" id="mod-editor-modal">
 <div class="modal-content me-content">
-<div class="modal-header">
-<div class="modal-title"><i class="fas fa-pen-ruler"></i> 可视化 Mod 编辑器</div>
+<div class="modal-header me-header">
+<div class="modal-title"><i class="fas fa-pen-ruler"></i> Mod 编辑器</div>
 <button class="modal-close" id="mod-editor-close">&times;</button>
 </div>
 <div class="me-body">
-<div class="me-section">
+<div class="me-card">
+<div class="me-card-title"><i class="fas fa-circle-info"></i> 基本信息</div>
 <label class="me-label">类型</label>
 <select id="me-type" class="input-field"><option value="item">物品 Mod</option></select>
 <div class="me-grid2">
@@ -1341,8 +1343,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div><label class="me-label">简介</label><input id="me-desc" class="input-field" placeholder="简介（不限字数）"></div>
 </div>
 </div>
-<div class="me-section">
-<div class="me-section-title">物品</div>
+<div class="me-card">
+<div class="me-card-title"><i class="fas fa-cube"></i> 物品列表</div>
 <div id="me-items"></div>
 <button class="sidebar-btn full-width" id="me-add-item"><i class="fas fa-plus"></i> 添加物品</button>
 </div>
@@ -1704,7 +1706,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="mod-tab-btn active" data-tab="mine">我的MOD</button>
 <button class="mod-tab-btn" data-tab="store">MOD市场</button>
 <button class="mod-tab-btn" id="mod-import-tab-btn">从本地导入MOD</button>
-<button class="mod-tab-btn" id="mod-editor-open-btn"><i class="fas fa-pen-ruler"></i> 可视化编辑</button>
 </div>
 <div class="modal-body mod-body" style="padding:0 16px 16px;">
 <div id="mod-tab-mine"><div id="mod-mine-list" class="mod-list"></div></div>

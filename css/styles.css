@@ -3709,20 +3709,22 @@ html[data-theme="warm"]{ --accent-color:#d99a52; --accent-dark:#b87d3c; }
 .theme-name{ font-weight:600; }
 
 /* 可视化 Mod 编辑器 */
-.me-modal .me-content{ max-width:600px; width:94vw; max-height:88vh; display:flex; flex-direction:column; padding:0; overflow:hidden; }
-.me-body{ padding:14px 16px; overflow-y:auto; flex:1 1 auto; min-height:0; }
-.me-foot{ display:flex; gap:10px; padding:12px 16px; border-top:1px solid rgba(255,255,255,.08); flex:0 0 auto; }
-.me-label{ display:block; font-size:12px; color:#94a3b8; margin:10px 0 4px; }
-.me-grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.me-modal .me-content{ max-width:620px; width:94vw; max-height:88vh; display:flex; flex-direction:column; padding:0; overflow:hidden; border-radius:18px; }
+.me-header{ padding:16px 18px; margin:0; }
+.me-body{ padding:14px 16px 8px; overflow-y:auto; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; gap:14px; }
+.me-card{ background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px; }
+.me-card-title{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#cbd5e1; margin-bottom:6px; }
+.me-card-title i{ color:#7c8ccc; font-size:13px; }
+.me-label{ display:block; font-size:11px; letter-spacing:.4px; color:#8b949e; margin:10px 0 5px; text-transform:uppercase; }
+.me-grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px 12px; }
 .me-modal .input-field{ width:100%; box-sizing:border-box; }
-.me-item{ border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:12px; margin-bottom:10px; background:rgba(255,255,255,.03); }
-.me-item-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
-.me-item-head b{ font-size:13px; }
-.me-del{ font-size:12px; color:#f87171; background:none; border:none; cursor:pointer; padding:2px 8px; border-radius:8px; transition:background .15s; }
-.me-del:hover{ background:rgba(248,113,113,.12); }
-.me-section{ margin-bottom:12px; }
-.me-section-title{ font-size:13px; font-weight:600; margin-bottom:4px; }
-.me-msg{ font-size:12px; margin-top:10px; min-height:16px; color:#94a3b8; }
+.me-item{ border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; margin-bottom:10px; background:rgba(0,0,0,.18); }
+.me-item-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.me-item-head b{ font-size:12px; color:#cbd5e1; letter-spacing:.3px; }
+.me-del{ font-size:12px; color:#f87171; background:none; border:none; cursor:pointer; padding:3px 10px; border-radius:8px; transition:background .15s; }
+.me-del:hover{ background:rgba(248,113,113,.14); }
+.me-foot{ display:flex; gap:10px; padding:12px 16px; border-top:1px solid rgba(255,255,255,.08); flex:0 0 auto; background:rgba(0,0,0,.15); }
+.me-msg{ font-size:12px; margin:2px 0 4px; min-height:16px; color:#94a3b8; }
 
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
