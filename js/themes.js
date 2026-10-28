@@ -2,7 +2,7 @@
 (function (w) {
     'use strict';
     var KEY = 'ab_theme', DEFAULT = 'glass';
-    var THEMES = ['glass', 'nostalgic', 'flat', 'cyber', 'warm'];
+    var THEMES = ['glass', 'nostalgic', 'flat', 'graphite', 'morandi', 'forest', 'warm'];
 
     function current() {
         try { var t = localStorage.getItem(KEY) || DEFAULT; return THEMES.indexOf(t) !== -1 ? t : DEFAULT; } catch (e) { return DEFAULT; }
