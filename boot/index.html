@@ -27,7 +27,7 @@
 :root {
     --ab-font-stack: 'Arena Breakout1', 'Microsoft YaHei', sans-serif;
 }
-body, body *:not(.fas):not(.far):not(.fab):not(.fa):not(.fa-solid):not(.font-preview) {
+body, body *:not(.fas):not(.far):not(.fab):not(.fa):not(.fa-solid):not(.font-preview):not(.mod-special-font) {
     font-family: var(--ab-font-stack) !important;
 }
 #gm-debug-section { display: none !important; }
@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.52</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.53</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -685,8 +685,17 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="stats-label" data-i18n="weekly_value">本周累计价值</div>
 <div class="stats-value" id="weekly-accumulated-value" style="color:#248DFB;">¥0</div>
 </div>
-<button class="sidebar-btn full-width" id="sidebar-mod-library-btn" style="margin-top:10px;position:relative;"><i class="fas fa-cubes"></i> <span data-i18n="btn_mod">MOD</span><span class="mod-new-dot" id="mod-new-dot" aria-hidden="true"></span></button>
-<button class="sidebar-btn full-width" id="mod-editor-open-btn"><i class="fas fa-pen-ruler"></i> <span data-i18n="mod_editor">MOD 编辑器</span></button>
+</div>
+</div>
+<div class="sidebar-section default-open" id="mod-section-wrapper">
+<div class="sidebar-section-header" data-target="section-mod">
+<h4><i class="fas fa-cubes"></i> <span data-i18n="sec_mod">MOD</span></h4>
+<i class="fas fa-chevron-down collapse-icon"></i>
+</div>
+<div class="sidebar-section-body" id="section-mod">
+<button class="sidebar-btn full-width mod-special-font" id="sidebar-mod-library-btn" style="position:relative;"><i class="fas fa-cubes"></i> <span class="mod-special-font" data-i18n="btn_mod">MODS</span><span class="mod-new-dot" id="mod-new-dot" aria-hidden="true"></span></button>
+<button class="sidebar-btn full-width mod-special-font" id="mod-editor-open-btn"><i class="fas fa-pen-ruler"></i> <span class="mod-special-font" data-i18n="mod_editor">MOD 编辑器</span></button>
+<button class="sidebar-btn full-width mod-special-font" id="mod-doc-btn"><i class="fas fa-book"></i> <span class="mod-special-font" data-i18n="mod_doc">MOD DOC</span></button>
 </div>
 </div>
 <div class="sidebar-section" id="gm-debug-section">
@@ -1740,7 +1749,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-title"><i class="fas fa-cubes"></i> MOD</div>
 <div class="app-page-actions">
 <span class="mod-space-badge" id="mod-space-summary"></span>
-<button class="app-page-action-btn" id="mod-doc-btn"><i class="fas fa-book"></i> MOD DOC</button>
+
 <button class="app-page-back-btn" id="mod-library-close"><i class="fas fa-arrow-left"></i> 返回</button>
 </div>
 </div>
