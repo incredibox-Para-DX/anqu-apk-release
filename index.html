@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/icon.css">
 <link rel="stylesheet" href="css/styles.css">
+<script>try{var _t=localStorage.getItem('ab_theme');if(_t)document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
 <style>
 @font-face {
     font-family: 'Arena Breakout1';
@@ -625,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.40</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.41</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -780,6 +781,15 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="lang-row" style="margin-bottom:8px;">
 <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;" data-i18n="set_language">语言</div>
 <div id="lang-select" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+</div>
+<div class="lang-row" style="margin-bottom:8px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:6px;" data-i18n="set_theme">主题</div>
+<div id="theme-select" style="display:flex;gap:6px;flex-wrap:wrap;">
+<button class="lang-opt" data-theme="glass" data-i18n="theme_glass">液态玻璃</button>
+<button class="lang-opt" data-theme="nostalgic" data-i18n="theme_nostalgic">怀旧</button>
+<button class="lang-opt" data-theme="midnight" data-i18n="theme_midnight">午夜</button>
+<button class="lang-opt" data-theme="warm" data-i18n="theme_warm">暖褐</button>
+</div>
 </div>
 <button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> <span data-i18n="set_effect">效果设置</span></button>
 <button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> <span data-i18n="set_sound">声音设置</span></button>
@@ -1786,6 +1796,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 
 <script src="js/telemetry.js"></script>
 <script src="js/ui-fx.js"></script>
+<script src="js/themes.js"></script>
 <script src="js/net.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/i18n.js"></script>

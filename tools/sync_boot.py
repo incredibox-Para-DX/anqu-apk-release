@@ -32,6 +32,7 @@ CODE_FILES = [
     "js/music.js",
     "js/telemetry.js",
     "js/ui-fx.js",
+    "js/themes.js",
     "js/net.js",
     "js/redeem.js",
     "js/script_new.js",
