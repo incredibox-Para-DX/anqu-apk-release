@@ -1447,8 +1447,8 @@
             // 筛选栏折叠/展开
             $('#mod-filter-toggle').on('click', function () {
                 var $p = $('#mod-filter-panel');
-                var open = $p.css('display') !== 'none';
-                $p.css('display', open ? 'none' : 'block');
+                var open = $p.hasClass('open');
+                $p.toggleClass('open', !open);
                 $('#mod-filter-arrow').css('transform', open ? '' : 'rotate(180deg)');
             });
             // 从本地导入：直接唤起文件选择，不切页

@@ -31,6 +31,7 @@ CODE_FILES = [
     "js/modal-registry.js",
     "js/music.js",
     "js/telemetry.js",
+    "js/ui-fx.js",
     "js/net.js",
     "js/redeem.js",
     "js/script_new.js",

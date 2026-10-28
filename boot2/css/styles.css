@@ -3565,6 +3565,61 @@ input, select, textarea { transition: border-color .18s ease, box-shadow .22s ea
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
+/* ===================== 大厂质感（10 条铁律） ===================== */
+:root{
+  --c0:#0b0b0a; --c1:#151515; --c2:#1a1a19; --c3:#20201e;
+  --c-line:rgba(255,255,255,.06); --c-line2:rgba(255,255,255,.10);
+  --c-text:#e7e7e2; --c-dim:#9a9a94;
+  --ease-out:cubic-bezier(.215,.61,.355,1);
+  --spring-over:linear(0,.30 7%,.58 15%,.77 24%,.89 33%,.95 42%,.98 52%,1 62%,1);
+  --spring-under:linear(0,.42 9%,.74 20%,.93 32%,1.045 46%,1.02 60%,1 74%,1);
+}
+/* 1 去边框·微明度分层·禁纯黑 */
+body{ background-color:var(--c0) !important; color:var(--c-text); }
+.sidebar{ background:rgba(21,21,21,.58) !important; border:none !important; }
+.sidebar .sidebar-section{ background:var(--c2) !important; border:none !important; }
+.sidebar .sidebar-btn{ background:var(--c2) !important; border:none !important; }
+.sidebar .sidebar-btn:hover{ background:var(--c3) !important; }
+.modal-overlay:not(.app-full-page) .modal-content{
+  border:none !important;
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.02)),var(--c1) !important;
+  box-shadow:0 24px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+.mod-card,.mod-row,.playlist-item,.dt-card{ border:none !important; }
+/* 3 暗色补偿：正文字重降，防止白字发胖 */
+body,.modal-body,.sidebar,.mod-row,.playlist-item,.sidebar-btn,.modal-btn,.mod-row-desc{ font-weight:360; }
+
+/* 2 输入框：无 outline，聚焦双环咬合 */
+input,textarea,select,.input-field{ border:none !important; outline:none !important; background:var(--c2) !important; box-shadow:inset 0 0 0 1px var(--c-line) !important; transition:box-shadow .2s var(--ease-out), background .2s var(--ease-out); }
+input:focus,textarea:focus,select:focus,.input-field:focus{ outline:none !important; background:var(--c1) !important; box-shadow:inset 0 0 0 1px rgba(91,140,255,.55), 0 0 0 3px rgba(91,140,255,.16), 0 0 0 1px rgba(91,140,255,.28) !important; }
+
+/* 4 流式打字（单字 90ms blur(6→0)，错开 30ms） */
+@keyframes streamChar{ from{ opacity:0; filter:blur(6px); } to{ opacity:1; filter:blur(0); } }
+.stream-text .ch{ display:inline-block; opacity:0; filter:blur(6px); animation:streamChar .09s var(--ease-out) forwards; will-change:opacity,filter; }
+
+/* 5 行内图标垂直对齐 */
+.fas,.far,.fab,.fa,[class*="fa-"]{ vertical-align:-0.125em; }
+
+/* 6 数字等宽防抖 */
+.shop-price,.playlist-item-price,.mod-dl-count,.stat-item b,#playlist-coin-balance,[class*="balance"],[class*="-value"]{ font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1; }
+
+/* 7 丝滑折叠：Grid 0fr→1fr（免 JS 算高） */
+.mod-collapse,#mod-filter-panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s var(--ease-out); }
+.mod-collapse.open,#mod-filter-panel.open{ grid-template-rows:1fr; }
+.mod-collapse-inner,#mod-filter-panel > .mod-filter-inner{ overflow:hidden; min-height:0; }
+
+/* 8 防孤字 */
+.modal-body,.dt-panel,.sidebar,.mod-row-desc,.bg-thumb-name,.playlist-item-title{ text-wrap:pretty; }
+
+/* 9 动效性格：按钮/对勾 欠阻尼微弹；面板/拖拽 过阻尼零回弹 */
+.sidebar-btn,.modal-btn,.mod-filter-btn,.app-page-action-btn,.playlist-action-btn,.mod-row,.mod-card,.bg-thumb{ transition:transform .42s var(--spring-under), background-color .2s ease, box-shadow .25s ease, border-color .2s ease; }
+.sidebar-btn:active,.modal-btn:active,.mod-filter-btn:active,.app-page-action-btn:active,.playlist-action-btn:active{ transform:scale(.94); }
+.modal-overlay .modal-content{ transition-timing-function:var(--spring-over) !important; }
+
+/* 10 复制反馈自熄 */
+.copied{ color:#7ee787 !important; }
+.copy-fade{ transition:opacity .2s ease; opacity:0; }
+
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
 html[lang="ru"] .sidebar-btn,
