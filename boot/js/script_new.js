@@ -6179,14 +6179,9 @@ const EventManager = {
             });
         };
 
-        // openSelector - 背景资源未下载完时拦截
+        // openSelector - 未下载也可打开；未下载的背景在网格里不显示
         const _origOpenSelector = BackgroundManager.openSelector;
         BackgroundManager.openSelector = function() {
-            if (!RDM.isBackgroundsDownloaded()) {
-                if (window.showToast) window.showToast('请先下载背景资源后再打开背景商店');
-                RDM.openModal();
-                return;
-            }
             // 每次打开都重建网格，避免继续使用已失效的 blob URL（重新下载/校验清理后）
             const $grid = $('#bg-grid');
             if ($grid.length) $grid.empty();
@@ -6483,6 +6478,9 @@ const EventManager = {
                 return bf - af;
             });
             sorted.forEach((bg) => {
+                const available = bg.path === 'pictures/background.mp4' ||
+                    (window.ResourceDownloadManager && window.ResourceDownloadManager.isDownloaded && window.ResourceDownloadManager.isDownloaded(bg.path));
+                if (!available) return;
                 const index = self.backgrounds.indexOf(bg);
                 const isVideo = /\.(mp4|webm)(\?|$)/i.test(bg.path);
                 const unlocked = self.isBackgroundUnlocked(bg.id);
@@ -6504,6 +6502,10 @@ const EventManager = {
                     : Utils.formatCurrency(bg.price);
                 frag.appendChild(el);
             });
+            if (!frag.childElementCount) {
+                $grid.html('<div style="padding:24px;text-align:center;color:#94a3b8;font-size:13px;line-height:1.8;">尚未下载背景资源<br><span style="font-size:12px;color:#6b7280;">请先到「资源下载」下载后再选择</span></div>');
+                return;
+            }
             $grid.append(frag);
             self._fillThumbs();
         };
@@ -6620,13 +6622,7 @@ const EventManager = {
         const target = e.target;
         const btn = target && target.closest ? target.closest('#music-playlist-btn') : null;
         if (!btn) return;
-        if (ResourceDownloadManager.isMusicDownloaded()) return;
-        // 已经导入了本地音乐的玩家，不依赖音乐资源包也能进入列表管理自己的曲目
-        if (window.musicPlayer && window.musicPlayer.customTracks && window.musicPlayer.customTracks.length > 0) return;
-        e.preventDefault();
-        e.stopPropagation();
-        if (window.showToast) window.showToast('请先下载音乐资源包后再打开音乐列表');
-        ResourceDownloadManager.openModal();
+        // 未下载音乐资源也可打开列表；未下载曲目在列表里过滤（见 music.js）
     }, true);
 
     /* ============================================================
@@ -6660,7 +6656,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.26';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.27';
 
     /* ============================================================
      * 检查更新

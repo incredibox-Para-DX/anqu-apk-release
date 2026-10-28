@@ -281,6 +281,32 @@
             }
             return tryOne(0);
         },
+        // 带进度的下载（XHR onprogress），多线路回退
+        downloadZipProgress: function (relFile, onProgress) {
+            var bases = this.baseUrls.slice();
+            function tryOne(i) {
+                if (i >= bases.length) return Promise.reject(new Error('全部下载线路失败'));
+                var url = bases[i] + relFile;
+                return new Promise(function (resolve, reject) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', url, true);
+                    xhr.responseType = 'blob';
+                    var stall = setTimeout(function () { try { xhr.abort(); } catch (e) {} reject(new Error('timeout')); }, 10000);
+                    xhr.onprogress = function (e) {
+                        if (e.lengthComputable && onProgress) { clearTimeout(stall); onProgress(e.loaded, e.total); }
+                    };
+                    xhr.onload = function () {
+                        clearTimeout(stall);
+                        if (xhr.status >= 200 && xhr.status < 300 && xhr.response && xhr.response.size > 1000) resolve(xhr.response);
+                        else reject(new Error('HTTP ' + xhr.status + ' size ' + (xhr.response ? xhr.response.size : 0)));
+                    };
+                    xhr.onerror = function () { clearTimeout(stall); reject(new Error('network')); };
+                    xhr.onabort = function () { clearTimeout(stall); reject(new Error('abort')); };
+                    xhr.send();
+                }).catch(function () { return tryOne(i + 1); });
+            }
+            return tryOne(0);
+        },
 
         /* ---------- 校验 ---------- */
         _checkText: function (v, max, name) {
@@ -1232,7 +1258,8 @@
                     '<button class="modal-btn danger" id="mod-detail-del" style="margin-left:auto;"><i class="fas fa-trash-alt"></i> 删除</button>' +
                     '</div>';
             } else {
-                actionHtml = '<button class="modal-btn primary full-width" id="mod-detail-download"><i class="fas fa-download"></i> 下载并安装</button>';
+                actionHtml = '<button class="modal-btn primary full-width" id="mod-detail-download"><i class="fas fa-download"></i> 下载并安装</button>' +
+                    '<div id="mod-dl-progress" style="display:none;margin-top:8px;"><div style="height:6px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;"><div id="mod-dl-progress-bar" style="height:100%;width:0;background:#248DFB;transition:width .15s;"></div></div><div id="mod-dl-progress-text" style="font-size:11px;color:#94a3b8;margin-top:4px;"></div></div>';
             }
 
             $('#mod-detail-body').html(
@@ -1272,7 +1299,15 @@
                 $dl.on('click', function () {
                     if ($dl.data('busy')) return;
                     $dl.data('busy', 1).prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> 下载中…');
-                    self.downloadZip(x.file).then(function (blob) {
+                    var $prog = $('#mod-dl-progress'), $bar = $('#mod-dl-progress-bar'), $ptext = $('#mod-dl-progress-text');
+                    if ($prog.length) $prog.show();
+                    self.downloadZipProgress(x.file, function (loaded, total) {
+                        var pct = total ? Math.round(loaded / total * 100) : 0;
+                        $bar.css('width', pct + '%');
+                        $ptext.text('下载中 ' + pct + '%（' + fmtSize(loaded) + ' / ' + fmtSize(total) + '）');
+                    }).then(function (blob) {
+                        $bar.css('width', '100%');
+                        $ptext.text('安装中…');
                         $dl.html('<i class="fas fa-spinner fa-spin"></i> 安装中…');
                         return self.installFromZip(blob, x, 'download');
                     }).then(function () {

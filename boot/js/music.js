@@ -1503,6 +1503,12 @@ $(function() {
         let selectedIndex = player.currentTrackIndex;
 
         _.forEach(player.playlist, (track, index) => {
+            // 未下载的内置曲目不显示（默认/导入曲目除外）
+            if (!track.isCustom && track.file && window.ResourceDownloadManager &&
+                window.ResourceDownloadManager.isDownloaded &&
+                !window.ResourceDownloadManager.isDownloaded('music-player/' + track.file)) {
+                return;
+            }
             const coverPath = player.getFullPath(track.cover);
             const safeTitle = escapeHtml(track.title);
             const safeArtist = escapeHtml(track.artist);

@@ -119,6 +119,10 @@
         mod_item: ['物品', '物品', 'Item', 'Предмет'],
         mod_music: ['音乐', '音樂', 'Music', 'Музыка'],
         mod_bg: ['背景', '背景', 'Background', 'Фон'],
+        store_sort_default: ['默认', '預設', 'Default', 'По умолч.'],
+        store_sort_new: ['最新', '最新', 'Newest', 'Новые'],
+        store_sort_hot: ['最热', '最熱', 'Hottest', 'Популярные'],
+        store_refresh: ['刷新', '刷新', 'Refresh', 'Обновить'],
 
         
         redeem_title: ['兑换码', '兌換碼', 'Redeem', 'Коды'],

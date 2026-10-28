@@ -16,8 +16,8 @@
     </item>
     <item>
         <id>10002</id>
-        <name>“理想国”</name>
-        <fullName>“理想国”试剂盒</fullName>
+        <name>《理想国》</name>
+        <fullName>《理想国》试剂盒</fullName>
         <width>3</width>
         <height>2</height>
         <value>2035854</value>
@@ -25,12 +25,12 @@
         <rarity>red</rarity>
         <sound>audio/items/理想国.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>一盒神秘的实验试剂，内有被擦去部分的托兰德集团标记，以及数张实验报告。在科伦与特维拉均高价收购此物后，所有人都知道了它的代号：“理想国”。</desc>
+        <desc>一盒神秘的实验试剂，内有被擦去部分的托兰德集团标记，以及数张实验报告。在科伦与特维拉均高价收购此物后，所有人都知道了它的代号：《理想国》。</desc>
     </item>
     <item>
         <id>10003</id>
-        <name>“厄律西翁”</name>
-        <fullName>机密药剂“厄律西翁”</fullName>
+        <name>《厄律西翁》</name>
+        <fullName>机密药剂《厄律西翁》</fullName>
         <width>2</width>
         <height>3</height>
         <value>1485055</value>
@@ -38,7 +38,7 @@
         <rarity>red</rarity>
         <sound>audio/items/花瓶.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>湾区生化沾染危机爆发后不久，意外流出的神秘药剂，相关人员初步分析认为该药剂应当是某种经过人工编辑的病毒溶液，而其具体成分与先前流出的“理想国”极为相似，且浓度更高。</desc>
+        <desc>湾区生化沾染危机爆发后不久，意外流出的神秘药剂，相关人员初步分析认为该药剂应当是某种经过人工编辑的病毒溶液，而其具体成分与先前流出的《理想国》极为相似，且浓度更高。</desc>
     </item>
 
     <!-- 橙色品质 (orange) -->
@@ -122,8 +122,8 @@
     </item>
     <item>
         <id>20007</id>
-        <name>“赤红暗星”模型</name>
-        <fullName>“赤红暗星”轰炸机模型</fullName>
+        <name>《赤红暗星》模型</name>
+        <fullName>《赤红暗星》轰炸机模型</fullName>
         <width>3</width>
         <height>2</height>
         <value>454200</value>
@@ -131,7 +131,7 @@
         <rarity>orange</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>原本止步于设计案的特维拉高速战略轰炸机设计方案，但因冈格尼尔工程带动相关技术进步，该方案得以实际建造，科伦方面则将其称为“赤红暗星”。</desc>
+        <desc>原本止步于设计案的特维拉高速战略轰炸机设计方案，但因冈格尼尔工程带动相关技术进步，该方案得以实际建造，科伦方面则将其称为《赤红暗星》。</desc>
     </item>
     <item>
         <id>20008</id>
@@ -148,8 +148,8 @@
     </item>
     <item>
         <id>20009</id>
-        <name>“鎏金羽宫”</name>
-        <fullName>“鎏金羽宫”八音盒</fullName>
+        <name>《鎏金羽宫》</name>
+        <fullName>《鎏金羽宫》八音盒</fullName>
         <width>2</width>
         <height>3</height>
         <value>474604</value>
@@ -209,7 +209,7 @@
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>苏梅克的阴影始终萦绕在部分人的心底，他们畏惧那一日的到来，便以太阳之子法厄同的名称制作了这种特殊的“时钟”。</desc>
+        <desc>苏梅克的阴影始终萦绕在部分人的心底，他们畏惧那一日的到来，便以太阳之子法厄同的名称制作了这种特殊的《时钟》。</desc>
     </item>
     <item>
         <id>20014</id>
@@ -469,7 +469,7 @@
         <rarity>orange</rarity>
         <sound>audio/items/万用表.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>几乎所有特维拉军机均有装备的雷达告警系统面板，因其使用灯光表示雷达照射方向，也被戏称为“特维拉灯谜”——猜对了没奖励，猜错了有惩罚。</desc>
+        <desc>几乎所有特维拉军机均有装备的雷达告警系统面板，因其使用灯光表示雷达照射方向，也被戏称为《特维拉灯谜》——猜对了没奖励，猜错了有惩罚。</desc>
     </item>
     <item>
         <id>20034</id>
@@ -590,8 +590,8 @@
     </item>
     <item>
         <id>20043</id>
-        <name>“新边疆”模型</name>
-        <fullName>“新边疆”宇宙岛模型</fullName>
+        <name>《新边疆》模型</name>
+        <fullName>《新边疆》宇宙岛模型</fullName>
         <width>2</width>
         <height>3</height>
         <value>497178</value>
@@ -612,7 +612,7 @@
         <rarity>orange</rarity>
         <sound>audio/items/金狮.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>存放着铯133的原子钟核心部件，其通过测量铯133的振动频率将“一秒”定义为即使深入宇宙深空，亦能绝对准确的数值，进而奠定了人类航天事业长足发展的时间基础，字面意思的时间基础。</desc>
+        <desc>存放着铯133的原子钟核心部件，其通过测量铯133的振动频率将《一秒》定义为即使深入宇宙深空，亦能绝对准确的数值，进而奠定了人类航天事业长足发展的时间基础，字面意思的时间基础。</desc>
     </item>
     <item>
         <id>20045</id>
@@ -811,7 +811,7 @@
         <rarity>gold</rarity>
         <sound>audio/items/镜片.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>曾在南北战事时期随着“瑞文”的活动而流行的工艺品，最近不知何故又重新出现在卡莫纳，而藏于内里的娃娃似乎又换了一副面貌。</desc>
+        <desc>曾在南北战事时期随着《瑞文》的活动而流行的工艺品，最近不知何故又重新出现在卡莫纳，而藏于内里的娃娃似乎又换了一副面貌。</desc>
     </item>
     <item>
         <id>30014</id>
@@ -1738,7 +1738,7 @@
         <rarity>purple</rarity>
         <sound>audio/items/座钟.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>科伦的玩具积木风行世界后，特维拉与卡莫纳也推出了自己的同类产品“甜托”，套装系列包括一些涉及国防和工业的寓教于乐主题。</desc>
+        <desc>科伦的玩具积木风行世界后，特维拉与卡莫纳也推出了自己的同类产品《甜托》，套装系列包括一些涉及国防和工业的寓教于乐主题。</desc>
     </item>
     <item>
         <id>40027</id>
@@ -1768,8 +1768,8 @@
     </item>
     <item>
         <id>40029</id>
-        <name>“国王号”模型</name>
-        <fullName>“国王号”模型</fullName>
+        <name>《国王号》模型</name>
+        <fullName>《国王号》模型</fullName>
         <width>3</width>
         <height>2</height>
         <value>4600</value>
@@ -2245,7 +2245,7 @@
         <rarity>purple</rarity>
         <sound>audio/items/玻璃.mp3</sound>
         <imgScale>1.0</imgScale>
-        <desc>由黄铜与实木制作的放大镜，即使暗区的动荡让不少价格虚高的“收藏品”褪去了浮华，放大镜也因为其实用价值，仍保持着的它应有价格。</desc>
+        <desc>由黄铜与实木制作的放大镜，即使暗区的动荡让不少价格虚高的《收藏品》褪去了浮华，放大镜也因为其实用价值，仍保持着的它应有价格。</desc>
     </item>
     <item>
         <id>40066</id>
