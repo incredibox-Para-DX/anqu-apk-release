@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.59</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.60</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1681,6 +1681,10 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="modal-body" style="padding:16px;overflow-y:auto;">
 <div class="mod-guide-section">
+<p style="color:#cbd5e1;font-size:13px;line-height:1.7;" data-i18n="doc_intro">制作 MOD 有两种方式：① 使用游戏内的「MOD EDITOR」可视化制作，最简单；② 按本指南手动打包 zip。下方为手动方式说明。</p>
+<p style="color:#7c8ccc;font-size:12px;line-height:1.7;margin-top:6px;" data-i18n="doc_editor_hint">推荐：在侧栏「MODS」下方点「MOD EDITOR」，可填表格、上传图片/音效、实时预览并一键生成安装，无需手写代码。</p>
+</div>
+<div class="mod-guide-section">
 <h4><i class="fas fa-download"></i> <span data-i18n="step1">第一步：下载官方模板</span></h4>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
 <button class="modal-btn primary" id="mod-template-copy" style="flex:1;"><i class="fas fa-link"></i> <span data-i18n="doc_copy_template">复制模板下载链接</span></button>
@@ -1690,7 +1694,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="mod-guide-section">
 <h4><i class="fas fa-list-check"></i> <span data-i18n="step2">第二步：制作你的模组</span></h4>
 <p><span data-i18n="doc_step2_desc">解压模板 → 替换 content/ 里的图片 → 用记事本修改 mod.json → 重新打包为 zip（选中里面的文件打包，不要连外层文件夹）。</span></p>
-<div class="mod-guide-tree"><pre>你的模组.zip
+<div class="mod-guide-tree"><pre data-i18n="doc_tree">你的模组.zip
 ├─ mod.json          模组定义（名称/作者/类型/内容列表）
 ├─ thumb.png         列表缩略图 300x180
 ├─ avatar.png        作者头像 128x128
@@ -1699,6 +1703,14 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
    ├─ items/         （物品类）物品图片
    ├─ music/         （音乐类）音频 mp3 等
    └─ backgrounds/   （背景类）图片或视频</pre></div>
+<details class="mod-guide-details">
+<summary data-i18n="doc_fields">字段速查</summary>
+<ul class="mod-guide-rules" style="margin:8px 0 0;">
+<li data-i18n="doc_f_item">物品：name 名称 / desc 描述 / width 1~5 / height 1~6 / value 最高 4,000,000 / rarity purple|gold|orange|red / weight 爆率权重(可选) / sound 音效(可选) / image 图片</li>
+<li data-i18n="doc_f_music">音乐：title 标题 / artist 作者(可选) / file 音频 / cover 封面(可选)</li>
+<li data-i18n="doc_f_bg">背景：name 名称 / file 图片或视频</li>
+</ul>
+</details>
 <details class="mod-guide-details">
 <summary data-i18n="mod_doc_item">物品类 mod.json 写法</summary>
 <pre>{
