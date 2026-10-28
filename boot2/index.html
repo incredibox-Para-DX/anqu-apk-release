@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.48</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.49</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1335,7 +1335,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="me-card">
 <div class="me-card-title"><i class="fas fa-circle-info"></i> 基本信息</div>
 <label class="me-label">类型</label>
-<select id="me-type" class="input-field"><option value="item">物品 Mod</option></select>
+<select id="me-type" class="input-field"><option value="item">物品</option><option value="music">音乐</option><option value="background">背景</option></select>
 <div class="me-grid2">
 <div><label class="me-label">名称</label><input id="me-name" class="input-field" maxlength="20" placeholder="Mod 名称"></div>
 <div><label class="me-label">作者</label><input id="me-author" class="input-field" maxlength="16" placeholder="作者"></div>
@@ -1344,9 +1344,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 <div class="me-card">
-<div class="me-card-title"><i class="fas fa-cube"></i> 物品列表</div>
+<div class="me-card-title" id="me-list-title"><i class="fas fa-cube"></i> <span id="me-list-title-text">物品列表</span></div>
 <div id="me-items"></div>
-<button class="sidebar-btn full-width" id="me-add-item"><i class="fas fa-plus"></i> 添加物品</button>
+<button class="sidebar-btn full-width" id="me-add-item"><i class="fas fa-plus"></i> <span id="me-add-label">添加物品</span></button>
 </div>
 <div class="me-msg" id="me-msg"></div>
 </div>

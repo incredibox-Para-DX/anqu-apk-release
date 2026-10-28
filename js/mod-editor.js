@@ -1,7 +1,12 @@
-/* 可视化 Mod 编辑器：表单填写 + 上传图片 → 生成 mod.json + 打包 → 安装/导出 */
+/* MOD 编辑器：物品 / 音乐 / 背景 三类，表单填写 + 上传 → 生成 mod.json + 打包 → 安装/导出 */
 (function (w) {
     'use strict';
     function $(id) { return document.getElementById(id); }
+    var TYPES = {
+        item: { list: '物品列表', add: '添加物品' },
+        music: { list: '曲目列表', add: '添加曲目' },
+        background: { list: '背景列表', add: '添加背景' }
+    };
 
     function openModal() {
         try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('mod-editor-modal', { zIndex: 10050 }); } catch (e) {}
@@ -24,46 +29,26 @@
             a.href = url; a.download = filename;
             document.body.appendChild(a); a.click();
             setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
-            setMsg('已发起下载；若没弹出，请改用「生成并安装」', true);
+            setMsg('已发起下载；若没弹出请改用「生成并安装」', true);
         } catch (e) { setMsg('导出失败：' + String(e && e.message || e)); }
     }
     function downloadBlob(blob, filename) {
         try {
             var file = new File([blob], filename, { type: 'application/zip' });
             if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
-                navigator.share({ files: [file], title: filename }).then(function () {
-                    setMsg('已保存/分享', true);
-                }).catch(function () { downloadLink(blob, filename); });
+                navigator.share({ files: [file], title: filename }).then(function () { setMsg('已保存/分享', true); })
+                    .catch(function () { downloadLink(blob, filename); });
                 return;
             }
         } catch (e) {}
         downloadLink(blob, filename);
     }
 
-    function lbl(t) { return '<label class="me-label">' + t + '</label>'; }
-
-    function addItemRow() {
-        var box = $('me-items');
-        if (!box) return;
-        var n = box.children.length + 1;
-        var el = document.createElement('div');
-        el.className = 'me-item';
-        el.innerHTML =
-            '<div class="me-item-head"><b>物品 ' + n + '</b><button type="button" class="me-del">删除</button></div>'
-            + '<div class="me-grid2">'
-            + '<div>' + lbl('名称') + '<input class="input-field" data-k="name" maxlength="12" placeholder="物品名"></div>'
-            + '<div>' + lbl('稀有度') + '<select class="input-field" data-k="rarity"><option value="purple">紫</option><option value="gold">金</option><option value="orange">橙</option><option value="red">红</option></select></div>'
-            + '<div>' + lbl('宽 (1-5)') + '<input type="number" class="input-field" data-k="width" min="1" max="5" value="1"></div>'
-            + '<div>' + lbl('高 (1-6)') + '<input type="number" class="input-field" data-k="height" min="1" max="6" value="1"></div>'
-            + '<div>' + lbl('价值') + '<input type="number" class="input-field" data-k="value" min="1" value="1000"></div>'
-            + '<div>' + lbl('爆率权重') + '<input type="number" class="input-field" data-k="weight" min="1" placeholder="可不填"></div>'
-            + '</div>'
-            + lbl('描述') + '<textarea class="input-field" data-k="desc" placeholder="描述（不限字数）"></textarea>'
-            + lbl('图片') + '<input type="file" class="input-field" data-k="image" accept="image/*">';
-        el.querySelector('.me-del').addEventListener('click', function () { el.remove(); });
-        box.appendChild(el);
+    function currentType() {
+        var t = $('me-type');
+        return t ? t.value : 'item';
     }
-
+    function lbl(t) { return '<label class="me-label">' + t + '</label>'; }
     function readFile(file) {
         return new Promise(function (res, rej) {
             var r = new FileReader();
@@ -72,9 +57,77 @@
             r.readAsArrayBuffer(file);
         });
     }
+    function extOf(file, allow, def) {
+        var ext = ((file.name || '').split('.').pop() || '').toLowerCase();
+        return allow.indexOf(ext) !== -1 ? ext : def;
+    }
+
+    function rowShell(n, title, inner) {
+        var el = document.createElement('div');
+        el.className = 'me-item';
+        el.innerHTML = '<div class="me-item-head"><b>' + title + ' ' + n + '</b><button type="button" class="me-del">删除</button></div>' + inner;
+        el.querySelector('.me-del').addEventListener('click', function () { el.remove(); });
+        return el;
+    }
+
+    function addItemRow() {
+        var box = $('me-items'); if (!box) return;
+        var el = rowShell(box.children.length + 1, '物品',
+            '<div class="me-grid2">'
+            + '<div>' + lbl('名称') + '<input class="input-field" data-k="name" maxlength="12" placeholder="物品名"></div>'
+            + '<div>' + lbl('稀有度') + '<select class="input-field" data-k="rarity"><option value="purple">紫</option><option value="gold">金</option><option value="orange">橙</option><option value="red">红</option></select></div>'
+            + '<div>' + lbl('宽 (1-5)') + '<input type="number" class="input-field" data-k="width" min="1" max="5" value="1"></div>'
+            + '<div>' + lbl('高 (1-6)') + '<input type="number" class="input-field" data-k="height" min="1" max="6" value="1"></div>'
+            + '<div>' + lbl('价值') + '<input type="number" class="input-field" data-k="value" min="1" value="1000"></div>'
+            + '<div>' + lbl('爆率权重') + '<input type="number" class="input-field" data-k="weight" min="1" placeholder="可不填"></div>'
+            + '</div>'
+            + lbl('描述') + '<textarea class="input-field" data-k="desc" placeholder="描述（不限字数）"></textarea>'
+            + lbl('图片') + '<input type="file" class="input-field" data-k="image" accept="image/*">');
+        box.appendChild(el);
+    }
+    function addTrackRow() {
+        var box = $('me-items'); if (!box) return;
+        var el = rowShell(box.children.length + 1, '曲目',
+            '<div class="me-grid2">'
+            + '<div>' + lbl('标题') + '<input class="input-field" data-k="title" maxlength="40" placeholder="曲目标题"></div>'
+            + '<div>' + lbl('作者') + '<input class="input-field" data-k="artist" maxlength="40" placeholder="演唱/作者（可不填）"></div>'
+            + '</div>'
+            + lbl('音频文件') + '<input type="file" class="input-field" data-k="audio" accept="audio/*">'
+            + lbl('封面（可不填）') + '<input type="file" class="input-field" data-k="cover" accept="image/*">');
+        box.appendChild(el);
+    }
+    function addBgRow() {
+        var box = $('me-items'); if (!box) return;
+        var el = rowShell(box.children.length + 1, '背景',
+            lbl('名称') + '<input class="input-field" data-k="name" maxlength="16" placeholder="背景名称">'
+            + lbl('文件（图片/视频）') + '<input type="file" class="input-field" data-k="file" accept="image/*,video/*">');
+        box.appendChild(el);
+    }
+
+    function addRowForType() {
+        var t = currentType();
+        if (t === 'music') addTrackRow();
+        else if (t === 'background') addBgRow();
+        else addItemRow();
+    }
+    function refreshListUI() {
+        var t = currentType();
+        var cfg = TYPES[t] || TYPES.item;
+        var lt = $('me-list-title-text'); if (lt) lt.textContent = cfg.list;
+        var al = $('me-add-label'); if (al) al.textContent = cfg.add;
+    }
+    function resetListForType() {
+        var box = $('me-items'); if (box) box.innerHTML = '';
+        refreshListUI();
+        addRowForType();
+    }
+
+    function gv(el, k) { var n = el.querySelector('[data-k="' + k + '"]'); return n ? n.value : ''; }
+    function gf(el, k) { var n = el.querySelector('[data-k="' + k + '"]'); return n && n.files ? n.files[0] : null; }
 
     async function build(install) {
         if (!w.JSZip) { setMsg('ZIP 组件未加载'); return; }
+        var type = currentType();
         var name = ($('me-name').value || '').trim();
         var author = ($('me-author').value || '').trim();
         var version = ($('me-version').value || '').trim() || '1.0.0';
@@ -82,38 +135,67 @@
         if (!name) return setMsg('请填写 Mod 名称');
         if (!author) return setMsg('请填写作者');
         var rows = Array.prototype.slice.call(document.querySelectorAll('#me-items .me-item'));
-        if (!rows.length) return setMsg('请至少添加一个物品');
+        if (!rows.length) return setMsg('请至少添加一项');
 
         var zip = new w.JSZip();
-        var items = [];
-        for (var i = 0; i < rows.length; i++) {
-            var el = rows[i];
-            var g = function (k) { var n = el.querySelector('[data-k="' + k + '"]'); return n ? n.value : ''; };
-            var nm = (g('name') || '').trim();
-            if (!nm) return setMsg('第 ' + (i + 1) + ' 个物品缺少名称');
-            var fEl = el.querySelector('[data-k="image"]');
-            var f = fEl && fEl.files && fEl.files[0];
-            if (!f) return setMsg('第 ' + (i + 1) + ' 个物品缺少图片');
-            var ext = (f.name.split('.').pop() || 'png').toLowerCase();
-            if (['png', 'jpg', 'jpeg', 'webp'].indexOf(ext) === -1) ext = 'png';
-            var imgName = 'item_' + i + '.' + ext;
-            var buf = await readFile(f);
-            zip.file(imgName, buf);
-            var it = {
-                id: i + 1, name: nm, desc: g('desc') || '',
-                width: parseInt(g('width'), 10) || 1, height: parseInt(g('height'), 10) || 1,
-                value: parseInt(g('value'), 10) || 1000, rarity: g('rarity') || 'purple',
-                image: imgName
-            };
-            var wt = parseInt(g('weight'), 10);
-            if (wt > 0) it.weight = wt;
-            items.push(it);
-        }
+        var modJson = { name: name.slice(0, 20), author: author.slice(0, 16), version: version.slice(0, 16), type: type, desc: desc };
+        try {
+            if (type === 'music') {
+                var tracks = [];
+                for (var i = 0; i < rows.length; i++) {
+                    var el = rows[i];
+                    var title = (gv(el, 'title') || '').trim();
+                    if (!title) return setMsg('第 ' + (i + 1) + ' 首缺少标题');
+                    var af = gf(el, 'audio');
+                    if (!af) return setMsg('第 ' + (i + 1) + ' 首缺少音频');
+                    var aext = extOf(af, ['mp3', 'm4a', 'aac', 'wav', 'ogg', 'flac'], 'mp3');
+                    var an = 'track_' + i + '.' + aext;
+                    zip.file(an, await readFile(af));
+                    var t = { title: title.slice(0, 40), artist: (gv(el, 'artist') || '').slice(0, 40), file: an };
+                    var cf = gf(el, 'cover');
+                    if (cf) { var cext = extOf(cf, ['png', 'jpg', 'jpeg', 'webp'], 'jpg'); var cn = 'cover_' + i + '.' + cext; zip.file(cn, await readFile(cf)); t.cover = cn; }
+                    tracks.push(t);
+                }
+                modJson.tracks = tracks;
+            } else if (type === 'background') {
+                var bgs = [];
+                for (var j = 0; j < rows.length; j++) {
+                    var be = rows[j];
+                    var bn = (gv(be, 'name') || '').trim();
+                    if (!bn) return setMsg('第 ' + (j + 1) + ' 个背景缺少名称');
+                    var bf = gf(be, 'file');
+                    if (!bf) return setMsg('第 ' + (j + 1) + ' 个背景缺少文件');
+                    var bext = extOf(bf, ['png', 'jpg', 'jpeg', 'webp', 'mp4', 'webm'], 'png');
+                    var bname = 'bg_' + j + '.' + bext;
+                    zip.file(bname, await readFile(bf));
+                    bgs.push({ name: bn.slice(0, 16), file: bname });
+                }
+                modJson.backgrounds = bgs;
+            } else {
+                var items = [];
+                for (var k = 0; k < rows.length; k++) {
+                    var ie = rows[k];
+                    var nm = (gv(ie, 'name') || '').trim();
+                    if (!nm) return setMsg('第 ' + (k + 1) + ' 个物品缺少名称');
+                    var img = gf(ie, 'image');
+                    if (!img) return setMsg('第 ' + (k + 1) + ' 个物品缺少图片');
+                    var iext = extOf(img, ['png', 'jpg', 'jpeg', 'webp'], 'png');
+                    var iname = 'item_' + k + '.' + iext;
+                    zip.file(iname, await readFile(img));
+                    var it = {
+                        id: k + 1, name: nm.slice(0, 12), desc: gv(ie, 'desc') || '',
+                        width: parseInt(gv(ie, 'width'), 10) || 1, height: parseInt(gv(ie, 'height'), 10) || 1,
+                        value: parseInt(gv(ie, 'value'), 10) || 1000, rarity: gv(ie, 'rarity') || 'purple', image: iname
+                    };
+                    var wt = parseInt(gv(ie, 'weight'), 10); if (wt > 0) it.weight = wt;
+                    items.push(it);
+                }
+                modJson.items = items;
+            }
+        } catch (e) { return setMsg('读取文件失败：' + String(e && e.message || e)); }
 
-        var modJson = { name: name.slice(0, 20), author: author.slice(0, 16), version: version.slice(0, 16), type: 'item', desc: desc, items: items };
         zip.file('mod.json', JSON.stringify(modJson));
         setMsg('打包中…', true);
-
         var blob;
         try { blob = await zip.generateAsync({ type: 'blob' }); }
         catch (e) { return setMsg('打包失败：' + String(e && e.message || e)); }
@@ -122,12 +204,10 @@
             try {
                 var meta = await w.ModManager.installFromZip(blob, null);
                 setMsg('已安装：' + (meta && meta.name || name), true);
-                try { if (w.showToast) w.showToast('Mod 已安装'); } catch (e) {}
+                try { if (w.showToast) w.showToast('MOD 已安装'); } catch (e) {}
                 if (w.ModManager) w.ModManager.renderMineList();
                 closeModal();
-            } catch (e) {
-                setMsg('安装失败：' + String(e && e.message || e));
-            }
+            } catch (e) { setMsg('安装失败：' + String(e && e.message || e)); }
         } else {
             downloadBlob(blob, (name || 'mod') + '.zip');
         }
@@ -139,19 +219,22 @@
             open._bound = true;
             open.addEventListener('click', function () {
                 openModal();
-                if (!document.querySelector('#me-items .me-item')) addItemRow();
+                if (!document.querySelector('#me-items .me-item')) resetListForType();
+                else refreshListUI();
             });
         }
         var close = $('mod-editor-close');
         if (close && !close._bound) { close._bound = true; close.addEventListener('click', closeModal); }
+        var typeSel = $('me-type');
+        if (typeSel && !typeSel._bound) { typeSel._bound = true; typeSel.addEventListener('change', resetListForType); }
         var add = $('me-add-item');
-        if (add && !add._bound) { add._bound = true; add.addEventListener('click', addItemRow); }
+        if (add && !add._bound) { add._bound = true; add.addEventListener('click', addRowForType); }
         var inst = $('me-install');
         if (inst && !inst._bound) { inst._bound = true; inst.addEventListener('click', function () { build(true); }); }
         var exp = $('me-export');
         if (exp && !exp._bound) { exp._bound = true; exp.addEventListener('click', function () { build(false); }); }
 
-        // 防止滑动时误触输入框（滚动中聚焦立即失焦）
+        // 防滑动误触输入框
         var bodyEl = document.querySelector('#mod-editor-modal .me-body');
         if (bodyEl && !bodyEl._scrollBound) {
             bodyEl._scrollBound = true;
@@ -164,5 +247,5 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
 
-    w.ModEditor = { open: openModal, close: closeModal, addItem: addItemRow };
+    w.ModEditor = { open: openModal, close: closeModal, addRow: addRowForType };
 })(window);
