@@ -3451,16 +3451,62 @@ html[lang="ru"] { -webkit-text-size-adjust: none !important; text-size-adjust: n
 .mod-new-dot { display: none; position: absolute; top: 7px; right: 9px; width: 9px; height: 9px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 0 2px rgba(0,0,0,.35); animation: modDotPulse 1.4s ease-in-out infinite; }
 @keyframes modDotPulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.55;transform:scale(.82);} }
 
-/* ===== 动效与转场（纯附加，不改布局） ===== */
-/* 弹窗靠 .modal-overlay 的 opacity transition 做淡入淡出；这里只加强过渡手感 */
-.modal-overlay { transition: opacity .22s cubic-bezier(.22, 1, .36, 1), -webkit-backdrop-filter .22s ease, backdrop-filter .22s ease; }
-.modal-overlay .modal-content { transition: transform .3s cubic-bezier(.22, 1, .36, 1), opacity .22s ease; }
-.modal-overlay:not(.show) .modal-content { opacity: 0; }
-.modal-overlay.show .modal-content { opacity: 1; }
-.sidebar-btn, .modal-btn, .mod-filter-btn, .app-page-action-btn, .playlist-action-btn { transition: transform .12s ease, background-color .15s ease, border-color .15s ease; }
-.sidebar-btn:active, .modal-btn:active, .mod-filter-btn:active, .app-page-action-btn:active, .playlist-action-btn:active { transform: scale(.97); }
-.mod-card, .mod-row, .playlist-item, .bg-thumb { transition: transform .15s ease, box-shadow .15s ease; }
-.bg-thumb:active, .mod-row:active { transform: scale(.985); }
+/* ===== 高级动效层（双向过渡 + 高级曲线 + 微交互） ===== */
+:root {
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);   /* 顺滑收尾，高级感 */
+  --ease-spring: cubic-bezier(0.34, 1.35, 0.5, 1);  /* 轻微回弹 */
+  --dur-1: 0.16s;
+  --dur-2: 0.28s;
+  --dur-3: 0.38s;
+}
+
+/* 遮罩 + 弹窗内容：双向淡入淡出 + 上浮回弹（过渡而非 keyframes，关闭也能丝滑吐出） */
+.modal-overlay {
+  transition: opacity var(--dur-2) var(--ease-premium),
+              -webkit-backdrop-filter var(--dur-2) var(--ease-premium),
+              backdrop-filter var(--dur-2) var(--ease-premium);
+}
+.modal-overlay .modal-content {
+  transition: transform var(--dur-3) var(--ease-premium), opacity var(--dur-2) var(--ease-premium);
+}
+.modal-overlay:not(.show) .modal-content { opacity: 0; transform: translateY(14px) scale(0.965); }
+.modal-overlay.show .modal-content { opacity: 1; transform: translateY(0) scale(1); }
+
+/* 全屏页：更顺的进入/退出 */
+.modal-overlay.app-full-page { transition: opacity var(--dur-3) var(--ease-premium); }
+.modal-overlay.app-full-page > .modal-content {
+  transition: transform var(--dur-3) var(--ease-premium), opacity var(--dur-2) var(--ease-premium);
+}
+.modal-overlay.app-full-page:not(.show) > .modal-content { opacity: 0; transform: translateY(18px); }
+.modal-overlay.app-full-page.show > .modal-content { opacity: 1; transform: translateY(0); }
+
+/* 侧栏滑入更顺 */
+.sidebar { transition: transform var(--dur-3) var(--ease-premium); }
+
+/* 按钮微交互：按下回弹 */
+.sidebar-btn, .modal-btn, .mod-filter-btn, .app-page-action-btn, .playlist-action-btn, .app-page-back-btn, .modal-close {
+  transition: transform var(--dur-1) var(--ease-spring), background-color var(--dur-1) ease, border-color var(--dur-1) ease, box-shadow var(--dur-2) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.sidebar-btn:active, .modal-btn:active, .mod-filter-btn:active, .app-page-action-btn:active, .playlist-action-btn:active, .app-page-back-btn:active, .modal-close:active { transform: scale(0.96); }
+
+/* 卡片/列表行：悬浮轻抬，触摸微缩 */
+.mod-card, .mod-row, .playlist-item, .bg-thumb {
+  transition: transform var(--dur-1) var(--ease-premium), box-shadow var(--dur-2) ease, background-color var(--dur-1) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.bg-thumb:active, .mod-row:active { transform: scale(0.985); }
+@media (hover: hover) {
+  .mod-card:hover, .mod-row:hover, .bg-thumb:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.35); }
+}
+
+/* 滚动顺滑 */
+.modal-body, .dt-scroll, .playlist-page-body, .mod-list, .app-page-scroll, [class*="-scroll"] { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+
+/* 尊重系统减弱动态效果 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.001s !important; animation-duration: 0.001s !important; }
+}
 
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
