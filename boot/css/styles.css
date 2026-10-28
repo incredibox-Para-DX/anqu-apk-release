@@ -3508,6 +3508,31 @@ html[lang="ru"] { -webkit-text-size-adjust: none !important; text-size-adjust: n
   *, *::before, *::after { transition-duration: 0.001s !important; animation-duration: 0.001s !important; }
 }
 
+/* ===== UI 动效层 ===== */
+/* 输入/下拉聚焦过渡 */
+input, select, textarea { transition: border-color .18s ease, box-shadow .22s ease, background-color .18s ease; }
+
+/* 筛选/标签/语言按钮：悬浮与按下 */
+.mod-filter-btn, .mod-tab-btn, .lang-opt, .first-lang-opt {
+  transition: transform .15s var(--ease-premium), background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .2s ease;
+}
+.mod-filter-btn:active, .mod-tab-btn:active, .lang-opt:active, .first-lang-opt:active { transform: scale(0.96); }
+@media (hover: hover) {
+  .mod-filter-btn:hover, .mod-tab-btn:hover, .lang-opt:hover { border-color: rgba(59,130,246,.55); }
+}
+
+/* 列表入场：轻微上浮渐显 + 错峰（仅用于打开时渲染、不会随输入重渲的列表） */
+@keyframes uiRise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+#bg-grid .bg-thumb, #playlist-container .playlist-item, .dt-panel.active .dt-card { animation: uiRise .26s var(--ease-premium) backwards; }
+#bg-grid .bg-thumb:nth-child(n+2), #playlist-container .playlist-item:nth-child(n+2), .dt-panel.active .dt-card:nth-child(n+2) { animation-delay: .03s; }
+#bg-grid .bg-thumb:nth-child(n+4), #playlist-container .playlist-item:nth-child(n+4), .dt-panel.active .dt-card:nth-child(n+4) { animation-delay: .06s; }
+#bg-grid .bg-thumb:nth-child(n+7), #playlist-container .playlist-item:nth-child(n+7), .dt-panel.active .dt-card:nth-child(n+7) { animation-delay: .09s; }
+
+/* 精致滚动条（桌面/新版 WebView） */
+.modal-body::-webkit-scrollbar, .mod-list::-webkit-scrollbar, .playlist-page-body::-webkit-scrollbar, .dt-scroll::-webkit-scrollbar { width: 7px; height: 7px; }
+.modal-body::-webkit-scrollbar-thumb, .mod-list::-webkit-scrollbar-thumb, .playlist-page-body::-webkit-scrollbar-thumb, .dt-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.14); border-radius: 8px; }
+.modal-body::-webkit-scrollbar-thumb:hover, .mod-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.26); }
+
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
 html[lang="ru"] .sidebar-btn,
