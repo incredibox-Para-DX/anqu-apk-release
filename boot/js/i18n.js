@@ -78,6 +78,7 @@
         theme_graphite: ['石墨', '石墨', 'Graphite', 'Графит'],
         theme_morandi: ['莫兰迪', '莫蘭迪', 'Morandi', 'Моранди'],
         theme_forest: ['森林', '森林', 'Forest', 'Лес'],
+        theme_indigo: ['靖蓝', '靖藍', 'Indigo', 'Индиго'],
         theme_warm: ['暖褐', '暖褐', 'Warm', 'Тёплый'],
         set_framerate: ['动画帧率', '動畫幀率', 'Frame rate', 'Кадр/с'],
         set_vsync: ['垂直同步', '垂直同步', 'V-Sync', 'V-Sync'],
