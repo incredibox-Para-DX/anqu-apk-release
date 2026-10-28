@@ -1,6 +1,8 @@
 /* MOD 编辑器：物品 / 音乐 / 背景 三类，表单填写 + 上传 → 生成 mod.json + 打包 → 安装/导出 */
 (function (w) {
     'use strict';
+    var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI';
     function $(id) { return document.getElementById(id); }
     var TYPES = {
         item: { list: 'me_item_list', add: 'me_add_item' },
@@ -36,15 +38,39 @@
         } catch (e) { setMsg(T('me_export_fail') + String(e && e.message || e)); }
     }
     function downloadBlob(blob, filename) {
+        // 1) 系统分享（若支持）
         try {
             var file = new File([blob], filename, { type: 'application/zip' });
-            if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+            if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
                 navigator.share({ files: [file], title: filename }).then(function () { setMsg(T('me_saved'), true); })
-                    .catch(function () { downloadLink(blob, filename); });
+                    .catch(function () { uploadAndLink(blob, filename); });
                 return;
             }
         } catch (e) {}
-        downloadLink(blob, filename);
+        // 2) 上传到 Supabase 公开存储 → 给下载链接（最可靠）
+        uploadAndLink(blob, filename);
+    }
+    function uploadAndLink(blob, filename) {
+        setMsg(T('snap_uploading'), true);
+        var name = 'exports/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.zip';
+        fetch(SUPA_URL + '/storage/v1/object/mod-export/' + name, {
+            method: 'POST',
+            headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/zip', 'x-upsert': 'true' },
+            body: blob
+        }).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            var url = SUPA_URL + '/storage/v1/object/public/mod-export/' + name;
+            var m = $('me-msg');
+            if (m) {
+                m.style.color = '#34d399';
+                m.innerHTML = T('me_export_ready') + ' <a href="' + url + '" target="_blank" rel="noopener" style="color:#7c8ccc;text-decoration:underline;word-break:break-all;">' + T('me_export_link') + '</a>';
+            }
+            try { if (navigator.clipboard) navigator.clipboard.writeText(url); } catch (e) {}
+            try { window.open(url, '_blank'); } catch (e) {}
+        }).catch(function () {
+            // 3) 回退本地下载
+            downloadLink(blob, filename);
+        });
     }
 
     function currentType() {

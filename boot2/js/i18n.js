@@ -871,6 +871,8 @@
         me_inst_fail: ['安装失败：', '安裝失敗：', 'Install failed: ', 'Ошибка установки: '],
         me_read_fail: ['读取文件失败：', '讀取檔案失敗：', 'Read file failed: ', 'Ошибка чтения: '],
         me_dl_start: ['已发起下载；若没弹出请改用「生成并安装」', '已發起下載；若沒彈出請改用「生成並安裝」', 'Download started; if not, use Build & install', 'Загрузка начата; иначе Собрать и установить'],
+        me_export_ready: ['已上传，下载链接（已复制）：', '已上傳，下載連結（已複製）：', 'Uploaded. Download link (copied): ', 'Загружено. Ссылка (скопирована): '],
+        me_export_link: ['点此下载 zip', '點此下載 zip', 'Download zip', 'Скачать zip'],
         me_export_fail: ['导出失败：', '匯出失敗：', 'Export failed: ', 'Ошибка экспорта: '],
         me_saved: ['已保存/分享', '已儲存/分享', 'Saved / shared', 'Сохранено / отправлено'],
         me_mod_installed: ['MOD 已安装', 'MOD 已安裝', 'MOD installed', 'MOD установлен'],

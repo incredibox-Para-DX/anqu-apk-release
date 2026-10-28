@@ -48,3 +48,14 @@ create policy "avatars_insert" on storage.objects for insert
 drop policy if exists "avatars_update" on storage.objects;
 create policy "avatars_update" on storage.objects for update
   using (bucket_id = 'avatars') with check (bucket_id = 'avatars');
+
+-- 4) MOD 导出桶（公开读 + 匿名上传，供「导出 zip」生成下载链接）
+insert into storage.buckets (id, name, public)
+values ('mod-export', 'mod-export', true)
+on conflict (id) do nothing;
+
+drop policy if exists "modexport_read" on storage.objects;
+create policy "modexport_read" on storage.objects for select using (bucket_id = 'mod-export');
+
+drop policy if exists "modexport_insert" on storage.objects;
+create policy "modexport_insert" on storage.objects for insert with check (bucket_id = 'mod-export');
