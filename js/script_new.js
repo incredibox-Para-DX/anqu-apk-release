@@ -1513,7 +1513,7 @@ previewCurrentBackground() {
             '“赤红暗星”模型': 'collect/400.jpg',
             '航天导航仪': 'collect/img_8d9ab9be88.jpg',
             '“鎏金羽宫”': 'collect/img_86be2efc8e.jpg',
-            '“黎明”': 'collect/img_37150efe31.jpg',
+            '《黎明》': 'collect/img_37150efe31.jpg',
             '验算模块': 'collect/img_c9984fa547.jpg',
             '参考球零件': 'collect/img_b867e932ea.jpg',
             '法厄同之钟': 'collect/img_f70f42c369.jpg',
@@ -6656,7 +6656,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.28';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.29';
 
     /* ============================================================
      * 检查更新

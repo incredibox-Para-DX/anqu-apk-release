@@ -391,11 +391,14 @@
       var reqBody = args[0] ? args[0] : null;
       try {
         x.addEventListener('load', function () {
-          if (capture.xhr) {
+          if (!capture.xhr) return;
+          try {
             addLog('info', '📡 XHR ' + x.__m + ' ' + x.__u + ' ' + x.status);
-            netLogs.push({ method: x.__m, url: x.__u, status: x.status, time: 0, resBody: (x.responseText || '').slice(0, 500), reqBody: reqBody ? String(reqBody).slice(0, 300) : '' });
+            var resTxt = '';
+            try { if (!x.responseType || x.responseType === 'text') resTxt = x.responseText || ''; } catch (e) {}
+            netLogs.push({ method: x.__m, url: x.__u, status: x.status, time: 0, resBody: resTxt.slice(0, 500), reqBody: reqBody ? String(reqBody).slice(0, 300) : '' });
             if (currentTab === 'network') renderNetwork();
-          }
+          } catch (e) { }
         });
         x.addEventListener('error', function () { if (capture.xhr) addLog('error', '❌ XHR ' + x.__m + ' ' + x.__u); });
       } catch (e) { }
