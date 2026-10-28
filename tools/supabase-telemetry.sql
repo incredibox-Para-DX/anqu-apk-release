@@ -36,3 +36,7 @@ drop policy if exists "insert_events" on public.ab_events;
 create policy "insert_events" on public.ab_events for insert with check (true);
 grant insert on public.ab_events to anon;
 create index if not exists ab_events_ts_idx on public.ab_events (ts desc);
+
+-- 允许匿名单读（GM 遥测看板用；如需隐私请改为 service_role 读取）
+grant select on public.ab_error_logs to anon;
+grant select on public.ab_events to anon;

@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.49.m",
+  "version": "v2.3.0_hotfix.50.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,7 +23,7 @@
     },
     {
       "path": "css/styles.css",
-      "size": 112119
+      "size": 112978
     },
     {
       "path": "debug-console.css",
@@ -63,7 +63,19 @@
     },
     {
       "path": "js/mod-editor.js",
-      "size": 13554
+      "size": 15847
+    },
+    {
+      "path": "js/snapshot.js",
+      "size": 5214
+    },
+    {
+      "path": "js/cloud-profile.js",
+      "size": 2882
+    },
+    {
+      "path": "js/telemetry-dashboard.js",
+      "size": 4972
     },
     {
       "path": "js/net.js",
@@ -187,9 +199,9 @@
     },
     {
       "path": "index.html",
-      "size": 137273
+      "size": 140777
     }
   ],
-  "fileCount": 47,
-  "totalSize": 2817242
+  "fileCount": 50,
+  "totalSize": 2836966
 }

@@ -62,11 +62,39 @@
         return allow.indexOf(ext) !== -1 ? ext : def;
     }
 
+    function wirePreview(el) {
+        var prev = el.querySelector('.me-preview');
+        if (!prev) return;
+        var inputs = el.querySelectorAll('input[type="file"]');
+        Array.prototype.forEach.call(inputs, function (inp) {
+            inp.addEventListener('change', function () {
+                var f = inp.files && inp.files[0];
+                prev.innerHTML = '';
+                if (!f) return;
+                var url = URL.createObjectURL(f);
+                var type = f.type || '';
+                if (type.indexOf('image') === 0) {
+                    var img = document.createElement('img'); img.className = 'me-thumb-img'; img.src = url; prev.appendChild(img);
+                } else if (type.indexOf('video') === 0) {
+                    var v = document.createElement('video'); v.className = 'me-thumb-img'; v.src = url; v.muted = true; v.playsInline = true; prev.appendChild(v);
+                } else if (type.indexOf('audio') === 0) {
+                    var b = document.createElement('button'); b.type = 'button'; b.className = 'me-play'; b.innerHTML = '▶ 试听';
+                    b.addEventListener('click', function () { try { var a = new Audio(url); a.play(); } catch (e) {} });
+                    var s = document.createElement('span'); s.className = 'me-filename'; s.textContent = '🎵 ' + f.name;
+                    prev.appendChild(b); prev.appendChild(s);
+                } else {
+                    var t = document.createElement('span'); t.className = 'me-filename'; t.textContent = f.name; prev.appendChild(t);
+                }
+            });
+        });
+    }
+
     function rowShell(n, title, inner) {
         var el = document.createElement('div');
         el.className = 'me-item';
         el.innerHTML = '<div class="me-item-head"><b>' + title + ' ' + n + '</b><button type="button" class="me-del">删除</button></div>' + inner;
         el.querySelector('.me-del').addEventListener('click', function () { el.remove(); });
+        if (el.querySelector('.me-preview')) wirePreview(el);
         return el;
     }
 
@@ -82,7 +110,9 @@
             + '<div>' + lbl('爆率权重') + '<input type="number" class="input-field" data-k="weight" min="1" placeholder="可不填"></div>'
             + '</div>'
             + lbl('描述') + '<textarea class="input-field" data-k="desc" placeholder="描述（不限字数）"></textarea>'
-            + lbl('图片') + '<input type="file" class="input-field" data-k="image" accept="image/*">');
+            + lbl('图片') + '<input type="file" class="input-field" data-k="image" accept="image/*">'
+            + lbl('音效（可不填）') + '<input type="file" class="input-field" data-k="sound" accept="audio/*">'
+            + '<div class="me-preview"></div>');
         box.appendChild(el);
     }
     function addTrackRow() {
@@ -93,14 +123,16 @@
             + '<div>' + lbl('作者') + '<input class="input-field" data-k="artist" maxlength="40" placeholder="演唱/作者（可不填）"></div>'
             + '</div>'
             + lbl('音频文件') + '<input type="file" class="input-field" data-k="audio" accept="audio/*">'
-            + lbl('封面（可不填）') + '<input type="file" class="input-field" data-k="cover" accept="image/*">');
+            + lbl('封面（可不填）') + '<input type="file" class="input-field" data-k="cover" accept="image/*">'
+            + '<div class="me-preview"></div>');
         box.appendChild(el);
     }
     function addBgRow() {
         var box = $('me-items'); if (!box) return;
         var el = rowShell(box.children.length + 1, '背景',
             lbl('名称') + '<input class="input-field" data-k="name" maxlength="16" placeholder="背景名称">'
-            + lbl('文件（图片/视频）') + '<input type="file" class="input-field" data-k="file" accept="image/*,video/*">');
+            + lbl('文件（图片/视频）') + '<input type="file" class="input-field" data-k="file" accept="image/*,video/*">'
+            + '<div class="me-preview"></div>');
         box.appendChild(el);
     }
 
@@ -188,6 +220,13 @@
                         value: parseInt(gv(ie, 'value'), 10) || 1000, rarity: gv(ie, 'rarity') || 'purple', image: iname
                     };
                     var wt = parseInt(gv(ie, 'weight'), 10); if (wt > 0) it.weight = wt;
+                    var sf = gf(ie, 'sound');
+                    if (sf) {
+                        var sext = extOf(sf, ['mp3', 'm4a', 'aac', 'wav', 'ogg'], 'mp3');
+                        var sname = 'sound_' + k + '.' + sext;
+                        zip.file(sname, await readFile(sf));
+                        it.sound = sname;
+                    }
                     items.push(it);
                 }
                 modJson.items = items;

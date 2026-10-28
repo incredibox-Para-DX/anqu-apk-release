@@ -1,0 +1,63 @@
+/* 遥测看板（GM）：读取 Supabase ab_error_logs / ab_events 并展示 */
+(function (w) {
+    'use strict';
+    var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI';
+    function $(id) { return document.getElementById(id); }
+    function hdr() { return { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }; }
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+    function status(t, c) { var el = $('tl-status'); if (el) { el.textContent = t || ''; el.style.color = c || '#94a3b8'; } }
+    function card(label, val) {
+        return '<div style="flex:1;min-width:110px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px;">'
+            + '<div style="font-size:11px;color:#94a3b8;">' + label + '</div><div style="font-size:18px;font-weight:600;">' + val + '</div></div>';
+    }
+    function load() {
+        status('加载中…');
+        Promise.all([
+            fetch(SUPA_URL + '/rest/v1/ab_error_logs?select=message,version,url,ts&order=ts.desc&limit=100', { headers: hdr() }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+            fetch(SUPA_URL + '/rest/v1/ab_events?select=name,version,ts&order=ts.desc&limit=1000', { headers: hdr() }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+        ]).then(function (res) {
+            var errors = res[0], events = res[1];
+            if (errors === null && events === null) { status('无读取权限或未建表：请在 Supabase 执行 telemetry SQL（含 SELECT 授权）', '#f87171'); return; }
+            errors = errors || []; events = events || [];
+            var uniq = {}; errors.forEach(function (e) { uniq[String(e.message || '').slice(0, 80)] = 1; });
+            var evmap = {}; events.forEach(function (e) { evmap[e.name] = (evmap[e.name] || 0) + 1; });
+            var top = Object.keys(evmap).map(function (k) { return [k, evmap[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 10);
+            var s = $('tl-summary');
+            if (s) s.innerHTML = card('错误(近期)', errors.length) + card('不同错误', Object.keys(uniq).length) + card('事件(近期)', events.length);
+            var el = $('tl-errors');
+            if (el) el.innerHTML = errors.length ? errors.slice(0, 40).map(function (e) {
+                var t = e.ts ? new Date(e.ts).toLocaleString() : '';
+                return '<div style="border-bottom:1px dashed rgba(255,255,255,.08);padding:6px 0;">'
+                    + '<div style="color:#f87171;word-break:break-word;">' + esc(e.message) + '</div>'
+                    + '<div style="color:#64748b;font-size:11px;margin-top:2px;">' + esc(e.version || '') + ' · ' + esc(t) + '</div></div>';
+            }).join('') : '<div style="color:#94a3b8;">暂无错误</div>';
+            var ev = $('tl-events');
+            if (ev) ev.innerHTML = top.length ? top.map(function (x) {
+                return '<div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(255,255,255,.08);padding:4px 0;"><span>' + esc(x[0]) + '</span><b>' + x[1] + '</b></div>';
+            }).join('') : '<div style="color:#94a3b8;">暂无事件</div>';
+            status('更新于 ' + new Date().toLocaleTimeString());
+        }).catch(function (e) { status('加载失败：' + (e && e.message || e), '#f87171'); });
+    }
+    function open() {
+        try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('telemetry-modal'); } catch (e) {}
+        var m = $('telemetry-modal'); if (m) { m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
+        load();
+    }
+    function close() {
+        try { if (w.ModalRegistry && w.ModalRegistry.close) return w.ModalRegistry.close('telemetry-modal'); } catch (e) {}
+        var m = $('telemetry-modal'); if (m) { m.classList.remove('show'); setTimeout(function () { m.style.display = 'none'; }, 300); }
+    }
+    function bind() {
+        var b = $('gm-telemetry-btn'); if (b && !b._b) { b._b = true; b.addEventListener('click', open); }
+        [$('telemetry-close'), $('telemetry-close2')].forEach(function (c) { if (c && !c._b) { c._b = true; c.addEventListener('click', close); } });
+        var r = $('telemetry-refresh'); if (r && !r._b) { r._b = true; r.addEventListener('click', function () { load(); }); }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+    else bind();
+    w.TelemetryDash = { open: open, load: load };
+})(window);
