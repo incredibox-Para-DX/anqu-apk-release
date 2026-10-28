@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.41</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.42</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -782,15 +782,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;" data-i18n="set_language">语言</div>
 <div id="lang-select" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
 </div>
-<div class="lang-row" style="margin-bottom:8px;">
-<div style="font-size:12px;color:#94a3b8;margin-bottom:6px;" data-i18n="set_theme">主题</div>
-<div id="theme-select" style="display:flex;gap:6px;flex-wrap:wrap;">
-<button class="lang-opt" data-theme="glass" data-i18n="theme_glass">液态玻璃</button>
-<button class="lang-opt" data-theme="nostalgic" data-i18n="theme_nostalgic">怀旧</button>
-<button class="lang-opt" data-theme="midnight" data-i18n="theme_midnight">午夜</button>
-<button class="lang-opt" data-theme="warm" data-i18n="theme_warm">暖褐</button>
-</div>
-</div>
+<button class="sidebar-btn full-width" id="theme-open-btn"><i class="fas fa-palette"></i> <span data-i18n="set_theme">主题</span></button>
 <button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> <span data-i18n="set_effect">效果设置</span></button>
 <button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> <span data-i18n="set_sound">声音设置</span></button>
 <button class="sidebar-btn full-width" id="sidebar-cloud-sync-btn"><i class="fas fa-cloud"></i> <span data-i18n="set_cloud">云同步</span></button>
@@ -1332,6 +1324,24 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
+<div class="modal-overlay" id="theme-modal">
+<div class="modal-content" style="max-width:540px;width:92vw;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-palette"></i> <span data-i18n="set_theme">主题</span></div>
+<button class="modal-close" id="theme-modal-close">&times;</button>
+</div>
+<div class="modal-body">
+<div class="theme-grid" id="theme-grid">
+<button class="theme-card" data-theme="glass"><span class="theme-swatch swatch-glass"></span><span class="theme-name" data-i18n="theme_glass">液态玻璃</span></button>
+<button class="theme-card" data-theme="nostalgic"><span class="theme-swatch swatch-nostalgic"></span><span class="theme-name" data-i18n="theme_nostalgic">怀旧</span></button>
+<button class="theme-card" data-theme="flat"><span class="theme-swatch swatch-flat"></span><span class="theme-name" data-i18n="theme_flat">极简</span></button>
+<button class="theme-card" data-theme="cyber"><span class="theme-swatch swatch-cyber"></span><span class="theme-name" data-i18n="theme_cyber">赛博</span></button>
+<button class="theme-card" data-theme="warm"><span class="theme-swatch swatch-warm"></span><span class="theme-name" data-i18n="theme_warm">暖褐</span></button>
+</div>
+</div>
+</div>
+</div>
+
 <div class="modal-overlay" id="credits-modal">
 <div class="modal-content">
 <div class="modal-header">

@@ -3633,13 +3633,24 @@ html[data-theme="nostalgic"] .modal-overlay:not(.app-full-page) .modal-content{ 
 html[data-theme="nostalgic"] input,html[data-theme="nostalgic"] textarea,html[data-theme="nostalgic"] select,html[data-theme="nostalgic"] .input-field{ background:rgba(0,0,0,.3) !important; border:1px solid rgba(255,255,255,.15) !important; box-shadow:none !important; }
 html[data-theme="nostalgic"] body,html[data-theme="nostalgic"] .modal-body,html[data-theme="nostalgic"] .sidebar,html[data-theme="nostalgic"] .sidebar-btn,html[data-theme="nostalgic"] .modal-btn,html[data-theme="nostalgic"] .mod-row{ font-weight:400 !important; }
 
-/* 午夜：近黑扁平极简 */
-html[data-theme="midnight"] body{ background-color:#050505 !important; }
-html[data-theme="midnight"] .sidebar{ background:rgba(10,10,10,.9) !important; }
-html[data-theme="midnight"] .sidebar .sidebar-section{ background:rgba(255,255,255,.03) !important; }
-html[data-theme="midnight"] .sidebar .sidebar-btn{ background:rgba(255,255,255,.03) !important; }
-html[data-theme="midnight"] .sidebar .sidebar-btn:hover{ background:rgba(255,255,255,.06) !important; }
-html[data-theme="midnight"] .modal-overlay:not(.app-full-page) .modal-content{ background:#0c0c0c !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important; box-shadow:0 24px 80px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.05) !important; }
+/* 极简：直角、无模糊、细描边、单色（改形状/质感，非单纯换色） */
+html[data-theme="flat"] body{ background-color:#0f0f0f !important; }
+html[data-theme="flat"] .sidebar{ background:#161616 !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important; border-left:1px solid rgba(255,255,255,.08) !important; box-shadow:none !important; }
+html[data-theme="flat"] .sidebar .sidebar-section{ background:transparent !important; border:1px solid rgba(255,255,255,.08) !important; border-radius:2px !important; }
+html[data-theme="flat"] .sidebar .sidebar-btn{ background:transparent !important; border:1px solid rgba(255,255,255,.10) !important; border-radius:2px !important; }
+html[data-theme="flat"] .sidebar .sidebar-btn:hover{ background:rgba(255,255,255,.05) !important; }
+html[data-theme="flat"] .modal-overlay:not(.app-full-page) .modal-content{ background:#161616 !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important; border:1px solid rgba(255,255,255,.10) !important; border-radius:2px !important; box-shadow:0 16px 40px rgba(0,0,0,.5) !important; }
+html[data-theme="flat"] .modal-btn,html[data-theme="flat"] .mod-filter-btn,html[data-theme="flat"] .app-page-action-btn{ border-radius:2px !important; }
+html[data-theme="flat"]{ --accent-color:#cfcfc9; }
+
+/* 赛博：霓虹青强调 + 发光阴影 + 较大圆角（改光效/圆角） */
+html[data-theme="cyber"] body{ background-color:#06070d !important; }
+html[data-theme="cyber"] .sidebar{ background:rgba(9,13,24,.6) !important; border-left:1px solid rgba(34,211,238,.25) !important; box-shadow:-8px 0 40px rgba(34,211,238,.10) !important; }
+html[data-theme="cyber"] .sidebar .sidebar-section{ background:rgba(34,211,238,.05) !important; border:1px solid rgba(34,211,238,.15) !important; border-radius:12px !important; }
+html[data-theme="cyber"] .sidebar .sidebar-btn{ background:rgba(34,211,238,.06) !important; border:1px solid rgba(34,211,238,.16) !important; border-radius:10px !important; }
+html[data-theme="cyber"] .sidebar .sidebar-btn:hover{ background:rgba(34,211,238,.12) !important; box-shadow:0 0 16px rgba(34,211,238,.25) !important; }
+html[data-theme="cyber"] .modal-overlay:not(.app-full-page) .modal-content{ background:rgba(8,12,20,.55) !important; border:1px solid rgba(34,211,238,.25) !important; border-radius:14px !important; box-shadow:0 0 36px rgba(34,211,238,.18), 0 24px 80px rgba(0,0,0,.6) !important; }
+html[data-theme="cyber"]{ --accent-color:#22d3ee; --accent-dark:#0891b2; }
 
 /* 暖褐：暖色深调 + 琥珀强调 */
 html[data-theme="warm"] body{ background-color:#15110c !important; color:#efe6da; }
@@ -3649,6 +3660,19 @@ html[data-theme="warm"] .sidebar .sidebar-btn{ background:rgba(255,238,214,.04) 
 html[data-theme="warm"] .sidebar .sidebar-btn:hover{ background:rgba(255,238,214,.08) !important; }
 html[data-theme="warm"] .modal-overlay:not(.app-full-page) .modal-content{ background:linear-gradient(160deg,rgba(255,240,220,.08),rgba(255,240,220,.02)),rgba(34,26,18,.42) !important; }
 html[data-theme="warm"]{ --accent-color:#d99a52; --accent-dark:#b87d3c; }
+
+/* 主题弹窗 UI */
+.theme-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.theme-card{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10); cursor:pointer; color:var(--c-text); font-size:14px; text-align:left; transition:transform .3s var(--spring-under), border-color .2s ease, background .2s ease; }
+.theme-card:hover{ background:rgba(255,255,255,.08); }
+.theme-card.active{ border-color:rgba(91,140,255,.7); box-shadow:inset 0 0 0 2px rgba(91,140,255,.25); }
+.theme-swatch{ width:34px; height:34px; border-radius:9px; flex:0 0 auto; box-shadow:inset 0 0 0 1px rgba(255,255,255,.15); }
+.swatch-glass{ background:linear-gradient(135deg,#3a3a3a,#1a1a1a); }
+.swatch-nostalgic{ background:linear-gradient(135deg,#123458,#0a1f3a); box-shadow:inset 0 0 0 1px rgba(255,255,255,.15),0 0 0 2px rgba(59,130,246,.35); }
+.swatch-flat{ background:#161616; border-radius:2px; }
+.swatch-cyber{ background:linear-gradient(135deg,#0a1622,#0b2030); box-shadow:inset 0 0 0 1px rgba(34,211,238,.5),0 0 10px rgba(34,211,238,.4); }
+.swatch-warm{ background:linear-gradient(135deg,#2a1e12,#3a2a18); box-shadow:inset 0 0 0 1px rgba(217,154,82,.4); }
+.theme-name{ font-weight:600; }
 
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,

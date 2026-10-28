@@ -1,14 +1,14 @@
-/* 主题切换：glass(默认/液态玻璃) / nostalgic(怀旧) / midnight(午夜) / warm(暖褐) */
+/* 主题切换：glass(液态玻璃) / nostalgic(怀旧) / flat(极简) / cyber(赛博) / warm(暖褐) */
 (function (w) {
     'use strict';
     var KEY = 'ab_theme', DEFAULT = 'glass';
-    var THEMES = ['glass', 'nostalgic', 'midnight', 'warm'];
+    var THEMES = ['glass', 'nostalgic', 'flat', 'cyber', 'warm'];
 
     function current() {
         try { var t = localStorage.getItem(KEY) || DEFAULT; return THEMES.indexOf(t) !== -1 ? t : DEFAULT; } catch (e) { return DEFAULT; }
     }
     function updateActive(t) {
-        var els = document.querySelectorAll('#theme-select .lang-opt');
+        var els = document.querySelectorAll('#theme-grid .theme-card');
         for (var i = 0; i < els.length; i++) {
             els[i].classList.toggle('active', els[i].getAttribute('data-theme') === t);
         }
@@ -26,21 +26,36 @@
         apply(t);
         try { if (w.Telemetry) w.Telemetry.event('theme_change', { theme: t }); } catch (e) {}
     }
+    function openModal() {
+        try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('theme-modal'); } catch (e) {}
+        var m = document.getElementById('theme-modal');
+        if (m) { m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
+    }
+    function closeModal() {
+        try { if (w.ModalRegistry && w.ModalRegistry.close) return w.ModalRegistry.close('theme-modal'); } catch (e) {}
+        var m = document.getElementById('theme-modal');
+        if (m) { m.classList.remove('show'); setTimeout(function () { m.style.display = 'none'; }, 300); }
+    }
     function bind() {
-        var box = document.getElementById('theme-select');
-        if (!box || box._bound) return;
-        box._bound = true;
-        box.addEventListener('click', function (e) {
-            var b = e.target && e.target.closest ? e.target.closest('.lang-opt') : null;
-            if (!b) return;
-            var t = b.getAttribute('data-theme');
-            if (t) set(t);
-        });
+        var openBtn = document.getElementById('theme-open-btn');
+        if (openBtn && !openBtn._bound) { openBtn._bound = true; openBtn.addEventListener('click', openModal); }
+        var closeBtn = document.getElementById('theme-modal-close');
+        if (closeBtn && !closeBtn._bound) { closeBtn._bound = true; closeBtn.addEventListener('click', closeModal); }
+        var grid = document.getElementById('theme-grid');
+        if (grid && !grid._bound) {
+            grid._bound = true;
+            grid.addEventListener('click', function (e) {
+                var c = e.target && e.target.closest ? e.target.closest('.theme-card') : null;
+                if (!c) return;
+                var t = c.getAttribute('data-theme');
+                if (t) set(t);
+            });
+        }
         updateActive(current());
     }
 
     apply(current());
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
-    w.Themes = { set: set, current: current, apply: apply };
+    w.Themes = { set: set, current: current, apply: apply, open: openModal, close: closeModal };
 })(window);
