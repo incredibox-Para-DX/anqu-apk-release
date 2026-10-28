@@ -3452,10 +3452,11 @@ html[lang="ru"] { -webkit-text-size-adjust: none !important; text-size-adjust: n
 @keyframes modDotPulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.55;transform:scale(.82);} }
 
 /* ===== 动效与转场（纯附加，不改布局） ===== */
-@keyframes abFadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes abModalIn { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
-.modal-overlay.show { animation: abFadeIn .18s ease both; }
-.modal-overlay.show .modal-content { animation: abModalIn .22s cubic-bezier(.2,.7,.3,1) both; }
+/* 弹窗靠 .modal-overlay 的 opacity transition 做淡入淡出；这里只加强过渡手感 */
+.modal-overlay { transition: opacity .22s cubic-bezier(.22, 1, .36, 1), -webkit-backdrop-filter .22s ease, backdrop-filter .22s ease; }
+.modal-overlay .modal-content { transition: transform .3s cubic-bezier(.22, 1, .36, 1), opacity .22s ease; }
+.modal-overlay:not(.show) .modal-content { opacity: 0; }
+.modal-overlay.show .modal-content { opacity: 1; }
 .sidebar-btn, .modal-btn, .mod-filter-btn, .app-page-action-btn, .playlist-action-btn { transition: transform .12s ease, background-color .15s ease, border-color .15s ease; }
 .sidebar-btn:active, .modal-btn:active, .mod-filter-btn:active, .app-page-action-btn:active, .playlist-action-btn:active { transform: scale(.97); }
 .mod-card, .mod-row, .playlist-item, .bg-thumb { transition: transform .15s ease, box-shadow .15s ease; }
