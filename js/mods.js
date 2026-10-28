@@ -108,6 +108,32 @@
         _storeFilter: 'all',
         _storeSearch: '',
         _storeSort: 'default',
+        SEEN_KEY: 'ab_mods_seen_v1',
+        _modSig: function (x) { return String(x.id) + '@' + String(x.version || '') + '#' + String(x.updatedAt || x.publishedAt || x.time || x.hash || ''); },
+        _setNewModDot: function (show) {
+            var el = document.getElementById('mod-new-dot');
+            if (el) el.style.display = show ? 'block' : 'none';
+        },
+        checkNewMods: function () {
+            var self = this;
+            return this.fetchManifest().then(function (m) {
+                if (!m || !Array.isArray(m.mods)) return false;
+                var seen = {};
+                try { seen = JSON.parse(localStorage.getItem(self.SEEN_KEY) || '{}') || {}; } catch (e) {}
+                var hasNew = m.mods.some(function (x) { return seen[x.id] !== self._modSig(x); });
+                self._setNewModDot(hasNew);
+                return hasNew;
+            }).catch(function () { return false; });
+        },
+        markModsSeen: function (m) {
+            if (!m || !Array.isArray(m.mods)) return;
+            var seen = {};
+            try { seen = JSON.parse(localStorage.getItem(this.SEEN_KEY) || '{}') || {}; } catch (e) {}
+            var self = this;
+            m.mods.forEach(function (x) { seen[x.id] = self._modSig(x); });
+            try { localStorage.setItem(this.SEEN_KEY, JSON.stringify(seen)); } catch (e) {}
+            this._setNewModDot(false);
+        },
         _currentTab: 'mine',
         _detailId: null,
 
@@ -322,7 +348,8 @@
             err = this._checkText(json.name, 20, '模组名称'); if (err) return err;
             err = this._checkText(json.author, 16, '作者名'); if (err) return err;
             err = this._checkText(json.version, 16, '版本号'); if (err) return err;
-            err = this._checkText(json.desc, 60, '模组简介'); if (err) return err;
+            // 模组简介不限字数（仅需为字符串）
+            if (json.desc != null && typeof json.desc !== 'string') json.desc = String(json.desc);
 
             function normPath(p) {
                 p = String(p || '').replace(/\\/g, '/').replace(/^\.\//, '');
@@ -351,13 +378,18 @@
                     var it = json.items[i] || {};
                     var tag = '第 ' + (i + 1) + ' 个物品：';
                     err = this._checkText(it.name, 12, tag + '名称'); if (err) return err;
-                    err = this._checkText(it.desc, 60, tag + '描述'); if (err) return err;
+                    // 道具简介不限字数（仅需为字符串）
+                    if (it.desc != null && typeof it.desc !== 'string') it.desc = String(it.desc);
                     var wd = parseInt(it.width, 10), ht = parseInt(it.height, 10);
                     if (!(wd >= 1 && wd <= 5)) return tag + 'width 必须是 1~5';
                     if (!(ht >= 1 && ht <= 6)) return tag + 'height 必须是 1~6';
                     var val = parseInt(it.value, 10);
                     if (!(val >= 1 && val <= LIMITS.valueMax)) return tag + 'value 必须是 1~' + LIMITS.valueMax;
                     if (!RARITIES.includes(it.rarity)) return tag + 'rarity 必须是 purple/gold/orange/red';
+                    if (it.weight != null && it.weight !== '') {
+                        var wt = parseInt(it.weight, 10);
+                        if (!(wt >= 1 && wt <= 1000000)) return tag + 'weight 必须是 1~1000000 的整数';
+                    }
                     var ip = normPath(it.image);
                     if (!ip) return tag + 'image 路径非法';
                     err = checkImage(ip, tag + '图片'); if (err) return err;
@@ -763,7 +795,7 @@
                         isMod: true,
                         modId: id,
                         searchTime: hook.searchTime ? hook.searchTime(def.rarity) : 0.25,
-                        weight: hook.calcWeight ? hook.calcWeight(parseInt(def.value, 10) || 1) : 10
+                        weight: (def.weight != null && parseInt(def.weight, 10) > 0) ? parseInt(def.weight, 10) : (hook.calcWeight ? hook.calcWeight(parseInt(def.value, 10) || 1) : 10)
                     });
                 });
             });
@@ -1001,6 +1033,7 @@
             }).then(function () {
                 self.renderMineList();
                 self.renderStoreList();
+                self.checkNewMods();
             }).catch(function () {});
         },
 
@@ -1018,7 +1051,7 @@
             $('#mod-library-page .mod-tab-btn[data-tab="' + tab + '"]').addClass('active');
             $('#mod-tab-mine, #mod-tab-store').hide();
             $('#mod-tab-' + tab).show();
-            if (tab === 'store') this.renderStoreList();
+            if (tab === 'store') { this.renderStoreList(); this.markModsSeen(this._manifest); }
             if (tab === 'mine') this.renderMineList();
         },
         /* 远程图片：离屏预载成功后再显示，彻底避免换线路时的闪动 */
@@ -1311,6 +1344,7 @@
                     }).then(function () {
                         try { self.bumpDownload(x.id); } catch (e) {}
                         toast('已安装「' + x.name + '」');
+                        try { if (window.Telemetry) Telemetry.event('mod_install', { id: x.id, type: x.type }); } catch (e) {}
                         self.hideDetail();
                         self.renderMineList();
                         self.renderStoreList();

@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.32</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.33</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -684,7 +684,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="stats-label" data-i18n="weekly_value">本周累计价值</div>
 <div class="stats-value" id="weekly-accumulated-value" style="color:#248DFB;">¥0</div>
 </div>
-<button class="sidebar-btn full-width" id="sidebar-mod-library-btn" style="margin-top:10px;"><i class="fas fa-cubes"></i> <span data-i18n="btn_mod">MOD</span></button>
+<button class="sidebar-btn full-width" id="sidebar-mod-library-btn" style="margin-top:10px;position:relative;"><i class="fas fa-cubes"></i> <span data-i18n="btn_mod">MOD</span><span class="mod-new-dot" id="mod-new-dot" aria-hidden="true"></span></button>
 </div>
 </div>
 <div class="sidebar-section" id="gm-debug-section">
@@ -1782,6 +1782,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
+<script src="js/telemetry.js"></script>
 <script src="js/net.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/i18n.js"></script>

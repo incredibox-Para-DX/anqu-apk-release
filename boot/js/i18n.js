@@ -944,6 +944,7 @@
             try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
             try { document.documentElement.setAttribute('lang', cur === 'zh-TW' ? 'zh-Hant' : cur); } catch (e) {}
             if (!silent) {
+                try { if (window.Telemetry) Telemetry.event('lang_change', { lang: cur }); } catch (e) {}
                 I18N.translateStatic();
                 try { if (I18N.translateAll) I18N.translateAll(); } catch (e) {}
                 if (typeof I18N.onChange === 'function') I18N.onChange(cur);

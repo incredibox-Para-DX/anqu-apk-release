@@ -3447,6 +3447,20 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 html { -webkit-text-size-adjust: none !important; text-size-adjust: none !important; }
 html[lang="ru"] { -webkit-text-size-adjust: none !important; text-size-adjust: none !important; }
 
+/* Mod 有新上架时按钮右上角红点（不弹提示） */
+.mod-new-dot { display: none; position: absolute; top: 7px; right: 9px; width: 9px; height: 9px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 0 2px rgba(0,0,0,.35); animation: modDotPulse 1.4s ease-in-out infinite; }
+@keyframes modDotPulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.55;transform:scale(.82);} }
+
+/* ===== 动效与转场（纯附加，不改布局） ===== */
+@keyframes abFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes abModalIn { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+.modal-overlay.show { animation: abFadeIn .18s ease both; }
+.modal-overlay.show .modal-content { animation: abModalIn .22s cubic-bezier(.2,.7,.3,1) both; }
+.sidebar-btn, .modal-btn, .mod-filter-btn, .app-page-action-btn, .playlist-action-btn { transition: transform .12s ease, background-color .15s ease, border-color .15s ease; }
+.sidebar-btn:active, .modal-btn:active, .mod-filter-btn:active, .app-page-action-btn:active, .playlist-action-btn:active { transform: scale(.97); }
+.mod-card, .mod-row, .playlist-item, .bg-thumb { transition: transform .15s ease, box-shadow .15s ease; }
+.bg-thumb:active, .mod-row:active { transform: scale(.985); }
+
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
 html[lang="ru"] .sidebar-btn,
