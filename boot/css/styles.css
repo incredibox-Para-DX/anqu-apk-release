@@ -1030,13 +1030,15 @@ body:before {
     justify-content: center;
     z-index: 2000;
     opacity: 0;
-    transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1), -webkit-backdrop-filter 0.3s ease, backdrop-filter 0.3s ease;
+    backdrop-filter: blur(0px) saturate(1);
+    -webkit-backdrop-filter: blur(0px) saturate(1);
 }
 
 .modal-overlay.show {
     opacity: 1;
+    backdrop-filter: blur(9px) saturate(1.15);
+    -webkit-backdrop-filter: blur(9px) saturate(1.15);
 }
 
 .modal-content {
