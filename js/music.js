@@ -1504,8 +1504,8 @@ $(function() {
 
         _.forEach(player.playlist, (track, index) => {
             // 未下载的内置曲目不显示（默认/导入曲目除外）
-            if (!track.isCustom && track.file && window.ResourceDownloadManager &&
-                window.ResourceDownloadManager.isDownloaded &&
+            if (!track.isCustom && track.file && track.file !== 'BGM_Main_UI_Loop_A.mp3' &&
+                window.ResourceDownloadManager && window.ResourceDownloadManager.isDownloaded &&
                 !window.ResourceDownloadManager.isDownloaded('music-player/' + track.file)) {
                 return;
             }

@@ -3443,6 +3443,9 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 .first-lang-opt { padding: 14px 16px; font-size: 16px; border-radius: 10px; border: 1px solid #2c333c; background: #1a1f26; color: #e2e8f0; cursor: pointer; transition: all .15s; width: 100%; text-align: center; }
 .first-lang-opt:hover { border-color: #248DFB; background: #243040; color: #fff; }
 
+/* 俄语：关闭 Android WebView 文本自动放大（否则界面会被放大） */
+html[lang="ru"] { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
 html[lang="ru"] .sidebar-btn,

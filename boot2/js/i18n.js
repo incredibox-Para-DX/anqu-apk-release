@@ -123,6 +123,7 @@
         store_sort_new: ['最新', '最新', 'Newest', 'Новые'],
         store_sort_hot: ['最热', '最熱', 'Hottest', 'Популярные'],
         store_refresh: ['刷新', '刷新', 'Refresh', 'Обновить'],
+        store_filter_toggle: ['筛选 / 排序', '篩選 / 排序', 'Filter / Sort', 'Фильтр / Сортировка'],
 
         
         redeem_title: ['兑换码', '兌換碼', 'Redeem', 'Коды'],
@@ -336,6 +337,7 @@
         skill_lucky: ['红运当头', '紅運當頭', 'Lucky Streak', 'Полоса удачи'],
         skill_lucky_d: ['接下来20次搜索必出高价值物品', '接下來20次搜尋必出高價值物品', 'High-value guarantee for next 20 searches', 'Гарантия топ-предмета 20'],
         skill_destiny: ['命运保底', '命運保底', 'Destiny Pity', 'Гарант судьбы'],
+        skill_destiny_desc: ['连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次。兑换码获取：前往交流群 1082453829', '連續開保險未出橙色/紅色道具時，第10次必出橙色及以上；觸發保底後下次保底次數-1（最低3次）。若在保底前就開出橙/紅，保底重置為10次。兌換碼獲取：前往交流群 1082453829', 'If consecutive safe searches yield no orange/red items, the 10th is guaranteed orange or above; after a pity trigger the next threshold decreases by 1 (min 3). If orange/red appears before the pity, it resets to 10. Redeem code: join QQ group 1082453829', 'Если подряд не выпадают оранжевые/красные предметы, 10-й будет оранжевым или выше; после срабатывания порог уменьшается на 1 (мин. 3). Если оранжевый/красный выпал раньше — сброс до 10. Код: в QQ-группе 1082453829'],
         skill_destiny_d: ['连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次', '連續開保險未出橙色/紅色道具時，第10次必出橙色及以上；觸發保底後下次保底次數-1（最低3次）。若在保底前就開出橙/紅，保底重置為10次', 'If 10 opens yield no orange/red, guarantee orange+; after triggering, threshold -1 (min 3). Orange/red before threshold resets to 10.', 'Если 10 открытий без оранж./красного — гарантия оранж.+; после срабатывания порог -1 (мин 3).'],
         skill_owned: ['已拥有', '已擁有', 'Owned', 'В наличии'],
         skill_left: ['剩余次数', '剩餘次數', 'Uses left', 'Осталось'],

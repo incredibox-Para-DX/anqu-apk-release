@@ -1170,7 +1170,7 @@ previewCurrentBackground() {
                 icon: 'pictures/skills/destiny_pity.png',
                 price: 0,
                 unlockBy: 'redeem',
-                desc: '连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次',
+                desc: '连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次。兑换码获取：前往交流群 1082453829',
                 type: 'permanent'
             }
         ],
@@ -1513,7 +1513,7 @@ previewCurrentBackground() {
             '“赤红暗星”模型': 'collect/400.jpg',
             '航天导航仪': 'collect/img_8d9ab9be88.jpg',
             '“鎏金羽宫”': 'collect/img_86be2efc8e.jpg',
-            '《黎明》': 'collect/img_37150efe31.jpg',
+            '“黎明”': 'collect/img_37150efe31.jpg',
             '验算模块': 'collect/img_c9984fa547.jpg',
             '参考球零件': 'collect/img_b867e932ea.jpg',
             '法厄同之钟': 'collect/img_f70f42c369.jpg',
@@ -6478,7 +6478,7 @@ const EventManager = {
                 return bf - af;
             });
             sorted.forEach((bg) => {
-                const available = bg.path === 'pictures/background.mp4' ||
+                const available = bg.path === 'pictures/background.mp4' || bg.path === 'backgrounds/background.mp4' ||
                     (window.ResourceDownloadManager && window.ResourceDownloadManager.isDownloaded && window.ResourceDownloadManager.isDownloaded(bg.path));
                 if (!available) return;
                 const index = self.backgrounds.indexOf(bg);
@@ -6656,7 +6656,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.27';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.28';
 
     /* ============================================================
      * 检查更新

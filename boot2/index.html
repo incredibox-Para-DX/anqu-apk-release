@@ -625,7 +625,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.27</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.28</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -1657,6 +1657,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="mod-store-toolbar">
 <input id="mod-store-search" class="input-field" placeholder="搜索模组名称 / 简介 / 作者" autocomplete="off">
 </div>
+<button class="mod-filter-toggle" id="mod-filter-toggle" style="display:flex;align-items:center;gap:6px;width:100%;padding:9px 12px;margin-bottom:8px;border-radius:10px;border:1px solid #2c333c;background:#1a1f26;color:#cbd5e1;font-size:13px;cursor:pointer;"><i class="fas fa-filter"></i> <span data-i18n="store_filter_toggle">筛选 / 排序</span><i class="fas fa-chevron-down" id="mod-filter-arrow" style="margin-left:auto;transition:transform .2s;"></i></button>
+<div id="mod-filter-panel" style="display:none;">
 <div class="mod-filter-group" id="mod-store-filter">
 <button class="mod-filter-btn active" data-f="all">全部</button>
 <button class="mod-filter-btn" data-f="item">物品</button>
@@ -1668,6 +1670,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="mod-filter-btn" data-s="new"><span data-i18n="store_sort_new">最新</span></button>
 <button class="mod-filter-btn" data-s="hot"><span data-i18n="store_sort_hot">最热</span></button>
 <button class="mod-filter-btn" id="mod-store-refresh" style="margin-left:auto;"><i class="fas fa-sync-alt"></i> <span data-i18n="store_refresh">刷新</span></button>
+</div>
 </div>
 <div id="mod-store-list" class="mod-list"></div>
 </div>

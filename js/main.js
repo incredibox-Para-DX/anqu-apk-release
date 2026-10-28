@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const creditsIndicators = $('#credits-indicators');
     const clickAudio = document.getElementById('click-audio');
     
-    let currentCreditIndex = 0;
+    let currentCreditIndex = (function () { try { var v = parseInt(localStorage.getItem('ab_credits_index'), 10); return (isFinite(v) && v >= 0) ? v : 0; } catch (e) { return 0; } })();
     let hefunFontObserver = null;
     let debugUnlocked = false;
     
@@ -313,6 +313,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const updateCreditInfo = () => {
+        if (currentCreditIndex >= CREDITS_LIST.length || currentCreditIndex < 0) currentCreditIndex = 0;
+        try { localStorage.setItem('ab_credits_index', String(currentCreditIndex)); } catch (e) {}
         const person = CREDITS_LIST[currentCreditIndex];
         if (person) {
             // 头像只在制作人员弹窗真正打开时才加载（HEFUN 的 GIF 有 4MB+，不参与首屏）

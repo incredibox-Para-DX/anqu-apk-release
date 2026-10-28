@@ -340,9 +340,7 @@
                 return '';
             }
 
-            // 展示图
-            if (!zipEntry('thumb.png')) return '缺少 thumb.png（列表缩略图）';
-            if (!zipEntry('avatar.png')) return '缺少 avatar.png（作者头像）';
+            // 展示图（thumb.png / avatar.png 可选，缺失时用占位）
             var screenCount = 0;
             for (var s = 1; s <= LIMITS.screens; s++) if (zipEntry('screen-' + s + '.png')) screenCount++;
 
@@ -1411,6 +1409,13 @@
                     self.renderStoreList();
                     try { if (window.showToast) window.showToast('已刷新'); } catch (e) {}
                 }).catch(function () {}).then(function () { $b.prop('disabled', false); });
+            });
+            // 筛选栏折叠/展开
+            $('#mod-filter-toggle').on('click', function () {
+                var $p = $('#mod-filter-panel');
+                var open = $p.css('display') !== 'none';
+                $p.css('display', open ? 'none' : 'block');
+                $('#mod-filter-arrow').css('transform', open ? '' : 'rotate(180deg)');
             });
             // 从本地导入：直接唤起文件选择，不切页
             $('#mod-import-tab-btn').on('click', function () {
