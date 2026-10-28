@@ -3535,6 +3535,36 @@ input, select, textarea { transition: border-color .18s ease, box-shadow .22s ea
 .modal-body::-webkit-scrollbar-thumb, .mod-list::-webkit-scrollbar-thumb, .playlist-page-body::-webkit-scrollbar-thumb, .dt-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.14); border-radius: 8px; }
 .modal-body::-webkit-scrollbar-thumb:hover, .mod-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.26); }
 
+/* ===== Apple 液态玻璃（Liquid Glass） ===== */
+/* 侧边栏：中性深灰玻璃（不偏蓝）+ 强模糊通透 */
+.sidebar {
+  background: rgba(26, 27, 32, 0.40) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) brightness(1.06) !important;
+  backdrop-filter: blur(30px) saturate(180%) brightness(1.06) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: -12px 0 48px rgba(0, 0, 0, 0.45), inset 1px 0 0 rgba(255, 255, 255, 0.10) !important;
+}
+.sidebar-header { background: rgba(255, 255, 255, 0.06) !important; }
+.sidebar-section { background: rgba(255, 255, 255, 0.07) !important; border-color: rgba(255, 255, 255, 0.14) !important; }
+.sidebar-overlay { background: rgba(0, 0, 0, 0.35) !important; -webkit-backdrop-filter: blur(8px) !important; backdrop-filter: blur(8px) !important; }
+
+/* 遮罩：更通透 + 动态模糊（打开 0→blur，关闭反向；仅普通弹窗） */
+.modal-overlay:not(.app-full-page) { background: rgba(10, 10, 12, 0.30) !important; }
+.modal-overlay:not(.app-full-page).show {
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+}
+
+/* 弹窗卡片：液态玻璃面板 */
+.modal-overlay:not(.app-full-page) .modal-content {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.045));
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
 html[lang="ru"] .sidebar-btn,
