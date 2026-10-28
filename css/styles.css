@@ -3549,7 +3549,7 @@ input, select, textarea { transition: border-color .18s ease, box-shadow .22s ea
 .sidebar-overlay { background: rgba(0, 0, 0, 0.35) !important; -webkit-backdrop-filter: blur(8px) !important; backdrop-filter: blur(8px) !important; }
 
 /* 遮罩：更通透 + 动态模糊（打开 0→blur，关闭反向；仅普通弹窗） */
-.modal-overlay:not(.app-full-page) { background: rgba(10, 10, 12, 0.30) !important; }
+.modal-overlay:not(.app-full-page) { background: rgba(10, 10, 12, 0.22) !important; }
 .modal-overlay:not(.app-full-page).show {
   -webkit-backdrop-filter: blur(14px) saturate(150%);
   backdrop-filter: blur(14px) saturate(150%);
@@ -3576,14 +3576,16 @@ input, select, textarea { transition: border-color .18s ease, box-shadow .22s ea
 }
 /* 1 去边框·微明度分层·禁纯黑 */
 body{ background-color:var(--c0) !important; color:var(--c-text); }
-.sidebar{ background:rgba(21,21,21,.58) !important; border:none !important; }
-.sidebar .sidebar-section{ background:var(--c2) !important; border:none !important; }
-.sidebar .sidebar-btn{ background:var(--c2) !important; border:none !important; }
-.sidebar .sidebar-btn:hover{ background:var(--c3) !important; }
+.sidebar{ background:rgba(21,21,21,.34) !important; border:none !important; }
+.sidebar .sidebar-section{ background:rgba(255,255,255,.055) !important; border:none !important; }
+.sidebar .sidebar-btn{ background:rgba(255,255,255,.045) !important; border:none !important; }
+.sidebar .sidebar-btn:hover{ background:rgba(255,255,255,.09) !important; }
 .modal-overlay:not(.app-full-page) .modal-content{
   border:none !important;
-  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.02)),var(--c1) !important;
-  box-shadow:0 24px 80px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.10) !important;
+  background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03)),rgba(20,20,20,.40) !important;
+  -webkit-backdrop-filter:blur(26px) saturate(180%) !important;
+  backdrop-filter:blur(26px) saturate(180%) !important;
+  box-shadow:0 24px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14) !important;
 }
 .mod-card,.mod-row,.playlist-item,.dt-card{ border:none !important; }
 /* 3 暗色补偿：正文字重降，防止白字发胖 */
