@@ -92,6 +92,24 @@
         });
     }
 
+    function wireSimplePreview(inputId, previewId, multiple) {
+        var inp = $(inputId), prev = $(previewId);
+        if (!inp || !prev || inp._pv) return;
+        inp._pv = true;
+        inp.addEventListener('change', function () {
+            prev.innerHTML = '';
+            var files = inp.files;
+            if (!files) return;
+            var n = multiple ? Math.min(files.length, 3) : (files[0] ? 1 : 0);
+            for (var i = 0; i < n; i++) {
+                var img = document.createElement('img');
+                img.className = 'me-thumb-img';
+                img.src = URL.createObjectURL(files[i]);
+                prev.appendChild(img);
+            }
+        });
+    }
+
     function rowShell(n, title, inner) {
         var el = document.createElement('div');
         el.className = 'me-item';
@@ -236,6 +254,16 @@
             }
         } catch (e) { return setMsg(T('me_read_fail') + String(e && e.message || e)); }
 
+        // 展示资源（可选）：头像/缩略图/轮播图
+        try {
+            var _av = $('me-avatar'), _th = $('me-thumb'), _sc = $('me-screens');
+            if (_av && _av.files && _av.files[0]) zip.file('avatar.png', await readFile(_av.files[0]));
+            if (_th && _th.files && _th.files[0]) zip.file('thumb.png', await readFile(_th.files[0]));
+            if (_sc && _sc.files) {
+                var _sn = Math.min(_sc.files.length, 3);
+                for (var _si = 0; _si < _sn; _si++) zip.file('screen-' + (_si + 1) + '.png', await readFile(_sc.files[_si]));
+            }
+        } catch (_e) {}
         zip.file('mod.json', JSON.stringify(modJson));
         setMsg(T('me_packing'), true);
         var blob;
@@ -271,6 +299,9 @@
         if (typeSel && !typeSel._bound) { typeSel._bound = true; typeSel.addEventListener('change', resetListForType); }
         var add = $('me-add-item');
         if (add && !add._bound) { add._bound = true; add.addEventListener('click', addRowForType); }
+        wireSimplePreview('me-avatar', 'me-avatar-preview', false);
+        wireSimplePreview('me-thumb', 'me-thumb-preview', false);
+        wireSimplePreview('me-screens', 'me-screens-preview', true);
         // 自定义类型下拉
         var selWrap = $('me-type-select');
         if (selWrap && !selWrap._b) {

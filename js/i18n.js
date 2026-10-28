@@ -903,7 +903,23 @@
         tl_load_fail: ['加载失败：', '載入失敗：', 'Load failed: ', 'Ошибка загрузки: '],
         tl_no_perm: ['无读取权限或未建表：请在 Supabase 执行 telemetry SQL', '無讀取權限或未建表：請在 Supabase 執行 telemetry SQL', 'No read permission or table missing: run telemetry SQL', 'Нет доступа или нет таблицы: выполните SQL'],
         tl_updated: ['更新于 ', '更新於 ', 'Updated ', 'Обновлено '],
-        tl_refresh: ['刷新', '刷新', 'Refresh', 'Обновить']
+        tl_refresh: ['刷新', '刷新', 'Refresh', 'Обновить'],
+        me_media: ['展示资源（可选）', '展示資源（選填）', 'Media (optional)', 'Медиа (необяз.)'],
+        me_avatar: ['作者头像', '作者頭像', 'Author avatar', 'Аватар автора'],
+        me_thumb: ['列表缩略图', '列表縮圖', 'Thumbnail', 'Миниатюра'],
+        me_screens: ['轮播图（最多 3 张）', '輪播圖（最多 3 張）', 'Screens (max 3)', 'Скриншоты (макс. 3)'],
+        doc_copy_template: ['复制模板下载链接', '複製模板下載連結', 'Copy template link', 'Скопировать ссылку шаблона'],
+        doc_reload_group: ['若失效请到交流群反馈', '若失效請到交流群回饋', 'If broken, report to the group', 'Если не работает — в группу'],
+        doc_step2_desc: ['解压模板 → 替换 content/ 里的图片 → 用记事本修改 mod.json → 重新打包为 zip（选中里面的文件打包，不要连外层文件夹）。', '解壓模板 → 替換 content/ 裡的圖片 → 用記事本修改 mod.json → 重新打包為 zip（選中裡面的檔案打包，不要連外層資料夾）。', 'Unzip the template → replace images in content/ → edit mod.json in Notepad → repack as zip (pick the inner files, not the folder).', 'Распакуйте шаблон → замените картинки в content/ → отредактируйте mod.json → перепакуйте в zip (файлы, не папку).'],
+        doc_rules_title: ['上传须知（违反无法通过审核）', '上傳須知（違反無法通過審核）', 'Upload rules (violations fail review)', 'Правила загрузки'],
+        doc_rule_value: ['物品 value 上限 4,000,000', '物品 value 上限 4,000,000', 'Item value max 4,000,000', 'Макс. value 4,000,000'],
+        doc_rule_rarity: ['物品 rarity 只能是 purple / gold / orange / red；width 1~5、height 1~6', '物品 rarity 只能是 purple / gold / orange / red；width 1~5、height 1~6', 'rarity: purple/gold/orange/red; width 1~5, height 1~6', 'rarity: purple/gold/orange/red; width 1~5, height 1~6'],
+        doc_rule_thumb: ['thumb.png、avatar.png 必填；screen 最多 3 张', 'thumb.png、avatar.png 必填；screen 最多 3 張', 'thumb.png & avatar.png required; up to 3 screens', 'thumb.png и avatar.png обязательны; до 3 скриншотов'],
+        doc_rule_content: ['名称与描述不得包含违规内容', '名稱與描述不得包含違規內容', 'Name/description must not contain prohibited content', 'Без запрещённого контента'],
+        doc_rule_sound: ['可选：物品支持音效字段 sound（mp3/wav/ogg）', '可選：物品支援音效欄位 sound（mp3/wav/ogg）', 'Optional: item sound field (mp3/wav/ogg)', 'Опц.: поле sound (mp3/wav/ogg)'],
+        doc_step3_desc: ['把你打包好的 zip 发给作者 QQ，审核通过后即会上架 Mod 库，全服玩家可下载。', '把你打包好的 zip 發給作者 QQ，審核通過後即會上架 Mod 庫，全服玩家可下載。', 'Send your zip to the author QQ; once approved it goes live for all players.', 'Отправьте zip в QQ автора; после проверки попадёт в магазин.'],
+        doc_submit_qq: ['作品投稿 QQ：', '作品投稿 QQ：', 'Submission QQ: ', 'QQ для работ: '],
+        doc_copy_qq: ['复制QQ', '複製QQ', 'Copy QQ', 'Копировать QQ']
     };
 
     var cur = 'zh-CN';
