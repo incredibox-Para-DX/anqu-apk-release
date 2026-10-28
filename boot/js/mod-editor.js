@@ -4,9 +4,9 @@
     function $(id) { return document.getElementById(id); }
 
     function openModal() {
-        try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('mod-editor-modal'); } catch (e) {}
+        try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('mod-editor-modal', { zIndex: 10050 }); } catch (e) {}
         var m = $('mod-editor-modal');
-        if (m) { m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
+        if (m) { m.style.zIndex = 10050; m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
     }
     function closeModal() {
         try { if (w.ModalRegistry && w.ModalRegistry.close) return w.ModalRegistry.close('mod-editor-modal'); } catch (e) {}
@@ -18,7 +18,7 @@
         if (m) { m.textContent = t || ''; m.style.color = ok ? '#34d399' : '#f87171'; }
     }
 
-    function lbl(t) { return '<div style="font-size:12px;color:#94a3b8;margin-top:6px;">' + t + '</div>'; }
+    function lbl(t) { return '<label class="me-label">' + t + '</label>'; }
 
     function addItemRow() {
         var box = $('me-items');
@@ -26,22 +26,18 @@
         var n = box.children.length + 1;
         var el = document.createElement('div');
         el.className = 'me-item';
-        el.style.cssText = 'border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px;margin-bottom:8px;';
         el.innerHTML =
-            '<div style="display:flex;justify-content:space-between;align-items:center;">'
-            + '<b style="font-size:13px;">物品 ' + n + '</b>'
-            + '<button type="button" class="me-del" style="font-size:12px;color:#f87171;background:none;border:none;cursor:pointer;">删除</button></div>'
-            + lbl('名称') + '<input class="input-field" data-k="name" maxlength="12" placeholder="物品名">'
-            + lbl('描述') + '<textarea class="input-field" data-k="desc" placeholder="描述（不限字数）"></textarea>'
-            + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'
+            '<div class="me-item-head"><b>物品 ' + n + '</b><button type="button" class="me-del">删除</button></div>'
+            + '<div class="me-grid2">'
+            + '<div>' + lbl('名称') + '<input class="input-field" data-k="name" maxlength="12" placeholder="物品名"></div>'
+            + '<div>' + lbl('稀有度') + '<select class="input-field" data-k="rarity"><option value="purple">紫</option><option value="gold">金</option><option value="orange">橙</option><option value="red">红</option></select></div>'
             + '<div>' + lbl('宽 (1-5)') + '<input type="number" class="input-field" data-k="width" min="1" max="5" value="1"></div>'
             + '<div>' + lbl('高 (1-6)') + '<input type="number" class="input-field" data-k="height" min="1" max="6" value="1"></div>'
             + '<div>' + lbl('价值') + '<input type="number" class="input-field" data-k="value" min="1" value="1000"></div>'
-            + '<div>' + lbl('稀有度') + '<select class="input-field" data-k="rarity"><option value="purple">紫</option><option value="gold">金</option><option value="orange">橙</option><option value="red">红</option></select></div>'
             + '<div>' + lbl('爆率权重') + '<input type="number" class="input-field" data-k="weight" min="1" placeholder="可不填"></div>'
-            + '<div>' + lbl('图片') + '<input type="file" class="input-field" data-k="image" accept="image/*"></div>'
             + '</div>'
-            + '<div class="me-err" style="font-size:12px;color:#f87171;margin-top:4px;"></div>';
+            + lbl('描述') + '<textarea class="input-field" data-k="desc" placeholder="描述（不限字数）"></textarea>'
+            + lbl('图片') + '<input type="file" class="input-field" data-k="image" accept="image/*">';
         el.querySelector('.me-del').addEventListener('click', function () { el.remove(); });
         box.appendChild(el);
     }
