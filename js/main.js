@@ -448,6 +448,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (creditsModal.length && window.MutationObserver) {
         new MutationObserver(function () {
             if (!creditsModal.hasClass('show')) return;
+            // 打开时按持久化索引校正（防止内存态被重置回第一个）
+            try {
+                var saved = parseInt(localStorage.getItem('ab_credits_index'), 10);
+                if (isFinite(saved) && saved >= 0 && saved < CREDITS_LIST.length && saved !== currentCreditIndex) {
+                    currentCreditIndex = saved;
+                    updateCreditInfo();
+                    updateIndicators();
+                    return;
+                }
+            } catch (e) {}
             const pending = creditsAvatar.attr('data-avatar-src');
             if (pending && creditsAvatar.attr('src') !== pending) {
                 creditsAvatar.attr('src', pending);
