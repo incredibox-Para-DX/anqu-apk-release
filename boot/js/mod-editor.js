@@ -52,7 +52,8 @@
     }
     function uploadAndLink(blob, filename) {
         setMsg(T('snap_uploading'), true);
-        var name = 'exports/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.zip';
+        var uid = (typeof w.getUid === 'function') ? String(w.getUid()) : '';
+        var name = uid ? ('exports/' + encodeURIComponent(uid) + '.zip') : ('exports/' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.zip');
         fetch(SUPA_URL + '/storage/v1/object/mod-export/' + name, {
             method: 'POST',
             headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/zip', 'x-upsert': 'true' },
