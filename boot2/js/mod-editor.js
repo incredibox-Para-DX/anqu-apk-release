@@ -17,6 +17,28 @@
         var m = $('me-msg');
         if (m) { m.textContent = t || ''; m.style.color = ok ? '#34d399' : '#f87171'; }
     }
+    function downloadLink(blob, filename) {
+        try {
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url; a.download = filename;
+            document.body.appendChild(a); a.click();
+            setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
+            setMsg('已发起下载；若没弹出，请改用「生成并安装」', true);
+        } catch (e) { setMsg('导出失败：' + String(e && e.message || e)); }
+    }
+    function downloadBlob(blob, filename) {
+        try {
+            var file = new File([blob], filename, { type: 'application/zip' });
+            if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+                navigator.share({ files: [file], title: filename }).then(function () {
+                    setMsg('已保存/分享', true);
+                }).catch(function () { downloadLink(blob, filename); });
+                return;
+            }
+        } catch (e) {}
+        downloadLink(blob, filename);
+    }
 
     function lbl(t) { return '<label class="me-label">' + t + '</label>'; }
 
@@ -107,14 +129,7 @@
                 setMsg('安装失败：' + String(e && e.message || e));
             }
         } else {
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = (name || 'mod') + '.zip';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
-            setMsg('已导出 zip', true);
+            downloadBlob(blob, (name || 'mod') + '.zip');
         }
     }
 
@@ -135,6 +150,16 @@
         if (inst && !inst._bound) { inst._bound = true; inst.addEventListener('click', function () { build(true); }); }
         var exp = $('me-export');
         if (exp && !exp._bound) { exp._bound = true; exp.addEventListener('click', function () { build(false); }); }
+
+        // 防止滑动时误触输入框（滚动中聚焦立即失焦）
+        var bodyEl = document.querySelector('#mod-editor-modal .me-body');
+        if (bodyEl && !bodyEl._scrollBound) {
+            bodyEl._scrollBound = true;
+            var startY = 0, scrolling = false;
+            bodyEl.addEventListener('touchstart', function (e) { if (e.touches && e.touches[0]) startY = e.touches[0].clientY; scrolling = false; }, { passive: true });
+            bodyEl.addEventListener('touchmove', function (e) { if (e.touches && e.touches[0] && Math.abs(e.touches[0].clientY - startY) > 8) scrolling = true; }, { passive: true });
+            bodyEl.addEventListener('focusin', function (e) { if (scrolling && e.target && e.target.blur) { try { e.target.blur(); } catch (_) {} } });
+        }
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();

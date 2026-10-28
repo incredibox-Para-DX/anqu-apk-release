@@ -3725,6 +3725,21 @@ html[data-theme="warm"]{ --accent-color:#d99a52; --accent-dark:#b87d3c; }
 .me-del:hover{ background:rgba(248,113,113,.14); }
 .me-foot{ display:flex; gap:10px; padding:12px 16px; border-top:1px solid rgba(255,255,255,.08); flex:0 0 auto; background:rgba(0,0,0,.15); }
 .me-msg{ font-size:12px; margin:2px 0 4px; min-height:16px; color:#94a3b8; }
+.app-full-page.me-modal .me-content{ max-width:100%; width:100%; height:100%; max-height:100%; border-radius:0; }
+.me-modal .me-body{ overflow-x:hidden; }
+.me-grid2 > div{ min-width:0; }
+.me-modal .input-field{ min-width:0; }
+
+/* 文件选择按钮美化 */
+input[type="file"]{ color:#94a3b8; }
+input[type="file"]::file-selector-button{ -webkit-appearance:none; appearance:none; margin-right:10px; padding:8px 14px; border-radius:8px; border:none; background:rgba(124,140,204,.18); color:#cbd5e1; cursor:pointer; font-size:12px; transition:background .15s ease; }
+input[type="file"]::file-selector-button:hover{ background:rgba(124,140,204,.32); }
+
+/* 筛选/排序展开按钮 */
+.mod-filter-toggle{ display:flex; align-items:center; gap:8px; width:100%; padding:10px 14px; margin-bottom:8px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.045); color:#cbd5e1; font-size:13px; cursor:pointer; transition:background .18s ease, border-color .18s ease; }
+.mod-filter-toggle:hover{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.12); }
+.mod-filter-toggle i{ color:#7c8ccc; }
+.mod-filter-toggle #mod-filter-arrow{ margin-left:auto; transition:transform .25s var(--ease-out); }
 
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,

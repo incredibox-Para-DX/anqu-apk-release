@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.47</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.48</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -686,7 +686,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="stats-value" id="weekly-accumulated-value" style="color:#248DFB;">¥0</div>
 </div>
 <button class="sidebar-btn full-width" id="sidebar-mod-library-btn" style="margin-top:10px;position:relative;"><i class="fas fa-cubes"></i> <span data-i18n="btn_mod">MOD</span><span class="mod-new-dot" id="mod-new-dot" aria-hidden="true"></span></button>
-<button class="sidebar-btn full-width" id="mod-editor-open-btn"><i class="fas fa-pen-ruler"></i> <span data-i18n="mod_editor">Mod 编辑器</span></button>
+<button class="sidebar-btn full-width" id="mod-editor-open-btn"><i class="fas fa-pen-ruler"></i> <span data-i18n="mod_editor">MOD 编辑器</span></button>
 </div>
 </div>
 <div class="sidebar-section" id="gm-debug-section">
@@ -1325,11 +1325,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<div class="modal-overlay me-modal" id="mod-editor-modal">
+<div class="modal-overlay app-full-page me-modal" id="mod-editor-modal">
 <div class="modal-content me-content">
 <div class="modal-header me-header">
-<div class="modal-title"><i class="fas fa-pen-ruler"></i> Mod 编辑器</div>
-<button class="modal-close" id="mod-editor-close">&times;</button>
+<button class="app-page-back-btn" id="mod-editor-close"><i class="fas fa-arrow-left"></i> 返回</button>
+<div class="modal-title"><i class="fas fa-pen-ruler"></i> MOD 编辑器</div>
 </div>
 <div class="me-body">
 <div class="me-card">
@@ -1713,7 +1713,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="mod-store-toolbar">
 <input id="mod-store-search" class="input-field" placeholder="搜索模组名称 / 简介 / 作者" autocomplete="off">
 </div>
-<button class="mod-filter-toggle" id="mod-filter-toggle" style="display:flex;align-items:center;gap:6px;width:100%;padding:9px 12px;margin-bottom:8px;border-radius:10px;border:1px solid #2c333c;background:#1a1f26;color:#cbd5e1;font-size:13px;cursor:pointer;"><i class="fas fa-filter"></i> <span data-i18n="store_filter_toggle">筛选 / 排序</span><i class="fas fa-chevron-down" id="mod-filter-arrow" style="margin-left:auto;transition:transform .2s;"></i></button>
+<button class="mod-filter-toggle" id="mod-filter-toggle"><i class="fas fa-filter"></i> <span data-i18n="store_filter_toggle">筛选 / 排序</span><i class="fas fa-chevron-down" id="mod-filter-arrow"></i></button>
 <div id="mod-filter-panel" class="mod-collapse">
 <div class="mod-filter-inner">
 <div class="mod-filter-group" id="mod-store-filter">
