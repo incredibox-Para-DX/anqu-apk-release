@@ -271,6 +271,24 @@
         if (typeSel && !typeSel._bound) { typeSel._bound = true; typeSel.addEventListener('change', resetListForType); }
         var add = $('me-add-item');
         if (add && !add._bound) { add._bound = true; add.addEventListener('click', addRowForType); }
+        // 自定义类型下拉
+        var selWrap = $('me-type-select');
+        if (selWrap && !selWrap._b) {
+            selWrap._b = true;
+            var selBtn = $('me-type-btn'), selList = $('me-type-list'), selLabel = $('me-type-label');
+            selBtn.addEventListener('click', function (e) { e.stopPropagation(); selWrap.classList.toggle('open'); });
+            selList.addEventListener('click', function (e) {
+                var o = e.target && e.target.closest ? e.target.closest('.me-select-opt') : null;
+                if (!o) return;
+                var inp = $('me-type'); inp.value = o.getAttribute('data-v');
+                inp.dispatchEvent(new Event('change'));
+                if (selLabel) { var k = o.getAttribute('data-i18n'); if (k) selLabel.setAttribute('data-i18n', k); selLabel.textContent = o.textContent; }
+                var opts = selList.querySelectorAll('.me-select-opt');
+                for (var oi = 0; oi < opts.length; oi++) opts[oi].classList.toggle('active', opts[oi] === o);
+                selWrap.classList.remove('open');
+            });
+            document.addEventListener('click', function (e) { if (!(e.target && e.target.closest && e.target.closest('#me-type-select'))) selWrap.classList.remove('open'); });
+        }
         var inst = $('me-install');
         if (inst && !inst._bound) { inst._bound = true; inst.addEventListener('click', function () { build(true); }); }
         var exp = $('me-export');

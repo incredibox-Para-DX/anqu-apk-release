@@ -626,7 +626,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </head>
 <body>
 <div class="top-right-meta" id="topRightMeta">
-<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.53</span>
+<span class="meta-version" id="metaVersionDisplay">Arena Breakout Safebox Simulator v2.3.0_hotfix.54</span>
 <span class="meta-uid" id="metaUidDisplay">加载中…</span>
 </div>
 <div class="loading-overlay" id="loading-overlay">
@@ -801,7 +801,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> <span data-i18n="set_check">检查更新</span><span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
 </div>
 </div>
-<div class="sidebar-section collapsible">
+<div class="sidebar-section collapsible expanded">
 <div class="sidebar-section-header" data-target="section-info">
 <h4><i class="fas fa-info-circle"></i> <span data-i18n="sec_info">更多信息</span></h4>
 <i class="fas fa-chevron-down collapse-icon"></i>
@@ -1386,7 +1386,15 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="me-card">
 <div class="me-card-title"><i class="fas fa-circle-info"></i> 基本信息</div>
 <label class="me-label">类型</label>
-<select id="me-type" class="input-field"><option value="item">物品</option><option value="music">音乐</option><option value="background">背景</option></select>
+<input type="hidden" id="me-type" value="item">
+<div class="me-select" id="me-type-select">
+<button type="button" class="me-select-btn" id="me-type-btn"><span id="me-type-label" data-i18n="mod_item">物品</span><i class="fas fa-chevron-down"></i></button>
+<div class="me-select-list" id="me-type-list">
+<button type="button" class="me-select-opt active" data-v="item" data-i18n="mod_item">物品</button>
+<button type="button" class="me-select-opt" data-v="music" data-i18n="mod_music">音乐</button>
+<button type="button" class="me-select-opt" data-v="background" data-i18n="mod_bg">背景</button>
+</div>
+</div>
 <div class="me-grid2">
 <div><label class="me-label">名称</label><input id="me-name" class="input-field" maxlength="20" placeholder="Mod 名称"></div>
 <div><label class="me-label">作者</label><input id="me-author" class="input-field" maxlength="16" placeholder="作者"></div>
