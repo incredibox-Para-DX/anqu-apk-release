@@ -12,8 +12,7 @@
     }
     function status(t, c) { var el = $('tl-status'); if (el) { el.textContent = t || ''; el.style.color = c || '#94a3b8'; } }
     function card(label, val) {
-        return '<div style="flex:1;min-width:110px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px;">'
-            + '<div style="font-size:11px;color:#94a3b8;">' + label + '</div><div style="font-size:18px;font-weight:600;">' + val + '</div></div>';
+        return '<div class="tl-card"><div class="tl-num">' + val + '</div><div class="tl-lbl">' + label + '</div></div>';
     }
     function load() {
         status('加载中…');
@@ -32,21 +31,19 @@
             var el = $('tl-errors');
             if (el) el.innerHTML = errors.length ? errors.slice(0, 40).map(function (e) {
                 var t = e.ts ? new Date(e.ts).toLocaleString() : '';
-                return '<div style="border-bottom:1px dashed rgba(255,255,255,.08);padding:6px 0;">'
-                    + '<div style="color:#f87171;word-break:break-word;">' + esc(e.message) + '</div>'
-                    + '<div style="color:#64748b;font-size:11px;margin-top:2px;">' + esc(e.version || '') + ' · ' + esc(t) + '</div></div>';
-            }).join('') : '<div style="color:#94a3b8;">暂无错误</div>';
+                return '<div class="tl-item"><div class="tl-msg">' + esc(e.message) + '</div><div class="tl-meta">' + esc(e.version || '') + ' · ' + esc(t) + '</div></div>';
+            }).join('') : '<div class="tl-empty">暂无错误</div>';
             var ev = $('tl-events');
             if (ev) ev.innerHTML = top.length ? top.map(function (x) {
-                return '<div style="display:flex;justify-content:space-between;border-bottom:1px dashed rgba(255,255,255,.08);padding:4px 0;"><span>' + esc(x[0]) + '</span><b>' + x[1] + '</b></div>';
-            }).join('') : '<div style="color:#94a3b8;">暂无事件</div>';
+                return '<div class="tl-row"><span>' + esc(x[0]) + '</span><b>' + x[1] + '</b></div>';
+            }).join('') : '<div class="tl-empty">暂无事件</div>';
             status('更新于 ' + new Date().toLocaleTimeString());
         }).catch(function (e) { status('加载失败：' + (e && e.message || e), '#f87171'); });
     }
     function open() {
-        try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('telemetry-modal'); } catch (e) {}
-        var m = $('telemetry-modal'); if (m) { m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
         load();
+        try { if (w.ModalRegistry && w.ModalRegistry.open) { w.ModalRegistry.open('telemetry-modal'); return; } } catch (e) {}
+        var m = $('telemetry-modal'); if (m) { m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
     }
     function close() {
         try { if (w.ModalRegistry && w.ModalRegistry.close) return w.ModalRegistry.close('telemetry-modal'); } catch (e) {}

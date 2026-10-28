@@ -3727,7 +3727,7 @@ html[data-theme="warm"]{ --accent-color:#d99a52; --accent-dark:#b87d3c; }
 .me-msg{ font-size:12px; margin:2px 0 4px; min-height:16px; color:#94a3b8; }
 .app-full-page.me-modal .me-content{ max-width:100%; width:100%; height:100%; max-height:100%; border-radius:0; }
 .me-modal .me-body{ overflow-x:hidden; }
-.me-body{ touch-action: pan-y; overscroll-behavior: contain; }
+.me-body{ touch-action: pan-y; overscroll-behavior: contain; overflow-anchor: none; }
 .me-preview{ margin-top:8px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .me-thumb-img{ max-width:64px; max-height:64px; border-radius:8px; border:1px solid rgba(255,255,255,.12); object-fit:cover; }
 .me-filename{ font-size:12px; color:#94a3b8; }
@@ -3737,6 +3737,25 @@ html[data-theme="warm"]{ --accent-color:#d99a52; --accent-dark:#b87d3c; }
 /* 榜单头像 */
 .leaderboard-avatar{ width:34px; height:34px; border-radius:50%; overflow:hidden; flex:0 0 auto; margin-right:8px; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; color:#64748b; font-size:14px; }
 .leaderboard-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* 遥测看板 */
+.tl-content{ max-width:600px; width:94vw; max-height:86vh; display:flex; flex-direction:column; padding:0; }
+.tl-body{ overflow-y:auto; flex:1 1 auto; min-height:0; padding:14px 16px; }
+.tl-cards{ display:flex; gap:8px; flex-wrap:wrap; }
+.tl-card{ flex:1; min-width:100px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; }
+.tl-num{ font-size:20px; font-weight:600; color:#e8e8e3; }
+.tl-lbl{ font-size:11px; color:#94a3b8; margin-top:2px; }
+.tl-section-title{ font-size:12px; color:#94a3b8; margin:14px 0 6px; }
+.tl-list{ display:flex; flex-direction:column; }
+.tl-item{ border-bottom:1px dashed rgba(255,255,255,.08); padding:7px 0; }
+.tl-item:last-child{ border-bottom:none; }
+.tl-msg{ font-size:13px; color:#f87171; word-break:break-word; }
+.tl-meta{ font-size:11px; color:#64748b; margin-top:2px; }
+.tl-row{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,.08); font-size:13px; }
+.tl-row:last-child{ border-bottom:none; }
+.tl-row b{ color:#cbd5e1; }
+.tl-empty{ color:#94a3b8; font-size:12px; padding:6px 0; }
+.tl-status{ font-size:11px; color:#94a3b8; margin-top:12px; }
 /* 编辑器内下拉：去掉原生箭头，圆角 + 自定义箭头 */
 .me-modal select.input-field{ -webkit-appearance:none; appearance:none; background: var(--c2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center / 14px !important; padding-right:34px !important; cursor:pointer; }
 .me-grid2 > div{ min-width:0; }

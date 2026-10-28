@@ -70,6 +70,7 @@
         set_effect: ['效果设置', '效果設置', 'Effects', 'Эффекты'],
         set_sound: ['声音设置', '聲音設置', 'Sound', 'Звук'],
         set_cloud: ['云同步', '雲同步', 'Cloud sync', 'Облако'],
+        set_snapshot: ['完整快照', '完整快照', 'Snapshot', 'Снимок'],
         set_check: ['检查更新', '檢查更新', 'Check update', 'Обновить'],
         set_language: ['语言', '語言', 'Language', 'Язык'],
         set_theme: ['主题', '主題', 'Theme', 'Тема'],

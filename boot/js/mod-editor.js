@@ -273,14 +273,19 @@
         var exp = $('me-export');
         if (exp && !exp._bound) { exp._bound = true; exp.addEventListener('click', function () { build(false); }); }
 
-        // 防滑动误触输入框
+        // 防滑动误触输入框：拖拽位移后点击输入框不聚焦（避免键盘开/关引起的界面抽搐）
         var bodyEl = document.querySelector('#mod-editor-modal .me-body');
         if (bodyEl && !bodyEl._scrollBound) {
             bodyEl._scrollBound = true;
-            var startY = 0, scrolling = false;
-            bodyEl.addEventListener('touchstart', function (e) { if (e.touches && e.touches[0]) startY = e.touches[0].clientY; scrolling = false; }, { passive: true });
-            bodyEl.addEventListener('touchmove', function (e) { if (e.touches && e.touches[0] && Math.abs(e.touches[0].clientY - startY) > 8) scrolling = true; }, { passive: true });
-            bodyEl.addEventListener('focusin', function (e) { if (scrolling && e.target && e.target.blur) { try { e.target.blur(); } catch (_) {} } });
+            var sx = 0, sy = 0, moved = false;
+            bodyEl.addEventListener('pointerdown', function (e) { sx = e.clientX; sy = e.clientY; moved = false; }, true);
+            bodyEl.addEventListener('pointermove', function (e) { if (Math.abs(e.clientX - sx) > 8 || Math.abs(e.clientY - sy) > 8) moved = true; }, true);
+            bodyEl.addEventListener('click', function (e) {
+                var t = e.target;
+                if (moved && t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.type === 'file')) {
+                    e.preventDefault(); e.stopPropagation();
+                }
+            }, true);
         }
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
