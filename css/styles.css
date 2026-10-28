@@ -3444,8 +3444,8 @@ img.mod-img.mod-img-loaded { opacity: 1; }
 .first-lang-opt:hover { border-color: #248DFB; background: #243040; color: #fff; }
 
 /* 关闭 Android WebView 文本自动放大（否则俄语/西里尔文会被放大） */
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-html[lang="ru"] { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: none !important; text-size-adjust: none !important; }
+html[lang="ru"] { -webkit-text-size-adjust: none !important; text-size-adjust: none !important; }
 
 /* 俄语长文本：允许换行、略缩，避免撑破布局 */
 html[lang="ru"] button,
