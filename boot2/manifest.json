@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.31.m",
+  "version": "v2.3.0_hotfix.32.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -39,7 +39,7 @@
     },
     {
       "path": "js/main.js",
-      "size": 25309
+      "size": 24642
     },
     {
       "path": "js/modal-registry.js",
@@ -175,5 +175,5 @@
     }
   ],
   "fileCount": 43,
-  "totalSize": 2761438
+  "totalSize": 2760771
 }
