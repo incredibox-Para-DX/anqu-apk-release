@@ -3623,14 +3623,18 @@ input:focus,textarea:focus,select:focus,.input-field:focus{ outline:none !import
 .copy-fade{ transition:opacity .2s ease; opacity:0; }
 
 /* ===================== 主题切换 ===================== */
-/* 怀旧：恢复早期蓝色玻璃 + 边框 + 常规字重 */
+/* 怀旧：恢复早期蓝色玻璃 + 蓝色渐变按钮 + 边框 + 常规字重 + 深遮罩 */
 html[data-theme="nostalgic"] body{ background-color:#111827 !important; }
+html[data-theme="nostalgic"] .modal-overlay:not(.app-full-page){ background:rgba(0,0,0,.6) !important; -webkit-backdrop-filter:blur(8px) !important; backdrop-filter:blur(8px) !important; }
+html[data-theme="nostalgic"] .modal-overlay:not(.app-full-page).show{ -webkit-backdrop-filter:blur(8px) !important; backdrop-filter:blur(8px) !important; }
 html[data-theme="nostalgic"] .sidebar{ background:linear-gradient(135deg,rgba(9,30,54,.5),rgba(12,34,63,.5)) !important; border-left:1px solid rgba(255,255,255,.1) !important; box-shadow:-5px 0 25px rgba(0,0,0,.4) !important; -webkit-backdrop-filter:blur(20px) !important; backdrop-filter:blur(20px) !important; }
-html[data-theme="nostalgic"] .sidebar .sidebar-section{ background:rgba(255,255,255,.05) !important; border:1px solid rgba(255,255,255,.1) !important; }
-html[data-theme="nostalgic"] .sidebar .sidebar-btn{ background:rgba(0,0,0,.2) !important; border:1px solid rgba(255,255,255,.08) !important; }
-html[data-theme="nostalgic"] .sidebar .sidebar-btn:hover{ background:rgba(0,0,0,.3) !important; }
+html[data-theme="nostalgic"] .sidebar .sidebar-section{ background:rgba(255,255,255,.05) !important; border:1px solid rgba(255,255,255,.1) !important; border-radius:8px !important; }
+html[data-theme="nostalgic"] .sidebar .sidebar-btn{ background:linear-gradient(135deg,rgba(59,130,246,.2),rgba(59,130,246,.1)) !important; border:1px solid rgba(59,130,246,.3) !important; border-radius:6px !important; -webkit-backdrop-filter:blur(5px) !important; backdrop-filter:blur(5px) !important; }
+html[data-theme="nostalgic"] .sidebar .sidebar-btn:hover{ background:linear-gradient(135deg,rgba(59,130,246,.3),rgba(59,130,246,.2)) !important; transform:translateX(-3px) !important; }
+html[data-theme="nostalgic"] .mod-row{ border:1px solid rgba(255,255,255,.09) !important; }
+html[data-theme="nostalgic"] .mod-card,html[data-theme="nostalgic"] .playlist-item,html[data-theme="nostalgic"] .dt-card{ border:1px solid rgba(255,255,255,.09) !important; }
 html[data-theme="nostalgic"] .modal-overlay:not(.app-full-page) .modal-content{ background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.06)) !important; border:1px solid rgba(255,255,255,.12) !important; border-radius:8px !important; -webkit-backdrop-filter:blur(12px) saturate(180%) !important; backdrop-filter:blur(12px) saturate(180%) !important; box-shadow:0 8px 25px rgba(0,0,0,.3) !important; }
-html[data-theme="nostalgic"] input,html[data-theme="nostalgic"] textarea,html[data-theme="nostalgic"] select,html[data-theme="nostalgic"] .input-field{ background:rgba(0,0,0,.3) !important; border:1px solid rgba(255,255,255,.15) !important; box-shadow:none !important; }
+html[data-theme="nostalgic"] input,html[data-theme="nostalgic"] textarea,html[data-theme="nostalgic"] select,html[data-theme="nostalgic"] .input-field{ background:rgba(0,0,0,.3) !important; border:1px solid rgba(255,255,255,.15) !important; border-radius:6px !important; box-shadow:none !important; }
 html[data-theme="nostalgic"] body,html[data-theme="nostalgic"] .modal-body,html[data-theme="nostalgic"] .sidebar,html[data-theme="nostalgic"] .sidebar-btn,html[data-theme="nostalgic"] .modal-btn,html[data-theme="nostalgic"] .mod-row{ font-weight:400 !important; }
 
 /* 极简：直角、无模糊、细描边、单色（改形状/质感，非单纯换色） */
