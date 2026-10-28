@@ -56,7 +56,7 @@
         btn_mod: ['MODS', 'MODS', 'MODS', 'MODS'],
         sec_mod: ['MOD', 'MOD', 'MOD', 'MOD'],
         mod_doc: ['MOD DOC', 'MOD DOC', 'MOD DOC', 'MOD DOC'],
-        mod_editor: ['MOD 编辑器', 'MOD 編輯器', 'MOD Editor', 'Редактор модов'],
+        mod_editor: ['MOD EDITOR', 'MOD EDITOR', 'MOD EDITOR', 'MOD EDITOR'],
         btn_minigame_fruit: ['小游戏·暗区水果忍者', '小遊戲·暗區水果忍者', 'Mini · Fruit Ninja', 'Мини: Фрукты'],
         btn_minigame_map: ['小游戏·熟图模拟器', '小遊戲·熟圖模擬器', 'Mini · Map Sim', 'Мини: Карта'],
 

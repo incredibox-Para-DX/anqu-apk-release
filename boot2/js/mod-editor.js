@@ -148,8 +148,8 @@
     function refreshListUI() {
         var t = currentType();
         var cfg = TYPES[t] || TYPES.item;
-        var lt = $('me-list-title-text'); if (lt) lt.textContent = T(cfg.list);
-        var al = $('me-add-label'); if (al) al.textContent = T(cfg.add);
+        var lt = $('me-list-title-text'); if (lt) { lt.setAttribute('data-i18n', cfg.list); lt.textContent = T(cfg.list); }
+        var al = $('me-add-label'); if (al) { al.setAttribute('data-i18n', cfg.add); al.textContent = T(cfg.add); }
     }
     function resetListForType() {
         var box = $('me-items'); if (box) box.innerHTML = '';
