@@ -13,7 +13,7 @@ begin
   delete from public.ab_events where ts < now() - interval '30 days';
 end;
 $$;
-select cron.unschedule('ab_cleanup_telemetry');
+select cron.unschedule(jobid) from cron.job where jobname = 'ab_cleanup_telemetry';
 select cron.schedule('ab_cleanup_telemetry', '30 3 * * *', 'select public.ab_cleanup_telemetry();');
 
 -- 2) 快照清理：超过 30 天未更新的删除（导出 zip 已按用户固定路径覆盖，不会无限增长）
@@ -23,7 +23,7 @@ begin
   delete from public.ab_saves where updated_at < now() - interval '30 days';
 end;
 $$;
-select cron.unschedule('ab_cleanup_saves');
+select cron.unschedule(jobid) from cron.job where jobname = 'ab_cleanup_saves';
 select cron.schedule('ab_cleanup_saves', '45 3 * * *', 'select public.ab_cleanup_saves();');
 
 -- 3) 导出 zip：超过 1 天自动过期（每小时检查一次）
@@ -33,7 +33,7 @@ begin
   delete from storage.objects where bucket_id = 'mod-export' and created_at < now() - interval '1 day';
 end;
 $$;
-select cron.unschedule('ab_cleanup_exports');
+select cron.unschedule(jobid) from cron.job where jobname = 'ab_cleanup_exports';
 select cron.schedule('ab_cleanup_exports', '15 * * * *', 'select public.ab_cleanup_exports();');
 
 -- 4) 头像：每周清理一次（超过 7 天未更新的删除，并清理对应档案）
@@ -44,7 +44,7 @@ begin
   delete from public.ab_profiles where updated_at < now() - interval '7 days';
 end;
 $$;
-select cron.unschedule('ab_cleanup_avatars');
+select cron.unschedule(jobid) from cron.job where jobname = 'ab_cleanup_avatars';
 select cron.schedule('ab_cleanup_avatars', '0 4 * * 0', 'select public.ab_cleanup_avatars();');
 
 -- 说明：
