@@ -136,7 +136,7 @@ previewCurrentBackground() {
                     <source src="${bg.path}" type="video/mp4">
                 </video>
                 <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.6);font-size:14px;background:rgba(0,0,0,0.5);padding:8px 20px;border-radius:20px;pointer-events:none;">
-                    <i class="fas fa-eye"></i> 预览: ${bg.name} — 播放结束后自动关闭
+                    <i class="fas fa-eye"></i> ${window.I18N ? I18N.tr('预览') : '预览'}: ${bg.name} — ${window.I18N ? I18N.tr('播放结束后自动关闭') : '播放结束后自动关闭'}
                 </div>
             </div>
         `);
@@ -167,7 +167,7 @@ previewCurrentBackground() {
             <div id="bg-preview-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;">
                 <img src="${bg.path}" style="width:100%;height:100%;object-fit:cover;" alt="${bg.name}">
                 <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.6);font-size:14px;background:rgba(0,0,0,0.5);padding:8px 20px;border-radius:20px;pointer-events:none;">
-                    <i class="fas fa-eye"></i> 预览: ${bg.name} — 点击任意处关闭
+                    <i class="fas fa-eye"></i> ${window.I18N ? I18N.tr('预览') : '预览'}: ${bg.name} — ${window.I18N ? I18N.tr('点击任意处关闭') : '点击任意处关闭'}
                 </div>
             </div>
         `);
@@ -6656,7 +6656,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.51';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.52';
 
     /* ============================================================
      * 检查更新

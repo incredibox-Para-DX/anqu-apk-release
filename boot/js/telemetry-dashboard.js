@@ -4,6 +4,7 @@
     var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
     var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI';
     function $(id) { return document.getElementById(id); }
+    function T(k) { return (w.I18N && w.I18N.t) ? w.I18N.t(k) : ''; }
     function hdr() { return { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }; }
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -15,30 +16,30 @@
         return '<div class="tl-card"><div class="tl-num">' + val + '</div><div class="tl-lbl">' + label + '</div></div>';
     }
     function load() {
-        status('加载中…');
+        status(T('tl_loading'));
         Promise.all([
             fetch(SUPA_URL + '/rest/v1/ab_error_logs?select=message,version,url,ts&order=ts.desc&limit=100', { headers: hdr() }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
             fetch(SUPA_URL + '/rest/v1/ab_events?select=name,version,ts&order=ts.desc&limit=1000', { headers: hdr() }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
         ]).then(function (res) {
             var errors = res[0], events = res[1];
-            if (errors === null && events === null) { status('无读取权限或未建表：请在 Supabase 执行 telemetry SQL（含 SELECT 授权）', '#f87171'); return; }
+            if (errors === null && events === null) { status(T('tl_no_perm'), '#f87171'); return; }
             errors = errors || []; events = events || [];
             var uniq = {}; errors.forEach(function (e) { uniq[String(e.message || '').slice(0, 80)] = 1; });
             var evmap = {}; events.forEach(function (e) { evmap[e.name] = (evmap[e.name] || 0) + 1; });
             var top = Object.keys(evmap).map(function (k) { return [k, evmap[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 10);
             var s = $('tl-summary');
-            if (s) s.innerHTML = card('错误(近期)', errors.length) + card('不同错误', Object.keys(uniq).length) + card('事件(近期)', events.length);
+            if (s) s.innerHTML = card(T('tl_err_recent'), errors.length) + card(T('tl_unique_err'), Object.keys(uniq).length) + card(T('tl_evt_recent'), events.length);
             var el = $('tl-errors');
             if (el) el.innerHTML = errors.length ? errors.slice(0, 40).map(function (e) {
                 var t = e.ts ? new Date(e.ts).toLocaleString() : '';
                 return '<div class="tl-item"><div class="tl-msg">' + esc(e.message) + '</div><div class="tl-meta">' + esc(e.version || '') + ' · ' + esc(t) + '</div></div>';
-            }).join('') : '<div class="tl-empty">暂无错误</div>';
+            }).join('') : '<div class="tl-empty">' + T('tl_no_err') + '</div>';
             var ev = $('tl-events');
             if (ev) ev.innerHTML = top.length ? top.map(function (x) {
                 return '<div class="tl-row"><span>' + esc(x[0]) + '</span><b>' + x[1] + '</b></div>';
-            }).join('') : '<div class="tl-empty">暂无事件</div>';
-            status('更新于 ' + new Date().toLocaleTimeString());
-        }).catch(function (e) { status('加载失败：' + (e && e.message || e), '#f87171'); });
+            }).join('') : '<div class="tl-empty">' + T('tl_no_evt') + '</div>';
+            status(T('tl_updated') + new Date().toLocaleTimeString());
+        }).catch(function (e) { status(T('tl_load_fail') + (e && e.message || e), '#f87171'); });
     }
     function open() {
         load();

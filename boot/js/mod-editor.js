@@ -3,10 +3,13 @@
     'use strict';
     function $(id) { return document.getElementById(id); }
     var TYPES = {
-        item: { list: '物品列表', add: '添加物品' },
-        music: { list: '曲目列表', add: '添加曲目' },
-        background: { list: '背景列表', add: '添加背景' }
+        item: { list: 'me_item_list', add: 'me_add_item' },
+        music: { list: 'me_track_list', add: 'me_add_track' },
+        background: { list: 'me_bg_list', add: 'me_add_bg' }
     };
+    function T(key) { return (w.I18N && w.I18N.t) ? w.I18N.t(key) : ''; }
+    function TN(key, n) { return T(key).replace('{n}', n); }
+    function tf(s) { return (w.I18N && w.I18N.trFull) ? w.I18N.trFull(s) : s; }
 
     function openModal() {
         try { if (w.ModalRegistry && w.ModalRegistry.open) return w.ModalRegistry.open('mod-editor-modal', { zIndex: 10050 }); } catch (e) {}
@@ -29,14 +32,14 @@
             a.href = url; a.download = filename;
             document.body.appendChild(a); a.click();
             setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
-            setMsg('已发起下载；若没弹出请改用「生成并安装」', true);
-        } catch (e) { setMsg('导出失败：' + String(e && e.message || e)); }
+            setMsg(T('me_dl_start'), true);
+        } catch (e) { setMsg(T('me_export_fail') + String(e && e.message || e)); }
     }
     function downloadBlob(blob, filename) {
         try {
             var file = new File([blob], filename, { type: 'application/zip' });
             if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
-                navigator.share({ files: [file], title: filename }).then(function () { setMsg('已保存/分享', true); })
+                navigator.share({ files: [file], title: filename }).then(function () { setMsg(T('me_saved'), true); })
                     .catch(function () { downloadLink(blob, filename); });
                 return;
             }
@@ -100,7 +103,7 @@
 
     function addItemRow() {
         var box = $('me-items'); if (!box) return;
-        var el = rowShell(box.children.length + 1, '物品',
+        var el = rowShell(box.children.length + 1, T('me_row_item'),
             '<div class="me-grid2">'
             + '<div>' + lbl('名称') + '<input class="input-field" data-k="name" maxlength="12" placeholder="物品名"></div>'
             + '<div>' + lbl('稀有度') + '<select class="input-field" data-k="rarity"><option value="purple">紫</option><option value="gold">金</option><option value="orange">橙</option><option value="red">红</option></select></div>'
@@ -117,7 +120,7 @@
     }
     function addTrackRow() {
         var box = $('me-items'); if (!box) return;
-        var el = rowShell(box.children.length + 1, '曲目',
+        var el = rowShell(box.children.length + 1, T('me_row_track'),
             '<div class="me-grid2">'
             + '<div>' + lbl('标题') + '<input class="input-field" data-k="title" maxlength="40" placeholder="曲目标题"></div>'
             + '<div>' + lbl('作者') + '<input class="input-field" data-k="artist" maxlength="40" placeholder="演唱/作者（可不填）"></div>'
@@ -129,7 +132,7 @@
     }
     function addBgRow() {
         var box = $('me-items'); if (!box) return;
-        var el = rowShell(box.children.length + 1, '背景',
+        var el = rowShell(box.children.length + 1, T('me_row_bg'),
             lbl('名称') + '<input class="input-field" data-k="name" maxlength="16" placeholder="背景名称">'
             + lbl('文件（图片/视频）') + '<input type="file" class="input-field" data-k="file" accept="image/*,video/*">'
             + '<div class="me-preview"></div>');
@@ -145,8 +148,8 @@
     function refreshListUI() {
         var t = currentType();
         var cfg = TYPES[t] || TYPES.item;
-        var lt = $('me-list-title-text'); if (lt) lt.textContent = cfg.list;
-        var al = $('me-add-label'); if (al) al.textContent = cfg.add;
+        var lt = $('me-list-title-text'); if (lt) lt.textContent = T(cfg.list);
+        var al = $('me-add-label'); if (al) al.textContent = T(cfg.add);
     }
     function resetListForType() {
         var box = $('me-items'); if (box) box.innerHTML = '';
@@ -164,10 +167,10 @@
         var author = ($('me-author').value || '').trim();
         var version = ($('me-version').value || '').trim() || '1.0.0';
         var desc = $('me-desc').value || '';
-        if (!name) return setMsg('请填写 Mod 名称');
-        if (!author) return setMsg('请填写作者');
+        if (!name) return setMsg(T('me_err_name'));
+        if (!author) return setMsg(T('me_err_author'));
         var rows = Array.prototype.slice.call(document.querySelectorAll('#me-items .me-item'));
-        if (!rows.length) return setMsg('请至少添加一项');
+        if (!rows.length) return setMsg(T('me_err_empty'));
 
         var zip = new w.JSZip();
         var modJson = { name: name.slice(0, 20), author: author.slice(0, 16), version: version.slice(0, 16), type: type, desc: desc };
@@ -177,9 +180,9 @@
                 for (var i = 0; i < rows.length; i++) {
                     var el = rows[i];
                     var title = (gv(el, 'title') || '').trim();
-                    if (!title) return setMsg('第 ' + (i + 1) + ' 首缺少标题');
+                    if (!title) return setMsg(TN('me_err_track_title', i + 1));
                     var af = gf(el, 'audio');
-                    if (!af) return setMsg('第 ' + (i + 1) + ' 首缺少音频');
+                    if (!af) return setMsg(TN('me_err_track_audio', i + 1));
                     var aext = extOf(af, ['mp3', 'm4a', 'aac', 'wav', 'ogg', 'flac'], 'mp3');
                     var an = 'track_' + i + '.' + aext;
                     zip.file(an, await readFile(af));
@@ -194,9 +197,9 @@
                 for (var j = 0; j < rows.length; j++) {
                     var be = rows[j];
                     var bn = (gv(be, 'name') || '').trim();
-                    if (!bn) return setMsg('第 ' + (j + 1) + ' 个背景缺少名称');
+                    if (!bn) return setMsg(TN('me_err_bg_name', j + 1));
                     var bf = gf(be, 'file');
-                    if (!bf) return setMsg('第 ' + (j + 1) + ' 个背景缺少文件');
+                    if (!bf) return setMsg(TN('me_err_bg_file', j + 1));
                     var bext = extOf(bf, ['png', 'jpg', 'jpeg', 'webp', 'mp4', 'webm'], 'png');
                     var bname = 'bg_' + j + '.' + bext;
                     zip.file(bname, await readFile(bf));
@@ -208,9 +211,9 @@
                 for (var k = 0; k < rows.length; k++) {
                     var ie = rows[k];
                     var nm = (gv(ie, 'name') || '').trim();
-                    if (!nm) return setMsg('第 ' + (k + 1) + ' 个物品缺少名称');
+                    if (!nm) return setMsg(TN('me_err_item_name', k + 1));
                     var img = gf(ie, 'image');
-                    if (!img) return setMsg('第 ' + (k + 1) + ' 个物品缺少图片');
+                    if (!img) return setMsg(TN('me_err_item_img', k + 1));
                     var iext = extOf(img, ['png', 'jpg', 'jpeg', 'webp'], 'png');
                     var iname = 'item_' + k + '.' + iext;
                     zip.file(iname, await readFile(img));
@@ -231,22 +234,22 @@
                 }
                 modJson.items = items;
             }
-        } catch (e) { return setMsg('读取文件失败：' + String(e && e.message || e)); }
+        } catch (e) { return setMsg(T('me_read_fail') + String(e && e.message || e)); }
 
         zip.file('mod.json', JSON.stringify(modJson));
-        setMsg('打包中…', true);
+        setMsg(T('me_packing'), true);
         var blob;
         try { blob = await zip.generateAsync({ type: 'blob' }); }
-        catch (e) { return setMsg('打包失败：' + String(e && e.message || e)); }
+        catch (e) { return setMsg(T('me_pack_fail') + String(e && e.message || e)); }
 
         if (install) {
             try {
                 var meta = await w.ModManager.installFromZip(blob, null);
-                setMsg('已安装：' + (meta && meta.name || name), true);
-                try { if (w.showToast) w.showToast('MOD 已安装'); } catch (e) {}
+                setMsg(T('me_installed') + (meta && meta.name || name), true);
+                try { if (w.showToast) w.showToast(T('me_mod_installed')); } catch (e) {}
                 if (w.ModManager) w.ModManager.renderMineList();
                 closeModal();
-            } catch (e) { setMsg('安装失败：' + String(e && e.message || e)); }
+            } catch (e) { setMsg(T('me_inst_fail') + String(e && e.message || e)); }
         } else {
             downloadBlob(blob, (name || 'mod') + '.zip');
         }

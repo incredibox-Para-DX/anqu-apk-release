@@ -6,6 +6,7 @@
     var CODE_KEY = 'ab_snap_code';
     var BLOCK = ['ab_mods_manifest_cache_v2', 'musicPlayer_imageCache', 'ab_leaderboard_cache_v1', 'ab_snap_code'];
     function $(id) { return document.getElementById(id); }
+    function T(k) { return (w.I18N && w.I18N.t) ? w.I18N.t(k) : ''; }
     function status(t, c) { var el = $('snapshot-status'); if (el) { el.textContent = t || ''; el.style.color = c || '#94a3b8'; } }
     function hdr() { return { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' }; }
     function genCode() {
@@ -29,7 +30,7 @@
         var code;
         try { code = localStorage.getItem(CODE_KEY) || genCode(); } catch (e) { code = genCode(); }
         var snap = collect();
-        status('上传中…');
+        status(T('snap_uploading'));
         fetch(SUPA_URL + '/rest/v1/ab_saves?on_conflict=code', {
             method: 'POST',
             headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
@@ -38,30 +39,30 @@
             if (!r.ok) throw new Error('HTTP ' + r.status);
             try { localStorage.setItem(CODE_KEY, code); } catch (e) {}
             var el = $('snapshot-code'); if (el) el.textContent = code;
-            status('已上传，快照码：' + code, '#34d399');
-        }).catch(function (e) { status('上传失败：' + (e && e.message || e), '#f87171'); });
+            status(T('snap_uploaded') + code, '#34d399');
+        }).catch(function (e) { status(T('snap_upload_fail') + (e && e.message || e), '#f87171'); });
     }
     function restore() {
         var inp = $('snapshot-input');
         var code = (inp ? inp.value : '').trim().toUpperCase();
-        if (!code) { status('请输入快照码', '#f87171'); return; }
-        status('读取中…');
+        if (!code) { status(T('snap_need_code'), '#f87171'); return; }
+        status(T('snap_reading'));
         fetch(SUPA_URL + '/rest/v1/ab_saves?code=eq.' + encodeURIComponent(code) + '&select=data,updated_at', { headers: hdr() })
             .then(function (r) { return r.json(); })
             .then(function (rows) {
-                if (!rows || !rows.length) { status('快照码不存在', '#f87171'); return; }
+                if (!rows || !rows.length) { status(T('snap_notfound'), '#f87171'); return; }
                 var data;
-                try { data = JSON.parse(rows[0].data); } catch (e) { status('快照数据损坏', '#f87171'); return; }
+                try { data = JSON.parse(rows[0].data); } catch (e) { status(T('snap_corrupt'), '#f87171'); return; }
                 var n = 0;
                 for (var k in data) {
                     if (!Object.prototype.hasOwnProperty.call(data, k)) continue;
                     if (BLOCK.indexOf(k) !== -1) continue;
                     try { localStorage.setItem(k, data[k]); n++; } catch (e) {}
                 }
-                status('已恢复 ' + n + ' 项，正在刷新…', '#34d399');
+                status(T('snap_restored').replace('{n}', n), '#34d399');
                 setTimeout(function () { location.reload(); }, 800);
             })
-            .catch(function (e) { status('恢复失败：' + (e && e.message || e), '#f87171'); });
+            .catch(function (e) { status(T('snap_restore_fail') + (e && e.message || e), '#f87171'); });
     }
     function open() {
         try { var c = localStorage.getItem(CODE_KEY); var el = $('snapshot-code'); if (c && el) el.textContent = c; } catch (e) {}
