@@ -24,6 +24,14 @@ def main():
             shutil.rmtree(dst)
         shutil.copytree(src, dst)
     shutil.copy2(os.path.join(REPO, 'manifest.json'), os.path.join(MIRROR, 'manifest.json'))
+    # Mod 模板（供 mods.js 的 TEMPLATE_MIRROR 使用）
+    tpl_src = os.path.join(REPO, 'tools', 'mod-template')
+    if os.path.isdir(tpl_src):
+        tpl_dst = os.path.join(MIRROR, 'tools', 'mod-template')
+        if os.path.isdir(tpl_dst):
+            shutil.rmtree(tpl_dst)
+        os.makedirs(os.path.join(MIRROR, 'tools'), exist_ok=True)
+        shutil.copytree(tpl_src, tpl_dst)
     subprocess.call(['git', '-C', MIRROR, 'add', '-A'])
     subprocess.call(['git', '-C', MIRROR, '-c', 'user.email=bot@local',
                      '-c', 'user.name=bot', 'commit', '-m', 'sync boot/boot2/manifest'])

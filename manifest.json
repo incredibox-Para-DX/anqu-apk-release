@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.3",
+  "version": "v2.3.0_hotfix.4",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -87,7 +87,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 351539
+      "size": 352191
     },
     {
       "path": "js/synthesis.js",
@@ -139,7 +139,7 @@
     },
     {
       "path": "js/mods.js",
-      "size": 80531
+      "size": 80751
     },
     {
       "path": "admin/anqu-admin.html",
@@ -199,9 +199,9 @@
     },
     {
       "path": "index.html",
-      "size": 143862
+      "size": 143934
     }
   ],
   "fileCount": 50,
-  "totalSize": 2866251
+  "totalSize": 2867195
 }

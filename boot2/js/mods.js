@@ -8,7 +8,9 @@
     var WORKER = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
     var GH = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-mods-resources/main';
     var JD = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main';
+    var GITEE_MODS = 'https://gitee.com/HeFunovo/anqu-mods-resources/raw/master';
     var REPO_RAW_MAIN = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
+    var REPO_GITEE = 'https://gitee.com/HeFunovo/anqu-code/raw/master';
 
     var LIMITS = {
         items: 30,
@@ -58,13 +60,15 @@
         LIMITS: LIMITS,
         GUIDE_QQ: GUIDE_QQ,
         TEMPLATE_URL: TEMPLATE_URL,
-        TEMPLATE_MIRROR: REPO_RAW_MAIN + '/tools/mod-template/anqu-mod-template-v1.zip',
+        TEMPLATE_MIRROR: REPO_GITEE + '/tools/mod-template/anqu-mod-template-v1.zip',
         manifestUrls: [
+            GITEE_MODS + '/mods.json',
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/mods.json',
             GH + '/mods.json',
             JD + '/mods.json'
         ],
         baseUrls: [
+            GITEE_MODS + '/',
             JD + '/',
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
             GH + '/'

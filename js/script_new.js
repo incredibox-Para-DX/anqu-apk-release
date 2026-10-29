@@ -4460,42 +4460,50 @@ const EventManager = {
     const ResourceDownloadManager = {
         // CDN 优先（国内可访问），GitHub raw 作为兜底
         bgManifestUrls: [
+            'https://gitee.com/HeFunovo/anqu-bg-resources/raw/master/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/manifest.json',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/manifest.json'
         ],
         bgBaseUrls: [
+            'https://gitee.com/HeFunovo/anqu-bg-resources/raw/master/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/'
         ],
         musicManifestUrls: [
+            'https://gitee.com/HeFunovo/anqu-music-resources/raw/master/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-music-resources@main/manifest.json',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/manifest.json'
         ],
         musicBaseUrls: [
+            'https://gitee.com/HeFunovo/anqu-music-resources/raw/master/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-music-resources@main/',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/'
         ],
         // 段位徽章图标资源包（结构同背景/音乐：manifest.json + 图标文件）
         titleManifestUrls: [
+            'https://gitee.com/HeFunovo/anqu-title-resources/raw/master/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-title-resources@main/manifest.json',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-title-resources/main/manifest.json'
         ],
         titleBaseUrls: [
+            'https://gitee.com/HeFunovo/anqu-title-resources/raw/master/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-title-resources@main/',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-title-resources/main/'
         ],
         minigameManifestUrls: [
+            'https://gitee.com/HeFunovo/anqu-minigame-resources/raw/master/manifest.json',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-minigame-resources@main/manifest.json',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-minigame-resources/main/manifest.json'
         ],
         minigameBaseUrls: [
+            'https://gitee.com/HeFunovo/anqu-minigame-resources/raw/master/',
             'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-minigame-resources@main/',
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-minigame-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-minigame-resources/main/'
@@ -6656,7 +6664,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.3';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.4';
 
     /* ============================================================
      * 检查更新
