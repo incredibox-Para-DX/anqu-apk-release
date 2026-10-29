@@ -28,6 +28,7 @@ CODE_FILES = [
     "js/main.js",
     "js/modal-registry.js",
     "js/music.js",
+    "js/net-mirror.js",
     "js/telemetry.js",
     "js/ui-fx.js",
     "js/themes.js",

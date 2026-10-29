@@ -5,17 +5,23 @@
   // boot2 仅在 boot 下载不完整时追加尝试
   var GH = 'incredibox-Para-DX/anqu-apk-release';
   var PROXY_ROOT = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
+  var RAW = 'https://raw.githubusercontent.com/' + GH;
+  var GLIST = ['https://ghproxy.net/', 'https://ghfast.top/', 'https://gh-proxy.com/'];
   var CODE_BASES = [
     PROXY_ROOT + '/' + GH + '/p-i18n/boot',
-    'https://raw.githubusercontent.com/' + GH + '/p-i18n/boot',
+    RAW + '/p-i18n/boot',
     'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
     'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
-    'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
-    PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
-    'https://raw.githubusercontent.com/' + GH + '/p-i18n/boot2',
-    'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
-    'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot2'
-  ];
+    'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot'
+  ]
+    .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot'; }))
+    .concat([
+      PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
+      RAW + '/p-i18n/boot2',
+      'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
+      'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot2'
+    ])
+    .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot2'; }));
   var SHELL_MARK = 'anqu-shell';
 
   var CODE_TIMEOUT = 180000;

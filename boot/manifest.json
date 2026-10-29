@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.14",
+  "version": "v2.3.0_hotfix.15",
   "files": [
     {
       "path": "MiniGame/images/index.css",
@@ -27,11 +27,11 @@
     },
     {
       "path": "index.html",
-      "size": 178605
+      "size": 179389
     },
     {
       "path": "integrity.json",
-      "size": 4017
+      "size": 4103
     },
     {
       "path": "integrity.sig",
@@ -47,15 +47,15 @@
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 5271
+      "size": 5323
     },
     {
       "path": "js/collect-pack.js",
-      "size": 11779
+      "size": 11746
     },
     {
       "path": "js/gm-pack.js",
-      "size": 14080
+      "size": 14217
     },
     {
       "path": "js/i18n.js",
@@ -63,7 +63,7 @@
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 32551
+      "size": 32277
     },
     {
       "path": "js/item-i18n.js",
@@ -71,51 +71,55 @@
     },
     {
       "path": "js/main.js",
-      "size": 28195
+      "size": 28350
     },
     {
       "path": "js/mod-editor.js",
-      "size": 29892
+      "size": 31751
     },
     {
       "path": "js/modal-registry.js",
-      "size": 11406
+      "size": 11350
     },
     {
       "path": "js/mods.js",
-      "size": 93201
+      "size": 93513
     },
     {
       "path": "js/music.js",
-      "size": 92365
+      "size": 92331
+    },
+    {
+      "path": "js/net-mirror.js",
+      "size": 4186
     },
     {
       "path": "js/net.js",
-      "size": 9782
+      "size": 9685
     },
     {
       "path": "js/redeem.js",
-      "size": 9661
+      "size": 9554
     },
     {
       "path": "js/script_new.js",
-      "size": 339844
+      "size": 340002
     },
     {
       "path": "js/storage.js",
-      "size": 18620
+      "size": 18616
     },
     {
       "path": "js/synthesis.js",
-      "size": 34287
+      "size": 34123
     },
     {
       "path": "js/telemetry.js",
-      "size": 7969
+      "size": 7869
     },
     {
       "path": "js/themes.js",
-      "size": 6489
+      "size": 6448
     },
     {
       "path": "js/toast-catalog.js",
@@ -123,7 +127,7 @@
     },
     {
       "path": "js/ui-fx.js",
-      "size": 4509
+      "size": 4446
     },
     {
       "path": "libs/GSAP.js",
@@ -190,6 +194,6 @@
       "size": 101
     }
   ],
-  "fileCount": 47,
-  "totalSize": 2772638
+  "fileCount": 48,
+  "totalSize": 2779394
 }
