@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.10",
+  "version": "v2.3.0_hotfix.11",
   "files": [
     {
       "path": "MiniGame/images/index.css",
@@ -14,14 +14,6 @@
       "size": 189889
     },
     {
-      "path": "admin/anqu-admin.html",
-      "size": 61264
-    },
-    {
-      "path": "admin/leaderboard-admin.html",
-      "size": 19413
-    },
-    {
       "path": "css/icon.css",
       "size": 75487
     },
@@ -34,16 +26,12 @@
       "size": 115539
     },
     {
-      "path": "debug-console.css",
-      "size": 153
-    },
-    {
       "path": "index.html",
-      "size": 177351
+      "size": 179078
     },
     {
       "path": "integrity.json",
-      "size": 4469
+      "size": 4017
     },
     {
       "path": "integrity.sig",
@@ -59,19 +47,15 @@
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 5413
+      "size": 5320
     },
     {
       "path": "js/collect-pack.js",
-      "size": 10538
+      "size": 10278
     },
     {
-      "path": "js/debug.js",
-      "size": 134449
-    },
-    {
-      "path": "js/gm-i18n.js",
-      "size": 25596
+      "path": "js/gm-pack.js",
+      "size": 11213
     },
     {
       "path": "js/i18n.js",
@@ -79,7 +63,7 @@
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 31663
+      "size": 32279
     },
     {
       "path": "js/item-i18n.js",
@@ -87,55 +71,51 @@
     },
     {
       "path": "js/main.js",
-      "size": 27437
+      "size": 27285
     },
     {
       "path": "js/mod-editor.js",
-      "size": 32076
+      "size": 30079
     },
     {
       "path": "js/modal-registry.js",
-      "size": 11576
+      "size": 11575
     },
     {
       "path": "js/mods.js",
-      "size": 93532
+      "size": 93603
     },
     {
       "path": "js/music.js",
-      "size": 92377
+      "size": 92287
     },
     {
       "path": "js/net.js",
-      "size": 9654
+      "size": 9780
     },
     {
       "path": "js/redeem.js",
-      "size": 9684
+      "size": 9664
     },
     {
       "path": "js/script_new.js",
-      "size": 335893
+      "size": 335930
     },
     {
       "path": "js/storage.js",
-      "size": 18408
+      "size": 18712
     },
     {
       "path": "js/synthesis.js",
-      "size": 34344
-    },
-    {
-      "path": "js/telemetry-dashboard.js",
-      "size": 9549
+      "size": 34173
     },
     {
       "path": "js/telemetry.js",
-      "size": 8001
+      "size": 8087
     },
     {
       "path": "js/themes.js",
-      "size": 6356
+      "size": 6404
     },
     {
       "path": "js/toast-catalog.js",
@@ -143,7 +123,7 @@
     },
     {
       "path": "js/ui-fx.js",
-      "size": 4560
+      "size": 4563
     },
     {
       "path": "libs/GSAP.js",
@@ -210,6 +190,6 @@
       "size": 101
     }
   ],
-  "fileCount": 52,
-  "totalSize": 3003871
+  "fileCount": 47,
+  "totalSize": 2764442
 }

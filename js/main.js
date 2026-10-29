@@ -457,8 +457,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initCreditsCarousel();
     
     if (debugUnlocked) {
-        preloadFont();
-        setupGMDebugPersistent();
+        if (!window.GmPack || window.GmPack.isDone()) {
+            preloadFont();
+            setupGMDebugPersistent();
+        }
     }
 
     // 供兑换码 hefunadmin 调用：立即开启 GM 模式（无需刷新页面）
@@ -469,6 +471,11 @@ document.addEventListener('DOMContentLoaded', function() {
         try { document.body.setAttribute('data-gm', '1'); } catch (e) {}
         var gmSection = document.getElementById('gm-debug-section');
         if (gmSection) gmSection.style.display = 'block';
+        if (window.GmPack) window.GmPack.refreshUI();
+        if (window.GmPack && !window.GmPack.isDone()) {
+            if (typeof showToast === 'function') showToast('GM 已解锁，请到「资源下载」下载 GM 资源包后再使用');
+            return;
+        }
         preloadFont();
         setupGMDebugPersistent();
         // index.html 里的 GM 调试小字与 debug.js 控制台
@@ -598,8 +605,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     if (debugUnlocked) {
-        preloadFont();
-        setupGMDebugPersistent();
+        if (!window.GmPack || window.GmPack.isDone()) {
+            preloadFont();
+            setupGMDebugPersistent();
+        }
     }
 
     // i18n：语言切换后刷新动态内容（段位名等）并重建选择器高亮
