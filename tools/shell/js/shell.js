@@ -539,5 +539,5 @@
     }).catch(function(){ __integrityFail('读取失败'); });
   }
 
-  __integrityCheck(function(){ boot(); });
+  __integrityCheck(function(){ enter(); });
 })();
