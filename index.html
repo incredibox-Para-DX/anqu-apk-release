@@ -797,7 +797,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="sidebar-effect-settings-btn"><i class="fas fa-magic"></i> <span data-i18n="set_effect">效果设置</span></button>
 <button class="sidebar-btn full-width" id="sidebar-sound-settings-btn"><i class="fas fa-volume-up"></i> <span data-i18n="set_sound">声音设置</span></button>
 <button class="sidebar-btn full-width" id="sidebar-cloud-sync-btn"><i class="fas fa-cloud"></i> <span data-i18n="set_cloud">云同步</span></button>
-<button class="sidebar-btn full-width" id="sidebar-snapshot-btn"><i class="fas fa-box-archive"></i> <span data-i18n="set_snapshot">完整快照</span></button>
 <button class="sidebar-btn full-width" id="sidebar-update-check-btn"><i class="fas fa-sync-alt"></i> <span data-i18n="set_check">检查更新</span><span class="hu-red-dot" data-hudot="check-btn" style="display:none;"></span></button>
 </div>
 </div>
@@ -1053,6 +1052,23 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-title-progress-text">准备中...</div>
 </div>
 </div>
+<div style="border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:12px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<div style="font-weight:600;font-size:14px;"><i class="fas fa-gem" style="color:#8b5cf6;"></i> 收藏室资源包</div>
+<div style="font-size:12px;color:#64748b;" id="rd-collect-count">0 / 0</div>
+</div>
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;">包含收藏室全部藏品图片</div>
+<div style="display:flex;gap:8px;align-items:center;">
+<button class="modal-btn primary" id="rd-download-collect-btn" style="flex:1;"><i class="fas fa-download"></i> 下载收藏室资源包</button>
+</div>
+<div id="rd-collect-done" style="display:none;color:#16a34a;font-weight:600;font-size:13px;"><i class="fas fa-check-circle"></i> 收藏室资源包已全部下载</div>
+<div id="rd-collect-progress-wrap" style="display:none;margin-top:8px;">
+<div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
+<div id="rd-collect-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#8b5cf6,#a78bfa);transition:width 0.3s;"></div>
+</div>
+<div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-collect-progress-text">准备中...</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1186,31 +1202,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<div class="modal-overlay" id="snapshot-modal">
-<div class="modal-content" style="max-width:460px;width:92vw;">
-<div class="modal-header">
-<div class="modal-title"><i class="fas fa-box-archive"></i> 完整快照</div>
-<button class="modal-close" id="snapshot-close">&times;</button>
-</div>
-<div class="modal-body" style="text-align:left;">
-<div style="color:#cbd5e1;font-size:12px;line-height:1.7;">把本机进度/设置打包成快照；换设备输入快照码即可完整恢复（不含 Mod 大文件缓存）。</div>
-<div style="margin-top:12px;padding:10px;background:#1e293b;border-radius:6px;border:1px solid #334155;">
-<div style="color:#94a3b8;font-size:11px;">我的快照码</div>
-<div id="snapshot-code" style="color:#60a5fa;font-size:16px;font-weight:600;letter-spacing:1px;margin-top:4px;">尚未生成</div>
-</div>
-<button class="modal-btn primary full-width" id="snapshot-upload" style="margin-top:10px;">上传完整快照（生成快照码）</button>
-<div class="input-group" style="margin-top:14px;">
-<label class="input-label">用快照码恢复</label>
-<input class="input-field" id="snapshot-input" type="text" placeholder="输入快照码" autocomplete="off">
-</div>
-<button class="modal-btn primary full-width" id="snapshot-restore" style="margin-top:8px;">从快照恢复并刷新</button>
-<div id="snapshot-status" style="color:#94a3b8;font-size:11px;margin-top:10px;line-height:1.6;"></div>
-</div>
-<div class="modal-footer">
-<button class="modal-btn" id="snapshot-close2">关闭</button>
-</div>
-</div>
-</div>
 <div class="modal-overlay" id="cloud-sync-modal">
 <div class="modal-content" style="max-width:460px;width:92vw;">
 <div class="modal-header">
@@ -1926,7 +1917,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/ui-fx.js"></script>
 <script src="js/themes.js"></script>
 <script src="js/mod-editor.js"></script>
-<script src="js/snapshot.js"></script>
+<script src="js/collect-pack.js"></script>
 <script src="js/cloud-profile.js"></script>
 <script src="js/telemetry-dashboard.js"></script>
 <script src="js/net.js"></script>

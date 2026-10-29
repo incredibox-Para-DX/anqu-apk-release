@@ -34,7 +34,7 @@ CODE_FILES = [
     "js/ui-fx.js",
     "js/themes.js",
     "js/mod-editor.js",
-    "js/snapshot.js",
+    "js/collect-pack.js",
     "js/cloud-profile.js",
     "js/telemetry-dashboard.js",
     "js/net.js",

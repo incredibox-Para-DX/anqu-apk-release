@@ -18,7 +18,7 @@ $(function() {
         purpleSpawn: { min: 1, max: 2 },
         valueRange: { min: 1, max: 4000000, base: 1000 },
         valueWeight: { baseWeight: 100, decayFactor: 0.00005, minWeight: 10 },
-        spawn: { red: 0.3, orange: 2.0, gold: 5.0, purple: 5 },
+        spawn: { red: 0.5, orange: 20, gold: 30, purple: 5 },
         storageKey: "darkzone_simulator_stats",
         titles: [
             { value: 0, name: '暗区新锐', icon: 'titles/XR.png', description: '初入暗区' },
@@ -1306,15 +1306,15 @@ previewCurrentBackground() {
             }
             const tide = this.getSkillState('supply_tide');
             if (tide.owned && tide.enabled && tide.remaining > 0) {
-                Config.spawn.red = 0.6;
-                Config.spawn.orange = 4.0;
-                Config.spawn.gold = 10.0;
-                Config.spawn.purple = 10.0;
+                Config.spawn.red = 1.0;
+                Config.spawn.orange = 35;
+                Config.spawn.gold = 45;
+                Config.spawn.purple = 0;
             } else {
-                Config.spawn.red = 0.3;
-                Config.spawn.orange = 2.0;
-                Config.spawn.gold = 5.0;
-                Config.spawn.purple = 5;
+                Config.spawn.red = 0.5;
+                Config.spawn.orange = 20;
+                Config.spawn.gold = 30;
+                Config.spawn.purple = 0;
             }
         },
 
@@ -1647,6 +1647,7 @@ previewCurrentBackground() {
         },
 
         open() {
+            if (window.CollectPack && !window.CollectPack.isDone()) { if (window.showToast) window.showToast('请先到「资源下载」下载收藏室资源包'); return; }
             this.load();
             this.render();
             const $page = $('#collect-page');
@@ -1708,11 +1709,13 @@ previewCurrentBackground() {
             if (this.list.length === 0) {
                 $empty.css('display', 'flex');
                 $view.css('display', 'flex');
-                $('#collect-page').css({
-                    'background-image': 'url("collect/img_e3e8e2a20c.png")',
-                    'background-size': 'cover',
-                    'background-position': 'center center'
-                });
+                (function () {
+                    var pg = $('#collect-page');
+                    pg.css({ 'background-size': 'cover', 'background-position': 'center center' });
+                    if (window.ResourceDownloadManager && window.ResourceDownloadManager.resolvePath) {
+                        window.ResourceDownloadManager.resolvePath('collect/img_e3e8e2a20c.png').then(function (u) { if (u) pg.css('background-image', 'url("' + u + '")'); }).catch(function () {});
+                    }
+                })();
             } else {
                 $empty.hide();
                 $view.css('display', 'flex');
@@ -1731,7 +1734,15 @@ previewCurrentBackground() {
             if (this.currentIndex < 0) this.currentIndex = 0;
 
             const entry = gallery[this.currentIndex];
-            $('#collect-img').attr('src', entry.image || '');
+            (function () {
+                var p = entry.image || '';
+                var img = $('#collect-img');
+                if (p && window.ResourceDownloadManager && window.ResourceDownloadManager.resolvePath) {
+                    window.ResourceDownloadManager.resolvePath(p).then(function (u) { img.attr('src', u || ''); }).catch(function () { img.attr('src', p); });
+                } else {
+                    img.attr('src', p);
+                }
+            })();
             $('#collect-name').text(entry.name);
 
             if (entry.locked) {
@@ -5030,6 +5041,10 @@ const EventManager = {
             if (path.indexOf('titles/') === 0) {
                 return this.getTitleLocalFallback(path) || path;
             }
+            // 收藏图未下载时返回空（由收藏室提示先下载资源包），不回退到背景
+            if (path.indexOf('collect/') === 0) {
+                return null;
+            }
             // 背景未下载时优先回退到远程地址（保持图片/视频类型正确），远程不可用再回退默认背景
             return this.getBgRemoteUrl(path) || this.defaultBgPath;
         },
@@ -6655,7 +6670,7 @@ const EventManager = {
     /* ============================================================
      * 热更新常量（安全增量：只加常量，不改旧代码逻辑）
      * ============================================================ */
-    var HU_BASE_URL = 'https://gitee.com/HeFunovo/anqu-code/raw/master/boot';
+    var HU_BASE_URL = 'https://gitee.com/HeFunovo/anqu-code/raw/p-i18n/boot';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     // Cloudflare Worker 反代（供国内加速）；未部署时自动回落 raw，不影响发版
     var HU_PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/main';
@@ -6664,7 +6679,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.5';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.6';
 
     /* ============================================================
      * 检查更新

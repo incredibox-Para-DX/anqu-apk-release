@@ -1,11 +1,12 @@
 (function () {
   'use strict';
 
-  // 代码线路：国内优先 jsDelivr（CDN 国内可直连），其次 Cloudflare Worker 反代，最后直连 raw
+  // 代码线路：私链优先(Gitee p-i18n)，再到公测基线(master)，其后 jsDelivr/Worker/raw 兜底
   // boot2 仅在 boot 下载不完整时追加尝试
   var PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/main';
   var GITEE = 'https://gitee.com/HeFunovo/anqu-code/raw';
   var CODE_BASES = [
+    GITEE + '/p-i18n/boot',
     GITEE + '/master/boot',
     GITEE + '/main/boot',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
@@ -13,6 +14,7 @@
     'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
     PROXY_BASE + '/boot',
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot',
+    GITEE + '/p-i18n/boot2',
     GITEE + '/master/boot2',
     GITEE + '/main/boot2',
     'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2',
