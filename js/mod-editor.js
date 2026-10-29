@@ -37,7 +37,25 @@
             setMsg(T('me_dl_start'), true);
         } catch (e) { setMsg(T('me_export_fail') + String(e && e.message || e)); }
     }
+    function blobToBase64(blob) {
+        return new Promise(function (resolve, reject) {
+            var r = new FileReader();
+            r.onload = function () { var s = String(r.result || ''); var i = s.indexOf(','); resolve(i >= 0 ? s.slice(i + 1) : s); };
+            r.onerror = reject;
+            r.readAsDataURL(blob);
+        });
+    }
     function downloadBlob(blob, filename) {
+        // 0) 原生分享（新版 APK 暴露 window.AndroidUpdate.saveShare）
+        try {
+            if (window.AndroidUpdate && typeof window.AndroidUpdate.saveShare === 'function') {
+                blobToBase64(blob).then(function (b64) {
+                    try { window.AndroidUpdate.saveShare(b64, filename); setMsg(T('me_saved'), true); }
+                    catch (e) { uploadAndLink(blob, filename); }
+                }).catch(function () { uploadAndLink(blob, filename); });
+                return;
+            }
+        } catch (e) {}
         // 1) 系统分享（若支持）
         try {
             var file = new File([blob], filename, { type: 'application/zip' });
