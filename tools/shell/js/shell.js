@@ -1,26 +1,20 @@
 (function () {
   'use strict';
 
-  // 代码线路：私链优先(Gitee p-i18n)，再到公测基线(master)，其后 jsDelivr/Worker/raw 兜底
+  // 代码线路：私链 GitHub p-i18n（Worker 反代 → raw → jsDelivr 多 CDN 兜底）
   // boot2 仅在 boot 下载不完整时追加尝试
-  var PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/main';
-  var GITEE = 'https://gitee.com/HeFunovo/anqu-code/raw';
+  var GH = 'incredibox-Para-DX/anqu-apk-release';
+  var PROXY_ROOT = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
   var CODE_BASES = [
-    GITEE + '/p-i18n/boot',
-    GITEE + '/master/boot',
-    GITEE + '/main/boot',
-    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
-    'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
-    'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
-    PROXY_BASE + '/boot',
-    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot',
-    GITEE + '/p-i18n/boot2',
-    GITEE + '/master/boot2',
-    GITEE + '/main/boot2',
-    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2',
-    'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2',
-    PROXY_BASE + '/boot2',
-    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2'
+    PROXY_ROOT + '/' + GH + '/p-i18n/boot',
+    'https://raw.githubusercontent.com/' + GH + '/p-i18n/boot',
+    'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
+    'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
+    'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
+    PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
+    'https://raw.githubusercontent.com/' + GH + '/p-i18n/boot2',
+    'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
+    'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot2'
   ];
   var SHELL_MARK = 'anqu-shell';
 
@@ -43,6 +37,7 @@
   var ci = 0;
   var picked = false;
   var done = false;
+  var needDl = false;
   var failed = false;
   var timer = null;
   var pollTimer = null;
@@ -129,6 +124,11 @@
     done = true;
     clearTimeout(timer);
     stopPoll();
+    if (!needDl) {
+      if (introDone) { go(); return; }
+      pendingEnter = true;
+      return;
+    }
     setPct(100);
     setMsg(msg || '资源更新完成，正在进入…', true);
     if (introDone) { go(); return; }
@@ -350,6 +350,7 @@
 
   function tryCode() {
     if (done) return;
+    needDl = true;
     if (!picked) {
       picked = true;
       setMsg('正在连接服务器…', false);
@@ -437,7 +438,7 @@
       intro.style.display = 'none';
     }
     if (pendingEnter) { pendingEnter = false; go(); return; }
-    showProgressUI();
+    if (needDl) showProgressUI();
     if (mainVideo) {
       mainVideo.style.display = 'block';
       playAuto(mainVideo);
@@ -488,5 +489,55 @@
     });
   }
 
-  boot();
+  // ---- 完整性校验：清单签名(原生 RSA) + 逐文件 SHA-256 ----
+  var __K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  function __rotr(x, n) { return (x >>> n) | (x << (32 - n)); }
+  function __sha256Hex(u8) {
+    var H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    var l = u8.length, bitLen = l * 8;
+    var total = (((l + 1 + 8 + 63) >> 6) << 6);
+    var buf = new Uint8Array(total); buf.set(u8); buf[l] = 0x80;
+    var hi = Math.floor(bitLen / 0x100000000), lo = bitLen >>> 0;
+    buf[total-8]=(hi>>>24)&255; buf[total-7]=(hi>>>16)&255; buf[total-6]=(hi>>>8)&255; buf[total-5]=hi&255;
+    buf[total-4]=(lo>>>24)&255; buf[total-3]=(lo>>>16)&255; buf[total-2]=(lo>>>8)&255; buf[total-1]=lo&255;
+    var w = new Array(64);
+    for (var off = 0; off < total; off += 64) {
+      for (var i=0;i<16;i++){ w[i]=((buf[off+i*4]<<24)|(buf[off+i*4+1]<<16)|(buf[off+i*4+2]<<8)|buf[off+i*4+3])>>>0; }
+      for (var i=16;i<64;i++){ var s0=(__rotr(w[i-15],7)^__rotr(w[i-15],18)^(w[i-15]>>>3))>>>0; var s1=(__rotr(w[i-2],17)^__rotr(w[i-2],19)^(w[i-2]>>>10))>>>0; w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0; }
+      var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+      for (var i=0;i<64;i++){ var S1=(__rotr(e,6)^__rotr(e,11)^__rotr(e,25))>>>0; var ch=((e&f)^((~e)&g))>>>0; var t1=(h+S1+ch+__K[i]+w[i])>>>0; var S0=(__rotr(a,2)^__rotr(a,13)^__rotr(a,22))>>>0; var maj=((a&b)^(a&c)^(b&c))>>>0; var t2=(S0+maj)>>>0; h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0; }
+      H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;
+    }
+    var out=''; for (var i=0;i<8;i++){ out += ('00000000'+H[i].toString(16)).slice(-8); } return out;
+  }
+  function __fetchBytes(url){ return fetch(url,{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.arrayBuffer(); }).then(function(ab){ return new Uint8Array(ab); }); }
+  function __decodeUtf8(u8){ try { return new TextDecoder('utf-8').decode(u8); } catch(e){ var s=''; for (var i=0;i<u8.length;i++) s+=String.fromCharCode(u8[i]); return s; } }
+  function __integrityFail(msg){ var ov=$('loading-overlay'); if(ov) ov.className='loading-overlay failed'; setMsg('文件校验失败：'+msg, false); var tip=$('loading-tip'); if(tip) tip.textContent='文件被篡改或损坏，请重装或更新'; }
+  function __integrityCheck(cb){
+    setMsg('正在校验文件…', false);
+    Promise.all([
+      __fetchBytes('integrity.json'),
+      fetch('integrity.sig',{cache:'no-store'}).then(function(r){ if(!r.ok) throw new Error('sig'); return r.text(); })
+    ]).then(function(res){
+      var u8 = res[0], sig = res[1];
+      var hex = __sha256Hex(u8);
+      var ok = false;
+      try { ok = !!(window.AndroidUpdate && typeof window.AndroidUpdate.verify === 'function' && window.AndroidUpdate.verify(hex, sig)); } catch(e) {}
+      if (!ok) { __integrityFail('签名无效'); return; }
+      var json;
+      try { json = JSON.parse(__decodeUtf8(u8)); } catch(e) { __integrityFail('清单损坏'); return; }
+      var files = (json && json.files) || {};
+      var paths = Object.keys(files);
+      var bad = [];
+      var chain = Promise.resolve();
+      paths.forEach(function(p){
+        chain = chain.then(function(){
+          return __fetchBytes(p).then(function(bytes){ if (__sha256Hex(bytes) !== files[p]) bad.push(p); }).catch(function(){ bad.push(p); });
+        });
+      });
+      chain.then(function(){ if (bad.length) { __integrityFail('文件不符('+bad.length+')'); return; } cb(); });
+    }).catch(function(){ __integrityFail('读取失败'); });
+  }
+
+  __integrityCheck(function(){ boot(); });
 })();
