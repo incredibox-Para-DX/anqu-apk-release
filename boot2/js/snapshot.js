@@ -26,17 +26,64 @@
         } catch (e) {}
         return data;
     }
+    function delay(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+    function b64FromBytes(bytes) {
+        var s = '', CH = 0x8000;
+        for (var i = 0; i < bytes.length; i += CH) s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+        return btoa(s);
+    }
+    function bytesFromB64(b64) {
+        var bin = atob(b64), a = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
+        return a;
+    }
+    function packData(json) {
+        if (w.CompressionStream && json.length > 4096) {
+            try {
+                var cs = new Response(new Blob([json]).stream().pipeThrough(new w.CompressionStream('gzip')));
+                return cs.arrayBuffer().then(function (ab) { return 'GZ1:' + b64FromBytes(new Uint8Array(ab)); })
+                    .catch(function () { return json; });
+            } catch (e) {}
+        }
+        return Promise.resolve(json);
+    }
+    function unpackData(s) {
+        if (typeof s === 'string' && s.slice(0, 4) === 'GZ1:' && w.DecompressionStream) {
+            try {
+                var bytes = bytesFromB64(s.slice(4));
+                return new Response(new Blob([bytes]).stream().pipeThrough(new w.DecompressionStream('gzip'))).text();
+            } catch (e) {}
+        }
+        return Promise.resolve(s);
+    }
+    function sendWithRetry(code, dataStr, attempt) {
+        return fetch(SUPA_URL + '/rest/v1/ab_saves?on_conflict=code', {
+            method: 'POST',
+            headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+            body: JSON.stringify([{ code: code, data: dataStr, updated_at: new Date().toISOString() }])
+        }).then(function (r) {
+            if (r.ok) return true;
+            return r.text().then(function (t) {
+                var retryable = (r.status >= 500 || r.status === 429 || r.status === 408);
+                if (retryable && attempt < 2) {
+                    return delay(900 * (attempt + 1)).then(function () { return sendWithRetry(code, dataStr, attempt + 1); });
+                }
+                throw new Error('HTTP ' + r.status + (t ? (' ' + t.slice(0, 140)) : ''));
+            });
+        }, function (e) {
+            if (attempt < 2) return delay(900 * (attempt + 1)).then(function () { return sendWithRetry(code, dataStr, attempt + 1); });
+            throw e;
+        });
+    }
     function upload() {
         var code;
         try { code = localStorage.getItem(CODE_KEY) || genCode(); } catch (e) { code = genCode(); }
         var snap = collect();
         status(T('snap_uploading'));
-        fetch(SUPA_URL + '/rest/v1/ab_saves?on_conflict=code', {
-            method: 'POST',
-            headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge-duplicates,return=minimal' },
-            body: JSON.stringify([{ code: code, data: JSON.stringify(snap), updated_at: new Date().toISOString() }])
-        }).then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
+        var json = JSON.stringify(snap);
+        packData(json).then(function (dataStr) {
+            return sendWithRetry(code, dataStr, 0);
+        }).then(function () {
             try { localStorage.setItem(CODE_KEY, code); } catch (e) {}
             var el = $('snapshot-code'); if (el) el.textContent = code;
             status(T('snap_uploaded') + code, '#34d399');
@@ -50,17 +97,19 @@
         fetch(SUPA_URL + '/rest/v1/ab_saves?code=eq.' + encodeURIComponent(code) + '&select=data,updated_at', { headers: hdr() })
             .then(function (r) { return r.json(); })
             .then(function (rows) {
-                if (!rows || !rows.length) { status(T('snap_notfound'), '#f87171'); return; }
-                var data;
-                try { data = JSON.parse(rows[0].data); } catch (e) { status(T('snap_corrupt'), '#f87171'); return; }
-                var n = 0;
-                for (var k in data) {
-                    if (!Object.prototype.hasOwnProperty.call(data, k)) continue;
-                    if (BLOCK.indexOf(k) !== -1) continue;
-                    try { localStorage.setItem(k, data[k]); n++; } catch (e) {}
-                }
-                status(T('snap_restored').replace('{n}', n), '#34d399');
-                setTimeout(function () { location.reload(); }, 800);
+                if (!rows || !rows.length) { status(T('snap_notfound'), '#f87171'); return null; }
+                return unpackData(rows[0].data).then(function (txt) {
+                    var data;
+                    try { data = JSON.parse(txt); } catch (e) { status(T('snap_corrupt'), '#f87171'); return; }
+                    var n = 0;
+                    for (var k in data) {
+                        if (!Object.prototype.hasOwnProperty.call(data, k)) continue;
+                        if (BLOCK.indexOf(k) !== -1) continue;
+                        try { localStorage.setItem(k, data[k]); n++; } catch (e) {}
+                    }
+                    status(T('snap_restored').replace('{n}', n), '#34d399');
+                    setTimeout(function () { location.reload(); }, 800);
+                });
             })
             .catch(function (e) { status(T('snap_restore_fail') + (e && e.message || e), '#f87171'); });
     }
