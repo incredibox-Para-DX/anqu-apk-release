@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.2.m",
+  "version": "v2.3.0_hotfix.3.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -87,7 +87,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 351561
+      "size": 351539
     },
     {
       "path": "js/synthesis.js",
@@ -203,5 +203,5 @@
     }
   ],
   "fileCount": 50,
-  "totalSize": 2866273
+  "totalSize": 2866251
 }
