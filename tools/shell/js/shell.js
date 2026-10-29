@@ -1,25 +1,33 @@
 (function () {
   'use strict';
 
-  // 代码：raw 为主线路（jsDelivr 的 @main 会长期缓存旧文件），boot2 用于下载不完整时强制重下
-  // Worker 反代走 Cloudflare 边缘，国内通常明显快于直连 raw；未部署时会测速失败自动回落
+  // 代码线路：国内优先 jsDelivr（CDN 国内可直连），其次 Cloudflare Worker 反代，最后直连 raw
+  // boot2 仅在 boot 下载不完整时追加尝试
   var PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/main';
+  var GITEE = 'https://gitee.com/HeFunovo/anqu-code/raw';
   var CODE_BASES = [
+    GITEE + '/master/boot',
+    GITEE + '/main/boot',
+    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
+    'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
+    'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
     PROXY_BASE + '/boot',
     'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot',
-    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot',
+    GITEE + '/master/boot2',
+    GITEE + '/main/boot2',
+    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2',
+    'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2',
     PROXY_BASE + '/boot2',
-    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2',
-    'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main/boot2'
+    'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot2'
   ];
   var SHELL_MARK = 'anqu-shell';
 
-  var CODE_TIMEOUT = 90000;
+  var CODE_TIMEOUT = 180000;
   var PROBE_TIMEOUT = 8000;
 
   // 测速结果缓存（1 小时）：上次最快的线路优先，省掉重复测速
   var BASE_PICK_KEY = 'ab_fast_base';
-  var BASE_PICK_TTL = 3600 * 1000;
+  var BASE_PICK_TTL = 10 * 60 * 1000;
 
   var VERIFY_CODE = [
     'index.html',
@@ -45,6 +53,11 @@
   var probedBytes = 0;
   var startTs = 0;
   var tickTimer = null;
+
+  var maxBytes = 0;
+  var lastBytes = 0;
+  var lastBytesTs = 0;
+  var speedBps = 0;
 
   var introDone = false;
   var pendingEnter = false;
@@ -75,6 +88,27 @@
 
   function lsGet(k) {
     try { return localStorage.getItem(k); } catch (e) { return null; }
+  }
+
+  function fmtBytes(n) {
+    n = n || 0;
+    if (n < 1024) return n + 'B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + 'KB';
+    return (n / 1048576).toFixed(1) + 'MB';
+  }
+
+  function fmtSpeed(bps) {
+    bps = bps > 0 ? bps : 0;
+    if (bps < 1048576) return (bps / 1024).toFixed(1) + 'KB/s';
+    return (bps / 1048576).toFixed(2) + 'MB/s';
+  }
+
+  function updateBytesText() {
+    var text = fmtBytes(maxBytes) + ' / ' + fmtBytes(totalBytes) + '  ' + fmtSpeed(speedBps);
+    var msg = $('dl-msg');
+    if (msg) msg.textContent = text;
+    var tip = $('loading-tip');
+    if (tip) tip.textContent = text + '   ' + pct + '%';
   }
 
   function showProgressUI() {
@@ -145,12 +179,15 @@
     return s;
   }
 
-  function resetProgress() {
-    pct = 0;
+  function resetProgress(keep) {
+    if (!keep) { pct = 0; setPct(0); }
     lastIdx = -1;
     probedBytes = 0;
     startTs = Date.now();
-    setPct(0);
+    maxBytes = 0;
+    lastBytes = 0;
+    lastBytesTs = Date.now();
+    speedBps = 0;
   }
 
   function stopPoll() {
@@ -169,17 +206,34 @@
     probedBytes = bytesUpTo(i);
   }
 
-  // 时间曲线：约 12 秒到 50%，30 秒到 75%，60 秒到 88%，之后逼近 94%
+  // 进度：以“已完成文件字节”为主导（真实），仅叠加极小蠕动避免长时间不动
   function tick() {
     if (done || failed) return;
     var elapsed = Date.now() - startTs;
-    var byTime = 2 + 92 * (1 - Math.exp(-elapsed / 26000));
     var byReal = 0;
-    if (totalBytes) byReal = 2 + 92 * (probedBytes / totalBytes);
-    var v = Math.max(byTime, byReal);
-    if (v > 96) v = 96;
+    if (totalBytes) byReal = 2 + 95 * (probedBytes / totalBytes);
+    var v;
+    if (byReal > 2.5) {
+      // 有真实字节后：真实值主导，蠕动最多只领先真实 6%
+      var creep = 2 + 95 * (1 - Math.exp(-elapsed / 180000));
+      v = Math.max(byReal, Math.min(creep, byReal + 6));
+    } else {
+      // 尚未落盘任何文件：极慢蠕动，避免卡在 0%
+      v = 2 + 12 * (1 - Math.exp(-elapsed / 90000));
+    }
+    if (v > 97) v = 97;
     if (v > pct) setPct(v);
-    if (elapsed > 45000) setMsg('网络较慢，正在等待资源…', true);
+    if (probedBytes > maxBytes) maxBytes = probedBytes;
+    var now = Date.now();
+    if (now - lastBytesTs >= 900) {
+      var dt2 = (now - lastBytesTs) / 1000;
+      var inst = (probedBytes - lastBytes) / dt2;
+      if (inst < 0) inst = 0;
+      speedBps = speedBps > 0 ? (speedBps * 0.5 + inst * 0.5) : inst;
+      lastBytes = probedBytes;
+      lastBytesTs = now;
+    }
+    updateBytesText();
   }
 
   // 顺序探测：从上一个已知位置往后探，用于确认哪些文件已经落盘
@@ -222,9 +276,8 @@
       get(rel, function (ok, text) {
         if (!ok) { cb(false); return; }
         if (rel === 'index.html' && text.indexOf(SHELL_MARK) >= 0) { cb(false); return; }
-        // 迁移：旧版 v2.1.1 / v2.1.0 不带 _hotfix，版本比较有 bug，
-        // 检测到旧缓存就强制重新下载一次，之后正常跳过
-        if (rel === 'js/script_new.js' && text.indexOf('_hotfix.') < 0) { cb(false); return; }
+        // 版本兼容：接受 vX.Y.Z 与 vX.Y.Z_hotfix.N 两种格式
+        if (rel === 'js/script_new.js' && !/v\d+\.\d+\.\d+/.test(text)) { cb(false); return; }
         next();
       }, PROBE_TIMEOUT);
     }
@@ -304,12 +357,14 @@
     if (ci >= CODE_BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
     var base = CODE_BASES[ci++];
     setMsg('正在下载资源中…', true);
-    resetProgress();
+    // 首次尝试才归零；线路重试时保留已到达的进度，避免“回退0%”
+    resetProgress(ci > 1);
     var startDownload = function () {
       if (done) return;
       startPoll();
       call(base, CODE_TIMEOUT, function () {
         stopPoll();
+        try { localStorage.removeItem(BASE_PICK_KEY); } catch (e) {}
         tryCode();
       });
     };

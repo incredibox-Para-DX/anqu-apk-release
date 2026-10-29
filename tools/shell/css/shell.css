@@ -69,6 +69,12 @@ html, body {
     font-weight: 400;
 }
 
+.dl-status .dl-line.dl-bytes {
+    margin-top: 4px;
+    font-size: 12px;
+    opacity: 0.82;
+}
+
 /* 底部细进度线 */
 .dl-bar {
     position: fixed;
