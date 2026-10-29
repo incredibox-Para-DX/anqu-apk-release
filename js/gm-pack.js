@@ -38,21 +38,18 @@
     function injectOnce(onReady) {
         if (w.__gmUiInjected) { if (onReady) onReady(); return; }
         w.__gmUiInjected = true;
-        try {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet'; link.href = 'debug-console.css';
-            document.head.appendChild(link);
-        } catch (e) {}
+        var R = w.ResourceDownloadManager;
+        function res(p) { if (R && typeof R.resolvePath === 'function') return R.resolvePath(p).catch(function () { return p; }); return Promise.resolve(p); }
+        res('debug-console.css').then(function (u) {
+            try { var link = document.createElement('link'); link.rel = 'stylesheet'; link.href = u; document.head.appendChild(link); } catch (e) {}
+        });
         var srcs = ['js/gm-i18n.js', 'js/telemetry-dashboard.js'];
         var pending = srcs.length;
         function done() { if (--pending === 0 && onReady) onReady(); }
         srcs.forEach(function (src) {
-            try {
-                var s = document.createElement('script');
-                s.src = src; s.async = false;
-                s.onload = done; s.onerror = done;
-                document.body.appendChild(s);
-            } catch (e) { done(); }
+            res(src).then(function (u) {
+                try { var s = document.createElement('script'); s.async = false; s.onload = done; s.onerror = done; s.src = u; document.body.appendChild(s); } catch (e) { done(); }
+            }).catch(function () { done(); });
         });
     }
 

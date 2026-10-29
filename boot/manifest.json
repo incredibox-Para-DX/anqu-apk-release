@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.13",
+  "version": "v2.3.0_hotfix.14",
   "files": [
     {
       "path": "MiniGame/images/index.css",
@@ -27,7 +27,7 @@
     },
     {
       "path": "index.html",
-      "size": 179268
+      "size": 178605
     },
     {
       "path": "integrity.json",
@@ -47,15 +47,15 @@
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 5462
+      "size": 5271
     },
     {
       "path": "js/collect-pack.js",
-      "size": 11575
+      "size": 11779
     },
     {
       "path": "js/gm-pack.js",
-      "size": 13557
+      "size": 14080
     },
     {
       "path": "js/i18n.js",
@@ -63,7 +63,7 @@
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 32596
+      "size": 32551
     },
     {
       "path": "js/item-i18n.js",
@@ -71,51 +71,51 @@
     },
     {
       "path": "js/main.js",
-      "size": 28371
+      "size": 28195
     },
     {
       "path": "js/mod-editor.js",
-      "size": 31757
+      "size": 29892
     },
     {
       "path": "js/modal-registry.js",
-      "size": 11359
+      "size": 11406
     },
     {
       "path": "js/mods.js",
-      "size": 93592
+      "size": 93201
     },
     {
       "path": "js/music.js",
-      "size": 92013
+      "size": 92365
     },
     {
       "path": "js/net.js",
-      "size": 9695
+      "size": 9782
     },
     {
       "path": "js/redeem.js",
-      "size": 9707
+      "size": 9661
     },
     {
       "path": "js/script_new.js",
-      "size": 339171
+      "size": 339844
     },
     {
       "path": "js/storage.js",
-      "size": 18588
+      "size": 18620
     },
     {
       "path": "js/synthesis.js",
-      "size": 34092
+      "size": 34287
     },
     {
       "path": "js/telemetry.js",
-      "size": 8036
+      "size": 7969
     },
     {
       "path": "js/themes.js",
-      "size": 6411
+      "size": 6489
     },
     {
       "path": "js/toast-catalog.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "js/ui-fx.js",
-      "size": 4445
+      "size": 4509
     },
     {
       "path": "libs/GSAP.js",
@@ -191,5 +191,5 @@
     }
   ],
   "fileCount": 47,
-  "totalSize": 2773827
+  "totalSize": 2772638
 }

@@ -2288,11 +2288,14 @@ window.__loadDebugConsole = function () {
     if (window.__debugConsoleLoaded) return;
     window.__debugConsoleLoaded = true;
     var s = document.createElement('script');
-    s.src = 'js/debug.js';
     s.async = true;
     s.onload = function () { console.log('[DebugConsole] loaded on demand'); };
-    s.onerror = function () { console.warn('[DebugConsole] failed to load'); };
-    document.body.appendChild(s);
+    s.onerror = function () { console.warn('[DebugConsole] failed to load'); window.__debugConsoleLoaded = false; };
+    var R = window.ResourceDownloadManager;
+    var append = function (u) { s.src = u || 'js/debug.js'; document.body.appendChild(s); };
+    if (R && typeof R.resolvePath === 'function') {
+        R.resolvePath('js/debug.js').then(function (u) { append(u); }).catch(function () { append(); });
+    } else { append(); }
 };
 </script>
 <script>

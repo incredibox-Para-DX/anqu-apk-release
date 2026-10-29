@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.13",
+  "version": "v2.3.0_hotfix.14",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -63,7 +63,7 @@
     },
     {
       "path": "js/gm-pack.js",
-      "size": 8323
+      "size": 8546
     },
     {
       "path": "js/cloud-profile.js",
@@ -79,7 +79,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 355345
+      "size": 355850
     },
     {
       "path": "js/synthesis.js",
@@ -179,9 +179,9 @@
     },
     {
       "path": "index.html",
-      "size": 144955
+      "size": 145250
     }
   ],
   "fileCount": 45,
-  "totalSize": 2679279
+  "totalSize": 2680302
 }
