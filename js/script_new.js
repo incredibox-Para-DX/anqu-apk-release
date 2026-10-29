@@ -6662,16 +6662,16 @@ const EventManager = {
     /* ============================================================
      * 热更新常量（安全增量：只加常量，不改旧代码逻辑）
      * ============================================================ */
-    var HU_BASE_URL = 'https://gitee.com/HeFunovo/anqu-code/raw/p-i18n/boot';
+    var HU_BASE_URL = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/p-i18n/boot';
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     // Cloudflare Worker 反代（供国内加速）；未部署时自动回落 raw，不影响发版
-    var HU_PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/main';
-    // 最后兜底：jsDelivr。仓库体积控制不当会超 50MB 限制返回 403，只作末位候选
-    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@main';
+    var HU_PROXY_BASE = 'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/p-i18n/boot';
+    // 最后兜底：jsDelivr
+    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@p-i18n/boot';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.8';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.9';
 
     /* ============================================================
      * 检查更新

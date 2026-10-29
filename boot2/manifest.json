@@ -1,6 +1,10 @@
 {
-  "version": "v2.3.0_hotfix.8.m",
+  "version": "v2.3.0_hotfix.9.m",
   "files": [
+    {
+      "path": "MiniGame/images/index.css",
+      "size": 2053
+    },
     {
       "path": "MiniGame/index.html",
       "size": 2752
@@ -10,8 +14,12 @@
       "size": 189889
     },
     {
-      "path": "MiniGame/images/index.css",
-      "size": 2053
+      "path": "admin/anqu-admin.html",
+      "size": 61264
+    },
+    {
+      "path": "admin/leaderboard-admin.html",
+      "size": 19413
     },
     {
       "path": "css/icon.css",
@@ -30,96 +38,112 @@
       "size": 153
     },
     {
-      "path": "js/debug.js",
-      "size": 91882
+      "path": "index.html",
+      "size": 177574
     },
     {
-      "path": "js/inline-scripts.js",
-      "size": 29043
+      "path": "integrity.json",
+      "size": 4468
     },
     {
-      "path": "js/main.js",
-      "size": 24642
-    },
-    {
-      "path": "js/modal-registry.js",
-      "size": 8119
-    },
-    {
-      "path": "js/music.js",
-      "size": 89990
-    },
-    {
-      "path": "js/telemetry.js",
-      "size": 5188
-    },
-    {
-      "path": "js/ui-fx.js",
-      "size": 1950
-    },
-    {
-      "path": "js/themes.js",
-      "size": 2929
-    },
-    {
-      "path": "js/mod-editor.js",
-      "size": 21716
-    },
-    {
-      "path": "js/collect-pack.js",
-      "size": 6018
-    },
-    {
-      "path": "js/cloud-profile.js",
-      "size": 2882
-    },
-    {
-      "path": "js/telemetry-dashboard.js",
-      "size": 4537
-    },
-    {
-      "path": "js/net.js",
-      "size": 7315
-    },
-    {
-      "path": "js/redeem.js",
-      "size": 6986
-    },
-    {
-      "path": "js/script_new.js",
-      "size": 352605
-    },
-    {
-      "path": "js/synthesis.js",
-      "size": 25837
+      "path": "integrity.sig",
+      "size": 344
     },
     {
       "path": "js/banned-words.js",
-      "size": 6585
-    },
-    {
-      "path": "js/storage.js",
-      "size": 15826
-    },
-    {
-      "path": "js/i18n.js",
-      "size": 135043
-    },
-    {
-      "path": "js/item-i18n.js",
-      "size": 109785
+      "size": 9143
     },
     {
       "path": "js/bg-i18n.js",
-      "size": 4762
+      "size": 11482
+    },
+    {
+      "path": "js/cloud-profile.js",
+      "size": 5367
+    },
+    {
+      "path": "js/collect-pack.js",
+      "size": 10430
+    },
+    {
+      "path": "js/debug.js",
+      "size": 133964
     },
     {
       "path": "js/gm-i18n.js",
-      "size": 25596
+      "size": 47604
+    },
+    {
+      "path": "js/i18n.js",
+      "size": 207430
+    },
+    {
+      "path": "js/inline-scripts.js",
+      "size": 32594
+    },
+    {
+      "path": "js/item-i18n.js",
+      "size": 178541
+    },
+    {
+      "path": "js/main.js",
+      "size": 27337
+    },
+    {
+      "path": "js/mod-editor.js",
+      "size": 31749
+    },
+    {
+      "path": "js/modal-registry.js",
+      "size": 11580
+    },
+    {
+      "path": "js/mods.js",
+      "size": 93178
+    },
+    {
+      "path": "js/music.js",
+      "size": 92273
+    },
+    {
+      "path": "js/net.js",
+      "size": 9643
+    },
+    {
+      "path": "js/redeem.js",
+      "size": 9772
+    },
+    {
+      "path": "js/script_new.js",
+      "size": 335798
+    },
+    {
+      "path": "js/storage.js",
+      "size": 18665
+    },
+    {
+      "path": "js/synthesis.js",
+      "size": 34250
+    },
+    {
+      "path": "js/telemetry-dashboard.js",
+      "size": 9637
+    },
+    {
+      "path": "js/telemetry.js",
+      "size": 7900
+    },
+    {
+      "path": "js/themes.js",
+      "size": 6350
     },
     {
       "path": "js/toast-catalog.js",
-      "size": 3806
+      "size": 9377
+    },
+    {
+      "path": "js/ui-fx.js",
+      "size": 4644
     },
     {
       "path": "libs/GSAP.js",
@@ -130,44 +154,12 @@
       "size": 78748
     },
     {
-      "path": "libs/lodash.js",
-      "size": 73154
-    },
-    {
       "path": "libs/jszip.min.js",
       "size": 97630
     },
     {
-      "path": "js/mods.js",
-      "size": 80531
-    },
-    {
-      "path": "admin/anqu-admin.html",
-      "size": 61264
-    },
-    {
-      "path": "admin/leaderboard-admin.html",
-      "size": 19413
-    },
-    {
-      "path": "xml/backgrounds.xml",
-      "size": 8149
-    },
-    {
-      "path": "xml/items.xml",
-      "size": 93710
-    },
-    {
-      "path": "xml/loading-tips.xml",
-      "size": 463
-    },
-    {
-      "path": "xml/music-config.xml",
-      "size": 4111
-    },
-    {
-      "path": "xml/video-config.xml",
-      "size": 101
+      "path": "libs/lodash.js",
+      "size": 73154
     },
     {
       "path": "music-player/covers/custom-music-default.png",
@@ -198,10 +190,26 @@
       "size": 34310
     },
     {
-      "path": "index.html",
-      "size": 143457
+      "path": "xml/backgrounds.xml",
+      "size": 8149
+    },
+    {
+      "path": "xml/items.xml",
+      "size": 93710
+    },
+    {
+      "path": "xml/loading-tips.xml",
+      "size": 463
+    },
+    {
+      "path": "xml/music-config.xml",
+      "size": 4111
+    },
+    {
+      "path": "xml/video-config.xml",
+      "size": 101
     }
   ],
-  "fileCount": 50,
-  "totalSize": 2867650
+  "fileCount": 52,
+  "totalSize": 3181714
 }
