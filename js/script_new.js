@@ -5885,6 +5885,41 @@ const EventManager = {
             EventManager.openModal('resource-download-modal');
         },
 
+        // 通用：确认删除弹窗（与旧资源包同样式），供收藏室/GM 等自定义包复用
+        confirmDeletePaths(label, onOk) {
+            var modalId = '__rd-delete-confirm';
+            $('#' + modalId).remove();
+            var $modal = $(
+                '<div class="modal-overlay" id="' + modalId + '">' +
+                '<div class="modal-content" style="max-width:360px;">' +
+                '<div class="modal-header"><div class="modal-title"><i class="fas fa-exclamation-triangle" style="color:#f59e0b;"></i> 确认删除</div><button class="modal-close">&times;</button></div>' +
+                '<div class="modal-body" style="padding:20px 0;text-align:center;"><div style="font-size:48px;color:#f59e0b;margin-bottom:12px;"><i class="fas fa-trash"></i></div><div style="color:#e2e8f0;font-size:15px;margin-bottom:8px;font-weight:500;">确定要删除「' + label + '」吗？</div><div style="color:#94a3b8;font-size:13px;">删除后需要重新下载。</div></div>' +
+                '<div class="modal-footer" style="justify-content:center;gap:12px;"><button class="modal-btn" data-act="cancel" style="min-width:100px;">取消</button><button class="modal-btn danger" data-act="ok" style="min-width:100px;background:#ef4444;border-color:#ef4444;">确认删除</button></div>' +
+                '</div></div>'
+            );
+            $('body').append($modal);
+            _.delay(function () { $modal.addClass('show'); }, 10);
+            var close = function () { $modal.removeClass('show'); _.delay(function () { $modal.remove(); }, 320); };
+            $modal.on('click', function (e) { if ($(e.target).hasClass('modal-overlay')) close(); });
+            $modal.find('.modal-close,[data-act="cancel"]').on('click', close);
+            $modal.find('[data-act="ok"]').on('click', function () { close(); _.delay(onOk, 350); });
+        },
+        async deletePathsAndUnmark(paths) {
+            try {
+                var db = await this.openDB();
+                var store = this.storeName;
+                for (var i = 0; i < paths.length; i++) {
+                    await new Promise(function (res) { var tx = db.transaction(store, 'readwrite'); var r = tx.objectStore(store).delete(paths[i]); r.onsuccess = function () { res(); }; r.onerror = function () { res(); }; });
+                }
+            } catch (e) {}
+            try {
+                var raw = localStorage.getItem(this.downloadedKey);
+                var set = raw ? JSON.parse(raw) : [];
+                if (Array.isArray(set)) { set = set.filter(function (p) { return paths.indexOf(p) === -1; }); localStorage.setItem(this.downloadedKey, JSON.stringify(set)); }
+            } catch (e) {}
+            try { this.blobUrlCache = {}; } catch (e) {}
+        },
+
         // 删除某类已下载的资源（从 IndexedDB 移除）
         deleteResource(type) {
             var labelMap = { bg: '背景资源包', music: '音乐资源包', title: '段位图标资源包', minigame: '小游戏资源包' };
@@ -6671,7 +6706,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.11';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.13';
 
     /* ============================================================
      * 检查更新

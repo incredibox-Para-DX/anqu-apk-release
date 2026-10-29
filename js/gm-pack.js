@@ -35,33 +35,58 @@
         });
     }
 
-    function injectOnce() {
-        if (w.__gmUiInjected) return;
+    function injectOnce(onReady) {
+        if (w.__gmUiInjected) { if (onReady) onReady(); return; }
         w.__gmUiInjected = true;
         try {
             var link = document.createElement('link');
             link.rel = 'stylesheet'; link.href = 'debug-console.css';
             document.head.appendChild(link);
         } catch (e) {}
-        ['js/gm-i18n.js', 'js/telemetry-dashboard.js'].forEach(function (src) {
+        var srcs = ['js/gm-i18n.js', 'js/telemetry-dashboard.js'];
+        var pending = srcs.length;
+        function done() { if (--pending === 0 && onReady) onReady(); }
+        srcs.forEach(function (src) {
             try {
                 var s = document.createElement('script');
                 s.src = src; s.async = false;
+                s.onload = done; s.onerror = done;
                 document.body.appendChild(s);
-            } catch (e) {}
+            } catch (e) { done(); }
         });
+    }
+
+    function enableGmAfterPack() {
+        try { if (w.__enableGMAfterPack) { w.__enableGMAfterPack(); return; } } catch (e) {}
+        try { if (w.__initGMDebugInfo) w.__initGMDebugInfo(); } catch (e) {}
+        try { if (w.__loadDebugConsole) w.__loadDebugConsole(); } catch (e) {}
+        try { var s = document.getElementById('gm-debug-section'); if (s) s.style.display = 'block'; } catch (e) {}
     }
 
     function refreshUI() {
         var block = $('rd-gm-block');
         if (block) block.style.display = unlocked() ? '' : 'none';
-        if (unlocked() && isDone()) {
-            var d = $('rd-gm-done'); if (d) d.style.display = '';
-            var b = $('rd-download-gm-btn'); if (b) b.style.display = 'none';
-            loadManifest().then(function (m) {
-                var c = $('rd-gm-count'); if (c) c.textContent = m.files.length + ' / ' + m.files.length;
-            }).catch(function () {});
-        }
+        var done = isDone();
+        var d = $('rd-gm-done'); if (d) d.style.display = done ? '' : 'none';
+        var b = $('rd-download-gm-btn'); if (b) b.style.display = done ? 'none' : '';
+        var del = $('rd-delete-gm-btn'); if (del) del.style.display = done ? '' : 'none';
+        loadManifest().then(function (m) { var t = m.files.length; var c = $('rd-gm-count'); if (c) c.textContent = (done ? t : 0) + ' / ' + t; }).catch(function () {});
+    }
+
+    function deletePack() {
+        var R = w.ResourceDownloadManager;
+        if (!R) { toast('资源管理器未就绪'); return; }
+        loadManifest().then(function (m) {
+            var paths = (m.files || []).map(function (f) { return f.path; });
+            R.confirmDeletePaths('GM 资源包', function () {
+                R.deletePathsAndUnmark(paths).then(function () {
+                    try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+                    try { w.__gmUiInjected = false; } catch (e) {}
+                    toast('GM 资源包已删除');
+                    refreshUI();
+                });
+            });
+        }).catch(function () { toast('资源列表加载失败'); });
     }
 
     function download() {
@@ -97,7 +122,7 @@
                     try { localStorage.setItem(DONE_KEY, m.version || '1'); } catch (e) {}
                     setBar(100, '全部完成'); if (dn) dn.style.display = '';
                     if (btn) btn.style.display = 'none';
-                    injectOnce();
+                    injectOnce(function () { enableGmAfterPack(); });
                     toast('GM 资源包已下载，GM 功能已启用');
                 } else {
                     setBar(Math.round(done / files.length * 100), '完成：' + done + '/' + files.length + '，失败 ' + failed + '（可再次点击重试）');
@@ -110,14 +135,16 @@
     function bind() {
         var b = $('rd-download-gm-btn');
         if (b && !b._b) { b._b = true; b.addEventListener('click', download); }
+        var d = $('rd-delete-gm-btn');
+        if (d && !d._b) { d._b = true; d.addEventListener('click', deletePack); }
     }
 
     function init() {
         bind(); refreshUI();
-        if (unlocked() && isDone()) injectOnce();
+        if (unlocked() && isDone()) injectOnce(function () { enableGmAfterPack(); });
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
     else init();
 
-    w.GmPack = { download: download, isDone: isDone, refreshUI: refreshUI, injectOnce: injectOnce, unlocked: unlocked, loadManifest: loadManifest };
+    w.GmPack = { download: download, deletePack: deletePack, isDone: isDone, refreshUI: refreshUI, injectOnce: injectOnce, unlocked: unlocked, loadManifest: loadManifest };
 })(window);

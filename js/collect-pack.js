@@ -55,9 +55,24 @@
         showDone(done);
         var btn = $('rd-download-collect-btn');
         if (btn) btn.style.display = done ? 'none' : '';
-        if (done) {
-            loadManifest().then(function (m) { setCount(totalOf(m), totalOf(m)); }).catch(function () {});
-        }
+        var del = $('rd-delete-collect-btn');
+        if (del) del.style.display = done ? '' : 'none';
+        loadManifest().then(function (m) { var t = totalOf(m); setCount(done ? t : 0, t); }).catch(function () {});
+    }
+
+    function deletePack() {
+        var R = w.ResourceDownloadManager;
+        if (!R) { toast('资源管理器未就绪'); return; }
+        loadManifest().then(function (m) {
+            var paths = (m.files || []).map(function (f) { return f.path; });
+            R.confirmDeletePaths('收藏室资源包', function () {
+                R.deletePathsAndUnmark(paths).then(function () {
+                    try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+                    toast('收藏室资源包已删除');
+                    refreshUI();
+                });
+            });
+        }).catch(function () { toast('资源列表加载失败'); });
     }
 
     function download() {
@@ -99,9 +114,11 @@
     function bind() {
         var b = $('rd-download-collect-btn');
         if (b && !b._b) { b._b = true; b.addEventListener('click', download); }
+        var d = $('rd-delete-collect-btn');
+        if (d && !d._b) { d._b = true; d.addEventListener('click', deletePack); }
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { bind(); refreshUI(); });
     else { bind(); refreshUI(); }
 
-    w.CollectPack = { download: download, isDone: isDone, loadManifest: loadManifest, refreshUI: refreshUI };
+    w.CollectPack = { download: download, deletePack: deletePack, isDone: isDone, loadManifest: loadManifest, refreshUI: refreshUI };
 })(window);

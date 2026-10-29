@@ -485,6 +485,15 @@ document.addEventListener('DOMContentLoaded', function() {
             showToast('Debug mode has been enabled');
         }
     };
+
+    // 供 gm-pack 在“GM 资源包下载完成”后调用：完成 GM 初始化/加载控制台
+    window.__enableGMAfterPack = function () {
+        try { preloadFont(); } catch (e) {}
+        try { setupGMDebugPersistent(); } catch (e) {}
+        try { if (typeof window.__initGMDebugInfo === 'function') window.__initGMDebugInfo(); } catch (e) {}
+        try { if (typeof window.__loadDebugConsole === 'function') window.__loadDebugConsole(); } catch (e) {}
+        try { var s = document.getElementById('gm-debug-section'); if (s) s.style.display = 'block'; } catch (e) {}
+    };
     
     const donateModal = $('#donate-modal');
     const achievementsModal = $('#achievements-modal');
