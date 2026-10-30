@@ -663,12 +663,25 @@
                 });
                 return seq.then(function () {
                     st('更新 mods.json…');
-                    arr.splice(idx, 1);
-                    m.mods = arr;
-                    var jsonStr = JSON.stringify(m, null, 2);
-                    var bytes = new TextEncoder().encode(jsonStr);
-                    var base64 = self._b64(bytes.buffer);
-                    return self._ghApi(token, 'PUT', api, { message: '删除模组 ' + (entry.name || id), content: base64, branch: self.GM_BRANCH, sha: info.sha });
+                    // 删除文件后重新拉取最新 sha，避免并发/过期 sha 导致 409
+                    function putWithFresh() {
+                        return self._ghApi(token, 'GET', api + '?ref=' + self.GM_BRANCH).then(function (fresh) {
+                            var raw2; try { raw2 = decodeURIComponent(escape(atob(String(fresh.content || '').replace(/\n/g, '')))); } catch (e) { raw2 = '{}'; }
+                            var m2; try { m2 = JSON.parse(raw2); } catch (e) { m2 = { mods: [] }; }
+                            var arr2 = m2.mods || [];
+                            var k = -1; for (var j = 0; j < arr2.length; j++) { if (arr2[j].id === id) { k = j; break; } }
+                            if (k >= 0) arr2.splice(k, 1);
+                            m2.mods = arr2;
+                            var jsonStr = JSON.stringify(m2, null, 2);
+                            var bytes = new TextEncoder().encode(jsonStr);
+                            var base64 = self._b64(bytes.buffer);
+                            return self._ghApi(token, 'PUT', api, { message: '删除模组 ' + (entry.name || id), content: base64, branch: self.GM_BRANCH, sha: fresh.sha });
+                        });
+                    }
+                    return putWithFresh().catch(function (e) {
+                        if (String(e && e.message).indexOf('409') === -1) throw e;
+                        return new Promise(function (res) { setTimeout(res, 600); }).then(putWithFresh);
+                    });
                 });
             });
         },

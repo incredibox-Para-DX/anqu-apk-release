@@ -6717,7 +6717,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.24';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.25';
 
     /* ============================================================
      * 检查更新
@@ -7079,7 +7079,8 @@ const EventManager = {
                     $del.on('click', function () {
                         var label = it.name || it.id;
                         if (!window.confirm('确定删除「' + label + '」并连同文件一起从 Git 仓库移除？')) return;
-                        $del.prop('disabled', true).text('删除中…');
+                        $list.find('button').prop('disabled', true);
+                        $del.text('删除中…');
                         M.gmDeleteMod(it.id, tk, function (t) { status(t); }).then(function () {
                             status('✅ 已删除：' + label, '#34d399');
                             if (window.showToast) window.showToast('已删除 Mod：' + label);
@@ -7087,7 +7088,8 @@ const EventManager = {
                             setTimeout(loadList, 400);
                         }).catch(function (e) {
                             status('❌ ' + String(e && e.message || e), '#f87171');
-                            $del.prop('disabled', false).html('<i class="fas fa-trash"></i> 删除');
+                            $list.find('button').prop('disabled', false);
+                            $del.html('<i class="fas fa-trash"></i> 删除');
                         });
                     });
                     $row.append($info, $del);
