@@ -628,6 +628,50 @@
                 return self._ghApi(token, 'PUT', api, { message: message, content: base64, branch: self.GM_BRANCH });
             });
         },
+        _ghDeleteFile: function (token, path) {
+            var self = this;
+            var api = '/repos/' + this.GM_REPO + '/contents/' + path;
+            return this._ghApi(token, 'GET', api + '?ref=' + this.GM_BRANCH).then(function (info) {
+                return self._ghApi(token, 'DELETE', api, { message: '删除模组文件 ' + path, branch: self.GM_BRANCH, sha: info.sha });
+            }).catch(function (e) {
+                if (String(e.message).indexOf('404') !== -1) return {};
+                throw e;
+            });
+        },
+        gmDeleteMod: function (id, token, onStatus) {
+            var self = this;
+            var st = onStatus || function () {};
+            if (!token) return Promise.reject(new Error('请先填写 GitHub Token'));
+            var api = '/repos/' + this.GM_REPO + '/contents/mods.json';
+            return this._ghApi(token, 'GET', api + '?ref=' + this.GM_BRANCH).then(function (info) {
+                var raw;
+                try { raw = decodeURIComponent(escape(atob(String(info.content || '').replace(/\n/g, '')))); } catch (e) { raw = '{}'; }
+                var m;
+                try { m = JSON.parse(raw); } catch (e) { m = { mods: [] }; }
+                var arr = m.mods || [];
+                var idx = -1;
+                for (var i = 0; i < arr.length; i++) { if (arr[i].id === id) { idx = i; break; } }
+                if (idx < 0) throw new Error('未找到该 Mod');
+                var entry = arr[idx];
+                var paths = [entry.file, entry.thumb, entry.avatar].concat(entry.screens || []).filter(Boolean);
+                var seq = Promise.resolve();
+                paths.forEach(function (p, i) {
+                    seq = seq.then(function () {
+                        st('删除文件 ' + (i + 1) + '/' + paths.length + '：' + String(p).split('/').pop());
+                        return self._ghDeleteFile(token, p);
+                    });
+                });
+                return seq.then(function () {
+                    st('更新 mods.json…');
+                    arr.splice(idx, 1);
+                    m.mods = arr;
+                    var jsonStr = JSON.stringify(m, null, 2);
+                    var bytes = new TextEncoder().encode(jsonStr);
+                    var base64 = self._b64(bytes.buffer);
+                    return self._ghApi(token, 'PUT', api, { message: '删除模组 ' + (entry.name || id), content: base64, branch: self.GM_BRANCH, sha: info.sha });
+                });
+            });
+        },
         gmUploadZip: function (file, token, onStatus) {
             var self = this;
             var st = onStatus || function () {};

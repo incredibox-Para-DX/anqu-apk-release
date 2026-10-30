@@ -709,6 +709,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="gm-resource-admin-btn" style="margin-top:6px;"><i class="fas fa-folder-open"></i> <span data-i18n="gm_resource">资源管理</span></button>
 <button class="sidebar-btn full-width" id="gm-leaderboard-admin-btn"><i class="fas fa-ranking-star"></i> <span data-i18n="gm_board">榜单管理</span></button>
 <button class="sidebar-btn full-width" id="gm-mod-upload-open-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> <span data-i18n="gm_upload">Mod 上传</span></button>
+<button class="sidebar-btn full-width" id="gm-mod-manage-btn" style="margin-top:6px;"><i class="fas fa-trash-can"></i> Mod 管理</button>
 <button class="sidebar-btn full-width" id="gm-ipcode-open-btn" style="margin-top:6px;"><i class="fas fa-key"></i> 物品池授权码</button>
 <button class="sidebar-btn full-width" id="gm-telemetry-btn" style="margin-top:6px;"><i class="fas fa-chart-line"></i> 遥测看板</button>
 <button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> <span data-i18n="gm_center">弹窗中心</span></button>
@@ -1882,6 +1883,21 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="gm-mod-upload-btn" style="margin-top:10px;"><i class="fas fa-file-archive"></i> <span data-i18n="gm_upload">选择 zip 并上传</span></button>
 <input type="file" id="gm-mod-upload-file" accept=".zip,application/zip" style="display:none;">
 <div id="gm-mod-upload-status" style="font-size:12px;color:#94a3b8;margin-top:8px;line-height:1.6;"></div>
+</div>
+</div>
+</div>
+
+<!-- GM：Mod 管理 -->
+<div class="modal-overlay" id="gm-mod-manage-modal">
+<div class="modal-content" style="max-width:560px;width:94vw;max-height:80vh;display:flex;flex-direction:column;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-trash-can"></i> Mod 管理</div>
+<button class="modal-close" id="gm-mod-manage-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:16px;overflow-y:auto;flex:1;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;line-height:1.6;">删除会连同 zip / 图片一起从 Git 仓库移除，并更新 mods.json。</div>
+<div id="gm-mod-manage-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+<div id="gm-mod-manage-status" style="font-size:12px;color:#94a3b8;margin-top:8px;line-height:1.6;"></div>
 </div>
 </div>
 </div>
