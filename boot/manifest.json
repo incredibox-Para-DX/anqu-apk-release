@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.18",
+  "version": "v2.3.0_hotfix.19",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -26,12 +26,20 @@
       "size": 115539
     },
     {
+      "path": "debug-console.css",
+      "size": 153
+    },
+    {
+      "path": "js/debug.js",
+      "size": 91882
+    },
+    {
       "path": "js/inline-scripts.js",
       "size": 29043
     },
     {
       "path": "js/main.js",
-      "size": 25654
+      "size": 25232
     },
     {
       "path": "js/modal-registry.js",
@@ -66,12 +74,12 @@
       "size": 6919
     },
     {
-      "path": "js/gm-pack.js",
-      "size": 8546
-    },
-    {
       "path": "js/cloud-profile.js",
       "size": 2882
+    },
+    {
+      "path": "js/telemetry-dashboard.js",
+      "size": 4537
     },
     {
       "path": "js/net.js",
@@ -83,7 +91,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 355826
+      "size": 355523
     },
     {
       "path": "js/synthesis.js",
@@ -110,6 +118,10 @@
       "size": 4762
     },
     {
+      "path": "js/gm-i18n.js",
+      "size": 25596
+    },
+    {
       "path": "js/toast-catalog.js",
       "size": 3806
     },
@@ -132,6 +144,14 @@
     {
       "path": "js/mods.js",
       "size": 80531
+    },
+    {
+      "path": "admin/anqu-admin.html",
+      "size": 61264
+    },
+    {
+      "path": "admin/leaderboard-admin.html",
+      "size": 19413
     },
     {
       "path": "xml/backgrounds.xml",
@@ -183,9 +203,9 @@
     },
     {
       "path": "index.html",
-      "size": 145291
+      "size": 143625
     }
   ],
-  "fileCount": 46,
-  "totalSize": 2682154
+  "fileCount": 51,
+  "totalSize": 2874062
 }

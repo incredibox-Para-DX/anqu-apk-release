@@ -6710,7 +6710,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.18';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.19';
 
     /* ============================================================
      * 检查更新
@@ -6970,11 +6970,7 @@ const EventManager = {
         if (!$page.length || !iframe) return;
         function openAdmin(src, title) {
             $('#admin-frame-title').text(title);
-            function setSrc(u) { try { iframe.src = u || src; } catch (e) {} }
-            var R = window.ResourceDownloadManager;
-            if (R && typeof R.resolvePath === 'function') {
-                R.resolvePath(src).then(function (u) { setSrc(u); }).catch(function () { setSrc(src); });
-            } else { setSrc(src); }
+            iframe.src = src;
             $page.css('display', 'flex');
             setTimeout(function () { $page.addClass('show'); }, 10);
         }

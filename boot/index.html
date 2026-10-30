@@ -1070,24 +1070,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-collect-progress-text">准备中...</div>
 </div>
 </div>
-<div id="rd-gm-block" style="display:none;border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:12px;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-<div style="font-weight:600;font-size:14px;"><i class="fas fa-screwdriver-wrench" style="color:#ef4444;"></i> GM 资源包</div>
-<div style="font-size:12px;color:#64748b;" id="rd-gm-count">0 / 0</div>
-</div>
-<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;">GM 调试/管理工具（仅解锁 GM 后可见）</div>
-<div style="display:flex;gap:8px;align-items:center;">
-<button class="modal-btn primary" id="rd-download-gm-btn" style="flex:1;"><i class="fas fa-download"></i> 下载 GM 资源包</button>
-<button class="modal-btn danger" id="rd-delete-gm-btn" style="display:none;"><i class="fas fa-trash"></i> 删除</button>
-</div>
-<div id="rd-gm-done" style="display:none;color:#16a34a;font-weight:600;font-size:13px;"><i class="fas fa-check-circle"></i> GM 资源包已下载</div>
-<div id="rd-gm-progress-wrap" style="display:none;margin-top:8px;">
-<div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
-<div id="rd-gm-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#ef4444,#f87171);transition:width 0.3s;"></div>
-</div>
-<div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-gm-progress-text">准备中...</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1938,13 +1920,14 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/themes.js"></script>
 <script src="js/mod-editor.js"></script>
 <script src="js/collect-pack.js"></script>
-<script src="js/gm-pack.js"></script>
 <script src="js/cloud-profile.js"></script>
+<script src="js/telemetry-dashboard.js"></script>
 <script src="js/net.js"></script>
 <script src="js/storage.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/item-i18n.js"></script>
 <script src="js/bg-i18n.js"></script>
+<script src="js/gm-i18n.js"></script>
 <script src="js/toast-catalog.js"></script>
 <script src="libs/jquery.js"></script>
 <script src="libs/lodash.js"></script>
@@ -2289,14 +2272,11 @@ window.__loadDebugConsole = function () {
     if (window.__debugConsoleLoaded) return;
     window.__debugConsoleLoaded = true;
     var s = document.createElement('script');
+    s.src = 'js/debug.js';
     s.async = true;
     s.onload = function () { console.log('[DebugConsole] loaded on demand'); };
-    s.onerror = function () { console.warn('[DebugConsole] failed to load'); window.__debugConsoleLoaded = false; };
-    var R = window.ResourceDownloadManager;
-    var append = function (u) { s.src = u || 'js/debug.js'; document.body.appendChild(s); };
-    if (R && typeof R.resolvePath === 'function') {
-        R.resolvePath('js/debug.js').then(function (u) { append(u); }).catch(function () { append(); });
-    } else { append(); }
+    s.onerror = function () { console.warn('[DebugConsole] failed to load'); };
+    document.body.appendChild(s);
 };
 </script>
 <script>
