@@ -2,11 +2,13 @@
 (function (w) {
     'use strict';
     var MANIFEST_URLS = [
+        'https://anqu-1372693228.cos.ap-guangzhou.myqcloud.com/gm-resources/manifest.json',
         'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-gm-resources@main/manifest.json',
         'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-gm-resources/main/manifest.json',
         'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-gm-resources/main/manifest.json'
     ];
     var BASE_URLS = [
+        'https://anqu-1372693228.cos.ap-guangzhou.myqcloud.com/gm-resources/',
         'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-gm-resources@main/',
         'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-gm-resources/main/',
         'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-gm-resources/main/'

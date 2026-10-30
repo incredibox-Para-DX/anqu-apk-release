@@ -5,9 +5,11 @@
   // boot2 仅在 boot 下载不完整时追加尝试
   var GH = 'incredibox-Para-DX/anqu-apk-release';
   var PROXY_ROOT = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
+  var COS = 'https://anqu-1372693228.cos.ap-guangzhou.myqcloud.com';
   var RAW = 'https://raw.githubusercontent.com/' + GH;
   var GLIST = ['https://ghproxy.net/', 'https://ghfast.top/', 'https://gh-proxy.com/'];
   var CODE_BASES = [
+    COS + '/boot',
     PROXY_ROOT + '/' + GH + '/p-i18n/boot',
     RAW + '/p-i18n/boot',
     'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
@@ -16,6 +18,7 @@
   ]
     .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot'; }))
     .concat([
+      COS + '/boot2',
       PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
       RAW + '/p-i18n/boot2',
       'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',

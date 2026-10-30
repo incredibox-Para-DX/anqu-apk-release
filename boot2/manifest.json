@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.15.m",
+  "version": "v2.3.0_hotfix.16.m",
   "files": [
     {
       "path": "MiniGame/images/index.css",
@@ -27,7 +27,7 @@
     },
     {
       "path": "index.html",
-      "size": 179389
+      "size": 236561
     },
     {
       "path": "integrity.json",
@@ -47,15 +47,15 @@
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 5323
+      "size": 5373
     },
     {
       "path": "js/collect-pack.js",
-      "size": 11746
+      "size": 11910
     },
     {
       "path": "js/gm-pack.js",
-      "size": 14217
+      "size": 14447
     },
     {
       "path": "js/i18n.js",
@@ -63,7 +63,7 @@
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 32277
+      "size": 32549
     },
     {
       "path": "js/item-i18n.js",
@@ -71,55 +71,55 @@
     },
     {
       "path": "js/main.js",
-      "size": 28350
+      "size": 28331
     },
     {
       "path": "js/mod-editor.js",
-      "size": 31751
+      "size": 31892
     },
     {
       "path": "js/modal-registry.js",
-      "size": 11350
+      "size": 11514
     },
     {
       "path": "js/mods.js",
-      "size": 93513
+      "size": 93625
     },
     {
       "path": "js/music.js",
-      "size": 92331
+      "size": 92428
     },
     {
       "path": "js/net-mirror.js",
-      "size": 4186
+      "size": 4272
     },
     {
       "path": "js/net.js",
-      "size": 9685
+      "size": 9598
     },
     {
       "path": "js/redeem.js",
-      "size": 9554
+      "size": 9639
     },
     {
       "path": "js/script_new.js",
-      "size": 340002
+      "size": 339335
     },
     {
       "path": "js/storage.js",
-      "size": 18616
+      "size": 18720
     },
     {
       "path": "js/synthesis.js",
-      "size": 34123
+      "size": 38989
     },
     {
       "path": "js/telemetry.js",
-      "size": 7869
+      "size": 12124
     },
     {
       "path": "js/themes.js",
-      "size": 6448
+      "size": 10302
     },
     {
       "path": "js/toast-catalog.js",
@@ -127,7 +127,7 @@
     },
     {
       "path": "js/ui-fx.js",
-      "size": 4446
+      "size": 7971
     },
     {
       "path": "libs/GSAP.js",
@@ -195,5 +195,5 @@
     }
   ],
   "fileCount": 48,
-  "totalSize": 2779394
+  "totalSize": 2853798
 }
