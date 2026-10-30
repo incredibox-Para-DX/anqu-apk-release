@@ -2149,7 +2149,7 @@ previewCurrentBackground() {
         createItemElement(item, cellWidth, cellHeight) {
             const bountyOn = ShopManager.isEnabled('bounty_agreement');
             const showRarity = item.searched || (bountyOn && !State.isGlobalSearching);
-            const extraClass = bountyOn && !item.searched ? ' item-bounty-flash' : '';
+            const extraClass = (bountyOn && !item.searched && !item._bountyFlashed) ? ' item-bounty-flash' : '';
             const rarityColor = Utils.getRarityColor(item.rarity);
             const $element = Utils.createElement('div', {
                 className: (showRarity ? `item item-${item.rarity}` : 'item item-white') + (item.searched ? ' searched' : '') + extraClass,
@@ -2157,6 +2157,7 @@ previewCurrentBackground() {
             });
             if (bountyOn && !item.searched) {
                 $element.get(0).style.setProperty('--flash-color', rarityColor);
+                if (extraClass) item._bountyFlashed = true;
             }
 
             const left = item.col * cellWidth;
@@ -3043,6 +3044,11 @@ openSafe() {
 },
 
 _runOpenSafe() {
+    // 清理上一轮可能残留的计时器/遮罩，避免旧流程卡住或遮罩残留
+    if (State.searchTimer) { try { cancelAnimationFrame(State.searchTimer); } catch (e) {} State.searchTimer = null; }
+    if (State.searchTransitionTimer) { try { clearTimeout(State.searchTransitionTimer); } catch (e) {} State.searchTransitionTimer = null; }
+    try { $('#searching-overlay').attr('hidden', ''); } catch (e) {}
+    State.openSafeGen = (State.openSafeGen || 0) + 1;
     State.isOpenSafeBtnDisabled = true;
     
     const $openButton = $('#open-safe-btn');
@@ -3528,6 +3534,7 @@ _runOpenSafe() {
                 $('#pause-search-btn').html('<i class="fas fa-pause"></i> 暂停搜索');
                 UIManager.updatePauseButtonState();
                 UIManager.updateResetButtonState();
+                try { $('#searching-overlay').attr('hidden', ''); } catch (e) {}
                 this.stopOpenSafeSound();
             } else {
                 /* 清空 currentSearch，标记处于物品间过渡间隙，防止暂停时误用旧数据 */
@@ -3535,14 +3542,15 @@ _runOpenSafe() {
                 /* 正常搜索间隔 560ms，迅捷巧手时无延迟立即搜索下一个 */
                 const swift = typeof SkillManager !== 'undefined' ? SkillManager.getSkillState('swift_hands') : { owned: false, enabled: false };
                 const nextDelay = (swift.owned && swift.enabled) ? 0 : 560;
+                const __gen = State.openSafeGen;
                 State.searchTransitionTimer = setTimeout(() => {
                     State.searchTransitionTimer = null;
+                    if (__gen !== State.openSafeGen) return; /* 旧搜索流程已过期，丢弃 */
                     if (State.isPaused) return; /* 暂停期间不自动开始，由恢复按钮触发 */
                     State.currentSearch = _.cloneDeep(_.first(State.searchQueue));
                     State.currentSearchTime = State.currentSearch.searchTime;
                     State.pauseElapsed = 0;
                     this.startSearchTimer();
-                    UIManager.renderAllItems();
                 }, nextDelay);
             }
         },
@@ -3558,6 +3566,7 @@ _runOpenSafe() {
                 clearTimeout(State.searchTransitionTimer);
                 State.searchTransitionTimer = null;
             }
+            State.openSafeGen = (State.openSafeGen || 0) + 1;
             
             this.stopOpenSafeSound();
             SoundManager.clearCache();
@@ -6710,7 +6719,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.21';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.22';
 
     /* ============================================================
      * 检查更新
