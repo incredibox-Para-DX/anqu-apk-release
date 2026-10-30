@@ -18,7 +18,7 @@ $(function() {
         purpleSpawn: { min: 1, max: 2 },
         valueRange: { min: 1, max: 4000000, base: 1000 },
         valueWeight: { baseWeight: 100, decayFactor: 0.00005, minWeight: 10 },
-        spawn: { red: 0.5, orange: 20, gold: 30, purple: 5 },
+        spawn: { red: 0.5, orange: 12, gold: 18, purple: 5 },
         storageKey: "darkzone_simulator_stats",
         titles: [
             { value: 0, name: '暗区新锐', icon: 'titles/XR.png', description: '初入暗区' },
@@ -1307,13 +1307,13 @@ previewCurrentBackground() {
             const tide = this.getSkillState('supply_tide');
             if (tide.owned && tide.enabled && tide.remaining > 0) {
                 Config.spawn.red = 1.0;
-                Config.spawn.orange = 35;
-                Config.spawn.gold = 45;
+                Config.spawn.orange = 20;
+                Config.spawn.gold = 30;
                 Config.spawn.purple = 0;
             } else {
                 Config.spawn.red = 0.5;
-                Config.spawn.orange = 20;
-                Config.spawn.gold = 30;
+                Config.spawn.orange = 12;
+                Config.spawn.gold = 18;
                 Config.spawn.purple = 0;
             }
         },
@@ -6710,7 +6710,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.20';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.21';
 
     /* ============================================================
      * 检查更新
