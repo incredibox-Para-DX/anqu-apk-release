@@ -1,1 +1,2067 @@
-const _0x2ced9f=_0x2569;function _0x2569(_0x37daaa,_0x2f7457){_0x37daaa=_0x37daaa-0x1c9;const _0x83d5cf=_0x83d5();let _0x256934=_0x83d5cf[_0x37daaa];if(_0x2569['hAERht']===undefined){var _0x53bf22=function(_0x2b9416){const _0x451253='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x12468f='',_0x3efe9e='';for(let _0x5eea43=0x0,_0x4ad5a0,_0x5aa447,_0x2514e0=0x0;_0x5aa447=_0x2b9416['charAt'](_0x2514e0++);~_0x5aa447&&(_0x4ad5a0=_0x5eea43%0x4?_0x4ad5a0*0x40+_0x5aa447:_0x5aa447,_0x5eea43++%0x4)?_0x12468f+=String['fromCharCode'](0xff&_0x4ad5a0>>(-0x2*_0x5eea43&0x6)):0x0){_0x5aa447=_0x451253['indexOf'](_0x5aa447);}for(let _0x1154e3=0x0,_0x15b7f4=_0x12468f['length'];_0x1154e3<_0x15b7f4;_0x1154e3++){_0x3efe9e+='%'+('00'+_0x12468f['charCodeAt'](_0x1154e3)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3efe9e);};_0x2569['kgYOPk']=_0x53bf22,_0x2569['wBvalL']={},_0x2569['hAERht']=!![];}const _0x398849=_0x83d5cf[0x0];_0x2569['oYoccX']!==_0x398849&&(_0x2569['wBvalL']={},_0x2569['oYoccX']=_0x398849);const _0x48c153=_0x2569['wBvalL'][_0x37daaa];return _0x48c153===undefined?(_0x256934=_0x2569['kgYOPk'](_0x256934),_0x2569['wBvalL'][_0x37daaa]=_0x256934):_0x256934=_0x48c153,_0x256934;}function _0x83d5(){const _0x1ee6bc=['w01vu0LdxsdLVzpLIy3PN7pMUPdKUi3LJ68GC2vLA++8JoEBRUAGHYa','CgfKu3rHCNq','BgvMDdOGmta1jtS','AgvHza','C3vJy2vZCW','y2HHCKnVzgvbDa','CgvUzgLUz1jLC3rVCMvuAw1L','yMXVyKj1AwXKuhjVBwLZzq','Dg91y2HLBMqGDg91y2HTB3zLig1VDxnLDxaGBw91C2vSzwf2zsbJBgLJAW','sw5Mzwn0Aw9UlM1WmW','Bgv0DgvYlxnWywnPBMC6idaUnxb4oW','zM9UDc1ZAxPLoIaXm3b4oW','i211C2LJlxzVBhvTzs1MAwXS','ChjLDMLVDxnuCMfJAW','i2nTlwvKAxqTyxvKAw8TBMfTzq','ywrKzwrbDa','Dg9gAxHLza','mdOWma','yxvKAw8Vy2XPy2SUBxaZ','AxnVltG4ntKTmq','Cg9PBNrLCI1LDMvUDhm','6k+36ycj5OUP6z+Z6Akr5PAh5lU2','Cg9ZAxrPB246ihjLBgf0AxzLoW','y3vZDg9TvhjHy2TZ','C2HVD1rVyxn0','CMvZB2X2zq','i211C2LJlxbSyxLSAxn0lwj0BG','CMvHzhLtDgf0zq','i3jLy29Yzc1KAxnJ','zgvNkq','C3rVCerPC2nsB3rHDgLVBG','CgfKzgLUzZOGohb4ide4ChG7','uZNLPkFLJOxOG4ZMMA/PN7pKUza','y3vZDg9TtxvZAwnnyxHtAxPL','x19Nzxrby2n1BxvSyxrLzfzHBhvL','5AsN5yQB5OUB6lsI4OcImJaYnG','5PYR6lEV54Uc6Aoz','y292zxjZl1mXosbfy2HVzxmGB2yGrhjLywqGtg9IyNKGvgHLBwuUANbN','zMXLEa','yxbWzw5K','zMLSzxm','i2nVDMvYlw1VzgfSlwnSB3nL','iIbVBMvYCM9Ypsj0AgLZlNn0EwXLlMrPC3bSyxK9j25VBMuNo3rOAxmUBMv4DevSzw1LBNrtAwjSAw5NlNn0EwXLlMrPC3bSyxK9j2zSzxGNoYi+cIaGicaGicaGicaGicaGicaGica8zgL2ihn0EwXLpsjKAxnWBgf5oM5VBMu7ywXPz24TAxrLBxm6y2vUDgvYo2P1C3rPzNKTy29UDgvUDdPJzw50zxi7D2LKDgG6mtaWjtTOzwLNAhq6mtaWjtTMB250lxnPEMu6mJrWEdTIywnRz3jVDw5KoMXPBMvHCI1NCMfKAwvUDcGXmZvKzwCSiZy2n2vLysWJnZy0yMeYktSIpVcFJRu8l2rPDJ4','iJ4kicaGicaGicaGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGicaGica8l2rPDJ4kicaGicaGicaGicaG','zMLSzq','AxnoDw1Izxi','5y2H6i6R57QZ5zsX54Mh','5AwL54M55y2H54Mh5PY6lM1WmW','CMvTB3zLq2XHC3m','zxjYB3i','DxrMltG','ioMMLUwKSEI0Pq','CMfJzq','y2XPy2S','Dg91y2HLBMq','AxnuCMfJA093BMvK','tg9IyNKGvgHLBwuGuMvTAxGUBxaZ','BgvMDdOGlti1jtS','y3vZDg9Tswq','DhjPBuvUza','DM9SDw1Lu2XPzgvY','yMfJA2DYB3vUzdOGBgLUzwfYlwDYywrPzw50kdeZnwrLzYWGCMDIysGYntuSidi1nsWGmJu1lcaWlJmWksWGCMDIysGYntuSidi1nsWGmJu1lcaWlJa2ksK7','BM8TCMvMzxjYzxi','DhjPBq','C2vLA0rLywrSAw5L','BxvZAwmTCgXHEwvYlW','i211C2LJlxrVDgfSlxrPBwu','ChjLBg9Hzen1CNjLBNrdB3zLCG','5BEY6kEJ6zsb','ChjLDMvUDerLzMf1Bhq','Bwf0y2G','ntuXotyYng5NC09iEG','C2v0','Bg9HzfbSyxLSAxn0rNjVBvHnta','C2vLA0XHC3rxCML0zq','DhjHBNnMB3jT','Dg9Nz2XL','C2vLA1rV','DgfYz2v0','B25ZDwnJzxnZ','DhjHy2TuAxrSzq','rhvZAYbuBYbeyxDU','y292zxjezwzHDwX0','x19vsv9tt1vorf9wt0XvtuvFxW','z2v0t3DUzwrjBMrPy2vZ','vefmsueNuYbusevnrq','zM9UDc13zwLNAhq6idyWmdS','rNjLzxPPBMCGv2LUzhm','ChvYy2HHC2vuCMfJAW','x2rPC2nbBMLTyxrPB25jza','y292zxjZl1mXosbtBgLLBNqGr3vUC21VA2uGtg9IyNKGvgHLBwuUANbN','suqZ','y2HHBMDLzfrVDwnOzxm','cIaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlw92zxjSyxKIigLKpsjJDxn0B20TBxvZAwmTzwrPDc1TB2rHBci+cIaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjTB2rHBc1JB250zw50ign1C3rVBs1TDxnPyY1LzgL0lwnVBNrLBNqIpGOGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlwHLywrLCIi+cIaGicaGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlxrPDgXLiJ48AsbJBgfZCZ0IzMfZigzHlwvKAxqIpJWVAt4G57Yw6l6r5PYS5zYW6z+Z5lMqpc9KAxy+cIaGicaGicaGicaGicaGicaGicaGicaGidXIDxr0B24Gy2XHC3m9iM1VzgfSlwnSB3nLiIbPzd0Iy20TzwrPDc1JBg9Zzsi+pgKGy2XHC3m9iMzHCYbMys10Aw1LCYi+pc9PpJWVyNv0Dg9UpGOGicaGicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlwjVzhKGy3vZDg9Tlw11C2LJlwvKAxqTyM9KEsi+cIaGicaGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iMnTlwvKAxqTCM93iJ4kicaGicaGicaGicaGicaGicaGicaGicaGicaGidXSywjLBd7MRyZMM7lLKi3NP7a8l2XHyMvSpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgLUChv0ihr5Cgu9iNrLEhqIigLKpsjJBs1LzgL0lxrPDgXLiIbTyxHSzw5NDgG9iJqWiIbWBgfJzwHVBgrLCJ0I5Q2m5PUY5zcn56EWiJ4kicaGicaGicaGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iMnTlwvKAxqTCM93iJ4kicaGicaGicaGicaGicaGicaGicaGicaGicaGidXSywjLBd7KVzZOGiu8l2XHyMvSpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgLUChv0ihr5Cgu9iNrLEhqIigLKpsjJBs1LzgL0lwfYDgLZDciGBwf4BgvUz3rOpsi0mciGCgXHy2vOB2XKzxi9iUs9NoIaHsi+cIaGicaGicaGicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjJBs1LzgL0lxjVDYbJBs1LzgL0lwnVDMvYlxjVDYi+cIaGicaGicaGicaGicaGicaGicaGicaGicaGica8BgfIzwW+5Q2m5PUY5Bcb6z2Ipc9SywjLBd4kicaGicaGicaGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iMnTlwvKAxqTy292zxiTyxjLysi+cIaGicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgLTzYbJBgfZCZ0Iy20TzwrPDc1JB3zLCI1WCMv2Awv3iIbPzd0Iy20TzwrPDc1JB3zLCI1WCMv2Awv3iIbZCMm9iG','AxngDw5JDgLVBG','yM94lxnOywrVDZOGmcaZChGGmtbWEcbYz2jHkdaSidaSidaSidaUmZaPlcbPBNnLDcaWidfWEcaWihjNyMeOmJu1lcaYntuSidi1nsWGmc40nsK7','uZe05AsN5y6f6iom5PMV6z+Z5lMq','CgXHEuf1zgLV','z2v0tgfZDfn0yxrLs2v5','yxvKAw8VB3bLBI1TDxnPyY1WBgf5BgLZDc5TCdm','5y2v5PUY5B6Q546V','qvbjqW','6Ag65BQp5PkT5Ps+','y2fUu2vLA1rV','ywn0AxzL','AgvPz2H0oIaYmJaLoW','yM9YzgvYoIaXChGGC29SAwqGCMDIysGYntuSidi1nsWGmJu1lcaWlJm4ktS','Dg9Nz2XLugXHEq','DMLZAwjPBgL0EwnOyw5Nzq','B25LCNjVCG','sw5Mzwn0Aw9U','lNbSyxLSAxn0lwL0zw0TyNv5oMHVDMvYoJPHzNrLCIb7','DhjHy2TZ','i211C2LJlxzVBhvTzs1ZBgLKzxi','zgvJB2rL','C2vUza','Dg91y2HLCW','yxjYyxLcDwzMzxi','z2v0sxrLBq','i211C2LJlxbYzxyTyNrU','pgKGy2XHC3m9iMzHCYbMys1WBgf5iJ48l2K+','CgfNzvG','AxnjBML0AwfSAxPLza','Bw91C2vKB3DUihrVDwnOC3rHCNq','x3bLBMrPBMDtD2L0y2HdB21TAxq','y3vYC29YoIbWB2LUDgvYoW','yNL0zuXLBMD0Aa','y3vZDg9TtxvZAwnezwzHDwX0q292zxi','5yAB5RIV5P2L5A6I','x3nLzwTcBg9IvxjS','y3nZ','DMLZAwjPBgL0Evn0yxrL','z2v0rwXLBwvUDej5swq','DhjHBNnPDgLVBJOGBgvMDcaWlJu1CYbLyxnLoW','vfbfmq','Aw5Zzxq6ida7','y29UDgvUDdOGiIi7','odmZodGYnxP6sejVrG','B25L','CMvJB3jKrgLZyW','5AwL54M55y2H54Mh5PY6','Dg9WoIaTnJaLoW','mJC0nZC2uKvMAxDf','zgvSzxrL','lNbSyxLSAxn0lwL0zw0TyNv5ihS','ChjPy2u','DhjHBNnMB3jToIbZy2fSzsGWlJK1ktS','Cgf1C2u','DgHLBG','rgf5qNjLywS','ywjFBxvZAwnFB3DUzwrFDJe','x2f1zgLVvhjHy2TjBMrLEa','C2f2zuLTywDLq2fJAgu','uZe5ifnSAwvUDcbhDw5ZBw9RzsbmB2jIEsbuAgvTzs5TCdm','u3rHEsbbD2f5iezYB20GvgHPCW','rvHdquXjqLvslM1WmW','i2n1C3rVBs1TDxnPyY1LzgL0lw1VzgfS','CMvZCg9UC2vuExbL','C2HVDW','i2nTlwvKAxqTy2XVC2uSicnJBs1LzgL0lwnHBMnLBa','y292zxjZl1mXnIdLOz7KUiVMM7iGWRCG6zw/5AsC57Ui5Bc9ic0Gu2vHC29UifrOzw1LieXVyMj5ifrOzw1LideUANbN','iIbHBhq9iUwWGEMDOUMIHoINIci+cIaGicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgXHyMvSignSyxnZpsjJBs1LzgL0lwnVDMvYlwj0BIiGzM9YpsjJBs1LzgL0lwnVDMvYlwLUChv0iJ4kicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgKGy2XHC3m9iMzHCYbMys1PBwfNzsi+pc9PpIdPGiNMI6NLM77NIyCkicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGica8l2XHyMvSpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGidXPBNb1Dcb0ExbLpsjMAwXLiIbPzd0Iy20TzwrPDc1JB3zLCI1PBNb1DciGywnJzxb0psjPBwfNzs8QiIbZDhLSzt0IzgLZCgXHEtPUB25LoYi+cIaGicaGicaGicaGicaGicaGicaGicaGicaGica8l2rPDJ4kicaGicaGicaGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iMnTlwvKAxqTCM93iJ4kicaGicaGicaGicaGicaGicaGicaGicaGicaGidXSywjLBd7MM7tMJAlMRyZMM7lMLOFKU7y8l2XHyMvSpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgXHyMvSignSyxnZpsjJBs1LzgL0lwzPBguTyNrUiIbMB3i9iMnTlwvKAxqTyxvKAw8TAw5WDxqIpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGicaGidXPignSyxnZpsjMyxmGzMeTBxvZAwmIpJWVAt4GphnWyw4GAwq9iMnTlwvKAxqTyxvKAw8TBMfTzsi+54k55yE76ycj5OUP5PAW55Qe6z+Z6Akr5PAh5lU2pc9ZCgfUpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGpc9SywjLBd4kicaGicaGicaGicaGicaGicaGicaGicaGicaGidXPBNb1Dcb0ExbLpsjMAwXLiIbPzd0Iy20TzwrPDc1HDwrPBY1PBNb1DciGywnJzxb0psjHDwrPBY8QiIbZDhLSzt0IzgLZCgXHEtPUB25LoYi+cIaGicaGicaGicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlwzVB3rLCIbJDxn0B20TBxvZAwmTzwrPDc1MB290zxiIpGOGicaGicaGicaGicaGicaGicaGicaGica8yNv0Dg9UignSyxnZpsjTB2rHBc1IDg4Gy2fUy2vSiIbPzd0Iy20TzwrPDc1Jyw5JzwWIpUwpLUA2IdWVyNv0Dg9UpGOGicaGicaGicaGicaGicaGicaGicaGica8yNv0Dg9UignSyxnZpsjTB2rHBc1IDg4Gy29UzMLYBsiGAwq9iMnTlwvKAxqTC2f2zsi+5l+D5A2ypc9IDxr0B24+cIaGicaGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGicaGica8l2rPDJ4kicaGicaGicaGicaGpc9KAxy+cIaGicaGicaG','AgfZt3DUuhjVCgvYDhK','y292zxjZl0jSB29KieXHBwvUDf9nyxrJAfbYzxbHCMuUANbN','C3rHCNreAxnJuM90yxrPB24','lNbSyxLSAxn0lwL0zw0TChjPy2uGAsb7','D2LKDgG','Aw1Hz2vdywnOzuTLEq','lxDLyMTPDc10zxH0lwzPBgWTy29SB3i6icnMzMzMzMyGiwLTCg9YDgfUDdS','pc9KAxy+cIaGicaGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0ICgXHEwXPC3qTAxrLBs1HCNrPC3qIpG','i2nTlwvKAxqTDgL0Bgu','C3rHCNrZv2L0Aa','DgLTzw91Da','CgXHEuj0BG','CMvWBgfJzq','CMvHzen1C3rVBvrYywnRuMvJB3jKCW','i3bSyxLSAxn0lwvTChr5','z2v0q3vYCMvUDe1Vzgu','y2fJAgu','q3LIzxjWDw5RmJa3n+IbLowkQos4K+wXNUIdJoAzR+MFS+s5Ka','i2nTlwvKAxqTyxvKAw8TAw5WDxq','y29UDgLUDwu','C3rHDhvZ','w01vu0LdxsdML6dMS5xOR7VLJ5BPN7pPOPhLRzFOIOlVViXZzwvRioMaGowBNUwoN+EuN+wUNUEoSa','5PQx5yY656Qb5zU05PEG6zMq','i3bSlwfJDgLVBI1IDg4','C2vLA0nOzwnR','C2L6zq','Dgv4Dc1ZAgfKB3C6idaGmxb4idjWEcbYz2jHkdaSidaSidaSidaUnduPoW','AgLKzq','C2XPy2u','Bg9HzenVDMvYsw1Hz2u','u3rHEsbHD2f5igzVCM0GDgHPCY5TCdm','DhjHBNnMB3jToIbYB3rHDguOmtHKzwCPoW','z2v0','z2v0vwLUDdG','CgXHEwXPC3qTAw1WB3j0lwLUChv0','DhjHBNnMB3jToIb0CMfUC2XHDgvzkc0XChGPihnJywXLkdeUmdqPoW','Bg9Hzen1C3rVBvrYywnRCW','qKDnx01HAw5FvuLFtg9VCf9blM1WmW','BMv4DfrYywnR','CgXHEwXPC3rdBg9Zzq','AgLKzgvU','5BEY5yIG6zMK5PYS5zYW6z+Z5lMq','5RE35lMX54Uc6AozlM1WmW','y292zxjZl+A3T+s5SEElGUMJMs5QCgC','zM9Yy2uTy2fJAgu','y292zxjZl0jhtv9nywLUx1vjx0XVB3bFqs5QCgC','DhjHBNnPDgLVBJOGDhjHBNnMB3jTidaUmtHZign1yMLJlwjLEMLLCIGWlJiYlcaXlcaWlJm2lcaXksWGyM94lxnOywrVDYaWlJe4CYbLyxnLlcbIywnRz3jVDw5KidaUmtHZigvHC2u7','DhjPBvnLzwTcBg9ICW','zMfZigzHlxjHBMrVBq','yMfJA2DYB3vUzdOGBgLUzwfYlwDYywrPzw50kdKWzgvNlcbYz2jHkdi1nsWGmJu1lcaYntuSidaPlcbYz2jHkdi1nsWGmJu1lcaYntuSidaUntuPlcbYz2jHkdi1nsWGmJu1lcaYntuSidaPktS','pgLTzYbJBgfZCZ0ICgXHEwXPC3qTy292zxiTAw1NiIbZCMm9iG','veLumG','yM9YzgvYlxjHzgL1CZOGotK5ChG7','zw5ZDxjLu2vLA0jSB2i','y292zxjcBg9I','vefmsueNuYbusevnrsbwms5TCdm','DgvZDa','yMXVyJO','ChjLzMv0y2HtzwvRqMXVyG','i2nVDMvYlw1VzgfSlwLTzW','jMX0oW','lNbSyxLSAxn0lwL0zw1Bzgf0ys1PBMrLEd0I','Dg9Nz2XLugXHEu1Vzgu','lNbSyxLSAxn0lwL0zw0TyNv5oJPIzwzVCMuGEW','pgKGy2XHC3m9iMzHCYbMys1LEgnSyw1HDgLVBI10CMLHBMDSzsi+pc9PpIdLHO3NGRNKUidMRkhNOA7ORQtLIkdPMAq','5AsN5yQB5OUB6lsImJaYnI5TCdm','DxrMlte2','B251CgDYywrLBMvLzgvK','y2XPzw50wa','C2vLA1bHDxnLza','i3bSyxLSAxn0lxbHz2uTy291BNq','B3bLBKn1C3rVBu11C2LJrei','ChjVCa','x2nVDMvYqMXVyLvYBa','Aw1Hz2vdywnOzq','mZCYodGYEffjvgnQ','yxjYyxLIDwzMzxi','y3vYCMvUDfrPBwu','yw5VBNLTB3vZ','qKDnx01HAw5FvuLFtg9VCf9wmI5TCdm','yNv5','zgLZCgXHEtOGAw5SAw5LlwzSzxG7','yMfJA2rYB3aTzMLSDgvYoIbIBhvYkde0ChGPihnHDhvYyxrLkde4mcuPoW','lNbSyxLSAxn0lwXVy2STAwnVBG','5A+85ywL5AsX6lsL77Ym5y+V6io95PIV5A2y5ykO56M66zE05lIn6lAZ5OIw5Qc85BYp5lIn5PsV5OYb','C2f2zu93BMvKvhjHy2TZ','x2XHC3rtyxzLvgLTzq','CgfYC2vbDwrPB1rHz3m','x19VCgvUq3vZDg9TtxvZAwnfzgL0','uZe25AsN5y6f6iom5PMV6z+Z5lMq','yMXVyKj1AwXKvhjHy2S','i211C2LJlw5LEhqTyNrU','cIaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjTB2rHBc1VDMvYBgf5iIbPzd0Iy292zxiTBw9KywWIpGOGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlwnVBNrLBNqGy292zxiTBw9KywWTy29UDgvUDci+cIaGicaGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iM1VzgfSlwHLywrLCIi+cIaGicaGicaGicaGicaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjTB2rHBc10AxrSzsi+pgKGy2XHC3m9iMzHCYbMys1PBwfNzsi+pc9PpIa','y2fSBa','y292zxjZl1rbteLblMPWzW','C2vLA1zPyujSB2i','z2fWoIa2ChG7','x2LZuMvZDg9YAw5N','y2XPy2STyxvKAw8','B3DUzwruCMfJA3m','Bg9HzfbSyxLtDgf0zq','zMv0y2HbC0jSB2jvCMW','yM94lxnOywrVDZOGmca2ChGGmtHWEcbYz2jHkdaSidaSidaSidaUmJGPlcbPBNnLDcaWidfWEcaWihjNyMeOmJu1lcaYntuSidi1nsWGmc42mcKSigLUC2v0idaGltfWEcaWihjNyMeOmJu1lcaYntuSidi1nsWGmc4XncK7','5Oc757sV6k6H5lU35yc85lIn6lAZlcdPNidOPOeG','CgfYC2u','CM90yxrLka','yMfJA2DYB3vUzdOGBgLUzwfYlwDYywrPzw50kdeZnwrLzYWGCMDIysGYntuSidi1nsWGmJu1lcaWlJqWksWGCMDIysGYntuSidi1nsWGmJu1lcaWlJeYksK7','i3bSlwrLBc1IDg4','ChjLBg9Hza','Aw1Hz2uVCg5N','Cg9ZAxrPB246igfIC29SDxrLoW','x3jLC3rVCMvhDwfYzfrPBwvY','i2nTlwvKAxqTC2f2zq','CgvUzgLUz1jLC3vTzq','DxbKyxrLrgLZy0rPC3bSyxK','Chv0','C2vLA1rPBwvY','Bwv0ywrHDge','B2jQzwn0','BgfZDerPC2nuAw1LC3rHBxa','AxntzwvRAw5N','yMvMB3jLDw5SB2fK','y292zxjZl+w4GEw4GEACUI5QCgC','B25JB21WBgv0zq','BM93','Bw91C2vTB3zLihrVDwnOBw92zq','zgLZywjSzwq','yxbWzw5Kq3vZDg9TvhjHy2S','Axnoyu4','uZe35AsN5y6f6iom5PMV6z+Z5lMq','rgv0B25HDgLVBG','AxneB3DUBg9HzgvK','i211C2LJlxbSyxLSAxn0lwnSB3nL','x19ZCgvUzefJy3vTDwXHDgvKvMfSDwu','zMLUza','5PAh5lU26lAf6l+hidqWtulVViZLT7lLV73NLAu','yxnJAwK','yMLUzfvUBg9HzfnHDMu','y2fJAgvwzxjZAw9U','zMXLEc1ZAhjPBMS6ida7','AxnbCNjHEq','ywrKrxzLBNrmAxn0zw5LCG','nZDetwTQv2W','Dg90ywXuAw1L','y2HHBMDL','pgKGy2XHC3m9iMzHCYbMys1WyxvZzsi+pc9PpG','i2nVDMvYlw1VzgfS','yMfZzvbHDgG','rNvZAw9U','BMf0AxzLu2vLAW','i2nTlwvKAxqTyxj0Axn0','CgXHEq','x19VCgvUtxvZAwnqBgf5BgLZDa','CgfNzwHPzgu','uZeZ5AsN5y6f6iom5PMV6z+Z5lMq','DMvYC2LVBG','zw5K','vMfYAwfUDcbqB3nPDgL2zq','C3rYAw5NAwz5','y292zxjZl0zPC3nPB24UANbN','u2XPzw50ieD1BNnTB2TL','jNf1B3q7','Aw5KzxG','B3bLBG','z2v0t3DUzwrtDg9YywDLs2v5','i211C2LJlwnVDMvY','x19YzwzYzxnOq29PBKjHBgfUy2vZ','yxnZAwDU','6zQp5PY65PkT5Ps+','x3vUC3LUy0j5DgvZ','mte4odmWDKDfvgXj','uZe5ievJAg9LCYbVzIbeCMvHzcbmB2jIEsbuAgvTzs5TCdm','t2jZDhj1y3rPB24','rNvZAw9UlM1WmW','Dg9tDhjPBMC','rMLZC2LVBI5TCdm','pgrPDIbJBgfZCZ0ICgXHEwXPC3qTAxrLBsa','CgXHEwXPC3rnB2rHBa','Aw5PDeLTywDLq2fJAgu','x2jSB2jvCMW','ywjZ','y292zxjZl0zYzwv6Aw5NifDPBMrZlMPWzW','zMfZigzHlxjLzg8','cIaGicaGicaGicaGicaGicaGicaGicaGia','yxv0BW','y292zxjZl0LUzMvJDgLVBI5QCgC','Dg91y2HZDgfYDa','yxvKAw8VyNv5lM1WmW','CMvHzhDYAxrL','iIbHBhq9iG','i3bSlxnLBc10AxrSzq','y3vYCMvUDfrYywnRsw5KzxG','B3bLBIbKyIbMywLSzwq','Bg9HzgvKBwv0ywrHDge','C2vLA2fIBgu','y3jLyxrLt2jQzwn0u3rVCMu','Aw5KzxHLzerc','i2n1CNjLBNqTDhjHy2STDgL0Bgu','i211C2LJlwn1CNjLBNqTDgLTzq','BwvZC2fNzq','zw5KuMvZDg9Yzq','C2vLA1rVA2vU','y292zxjZl0r1C2SGvg8Grgf3BI5QCgC','mtHut0fzv3e','y2f0y2G','y29UDgfPBNm','5BEY5A+85ywLia','x3nLzwTcBg9Iu3jJ','Bwf4','BgvUz3rO','pgrPDIbJBgfZCZ0ICgXHEwXPC3qTBg9JAY1Py29UiJ48AsbJBgfZCZ0IzMfZigzHlwXVy2SIpJWVAt48l2rPDJ4','ywXPz24TAxrLBxm6ignLBNrLCJS','AxndDxn0B20','6lsP5y2w5PY66z+Z5lMq','ioMMLUACRowCSoMFS+s5Ko+8JoMvV+AmIEABSUEBRUwpR+s/RUAuUEwqJEENSc/KVzZOGiuV5Bcb6z2I','DhjHBNnHy3rPB24','yMfJA2DYB3vUzdOGCMfKAwfSlwDYywrPzw50kdeYmcuGodaLigf0iduWjsaTmJuLlcbYz2jHkdi1nsWGmJu1lcaYntuSidaUntuPlcbYz2jHkdi1nsWGmJu1lcaYntuSidaPidyYjsK7','i211C2LJlxrVz2DSzs1IDg4','Aw1WB3j0q3vZDg9TtxvZAwngAwXLCW','yMLUza','yxj0Axn0','yw5PBwf0Aw9U','lNbSyxLSAxn0lwL0zw0','mtuZuKzSv1vh','5BEY5l+D5A2y5l+U5Ps5','pgKGy2XHC3m9iMzHCYbMys1JB2LUCYi+pc9PpIa','yxvKAw8VBxa0','iJ48l2K+ia','ChvZAa','C2vLA1rHCMDLDa','rNjLzxPPBMCGv2LUzhmUBxaZ','yM9KEq','AgfZq2XHC3m','rhvZAYbuBYbeyxDUlM1WmW','5PYS5zYW6z+Z5lMq','rvHdquXjqLvs','yxvKAw8VC2LKzwjHCI1JBg9Zzs5TCdm','ywjFy3vZDg9Tx211C2LJ','y292zxjZl1n0yxKGyxDHEsbMB3jTihrOAxmUANbN','DM9SDw1L','Bg9HzfrYywnR','Bw91C2v1Ccb0B3vJAgvUza','x19MB3jTyxrby2n1BxvSyxrLzfzHBhvL','pc9KAxy+cIaGicaGicaGicaGicaGicaGicaGicaGicaGica8yNv0Dg9UignSyxnZpsjTB2rHBc1JBg9ZzsiGAwq9iMnVDMvYlw1VzgfSlwnSB3nLiJ4MDgLTzxm7pc9IDxr0B24+cIaGicaGicaGicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjTB2rHBc1IB2r5ignVDMvYlw1VzgfSlwjVzhKIpGOGicaGicaGicaGicaGicaGicaGicaGicaGicaGpgLTzYbPzd0Iy292zxiTBw9KywWTAw1NiIbZCMm9iG','zgvSzxrLq3vZDg9TvhjHy2S','i211C2LJlxzVBhvTzs12ywX1zq','5BIb5BIb5PY6','i211C2LJlwnVDMvYlwrLzMf1Bhq','AM9PBG','qKDnx01HAw5FvuLFtg9VCf9wmY5TCdm','zNjVBunOyxjdB2rL','ntq0ndy5nfbeALzTwq','i2nTlwvKAxqTy292zxiTAw5WDxq','Bw9Kzuj0BG','B2jQzwn0u3rVCMvoyw1LCW','y292zxjuExbL','x2n1C3rVBu11C2LJrgi','lxDLyMTPDc1HChbLyxjHBMnLoIbUB25LoW','5l+D5A2y5AsX6lsL','CMvZDwX0','C3bSAwnL','CgXHEwXPC3rcDg4','uMvZB3vYy2veB3DUBg9Hze1HBMfNzxi','C2f2zvbSyxLtDgf0zq','iZrHzgu4ma','uZe15AsN5y6f6iom5PMV6z+Z5lMq','rwnOB2vZig9MierYzwfK','i211C2LJlxbSyxLSAxn0lw1VzgfS','yxbWzwfYyw5JztOGBM9UztS','uZe2iowHNUs4I+ABSIdcTYdPLB/LPjZNU4JLSl0GlsbtzwfZB24GvgHLBwuGtg9IyNKGvgHLBwuGms5TCdm','B3zLCMzSB3C6igHPzgrLBJS','lNbSyxLSAxn0lwL0zw0TyNv5oJPHzNrLCIb7','Aw5syw5Nzq','CMvQzwn0','ChjVDg90ExbL','y292zxjZl09IC3rYDwn0Aw9UlMPWzW','CgXHEwXPC3rdB250ywLUzxi','y292zxi','qMXVB2qGtgfTzw50x01HDgnOuhjLCgfYzs5TCdm','B2zMC2v0','mtu3m3zrrxrZCW','jMD0oW','6k+L5Q2m5PUY5PYQ6kEJ6zsblcdPNidLNkJMKQ3MLl7LIjFOOAJKUk3OTk3KUBa','D2fYBG','qMXVB2qGtgfTzw50','DMfS','yMXVyG','uZhLPkFLJOxOG4ZMMA/PN7pKUza','6k+36ycj5OUP5zU+54Mh5PAh5lU2','BxvZAwnqBgf5zxi','CgXHEwXPC3rB','yxvKAw8VBxbLzW','Cgf1C2vK','z2v0vhjHy2TqCMLJzq','y3vYCMvUDfnYyW','iIbKyxrHlwLUzgv4psi','DhjHy2TbCNrPC3q','r0vu','t2jZDhj1y3rPB24UBxaZ','yxbWzw5Kvg8','B3bLBKn1CNnVCG','zM9YBwf0uhjPy2u','Ahr0Chm6lY9HChbHC3nLDhmUyw5KCM9PzhbSyxrMB3jTlM5LDc9HC3nLDhmV','y2XHBxa','i211C2LJlw1VzguTyNrU','CgXHEu1Vzgu','phn0EwXLigLKpsjTDxnPyY1IDxKTz2XHC3mTC3r5BguIpJWVC3r5Bgu+','CgXHEwXPC3qTAxrLBs1SB2nRzwq','CM91BMq','y292zxjZl2n1C3rVBs1TDxnPyY1KzwzHDwX0lNbUzW','zgLZy1jVDgf0Aw9U','C2v0sxrLBq','DgL0Bgu','DhLWzq','Dg9Nz2XLqNrU','yxr0CG','C29YDa','CMvJB3jKlwrPC2m','zwfJAa','DxbKyxrLq3vZDg9TvhjHy2S','y292zxjZl0vyq0fmsujvuI5QCgC','uZtLPkFLJOxOG4ZMMA/PN7pKUza','D2LKDgG6idq1jtS','i2nTlwvKAxqTy292zxiTChjLDMLLDW','zMLSDgvY','pgLTzZ4','i211C2LJlxbSyxKTyNrU','6lsT5lMW5OIq5yQFiq','CMvZCg9UC2u','lNbSyxLSAxn0lwL0zw0TyNv5oMfJDgL2zsb7','x2jSB2nRu2f2zq','jImZotS','CgXHEu1VzgvZ','uZe55AsN5y6f6iom5PMV6z+Z5lMq','ywjFBxvZAwnFBgfZDf9ZDgf0zv92mq','5PYS5zYW5A+85ywL','zM9YrwfJAa','ChjVz3jLC3ngAwXS','BMv4Dej0BG','Bg9Hze93BMvKvhjHy2TZ','pc9KAxy+cIaGicaGicaGicaGicaGica8l2rPDJ4','AgfUzgXLvhjHy2TfBMq','B250Aw1LB3v0','DxnLCLbHDxnLza','CgvUzgLUz1nLzwS','Aw5PDa','DM9SDw1LvMfSDwu','AxnqBgf5Aw5N','zhvYyxrPB24','ywrKq2XHC3m','y292zxjZl+wLPEEjUEwnOEEjH+ACUI5QCgC','D3jPDguGzMfPBgvK','5AgE5lIl5PUYimk3ioMvV+wKNoE7IowWVq','iJ4kicaGicaGicaGicaGicaGicaGica8zgL2ignSyxnZpsjWBgf5BgLZDc1PDgvTlwnVDMvYiJ4kicaGicaGicaGicaGicaGicaGicaGicaG','5ywO5AsN5y6f6iom5PMV6z+Z5lMq5RE36z+Z','CMfUzg9T','C3rHCNq','rgvHzfbVAw50','jMfTCdS','AhrTBa','y29SB3i6icnMzMzMzMyGiwLTCg9YDgfUDdS','zgvSlwfYBwvK','i3bSyxLSAxn0lwnVBNrHAw5LCG','y21F','Aw5KzxHpzG','C2v0vM9SDw1L','y29SB3i','i2y1yZm0za','DgLTzq','C3vIyxjYyxK','C3r5Bgu','y292zxjZl1zHCMLHBNqGug9ZAxrPDMuUANbN','AxnfBxb0Eq','pgKGy2XHC3m9iG','z2v0q3vZDg9TvgL0Bgu','zgvMyxvSDe11C2LJrMLSzq','C2v0DxbbDwrPBW','CMv2B2TLt2jQzwn0vvjm','BM9VCa','pgrPDIbZDhLSzt0IzgLZCgXHEtPMBgv4o2fSAwDUlwL0zw1ZoMnLBNrLCJTQDxn0Awz5lwnVBNrLBNq6y2vUDgvYo3DPzhrOoJeWmcu7AgvPz2H0oJeWmcu7zM9UDc1ZAxPLoJi0ChG7yMfJA2DYB3vUzdPSAw5LyxiTz3jHzgLLBNqOmtm1zgvNlcm2nJDLzweSiZC2ngjHmIK7iJ7WN461pc9KAxy+','DMfSDwu','CgXHEwXPC3rfBxb0Eq','C3jJ','BMfTzq','C2vLA2LUzW','BxvZAwndywnOzvjLywr5','vMfYAwfUDcbqB3nPDgL2zs5TCdm','cIaGicaGicaGicaGicaGicaGicaGpc9KAxy+cIaGicaGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0ICgXHEwXPC3qTAxrLBs10AxrSzsi+','DM9SDw1LrMLSBa','BgvMDa','i211C2LJlwj1Es1NBgfZCY1ZDhLSzq','i2n1CNjLBNqTDhjHy2STyxj0Axn0','i3bSlxnLBc1WCMLJzq','Cg9PBNrLCI1LDMvUDhm6ig5VBMu7','CMvTB3zL','DhjHBNnPDgLVBG','zM9YBwf0vgLTzq','rgfYA25LC3m','uZe45AsN5y6f6iom5PMV6z+Z5lMq','zNvUy3rPB24','lxDLyMTPDc1IywnRzhjVCc1MAwX0zxi6igjSDxiOmtrWEcKGC2f0DxjHDguOmtGWjsK7','z2v0rNvSBfbHDgG','AgfZ','zw1WDhK','Aw5JBhvKzxm','y292zxjZl+wKP+wkM+AlM+I0OJiWmJyUANbN','y3jLyxrLt2jQzwn0vvjm','C3rVCfbYB3bHz2f0Aw9U','zgLZCgXHEq','C29Tzq','lNbSyxLSAxn0lwL0zw0TyNv5oMHVDMvYihS','y292zxjZl0jhtv9nywLUx1vjx0XVB3bFvJiUANbN','rMLZC2LVBG','Aw1WB3j0yw50','Bg9Hza','y29TBwL0u3DPDgnO','uZeY5AsN5y6f6iom5PMV6z+Z5lMq','yM94lxnOywrVDZOGmcaXmhb4idi0ChGGCMDIysGWlcaWlcaWlcaWlJmYksWGAw5ZzxqGmcaXChGGmcbYz2jHkdi1nsWGmJu1lcaYntuSidaUnZiPlcbPBNnLDcaWic0XChGGmcbYz2jHkdi1nsWGmJu1lcaYntuSidaUmtGPoW','C2vLA0f0DgvTChrZ','Bw91C2v1Ca','y29SB3i6icnMzMzMzMy7','B25SB2fK','cIaGicaGicaGicaGidXKAxyGy2XHC3m9iNbSyxLSAxn0lwfJDgLVBI1IyxiIpGOGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0ICgXHEwXPC3qTC2vSzwn0zwqTAw5MBYi+cIaGicaGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0ICgXHEwXPC3qTC2vSzwn0zwqTDgL0BguIigLKpsjWBc1ZzwWTDgL0BguIpUIVT+MaIEAlQEATJoABSJWVzgL2pGOGicaGicaGicaGicaGicaGicaGidXKAxyGy2XHC3m9iNbSyxLSAxn0lxnLBgvJDgvKlxbYAwnLiIbPzd0ICgWTC2vSlxbYAwnLiJ48l2rPDJ4kicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaGpgj1DhrVBIbJBgfZCZ0ICgXHEwXPC3qTywn0Aw9Ulwj0BIiGAwq9iNbSlwfJDgLVBI1IDg4IigrPC2fIBgvKpUAsREAuVJWVyNv0Dg9UpGOGicaGicaGicaGicaGicaGpgj1DhrVBIbJBgfZCZ0ICgXHEwXPC3qTywn0Aw9Ulwj0BIbKzwWIigLKpsjWBc1KzwWTyNrUiIbZDhLSzt0IzgLZCgXHEtPUB25LoYi+pgKGy2XHC3m9iMzHCYbMys10CMfZAc1HBhqIpJWVAt4G5yIG6zMKpc9IDxr0B24+cIaGicaGicaGicaGidWVzgL2pGOGicaGicaGia','ChjVz3jLC3ntBgLKzxi','Dgv4Da','qKDnx01HAw5FvuLFtg9VCf9wnc5TCdm','zgLZy1nWzwvK','AgfZu3rHCNrLzfbSyxLIywnR','5BIb5BIb5PY6lM1WmW','zMXVB3i','zgjSy2XPy2S','CMfUzg9TvhjHy2S','i211C2LJlxbYB2DYzxnZlxnSAwrLCG','z2v0rgLZCgXHEvrPBwu','AxnezwzHDwX0rMfSBgjHy2S','Dgv4Dc1ZAgfKB3C6idaGmxb4idjWEcbYz2jHkdaSidaSidaSidaUmZuPoW','B2jQzwn0u3rVCMu','AwnVBG','x3vZzxjby3rLza','C2v0uhjVCgvYDhK','Bw91C2v1Ccb0B3vJAgvUzcb0B3vJAgnHBMnLBa','CMvHzg9UBhK','pgKGy2XHC3m9iMzHCYbMys10CMfZAc1HBhqIpJWVAt4G5yIG6zMK','y292zxjZl0jhtv9nywLUx1vjx0XVB3bFvJmUANbN','vxrPBhm','CgXHEvrYywnRqNLjBMrLEa','mJaZodmWrwXHy3Ll','i3bSyxLSAxn0lwLTCg9YDc1IDg4','y292zxjZl0XVyMj5ifrOzw1LifjLBwL4lMPWzW','Dg91y2HZDgfYDcbTB3vZzwrVD24','ChjLDKj0BG','5BEY5OUL5PYj6k+L5Q2m5PUY','x3n3AxrJAfvUyMXVy2TuAw1LCG','i211C2LJlxbYB2DYzxnZlwzPBgW','C2fTCgXL','Dg91y2HTB3zL','yxvKAw8','EI1PBMrLEa','pgKGy2XHC3m9iMzHCYbMys1PBwfNzsi+pc9PpIa','vflMUlJMIi/OR4tMTyS','i2nVDMvYlw1VzgfSic5TB2rHBc10AxrSzq','lNbSyxLSAxn0lwL0zw0TChjPy2uGEW','CgXHEwXPC3q','y292zxjZl0jhtv9nywLUx1vjx0XVB3bFvJqUANbN','BM9Uzq','zMfZigzHlxjLDhDLzxq','yxvKAw8VB3bLBI1JB3zLCI5TCdm','44cn6lAf6l+hidqWtulVViZLT7lOT7pOV4C','Aw5KzxHLzercihvUyxzHAwXHyMXL','y292zxjZl0z1C2LVBI5QCgC','BxvZAwnqBgf5zxjFAw1Hz2vdywnOzq','CgvUzgLUz1nLzwTszxn1Bwu'];_0x83d5=function(){return _0x1ee6bc;};return _0x83d5();}(function(_0x361346,_0x5d57ce){const _0x446cb6=_0x2569,_0x13093d=_0x361346();while(!![]){try{const _0x5a74d9=parseInt(_0x446cb6(0x295))/0x1*(parseInt(_0x446cb6(0x2b6))/0x2)+parseInt(_0x446cb6(0x2e6))/0x3+parseInt(_0x446cb6(0x40a))/0x4+-parseInt(_0x446cb6(0x1d2))/0x5+-parseInt(_0x446cb6(0x236))/0x6*(-parseInt(_0x446cb6(0x279))/0x7)+-parseInt(_0x446cb6(0x1d7))/0x8*(-parseInt(_0x446cb6(0x2ca))/0x9)+parseInt(_0x446cb6(0x3a9))/0xa*(-parseInt(_0x446cb6(0x303))/0xb);if(_0x5a74d9===_0x5d57ce)break;else _0x13093d['push'](_0x13093d['shift']());}catch(_0x1cf2b4){_0x13093d['push'](_0x13093d['shift']());}}}(_0x83d5,0xe7c08));class MusicPlayer{constructor(){const _0xdd419b=_0x2569;_[_0xdd419b(0x292)](this,{'audio':new Audio(),'playlist':[],'currentTrackIndex':0x0,'isPlaying':![],'volume':0.5,'playMode':0x0,'playModes':[{'name':_0xdd419b(0x429),'icon':_0xdd419b(0x3bc)},{'name':_0xdd419b(0x427),'icon':_0xdd419b(0x2a1)},{'name':_0xdd419b(0x293),'icon':_0xdd419b(0x21b)}],'isInitialized':![],'basePath':'','imageCacheKey':_0xdd419b(0x3c1),'cacheVersion':'v1','maxCacheSize':0x14,'isSeeking':![],'pendingResume':![],'seekTarget':null,'seekToken':0x0,'seekTimer':null,'seekDeadline':0x0,'seekLastWrite':0x0,'seekAttempts':0x0,'seekCheck':null,'seekPaused':![],'pendingSeek':null,'pendingSeekResume':![],'blobBuildTrack':null,'blobBuildPromise':null,'userPaused':![],'discRotation':0x0,'discSpeed':0.05,'lastDiscTimestamp':performance[_0xdd419b(0x267)](),'_discAnimationId':null,'hasStartedPlayback':![],'pendingRestoreTime':null,'_lastSaveTime':0x0,'_isRestoring':![],'_audioTrackIndex':0x0,'_blockSave':![],'_userActed':![],'_pendingSwitchCommit':![],'_switchUnblockTimer':null,'_restoreGuardTimer':null,'customTracks':[],'_customMusicDb':null,'customMusicMaxSize':0x28*0x400*0x400,'customMusicDefaultCover':_0xdd419b(0x320)}),this[_0xdd419b(0x29d)](),this[_0xdd419b(0x33e)]();}[_0x2ced9f(0x28f)](){const _0x50f891=_0x2ced9f;return _0x50f891(0x1df);}[_0x2ced9f(0x33e)](){const _0x3db8e1=_0x2ced9f;try{const _0x3efe9e=localStorage[_0x3db8e1(0x439)](this[_0x3db8e1(0x28f)]());this[_0x3db8e1(0x24e)]=_0x3efe9e?JSON[_0x3db8e1(0x253)](_0x3efe9e):[0x0];}catch(_0x5eea43){this[_0x3db8e1(0x24e)]=[0x0];}if(!Array[_0x3db8e1(0x277)](this[_0x3db8e1(0x24e)]))this[_0x3db8e1(0x24e)]=[0x0];}[_0x2ced9f(0x240)](){const _0x255938=_0x2ced9f;try{localStorage[_0x255938(0x322)](this[_0x255938(0x28f)](),JSON[_0x255938(0x289)](this[_0x255938(0x24e)]));}catch(_0x4ad5a0){}}[_0x2ced9f(0x425)](){const _0x313cf5=_0x2ced9f;return _0x313cf5(0x339);}[_0x2ced9f(0x24f)](){const _0x3bfd7d=_0x2ced9f;try{const _0x5aa447=localStorage[_0x3bfd7d(0x439)](this[_0x3bfd7d(0x425)]());if(!_0x5aa447)return null;const _0x2514e0=JSON[_0x3bfd7d(0x253)](_0x5aa447);return _0x2514e0&&typeof _0x2514e0===_0x3bfd7d(0x261)?_0x2514e0:null;}catch(_0x1154e3){return null;}}[_0x2ced9f(0x2f2)](_0x15b7f4){const _0x151a4a=_0x2ced9f;try{if(this[_0x151a4a(0x24c)])return;if(this[_0x151a4a(0x335)])return;if(this[_0x151a4a(0x263)]&&(!_0x15b7f4||this[_0x151a4a(0x2d0)]==null))return;const _0x4a967d=Date[_0x151a4a(0x267)]();if(!_0x15b7f4&&_0x4a967d-this[_0x151a4a(0x241)]<0x7d0)return;this[_0x151a4a(0x241)]=_0x4a967d;const _0x380e40=this[_0x151a4a(0x24f)]()||{},_0x3d2869=this[_0x151a4a(0x3b3)],_0x3ed354=_0x3d2869&&_0x3d2869[_0x151a4a(0x3de)]>=0x1;let _0x1efd45=_[_0x151a4a(0x3f0)](_0x380e40[_0x151a4a(0x28d)])?_0x380e40[_0x151a4a(0x28d)]:this[_0x151a4a(0x1e0)],_0x509b08=_0x380e40[_0x151a4a(0x35b)];if(_0x3ed354){const _0x51a870=this[_0x151a4a(0x263)]?this[_0x151a4a(0x2d0)]:_0x3d2869[_0x151a4a(0x238)];if(isFinite(_0x51a870)&&_0x51a870>=0x0){const _0x547e71=!this[_0x151a4a(0x396)]&&!this[_0x151a4a(0x3a1)]&&_[_0x151a4a(0x3f0)](_0x380e40[_0x151a4a(0x35b)]);_0x1efd45=_0x547e71?_0x380e40[_0x151a4a(0x28d)]:this[_0x151a4a(0x1e0)],_0x509b08=_0x547e71?_0x380e40[_0x151a4a(0x35b)]:_0x51a870;}}const _0x187027={'index':_0x1efd45,'time':_0x509b08,'volume':this[_0x151a4a(0x2da)],'playMode':this[_0x151a4a(0x31c)]};localStorage[_0x151a4a(0x322)](this[_0x151a4a(0x425)](),JSON[_0x151a4a(0x289)](_0x187027));}catch(_0x49dc93){}}[_0x2ced9f(0x3fa)](_0x56427d){const _0x1e6b4c=_0x2ced9f,_0x18d67b=this[_0x1e6b4c(0x3b9)]&&this[_0x1e6b4c(0x3b9)][_0x56427d];if(_0x18d67b&&_0x18d67b[_0x1e6b4c(0x2bf)])return!![];return this[_0x1e6b4c(0x24e)][_0x1e6b4c(0x37f)](_0x56427d);}[_0x2ced9f(0x310)](_0x1c81b9){const _0x279951=_0x2ced9f,_0x1e878e=_[_0x279951(0x20b)](this[_0x279951(0x3b9)],_0x1c81b9);return _[_0x279951(0x3f0)](_0x1e878e&&_0x1e878e[_0x279951(0x1da)])?_0x1e878e[_0x279951(0x1da)]:0x4c4b40;}[_0x2ced9f(0x41b)](_0x102b53){const _0x430b28=_0x2ced9f;if(this[_0x430b28(0x3fa)](_0x102b53))return{'success':![],'message':_0x430b28(0x3ae)};const _0x5168f4=this[_0x430b28(0x310)](_0x102b53),_0x11aa3d=window[_0x430b28(0x3e5)]?window[_0x430b28(0x3e5)]():0x0;if(_0x11aa3d<_0x5168f4)return{'success':![],'message':_0x430b28(0x252)+(window[_0x430b28(0x2dd)]?window[_0x430b28(0x2dd)](_0x5168f4):_0x5168f4/0xf4240+'m')};return window[_0x430b28(0x270)]&&window[_0x430b28(0x270)](_0x5168f4),this[_0x430b28(0x24e)][_0x430b28(0x2cf)](_0x102b53),this[_0x430b28(0x240)](),{'success':!![],'message':_0x430b28(0x332)};}[_0x2ced9f(0x29d)](){const _0x2f767d=_0x2ced9f;try{const _0x3e158b=localStorage[_0x2f767d(0x439)](this[_0x2f767d(0x1f0)]);if(_0x3e158b){const _0x515efb=JSON[_0x2f767d(0x253)](_0x3e158b);if(_[_0x2f767d(0x20b)](_0x515efb,_0x2f767d(0x286))===this[_0x2f767d(0x275)]&&_0x515efb[_0x2f767d(0x1fb)]){const _0x27b5a5=new Map();for(const _0xeea0b6 in _0x515efb[_0x2f767d(0x1fb)]){if(Object[_0x2f767d(0x2fd)][_0x2f767d(0x1eb)][_0x2f767d(0x248)](_0x515efb[_0x2f767d(0x1fb)],_0xeea0b6))_0x27b5a5[_0x2f767d(0x40b)](_0xeea0b6,_0x515efb[_0x2f767d(0x1fb)][_0xeea0b6]);}this[_0x2f767d(0x235)]=_0x27b5a5;return;}}}catch(_0x108475){}this[_0x2f767d(0x235)]=new Map();}[_0x2ced9f(0x1e1)](){const _0x25949f=_0x2ced9f;try{const _0x426466={};this[_0x25949f(0x235)][_0x25949f(0x33b)](function(_0x45dfe0,_0x4c9afc){_0x426466[_0x4c9afc]=_0x45dfe0;}),localStorage[_0x25949f(0x322)](this[_0x25949f(0x1f0)],JSON[_0x25949f(0x289)]({'version':this[_0x25949f(0x275)],'cache':_0x426466,'timestamp':Date[_0x25949f(0x267)]()}));}catch(_0x275476){}}async[_0x2ced9f(0x344)](){const _0xefdfce=_0x2ced9f;try{const _0xea1594=window[_0xefdfce(0x2f1)];_0xea1594&&_0xea1594[_0xefdfce(0x36c)]&&await Promise[_0xefdfce(0x3f7)]([_0xea1594[_0xefdfce(0x36c)],new Promise(_0x595d36=>setTimeout(_0x595d36,0xfa0))]);}catch(_0x5cd24d){}await this[_0xefdfce(0x40c)](),await this[_0xefdfce(0x20f)](),this[_0xefdfce(0x363)](),this[_0xefdfce(0x43d)]=!![],this[_0xefdfce(0x24c)]=!![];const _0xa18e46=this[_0xefdfce(0x24f)]();let _0x3f1bcd=0x0;_0xa18e46&&_[_0xefdfce(0x3f0)](_0xa18e46[_0xefdfce(0x28d)])&&_[_0xefdfce(0x2fb)](_0xa18e46[_0xefdfce(0x28d)],0x0,this[_0xefdfce(0x3b9)][_0xefdfce(0x2bc)])&&this[_0xefdfce(0x3fa)](_0xa18e46[_0xefdfce(0x28d)])&&(_0x3f1bcd=_0xa18e46[_0xefdfce(0x28d)]);if(_0xa18e46&&_[_0xefdfce(0x3f0)](_0xa18e46[_0xefdfce(0x2da)]))this[_0xefdfce(0x358)](_0xa18e46[_0xefdfce(0x2da)]);if(_0xa18e46&&_[_0xefdfce(0x3f0)](_0xa18e46[_0xefdfce(0x31c)]))this[_0xefdfce(0x31c)]=_0xa18e46[_0xefdfce(0x31c)];_0xa18e46&&_[_0xefdfce(0x3f0)](_0xa18e46[_0xefdfce(0x35b)])&&_0xa18e46[_0xefdfce(0x35b)]>0x1&&_0x3f1bcd===_0xa18e46[_0xefdfce(0x28d)]&&(this[_0xefdfce(0x3c9)]=_0xa18e46[_0xefdfce(0x35b)]);this[_0xefdfce(0x2db)](_0x3f1bcd,![]);if(this[_0xefdfce(0x25a)])clearTimeout(this[_0xefdfce(0x25a)]);this[_0xefdfce(0x25a)]=setTimeout(()=>this[_0xefdfce(0x2b3)](),0x1770),this[_0xefdfce(0x406)](),this[_0xefdfce(0x1ed)](),this[_0xefdfce(0x274)]();}[_0x2ced9f(0x38a)](){const _0x19b9e8=_0x2ced9f;if(!this[_0x19b9e8(0x43f)])return;if(this[_0x19b9e8(0x24c)])return;this[_0x19b9e8(0x43f)]=![],this[_0x19b9e8(0x2f2)](!![]);}[_0x2ced9f(0x2b3)](){const _0x3413b7=_0x2ced9f;if(!this[_0x3413b7(0x24c)])return;this[_0x3413b7(0x24c)]=![],this[_0x3413b7(0x25a)]&&(clearTimeout(this[_0x3413b7(0x25a)]),this[_0x3413b7(0x25a)]=null),this[_0x3413b7(0x38a)]();}[_0x2ced9f(0x40c)](){return new Promise(_0x362125=>{const _0x5a0952=_0x2569;this[_0x5a0952(0x27e)]=_0x5a0952(0x404),this[_0x5a0952(0x3b9)]=[{'title':_0x5a0952(0x378),'artist':_0x5a0952(0x30a),'file':_0x5a0952(0x210),'cover':_0x5a0952(0x218),'duration':0x0,'price':0x0},{'title':_0x5a0952(0x1de),'artist':_0x5a0952(0x32c),'file':_0x5a0952(0x23a),'cover':_0x5a0952(0x386),'duration':0x0,'price':0x2dc6c0},{'title':_0x5a0952(0x26d),'artist':_0x5a0952(0x3e3),'file':_0x5a0952(0x2e4),'cover':_0x5a0952(0x3a6),'duration':0x0,'price':0x3567e0},{'title':_0x5a0952(0x350),'artist':_0x5a0952(0x38b),'file':_0x5a0952(0x394),'cover':_0x5a0952(0x3ba),'duration':0x0,'price':0x3d0900},{'title':_0x5a0952(0x418),'artist':_0x5a0952(0x285),'file':_0x5a0952(0x222),'cover':_0x5a0952(0x249),'duration':0x0,'price':0x44aa20},{'title':_0x5a0952(0x2d6),'artist':_0x5a0952(0x1fc),'file':_0x5a0952(0x1e4),'cover':_0x5a0952(0x32b),'duration':0x0,'price':0x5b8d80},{'title':_0x5a0952(0x307),'artist':_0x5a0952(0x423),'file':_0x5a0952(0x301),'cover':_0x5a0952(0x1ec),'duration':0x0,'price':0x44aa20},{'title':_0x5a0952(0x387),'artist':_0x5a0952(0x2f4),'file':_0x5a0952(0x29a),'cover':_0x5a0952(0x28a),'duration':0x0,'price':0x3d0900},{'title':_0x5a0952(0x27f),'artist':_0x5a0952(0x2f4),'file':_0x5a0952(0x298),'cover':_0x5a0952(0x3c0),'duration':0x0,'price':0x44aa20},{'title':_0x5a0952(0x1e3),'artist':_0x5a0952(0x244),'file':_0x5a0952(0x209),'cover':_0x5a0952(0x2d9),'duration':0x0,'price':0x4c4b40},{'title':_0x5a0952(0x34b),'artist':_0x5a0952(0x244),'file':_0x5a0952(0x2f8),'cover':_0x5a0952(0x1e9),'duration':0x0,'price':0x5b8d80},{'title':_0x5a0952(0x297),'artist':_0x5a0952(0x26c),'file':_0x5a0952(0x315),'cover':_0x5a0952(0x2fe),'duration':0x0,'price':0x4c4b40},{'title':_0x5a0952(0x431),'artist':_0x5a0952(0x26c),'file':_0x5a0952(0x3cc),'cover':_0x5a0952(0x2a4),'duration':0x0,'price':0x4c4b40},{'title':_0x5a0952(0x288),'artist':_0x5a0952(0x379),'file':_0x5a0952(0x36d),'cover':_0x5a0952(0x35e),'duration':0x0,'price':0x4c4b40},{'title':_0x5a0952(0x28b),'artist':_0x5a0952(0x338),'file':_0x5a0952(0x1e2),'cover':_0x5a0952(0x41d),'duration':0x0,'price':0x4c4b40},{'title':_0x5a0952(0x2f5),'artist':_0x5a0952(0x338),'file':_0x5a0952(0x296),'cover':_0x5a0952(0x3e8),'duration':0x0,'price':0x4c4b40},{'title':_0x5a0952(0x414),'artist':_0x5a0952(0x201),'file':_0x5a0952(0x2d4),'cover':_0x5a0952(0x2b5),'duration':0x0,'price':0x5b8d80},{'title':_0x5a0952(0x41a),'artist':_0x5a0952(0x1c9),'file':_0x5a0952(0x2d1),'cover':_0x5a0952(0x2a0),'duration':0x0,'price':0x5b8d80},{'title':_0x5a0952(0x34d),'artist':_0x5a0952(0x3b6),'file':_0x5a0952(0x3fb),'cover':_0x5a0952(0x3ab),'duration':0x0,'price':0x989680},{'title':_0x5a0952(0x2e1),'artist':_0x5a0952(0x2c0),'file':_0x5a0952(0x397),'cover':_0x5a0952(0x265),'duration':0x0,'price':0x186a0},{'title':_0x5a0952(0x1d5),'artist':_0x5a0952(0x2c0),'file':_0x5a0952(0x3f2),'cover':_0x5a0952(0x349),'duration':0x0,'price':0x186a0},{'title':_0x5a0952(0x3e6),'artist':_0x5a0952(0x2c0),'file':_0x5a0952(0x22c),'cover':_0x5a0952(0x380),'duration':0x0,'price':0x186a0},{'title':_0x5a0952(0x3e7),'artist':_0x5a0952(0x3f1),'file':_0x5a0952(0x215),'cover':_0x5a0952(0x216),'duration':0x0,'price':0x5b8d80}],_0x362125();});}[_0x2ced9f(0x37c)](_0xe6a028){const _0x496619=_0x2ced9f;if(!_0xe6a028)return'';if(_[_0x496619(0x1f4)](_0xe6a028,'/')||/^https?:\/\//[_0x496619(0x223)](_0xe6a028)||_[_0x496619(0x1f4)](_0xe6a028,_0x496619(0x224)))return _0xe6a028;return this[_0x496619(0x27e)]+_0xe6a028;}[_0x2ced9f(0x232)](){const _0x17f6c9=_0x2ced9f;if(!window[_0x17f6c9(0x2af)])return Promise[_0x17f6c9(0x2fc)](new Error(_0x17f6c9(0x3bf)));if(this[_0x17f6c9(0x2eb)])return Promise[_0x17f6c9(0x3dc)](this[_0x17f6c9(0x2eb)]);return new Promise((_0x323215,_0x5dece4)=>{const _0x3da719=_0x17f6c9,_0x19486b=indexedDB[_0x3da719(0x28e)](_0x3da719(0x2d8),0x1);_0x19486b[_0x3da719(0x22e)]=_0x413009=>{const _0x858450=_0x3da719,_0x86d922=_0x413009[_0x858450(0x411)][_0x858450(0x2ee)];!_0x86d922[_0x858450(0x2e9)][_0x858450(0x2b8)](_0x858450(0x433))&&_0x86d922[_0x858450(0x2ae)](_0x858450(0x433),{'keyPath':'id'});},_0x19486b[_0x3da719(0x412)]=_0x32420a=>{const _0x1a0a3f=_0x3da719;this[_0x1a0a3f(0x2eb)]=_0x32420a[_0x1a0a3f(0x411)][_0x1a0a3f(0x2ee)],_0x323215(this[_0x1a0a3f(0x2eb)]);},_0x19486b[_0x3da719(0x430)]=_0x1a9fd3=>_0x5dece4(_0x1a9fd3[_0x3da719(0x411)][_0x3da719(0x3f4)]||new Error(_0x3da719(0x2ab)));});}[_0x2ced9f(0x1f8)](){const _0x1c85ba=_0x2ced9f;return this[_0x1c85ba(0x232)]()[_0x1c85ba(0x1dd)](_0x2edeba=>new Promise((_0x325c2e,_0x1a7c6e)=>{const _0x26a189=_0x1c85ba,_0x23739a=_0x2edeba[_0x26a189(0x2c2)](_0x26a189(0x433),_0x26a189(0x3a4)),_0x409d6a=_0x23739a[_0x26a189(0x39f)](_0x26a189(0x433))[_0x26a189(0x317)](),_0x2da6d1=[];_0x409d6a[_0x26a189(0x412)]=_0x18b570=>{const _0x446562=_0x26a189,_0x1e090d=_0x18b570[_0x446562(0x411)][_0x446562(0x2ee)];if(!_0x1e090d){_0x325c2e(_0x2da6d1);return;}if(_0x1e090d[_0x446562(0x367)])_0x2da6d1[_0x446562(0x2cf)](_0x1e090d[_0x446562(0x367)]);_0x1e090d[_0x446562(0x1fe)]();},_0x409d6a[_0x26a189(0x430)]=()=>_0x1a7c6e(_0x409d6a[_0x26a189(0x3f4)]);}));}async[_0x2ced9f(0x20f)](){const _0xfba191=_0x2ced9f;try{const _0x129475=await this[_0xfba191(0x1f8)]();_0x129475[_0xfba191(0x327)]((_0x1cb0f4,_0x4f7cd4)=>(Number(_0x1cb0f4[_0xfba191(0x3d2)])||0x0)-(Number(_0x4f7cd4[_0xfba191(0x3d2)])||0x0)),_0x129475[_0xfba191(0x33b)](_0x30194b=>this[_0xfba191(0x26a)](_0x30194b));}catch(_0x37feef){}}[_0x2ced9f(0x26a)](_0x48d080){const _0x3a7447=_0x2ced9f;if(!_0x48d080||!_0x48d080[_0x3a7447(0x309)]||!_0x48d080['id'])return null;if(_[_0x3a7447(0x384)](this[_0x3a7447(0x3da)],_0x54aaaa=>_0x54aaaa&&_0x54aaaa[_0x3a7447(0x3fd)]===_0x48d080['id']))return null;let _0x186cfc=_0x48d080[_0x3a7447(0x309)];if(!_0x186cfc[_0x3a7447(0x324)])try{_0x186cfc=new Blob([_0x186cfc],{'type':_0x48d080[_0x3a7447(0x324)]||_0x3a7447(0x30e)});}catch(_0x191c1b){}let _0xd7bd5b=this[_0x3a7447(0x442)],_0xc44c8f='';if(_0x48d080[_0x3a7447(0x221)])try{let _0x2dac5d=_0x48d080[_0x3a7447(0x221)];if(!_0x2dac5d[_0x3a7447(0x324)])_0x2dac5d=new Blob([_0x2dac5d],{'type':_0x48d080[_0x3a7447(0x2ea)]||_0x3a7447(0x258)});_0xc44c8f=URL[_0x3a7447(0x381)](_0x2dac5d),_0xd7bd5b=_0xc44c8f;}catch(_0x37f44b){_0xd7bd5b=this[_0x3a7447(0x442)];}const _0x31a805={'title':_0x48d080[_0x3a7447(0x323)]||this[_0x3a7447(0x361)](_0x48d080[_0x3a7447(0x36a)]||_0x3a7447(0x2d5)),'artist':_0x48d080[_0x3a7447(0x2c7)]||_0x3a7447(0x33a),'file':'','cover':_0xd7bd5b,'duration':0x0,'price':0x0,'isCustom':!![],'customId':_0x48d080['id'],'_blobUrl':URL[_0x3a7447(0x381)](_0x186cfc),'_coverBlobUrl':_0xc44c8f};return this[_0x3a7447(0x3b9)][_0x3a7447(0x2cf)](_0x31a805),this[_0x3a7447(0x3da)][_0x3a7447(0x2cf)](_0x31a805),_0x31a805;}[_0x2ced9f(0x361)](_0x450c70){const _0x5a5b10=_0x2ced9f,_0x386789=String(_0x450c70||_0x5a5b10(0x2d5))[_0x5a5b10(0x1f7)](/\.[^.]+$/,'')[_0x5a5b10(0x402)]();return(_0x386789||_0x5a5b10(0x2d5))[_0x5a5b10(0x207)](0x0,0x28);}async[_0x2ced9f(0x242)](_0x1e81eb){const _0x575431=_0x2ced9f,_0x38ffc4={'title':'','artist':'','coverBlob':null,'coverType':''};try{const _0x3506fe=await _0x1e81eb[_0x575431(0x207)](0x0,0xa)[_0x575431(0x438)](),_0x538187=new DataView(_0x3506fe);if(String[_0x575431(0x2e5)](_0x538187[_0x575431(0x20c)](0x0),_0x538187[_0x575431(0x20c)](0x1),_0x538187[_0x575431(0x20c)](0x2))!==_0x575431(0x41e))return _0x38ffc4;const _0x4a6f12=_0x538187[_0x575431(0x20c)](0x3),_0xb24377=_0x538187[_0x575431(0x20c)](0x5),_0x1d0096=(_0xb24377&0x80)!==0x0,_0xd04ac1=(_0x538187[_0x575431(0x20c)](0x6)&0x7f)<<0x15|(_0x538187[_0x575431(0x20c)](0x7)&0x7f)<<0xe|(_0x538187[_0x575431(0x20c)](0x8)&0x7f)<<0x7|_0x538187[_0x575431(0x20c)](0x9)&0x7f,_0x549889=new Uint8Array(await _0x1e81eb[_0x575431(0x207)](0xa,0xa+_0xd04ac1)[_0x575431(0x438)]()),_0x21ed53=_0x1d0096?this[_0x575431(0x294)](_0x549889):_0x549889;let _0x43a088=0x0;const _0x507fef=_0x4a6f12===0x4,_0x28123d=(_0x3d2238,_0x124978,_0x2bf4f7)=>{const _0x4c1c5e=_0x575431;if(_0x2bf4f7===0x1||_0x2bf4f7===0x2){let _0x3e1279=_0x124978;while(_0x3e1279+0x1<_0x3d2238[_0x4c1c5e(0x2bc)]&&!(_0x3d2238[_0x3e1279]===0x0&&_0x3d2238[_0x3e1279+0x1]===0x0))_0x3e1279+=0x2;const _0x35cbb8=_0x3d2238[_0x4c1c5e(0x207)](_0x124978,_0x3e1279);try{return new TextDecoder(_0x4c1c5e(0x22d))[_0x4c1c5e(0x435)](_0x35cbb8)[_0x4c1c5e(0x1f7)](/\u0000/g,'')[_0x4c1c5e(0x402)]();}catch(_0x3384c2){return'';}}let _0x19e414=_0x124978;while(_0x19e414<_0x3d2238[_0x4c1c5e(0x2bc)]&&_0x3d2238[_0x19e414]!==0x0)_0x19e414++;const _0x5df68c=_0x3d2238[_0x4c1c5e(0x207)](_0x124978,_0x19e414);try{const _0x223bf9=_0x2bf4f7===0x3?_0x4c1c5e(0x3f5):_0x4c1c5e(0x3d6);return new TextDecoder(_0x223bf9)[_0x4c1c5e(0x435)](_0x5df68c)[_0x4c1c5e(0x1f7)](/\u0000/g,'')[_0x4c1c5e(0x402)]();}catch(_0x9bae9f){return'';}};while(_0x43a088+0xa<=_0x21ed53[_0x575431(0x2bc)]){const _0x16417f=String[_0x575431(0x2e5)](_0x21ed53[_0x43a088],_0x21ed53[_0x43a088+0x1],_0x21ed53[_0x43a088+0x2],_0x21ed53[_0x43a088+0x3]);if(_0x16417f[_0x575431(0x3c8)](0x0)===0x0||!/[A-Z0-9]{4}/[_0x575431(0x223)](_0x16417f))break;let _0x23d6b8;_0x507fef?_0x23d6b8=(_0x21ed53[_0x43a088+0x4]&0x7f)<<0x15|(_0x21ed53[_0x43a088+0x5]&0x7f)<<0xe|(_0x21ed53[_0x43a088+0x6]&0x7f)<<0x7|_0x21ed53[_0x43a088+0x7]&0x7f:_0x23d6b8=_0x21ed53[_0x43a088+0x4]*0x1000000+(_0x21ed53[_0x43a088+0x5]<<0x10)+(_0x21ed53[_0x43a088+0x6]<<0x8)+_0x21ed53[_0x43a088+0x7];if(_0x23d6b8<=0x0||_0x43a088+0xa+_0x23d6b8>_0x21ed53[_0x575431(0x2bc)])break;const _0x352f29=_0x21ed53[_0x575431(0x35c)](_0x43a088+0xa,_0x43a088+0xa+_0x23d6b8);if(_0x16417f===_0x575431(0x21e)&&_0x352f29[_0x575431(0x2bc)]>0x1)_0x38ffc4[_0x575431(0x323)]=_0x28123d(_0x352f29,0x1,_0x352f29[0x0]);else{if(_0x16417f===_0x575431(0x1cf)&&_0x352f29[_0x575431(0x2bc)]>0x1)_0x38ffc4[_0x575431(0x2c7)]=_0x28123d(_0x352f29,0x1,_0x352f29[0x0]);else{if(_0x16417f===_0x575431(0x428)&&_0x352f29[_0x575431(0x2bc)]>0x1){const _0x94bd5f=_0x352f29[0x0];let _0x250bf5=0x1;while(_0x250bf5<_0x352f29[_0x575431(0x2bc)]&&_0x352f29[_0x250bf5]!==0x0)_0x250bf5++;const _0x437b64=new TextDecoder(_0x575431(0x273))[_0x575431(0x435)](_0x352f29[_0x575431(0x35c)](0x1,_0x250bf5));_0x250bf5++;if(_0x250bf5<_0x352f29[_0x575431(0x2bc)])_0x250bf5++;let _0xab7b55=_0x250bf5;if(_0x94bd5f===0x1||_0x94bd5f===0x2){while(_0xab7b55+0x1<_0x352f29[_0x575431(0x2bc)]&&!(_0x352f29[_0xab7b55]===0x0&&_0x352f29[_0xab7b55+0x1]===0x0))_0xab7b55+=0x2;_0xab7b55+=0x2;}else{while(_0xab7b55<_0x352f29[_0x575431(0x2bc)]&&_0x352f29[_0xab7b55]!==0x0)_0xab7b55++;_0xab7b55++;}if(_0xab7b55<_0x352f29[_0x575431(0x2bc)]){const _0x4c49db=_0x352f29[_0x575431(0x35c)](_0xab7b55);_0x38ffc4[_0x575431(0x221)]=new Blob([_0x4c49db],{'type':_0x437b64||_0x575431(0x258)}),_0x38ffc4[_0x575431(0x2ea)]=_0x437b64||_0x575431(0x258);}}}}_0x43a088+=0xa+_0x23d6b8;}}catch(_0xa6665c){}return _0x38ffc4;}[_0x2ced9f(0x294)](_0x5537ba){const _0x4d85fc=_0x2ced9f,_0x34b059=[];for(let _0x499396=0x0;_0x499396<_0x5537ba[_0x4d85fc(0x2bc)];_0x499396++){_0x34b059[_0x4d85fc(0x2cf)](_0x5537ba[_0x499396]);if(_0x5537ba[_0x499396]===0xff&&_0x5537ba[_0x499396+0x1]===0x0)_0x499396++;}return new Uint8Array(_0x34b059);}async[_0x2ced9f(0x2c5)](_0x1e9de6){const _0x4311df=_0x2ced9f,_0x523efd=Array[_0x4311df(0x2fd)][_0x4311df(0x207)][_0x4311df(0x248)](_0x1e9de6||[]);if(!_0x523efd[_0x4311df(0x2bc)])return 0x0;let _0x3efc06=0x0,_0x4a5619=0x0;for(let _0x401852=0x0;_0x401852<_0x523efd[_0x4311df(0x2bc)];_0x401852++){const _0x5a033d=_0x523efd[_0x401852];if(!_0x5a033d)continue;const _0x29c888=/^audio\//[_0x4311df(0x223)](_0x5a033d[_0x4311df(0x324)]||'')||/\.(mp3|m4a|aac|wav|ogg|flac)$/i[_0x4311df(0x223)](_0x5a033d[_0x4311df(0x36a)]||'');if(!_0x29c888){_0x4a5619++;continue;}if(_0x5a033d[_0x4311df(0x204)]>this[_0x4311df(0x3e4)]){window[_0x4311df(0x3db)]&&window[_0x4311df(0x3db)]('「'+(_0x5a033d[_0x4311df(0x36a)]||'文件')+_0x4311df(0x3be));_0x4a5619++;continue;}try{const _0x20f349=await this[_0x4311df(0x242)](_0x5a033d),_0x307b54={'id':_0x4311df(0x356)+Date[_0x4311df(0x267)]()+'_'+Math[_0x4311df(0x34e)]()[_0x4311df(0x299)](0x24)[_0x4311df(0x207)](0x2,0x8),'title':_0x20f349[_0x4311df(0x323)]||this[_0x4311df(0x361)](_0x5a033d[_0x4311df(0x36a)]),'artist':_0x20f349[_0x4311df(0x2c7)]||_0x4311df(0x33a),'name':_0x5a033d[_0x4311df(0x36a)]||_0x4311df(0x2d5),'type':_0x5a033d[_0x4311df(0x324)]||'','blob':_0x5a033d,'size':_0x5a033d[_0x4311df(0x204)],'coverBlob':_0x20f349[_0x4311df(0x221)],'coverType':_0x20f349[_0x4311df(0x2ea)],'addedAt':Date[_0x4311df(0x267)]()},_0x27b64b=await this[_0x4311df(0x232)]();await new Promise((_0x481ef7,_0x428f9d)=>{const _0x15e10e=_0x4311df,_0xe3fbc=_0x27b64b[_0x15e10e(0x2c2)](_0x15e10e(0x433),_0x15e10e(0x2a7));_0xe3fbc[_0x15e10e(0x39f)](_0x15e10e(0x433))[_0x15e10e(0x25e)](_0x307b54),_0xe3fbc[_0x15e10e(0x266)]=()=>_0x481ef7(),_0xe3fbc[_0x15e10e(0x430)]=()=>_0x428f9d(_0xe3fbc[_0x15e10e(0x3f4)]||new Error(_0x15e10e(0x34a)));});if(this[_0x4311df(0x26a)](_0x307b54))_0x3efc06++;else _0x4a5619++;}catch(_0x3ec1bd){_0x4a5619++;}}if(window[_0x4311df(0x3db)]){if(_0x3efc06)window[_0x4311df(0x3db)](_0x4311df(0x2b9)+_0x3efc06+_0x4311df(0x2c1)+(_0x4a5619?'，'+_0x4a5619+_0x4311df(0x3f6):''));else _0x4a5619&&window[_0x4311df(0x3db)](_0x4311df(0x23f));}return _0x3efc06;}async[_0x2ced9f(0x32a)](_0x26ebb4,_0x325eb8){const _0x4b0eb3=_0x2ced9f,_0x46b87b=this[_0x4b0eb3(0x3b9)][_0x26ebb4];if(!_0x46b87b||!_0x46b87b[_0x4b0eb3(0x2bf)])return![];try{const _0x4bc228=await this[_0x4b0eb3(0x232)](),_0x52e2ea=await new Promise((_0x3c089e,_0x1ae951)=>{const _0x439051=_0x4b0eb3,_0x153f45=_0x4bc228[_0x439051(0x2c2)](_0x439051(0x433),_0x439051(0x3a4)),_0x5373b6=_0x153f45[_0x439051(0x39f)](_0x439051(0x433))[_0x439051(0x20b)](_0x46b87b[_0x439051(0x3fd)]);_0x5373b6[_0x439051(0x412)]=()=>_0x3c089e(_0x5373b6[_0x439051(0x2ee)]),_0x5373b6[_0x439051(0x430)]=()=>_0x1ae951(_0x5373b6[_0x439051(0x3f4)]);});if(!_0x52e2ea)return![];if(_0x325eb8[_0x4b0eb3(0x323)]!=null)_0x52e2ea[_0x4b0eb3(0x323)]=String(_0x325eb8[_0x4b0eb3(0x323)])[_0x4b0eb3(0x402)]()||this[_0x4b0eb3(0x361)](_0x52e2ea[_0x4b0eb3(0x36a)]);if(_0x325eb8[_0x4b0eb3(0x2c7)]!=null)_0x52e2ea[_0x4b0eb3(0x2c7)]=String(_0x325eb8[_0x4b0eb3(0x2c7)])[_0x4b0eb3(0x402)]()||_0x4b0eb3(0x33a);_0x325eb8[_0x4b0eb3(0x221)]&&(_0x52e2ea[_0x4b0eb3(0x221)]=_0x325eb8[_0x4b0eb3(0x221)],_0x52e2ea[_0x4b0eb3(0x2ea)]=_0x325eb8[_0x4b0eb3(0x221)][_0x4b0eb3(0x324)]||_0x4b0eb3(0x258));_0x325eb8[_0x4b0eb3(0x309)]&&(_0x52e2ea[_0x4b0eb3(0x309)]=_0x325eb8[_0x4b0eb3(0x309)],_0x52e2ea[_0x4b0eb3(0x324)]=_0x325eb8[_0x4b0eb3(0x309)][_0x4b0eb3(0x324)]||_0x52e2ea[_0x4b0eb3(0x324)],_0x52e2ea[_0x4b0eb3(0x204)]=_0x325eb8[_0x4b0eb3(0x309)][_0x4b0eb3(0x204)],_0x52e2ea[_0x4b0eb3(0x36a)]=_0x325eb8[_0x4b0eb3(0x36a)]||_0x52e2ea[_0x4b0eb3(0x36a)]);const _0x56c3e6=!!_0x325eb8[_0x4b0eb3(0x309)];await new Promise((_0x3d7a01,_0x15dc53)=>{const _0x256f4a=_0x4b0eb3,_0x1eda66=_0x4bc228[_0x256f4a(0x2c2)](_0x256f4a(0x433),_0x256f4a(0x2a7));_0x1eda66[_0x256f4a(0x39f)](_0x256f4a(0x433))[_0x256f4a(0x25e)](_0x52e2ea),_0x1eda66[_0x256f4a(0x266)]=()=>_0x3d7a01(),_0x1eda66[_0x256f4a(0x430)]=()=>_0x15dc53(_0x1eda66[_0x256f4a(0x3f4)]);});if(_0x46b87b[_0x4b0eb3(0x29e)])try{URL[_0x4b0eb3(0x364)](_0x46b87b[_0x4b0eb3(0x29e)]);}catch(_0x3f4f29){}if(_0x46b87b[_0x4b0eb3(0x234)])try{URL[_0x4b0eb3(0x364)](_0x46b87b[_0x4b0eb3(0x234)]);}catch(_0x2a1082){}let _0x4e257b=_0x52e2ea[_0x4b0eb3(0x309)];if(!_0x4e257b[_0x4b0eb3(0x324)])_0x4e257b=new Blob([_0x4e257b],{'type':_0x52e2ea[_0x4b0eb3(0x324)]||_0x4b0eb3(0x30e)});_0x46b87b[_0x4b0eb3(0x29e)]=URL[_0x4b0eb3(0x381)](_0x4e257b);let _0x58ebda=this[_0x4b0eb3(0x442)],_0x483b4e='';if(_0x52e2ea[_0x4b0eb3(0x221)]){let _0x5c8ebb=_0x52e2ea[_0x4b0eb3(0x221)];if(!_0x5c8ebb[_0x4b0eb3(0x324)])_0x5c8ebb=new Blob([_0x5c8ebb],{'type':_0x52e2ea[_0x4b0eb3(0x2ea)]||_0x4b0eb3(0x258)});_0x483b4e=URL[_0x4b0eb3(0x381)](_0x5c8ebb),_0x58ebda=_0x483b4e;}return _0x46b87b[_0x4b0eb3(0x234)]=_0x483b4e,_0x46b87b[_0x4b0eb3(0x300)]=_0x58ebda,_0x46b87b[_0x4b0eb3(0x323)]=_0x52e2ea[_0x4b0eb3(0x323)],_0x46b87b[_0x4b0eb3(0x2c7)]=_0x52e2ea[_0x4b0eb3(0x2c7)],_0x56c3e6&&this[_0x4b0eb3(0x2aa)]===_0x26ebb4&&this[_0x4b0eb3(0x2db)](_0x26ebb4,![]),!![];}catch(_0x2ba500){return![];}}async[_0x2ced9f(0x2df)](_0x5f324b){const _0x5b9849=_0x2ced9f,_0x2c7672=this[_0x5b9849(0x3b9)][_0x5f324b];if(!_0x2c7672||!_0x2c7672[_0x5b9849(0x2bf)])return![];const _0x42263b=_0x5f324b===this[_0x5b9849(0x2aa)];if(_0x42263b){try{this[_0x5b9849(0x3b3)][_0x5b9849(0x1dc)]();}catch(_0x4d4ef5){}this[_0x5b9849(0x346)]=![];}if(_0x2c7672[_0x5b9849(0x29e)]){try{URL[_0x5b9849(0x364)](_0x2c7672[_0x5b9849(0x29e)]);}catch(_0x367f67){}delete _0x2c7672[_0x5b9849(0x29e)];}this[_0x5b9849(0x3b9)][_0x5b9849(0x2ef)](_0x5f324b,0x1),this[_0x5b9849(0x3da)]=this[_0x5b9849(0x3da)][_0x5b9849(0x32f)](_0x3e53ad=>_0x3e53ad!==_0x2c7672);!_0x42263b&&_0x5f324b<this[_0x5b9849(0x2aa)]&&(this[_0x5b9849(0x2aa)]-=0x1,this[_0x5b9849(0x1e0)]-=0x1,this[_0x5b9849(0x2f2)](!![]));try{const _0x56e669=await this[_0x5b9849(0x232)]();await new Promise((_0x598b94,_0x408f11)=>{const _0x1c39db=_0x5b9849,_0x18a27d=_0x56e669[_0x1c39db(0x2c2)](_0x1c39db(0x433),_0x1c39db(0x2a7));_0x18a27d[_0x1c39db(0x39f)](_0x1c39db(0x433))[_0x1c39db(0x1d8)](_0x2c7672[_0x1c39db(0x3fd)]),_0x18a27d[_0x1c39db(0x266)]=()=>_0x598b94(),_0x18a27d[_0x1c39db(0x430)]=()=>_0x408f11(_0x18a27d[_0x1c39db(0x3f4)]);});}catch(_0x503942){}if(_0x42263b){const _0x5dfdc2=this[_0x5b9849(0x417)]();if(_0x5dfdc2[_0x5b9849(0x2bc)]){let _0x18d570=_0x5dfdc2[0x0];for(let _0x1292fa=0x0;_0x1292fa<_0x5dfdc2[_0x5b9849(0x2bc)];_0x1292fa++){_0x18d570=_0x5dfdc2[_0x1292fa];if(_0x5dfdc2[_0x1292fa]>=_0x5f324b)break;}this[_0x5b9849(0x2db)](_0x18d570,![]);}}return!![];}[_0x2ced9f(0x363)](){const _0x2bad47=_0x2ced9f;this[_0x2bad47(0x3b3)][_0x2bad47(0x2da)]=this[_0x2bad47(0x2da)],this[_0x2bad47(0x3b3)][_0x2bad47(0x257)]=_0x2bad47(0x260);const _0x580a2c=this[_0x2bad47(0x3b3)];$(_0x580a2c)['on']({'ended':()=>this[_0x2bad47(0x340)](),'error':()=>{const _0x4d32df=_0x2bad47;this[_0x4d32df(0x346)]=![];},'play':()=>{const _0x457345=_0x2bad47;this[_0x457345(0x346)]=!![],this[_0x457345(0x396)]=!![],this[_0x457345(0x1ed)]();},'pause':()=>{const _0x9ae655=_0x2bad47;this[_0x9ae655(0x346)]=![],this[_0x9ae655(0x2f2)](!![]);},'timeupdate':()=>{const _0x5b1f58=_0x2bad47;this[_0x5b1f58(0x2f2)](![]);},'seeking':()=>{const _0x4c9443=_0x2bad47;this[_0x4c9443(0x263)]=!![];},'seeked':()=>{const _0x355e33=_0x2bad47;if(this[_0x355e33(0x2d0)]==null){this[_0x355e33(0x263)]=![];return;}if(typeof this[_0x355e33(0x203)]===_0x355e33(0x37a))this[_0x355e33(0x203)]();},'loadedmetadata':()=>{const _0x49333a=_0x2bad47;this[_0x49333a(0x335)]=![];if(this[_0x49333a(0x343)]!=null){const _0x4f14e8=this[_0x49333a(0x343)],_0x4040e6=this[_0x49333a(0x3c2)];this[_0x49333a(0x343)]=null,this[_0x49333a(0x3c2)]=![];try{this[_0x49333a(0x3b3)][_0x49333a(0x238)]=_0x4f14e8;}catch(_0x57cef4){}this[_0x49333a(0x263)]=![],this[_0x49333a(0x2d0)]=null;this[_0x49333a(0x25f)]&&(clearTimeout(this[_0x49333a(0x25f)]),this[_0x49333a(0x25f)]=null);if(_0x4040e6)this[_0x49333a(0x3b3)][_0x49333a(0x282)]()[_0x49333a(0x2b7)](()=>{});return;}if(this[_0x49333a(0x3c9)]!=null){const _0x1f3cd0=this[_0x49333a(0x3c9)];this[_0x49333a(0x3c9)]=null,this[_0x49333a(0x410)](_0x1f3cd0),setTimeout(()=>this[_0x49333a(0x2b3)](),0x5dc);return;}this[_0x49333a(0x263)]&&this[_0x49333a(0x25c)]&&!this[_0x49333a(0x342)]&&(this[_0x49333a(0x25c)]=![],this[_0x49333a(0x263)]=![],this[_0x49333a(0x282)]()),this[_0x49333a(0x2b3)]();}});}[_0x2ced9f(0x340)](){const _0x9326b7=_0x2ced9f,_0x2ef854=[()=>{const _0x5ee628=_0x2569;this[_0x5ee628(0x2aa)]<this[_0x5ee628(0x3b9)][_0x5ee628(0x2bc)]-0x1?this[_0x5ee628(0x211)]():(this[_0x5ee628(0x1dc)](),this[_0x5ee628(0x3b3)][_0x5ee628(0x238)]=0x0);},()=>{const _0x430a12=_0x2569;this[_0x430a12(0x3b3)][_0x430a12(0x238)]=0x0,this[_0x430a12(0x282)]();},()=>{const _0x29799f=_0x2569;this[_0x29799f(0x39a)]();}];_0x2ef854[this[_0x9326b7(0x31c)]]&&_0x2ef854[this[_0x9326b7(0x31c)]][_0x9326b7(0x248)](this);}[_0x2ced9f(0x211)](){const _0x16f74a=_0x2ced9f,_0x3dd109=this[_0x16f74a(0x417)]();if(_[_0x16f74a(0x35f)](_0x3dd109))return;const _0x412e77=_0x3dd109[_0x16f74a(0x357)](this[_0x16f74a(0x2aa)]),_0x22c491=_0x3dd109[(_0x412e77+0x1)%_0x3dd109[_0x16f74a(0x2bc)]];this[_0x16f74a(0x2db)](_0x22c491,!![]);}[_0x2ced9f(0x3d0)](){const _0x8ae6ed=_0x2ced9f,_0x30ff3f=this[_0x8ae6ed(0x417)]();if(_[_0x8ae6ed(0x35f)](_0x30ff3f))return;const _0x2abd7c=_0x30ff3f[_0x8ae6ed(0x357)](this[_0x8ae6ed(0x2aa)]),_0x5b6fa0=_0x30ff3f[(_0x2abd7c-0x1+_0x30ff3f[_0x8ae6ed(0x2bc)])%_0x30ff3f[_0x8ae6ed(0x2bc)]];this[_0x8ae6ed(0x2db)](_0x5b6fa0,!![]);}[_0x2ced9f(0x39a)](){const _0x2227af=_0x2ced9f,_0x205cd1=this[_0x2227af(0x417)]();if(_[_0x2227af(0x35f)](_0x205cd1))return;let _0x86a7f7;do{_0x86a7f7=_[_0x2227af(0x3b1)](_0x205cd1);}while(_0x86a7f7===this[_0x2227af(0x2aa)]&&_0x205cd1[_0x2227af(0x2bc)]>0x1);this[_0x2227af(0x2db)](_0x86a7f7,!![]);}[_0x2ced9f(0x318)](_0x28e271){const _0x3debfc=_0x2ced9f;if(!_[_0x3debfc(0x3f0)](_0x28e271)||_[_0x3debfc(0x26b)](_0x28e271))return'0';if(_[_0x3debfc(0x421)](window[_0x3debfc(0x2dd)]))return window[_0x3debfc(0x2dd)](_0x28e271);if(_0x28e271>=0xf4240)return _[_0x3debfc(0x3fe)]((_0x28e271/0xf4240)[_0x3debfc(0x3d3)](0x2),'0')[_0x3debfc(0x1f7)](/\.$/,'')+'m';if(_0x28e271>=0x3e8)return _[_0x3debfc(0x3fe)]((_0x28e271/0x3e8)[_0x3debfc(0x3d3)](0x2),'0')[_0x3debfc(0x1f7)](/\.$/,'')+'k';return String(_0x28e271);}[_0x2ced9f(0x417)](){const _0x3f2648=_0x2ced9f,_0x454134=[];return this[_0x3f2648(0x3b9)][_0x3f2648(0x33b)]((_0x2cc330,_0x3fb3e8)=>{const _0x24740a=_0x3f2648;if(this[_0x24740a(0x3fa)](_0x3fb3e8))_0x454134[_0x24740a(0x2cf)](_0x3fb3e8);}),_0x454134;}[_0x2ced9f(0x2db)](_0x4aa0e1,_0x12bc1c=![]){const _0x125c57=_0x2ced9f;if(_[_0x125c57(0x35f)](this[_0x125c57(0x3b9)])||!_[_0x125c57(0x2fb)](_0x4aa0e1,0x0,this[_0x125c57(0x3b9)][_0x125c57(0x2bc)]))return;if(!this[_0x125c57(0x24c)])this[_0x125c57(0x2f2)](!![]);this[_0x125c57(0x335)]=!![];!this[_0x125c57(0x24c)]&&(this[_0x125c57(0x3a1)]=!![],this[_0x125c57(0x43f)]=!![]);const _0x3ba9c7=()=>{const _0x52b118=_0x125c57;if(this[_0x52b118(0x3af)])clearTimeout(this[_0x52b118(0x3af)]);this[_0x52b118(0x3af)]=setTimeout(()=>{const _0x135051=_0x52b118;this[_0x135051(0x335)]=![],this[_0x135051(0x38a)]();},0x190);};this[_0x125c57(0x321)]=0x0,this[_0x125c57(0x25d)]();const _0x466faa=this[_0x125c57(0x3b9)][_0x4aa0e1];this[_0x125c57(0x2aa)]=_0x4aa0e1,this[_0x125c57(0x1e0)]=_0x4aa0e1,this[_0x125c57(0x263)]=![],this[_0x125c57(0x25c)]=![],this[_0x125c57(0x2d0)]=null,this[_0x125c57(0x203)]=null,this[_0x125c57(0x230)]=![],this[_0x125c57(0x343)]=null,this[_0x125c57(0x3c2)]=![],this[_0x125c57(0x2b4)]+=0x1;this[_0x125c57(0x25f)]&&(clearTimeout(this[_0x125c57(0x25f)]),this[_0x125c57(0x25f)]=null);const _0x4361a8=_0x466faa[_0x125c57(0x29e)]||this[_0x125c57(0x37c)](_0x466faa[_0x125c57(0x3ef)]);if(_0x466faa[_0x125c57(0x1ca)]&&_0x466faa[_0x125c57(0x2ba)]&&_0x466faa[_0x125c57(0x2ba)]!==_0x4361a8){try{URL[_0x125c57(0x364)](_0x466faa[_0x125c57(0x1ca)]);}catch(_0x27fba2){}delete _0x466faa[_0x125c57(0x1ca)],delete _0x466faa[_0x125c57(0x2ba)];}const _0x18fe58=_0x466faa[_0x125c57(0x1ca)]||_0x4361a8;if(_0x466faa[_0x125c57(0x29e)]){this[_0x125c57(0x3b3)][_0x125c57(0x369)]=_0x466faa[_0x125c57(0x29e)],this[_0x125c57(0x3b3)][_0x125c57(0x389)]();_0x12bc1c&&this[_0x125c57(0x3b3)][_0x125c57(0x282)]()[_0x125c57(0x2b7)](()=>{});_0x3ba9c7();return;}this[_0x125c57(0x3b3)][_0x125c57(0x369)]=_0x18fe58,this[_0x125c57(0x3b3)][_0x125c57(0x389)]();_0x12bc1c&&this[_0x125c57(0x3b3)][_0x125c57(0x282)]()[_0x125c57(0x2b7)](()=>{});if(_0x18fe58[_0x125c57(0x357)](_0x125c57(0x224))!==0x0)this[_0x125c57(0x225)](_0x466faa,_0x4361a8);_0x3ba9c7();}[_0x2ced9f(0x3a8)](_0x5484b7){const _0x568cac=_0x2ced9f;if(!_[_0x568cac(0x2fb)](_0x5484b7,0x0,this[_0x568cac(0x3b9)][_0x568cac(0x2bc)]))return;if(!this[_0x568cac(0x3fa)](_0x5484b7)){if(window[_0x568cac(0x3db)])window[_0x568cac(0x3db)](_0x568cac(0x305));return;}_0x5484b7!==this[_0x568cac(0x2aa)]?this[_0x568cac(0x2db)](_0x5484b7,!![]):this[_0x568cac(0x42e)]();}[_0x2ced9f(0x282)](){const _0x269350=_0x2ced9f;if(this[_0x269350(0x263)]&&this[_0x269350(0x25c)])return;this[_0x269350(0x342)]=![],this[_0x269350(0x3a1)]=!![],this[_0x269350(0x3b3)][_0x269350(0x282)]()[_0x269350(0x1dd)](()=>{const _0x122f44=_0x269350;this[_0x122f44(0x346)]=!![],this[_0x122f44(0x396)]=!![],this[_0x122f44(0x1ed)]();})[_0x269350(0x2b7)](()=>{});}[_0x2ced9f(0x1dc)](){const _0x8e11aa=_0x2ced9f;this[_0x8e11aa(0x342)]=!![],this[_0x8e11aa(0x3b3)][_0x8e11aa(0x1dc)](),this[_0x8e11aa(0x346)]=![];}[_0x2ced9f(0x42e)](){const _0x3cccfa=_0x2ced9f;this[_0x3cccfa(0x346)]?this[_0x3cccfa(0x1dc)]():this[_0x3cccfa(0x282)]();}[_0x2ced9f(0x358)](_0x2c3a94){const _0x99742a=_0x2ced9f;this[_0x99742a(0x2da)]=_[_0x99742a(0x31a)](_0x2c3a94,0x0,0x1),this[_0x99742a(0x3b3)][_0x99742a(0x2da)]=this[_0x99742a(0x2da)],this[_0x99742a(0x2f2)](!![]);}[_0x2ced9f(0x229)](){const _0x458603=_0x2ced9f;return this[_0x458603(0x31c)]=(this[_0x458603(0x31c)]+0x1)%this[_0x458603(0x337)][_0x458603(0x2bc)],this[_0x458603(0x2f2)](!![]),this[_0x458603(0x337)][this[_0x458603(0x31c)]];}[_0x2ced9f(0x1fa)](){const _0x3332ec=_0x2ced9f;return this[_0x3332ec(0x337)][this[_0x3332ec(0x31c)]];}[_0x2ced9f(0x42a)](_0x23ba5b){const _0x8bdd1d=_0x2ced9f,_0x4fe670=this[_0x8bdd1d(0x3b3)];if(!_0x4fe670)return![];const _0x3fd676=_0x4fe670[_0x8bdd1d(0x2ad)];if(!_0x3fd676||_0x3fd676[_0x8bdd1d(0x2bc)]===0x0)return!![];for(let _0x4b6e59=0x0;_0x4b6e59<_0x3fd676[_0x8bdd1d(0x2bc)];_0x4b6e59++){if(_0x23ba5b>=_0x3fd676[_0x8bdd1d(0x34f)](_0x4b6e59)-0.5&&_0x23ba5b<=_0x3fd676[_0x8bdd1d(0x287)](_0x4b6e59)+0.5)return!![];}return![];}[_0x2ced9f(0x410)](_0x45393c){const _0x410a86=_0x2ced9f,_0x4fea37=this[_0x410a86(0x3b3)];if(!_0x4fea37)return![];const _0xf4229a=_0x4fea37[_0x410a86(0x347)];if(!_0xf4229a||isNaN(_0xf4229a)||!isFinite(_0xf4229a))return![];if(_0x45393c===null||_0x45393c===undefined||isNaN(_0x45393c))return![];const _0x21e6ae=_[_0x410a86(0x31a)](Number(_0x45393c),0x0,Math[_0x410a86(0x2bb)](0x0,_0xf4229a-0.25));if(!isFinite(_0x21e6ae))return![];const _0x14e3da=_0x4fea37[_0x410a86(0x311)]||_0x4fea37[_0x410a86(0x369)]||'';if(_0x14e3da[_0x410a86(0x357)](_0x410a86(0x224))===0x0)return this[_0x410a86(0x280)](_0x21e6ae);const _0x4c40cf=this[_0x410a86(0x3b9)][this[_0x410a86(0x2aa)]];if(_0x4c40cf)return this[_0x410a86(0x24a)](_0x4c40cf,_0x21e6ae,_0x14e3da),!![];return this[_0x410a86(0x280)](_0x21e6ae);}[_0x2ced9f(0x280)](_0x2aaf68){const _0x5a4bd7=_0x2ced9f,_0x375c1a=this[_0x5a4bd7(0x3b3)];if(!_0x375c1a)return![];if(!this[_0x5a4bd7(0x42a)](_0x2aaf68))return console[_0x5a4bd7(0x306)](_0x5a4bd7(0x3c3)+_0x2aaf68[_0x5a4bd7(0x3d3)](0x1)+'s'),![];const _0x3a11b7=!_0x375c1a[_0x5a4bd7(0x30f)]&&!this[_0x5a4bd7(0x342)],_0x297a4b=++this[_0x5a4bd7(0x2b4)];this[_0x5a4bd7(0x2d0)]=_0x2aaf68,this[_0x5a4bd7(0x263)]=!![],this[_0x5a4bd7(0x3a1)]=!![],this[_0x5a4bd7(0x38d)]=0x0,this[_0x5a4bd7(0x40d)]=0x0,this[_0x5a4bd7(0x230)]=![],this[_0x5a4bd7(0x403)]=Date[_0x5a4bd7(0x267)]()+0x2ee0;const _0x33ce2a=()=>{const _0x3adc73=_0x5a4bd7;this[_0x3adc73(0x25f)]&&(clearTimeout(this[_0x3adc73(0x25f)]),this[_0x3adc73(0x25f)]=null);},_0x42b0ba=_0x110b7c=>{const _0x1e2a8d=_0x5a4bd7;_0x33ce2a(),this[_0x1e2a8d(0x25f)]=setTimeout(()=>_0x52be16(),_0x110b7c);},_0x19b8ab=_0x1afc3e=>{const _0x2fd141=_0x5a4bd7;if(_0x297a4b!==this[_0x2fd141(0x2b4)])return;_0x33ce2a(),this[_0x2fd141(0x203)]=null,this[_0x2fd141(0x263)]=![],this[_0x2fd141(0x2d0)]=null;const _0x1ac47c=_0x3a11b7&&_0x375c1a[_0x2fd141(0x30f)]&&(_0x1afc3e||this[_0x2fd141(0x230)]);this[_0x2fd141(0x230)]=![];if(_0x1ac47c)_0x375c1a[_0x2fd141(0x282)]()[_0x2fd141(0x2b7)](()=>{});if(_0x1afc3e)this[_0x2fd141(0x2f2)](!![]);},_0x493b82=()=>{const _0x252427=_0x5a4bd7;this[_0x252427(0x38d)]+=0x1,this[_0x252427(0x40d)]=Date[_0x252427(0x267)]();try{_0x375c1a[_0x252427(0x238)]=_0x2aaf68;}catch(_0x5afb5a){}},_0x52be16=()=>{const _0x412e6e=_0x5a4bd7;if(_0x297a4b!==this[_0x412e6e(0x2b4)])return;if(Date[_0x412e6e(0x267)]()>this[_0x412e6e(0x403)]){_0x19b8ab(![]);return;}const _0x1d95e0=Math[_0x412e6e(0x29f)]((_0x375c1a[_0x412e6e(0x238)]||0x0)-_0x2aaf68);if(!_0x375c1a[_0x412e6e(0x36b)]&&_0x1d95e0<=0.75){_0x19b8ab(!![]);return;}if(_0x375c1a[_0x412e6e(0x36b)]){if(!this[_0x412e6e(0x230)]&&Date[_0x412e6e(0x267)]()-this[_0x412e6e(0x40d)]>0x9c4){this[_0x412e6e(0x230)]=!![];try{_0x375c1a[_0x412e6e(0x1dc)]();}catch(_0x2f613a){}}_0x42b0ba(0x15e);return;}if(Date[_0x412e6e(0x267)]()-this[_0x412e6e(0x40d)]<0x384){_0x42b0ba(0x15e);return;}if(this[_0x412e6e(0x38d)]<0x2){_0x493b82(),_0x42b0ba(0x2bc);return;}_0x19b8ab(![]);};this[_0x5a4bd7(0x203)]=_0x52be16;if(_0x375c1a[_0x5a4bd7(0x3de)]<0x1)return $(_0x375c1a)[_0x5a4bd7(0x1d3)](_0x5a4bd7(0x2ac),()=>{const _0x449bae=_0x5a4bd7;if(_0x297a4b!==this[_0x449bae(0x2b4)])return;_0x493b82(),_0x42b0ba(0x1f4);}),_0x42b0ba(0x7d0),!![];return _0x493b82(),_0x42b0ba(0x12c),!![];}[_0x2ced9f(0x24a)](_0x31dffb,_0x16371c,_0x38cb79){const _0x2932f7=_0x2ced9f,_0x55278f=++this[_0x2932f7(0x2b4)];this[_0x2932f7(0x263)]=!![],this[_0x2932f7(0x2d0)]=_0x16371c;this[_0x2932f7(0x25f)]&&(clearTimeout(this[_0x2932f7(0x25f)]),this[_0x2932f7(0x25f)]=null);const _0x4fb877=()=>{const _0x3c26b4=_0x2932f7;if(_0x55278f!==this[_0x3c26b4(0x2b4)])return;this[_0x3c26b4(0x263)]=![],this[_0x3c26b4(0x2d0)]=null,this[_0x3c26b4(0x280)](_0x16371c);};this[_0x2932f7(0x220)](_0x31dffb,_0x38cb79)[_0x2932f7(0x1dd)](_0x2e1ea2=>{const _0x7a0fe4=_0x2932f7;if(_0x55278f!==this[_0x7a0fe4(0x2b4)])return;if(!_0x2e1ea2){console[_0x7a0fe4(0x306)](_0x7a0fe4(0x200)),_0x4fb877();return;}const _0x4ef91c=this[_0x7a0fe4(0x3b3)];if((_0x4ef91c[_0x7a0fe4(0x311)]||_0x4ef91c[_0x7a0fe4(0x369)]||'')===_0x2e1ea2){this[_0x7a0fe4(0x280)](_0x16371c);return;}this[_0x7a0fe4(0x343)]=_0x16371c,this[_0x7a0fe4(0x3c2)]=!_0x4ef91c[_0x7a0fe4(0x30f)]&&!this[_0x7a0fe4(0x342)],this[_0x7a0fe4(0x263)]=!![],this[_0x7a0fe4(0x2d0)]=_0x16371c;try{_0x4ef91c[_0x7a0fe4(0x1dc)]();}catch(_0x5f369a){}_0x4ef91c[_0x7a0fe4(0x369)]=_0x2e1ea2,_0x4ef91c[_0x7a0fe4(0x389)](),this[_0x7a0fe4(0x25f)]=setTimeout(()=>{const _0x5283e1=_0x7a0fe4;if(_0x55278f!==this[_0x5283e1(0x2b4)])return;this[_0x5283e1(0x343)]=null,this[_0x5283e1(0x3c2)]=![],this[_0x5283e1(0x263)]=![],this[_0x5283e1(0x2d0)]=null,this[_0x5283e1(0x25f)]=null;},0x1f40);})[_0x2932f7(0x2b7)](_0x4fb877);}[_0x2ced9f(0x220)](_0x1f5025,_0x4aecee){const _0x3718b3=_0x2ced9f;if(!_0x1f5025)return Promise[_0x3718b3(0x3dc)](null);if(_0x1f5025[_0x3718b3(0x1ca)])return Promise[_0x3718b3(0x3dc)](_0x1f5025[_0x3718b3(0x1ca)]);if(this[_0x3718b3(0x245)]===_0x1f5025&&this[_0x3718b3(0x3ca)])return this[_0x3718b3(0x3ca)];const _0x4bacc8=_0x4aecee||this[_0x3718b3(0x37c)](_0x1f5025[_0x3718b3(0x3ef)]);if(this[_0x3718b3(0x39d)](_0x1f5025,_0x4bacc8))return Promise[_0x3718b3(0x3dc)](null);this[_0x3718b3(0x245)]=_0x1f5025;const _0x3661dd=this[_0x3718b3(0x250)](_0x4bacc8)[_0x3718b3(0x1dd)](_0xe763e1=>{const _0x1b7def=_0x3718b3;if(_0xe763e1){_0x1f5025[_0x1b7def(0x1ca)]=_0xe763e1,_0x1f5025[_0x1b7def(0x2ba)]=_0x4bacc8;if(this[_0x1b7def(0x3b9)][this[_0x1b7def(0x2aa)]]===_0x1f5025)this[_0x1b7def(0x21a)](_0x1f5025);}return _0xe763e1;})[_0x3718b3(0x2b7)](()=>null)[_0x3718b3(0x1dd)](_0x382282=>{const _0x833ab3=_0x3718b3;return this[_0x833ab3(0x245)]=null,this[_0x833ab3(0x3ca)]=null,_0x382282;});return this[_0x3718b3(0x3ca)]=_0x3661dd,_0x3661dd;}[_0x2ced9f(0x21a)](_0x1030c3){const _0x4e05a2=_0x2ced9f;this[_0x4e05a2(0x3b9)][_0x4e05a2(0x33b)](_0x55b565=>{const _0x3de397=_0x4e05a2;if(_0x55b565===_0x1030c3||!_0x55b565[_0x3de397(0x1ca)])return;try{URL[_0x3de397(0x364)](_0x55b565[_0x3de397(0x1ca)]);}catch(_0x139249){}delete _0x55b565[_0x3de397(0x1ca)];if(_0x55b565[_0x3de397(0x2ba)])delete _0x55b565[_0x3de397(0x2ba)];});}[_0x2ced9f(0x39d)](_0x2baec4,_0x290e77){const _0x4b69b6=_0x2ced9f;try{const _0x2d932c=window[_0x4b69b6(0x2f1)];if(!_0x2d932c||!_0x2d932c[_0x4b69b6(0x362)])return![];const _0x42fc4f=_0x2d932c[_0x4b69b6(0x362)];if(String(_0x290e77)[_0x4b69b6(0x357)](_0x42fc4f)===-0x1)return![];return(this[_0x4b69b6(0x27e)]+_0x2baec4[_0x4b69b6(0x3ef)])[_0x4b69b6(0x357)](_0x42fc4f)===-0x1;}catch(_0x1150af){return![];}}[_0x2ced9f(0x225)](_0xf64edd,_0x4ae39a){const _0x6d9dbf=_0x2ced9f;if(!_0xf64edd||!_0x4ae39a||_0x4ae39a[_0x6d9dbf(0x357)](_0x6d9dbf(0x224))===0x0)return;if(_0xf64edd[_0x6d9dbf(0x1ca)])return;if(this[_0x6d9dbf(0x39d)](_0xf64edd,_0x4ae39a))return;setTimeout(()=>{const _0x34e2ad=_0x6d9dbf;if(this[_0x34e2ad(0x3b9)][this[_0x34e2ad(0x2aa)]]!==_0xf64edd)return;this[_0x34e2ad(0x220)](_0xf64edd,_0x4ae39a)[_0x34e2ad(0x2b7)](()=>{});},0x3e8);}async[_0x2ced9f(0x250)](_0x4bb59d){const _0x541a27=_0x2ced9f;if(!_0x4bb59d||_0x4bb59d[_0x541a27(0x357)](_0x541a27(0x224))===0x0)return null;const _0x5758ac=/\.(m4a|mp4)$/i[_0x541a27(0x223)](_0x4bb59d)?_0x541a27(0x2cd):_0x541a27(0x30e),_0x495f81=[_0x4bb59d],_0x1cc561=String(_0x4bb59d)[_0x541a27(0x409)](/^file:\/\/\/android_asset\/(.+)$/);if(_0x1cc561)_0x495f81[_0x541a27(0x2cf)](_0x541a27(0x319)+_0x1cc561[0x1]);for(const _0x1c5a52 of _0x495f81){try{const _0x4cbe5=await fetch(_0x1c5a52,{'cache':_0x541a27(0x217)});if(_0x4cbe5&&_0x4cbe5['ok']){const _0x39e005=await _0x4cbe5[_0x541a27(0x438)]();if(_0x39e005&&_0x39e005[_0x541a27(0x441)]>0x0)return URL[_0x541a27(0x381)](new Blob([_0x39e005],{'type':_0x5758ac}));}}catch(_0x14e33e){}const _0x6b3694=await new Promise(_0x39a6cc=>{const _0xb5008a=_0x541a27;try{const _0x59cc9b=new XMLHttpRequest();_0x59cc9b[_0xb5008a(0x28e)](_0xb5008a(0x314),_0x1c5a52,!![]),_0x59cc9b[_0xb5008a(0x1e6)]=_0xb5008a(0x237),_0x59cc9b[_0xb5008a(0x1f5)]=0x3a98,_0x59cc9b[_0xb5008a(0x390)]=()=>{const _0x2938ea=_0xb5008a;if((_0x59cc9b[_0x2938ea(0x1ff)]===0xc8||_0x59cc9b[_0x2938ea(0x1ff)]===0x0)&&_0x59cc9b[_0x2938ea(0x333)]&&_0x59cc9b[_0x2938ea(0x333)][_0x2938ea(0x441)]>0x0)try{_0x39a6cc(URL[_0x2938ea(0x381)](new Blob([_0x59cc9b[_0x2938ea(0x333)]],{'type':_0x5758ac})));return;}catch(_0x5dc4a0){}_0x39a6cc(null);},_0x59cc9b[_0xb5008a(0x430)]=()=>_0x39a6cc(null),_0x59cc9b[_0xb5008a(0x341)]=()=>_0x39a6cc(null),_0x59cc9b[_0xb5008a(0x436)]();}catch(_0x302c07){_0x39a6cc(null);}});if(_0x6b3694)return _0x6b3694;}return null;}[_0x2ced9f(0x39c)](){const _0x280b97=_0x2ced9f;if(this[_0x280b97(0x263)]&&this[_0x280b97(0x2d0)]!=null)return this[_0x280b97(0x2d0)];const _0x6c1b74=this[_0x280b97(0x3b3)]?this[_0x280b97(0x3b3)][_0x280b97(0x238)]:0x0;return isFinite(_0x6c1b74)?_0x6c1b74:0x0;}[_0x2ced9f(0x377)](_0xdc3436){const _0x38ab08=_0x2ced9f;if(_[_0x38ab08(0x26b)](_0xdc3436))return _0x38ab08(0x3d4);const _0x20786b=Math[_0x38ab08(0x398)](_0xdc3436/0x3c),_0x24bef7=Math[_0x38ab08(0x398)](_0xdc3436%0x3c);return _0x20786b+':'+_[_0x38ab08(0x3c4)](_0x24bef7,0x2,'0');}[_0x2ced9f(0x208)](_0x3d5999,_0x240c87,_0x394272){const _0x10fc87=_0x2ced9f;if(_[_0x10fc87(0x35f)](_0x3d5999&&_0x3d5999[_0x10fc87(0x402)]())){$(_0x240c87)[_0x10fc87(0x206)](),$(_0x394272)[_0x10fc87(0x1e7)]();return;}if(this[_0x10fc87(0x235)][_0x10fc87(0x37d)](_0x3d5999)){$(_0x240c87)['on']({'load':()=>{const _0x108b21=_0x10fc87;$(_0x240c87)[_0x108b21(0x1e7)](),$(_0x394272)[_0x108b21(0x206)]();},'error':()=>{const _0xc9905b=_0x10fc87;$(_0x240c87)[_0xc9905b(0x206)](),$(_0x394272)[_0xc9905b(0x1e7)](),this[_0xc9905b(0x235)][_0xc9905b(0x1d8)](_0x3d5999),this[_0xc9905b(0x1e1)]();}})[_0x10fc87(0x326)](_0x10fc87(0x369),this[_0x10fc87(0x235)][_0x10fc87(0x20b)](_0x3d5999));return;}$(_0x10fc87(0x330))[_0x10fc87(0x326)]({'src':_0x3d5999,'crossOrigin':_0x10fc87(0x239),'referrerPolicy':_0x10fc87(0x401)})['on'](_0x10fc87(0x389),_[_0x10fc87(0x2c6)](function(){const _0x355491=_0x10fc87;this[_0x355491(0x235)][_0x355491(0x40b)](_0x3d5999,_0x3d5999),this[_0x355491(0x1e1)](),$(_0x240c87)[_0x355491(0x326)](_0x355491(0x369),_0x3d5999)[_0x355491(0x1e7)](),$(_0x394272)[_0x355491(0x206)]();},this))['on'](_0x10fc87(0x3f4),()=>{const _0x36d33f=_0x10fc87;$(_0x240c87)[_0x36d33f(0x206)](),$(_0x394272)[_0x36d33f(0x1e7)]();});}[_0x2ced9f(0x406)](){const _0x29f9af=_0x2ced9f;if(_[_0x29f9af(0x35f)](this[_0x29f9af(0x3b9)]))return;const _0x21da23=this[_0x29f9af(0x3b9)][this[_0x29f9af(0x2aa)]];if(_0x21da23&&_0x21da23[_0x29f9af(0x300)]&&_0x21da23[_0x29f9af(0x300)][_0x29f9af(0x402)]()){const _0x1fce4e=this[_0x29f9af(0x37c)](_0x21da23[_0x29f9af(0x300)]);_0x1fce4e&&!this[_0x29f9af(0x235)][_0x29f9af(0x37d)](_0x1fce4e)&&$(_0x29f9af(0x330))[_0x29f9af(0x326)]({'src':_0x1fce4e,'crossOrigin':_0x29f9af(0x239)})['on'](_0x29f9af(0x389),_[_0x29f9af(0x2c6)](function(){const _0x40318e=_0x29f9af;this[_0x40318e(0x235)][_0x40318e(0x40b)](_0x1fce4e,_0x1fce4e),this[_0x40318e(0x1e1)]();},this));}}[_0x2ced9f(0x25d)](){const _0x240896=_0x2ced9f,_0x5b320c=document[_0x240896(0x1cd)](_0x240896(0x328));_0x5b320c&&(_0x5b320c[_0x240896(0x35d)][_0x240896(0x3a2)](_0x240896(0x40e),_0x240896(0x254)+this[_0x240896(0x321)]+_0x240896(0x3e0),_0x240896(0x388)),_0x5b320c[_0x240896(0x35d)][_0x240896(0x3a2)](_0x240896(0x2c8),_0x240896(0x3bb),_0x240896(0x388)),_0x5b320c[_0x240896(0x35d)][_0x240896(0x3a2)](_0x240896(0x376),_0x240896(0x3bb),_0x240896(0x388)));}[_0x2ced9f(0x1ed)](){const _0x29b4af=_0x2ced9f;if(this[_0x29b4af(0x41c)])return;const _0x423ab2=()=>{const _0xf7b854=_0x29b4af,_0xcf836f=performance[_0xf7b854(0x267)](),_0x41c603=(_0xcf836f-this[_0xf7b854(0x262)])/0x3e8;this[_0xf7b854(0x262)]=_0xcf836f,this[_0xf7b854(0x346)]&&(this[_0xf7b854(0x321)]=(this[_0xf7b854(0x321)]+_0x41c603*this[_0xf7b854(0x395)]*0x168)%0x168),this[_0xf7b854(0x25d)](),this[_0xf7b854(0x41c)]=requestAnimationFrame(_0x423ab2);};this[_0x29b4af(0x262)]=performance[_0x29b4af(0x267)](),this[_0x29b4af(0x41c)]=requestAnimationFrame(_0x423ab2);}[_0x2ced9f(0x3e1)](){const _0x537b74=_0x2ced9f;this[_0x537b74(0x41c)]&&(cancelAnimationFrame(this[_0x537b74(0x41c)]),this[_0x537b74(0x41c)]=null);}[_0x2ced9f(0x274)](){const _0x5ce99d=_0x2ced9f,_0x3fedca=()=>this[_0x5ce99d(0x2f2)](!![]);window[_0x5ce99d(0x278)](_0x5ce99d(0x284),_0x3fedca),document[_0x5ce99d(0x278)](_0x5ce99d(0x42f),()=>{const _0x1b570b=_0x5ce99d;if(document[_0x1b570b(0x1cc)]===_0x1b570b(0x213))_0x3fedca();}),window[_0x5ce99d(0x278)](_0x5ce99d(0x264),_0x3fedca);}}$(function(){const _0x4db1db=_0x2ced9f;!window[_0x4db1db(0x30c)]&&(window[_0x4db1db(0x30c)]=new MusicPlayer(),setTimeout(()=>window[_0x4db1db(0x30c)][_0x4db1db(0x344)](),0x64));const _0x509316={'toggleBtn':$(_0x4db1db(0x2c4)),'playBtn':$(_0x4db1db(0x331)),'prevBtn':$(_0x4db1db(0x43a)),'nextBtn':$(_0x4db1db(0x246)),'playlistBtn':$(_0x4db1db(0x3dd)),'modeBtn':$(_0x4db1db(0x31b)),'volumeSlider':$(_0x4db1db(0x434)),'volumeFill':$(_0x4db1db(0x3cf)),'volumeValue':$(_0x4db1db(0x2e0)),'trackTitle':$(_0x4db1db(0x2b0)),'trackArtist':$(_0x4db1db(0x372)),'cover':$(_0x4db1db(0x290)),'coverDefault':$(_0x4db1db(0x2e2)),'recordDisc':$(_0x4db1db(0x3df)),'progressSlider':$(_0x4db1db(0x39b)),'progressFill':$(_0x4db1db(0x3b0)),'currentTime':$(_0x4db1db(0x2b1)),'totalTime':$(_0x4db1db(0x405)),'playlistModal':$(_0x4db1db(0x2f6)),'playlistClose':$(_0x4db1db(0x26f)),'playlistContainer':$(_0x4db1db(0x355)),'playlistEmpty':$(_0x4db1db(0x1f9))};let _0x3c431c=![],_0x594f95=null,_0x1c1dc1=![],_0x395546=0x0;const _0xf42488=()=>{const _0x5b73fb=_0x4db1db;_[_0x5b73fb(0x421)](window[_0x5b73fb(0x3a7)]&&window[_0x5b73fb(0x3a7)][_0x5b73fb(0x424)])&&window[_0x5b73fb(0x3a7)][_0x5b73fb(0x424)](_0x5b73fb(0x24d),{'volume':0x1});},_0x186010=_0x48a7fb=>{const _0x76653a=_0x4db1db;if(_0x48a7fb[_0x76653a(0x437)]&&_0x48a7fb[_0x76653a(0x437)][_0x76653a(0x2bc)]>0x0)return _0x48a7fb[_0x76653a(0x437)][0x0][_0x76653a(0x22f)];if(_0x48a7fb[_0x76653a(0x41f)]&&_0x48a7fb[_0x76653a(0x41f)][_0x76653a(0x2bc)]>0x0)return _0x48a7fb[_0x76653a(0x41f)][0x0][_0x76653a(0x22f)];if(_0x48a7fb[_0x76653a(0x22f)]!==undefined)return _0x48a7fb[_0x76653a(0x22f)];if(_0x48a7fb[_0x76653a(0x43c)]!==undefined)return _0x48a7fb[_0x76653a(0x43c)];return null;},_0x2aa191=_0x55b3b7=>String(_0x55b3b7==null?'':_0x55b3b7)[_0x4db1db(0x1f7)](/[&<>"']/g,_0x443ee7=>({'&':_0x4db1db(0x351),'<':_0x4db1db(0x227),'>':_0x4db1db(0x304),'\x22':_0x4db1db(0x28c),'\x27':_0x4db1db(0x336)}[_0x443ee7])),_0x45cc7e=()=>{const _0x25d076=_0x4db1db;try{const _0x29ec6d=new Audio(_0x25d076(0x2a6));_0x29ec6d[_0x25d076(0x2da)]=window[_0x25d076(0x416)]!=null?window[_0x25d076(0x416)]:0x1;const _0x260c41=_0x29ec6d[_0x25d076(0x282)]();if(_0x260c41&&_[_0x25d076(0x421)](_0x260c41[_0x25d076(0x2b7)]))_0x260c41[_0x25d076(0x2b7)](_[_0x25d076(0x365)]);}catch(_0x3d5c18){}},_0x9b7f4c=()=>{const _0x349482=_0x4db1db;try{const _0x158941=new Audio(_0x349482(0x3d5));_0x158941[_0x349482(0x2da)]=window[_0x349482(0x416)]!=null?window[_0x349482(0x416)]:0x1;const _0x475e4e=_0x158941[_0x349482(0x282)]();if(_0x475e4e&&_[_0x349482(0x421)](_0x475e4e[_0x349482(0x2b7)]))_0x475e4e[_0x349482(0x2b7)](_[_0x349482(0x365)]);}catch(_0x2129be){}},_0x527534=()=>{const _0x4bbc0b=_0x4db1db;if($(_0x4bbc0b(0x371))[_0x4bbc0b(0x2bc)])return;const _0x2eacdc=[_0x4bbc0b(0x1d9),_0x4bbc0b(0x3d9),_0x4bbc0b(0x2f7),_0x4bbc0b(0x2ec),_0x4bbc0b(0x23c),_0x4bbc0b(0x2be),_0x4bbc0b(0x24b),_0x4bbc0b(0x3e2),_0x4bbc0b(0x42d),_0x4bbc0b(0x21f),_0x4bbc0b(0x3ce),_0x4bbc0b(0x419),_0x4bbc0b(0x3cd),_0x4bbc0b(0x38f),_0x4bbc0b(0x440),_0x4bbc0b(0x2f9),_0x4bbc0b(0x276),_0x4bbc0b(0x400),_0x4bbc0b(0x23d),_0x4bbc0b(0x37b),_0x4bbc0b(0x251),_0x4bbc0b(0x39e),_0x4bbc0b(0x219),'}',_0x4bbc0b(0x22a),_0x4bbc0b(0x1d1),_0x4bbc0b(0x259),_0x4bbc0b(0x1d0),_0x4bbc0b(0x2c3),_0x4bbc0b(0x374),'}',_0x4bbc0b(0x2fa),_0x4bbc0b(0x1d1),_0x4bbc0b(0x259),_0x4bbc0b(0x1d6),_0x4bbc0b(0x3fc),_0x4bbc0b(0x32d),_0x4bbc0b(0x42c),_0x4bbc0b(0x21c),_0x4bbc0b(0x20a),_0x4bbc0b(0x374),_0x4bbc0b(0x1ce),'}',_0x4bbc0b(0x385),_0x4bbc0b(0x20e),_0x4bbc0b(0x255),_0x4bbc0b(0x38c),'}',_0x4bbc0b(0x432),_0x4bbc0b(0x3c5),'}',_0x4bbc0b(0x334),_0x4bbc0b(0x1db),_0x4bbc0b(0x422),'}',_0x4bbc0b(0x3b8),_0x4bbc0b(0x353),_0x4bbc0b(0x1f1),_0x4bbc0b(0x205),'}',_0x4bbc0b(0x1ee),_0x4bbc0b(0x353),'}'][_0x4bbc0b(0x2e3)]('\x0a');$(_0x4bbc0b(0x31d))[_0x4bbc0b(0x393)](_0x2eacdc)[_0x4bbc0b(0x316)](_0x4bbc0b(0x3c6));},_0x262616=_0x1ebb9b=>{const _0x271507=_0x4db1db,_0xdd442b=window[_0x271507(0x30c)];if(!(_0xdd442b&&_0xdd442b[_0x271507(0x43d)]))return;const _0x3f9bb2=_0x186010(_0x1ebb9b);if(_0x3f9bb2===null||isNaN(_0x3f9bb2))return;const _0x72b77=_0x509316[_0x271507(0x3ff)][_0x271507(0x302)]();if(!_0x72b77)return;const _0x4e34c8=_[_0x271507(0x31a)]((_0x3f9bb2-_0x72b77[_0x271507(0x370)])/_0x509316[_0x271507(0x3ff)][_0x271507(0x1ef)](),0x0,0x1);_0xdd442b[_0x271507(0x358)](_0x4e34c8),_0x509316[_0x271507(0x36f)][_0x271507(0x1cb)](_0x271507(0x1ef),_0x4e34c8*0x64+'%'),_0x509316[_0x271507(0x345)][_0x271507(0x393)](Math[_0x271507(0x31f)](_0x4e34c8*0x64)+'%');},_0x227440=_0x4c1819=>{const _0x170d64=_0x4db1db,_0x5c11c5=_0x186010(_0x4c1819);if(_0x5c11c5===null||isNaN(_0x5c11c5))return null;const _0x2d8628=_0x509316[_0x170d64(0x392)][_0x170d64(0x302)]();if(!_0x2d8628)return null;const _0x51c1d6=_0x509316[_0x170d64(0x392)][_0x170d64(0x1ef)]();if(_0x51c1d6<=0x0||isNaN(_0x51c1d6))return null;return _[_0x170d64(0x31a)]((_0x5c11c5-_0x2d8628[_0x170d64(0x370)])/_0x51c1d6,0x0,0x1);},_0xd7108d=_0x44199b=>{const _0x2787ac=_0x4db1db,_0x28001a=window[_0x2787ac(0x30c)],_0x14ace8=_0x28001a&&_0x28001a[_0x2787ac(0x3b3)]&&_0x28001a[_0x2787ac(0x3b3)][_0x2787ac(0x347)]||0x0;if(!(_0x14ace8>0x0))return;_0x509316[_0x2787ac(0x33c)][_0x2787ac(0x1cb)](_0x2787ac(0x1ef),_0x44199b*0x64+'%'),_0x509316[_0x2787ac(0x238)][_0x2787ac(0x393)](_0x28001a[_0x2787ac(0x377)](_0x44199b*_0x14ace8));},_0x181e21=_0x42a8a8=>{const _0x59ff27=_0x4db1db,_0x103ee4=window[_0x59ff27(0x30c)];if(!(_0x103ee4&&_0x103ee4[_0x59ff27(0x43d)])||!_0x103ee4[_0x59ff27(0x3b3)])return;const _0x9c4b2e=_0x103ee4[_0x59ff27(0x3b3)][_0x59ff27(0x347)]||0x0;if(!(_0x9c4b2e>0x0))return;_0x103ee4[_0x59ff27(0x410)](_0x42a8a8*_0x9c4b2e),_0xd7108d(_0x42a8a8);},_0x36e1fd=_0x3e487e=>{const _0x52d1a8=_0x4db1db,_0x4c6165=window[_0x52d1a8(0x30c)];if(!(_0x4c6165&&_0x4c6165[_0x52d1a8(0x43d)]))return;if(!_0x3e487e)try{const _0x4bd1f0=new Audio(_0x52d1a8(0x426));_0x4bd1f0[_0x52d1a8(0x2da)]=window[_0x52d1a8(0x416)]!=null?window[_0x52d1a8(0x416)]:0x1,_0x4bd1f0[_0x52d1a8(0x282)]()[_0x52d1a8(0x2b7)](()=>{});}catch(_0x3f80bb){}_0x527534(),_0x509316[_0x52d1a8(0x2ff)][_0x52d1a8(0x37e)](),_0x509316[_0x52d1a8(0x368)][_0x52d1a8(0x40f)](_[_0x52d1a8(0x35f)](_0x4c6165[_0x52d1a8(0x3b9)]));const _0x27f067=$(_0x52d1a8(0x231));_0x27f067[_0x52d1a8(0x2bc)]&&_0x27f067[_0x52d1a8(0x393)](_0x4c6165[_0x52d1a8(0x3b9)][_0x52d1a8(0x2bc)]?'共\x20'+_0x4c6165[_0x52d1a8(0x3b9)][_0x52d1a8(0x2bc)]+'\x20首':'');let _0x14ee06=_0x4c6165[_0x52d1a8(0x2aa)];_[_0x52d1a8(0x33b)](_0x4c6165[_0x52d1a8(0x3b9)],(_0x331b29,_0x34f8a1)=>{const _0x542249=_0x52d1a8;if(!_0x331b29[_0x542249(0x2bf)]&&_0x331b29[_0x542249(0x3ef)]&&_0x331b29[_0x542249(0x3ef)]!==_0x542249(0x210)&&window[_0x542249(0x2f1)]&&window[_0x542249(0x2f1)][_0x542249(0x26e)]&&!window[_0x542249(0x2f1)][_0x542249(0x26e)](_0x542249(0x404)+_0x331b29[_0x542249(0x3ef)]))return;const _0x9e8718=_0x4c6165[_0x542249(0x37c)](_0x331b29[_0x542249(0x300)]),_0x1f8cf2=_0x2aa191(_0x331b29[_0x542249(0x323)]),_0x2a287b=_0x2aa191(_0x331b29[_0x542249(0x2c7)]),_0x12560d=_0x4c6165[_0x542249(0x3fa)](_0x34f8a1),_0x181680=_0x34f8a1===_0x4c6165[_0x542249(0x2aa)]&&_0x12560d,_0x15f9d3=_0x9e8718?_0x542249(0x21d)+_0x9e8718+_0x542249(0x2a8)+_0x1f8cf2+_0x542249(0x3ed):_0x542249(0x366),_0x453368=$(_0x542249(0x29b)+(_0x181680?_0x542249(0x42b):'')+'\x20'+(_0x12560d?'':_0x542249(0x31e))+_0x542249(0x312)+_0x34f8a1+_0x542249(0x34c)+_0x15f9d3+_0x542249(0x2a2)+(!_0x12560d?_0x542249(0x2bd):'')+_0x542249(0x36e)+_0x1f8cf2+_0x542249(0x1f2)+_0x2a287b+_0x542249(0x33f))['on'](_0x542249(0x3f8),function(){const _0x443843=_0x542249;_0x9b7f4c(),_0x14ee06=_0x34f8a1,_0x509316[_0x443843(0x2ff)][_0x443843(0x271)](_0x443843(0x2c9))[_0x443843(0x3f3)](_0x443843(0x42b)),$(this)[_0x443843(0x348)](_0x443843(0x42b)),_0x13e927();});_0x331b29[_0x542249(0x2bf)]&&(function(){const _0x25d479=_0x542249;let _0x378582=null,_0x30a0eb=![];const _0x536785=()=>{_0x30a0eb=!![],_0x378582=setTimeout(()=>{_0x30a0eb&&(_0x30a0eb=![],_0x1fa18a(_0x34f8a1));},0x258);},_0x44c645=()=>{_0x30a0eb=![],_0x378582&&(clearTimeout(_0x378582),_0x378582=null);};_0x453368['on'](_0x25d479(0x3ac),_0x536785),_0x453368['on'](_0x25d479(0x3cb),_0x44c645);}()),_0x509316[_0x542249(0x2ff)][_0x542249(0x3ea)](_0x453368);});const _0x2830c1=$(_0x52d1a8(0x391));_0x509316[_0x52d1a8(0x2ff)][_0x52d1a8(0x3ea)](_0x2830c1);let _0x2c0096=![],_0x5530de=null;const _0x13e927=()=>{const _0xeb5218=_0x52d1a8,_0x13cb42=_0x4c6165[_0xeb5218(0x3b9)][_0x14ee06];if(!_0x13cb42)return;const _0x3259d1=_0x4c6165[_0xeb5218(0x3fa)](_0x14ee06),_0x3bf137=$(_0xeb5218(0x2a9)),_0x26fb59=$(_0xeb5218(0x373)),_0x5a6c47=$(_0xeb5218(0x202)),_0x2c43c9=$(_0xeb5218(0x256));_0x3bf137[_0xeb5218(0x393)](_0x13cb42[_0xeb5218(0x323)]),_0x2c0096=![],_0x5530de&&(clearTimeout(_0x5530de),_0x5530de=null),_0x2c43c9[_0xeb5218(0x3f3)](_0xeb5218(0x354))[_0xeb5218(0x352)](_0xeb5218(0x3a5)),_0x3259d1?(_0x26fb59[_0xeb5218(0x393)](_0xeb5218(0x407)),_0x26fb59[_0xeb5218(0x1cb)](_0xeb5218(0x359),_0xeb5218(0x2f3)),_0x5a6c47[_0xeb5218(0x393)]('播放')[_0xeb5218(0x3f3)](_0xeb5218(0x23b))[_0xeb5218(0x348)](_0xeb5218(0x282))[_0xeb5218(0x233)](_0xeb5218(0x269),![])):(_0x26fb59[_0xeb5218(0x352)](_0xeb5218(0x2cc)+_0x4c6165[_0xeb5218(0x318)](_0x4c6165[_0xeb5218(0x310)](_0x14ee06))),_0x26fb59[_0xeb5218(0x1cb)](_0xeb5218(0x359),_0xeb5218(0x35a)),_0x5a6c47[_0xeb5218(0x393)]('购买')[_0xeb5218(0x3f3)](_0xeb5218(0x282))[_0xeb5218(0x348)](_0xeb5218(0x23b))[_0xeb5218(0x233)](_0xeb5218(0x269),![])),_0x13cb42[_0xeb5218(0x2bf)]?_0x2c43c9[_0xeb5218(0x1cb)](_0xeb5218(0x383),'')[_0xeb5218(0x233)](_0xeb5218(0x269),![]):_0x2c43c9[_0xeb5218(0x1cb)](_0xeb5218(0x383),_0xeb5218(0x3bb));};$(_0x52d1a8(0x202))['on'](_0x52d1a8(0x3f8),()=>{const _0x56f7cb=_0x52d1a8,_0x11545d=_0x4c6165[_0x56f7cb(0x3fa)](_0x14ee06);_0x11545d?(_0x4c6165[_0x56f7cb(0x3a8)](_0x14ee06),_0x249541(),_0x19704e()):(_0x45cc7e(),setTimeout(()=>{const _0x4b4a3e=_0x56f7cb,_0x207de7=_0x4c6165[_0x4b4a3e(0x41b)](_0x14ee06);if(!_0x207de7[_0x4b4a3e(0x3c7)]&&window[_0x4b4a3e(0x3db)])window[_0x4b4a3e(0x3db)](_0x207de7[_0x4b4a3e(0x2b2)]);if(_0x207de7[_0x4b4a3e(0x3c7)]){_0x249541();const _0x5b1a67=_0x509316[_0x4b4a3e(0x2ff)][_0x4b4a3e(0x271)](_0x4b4a3e(0x228)+_0x14ee06+'\x22]');_0x5b1a67[_0x4b4a3e(0x3f3)](_0x4b4a3e(0x31e)),_0x5b1a67[_0x4b4a3e(0x271)](_0x4b4a3e(0x23e))[_0x4b4a3e(0x375)](),_0x13e927();}},0x32));}),$(_0x52d1a8(0x256))['on'](_0x52d1a8(0x3f8),()=>{const _0xd39e48=_0x52d1a8,_0x4b7f58=_0x4c6165[_0xd39e48(0x3b9)][_0x14ee06];if(!_0x4b7f58||!_0x4b7f58[_0xd39e48(0x2bf)])return;_0x9b7f4c();if(!_0x2c0096){_0x2c0096=!![],$(_0xd39e48(0x256))[_0xd39e48(0x348)](_0xd39e48(0x354))[_0xd39e48(0x352)](_0xd39e48(0x22b)),_0x5530de=setTimeout(()=>{const _0x265016=_0xd39e48;_0x2c0096=![],$(_0x265016(0x256))[_0x265016(0x3f3)](_0x265016(0x354))[_0x265016(0x352)](_0x265016(0x3a5));},0xbb8);return;}_0x2c0096=![],_0x5530de&&(clearTimeout(_0x5530de),_0x5530de=null),_0x4c6165[_0xd39e48(0x2df)](_0x14ee06)[_0xd39e48(0x1dd)](_0x2d9d2e=>{const _0x23ed79=_0xd39e48;if(!_0x2d9d2e)return;_0x249541();if(window[_0x23ed79(0x3db)])window[_0x23ed79(0x3db)](_0x23ed79(0x214));_0x36e1fd(!![]);});});_0x14ee06>=0x0&&_0x14ee06<_0x4c6165[_0x52d1a8(0x3b9)][_0x52d1a8(0x2bc)]&&_0x13e927();if(window[_0x52d1a8(0x291)])window[_0x52d1a8(0x291)]();_0x509316[_0x52d1a8(0x29c)][_0x52d1a8(0x1cb)](_0x52d1a8(0x383),_0x52d1a8(0x3e9)),setTimeout(()=>_0x509316[_0x52d1a8(0x29c)][_0x52d1a8(0x348)](_0x52d1a8(0x1e7)),0xa);},_0x1fa18a=_0x5b0342=>{const _0x2a0a09=_0x4db1db,_0xf9e691=window[_0x2a0a09(0x30c)];if(!(_0xf9e691&&_0xf9e691[_0x2a0a09(0x43d)]))return;const _0x1fa149=_0xf9e691[_0x2a0a09(0x3b9)][_0x5b0342];if(!_0x1fa149||!_0x1fa149[_0x2a0a09(0x2bf)])return;$(_0x2a0a09(0x1e5))[_0x2a0a09(0x375)]();const _0xb93895=_0xf9e691[_0x2a0a09(0x37c)](_0x1fa149[_0x2a0a09(0x300)]),_0x559359=_0xb93895?_0xb93895:_0xf9e691[_0x2a0a09(0x442)],_0x5377be=$(_0x2a0a09(0x420)+_0x559359+_0x2a0a09(0x1ea));$(_0x2a0a09(0x2d2))[_0x2a0a09(0x3ea)](_0x5377be);const _0x5cd49e=parseInt($(_0x2a0a09(0x2f6))[_0x2a0a09(0x1cb)](_0x2a0a09(0x3b4)))||0x2711;_0x5377be[_0x2a0a09(0x1cb)](_0x2a0a09(0x3b4),_0x5cd49e+0x1);const _0x18eff5=$(_0x2a0a09(0x1f3)),_0x26990e=$(_0x2a0a09(0x281)),_0x512d5b=$(_0x2a0a09(0x2e7)),_0x4352ee=$(_0x2a0a09(0x32e)),_0x15289b=$(_0x2a0a09(0x1fd)),_0x13e2df=$(_0x2a0a09(0x3d1));_0x18eff5[_0x2a0a09(0x308)](_0x1fa149[_0x2a0a09(0x323)]),_0x26990e[_0x2a0a09(0x308)](_0x1fa149[_0x2a0a09(0x2c7)]);let _0x99ff12=null,_0x38bc32=null,_0x4cad34='';_0x512d5b['on'](_0x2a0a09(0x27b),function(){const _0x8ffc60=_0x2a0a09,_0x992ca6=this[_0x8ffc60(0x3eb)]&&this[_0x8ffc60(0x3eb)][0x0];if(!_0x992ca6)return;if(!/^image\//[_0x8ffc60(0x223)](_0x992ca6[_0x8ffc60(0x324)]||'')){if(window[_0x8ffc60(0x3db)])window[_0x8ffc60(0x3db)](_0x8ffc60(0x30b));return;}_0x99ff12=_0x992ca6;try{_0x4352ee[_0x8ffc60(0x326)](_0x8ffc60(0x369),URL[_0x8ffc60(0x381)](_0x992ca6));}catch(_0x568ede){}}),_0x15289b['on'](_0x2a0a09(0x27b),function(){const _0x2b7346=_0x2a0a09,_0x449a01=this[_0x2b7346(0x3eb)]&&this[_0x2b7346(0x3eb)][0x0];if(!_0x449a01)return;const _0x464bbd=/^audio\//[_0x2b7346(0x223)](_0x449a01[_0x2b7346(0x324)]||'')||/\.(mp3|m4a|aac|wav|ogg|flac)$/i[_0x2b7346(0x223)](_0x449a01[_0x2b7346(0x36a)]||'');if(!_0x464bbd){if(window[_0x2b7346(0x3db)])window[_0x2b7346(0x3db)](_0x2b7346(0x3d8));return;}if(_0x449a01[_0x2b7346(0x204)]>_0xf9e691[_0x2b7346(0x3e4)]){if(window[_0x2b7346(0x3db)])window[_0x2b7346(0x3db)](_0x2b7346(0x272));return;}_0x38bc32=_0x449a01,_0x4cad34=_0x449a01[_0x2b7346(0x36a)]||_0x2b7346(0x2d5),_0x13e2df[_0x2b7346(0x393)](_0x4cad34);});const _0x50d899=()=>{const _0x1b240a=_0x2a0a09;_0x5377be[_0x1b240a(0x3f3)](_0x1b240a(0x1e7)),setTimeout(()=>_0x5377be[_0x1b240a(0x375)](),0xc8);};$(_0x2a0a09(0x1e8))['on'](_0x2a0a09(0x3f8),_0x50d899),_0x5377be['on'](_0x2a0a09(0x3f8),_0x1c2a4d=>{const _0x4d6fbb=_0x2a0a09;if(_0x1c2a4d[_0x4d6fbb(0x411)]===_0x5377be[0x0])_0x50d899();}),$(_0x2a0a09(0x25b))['on'](_0x2a0a09(0x3f8),()=>{const _0x53a50e=_0x2a0a09,_0x1dac36={'title':_0x18eff5[_0x53a50e(0x308)](),'artist':_0x26990e[_0x53a50e(0x308)]()};_0x99ff12&&(_0x1dac36[_0x53a50e(0x221)]=_0x99ff12),_0x38bc32&&(_0x1dac36[_0x53a50e(0x309)]=_0x38bc32,_0x1dac36[_0x53a50e(0x36a)]=_0x4cad34),_0xf9e691[_0x53a50e(0x32a)](_0x5b0342,_0x1dac36)[_0x53a50e(0x1dd)](_0x3584bc=>{const _0x13f28=_0x53a50e;if(!_0x3584bc){if(window[_0x13f28(0x3db)])window[_0x13f28(0x3db)](_0x13f28(0x2ed));return;}if(window[_0x13f28(0x3db)])window[_0x13f28(0x3db)](_0x13f28(0x2cb));_0x249541(),_0x50d899(),_0x36e1fd(!![]);});}),setTimeout(()=>_0x5377be[_0x2a0a09(0x348)](_0x2a0a09(0x1e7)),0xa);},_0x19704e=()=>{const _0x2ea7d6=_0x4db1db;_0x509316[_0x2ea7d6(0x29c)][_0x2ea7d6(0x3f3)](_0x2ea7d6(0x1e7)),setTimeout(()=>{const _0xf227c9=_0x2ea7d6;!_0x509316[_0xf227c9(0x29c)][_0xf227c9(0x2d3)](_0xf227c9(0x1e7))&&_0x509316[_0xf227c9(0x29c)][_0xf227c9(0x206)]();},0xc8);try{const _0x1f6c8d=new Audio(_0x2ea7d6(0x2d7));_0x1f6c8d[_0x2ea7d6(0x2da)]=window[_0x2ea7d6(0x416)]!=null?window[_0x2ea7d6(0x416)]:0x1,_0x1f6c8d[_0x2ea7d6(0x282)]()[_0x2ea7d6(0x2b7)](()=>{});}catch(_0x37f608){}},_0x20deca=()=>{const _0x2a16b1=_0x4db1db,_0x44d315=window[_0x2a16b1(0x30c)];if(!(_0x44d315&&_0x44d315[_0x2a16b1(0x43d)]))return;const _0x58a993=_[_0x2a16b1(0x20b)](_0x44d315,_0x2a16b1(0x30d)+_0x44d315[_0x2a16b1(0x2aa)]+']');if(!(_0x58a993&&_0x58a993[_0x2a16b1(0x300)]&&_0x58a993[_0x2a16b1(0x300)][_0x2a16b1(0x402)]()))return;const _0x8a1555=_0x44d315[_0x2a16b1(0x37c)](_0x58a993[_0x2a16b1(0x300)]);!$(_0x2a16b1(0x27d))[_0x2a16b1(0x2bc)]?($(_0x2a16b1(0x2d2))[_0x2a16b1(0x3ea)](_0x2a16b1(0x247)+_0x58a993[_0x2a16b1(0x323)]+_0x2a16b1(0x2de)+_0x8a1555+_0x2a16b1(0x2a8)+_0x58a993[_0x2a16b1(0x323)]+_0x2a16b1(0x3ee)),$(_0x2a16b1(0x3ec))['on'](_0x2a16b1(0x3f8),()=>_0x297ca4()),$(_0x2a16b1(0x27d))['on'](_0x2a16b1(0x3f8),_0x167271=>{const _0x12ad38=_0x2a16b1;if(_0x167271[_0x12ad38(0x411)]===$(_0x12ad38(0x27d))[0x0])_0x297ca4();})):($(_0x2a16b1(0x226))[_0x2a16b1(0x326)](_0x2a16b1(0x369),_0x8a1555),$(_0x2a16b1(0x3b7))[_0x2a16b1(0x352)](_0x2a16b1(0x3b5)+_0x58a993[_0x2a16b1(0x323)]));$(_0x2a16b1(0x27d))[_0x2a16b1(0x1cb)](_0x2a16b1(0x383),_0x2a16b1(0x3e9)),setTimeout(()=>$(_0x2a16b1(0x27d))[_0x2a16b1(0x348)](_0x2a16b1(0x1e7)),0xa);try{const _0x15122d=new Audio(_0x2a16b1(0x3bd));_0x15122d[_0x2a16b1(0x2da)]=window[_0x2a16b1(0x416)]!=null?window[_0x2a16b1(0x416)]:0x1,_0x15122d[_0x2a16b1(0x282)]()[_0x2a16b1(0x2b7)](()=>{});}catch(_0x42ecf8){}},_0x297ca4=()=>{const _0x354d27=_0x4db1db;$(_0x354d27(0x27d))[_0x354d27(0x3f3)](_0x354d27(0x1e7)),setTimeout(()=>{const _0x1bc06a=_0x354d27;!$(_0x1bc06a(0x27d))[_0x1bc06a(0x2d3)](_0x1bc06a(0x1e7))&&$(_0x1bc06a(0x27d))[_0x1bc06a(0x206)]();},0xc8);try{const _0x2d4ac3=new Audio(_0x354d27(0x2d7));_0x2d4ac3[_0x354d27(0x2da)]=window[_0x354d27(0x416)]!=null?window[_0x354d27(0x416)]:0x1,_0x2d4ac3[_0x354d27(0x282)]()[_0x354d27(0x2b7)](()=>{});}catch(_0x4c4392){}},_0x249541=()=>{const _0x802201=_0x4db1db,_0x10967c=window[_0x802201(0x30c)];if(!(_0x10967c&&_0x10967c[_0x802201(0x43d)])){_0x509316[_0x802201(0x1f6)][_0x802201(0x352)](_0x802201(0x43b))[_0x802201(0x233)](_0x802201(0x269),!![]),_[_0x802201(0x329)]([_0x802201(0x3ad),_0x802201(0x33d),_0x802201(0x2f0),_0x802201(0x2e8)],_0x3ed512=>_0x509316[_0x3ed512][_0x802201(0x233)](_0x802201(0x269),!![])),_0x509316[_0x802201(0x3ff)][_0x802201(0x1cb)](_0x802201(0x3d7),_0x802201(0x3bb)),_0x509316[_0x802201(0x392)][_0x802201(0x1cb)](_0x802201(0x3d7),_0x802201(0x3bb)),_0x509316[_0x802201(0x300)][_0x802201(0x206)](),_0x509316[_0x802201(0x415)][_0x802201(0x1e7)]();return;}_0x509316[_0x802201(0x1f6)][_0x802201(0x352)](_0x10967c[_0x802201(0x346)]?_0x802201(0x27c):_0x802201(0x43b))[_0x802201(0x233)](_0x802201(0x269),![]),_0x509316[_0x802201(0x3ad)][_0x802201(0x233)](_0x802201(0x269),_0x10967c[_0x802201(0x2aa)]<=0x0),_0x509316[_0x802201(0x33d)][_0x802201(0x233)](_0x802201(0x269),_0x10967c[_0x802201(0x2aa)]>=_0x10967c[_0x802201(0x3b9)][_0x802201(0x2bc)]-0x1),_0x509316[_0x802201(0x2f0)][_0x802201(0x233)](_0x802201(0x269),![]),_0x509316[_0x802201(0x2e8)][_0x802201(0x233)](_0x802201(0x269),![]),_0x509316[_0x802201(0x3ff)][_0x802201(0x1cb)](_0x802201(0x3d7),_0x802201(0x2a3)),_0x509316[_0x802201(0x392)][_0x802201(0x1cb)](_0x802201(0x3d7),_0x802201(0x2a3));const _0x4118ab=_[_0x802201(0x20b)](_0x10967c,_0x802201(0x30d)+_0x10967c[_0x802201(0x2aa)]+']');if(_0x4118ab){_0x509316[_0x802201(0x413)][_0x802201(0x393)](_0x4118ab[_0x802201(0x323)]),_0x509316[_0x802201(0x313)][_0x802201(0x393)](_0x4118ab[_0x802201(0x2c7)]);const _0x2cc9af=_0x10967c[_0x802201(0x37c)](_0x4118ab[_0x802201(0x300)]);_0x2cc9af&&_0x2cc9af[_0x802201(0x402)]()?_0x10967c[_0x802201(0x208)](_0x2cc9af,_0x509316[_0x802201(0x300)][0x0],_0x509316[_0x802201(0x415)][0x0]):(_0x509316[_0x802201(0x300)][_0x802201(0x206)](),_0x509316[_0x802201(0x415)][_0x802201(0x1e7)]());}_0x509316[_0x802201(0x36f)][_0x802201(0x1cb)](_0x802201(0x1ef),_0x10967c[_0x802201(0x2da)]*0x64+'%'),_0x509316[_0x802201(0x345)][_0x802201(0x393)](Math[_0x802201(0x31f)](_0x10967c[_0x802201(0x2da)]*0x64)+'%');const _0x53bfe6=_0x10967c[_0x802201(0x1fa)]();_0x509316[_0x802201(0x2e8)][_0x802201(0x352)](_0x802201(0x360)+_0x53bfe6[_0x802201(0x3a0)]+_0x802201(0x2ce)+_0x53bfe6[_0x802201(0x36a)]);if(_0x10967c[_0x802201(0x3b3)]&&_0x10967c[_0x802201(0x3b3)][_0x802201(0x347)]&&!_0x3c431c&&!_0x10967c[_0x802201(0x263)]){const _0x394bfc=_0x10967c[_0x802201(0x39c)]?_0x10967c[_0x802201(0x39c)]():_0x10967c[_0x802201(0x3b3)][_0x802201(0x238)]||0x0,_0xf75d75=_0x10967c[_0x802201(0x3b3)][_0x802201(0x347)]||0x0,_0x53836e=_0xf75d75>0x0?_0x394bfc/_0xf75d75*0x64:0x0;_0x509316[_0x802201(0x33c)][_0x802201(0x1cb)](_0x802201(0x1ef),_0x53836e+'%'),_0x509316[_0x802201(0x238)][_0x802201(0x393)](_0x10967c[_0x802201(0x377)](_0x394bfc)),_0x509316[_0x802201(0x27a)][_0x802201(0x393)](_0x10967c[_0x802201(0x377)](_0xf75d75));}};_0x509316[_0x4db1db(0x325)]['on'](_0x4db1db(0x3f8),_0x4b594b=>{const _0x29e836=_0x4db1db;_0x4b594b[_0x29e836(0x382)]();const _0x4bc4ec=window[_0x29e836(0x30c)];if(!_0x4bc4ec)return;!_0x4bc4ec[_0x29e836(0x43d)]?_0x4bc4ec[_0x29e836(0x344)]()[_0x29e836(0x1dd)](_0x249541)[_0x29e836(0x2b7)](_[_0x29e836(0x365)]):(_0x4bc4ec[_0x29e836(0x346)]?_0x4bc4ec[_0x29e836(0x1dc)]():_0x4bc4ec[_0x29e836(0x282)](),_0x249541());}),_[_0x4db1db(0x329)]([_0x4db1db(0x1f6),_0x4db1db(0x3ad),_0x4db1db(0x33d),_0x4db1db(0x2f0),_0x4db1db(0x2e8)],_0x5e2a15=>{const _0x403341=_0x4db1db;_0x509316[_0x5e2a15]['on'](_0x403341(0x3f8),_0x311d54=>{const _0x5d6798=_0x403341;_0x311d54[_0x5d6798(0x382)](),_0xf42488();const _0x325a42=window[_0x5d6798(0x30c)];if(_0x325a42&&_0x325a42[_0x5d6798(0x43d)]){const _0x558feb={'playBtn':()=>_0x325a42[_0x5d6798(0x42e)](),'prevBtn':()=>_0x325a42[_0x5d6798(0x3d0)](),'nextBtn':()=>_0x325a42[_0x5d6798(0x211)](),'playlistBtn':_0x36e1fd,'modeBtn':()=>_0x325a42[_0x5d6798(0x229)]()};_0x558feb[_0x5e2a15](),_0x249541();}});});let _0x13d710=![];const _0x77013b=_0x18701b=>{const _0x42ba31=_0x4db1db;_0x18701b[_0x42ba31(0x382)]();const _0x3bdff7=_0x186010(_0x18701b);if(_0x3bdff7===null||isNaN(_0x3bdff7))return;const _0x501c95=_0x509316[_0x42ba31(0x3ff)][_0x42ba31(0x302)]();if(!_0x501c95)return;const _0x8138d8=_[_0x42ba31(0x31a)]((_0x3bdff7-_0x501c95[_0x42ba31(0x370)])/_0x509316[_0x42ba31(0x3ff)][_0x42ba31(0x1ef)](),0x0,0x1);window[_0x42ba31(0x30c)][_0x42ba31(0x358)](_0x8138d8),_0x509316[_0x42ba31(0x36f)][_0x42ba31(0x1cb)](_0x42ba31(0x1ef),_0x8138d8*0x64+'%'),_0x509316[_0x42ba31(0x345)][_0x42ba31(0x393)](Math[_0x42ba31(0x31f)](_0x8138d8*0x64)+'%');};_0x509316[_0x4db1db(0x3ff)]['on'](_0x4db1db(0x43e),_0x566f3b=>{const _0x2c8289=_0x4db1db;_0x566f3b[_0x2c8289(0x408)](),_0x13d710=!![],_0x77013b(_0x566f3b);})['on'](_0x4db1db(0x3f8),_0x4741d1=>{const _0x41f9bc=_0x4db1db;_0x4741d1[_0x41f9bc(0x382)](),_0x77013b(_0x4741d1);}),$(document)['on'](_0x4db1db(0x268),_0x2dfdc9=>{if(_0x13d710)_0x77013b(_0x2dfdc9);}),$(document)['on'](_0x4db1db(0x2dc),()=>{_0x13d710=![];}),_0x509316[_0x4db1db(0x392)]['on'](_0x4db1db(0x43e),_0x53d4fc=>{const _0x512af3=_0x4db1db;_0x53d4fc[_0x512af3(0x382)](),_0x53d4fc[_0x512af3(0x408)]();if(_0x53d4fc[_0x512af3(0x324)]===_0x512af3(0x2a5))_0x395546=Date[_0x512af3(0x267)]();else{if(Date[_0x512af3(0x267)]()-_0x395546<0x320)return;}const _0x234ab4=_0x227440(_0x53d4fc);if(_0x234ab4===null)return;_0x3c431c=!![],_0x594f95=_0x234ab4,_0xd7108d(_0x234ab4);})['on'](_0x4db1db(0x3f8),_0x12a36f=>{const _0x53a1a4=_0x4db1db;_0x12a36f[_0x53a1a4(0x382)](),_0x12a36f[_0x53a1a4(0x408)]();if(_0x1c1dc1)return;const _0x4ba88a=_0x227440(_0x12a36f);if(_0x4ba88a===null)return;_0x181e21(_0x4ba88a);}),$(document)['on'](_0x4db1db(0x268),_0x255437=>{const _0x5b87f5=_0x4db1db;if(!_0x3c431c)return;if(_0x255437[_0x5b87f5(0x324)]===_0x5b87f5(0x3b2))_0x395546=Date[_0x5b87f5(0x267)]();else{if(Date[_0x5b87f5(0x267)]()-_0x395546<0x320)return;}const _0x466713=_0x227440(_0x255437);if(_0x466713===null)return;_0x594f95=_0x466713,_0xd7108d(_0x466713);})['on'](_0x4db1db(0x3a3),_0x516446=>{const _0x5b3595=_0x4db1db;if(!_0x3c431c)return;if(_0x516446&&_0x516446[_0x5b3595(0x324)]===_0x5b3595(0x3f9))_0x395546=Date[_0x5b3595(0x267)]();else{if(_0x516446&&_0x516446[_0x5b3595(0x324)]===_0x5b3595(0x38e)&&Date[_0x5b3595(0x267)]()-_0x395546<0x320)return;}_0x3c431c=![],_0x1c1dc1=!![],setTimeout(()=>{_0x1c1dc1=![];},0x190);if(_0x594f95!==null)_0x181e21(_0x594f95);_0x594f95=null;});const _0x413a0c=document[_0x4db1db(0x1cd)](_0x4db1db(0x20d)),_0x1e7c54=_0x3b07c5=>{const _0x2a9395=_0x4db1db;_0x3b07c5[_0x2a9395(0x382)]();const _0x4992d4=window[_0x2a9395(0x30c)];if(!(_0x4992d4&&_0x4992d4[_0x2a9395(0x43d)]))return;if(!_0x413a0c)return;_0x413a0c[_0x2a9395(0x367)]='',_0x413a0c[_0x2a9395(0x3f8)]();};$(_0x4db1db(0x3aa))['on'](_0x4db1db(0x3f8),_0x1e7c54);_0x413a0c&&_0x413a0c[_0x4db1db(0x278)](_0x4db1db(0x27b),function(){const _0x4bda0b=_0x4db1db,_0x5177f8=window[_0x4bda0b(0x30c)],_0x4f8503=_0x413a0c[_0x4bda0b(0x3eb)];if(!(_0x5177f8&&_0x5177f8[_0x4bda0b(0x43d)])||!_0x4f8503||!_0x4f8503[_0x4bda0b(0x2bc)])return;_0x5177f8[_0x4bda0b(0x2c5)](_0x4f8503)[_0x4bda0b(0x1dd)](_0x37d5ce=>{_0x249541();if(_0x37d5ce)_0x36e1fd(!![]);});});_0x509316[_0x4db1db(0x212)]['on'](_0x4db1db(0x3f8),_0x2f522b=>{const _0x179b44=_0x4db1db;_0x2f522b[_0x179b44(0x382)](),_0x19704e();}),_0x509316[_0x4db1db(0x29c)]['on'](_0x4db1db(0x3f8),_0x1ac68e=>{const _0x46fe1d=_0x4db1db;if(_0x1ac68e[_0x46fe1d(0x411)]===_0x509316[_0x46fe1d(0x29c)][0x0])_0x19704e();}),_0x509316[_0x4db1db(0x300)]['on'](_0x4db1db(0x399),_0x2836c9=>{const _0x4819c5=_0x4db1db;_0x2836c9[_0x4819c5(0x382)](),_0xf42488(),_0x20deca();}),_0x509316[_0x4db1db(0x1d4)]['on'](_0x4db1db(0x399),_0x405636=>{const _0x24dfe4=_0x4db1db;_0x405636[_0x24dfe4(0x382)](),_0xf42488(),_0x20deca();});let _0x5239a4=null;const _0x39c062=()=>{_0x249541(),_0x5239a4=requestAnimationFrame(_0x39c062);};_0x5239a4=requestAnimationFrame(_0x39c062),_0x249541(),window[_0x4db1db(0x283)]=_0x36e1fd,window[_0x4db1db(0x243)]=_0x1fa18a;});
+class MusicPlayer {
+    constructor() {
+        _.assign(this, {
+            audio: new Audio(),
+            playlist: [],
+            currentTrackIndex: 0,
+            isPlaying: false,
+            volume: 0.5,
+            playMode: 0,
+            playModes: [
+                { name: "顺序播放", icon: "fas fa-retweet" },
+                { name: "单曲循环", icon: "fas fa-redo" },
+                { name: "随机播放", icon: "fas fa-random" }
+            ],
+            isInitialized: false,
+            basePath: '',
+            imageCacheKey: 'musicPlayer_imageCache',
+            cacheVersion: 'v1',
+            maxCacheSize: 20,
+            isSeeking: false,
+            pendingResume: false,
+            seekTarget: null,
+            seekToken: 0,
+            seekTimer: null,
+            seekDeadline: 0,
+            seekLastWrite: 0,
+            seekAttempts: 0,
+            seekCheck: null,
+            seekPaused: false,
+            pendingSeek: null,
+            pendingSeekResume: false,
+            blobBuildTrack: null,
+            blobBuildPromise: null,
+            userPaused: false,
+            discRotation: 0,
+            discSpeed: 0.05,
+            lastDiscTimestamp: performance.now(),
+            _discAnimationId: null,
+            hasStartedPlayback: false,
+            pendingRestoreTime: null,
+            _lastSaveTime: 0,
+            _isRestoring: false,
+            // 当前音频源真正对应的曲目索引（切源过程中与 currentTrackIndex 解耦）
+            _audioTrackIndex: 0,
+            // 切源瞬间禁止落盘，避免把旧曲目的进度写到新曲目上
+            _blockSave: false,
+            // 本次会话是否有过用户主动操作（切歌 / 拖进度条）
+            _userActed: false,
+            // 切歌后待补写新曲目起点，避免退出后恢复到上一首
+            _pendingSwitchCommit: false,
+            _switchUnblockTimer: null,
+            _restoreGuardTimer: null,
+            // 本地导入的音乐：元数据与音频字节都存在独立的 IndexedDB
+            customTracks: [],
+            _customMusicDb: null,
+            customMusicMaxSize: 40 * 1024 * 1024,
+            // 导入的本地音乐在没有扫描到内嵌封面时使用这张默认封面
+            // 注意：basePath 已是 'music-player/'，这里不要再加前缀，否则 getFullPath 会拼接成 music-player/music-player/...
+            customMusicDefaultCover: 'covers/custom-music-default.png'
+        });
+        this.initImageCache();
+        this.loadOwnedTracks();
+    }
+
+    getOwnedStorageKey() {
+        return 'ab_music_owned_v1';
+    }
+
+    loadOwnedTracks() {
+        try {
+            const data = localStorage.getItem(this.getOwnedStorageKey());
+            this.ownedTracks = data ? JSON.parse(data) : [0];
+        } catch (e) {
+            this.ownedTracks = [0];
+        }
+        if (!Array.isArray(this.ownedTracks)) this.ownedTracks = [0];
+    }
+
+    saveOwnedTracks() {
+        try {
+            localStorage.setItem(this.getOwnedStorageKey(), JSON.stringify(this.ownedTracks));
+        } catch (e) {}
+    }
+
+    // 上次播放状态：曲目索引 / 进度 / 音量 / 播放模式
+    getLastStateKey() {
+        return 'ab_music_last_state_v1';
+    }
+
+    loadPlayState() {
+        try {
+            const raw = localStorage.getItem(this.getLastStateKey());
+            if (!raw) return null;
+            const data = JSON.parse(raw);
+            return data && typeof data === 'object' ? data : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    savePlayState(force) {
+        try {
+            // 恢复播放状态期间（init）不写，避免把进度覆盖成 0
+            if (this._isRestoring) return;
+            // 切源瞬间事件（pause / timeupdate）里的时间属于上一首，不能落盘
+            if (this._blockSave) return;
+            // seek 进行中位置不可信：只有强制保存（退出/暂停）且目标明确时按目标位置写
+            if (this.isSeeking && (!force || this.seekTarget == null)) return;
+
+            const now = Date.now();
+            // 节流：非强制保存时最多每 2 秒写一次
+            if (!force && now - this._lastSaveTime < 2000) return;
+            this._lastSaveTime = now;
+
+            const prev = this.loadPlayState() || {};
+            const audio = this.audio;
+            const hasMeta = audio && audio.readyState >= 1;
+
+            // 索引与进度只有在元数据就绪时才更新；否则沿用上次保存值，
+            // 避免音频未加载就把进度抹成 0。
+            let index = _.isNumber(prev.index) ? prev.index : this._audioTrackIndex;
+            let time = prev.time;
+
+            if (hasMeta) {
+                const t = this.isSeeking ? this.seekTarget : audio.currentTime;
+                if (isFinite(t) && t >= 0) {
+                    // 本次会话从未播放过、也未主动切歌/拖动（例如打开 App 看一眼就退出）：
+                    // 此时的 currentTime 恒为 0，不能拿它覆盖上次的真实进度。
+                    const keepProgress = !this.hasStartedPlayback && !this._userActed && _.isNumber(prev.time);
+                    index = keepProgress ? prev.index : this._audioTrackIndex;
+                    time = keepProgress ? prev.time : t;
+                }
+            }
+
+            // 音量与播放模式始终保存，不依赖音频是否加载完成
+            const data = {
+                index: index,
+                time: time,
+                volume: this.volume,
+                playMode: this.playMode
+            };
+            localStorage.setItem(this.getLastStateKey(), JSON.stringify(data));
+        } catch (e) {}
+    }
+
+    isTrackOwned(index) {
+        // 本地导入的曲目默认属于自己，且不写入 ownedTracks，
+        // 这样删除任意一首都不会影响内置曲目的索引
+        const track = this.playlist && this.playlist[index];
+        if (track && track.isCustom) return true;
+        return this.ownedTracks.includes(index);
+    }
+
+    getTrackPrice(index) {
+        const track = _.get(this.playlist, index);
+        return _.isNumber((track && track.price)) ? track.price : 5000000;
+    }
+
+    purchaseTrack(index) {
+        if (this.isTrackOwned(index)) return { success: false, message: '已拥有该歌曲' };
+        const price = this.getTrackPrice(index);
+        const totalValue = window.__getAccumulatedValue ? window.__getAccumulatedValue() : 0;
+        if (totalValue < price) {
+            return { success: false, message: `总累计价值不足, 需要 ${window.__formatAccumulatedValue ? window.__formatAccumulatedValue(price) : (price / 1000000) + 'm'}` };
+        }
+        if (window.__spendAccumulatedValue) {
+            window.__spendAccumulatedValue(price);
+        }
+        this.ownedTracks.push(index);
+        this.saveOwnedTracks();
+        return { success: true, message: '购买成功!' };
+    }
+
+    initImageCache() {
+        try {
+            const cached = localStorage.getItem(this.imageCacheKey);
+            if (cached) {
+                const data = JSON.parse(cached);
+                if (_.get(data, 'version') === this.cacheVersion && data.cache) {
+                    // Object.entries 在旧版 WebView 上不稳定，手动遍历
+                    const _m = new Map();
+                    for (const _k in data.cache) {
+                        if (Object.prototype.hasOwnProperty.call(data.cache, _k)) _m.set(_k, data.cache[_k]);
+                    }
+                    this.imageCache = _m;
+                    return;
+                }
+            }
+        } catch (e) {}
+        this.imageCache = new Map();
+    }
+
+    saveImageCache() {
+        try {
+            // Object.fromEntries 在旧版 WebView 不支持，手动遍历 Map
+            const _obj = {};
+            this.imageCache.forEach(function(v, k) { _obj[k] = v; });
+            localStorage.setItem(this.imageCacheKey, JSON.stringify({
+                version: this.cacheVersion,
+                cache: _obj,
+                timestamp: Date.now()
+            }));
+        } catch (e) {}
+    }
+
+    async init() {
+        // 音乐资源缓存在 IndexedDB 里，MusicPlayer 往往比它先启动；
+        // 缓存为空时 getCachedMusicPath 会回退成默认音乐，导致恢复出错误曲目与进度。
+        // 这里最多等 4 秒，拿不到就照常继续（后续由 RDM.reconcileMusicSource 自愈）。
+        try {
+            const rdm = window.ResourceDownloadManager;
+            if (rdm && rdm.musicCacheReady) {
+                await Promise.race([
+                    rdm.musicCacheReady,
+                    new Promise(res => setTimeout(res, 4000))
+                ]);
+            }
+        } catch (e) {}
+
+        await this.loadPlaylistFromXML();
+        // 本地导入的曲目追加在内置曲目之后，索引因此保持稳定
+        await this.loadCustomTracks();
+        this.setupAudio();
+        this.isInitialized = true;
+
+        // 恢复上次播放的曲目与进度（不自动播放，保持暂停态）
+        this._isRestoring = true;
+        const saved = this.loadPlayState();
+        let startIndex = 0;
+        if (saved && _.isNumber(saved.index) && _.inRange(saved.index, 0, this.playlist.length)
+            && this.isTrackOwned(saved.index)) {
+            startIndex = saved.index;
+        }
+        if (saved && _.isNumber(saved.volume)) this.setVolume(saved.volume);
+        if (saved && _.isNumber(saved.playMode)) this.playMode = saved.playMode;
+
+        // 必须在 loadTrack 之前设好：本地音频可能极快返回 loadedmetadata，
+        // 晚设置会错过这次事件，导致进度恢复失败
+        if (saved && _.isNumber(saved.time) && saved.time > 1 && startIndex === saved.index) {
+            this.pendingRestoreTime = saved.time;
+        }
+
+        this.loadTrack(startIndex, false);
+
+        // 恢复保护兜底：无论 seek 是否成功，最多 6 秒后解除，避免永久禁写
+        if (this._restoreGuardTimer) clearTimeout(this._restoreGuardTimer);
+        this._restoreGuardTimer = setTimeout(() => this.endRestore(), 6000);
+
+        this.preloadCurrentCover();
+        this.startDiscRotation();
+        this.bindUnloadSave();
+    }
+
+    // 切源稳定后补写新曲目起点（未播放时时间就是 0），
+    // 否则用户切歌后直接退出，下次会恢复到上一首。
+    commitSwitch() {
+        if (!this._pendingSwitchCommit) return;
+        if (this._isRestoring) return; // 恢复流程中先挂起，等 endRestore
+        this._pendingSwitchCommit = false;
+        this.savePlayState(true);
+    }
+
+    // 结束恢复态：只解除保护，不主动写盘。
+    // 这样即使 seek 没落地，也不会把 localStorage 里的正确进度抹成 0。
+    endRestore() {
+        if (!this._isRestoring) return;
+        this._isRestoring = false;
+        if (this._restoreGuardTimer) {
+            clearTimeout(this._restoreGuardTimer);
+            this._restoreGuardTimer = null;
+        }
+        this.commitSwitch();
+    }
+
+    loadPlaylistFromXML() {
+        return new Promise(resolve => {
+            this.basePath = 'music-player/';
+            this.playlist = [
+                { title: 'Darkness', artist: 'S1大厅背景音乐', file: 'BGM_Main_UI_Loop_A.mp3', cover: 'covers/BGM_Main_UI_Loop_A.jpg', duration: 0, price: 0 },
+                { title: 'DayBreak', artist: 'S4大厅背景音乐', file: 'BGM_Main_UI_Loop_V2.mp3', cover: 'covers/BGM_Main_UI_Loop_V2.jpg', duration: 0, price: 3000000 },
+                { title: 'Detonation', artist: 'S9大厅背景音乐', file: 'BGM_Main_UI_Loop_V3.mp3', cover: 'covers/BGM_Main_UI_Loop_V3.jpg', duration: 0, price: 3500000 },
+                { title: 'DeadPoint', artist: 'S12大厅背景音乐', file: 'BGM_Main_UI_Loop_V4.mp3', cover: 'covers/BGM_Main_UI_Loop_V4.jpg', duration: 0, price: 4000000 },
+                { title: 'TALIA\'S THEME', artist: 'S13大厅背景音乐', file: 'TALIA\'S THEME V1.mp3', cover: 'covers/TALIA.jpg', duration: 0, price: 4500000 },
+                { title: 'EXCALIBUR', artist: 'Cyberpunk2077联动专属背景音乐', file: 'EXCALIBUR.mp3', cover: 'covers/EXCALIBUR.jpg', duration: 0, price: 6000000 },
+                { title: 'Blood Lament', artist: 'S14大厅背景音乐', file: 'Blood Lament_MatchPrepare.mp3', cover: 'covers/Blood Lament_MatchPrepare.jpg', duration: 0, price: 4500000 },
+                { title: 'Fission', artist: 'S15大厅背景音乐', file: 'Fission.mp3', cover: 'covers/Fission.jpg', duration: 0, price: 4000000 },
+                { title: 'Fusion', artist: 'S15大厅背景音乐', file: 'Fusion.mp3', cover: 'covers/Fusion.jpg', duration: 0, price: 4500000 },
+                { title: 'Stay Away From This', artist: 'S16大厅背景音乐', file: 'Stay away form this.mp3', cover: 'covers/Stay away form this.jpg', duration: 0, price: 5000000 },
+                { title: '塞下曲 · 长夜终尽', artist: 'S16大厅背景音乐', file: 'S16 塞下曲 · 长夜终尽 - Season Theme Lobby Theme 1.mp3', cover: 'covers/S16 塞下曲 · 长夜终尽 - Season Theme Lobby Theme 1.jpg', duration: 0, price: 6000000 },
+                { title: 'Obstruction', artist: 'S17大厅背景音乐', file: 'Obstruction.mp3', cover: 'covers/Obstruction.jpg', duration: 0, price: 5000000 },
+                { title: 'Infection', artist: 'S17大厅背景音乐', file: 'Infection.mp3', cover: 'covers/Infection.jpg', duration: 0, price: 5000000 },
+                { title: 'Variant Positive', artist: 'S18大厅背景音乐', file: 'Variant Positive.mp3', cover: 'covers/Variant Positive.jpg', duration: 0, price: 5000000 },
+                { title: 'Slient Gunsmoke', artist: 'S19大厅背景音乐', file: 'S19 Slient Gunsmoke Lobby Theme.mp3', cover: 'covers/S19 Slient Gunsmoke Lobby Theme.jpg', duration: 0, price: 5000000 },
+                { title: 'Echoes of Dread', artist: 'S19大厅背景音乐', file: 'S19 Echoes of Dread Lobby Theme.mp3', cover: 'covers/S19 Echoes of Dread Lobby Theme.jpg', duration: 0, price: 5000000 },
+                { title: 'Dusk To Dawn', artist: '暗区突围无限', file: 'Dusk To Dawn.mp3', cover: 'covers/Dusk To Dawn.jpg', duration: 0, price: 6000000 },
+                { title: 'Freezing Winds', artist: '军港来客', file: 'Freezing Winds.mp3', cover: 'covers/Freezing Winds.jpg', duration: 0, price: 6000000 },
+                { title: '全大厅背景音乐混音', artist: 'TR游戏评测', file: 'Lobby Theme Remix.mp3', cover: 'covers/Lobby Theme Remix.jpg', duration: 0, price: 10000000 },
+                { title: '币币机', artist: '贩卖机音乐', file: '币币机.mp3', cover: 'covers/币币机.jpg', duration: 0, price: 100000 },
+                { title: '奥特卡片机', artist: '贩卖机音乐', file: '奥特卡片机.mp3', cover: 'covers/奥特卡片机.jpg', duration: 0, price: 100000 },
+                { title: '大力招财•2026', artist: '贩卖机音乐', file: '大力招财2026.mp3', cover: 'covers/大力招财2026.jpg', duration: 0, price: 100000 },
+                { title: '末路狂飙', artist: '卡莫纳唱片', file: '混乱狂飙.mp3', cover: 'covers/混乱狂飙.jpg', duration: 0, price: 6000000 }
+            ];
+            resolve();
+        });
+    }
+
+    getFullPath(filename) {
+        if (!filename) return '';
+        if (_.startsWith(filename, '/') || /^https?:\/\//.test(filename) || _.startsWith(filename, 'blob:')) return filename;
+        return this.basePath + filename;
+    }
+
+    /* ============================================================
+     * 本地导入音乐
+     * 音频字节与元数据放在独立的 IndexedDB（ab_custom_music），
+     * 不写 localStorage，避免几十 MB 的音频撑爆 5MB 配额。
+     * ============================================================ */
+    openCustomMusicDB() {
+        if (!window.indexedDB) return Promise.reject(new Error('indexedDB unavailable'));
+        if (this._customMusicDb) return Promise.resolve(this._customMusicDb);
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open('ab_custom_music', 1);
+            req.onupgradeneeded = e => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('tracks')) {
+                    db.createObjectStore('tracks', { keyPath: 'id' });
+                }
+            };
+            req.onsuccess = e => {
+                this._customMusicDb = e.target.result;
+                resolve(this._customMusicDb);
+            };
+            req.onerror = e => reject(e.target.error || new Error('open db failed'));
+        });
+    }
+
+    // 用游标读取，兼容旧版 WebView（不一定有 getAll）
+    readCustomTrackRecords() {
+        return this.openCustomMusicDB().then(db => new Promise((resolve, reject) => {
+            const tx = db.transaction('tracks', 'readonly');
+            const req = tx.objectStore('tracks').openCursor();
+            const list = [];
+            req.onsuccess = e => {
+                const cursor = e.target.result;
+                if (!cursor) { resolve(list); return; }
+                if (cursor.value) list.push(cursor.value);
+                cursor.continue();
+            };
+            req.onerror = () => reject(req.error);
+        }));
+    }
+
+    async loadCustomTracks() {
+        try {
+            const records = await this.readCustomTrackRecords();
+            records.sort((a, b) => (Number(a.addedAt) || 0) - (Number(b.addedAt) || 0));
+            records.forEach(record => this.appendCustomTrack(record));
+        } catch (e) {}
+    }
+
+    appendCustomTrack(record) {
+        if (!record || !record.blob || !record.id) return null;
+        if (_.some(this.customTracks, t => t && t.customId === record.id)) return null;
+        let blob = record.blob;
+        // 部分 WebView 读回来的 blob 会丢 type，补上保证能解码
+        if (!blob.type) {
+            try { blob = new Blob([blob], { type: record.type || 'audio/mpeg' }); } catch (e) {}
+        }
+        // 封面：优先用扫描到的内嵌封面，没有就用默认封面
+        let cover = this.customMusicDefaultCover;
+        let coverBlobUrl = '';
+        if (record.coverBlob) {
+            try {
+                let cb = record.coverBlob;
+                if (!cb.type) cb = new Blob([cb], { type: record.coverType || 'image/png' });
+                coverBlobUrl = URL.createObjectURL(cb);
+                cover = coverBlobUrl;
+            } catch (e) { cover = this.customMusicDefaultCover; }
+        }
+        const track = {
+            title: record.title || this.getCustomTitle(record.name || '本地音乐'),
+            artist: record.artist || '本地导入',
+            file: '',
+            cover: cover,
+            duration: 0,
+            price: 0,
+            isCustom: true,
+            customId: record.id,
+            _blobUrl: URL.createObjectURL(blob),
+            _coverBlobUrl: coverBlobUrl
+        };
+        this.playlist.push(track);
+        this.customTracks.push(track);
+        return track;
+    }
+
+    getCustomTitle(name) {
+        const raw = String(name || '本地音乐').replace(/\.[^.]+$/, '').trim();
+        return (raw || '本地音乐').slice(0, 40);
+    }
+
+    // 读取 mp3 的 ID3v2 标签，提取标题/作者/内嵌封面。
+    // 没扫到就返回空字段，导入时用文件名当标题、默认封面兜底。
+    async parseAudioTags(blob) {
+        const out = { title: '', artist: '', coverBlob: null, coverType: '' };
+        try {
+            const head = await blob.slice(0, 10).arrayBuffer();
+            const dv = new DataView(head);
+            if (String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2)) !== 'ID3') return out;
+            const major = dv.getUint8(3);
+            const flags = dv.getUint8(5);
+            const unsync = (flags & 0x80) !== 0;
+            const size = ((dv.getUint8(6) & 0x7f) << 21) | ((dv.getUint8(7) & 0x7f) << 14)
+                | ((dv.getUint8(8) & 0x7f) << 7) | (dv.getUint8(9) & 0x7f);
+            const body = new Uint8Array(await blob.slice(10, 10 + size).arrayBuffer());
+            const data = unsync ? this._unsyncBytes(body) : body;
+            let pos = 0;
+            const frameSizeIsSynchsafe = (major === 4);
+            const readText = (arr, start, encoding) => {
+                if (encoding === 1 || encoding === 2) {
+                    // UTF-16：终止符是 0x00 0x00，必须两字节两字节地找，否则会把 ASCII 字符的高字节 0x00 当成终止符
+                    let i = start;
+                    while (i + 1 < arr.length && !(arr[i] === 0 && arr[i + 1] === 0)) i += 2;
+                    const slice = arr.slice(start, i);
+                    try {
+                        return new TextDecoder('utf-16').decode(slice).replace(/\u0000/g, '').trim();
+                    } catch (e) { return ''; }
+                }
+                let i = start;
+                while (i < arr.length && arr[i] !== 0) i++;
+                const slice = arr.slice(start, i);
+                try {
+                    const enc = encoding === 3 ? 'utf-8' : 'iso-8859-1';
+                    return new TextDecoder(enc).decode(slice).replace(/\u0000/g, '').trim();
+                } catch (e) {
+                    return '';
+                }
+            };
+            while (pos + 10 <= data.length) {
+                const id = String.fromCharCode(data[pos], data[pos + 1], data[pos + 2], data[pos + 3]);
+                if (id.charCodeAt(0) === 0 || !/[A-Z0-9]{4}/.test(id)) break;
+                let fsize;
+                if (frameSizeIsSynchsafe) {
+                    fsize = ((data[pos + 4] & 0x7f) << 21) | ((data[pos + 5] & 0x7f) << 14)
+                        | ((data[pos + 6] & 0x7f) << 7) | (data[pos + 7] & 0x7f);
+                } else {
+                    // v2.3 帧大小是 32 位大端，用乘法避免 <<24 在 JS 里变负数
+                    fsize = data[pos + 4] * 0x1000000 + (data[pos + 5] << 16) + (data[pos + 6] << 8) + data[pos + 7];
+                }
+                if (fsize <= 0 || pos + 10 + fsize > data.length) break;
+                const frame = data.subarray(pos + 10, pos + 10 + fsize);
+                if (id === 'TIT2' && frame.length > 1) {
+                    out.title = readText(frame, 1, frame[0]);
+                } else if (id === 'TPE1' && frame.length > 1) {
+                    out.artist = readText(frame, 1, frame[0]);
+                } else if (id === 'APIC' && frame.length > 1) {
+                    const enc = frame[0];
+                    let j = 1;
+                    while (j < frame.length && frame[j] !== 0) j++;
+                    const mime = new TextDecoder('ascii').decode(frame.subarray(1, j));
+                    j++; // picture type
+                    if (j < frame.length) j++;
+                    // description：UTF-16 的终止符是 0x00 0x00，需两字节步进
+                    let k = j;
+                    if (enc === 1 || enc === 2) {
+                        while (k + 1 < frame.length && !(frame[k] === 0 && frame[k + 1] === 0)) k += 2;
+                        k += 2; // 跳过 UTF-16 终止符 0x00 0x00
+                    } else {
+                        while (k < frame.length && frame[k] !== 0) k++;
+                        k++; // 跳过单字节终止符
+                    }
+                    if (k < frame.length) {
+                        const imgBytes = frame.subarray(k);
+                        out.coverBlob = new Blob([imgBytes], { type: mime || 'image/png' });
+                        out.coverType = mime || 'image/png';
+                    }
+                }
+                pos += 10 + fsize;
+            }
+        } catch (e) { /* 解析失败就走默认值 */ }
+        return out;
+    }
+
+    _unsyncBytes(arr) {
+        const out = [];
+        for (let i = 0; i < arr.length; i++) {
+            out.push(arr[i]);
+            if (arr[i] === 0xff && arr[i + 1] === 0x00) i++;
+        }
+        return new Uint8Array(out);
+    }
+
+    async importCustomMusicFiles(files) {
+        const list = Array.prototype.slice.call(files || []);
+        if (!list.length) return 0;
+        let added = 0;
+        let failed = 0;
+        for (let i = 0; i < list.length; i++) {
+            const file = list[i];
+            if (!file) continue;
+            const isAudio = /^audio\//.test(file.type || '')
+                || /\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(file.name || '');
+            if (!isAudio) { failed++; continue; }
+            if (file.size > this.customMusicMaxSize) {
+                if (window.showToast) {
+                    window.showToast('「' + (file.name || '文件') + '」超过 40MB，已跳过');
+                }
+                failed++;
+                continue;
+            }
+            try {
+                const tags = await this.parseAudioTags(file);
+                const record = {
+                    id: 'cm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+                    title: tags.title || this.getCustomTitle(file.name),
+                    artist: tags.artist || '本地导入',
+                    name: file.name || '本地音乐',
+                    type: file.type || '',
+                    blob: file,
+                    size: file.size,
+                    coverBlob: tags.coverBlob,
+                    coverType: tags.coverType,
+                    addedAt: Date.now()
+                };
+                const db = await this.openCustomMusicDB();
+                await new Promise((resolve, reject) => {
+                    const tx = db.transaction('tracks', 'readwrite');
+                    tx.objectStore('tracks').put(record);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject(tx.error || new Error('write failed'));
+                });
+                if (this.appendCustomTrack(record)) added++;
+                else failed++;
+            } catch (e) {
+                failed++;
+            }
+        }
+        if (window.showToast) {
+            if (added) {
+                window.showToast('已导入 ' + added + ' 首本地音乐，长按曲目可修改名称/作者/封面' + (failed ? '，' + failed + ' 首失败' : ''));
+            } else if (failed) {
+                window.showToast('导入失败，可能是存储空间不足或格式不支持');
+            }
+        }
+        return added;
+    }
+
+    // 长按弹窗保存修改后的元数据/封面/音频
+    async updateCustomTrack(index, patch) {
+        const track = this.playlist[index];
+        if (!track || !track.isCustom) return false;
+        try {
+            const db = await this.openCustomMusicDB();
+            const rec = await new Promise((resolve, reject) => {
+                const tx = db.transaction('tracks', 'readonly');
+                const req = tx.objectStore('tracks').get(track.customId);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+            if (!rec) return false;
+            if (patch.title != null) rec.title = String(patch.title).trim() || this.getCustomTitle(rec.name);
+            if (patch.artist != null) rec.artist = String(patch.artist).trim() || '本地导入';
+            if (patch.coverBlob) {
+                rec.coverBlob = patch.coverBlob;
+                rec.coverType = patch.coverBlob.type || 'image/png';
+            }
+            if (patch.blob) {
+                rec.blob = patch.blob;
+                rec.type = patch.blob.type || rec.type;
+                rec.size = patch.blob.size;
+                rec.name = patch.name || rec.name;
+            }
+            const blobChanged = !!patch.blob;
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction('tracks', 'readwrite');
+                tx.objectStore('tracks').put(rec);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+            // 释放旧的 blob url，按新数据重建
+            if (track._blobUrl) { try { URL.revokeObjectURL(track._blobUrl); } catch (e) {} }
+            if (track._coverBlobUrl) { try { URL.revokeObjectURL(track._coverBlobUrl); } catch (e) {} }
+            let audioBlob = rec.blob;
+            if (!audioBlob.type) audioBlob = new Blob([audioBlob], { type: rec.type || 'audio/mpeg' });
+            track._blobUrl = URL.createObjectURL(audioBlob);
+            let cover = this.customMusicDefaultCover;
+            let coverUrl = '';
+            if (rec.coverBlob) {
+                let cb = rec.coverBlob;
+                if (!cb.type) cb = new Blob([cb], { type: rec.coverType || 'image/png' });
+                coverUrl = URL.createObjectURL(cb);
+                cover = coverUrl;
+            }
+            track._coverBlobUrl = coverUrl;
+            track.cover = cover;
+            track.title = rec.title;
+            track.artist = rec.artist;
+            // 只有更换了音频文件才需要切源；改名称/作者/封面不中断当前播放
+            if (blobChanged && this.currentTrackIndex === index) {
+                this.loadTrack(index, false);
+            }
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    async deleteCustomTrack(index) {
+        const track = this.playlist[index];
+        if (!track || !track.isCustom) return false;
+        const wasCurrent = index === this.currentTrackIndex;
+        if (wasCurrent) {
+            try { this.audio.pause(); } catch (e) {}
+            this.isPlaying = false;
+        }
+        if (track._blobUrl) {
+            try { URL.revokeObjectURL(track._blobUrl); } catch (e) {}
+            delete track._blobUrl;
+        }
+        this.playlist.splice(index, 1);
+        this.customTracks = this.customTracks.filter(t => t !== track);
+        // 删的是当前曲目之前的：当前索引整体前移一位
+        if (!wasCurrent && index < this.currentTrackIndex) {
+            this.currentTrackIndex -= 1;
+            this._audioTrackIndex -= 1;
+            this.savePlayState(true);
+        }
+        try {
+            const db = await this.openCustomMusicDB();
+            await new Promise((resolve, reject) => {
+                const tx = db.transaction('tracks', 'readwrite');
+                tx.objectStore('tracks').delete(track.customId);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        } catch (e) {}
+        if (wasCurrent) {
+            // 优先接替原位置，没有则退回最后一首已解锁曲目
+            const owned = this.getOwnedIndices();
+            if (owned.length) {
+                let target = owned[0];
+                for (let i = 0; i < owned.length; i++) {
+                    target = owned[i];
+                    if (owned[i] >= index) break;
+                }
+                this.loadTrack(target, false);
+            }
+        }
+        return true;
+    }
+
+    setupAudio() {
+        this.audio.volume = this.volume;
+        this.audio.preload = 'metadata'; // 只取时长信息，避免启动即缓冲整首曲子
+        const audio = this.audio;
+        
+        $(audio).on({
+            ended: () => this.handleTrackEnd(),
+            error: () => {
+                this.isPlaying = false;
+            },
+            play: () => {
+                this.isPlaying = true;
+                this.hasStartedPlayback = true;
+                this.startDiscRotation();
+            },
+            pause: () => {
+                this.isPlaying = false;
+                this.savePlayState(true);
+            },
+            timeupdate: () => {
+                this.savePlayState(false);
+            },
+            seeking: () => {
+                this.isSeeking = true;
+            },
+            seeked: () => {
+                // seek 落地后立刻校验一次；seekTo 尚未接管时按普通 seek 收尾
+                if (this.seekTarget == null) { this.isSeeking = false; return; }
+                if (typeof this.seekCheck === 'function') this.seekCheck();
+            },
+            loadedmetadata: () => {
+                // 新音源元数据就绪后，切源期间的事件已经消化完，可以恢复落盘
+                this._blockSave = false;
+                // 刚切到 blob 源：在这里恢复目标位置（blob 可 seek，写入即生效）
+                if (this.pendingSeek != null) {
+                    const target = this.pendingSeek;
+                    const resume = this.pendingSeekResume;
+                    this.pendingSeek = null;
+                    this.pendingSeekResume = false;
+                    try { this.audio.currentTime = target; } catch (e) {}
+                    this.isSeeking = false;
+                    this.seekTarget = null;
+                    if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+                    if (resume) this.audio.play().catch(() => {});
+                    return;
+                }
+                // 启动时恢复上次播放进度：seekTo 会自动处理 blob / 非 blob 音源
+                if (this.pendingRestoreTime != null) {
+                    const t = this.pendingRestoreTime;
+                    this.pendingRestoreTime = null;
+                    this.seekTo(t);
+                    // seek 落地后再解除恢复态；期间保持禁写，避免把 0 写回
+                    setTimeout(() => this.endRestore(), 1500);
+                    return;
+                }
+                if (this.isSeeking && this.pendingResume && !this.userPaused) {
+                    this.pendingResume = false;
+                    this.isSeeking = false;
+                    this.play();
+                }
+                // 没有待恢复进度时，元数据就绪即视为恢复完成
+                this.endRestore();
+            }
+        });
+    }
+
+    handleTrackEnd() {
+        const actions = [
+            () => {
+                if (this.currentTrackIndex < this.playlist.length - 1) {
+                    this.nextTrack();
+                } else {
+                    this.pause();
+                    this.audio.currentTime = 0;
+                }
+            },
+            () => {
+                this.audio.currentTime = 0;
+                this.play();
+            },
+            () => {
+                this.randomTrack();
+            }
+        ];
+        actions[this.playMode] && actions[this.playMode].call(this);
+    }
+
+    nextTrack() {
+        const ownedIndices = this.getOwnedIndices();
+        if (_.isEmpty(ownedIndices)) return;
+        const pos = ownedIndices.indexOf(this.currentTrackIndex);
+        const next = ownedIndices[(pos + 1) % ownedIndices.length];
+        this.loadTrack(next, true);
+    }
+
+    previousTrack() {
+        const ownedIndices = this.getOwnedIndices();
+        if (_.isEmpty(ownedIndices)) return;
+        const pos = ownedIndices.indexOf(this.currentTrackIndex);
+        const prev = ownedIndices[(pos - 1 + ownedIndices.length) % ownedIndices.length];
+        this.loadTrack(prev, true);
+    }
+
+    randomTrack() {
+        const ownedIndices = this.getOwnedIndices();
+        if (_.isEmpty(ownedIndices)) return;
+        let newIndex;
+        do {
+            newIndex = _.sample(ownedIndices);
+        } while (newIndex === this.currentTrackIndex && ownedIndices.length > 1);
+        this.loadTrack(newIndex, true);
+    }
+
+    formatPrice(price) {
+        if (!_.isNumber(price) || _.isNaN(price)) return '0';
+        if (_.isFunction(window.__formatAccumulatedValue)) return window.__formatAccumulatedValue(price);
+        if (price >= 1000000) return `${_.trimEnd((price / 1000000).toFixed(2), '0').replace(/\.$/, '')}m`;
+        if (price >= 1000) return `${_.trimEnd((price / 1000).toFixed(2), '0').replace(/\.$/, '')}k`;
+        return String(price);
+    }
+
+    getOwnedIndices() {
+        const list = [];
+        this.playlist.forEach((t, i) => {
+            if (this.isTrackOwned(i)) list.push(i);
+        });
+        return list;
+    }
+
+    loadTrack(index, autoPlay = false) {
+        if (_.isEmpty(this.playlist) || !_.inRange(index, 0, this.playlist.length)) return;
+
+        // 切源前先把上一首的真实进度落盘（此刻 currentTrackIndex 还是旧值）
+        if (!this._isRestoring) this.savePlayState(true);
+        // 切源会触发 pause / timeupdate，期间的 currentTime 属于上一首，一律不写
+        this._blockSave = true;
+        // 用户主动切歌：等切源稳定后补写新曲目的起点，否则退出会回到上一首
+        if (!this._isRestoring) {
+            this._userActed = true;
+            this._pendingSwitchCommit = true;
+        }
+        const unblock = () => {
+            if (this._switchUnblockTimer) clearTimeout(this._switchUnblockTimer);
+            this._switchUnblockTimer = setTimeout(() => {
+                this._blockSave = false;
+                this.commitSwitch();
+            }, 400);
+        };
+
+        this.discRotation = 0;
+        this.updateDiscDisplay();
+
+        const track = this.playlist[index];
+        this.currentTrackIndex = index;
+        // 音频源绑定的索引：只有真正换源成功后才更新，保存进度用它
+        this._audioTrackIndex = index;
+        this.isSeeking = false;
+        this.pendingResume = false;
+        this.seekTarget = null;
+        this.seekCheck = null;
+        this.seekPaused = false;
+        this.pendingSeek = null;
+        this.pendingSeekResume = false;
+        this.seekToken += 1;
+        if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+        
+        const fileUrl = track._blobUrl || this.getFullPath(track.file);
+        // 之前缓存的 blob 若来自另一个源（例如启动时缓存未就绪、按默认音乐转出来的），
+        // 继续复用会播成默认音乐而界面还显示当前曲目，这里强制丢弃重建
+        if (track._seekBlobUrl && track._seekBlobSrc && track._seekBlobSrc !== fileUrl) {
+            try { URL.revokeObjectURL(track._seekBlobUrl); } catch (e) {}
+            delete track._seekBlobUrl;
+            delete track._seekBlobSrc;
+        }
+        // 同一首之前已转成 blob（例如单曲循环重启）：直接复用，保持可 seek
+        const playUrl = track._seekBlobUrl || fileUrl;
+        
+        if (track._blobUrl) {
+            this.audio.src = track._blobUrl;
+            this.audio.load();
+            if (autoPlay) {
+                this.audio.play().catch(() => {});
+            }
+            unblock();
+            return;
+        }
+        
+        // 直接用文件地址播放，首帧不等 fetch
+        this.audio.src = playUrl;
+        this.audio.load();
+        if (autoPlay) {
+            this.audio.play().catch(() => {});
+        }
+        // 包内音源由 WebViewAssetLoader 提供，不支持 Range，无法直接 seek；
+        // 播放开始后后台取成同源 blob，供拖动进度条时切换（不影响当前播放）
+        if (playUrl.indexOf('blob:') !== 0) this.prefetchSeekBlob(track, fileUrl);
+        unblock();
+    }
+
+    playTrackByIndex(index) {
+        if (!_.inRange(index, 0, this.playlist.length)) return;
+        if (!this.isTrackOwned(index)) {
+            if (window.showToast) window.showToast('该歌曲未解锁, 需在播放列表中购买');
+            return;
+        }
+        if (index !== this.currentTrackIndex) {
+            this.loadTrack(index, true);
+        } else {
+            this.togglePlay();
+        }
+    }
+
+    play() {
+        if (this.isSeeking && this.pendingResume) {
+            return;
+        }
+        
+        this.userPaused = false;
+        this._userActed = true;
+        this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.hasStartedPlayback = true;
+            this.startDiscRotation();
+        }).catch(() => {});
+    }
+
+    pause() {
+        this.userPaused = true;
+        this.audio.pause();
+        this.isPlaying = false;
+    }
+
+    togglePlay() {
+        this.isPlaying ? this.pause() : this.play();
+    }
+
+    setVolume(volume) {
+        this.volume = _.clamp(volume, 0, 1);
+        this.audio.volume = this.volume;
+        this.savePlayState(true);
+    }
+
+    togglePlayMode() {
+        this.playMode = (this.playMode + 1) % this.playModes.length;
+        this.savePlayState(true);
+        return this.playModes[this.playMode];
+    }
+
+    getCurrentMode() {
+        return this.playModes[this.playMode];
+    }
+
+    // 目标位置是否在浏览器给出的可 seek 区间内
+    canSeekTo(target) {
+        const audio = this.audio;
+        if (!audio) return false;
+        const ranges = audio.seekable;
+        // 还没拿到区间信息（刚换源）时先放行，交给 seeked 事件判断
+        if (!ranges || ranges.length === 0) return true;
+        for (let i = 0; i < ranges.length; i++) {
+            if (target >= ranges.start(i) - 0.5 && target <= ranges.end(i) + 0.5) return true;
+        }
+        return false;
+    }
+
+    seekTo(time) {
+        const audio = this.audio;
+        if (!audio) return false;
+        const duration = audio.duration;
+        if (!duration || isNaN(duration) || !isFinite(duration)) return false;
+        if (time === null || time === undefined || isNaN(time)) return false;
+
+        const target = _.clamp(Number(time), 0, Math.max(0, duration - 0.25));
+        if (!isFinite(target)) return false;
+
+        const src = audio.currentSrc || audio.src || '';
+        // blob 源（已下载曲目 / 已转换的包内曲目）可直接原生 seek
+        if (src.indexOf('blob:') === 0) return this.nativeSeek(target);
+
+        // 包内曲目由 WebViewAssetLoader 提供，响应不带 Content-Length 与 Range，
+        // 写 currentTime 会被静默忽略（表现就是进度条弹回）。先取成同源 blob，
+        // 再从 blob 源跳转；已下载曲目本来就是 blob，不会走到这里。
+        const track = this.playlist[this.currentTrackIndex];
+        if (track) {
+            this.seekViaBlob(track, target, src);
+            return true;
+        }
+        return this.nativeSeek(target);
+    }
+
+    // 原生 seek：seek 期间只等待，绝不重写 currentTime。
+    // 重写会把排队中的 seek 打断重启，听感上就是“卡两下”，最后还弹回原位。
+    nativeSeek(target) {
+        const audio = this.audio;
+        if (!audio) return false;
+
+        if (!this.canSeekTo(target)) {
+            console.warn('[MUSIC] 当前音源不可 seek，目标 ' + target.toFixed(1) + 's');
+            return false;
+        }
+
+        const shouldResume = !audio.paused && !this.userPaused;
+        const token = ++this.seekToken;
+
+        this.seekTarget = target;
+        this.isSeeking = true;
+        this._userActed = true;
+        this.seekAttempts = 0;
+        this.seekLastWrite = 0;
+        this.seekPaused = false;
+        this.seekDeadline = Date.now() + 12000;
+
+        const stopTimer = () => {
+            if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+        };
+        const arm = ms => {
+            stopTimer();
+            this.seekTimer = setTimeout(() => check(), ms);
+        };
+        const finish = ok => {
+            if (token !== this.seekToken) return;
+            stopTimer();
+            this.seekCheck = null;
+            this.isSeeking = false;
+            this.seekTarget = null;
+            // 到位后若播放被中断才补一次 play；失败时不要再制造声音
+            const needResume = shouldResume && audio.paused && (ok || this.seekPaused);
+            this.seekPaused = false;
+            if (needResume) audio.play().catch(() => {});
+            // seek 真正落地，把最终位置写盘（此前 isSeeking 期间是禁写的）
+            if (ok) this.savePlayState(true);
+        };
+        const write = () => {
+            this.seekAttempts += 1;
+            this.seekLastWrite = Date.now();
+            try { audio.currentTime = target; } catch (e) {}
+        };
+        // 唯一的校验入口：由 seeked 事件和定时器共同驱动
+        const check = () => {
+            if (token !== this.seekToken) return;
+            if (Date.now() > this.seekDeadline) { finish(false); return; }
+
+            const drift = Math.abs((audio.currentTime || 0) - target);
+            if (!audio.seeking && drift <= 0.75) { finish(true); return; }
+
+            if (audio.seeking) {
+                // 慢设备边播边 seek 会拖很久：超过 2.5 秒先暂停，让浏览器专心完成 seek
+                if (!this.seekPaused && Date.now() - this.seekLastWrite > 2500) {
+                    this.seekPaused = true;
+                    try { audio.pause(); } catch (e) {}
+                }
+                arm(350);
+                return;
+            }
+
+            // 刚写过、seek 可能还没启动，先给浏览器一点时间
+            if (Date.now() - this.seekLastWrite < 900) { arm(350); return; }
+
+            // 位置仍是旧的：补写一次（最多 2 次，每次都会让音频卡一下）
+            if (this.seekAttempts < 2) { write(); arm(700); return; }
+
+            finish(false);
+        };
+        this.seekCheck = check;
+
+        // 元数据未就绪时写 currentTime 会被直接忽略，等 loadedmetadata 再写
+        if (audio.readyState < 1) {
+            $(audio).one('loadedmetadata', () => {
+                if (token !== this.seekToken) return;
+                write();
+                arm(500);
+            });
+            arm(2000);
+            return true;
+        }
+
+        write();
+        arm(300);
+        return true;
+    }
+
+    // 把不可 seek 的音源取成 blob 后再跳转
+    seekViaBlob(track, target, src) {
+        const token = ++this.seekToken;
+        this.isSeeking = true;
+        this.seekTarget = target;
+        if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
+
+        const fail = () => {
+            if (token !== this.seekToken) return;
+            this.isSeeking = false;
+            this.seekTarget = null;
+            this.nativeSeek(target);
+        };
+
+        this.ensureSeekBlob(track, src).then(blobUrl => {
+            if (token !== this.seekToken) return;
+            if (!blobUrl) {
+                console.warn('[MUSIC] 无法读取音频字节，seek 退回原生实现');
+                fail();
+                return;
+            }
+
+            const audio = this.audio;
+            if ((audio.currentSrc || audio.src || '') === blobUrl) {
+                this.nativeSeek(target);
+                return;
+            }
+
+            // 切源到 blob，在 loadedmetadata 里恢复目标位置
+            this.pendingSeek = target;
+            this.pendingSeekResume = !audio.paused && !this.userPaused;
+            this.isSeeking = true;
+            this.seekTarget = target;
+            try { audio.pause(); } catch (e) {}
+            audio.src = blobUrl;
+            audio.load();
+
+            // 兜底：元数据迟迟不来也要放开锁，避免进度条一直卡住
+            this.seekTimer = setTimeout(() => {
+                if (token !== this.seekToken) return;
+                this.pendingSeek = null;
+                this.pendingSeekResume = false;
+                this.isSeeking = false;
+                this.seekTarget = null;
+                this.seekTimer = null;
+            }, 8000);
+        }).catch(fail);
+    }
+
+    // 同一首只转换一次；并发调用复用同一个 Promise
+    ensureSeekBlob(track, src) {
+        if (!track) return Promise.resolve(null);
+        if (track._seekBlobUrl) return Promise.resolve(track._seekBlobUrl);
+        if (this.blobBuildTrack === track && this.blobBuildPromise) return this.blobBuildPromise;
+
+        const url = src || this.getFullPath(track.file);
+        // 解析结果被回退成了默认音乐，而曲目本身不是默认曲目：
+        // 此时绝不能把这把字节缓存到该曲目上，否则会“封面是这首歌、声音是默认曲”
+        if (this.isDefaultFallback(track, url)) return Promise.resolve(null);
+        this.blobBuildTrack = track;
+        const p = this.fetchAsBlobUrl(url).then(blobUrl => {
+            if (blobUrl) {
+                track._seekBlobUrl = blobUrl;
+                // 记录这份 blob 对应的原始源，供 loadTrack 校验是否被错误复用
+                track._seekBlobSrc = url;
+                // 只有当它仍是当前曲目时才清理别人的 blob，避免误回收正在播放的那首
+                if (this.playlist[this.currentTrackIndex] === track) this.trimSeekBlobs(track);
+            }
+            return blobUrl;
+        }).catch(() => null).then(res => {
+            this.blobBuildTrack = null;
+            this.blobBuildPromise = null;
+            return res;
+        });
+        this.blobBuildPromise = p;
+        return p;
+    }
+
+    // 只保留当前曲目的 blob，避免多首累计占用内存
+    trimSeekBlobs(keep) {
+        this.playlist.forEach(t => {
+            if (t === keep || !t._seekBlobUrl) return;
+            try { URL.revokeObjectURL(t._seekBlobUrl); } catch (e) {}
+            delete t._seekBlobUrl;
+            if (t._seekBlobSrc) delete t._seekBlobSrc;
+        });
+    }
+
+    // 解析出的路径是默认音乐、但曲目本身不是默认曲目 → 说明资源缓存还没就绪或未下载
+    isDefaultFallback(track, url) {
+        try {
+            const rdm = window.ResourceDownloadManager;
+            if (!rdm || !rdm.defaultMusicFile) return false;
+            const def = rdm.defaultMusicFile;
+            if (String(url).indexOf(def) === -1) return false;
+            // 曲目自己就是默认音乐时属于正常情况
+            return (this.basePath + track.file).indexOf(def) === -1;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // 播放开始后后台预取 blob，用户第一次拖动时无需等待
+    prefetchSeekBlob(track, url) {
+        if (!track || !url || url.indexOf('blob:') === 0) return;
+        if (track._seekBlobUrl) return;
+        if (this.isDefaultFallback(track, url)) return;
+        setTimeout(() => {
+            if (this.playlist[this.currentTrackIndex] !== track) return;
+            this.ensureSeekBlob(track, url).catch(() => {});
+        }, 1000);
+    }
+
+    async fetchAsBlobUrl(url) {
+        if (!url || url.indexOf('blob:') === 0) return null;
+        const type = /\.(m4a|mp4)$/i.test(url) ? 'audio/mp4' : 'audio/mpeg';
+        const candidates = [url];
+        // 页面若以 file:///android_asset 加载，再试 WebViewAssetLoader 的 https 入口
+        const m = String(url).match(/^file:\/\/\/android_asset\/(.+)$/);
+        if (m) candidates.push('https://appassets.androidplatform.net/assets/' + m[1]);
+
+        for (const u of candidates) {
+            try {
+                const res = await fetch(u, { cache: 'force-cache' });
+                if (res && res.ok) {
+                    const buf = await res.arrayBuffer();
+                    if (buf && buf.byteLength > 0) {
+                        return URL.createObjectURL(new Blob([buf], { type }));
+                    }
+                }
+            } catch (e) {}
+
+            // fetch 被拦时退回 XHR（部分 WebView 允许 file:// 的 XHR）
+            const viaXhr = await new Promise(resolve => {
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', u, true);
+                    xhr.responseType = 'arraybuffer';
+                    xhr.timeout = 15000;
+                    xhr.onload = () => {
+                        if ((xhr.status === 200 || xhr.status === 0) && xhr.response && xhr.response.byteLength > 0) {
+                            try { resolve(URL.createObjectURL(new Blob([xhr.response], { type }))); return; } catch (e) {}
+                        }
+                        resolve(null);
+                    };
+                    xhr.onerror = () => resolve(null);
+                    xhr.ontimeout = () => resolve(null);
+                    xhr.send();
+                } catch (e) { resolve(null); }
+            });
+            if (viaXhr) return viaXhr;
+        }
+        return null;
+    }
+
+    // 进度条显示用：seek 尚未落地时显示目标位置，避免来回跳
+    getDisplayTime() {
+        if (this.isSeeking && this.seekTarget != null) return this.seekTarget;
+        const t = this.audio ? this.audio.currentTime : 0;
+        return isFinite(t) ? t : 0;
+    }
+
+    formatTime(seconds) {
+        if (_.isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${_.padStart(secs, 2, '0')}`;
+    }
+
+    loadCoverImage(url, element, placeholder) {
+        if (_.isEmpty((url && url.trim()))) {
+            $(element).hide();
+            $(placeholder).show();
+            return;
+        }
+
+        if (this.imageCache.has(url)) {
+            $(element).on({
+                load: () => { $(element).show(); $(placeholder).hide(); },
+                error: () => { $(element).hide(); $(placeholder).show(); this.imageCache.delete(url); this.saveImageCache(); }
+            }).attr('src', this.imageCache.get(url));
+            return;
+        }
+
+        $('<img>').attr({ src: url, crossOrigin: 'anonymous', referrerPolicy: 'no-referrer' })
+            .on('load', _.bind(function() {
+                this.imageCache.set(url, url);
+                this.saveImageCache();
+                $(element).attr('src', url).show();
+                $(placeholder).hide();
+            }, this))
+            .on('error', () => { $(element).hide(); $(placeholder).show(); });
+    }
+
+    preloadCurrentCover() {
+        if (_.isEmpty(this.playlist)) return;
+        const track = this.playlist[this.currentTrackIndex];
+        if ((track && track.cover && track.cover.trim())) {
+            const url = this.getFullPath(track.cover);
+            if (url && !this.imageCache.has(url)) {
+                $('<img>').attr({ src: url, crossOrigin: 'anonymous' })
+                    .on('load', _.bind(function() {
+                        this.imageCache.set(url, url);
+                        this.saveImageCache();
+                    }, this));
+            }
+        }
+    }
+
+    updateDiscDisplay() {
+        const disc = document.getElementById('record-disc');
+        if (disc) {
+            disc.style.setProperty('transform', `rotate(${this.discRotation}deg)`, 'important');
+            disc.style.setProperty('animation', 'none', 'important');
+            disc.style.setProperty('transition', 'none', 'important');
+        }
+    }
+
+    startDiscRotation() {
+        if (this._discAnimationId) return;
+        const rotate = () => {
+            const now = performance.now();
+            const delta = (now - this.lastDiscTimestamp) / 1000;
+            this.lastDiscTimestamp = now;
+            
+            if (this.isPlaying) {
+                this.discRotation = (this.discRotation + delta * this.discSpeed * 360) % 360;
+            }
+            
+            this.updateDiscDisplay();
+            this._discAnimationId = requestAnimationFrame(rotate);
+        };
+        this.lastDiscTimestamp = performance.now();
+        this._discAnimationId = requestAnimationFrame(rotate);
+    }
+
+    stopDiscRotation() {
+        if (this._discAnimationId) {
+            cancelAnimationFrame(this._discAnimationId);
+            this._discAnimationId = null;
+        }
+    }
+
+    // 页面隐藏 / 卸载时立即保存当前播放进度
+    bindUnloadSave() {
+        const save = () => this.savePlayState(true);
+        window.addEventListener('pagehide', save);
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') save();
+        });
+        window.addEventListener('beforeunload', save);
+    }
+}
+
+$(function() {
+    if (!window.musicPlayer) {
+        window.musicPlayer = new MusicPlayer();
+        setTimeout(() => window.musicPlayer.init(), 100);
+    }
+
+    const $els = {
+        toggleBtn: $('#music-toggle-btn'),
+        playBtn: $('#music-play-btn'),
+        prevBtn: $('#music-prev-btn'),
+        nextBtn: $('#music-next-btn'),
+        playlistBtn: $('#music-playlist-btn'),
+        modeBtn: $('#music-mode-btn'),
+        volumeSlider: $('#music-volume-slider'),
+        volumeFill: $('#music-volume-fill'),
+        volumeValue: $('#music-volume-value'),
+        trackTitle: $('#current-track-title'),
+        trackArtist: $('#current-track-artist'),
+        cover: $('#music-cover'),
+        coverDefault: $('#music-cover-default'),
+        recordDisc: $('#record-disc'),
+        progressSlider: $('#music-progress-slider'),
+        progressFill: $('#music-progress-fill'),
+        currentTime: $('#music-current-time'),
+        totalTime: $('#music-total-time'),
+        playlistModal: $('#music-playlist-modal'),
+        playlistClose: $('#music-playlist-close'),
+        playlistContainer: $('#playlist-container'),
+        playlistEmpty: $('#playlist-empty')
+    };
+
+    let isDraggingProgress = false;
+    let dragRatio = null;
+    let suppressClick = false;
+    let lastTouchTs = 0;
+
+    const playClickSound = () => {
+        if (_.isFunction((window.Utils && window.Utils.playAudio))) {
+            window.Utils.playAudio('click-audio', { volume: 1 });
+        }
+    };
+
+    const getEventX = e => {
+        if (e.touches && e.touches.length > 0) return e.touches[0].clientX;
+        if (e.changedTouches && e.changedTouches.length > 0) return e.changedTouches[0].clientX;
+        if (e.clientX !== undefined) return e.clientX;
+        if (e.pageX !== undefined) return e.pageX;
+        return null;
+    };
+
+    // 曲名来自本地文件名，插进 HTML 前必须转义
+    const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+
+    const playBuySound = () => {
+        try {
+            const buyAudio = new Audio('audio/buy.mp3');
+            buyAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            const promise = buyAudio.play();
+            if (promise && _.isFunction(promise.catch)) promise.catch(_.noop);
+        } catch (e) {}
+    };
+
+    // 通用点击音效（歌曲列表点击唱片统一使用）
+    const playItemClickSound = () => {
+        try {
+            const clickAudio = new Audio('audio/click.mp3');
+            clickAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            const promise = clickAudio.play();
+            if (promise && _.isFunction(promise.catch)) promise.catch(_.noop);
+        } catch (e) {}
+    };
+
+    const injectBuyButtonStyles = () => {
+        if ($('#music-buy-glass-style').length) return;
+        const css = [
+            '.playlist-item-buy {',
+            'position: relative;',
+            'appearance: none;',
+            '-webkit-appearance: none;',
+            'display: inline-flex;',
+            'align-items: center;',
+            'gap: 6px;',
+            'padding: 8px 18px;',
+            'border: 1px solid rgba(255, 255, 255, 0.38);',
+            'border-radius: 999px;',
+            'font-size: 13px;',
+            'font-weight: 600;',
+            'letter-spacing: 0.5px;',
+            'color: #ffffff;',
+            'cursor: pointer;',
+            'overflow: hidden;',
+            'flex-shrink: 0;',
+            'background: linear-gradient(135deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.06));',
+            'backdrop-filter: blur(14px) saturate(180%);',
+            '-webkit-backdrop-filter: blur(14px) saturate(180%);',
+            'box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.60), inset 0 -1px 0 rgba(255, 255, 255, 0.14);',
+            'text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);',
+            'transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.18s ease, background 0.18s ease;',
+            '}',
+            '.playlist-item-buy::before {',
+            'content: "";',
+            'position: absolute;',
+            'inset: 0;',
+            'background: radial-gradient(120% 80% at 50% -25%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 62%);',
+            'pointer-events: none;',
+            '}',
+            '.playlist-item-buy::after {',
+            'content: "";',
+            'position: absolute;',
+            'top: -60%;',
+            'left: -25%;',
+            'width: 45%;',
+            'height: 220%;',
+            'background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));',
+            'transform: rotate(18deg);',
+            'pointer-events: none;',
+            'transition: left 0.55s ease;',
+            '}',
+            '.playlist-item-buy:hover {',
+            'transform: translateY(-1px) scale(1.04);',
+            'background: linear-gradient(135deg, rgba(255, 255, 255, 0.40), rgba(255, 255, 255, 0.12));',
+            'box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.72), inset 0 -1px 0 rgba(255, 255, 255, 0.18);',
+            '}',
+            '.playlist-item-buy:hover::after {',
+            'left: 105%;',
+            '}',
+            '.playlist-item-buy:active {',
+            'transform: scale(0.95);',
+            'box-shadow: 0 3px 10px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.45);',
+            '}',
+            '.playlist-item-price {',
+            'color: #ffffff !important;',
+            '-webkit-text-fill-color: #ffffff !important;',
+            'text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);',
+            '}',
+            '.playlist-item-price i {',
+            'color: #ffffff !important;',
+            '}'
+        ].join('\n');
+        $('<style id="music-buy-glass-style"></style>').text(css).appendTo('head');
+    };
+
+    const setVolume = e => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+        
+        const x = getEventX(e);
+        if (x === null || isNaN(x)) return;
+        
+        const offset = $els.volumeSlider.offset();
+        if (!offset) return;
+        
+        const volume = _.clamp((x - offset.left) / $els.volumeSlider.width(), 0, 1);
+        
+        player.setVolume(volume);
+        $els.volumeFill.css('width', `${volume * 100}%`);
+        $els.volumeValue.text(`${Math.round(volume * 100)}%`);
+    };
+
+    const progressRatio = e => {
+        const x = getEventX(e);
+        if (x === null || isNaN(x)) return null;
+
+        const offset = $els.progressSlider.offset();
+        if (!offset) return null;
+
+        const width = $els.progressSlider.width();
+        if (width <= 0 || isNaN(width)) return null;
+
+        return _.clamp((x - offset.left) / width, 0, 1);
+    };
+
+    // 拖动过程中只画预览，不碰 audio：旧实现每次 move 都写 currentTime，
+    // 会不断打断缓冲，松手后进度条又被真实播放位置拉回去
+    const previewProgress = ratio => {
+        const player = window.musicPlayer;
+        const duration = (player && player.audio && player.audio.duration) || 0;
+        if (!(duration > 0)) return;
+        $els.progressFill.css('width', `${ratio * 100}%`);
+        $els.currentTime.text(player.formatTime(ratio * duration));
+    };
+
+    const commitSeek = ratio => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized) || !player.audio) return;
+        const duration = player.audio.duration || 0;
+        if (!(duration > 0)) return;
+        player.seekTo(ratio * duration);
+        previewProgress(ratio);
+    };
+
+    const openPlaylist = (silent) => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+
+        // 先播放音效，避免被DOM操作卡没（删除后重绘时静默）
+        if (!silent) {
+            try {
+                const openAudio = new Audio('audio/open-music-playlist.mp3');
+                openAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                openAudio.play().catch(() => {});
+            } catch (e) {}
+        }
+
+        injectBuyButtonStyles();
+
+        $els.playlistContainer.empty();
+        $els.playlistEmpty.toggle(_.isEmpty(player.playlist));
+        // 全屏歌曲列表页头部的统计
+        const $pageCount = $('#playlist-page-count');
+        if ($pageCount.length) {
+            $pageCount.text(player.playlist.length ? ('共 ' + player.playlist.length + ' 首') : '');
+        }
+
+        let selectedIndex = player.currentTrackIndex;
+
+        _.forEach(player.playlist, (track, index) => {
+            // 未下载的内置曲目不显示（默认/导入曲目除外）
+            if (!track.isCustom && track.file && track.file !== 'BGM_Main_UI_Loop_A.mp3' &&
+                window.ResourceDownloadManager && window.ResourceDownloadManager.isDownloaded &&
+                !window.ResourceDownloadManager.isDownloaded('music-player/' + track.file)) {
+                return;
+            }
+            const coverPath = player.getFullPath(track.cover);
+            const safeTitle = escapeHtml(track.title);
+            const safeArtist = escapeHtml(track.artist);
+            const owned = player.isTrackOwned(index);
+            const isActive = index === player.currentTrackIndex && owned;
+            const coverHtml = coverPath
+                ? `<img class="playlist-cover-img" src="${coverPath}" alt="${safeTitle}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                   <div style="display:none;align-items:center;justify-content:center;width:100%;height:100%;font-size:24px;background:linear-gradient(135deg,#667eea,#764ba2);">🎵</div>`
+                : `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:24px;background:linear-gradient(135deg,#667eea,#764ba2);">🎵</div>`;
+            const $item = $(`<div class="playlist-item ${isActive ? 'active' : ''} ${owned ? '' : 'playlist-item-locked'}" data-index="${index}">
+                    <div class="playlist-item-cover">
+                        ${coverHtml}
+                        ${!owned ? '<div class="playlist-lock-icon"><i class="fas fa-lock"></i></div>' : ''}
+                    </div>
+                    <div class="playlist-item-title">${safeTitle}</div>
+                    <div class="playlist-item-artist">${safeArtist}</div>
+                </div>`).on('click', function() {
+                    playItemClickSound();
+                    selectedIndex = index;
+                    $els.playlistContainer.find('.playlist-item').removeClass('active');
+                    $(this).addClass('active');
+                    updateActionBar();
+                });
+            // 长按导入的音乐 → 弹出编辑弹窗
+            if (track.isCustom) {
+                (function() {
+                    let pressTimer = null;
+                    let pressed = false;
+                    const startPress = () => {
+                        pressed = true;
+                        pressTimer = setTimeout(() => {
+                            if (pressed) {
+                                pressed = false;
+                                openCustomMusicEdit(index);
+                            }
+                        }, 600);
+                    };
+                    const cancelPress = () => {
+                        pressed = false;
+                        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+                    };
+                    $item.on('touchstart mousedown', startPress);
+                    $item.on('touchend touchmove mouseup mouseleave click', cancelPress);
+                })();
+            }
+            $els.playlistContainer.append($item);
+        });
+
+        const $actionBar = $(`
+            <div class="playlist-action-bar">
+                <div class="playlist-selected-info">
+                    <div class="playlist-selected-title" id="pl-sel-title">请选择歌曲</div>
+                    <div class="playlist-selected-price" id="pl-sel-price"></div>
+                </div>
+                <button class="playlist-action-btn" id="pl-action-btn" disabled>播放</button>
+                <button class="playlist-action-btn del" id="pl-del-btn" style="display:none;"><i class="fas fa-trash-alt"></i> 删除</button>
+            </div>
+        `);
+        $els.playlistContainer.append($actionBar);
+
+        let delArmed = false;
+        let disarmTimer = null;
+
+        const updateActionBar = () => {
+            const track = player.playlist[selectedIndex];
+            if (!track) return;
+            const owned = player.isTrackOwned(selectedIndex);
+            const $title = $('#pl-sel-title');
+            const $price = $('#pl-sel-price');
+            const $btn = $('#pl-action-btn');
+            const $del = $('#pl-del-btn');
+            $title.text(track.title);
+            // 切换选中项时重置删除两段式状态
+            delArmed = false;
+            if (disarmTimer) { clearTimeout(disarmTimer); disarmTimer = null; }
+            $del.removeClass('del-armed').html('<i class="fas fa-trash-alt"></i> 删除');
+            if (owned) {
+                $price.text('已解锁');
+                $price.css('color', '#4ade80');
+                $btn.text('播放').removeClass('buy').addClass('play').prop('disabled', false);
+            } else {
+                $price.html(`<i class="fas fa-coins"></i> ${player.formatPrice(player.getTrackPrice(selectedIndex))}`);
+                $price.css('color', '#f5c34d');
+                $btn.text('购买').removeClass('play').addClass('buy').prop('disabled', false);
+            }
+            // 删除按钮只对导入的本地音乐显示
+            if (track.isCustom) {
+                $del.css('display', '').prop('disabled', false);
+            } else {
+                $del.css('display', 'none');
+            }
+        };
+
+        $('#pl-action-btn').on('click', () => {
+            const owned = player.isTrackOwned(selectedIndex);
+            if (owned) {
+                player.playTrackByIndex(selectedIndex);
+                updateMusicControls();
+                closePlaylist();
+            } else {
+                playBuySound();
+                setTimeout(() => {
+                    const result = player.purchaseTrack(selectedIndex);
+                    if (!result.success && window.showToast) window.showToast(result.message);
+                    if (result.success) {
+                        updateMusicControls();
+                        const $item = $els.playlistContainer.find(`.playlist-item[data-index="${selectedIndex}"]`);
+                        $item.removeClass('playlist-item-locked');
+                        $item.find('.playlist-lock-icon').remove();
+                        updateActionBar();
+                    }
+                }, 50);
+            }
+        });
+
+        // 操作栏删除按钮：两段式确认
+        $('#pl-del-btn').on('click', () => {
+            const track = player.playlist[selectedIndex];
+            if (!track || !track.isCustom) return;
+            playItemClickSound();
+            if (!delArmed) {
+                delArmed = true;
+                $('#pl-del-btn').addClass('del-armed').html('<i class="fas fa-exclamation-triangle"></i> 再点一次确认删除');
+                disarmTimer = setTimeout(() => {
+                    delArmed = false;
+                    $('#pl-del-btn').removeClass('del-armed').html('<i class="fas fa-trash-alt"></i> 删除');
+                }, 3000);
+                return;
+            }
+            delArmed = false;
+            if (disarmTimer) { clearTimeout(disarmTimer); disarmTimer = null; }
+            player.deleteCustomTrack(selectedIndex).then(ok => {
+                if (!ok) return;
+                updateMusicControls();
+                if (window.showToast) window.showToast('已删除本地音乐');
+                openPlaylist(true);
+            });
+        });
+
+        if (selectedIndex >= 0 && selectedIndex < player.playlist.length) {
+            updateActionBar();
+        }
+
+        // 顶栏科恩币余额（与技能商店同款）
+        if (window.__refreshCoinBalances) window.__refreshCoinBalances();
+        $els.playlistModal.css('display', 'flex');
+        setTimeout(() => $els.playlistModal.addClass('show'), 10);
+    };
+
+    // 长按导入的本地音乐 → 编辑弹窗：改名称/作者/封面/更换音频文件
+    const openCustomMusicEdit = (index) => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+        const track = player.playlist[index];
+        if (!track || !track.isCustom) return;
+
+        // 先移除可能存在的旧弹窗
+        $('#custom-music-edit-modal').remove();
+
+        const coverPath = player.getFullPath(track.cover);
+        const coverPreview = coverPath ? coverPath : player.customMusicDefaultCover;
+
+        const $modal = $(`
+            <div class="modal-overlay" id="custom-music-edit-modal">
+                <div class="modal-content custom-music-edit-content">
+                    <div class="modal-header">
+                        <div class="modal-title"><i class="fas fa-edit"></i> 编辑本地音乐</div>
+                        <button class="modal-close" id="cm-edit-close"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body custom-music-edit-body">
+                        <div class="cm-edit-row">
+                            <label>歌曲名称</label>
+                            <input type="text" id="cm-edit-title" maxlength="40" placeholder="歌曲名称">
+                        </div>
+                        <div class="cm-edit-row">
+                            <label>作者</label>
+                            <input type="text" id="cm-edit-artist" maxlength="40" placeholder="作者">
+                        </div>
+                        <div class="cm-edit-row cm-edit-cover-row">
+                            <label>歌曲封面</label>
+                            <div class="cm-edit-cover-area">
+                                <img class="cm-edit-cover-preview" id="cm-edit-cover-preview" src="${coverPreview}" alt="封面预览">
+                                <label class="cm-edit-cover-btn" for="cm-edit-cover-input">
+                                    <i class="fas fa-image"></i> 选择图片
+                                </label>
+                                <input type="file" id="cm-edit-cover-input" accept="image/*" style="display:none;">
+                            </div>
+                        </div>
+                        <div class="cm-edit-row">
+                            <label>更换歌曲文件</label>
+                            <label class="cm-edit-file-btn" for="cm-edit-audio-input">
+                                <i class="fas fa-music"></i> <span id="cm-edit-audio-name">点击选择新的音频文件</span>
+                            </label>
+                            <input type="file" id="cm-edit-audio-input" accept="audio/*" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="modal-footer custom-music-edit-footer">
+                        <button class="modal-btn cancel" id="cm-edit-cancel">取消</button>
+                        <button class="modal-btn confirm" id="cm-edit-save">保存</button>
+                    </div>
+                </div>
+            </div>
+        `);
+        $('body').append($modal);
+        // 编辑弹窗必须始终在播放列表之上：播放列表可能从弹窗中心以 z-index 10003 打开，
+        // 这里动态取播放列表当前层级 +1，避免硬编码被超过
+        const plZ = parseInt($('#music-playlist-modal').css('z-index')) || 10001;
+        $modal.css('z-index', plZ + 1);
+
+        const $title = $('#cm-edit-title');
+        const $artist = $('#cm-edit-artist');
+        const $coverInput = $('#cm-edit-cover-input');
+        const $coverPreview = $('#cm-edit-cover-preview');
+        const $audioInput = $('#cm-edit-audio-input');
+        const $audioName = $('#cm-edit-audio-name');
+
+        $title.val(track.title);
+        $artist.val(track.artist);
+
+        let newCoverBlob = null;
+        let newAudioBlob = null;
+        let newAudioName = '';
+
+        $coverInput.on('change', function() {
+            const file = this.files && this.files[0];
+            if (!file) return;
+            if (!/^image\//.test(file.type || '')) {
+                if (window.showToast) window.showToast('请选择图片文件');
+                return;
+            }
+            newCoverBlob = file;
+            try {
+                $coverPreview.attr('src', URL.createObjectURL(file));
+            } catch (e) {}
+        });
+
+        $audioInput.on('change', function() {
+            const file = this.files && this.files[0];
+            if (!file) return;
+            const isAudio = /^audio\//.test(file.type || '')
+                || /\.(mp3|m4a|aac|wav|ogg|flac)$/i.test(file.name || '');
+            if (!isAudio) {
+                if (window.showToast) window.showToast('请选择音频文件');
+                return;
+            }
+            if (file.size > player.customMusicMaxSize) {
+                if (window.showToast) window.showToast('文件超过 40MB，已忽略');
+                return;
+            }
+            newAudioBlob = file;
+            newAudioName = file.name || '本地音乐';
+            $audioName.text(newAudioName);
+        });
+
+        const close = () => {
+            $modal.removeClass('show');
+            setTimeout(() => $modal.remove(), 200);
+        };
+
+        $('#cm-edit-close, #cm-edit-cancel').on('click', close);
+        $modal.on('click', e => { if (e.target === $modal[0]) close(); });
+
+        $('#cm-edit-save').on('click', () => {
+            const patch = {
+                title: $title.val(),
+                artist: $artist.val()
+            };
+            if (newCoverBlob) {
+                patch.coverBlob = newCoverBlob;
+            }
+            if (newAudioBlob) {
+                patch.blob = newAudioBlob;
+                patch.name = newAudioName;
+            }
+            player.updateCustomTrack(index, patch).then(ok => {
+                if (!ok) {
+                    if (window.showToast) window.showToast('保存失败');
+                    return;
+                }
+                if (window.showToast) window.showToast('已保存修改');
+                updateMusicControls();
+                close();
+                openPlaylist(true);
+            });
+        });
+
+        setTimeout(() => $modal.addClass('show'), 10);
+    };
+
+    const closePlaylist = () => {
+        $els.playlistModal.removeClass('show');
+        setTimeout(() => {
+            if (!$els.playlistModal.hasClass('show')) {
+                $els.playlistModal.hide();
+            }
+        }, 200);
+        try {
+            const closeAudio = new Audio('audio/sidebar-close.mp3');
+            closeAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            closeAudio.play().catch(() => {});
+        } catch (e) {}
+    };
+
+    const openCoverModal = () => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+        const track = _.get(player, `playlist[${player.currentTrackIndex}]`);
+        if (!(track && track.cover && track.cover.trim())) return;
+
+        const coverPath = player.getFullPath(track.cover);
+        if (!$('#cover-modal').length) {
+            $('body').append(`
+                <div class="modal-overlay" id="cover-modal">
+                    <div class="modal-content cover-modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title"><i class="fas fa-image"></i> ${track.title}</div>
+                            <button class="modal-close" id="cover-modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body cover-modal-body">
+                            <img id="cover-modal-img" src="${coverPath}" alt="${track.title}">
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            $('#cover-modal-close').on('click', () => closeCoverModal());
+            $('#cover-modal').on('click', e => {
+                if (e.target === $('#cover-modal')[0]) closeCoverModal();
+            });
+        } else {
+            $('#cover-modal-img').attr('src', coverPath);
+            $('#cover-modal .modal-title').html(`<i class="fas fa-image"></i> ${track.title}`);
+        }
+
+        $('#cover-modal').css('display', 'flex');
+        setTimeout(() => $('#cover-modal').addClass('show'), 10);
+        try {
+            const coverOpenAudio = new Audio('audio/open-cover.mp3');
+            coverOpenAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            coverOpenAudio.play().catch(() => {});
+        } catch (e) {}
+    };
+
+    const closeCoverModal = () => {
+        $('#cover-modal').removeClass('show');
+        setTimeout(() => {
+            if (!$('#cover-modal').hasClass('show')) {
+                $('#cover-modal').hide();
+            }
+        }, 200);
+        try {
+            const coverCloseAudio = new Audio('audio/sidebar-close.mp3');
+            coverCloseAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            coverCloseAudio.play().catch(() => {});
+        } catch (e) {}
+    };
+
+    const updateMusicControls = () => {
+        const player = window.musicPlayer;
+        
+        if (!(player && player.isInitialized)) {
+            $els.playBtn.html('<i class="fas fa-play"></i>').prop('disabled', true);
+            _.each(['prevBtn', 'nextBtn', 'playlistBtn', 'modeBtn'], key => $els[key].prop('disabled', true));
+            $els.volumeSlider.css('pointer-events', 'none');
+            $els.progressSlider.css('pointer-events', 'none');
+            $els.cover.hide();
+            $els.coverDefault.show();
+            return;
+        }
+
+        $els.playBtn.html(player.isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>').prop('disabled', false);
+        
+        $els.prevBtn.prop('disabled', player.currentTrackIndex <= 0);
+        $els.nextBtn.prop('disabled', player.currentTrackIndex >= player.playlist.length - 1);
+        $els.playlistBtn.prop('disabled', false);
+        $els.modeBtn.prop('disabled', false);
+        
+        $els.volumeSlider.css('pointer-events', 'auto');
+        $els.progressSlider.css('pointer-events', 'auto');
+
+        const track = _.get(player, `playlist[${player.currentTrackIndex}]`);
+        if (track) {
+            $els.trackTitle.text(track.title);
+            $els.trackArtist.text(track.artist);
+            
+            const coverPath = player.getFullPath(track.cover);
+            (coverPath && coverPath.trim()) ? player.loadCoverImage(coverPath, $els.cover[0], $els.coverDefault[0]) : ($els.cover.hide(), $els.coverDefault.show());
+        }
+
+        $els.volumeFill.css('width', `${player.volume * 100}%`);
+        $els.volumeValue.text(`${Math.round(player.volume * 100)}%`);
+        
+        const mode = player.getCurrentMode();
+        $els.modeBtn.html(`<i class="${mode.icon}"></i> ${mode.name}`);
+
+        if ((player.audio && player.audio.duration) && !isDraggingProgress && !player.isSeeking) {
+            const currentTime = player.getDisplayTime ? player.getDisplayTime() : (player.audio.currentTime || 0);
+            const duration = player.audio.duration || 0;
+            const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+            $els.progressFill.css('width', `${percent}%`);
+            $els.currentTime.text(player.formatTime(currentTime));
+            $els.totalTime.text(player.formatTime(duration));
+        }
+    };
+
+    $els.toggleBtn.on('click', e => {
+        e.stopPropagation();
+        const player = window.musicPlayer;
+        if (!player) return;
+        
+        if (!player.isInitialized) {
+            player.init().then(updateMusicControls).catch(_.noop);
+        } else {
+            player.isPlaying ? player.pause() : player.play();
+            updateMusicControls();
+        }
+    });
+
+    _.each(['playBtn', 'prevBtn', 'nextBtn', 'playlistBtn', 'modeBtn'], key => {
+        $els[key].on('click', e => {
+            e.stopPropagation();
+            playClickSound();
+            const player = window.musicPlayer;
+            if ((player && player.isInitialized)) {
+                const actions = {
+                    playBtn: () => player.togglePlay(),
+                    prevBtn: () => player.previousTrack(),
+                    nextBtn: () => player.nextTrack(),
+                    playlistBtn: openPlaylist,
+                    modeBtn: () => player.togglePlayMode()
+                };
+                actions[key]();
+                updateMusicControls();
+            }
+        });
+    });
+
+    // 音量滑块：支持点击 + 拖动（原仅 click，移动端难以精确调整）
+    let isDraggingVolume = false;
+    const handleVolumeEvent = e => {
+        e.stopPropagation();
+        const x = getEventX(e);
+        if (x === null || isNaN(x)) return;
+        const offset = $els.volumeSlider.offset();
+        if (!offset) return;
+        const volume = _.clamp((x - offset.left) / $els.volumeSlider.width(), 0, 1);
+        window.musicPlayer.setVolume(volume);
+        $els.volumeFill.css('width', `${volume * 100}%`);
+        $els.volumeValue.text(`${Math.round(volume * 100)}%`);
+    };
+    $els.volumeSlider
+        .on('mousedown touchstart', e => {
+            e.preventDefault();
+            isDraggingVolume = true;
+            handleVolumeEvent(e);
+        })
+        .on('click', e => { e.stopPropagation(); handleVolumeEvent(e); });
+    $(document).on('mousemove touchmove', e => {
+        if (isDraggingVolume) handleVolumeEvent(e);
+    });
+    $(document).on('mouseup touchend', () => { isDraggingVolume = false; });
+
+    $els.progressSlider
+        .on('mousedown touchstart', e => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (e.type === 'touchstart') lastTouchTs = Date.now();
+            // 触摸后浏览器补发的 mousedown，忽略
+            else if (Date.now() - lastTouchTs < 800) return;
+            const ratio = progressRatio(e);
+            if (ratio === null) return;
+            isDraggingProgress = true;
+            dragRatio = ratio;
+            previewProgress(ratio);
+        })
+        .on('click', e => {
+            e.stopPropagation();
+            e.preventDefault();
+            // 拖拽结束后的 click 已经提交过 seek，避免重复
+            if (suppressClick) return;
+            const ratio = progressRatio(e);
+            if (ratio === null) return;
+            commitSeek(ratio);
+        });
+
+    $(document)
+        .on('mousemove touchmove', e => {
+            if (!isDraggingProgress) return;
+            if (e.type === 'touchmove') lastTouchTs = Date.now();
+            else if (Date.now() - lastTouchTs < 800) return;
+            const ratio = progressRatio(e);
+            if (ratio === null) return;
+            dragRatio = ratio;
+            previewProgress(ratio);
+        })
+        .on('mouseup touchend touchcancel', e => {
+            if (!isDraggingProgress) return;
+            if (e && e.type === 'touchend') lastTouchTs = Date.now();
+            else if (e && e.type === 'mouseup' && Date.now() - lastTouchTs < 800) return;
+            isDraggingProgress = false;
+            suppressClick = true;
+            setTimeout(() => { suppressClick = false; }, 400);
+            if (dragRatio !== null) commitSeek(dragRatio);
+            dragRatio = null;
+        });
+
+    // 本地音乐导入：选择文件后直接进播放列表末尾
+    const importInput = document.getElementById('playlist-import-input');
+    const triggerImport = e => {
+        e.stopPropagation();
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
+        if (!importInput) return;
+        importInput.value = '';
+        importInput.click();
+    };
+    $('#playlist-import-btn').on('click', triggerImport);
+    if (importInput) {
+        importInput.addEventListener('change', function() {
+            const player = window.musicPlayer;
+            const files = importInput.files;
+            if (!(player && player.isInitialized) || !files || !files.length) return;
+            player.importCustomMusicFiles(files).then(added => {
+                updateMusicControls();
+                if (added) openPlaylist(true);
+            });
+        });
+    }
+
+    $els.playlistClose.on('click', e => { e.stopPropagation(); closePlaylist(); });
+    $els.playlistModal.on('click', e => { if (e.target === $els.playlistModal[0]) closePlaylist(); });
+
+    $els.cover.on('dblclick', e => {
+        e.stopPropagation();
+        playClickSound();
+        openCoverModal();
+    });
+
+    $els.recordDisc.on('dblclick', e => {
+        e.stopPropagation();
+        playClickSound();
+        openCoverModal();
+    });
+
+    let controlsRafId = null;
+    const controlsLoop = () => {
+        updateMusicControls();
+        controlsRafId = requestAnimationFrame(controlsLoop);
+    };
+    controlsRafId = requestAnimationFrame(controlsLoop);
+    updateMusicControls();
+
+    // 暴露给 GM 弹窗中心等外部调用，保证走完整初始化流程
+    window.__openMusicPlaylist = openPlaylist;
+    window.__openCustomMusicEdit = openCustomMusicEdit;
+});

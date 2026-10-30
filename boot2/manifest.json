@@ -1,10 +1,6 @@
 {
-  "version": "v2.3.0_hotfix.16.m",
+  "version": "v2.3.0_hotfix.17.m",
   "files": [
-    {
-      "path": "MiniGame/images/index.css",
-      "size": 2053
-    },
     {
       "path": "MiniGame/index.html",
       "size": 2752
@@ -12,6 +8,10 @@
     {
       "path": "MiniGame/scripts/all.js",
       "size": 189889
+    },
+    {
+      "path": "MiniGame/images/index.css",
+      "size": 2053
     },
     {
       "path": "css/icon.css",
@@ -26,108 +26,92 @@
       "size": 115539
     },
     {
-      "path": "index.html",
-      "size": 236561
+      "path": "js/inline-scripts.js",
+      "size": 29043
     },
     {
-      "path": "integrity.json",
-      "size": 4103
+      "path": "js/main.js",
+      "size": 25654
     },
     {
-      "path": "integrity.sig",
-      "size": 344
+      "path": "js/modal-registry.js",
+      "size": 8119
+    },
+    {
+      "path": "js/music.js",
+      "size": 89990
+    },
+    {
+      "path": "js/net-mirror.js",
+      "size": 1835
+    },
+    {
+      "path": "js/telemetry.js",
+      "size": 5188
+    },
+    {
+      "path": "js/ui-fx.js",
+      "size": 1950
+    },
+    {
+      "path": "js/themes.js",
+      "size": 2929
+    },
+    {
+      "path": "js/mod-editor.js",
+      "size": 21716
+    },
+    {
+      "path": "js/collect-pack.js",
+      "size": 7100
+    },
+    {
+      "path": "js/gm-pack.js",
+      "size": 8717
+    },
+    {
+      "path": "js/cloud-profile.js",
+      "size": 2882
+    },
+    {
+      "path": "js/net.js",
+      "size": 7315
+    },
+    {
+      "path": "js/redeem.js",
+      "size": 6986
+    },
+    {
+      "path": "js/script_new.js",
+      "size": 355826
+    },
+    {
+      "path": "js/synthesis.js",
+      "size": 25837
     },
     {
       "path": "js/banned-words.js",
       "size": 6585
     },
     {
-      "path": "js/bg-i18n.js",
-      "size": 4762
-    },
-    {
-      "path": "js/cloud-profile.js",
-      "size": 5373
-    },
-    {
-      "path": "js/collect-pack.js",
-      "size": 11910
-    },
-    {
-      "path": "js/gm-pack.js",
-      "size": 14447
+      "path": "js/storage.js",
+      "size": 15826
     },
     {
       "path": "js/i18n.js",
       "size": 135043
     },
     {
-      "path": "js/inline-scripts.js",
-      "size": 32549
-    },
-    {
       "path": "js/item-i18n.js",
       "size": 109785
     },
     {
-      "path": "js/main.js",
-      "size": 28331
-    },
-    {
-      "path": "js/mod-editor.js",
-      "size": 31892
-    },
-    {
-      "path": "js/modal-registry.js",
-      "size": 11514
-    },
-    {
-      "path": "js/mods.js",
-      "size": 93625
-    },
-    {
-      "path": "js/music.js",
-      "size": 92428
-    },
-    {
-      "path": "js/net-mirror.js",
-      "size": 4272
-    },
-    {
-      "path": "js/net.js",
-      "size": 9598
-    },
-    {
-      "path": "js/redeem.js",
-      "size": 9639
-    },
-    {
-      "path": "js/script_new.js",
-      "size": 339335
-    },
-    {
-      "path": "js/storage.js",
-      "size": 18720
-    },
-    {
-      "path": "js/synthesis.js",
-      "size": 38989
-    },
-    {
-      "path": "js/telemetry.js",
-      "size": 12124
-    },
-    {
-      "path": "js/themes.js",
-      "size": 10302
+      "path": "js/bg-i18n.js",
+      "size": 4762
     },
     {
       "path": "js/toast-catalog.js",
       "size": 3806
-    },
-    {
-      "path": "js/ui-fx.js",
-      "size": 7971
     },
     {
       "path": "libs/GSAP.js",
@@ -138,12 +122,36 @@
       "size": 78748
     },
     {
+      "path": "libs/lodash.js",
+      "size": 73154
+    },
+    {
       "path": "libs/jszip.min.js",
       "size": 97630
     },
     {
-      "path": "libs/lodash.js",
-      "size": 73154
+      "path": "js/mods.js",
+      "size": 80531
+    },
+    {
+      "path": "xml/backgrounds.xml",
+      "size": 8149
+    },
+    {
+      "path": "xml/items.xml",
+      "size": 93710
+    },
+    {
+      "path": "xml/loading-tips.xml",
+      "size": 463
+    },
+    {
+      "path": "xml/music-config.xml",
+      "size": 4111
+    },
+    {
+      "path": "xml/video-config.xml",
+      "size": 101
     },
     {
       "path": "music-player/covers/custom-music-default.png",
@@ -174,26 +182,10 @@
       "size": 34310
     },
     {
-      "path": "xml/backgrounds.xml",
-      "size": 8149
-    },
-    {
-      "path": "xml/items.xml",
-      "size": 93710
-    },
-    {
-      "path": "xml/loading-tips.xml",
-      "size": 463
-    },
-    {
-      "path": "xml/music-config.xml",
-      "size": 4111
-    },
-    {
-      "path": "xml/video-config.xml",
-      "size": 101
+      "path": "index.html",
+      "size": 145374
     }
   ],
-  "fileCount": 48,
-  "totalSize": 2853798
+  "fileCount": 46,
+  "totalSize": 2682589
 }

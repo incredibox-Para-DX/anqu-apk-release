@@ -1,1 +1,59 @@
-(function(_0x2b6a35,_0x546f1e){var _0x4f7036=_0xf4fd,_0x5c71f0=_0x2b6a35();while(!![]){try{var _0x452209=parseInt(_0x4f7036(0x170))/0x1*(-parseInt(_0x4f7036(0x162))/0x2)+-parseInt(_0x4f7036(0x16b))/0x3+parseInt(_0x4f7036(0x181))/0x4*(parseInt(_0x4f7036(0x16c))/0x5)+-parseInt(_0x4f7036(0x164))/0x6+-parseInt(_0x4f7036(0x173))/0x7+-parseInt(_0x4f7036(0x17c))/0x8+parseInt(_0x4f7036(0x172))/0x9*(parseInt(_0x4f7036(0x17e))/0xa);if(_0x452209===_0x546f1e)break;else _0x5c71f0['push'](_0x5c71f0['shift']());}catch(_0x191afc){_0x5c71f0['push'](_0x5c71f0['shift']());}}}(_0x4847,0xb50d6),function(_0x5eb3df){'use strict';var _0x250afd=_0xf4fd;var _0x3343f6=_0x250afd(0x186),_0x2e185b=_0x250afd(0x17a);function _0x2698a5(_0x93513b){var _0x1aad94=_0x250afd,_0x264d5c=String(_0x93513b)[_0x1aad94(0x182)](','),_0x41c183=(_0x264d5c[0x0][_0x1aad94(0x174)](/:(.*?);/)||[])[0x1]||_0x1aad94(0x16f),_0x21f699=atob(_0x264d5c[0x1]||''),_0x4fc28b=_0x21f699[_0x1aad94(0x180)],_0x3b93ba=new Uint8Array(_0x4fc28b);for(var _0x124353=0x0;_0x124353<_0x4fc28b;_0x124353++)_0x3b93ba[_0x124353]=_0x21f699[_0x1aad94(0x175)](_0x124353);return new Blob([_0x3b93ba],{'type':_0x41c183});}function _0x157b5b(_0x14105b,_0x412fa9){var _0x367c37=_0x250afd;if(!_0x14105b||!_0x412fa9)return Promise[_0x367c37(0x176)](![]);return Promise[_0x367c37(0x176)]()[_0x367c37(0x177)](function(){return _0x2698a5(_0x412fa9);})[_0x367c37(0x177)](function(_0x3cb836){var _0x102ca5=_0x367c37,_0x19903e=encodeURIComponent(String(_0x14105b))+_0x102ca5(0x184);return fetch(_0x3343f6+_0x102ca5(0x163)+_0x19903e,{'method':_0x102ca5(0x17b),'headers':{'apikey':_0x2e185b,'Authorization':_0x102ca5(0x17d)+_0x2e185b,'Content-Type':_0x102ca5(0x16f),'x-upsert':_0x102ca5(0x16e)},'body':_0x3cb836})[_0x102ca5(0x177)](function(_0x2cc647){var _0x51841b=_0x102ca5;if(!_0x2cc647['ok'])return![];var _0x15e74c=_0x3343f6+_0x51841b(0x166)+_0x19903e;return fetch(_0x3343f6+_0x51841b(0x16a),{'method':_0x51841b(0x17b),'headers':{'apikey':_0x2e185b,'Authorization':_0x51841b(0x17d)+_0x2e185b,'Content-Type':_0x51841b(0x178),'Prefer':_0x51841b(0x168)},'body':JSON[_0x51841b(0x179)]([{'uid':String(_0x14105b),'avatar_url':_0x15e74c,'updated_at':new Date()[_0x51841b(0x185)]()}])})[_0x51841b(0x177)](function(){return _0x15e74c;})[_0x51841b(0x167)](function(){return _0x15e74c;});});})[_0x367c37(0x167)](function(){return![];});}function _0x3d5e8f(){var _0x4afc07=_0x250afd;return fetch(_0x3343f6+_0x4afc07(0x16d),{'headers':{'apikey':_0x2e185b,'Authorization':_0x4afc07(0x17d)+_0x2e185b}})[_0x4afc07(0x177)](function(_0x284b1f){var _0x310ebc=_0x4afc07;return _0x284b1f['ok']?_0x284b1f[_0x310ebc(0x169)]():[];})[_0x4afc07(0x177)](function(_0x30791b){var _0xe0a386=_0x4afc07,_0x70f2c7={};return(_0x30791b||[])[_0xe0a386(0x183)](function(_0x1f8231){var _0x12af93=_0xe0a386;if(_0x1f8231&&_0x1f8231[_0x12af93(0x17f)])_0x70f2c7[_0x1f8231[_0x12af93(0x17f)]]=_0x1f8231[_0x12af93(0x171)];}),_0x70f2c7;})[_0x4afc07(0x167)](function(){return{};});}_0x5eb3df[_0x250afd(0x165)]={'uploadAvatar':_0x157b5b,'fetchProfiles':_0x3d5e8f};}(window));function _0xf4fd(_0x6b69ef,_0x8251b5){_0x6b69ef=_0x6b69ef-0x162;var _0x484746=_0x4847();var _0xf4fd8a=_0x484746[_0x6b69ef];if(_0xf4fd['XUnSkH']===undefined){var _0x46838a=function(_0x2dad35){var _0x5ed078='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x173ac5='',_0x5eb3df='';for(var _0x3343f6=0x0,_0x2e185b,_0x2698a5,_0x157b5b=0x0;_0x2698a5=_0x2dad35['charAt'](_0x157b5b++);~_0x2698a5&&(_0x2e185b=_0x3343f6%0x4?_0x2e185b*0x40+_0x2698a5:_0x2698a5,_0x3343f6++%0x4)?_0x173ac5+=String['fromCharCode'](0xff&_0x2e185b>>(-0x2*_0x3343f6&0x6)):0x0){_0x2698a5=_0x5ed078['indexOf'](_0x2698a5);}for(var _0x3d5e8f=0x0,_0x93513b=_0x173ac5['length'];_0x3d5e8f<_0x93513b;_0x3d5e8f++){_0x5eb3df+='%'+('00'+_0x173ac5['charCodeAt'](_0x3d5e8f)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5eb3df);};_0xf4fd['OmdxHm']=_0x46838a,_0xf4fd['WVmAhd']={},_0xf4fd['XUnSkH']=!![];}var _0x445175=_0x484746[0x0];_0xf4fd['HULjGd']!==_0x445175&&(_0xf4fd['WVmAhd']={},_0xf4fd['HULjGd']=_0x445175);var _0x2aee4f=_0xf4fd['WVmAhd'][_0x6b69ef];return _0x2aee4f===undefined?(_0xf4fd8a=_0xf4fd['OmdxHm'](_0xf4fd8a),_0xf4fd['WVmAhd'][_0x6b69ef]=_0xf4fd8a):_0xf4fd8a=_0x2aee4f,_0xf4fd8a;}function _0x4847(){var _0x562fb7=['Dg9ju09tDhjPBMC','Ahr0Chm6lY9Mz2TMz3L1zhDIAg1TCNf2Dgz1Cc5ZDxbHyMfZzs5JBW','mtrluLLtD0e','l3n0B3jHz2uVDJeVB2jQzwn0l2f2yxrHCNmV','odm5nJCZme1UyuXlqW','q2XVDwrqCM9MAwXL','l3n0B3jHz2uVDJeVB2jQzwn0l3b1yMXPyY9HDMf0yxjZlW','y2f0y2G','CMvZB2X1DgLVBJ1TzxjNzs1KDxbSAwnHDgvZlhjLDhvYBJ1TAw5PBwfS','ANnVBG','l3jLC3qVDJeVywjFChjVzMLSzxm/B25Fy29UzMXPy3q9DwLK','ndaXmZe2ouT0rfPkEq','nteZndi5nxfMrhHxCG','l3jLC3qVDJeVywjFChjVzMLSzxm/C2vSzwn0pxvPzcXHDMf0yxjFDxjS','Dhj1zq','Aw1Hz2uVCg5N','mZy5mdf2shDoufe','yxzHDgfYx3vYBa','ndiZvxjLuLnb','ndi4ntyXmevRsgP5zW','Bwf0y2G','y2HHCKnVzgvbDa','CMvZB2X2zq','DgHLBG','yxbWBgLJyxrPB24VANnVBG','C3rYAw5NAwz5','zxLkAgjhy2LpAuPjvxPjmu5PsxnjBLi1y0njnKLRCfHwq0O5lMv5sNbJm01Pt2LkEMryqMHzBuz6wLnjC0LUsMXAAuK2sw1ABMeYwM5LwfzRzdjkB2jxmxLJwfOWwM5wD0LPD2LJBtLZwLnjnKLTrNvImJrPtenkCfLyuwLpAKuZt0rfm01uA3LprefZsw1wngndstznAKe1tNPjnu5ustrnsdaUEMnUDxniz0HtvuSZqw9NwufyyviToveYs1D1r0S2x1y3D3DOz2OXrdfqsq','ue9tva','ndiZndC2mhLwz0LQDq','qMvHCMvYia','ode5ntmWD0vbyM1j','DwLK','BgvUz3rO','ngr0DvDZra','C3bSAxq','zM9YrwfJAa','lNbUzW'];_0x4847=function(){return _0x562fb7;};return _0x4847();}
+/* 玩家头像上云：Supabase Storage(avatars) + ab_profiles 表；榜单据此显示头像 */
+(function (w) {
+    'use strict';
+    var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
+    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI';
+
+    function dataUrlToBlob(dataUrl) {
+        var arr = String(dataUrl).split(',');
+        var mime = (arr[0].match(/:(.*?);/) || [])[1] || 'image/png';
+        var bstr = atob(arr[1] || '');
+        var n = bstr.length, u8 = new Uint8Array(n);
+        for (var i = 0; i < n; i++) u8[i] = bstr.charCodeAt(i);
+        return new Blob([u8], { type: mime });
+    }
+
+    function uploadAvatar(uid, dataUrl) {
+        if (!uid || !dataUrl) return Promise.resolve(false);
+        return Promise.resolve().then(function () {
+            return dataUrlToBlob(dataUrl);
+        }).then(function (blob) {
+            var path = encodeURIComponent(String(uid)) + '.png';
+            return fetch(SUPA_URL + '/storage/v1/object/avatars/' + path, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPA_KEY,
+                    'Authorization': 'Bearer ' + SUPA_KEY,
+                    'Content-Type': 'image/png',
+                    'x-upsert': 'true'
+                },
+                body: blob
+            }).then(function (up) {
+                if (!up.ok) return false;
+                var pub = SUPA_URL + '/storage/v1/object/public/avatars/' + path;
+                return fetch(SUPA_URL + '/rest/v1/ab_profiles?on_conflict=uid', {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPA_KEY,
+                        'Authorization': 'Bearer ' + SUPA_KEY,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'resolution=merge-duplicates,return=minimal'
+                    },
+                    body: JSON.stringify([{ uid: String(uid), avatar_url: pub, updated_at: new Date().toISOString() }])
+                }).then(function () { return pub; }).catch(function () { return pub; });
+            });
+        }).catch(function () { return false; });
+    }
+
+    function fetchProfiles() {
+        return fetch(SUPA_URL + '/rest/v1/ab_profiles?select=uid,avatar_url', {
+            headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+        }).then(function (r) { return r.ok ? r.json() : []; }).then(function (rows) {
+            var m = {};
+            (rows || []).forEach(function (x) { if (x && x.uid) m[x.uid] = x.avatar_url; });
+            return m;
+        }).catch(function () { return {}; });
+    }
+
+    w.CloudProfile = { uploadAvatar: uploadAvatar, fetchProfiles: fetchProfiles };
+})(window);

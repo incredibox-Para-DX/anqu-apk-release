@@ -1,1 +1,391 @@
-function _0xc84c(_0x266db3,_0x3a6e32){_0x266db3=_0x266db3-0x11d;var _0x2c29ea=_0x2c29();var _0xc84c1e=_0x2c29ea[_0x266db3];if(_0xc84c['jAEvfO']===undefined){var _0x57f04e=function(_0x529c33){var _0x114b66='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x3e0ad3='',_0x1daf95='';for(var _0x2f91e0=0x0,_0x53e945,_0x373e42,_0x1e4eeb=0x0;_0x373e42=_0x529c33['charAt'](_0x1e4eeb++);~_0x373e42&&(_0x53e945=_0x2f91e0%0x4?_0x53e945*0x40+_0x373e42:_0x373e42,_0x2f91e0++%0x4)?_0x3e0ad3+=String['fromCharCode'](0xff&_0x53e945>>(-0x2*_0x2f91e0&0x6)):0x0){_0x373e42=_0x114b66['indexOf'](_0x373e42);}for(var _0x48f188=0x0,_0x159a61=_0x3e0ad3['length'];_0x48f188<_0x159a61;_0x48f188++){_0x1daf95+='%'+('00'+_0x3e0ad3['charCodeAt'](_0x48f188)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x1daf95);};_0xc84c['SXgqyr']=_0x57f04e,_0xc84c['fnkeSn']={},_0xc84c['jAEvfO']=!![];}var _0x783a18=_0x2c29ea[0x0];_0xc84c['iqwYZS']!==_0x783a18&&(_0xc84c['fnkeSn']={},_0xc84c['iqwYZS']=_0x783a18);var _0x3813fb=_0xc84c['fnkeSn'][_0x266db3];return _0x3813fb===undefined?(_0xc84c1e=_0xc84c['SXgqyr'](_0xc84c1e),_0xc84c['fnkeSn'][_0x266db3]=_0xc84c1e):_0xc84c1e=_0x3813fb,_0xc84c1e;}(function(_0x2afe10,_0x4d7573){var _0x5e4634=_0xc84c,_0x96df9a=_0x2afe10();while(!![]){try{var _0x4a6094=-parseInt(_0x5e4634(0x168))/0x1+-parseInt(_0x5e4634(0x17e))/0x2*(-parseInt(_0x5e4634(0x181))/0x3)+-parseInt(_0x5e4634(0x172))/0x4*(parseInt(_0x5e4634(0x14f))/0x5)+-parseInt(_0x5e4634(0x180))/0x6*(parseInt(_0x5e4634(0x126))/0x7)+parseInt(_0x5e4634(0x151))/0x8*(-parseInt(_0x5e4634(0x12b))/0x9)+-parseInt(_0x5e4634(0x164))/0xa+parseInt(_0x5e4634(0x130))/0xb;if(_0x4a6094===_0x4d7573)break;else _0x96df9a['push'](_0x96df9a['shift']());}catch(_0x108f0e){_0x96df9a['push'](_0x96df9a['shift']());}}}(_0x2c29,0x64073),function(_0x1daf95){'use strict';var _0x4005b0=_0xc84c;var _0x2f91e0=_0x4005b0(0x15b),_0x53e945=_0x4005b0(0x158),_0x373e42=_0x4005b0(0x166),_0x1e4eeb=0x3,_0x48f188=0x6*0xe10*0x3e8,_0x159a61=0x3*0x400*0x400,_0x37f9eb=/(_cache_v1$|^ab_downloaded_assets$|^__dt_|^__mg_)/,_0x792dd8=null,_0x8aed4e=null,_0x6fbf1d=null,_0x414664=null,_0x4446f6=null,_0x261ae1=Object[_0x4005b0(0x174)](null),_0x612699={'reads':0x0,'writes':0x0,'fails':0x0,'recovered':0x0,'patched':![],'lastError':''};try{_0x792dd8=_0x1daf95[_0x4005b0(0x160)];if(_0x792dd8){_0x792dd8[_0x4005b0(0x186)](_0x4005b0(0x149));var _0x5eeec0=_0x1daf95[_0x4005b0(0x125)]&&_0x1daf95[_0x4005b0(0x125)][_0x4005b0(0x162)];_0x5eeec0&&(_0x8aed4e=_0x5eeec0[_0x4005b0(0x176)],_0x6fbf1d=_0x5eeec0[_0x4005b0(0x186)],_0x414664=_0x5eeec0[_0x4005b0(0x154)],_0x4446f6=_0x5eeec0[_0x4005b0(0x183)]);}}catch(_0x3fac3c){_0x792dd8=null;}function _0x3c92d3(){return new Promise(function(_0x4ea3e7,_0x88ef55){var _0x40df7c=_0xc84c;if(!_0x1daf95[_0x40df7c(0x179)]){_0x88ef55(new Error(_0x40df7c(0x144)));return;}var _0xecc630=_0x1daf95[_0x40df7c(0x179)][_0x40df7c(0x13f)](_0x2f91e0,0x1);_0xecc630[_0x40df7c(0x13c)]=function(){var _0x65b561=_0x40df7c,_0x5e2c23=_0xecc630[_0x65b561(0x177)];!_0x5e2c23[_0x65b561(0x170)][_0x65b561(0x165)](_0x53e945)&&_0x5e2c23[_0x65b561(0x189)](_0x53e945,{'keyPath':'ts'}),!_0x5e2c23[_0x65b561(0x170)][_0x65b561(0x165)](_0x373e42)&&_0x5e2c23[_0x65b561(0x189)](_0x373e42,{'keyPath':'k'});},_0xecc630[_0x40df7c(0x150)]=function(){var _0x3128f9=_0x40df7c;_0x4ea3e7(_0xecc630[_0x3128f9(0x177)]);},_0xecc630[_0x40df7c(0x14e)]=function(){var _0x392aa3=_0x40df7c;_0x88ef55(_0xecc630[_0x392aa3(0x155)]||new Error(_0x392aa3(0x120)));};});}function _0x3b4b3f(_0x128c43,_0x2ba045,_0x53bef4){var _0xfa4e2b=_0x4005b0;return _0x3c92d3()[_0xfa4e2b(0x16b)](function(_0x3f3ca0){return new Promise(function(_0x58ad0f,_0x429991){var _0x37ef4a=_0xc84c,_0x3e5f28=_0x3f3ca0[_0x37ef4a(0x13d)](_0x128c43,_0x2ba045),_0x3437e0=_0x53bef4(_0x3e5f28[_0x37ef4a(0x16f)](_0x128c43));_0x3e5f28[_0x37ef4a(0x11f)]=function(){var _0x13dbd3=_0x37ef4a;_0x58ad0f(_0x3437e0&&_0x3437e0[_0x13dbd3(0x177)]!==undefined?_0x3437e0[_0x13dbd3(0x177)]:undefined);},_0x3e5f28[_0x37ef4a(0x14e)]=function(){var _0x4a2703=_0x37ef4a;_0x429991(_0x3e5f28[_0x4a2703(0x155)]||new Error(_0x4a2703(0x12e)));},_0x3e5f28[_0x37ef4a(0x15f)]=function(){var _0x2266ae=_0x37ef4a;_0x429991(_0x3e5f28[_0x2266ae(0x155)]||new Error(_0x2266ae(0x167)));};});});}function _0x4e96a1(_0x3789b8){var _0x496a07=_0x4005b0;return _0x3c92d3()[_0x496a07(0x16b)](function(_0x590309){return new Promise(function(_0x28a1cd,_0x53ed3f){var _0x32b7e8=_0xc84c,_0x581006=_0x590309[_0x32b7e8(0x13d)](_0x3789b8,_0x32b7e8(0x17c)),_0x1428cb=_0x581006[_0x32b7e8(0x16f)](_0x3789b8)[_0x32b7e8(0x178)]();_0x1428cb[_0x32b7e8(0x150)]=function(){var _0x1523ff=_0x32b7e8;_0x28a1cd(_0x1428cb[_0x1523ff(0x177)]||[]);},_0x1428cb[_0x32b7e8(0x14e)]=function(){var _0x4ec6af=_0x32b7e8;_0x53ed3f(_0x1428cb[_0x4ec6af(0x155)]||new Error(_0x4ec6af(0x134)));};});});}function _0x434afe(_0x32b1fc,_0xdc49c1){var _0x57e5bd=_0x4005b0;_0x261ae1[_0x32b1fc]=_0xdc49c1,_0x3b4b3f(_0x373e42,_0x57e5bd(0x17a),function(_0xc8e102){var _0x34ef7e=_0x57e5bd;_0xc8e102[_0x34ef7e(0x14a)]({'k':_0x32b1fc,'v':_0xdc49c1,'ts':Date[_0x34ef7e(0x141)]()});})[_0x57e5bd(0x185)](function(){});}function _0x5b91f8(_0x2ba903){var _0x3963ab=_0x4005b0;if(_0x2ba903 in _0x261ae1)delete _0x261ae1[_0x2ba903];_0x3b4b3f(_0x373e42,_0x3963ab(0x17a),function(_0x165c63){var _0x4703c1=_0x3963ab;_0x165c63[_0x4703c1(0x147)](_0x2ba903);})[_0x3963ab(0x185)](function(){});}function _0x421ce(){var _0x331cb7=_0x4005b0;if(!_0x8aed4e||!_0x792dd8)return Promise[_0x331cb7(0x12d)](0x0);return _0x4e96a1(_0x373e42)[_0x331cb7(0x16b)](function(_0x2f7b9a){var _0x24a660=_0x331cb7,_0x10ce00=0x0;return _0x2f7b9a[_0x24a660(0x171)](function(_0x3144d4){var _0x38cffb=_0x24a660;if(!_0x3144d4||!_0x3144d4['k'])return;try{_0x8aed4e[_0x38cffb(0x152)](_0x792dd8,_0x3144d4['k'],_0x3144d4['v']),_0x612699[_0x38cffb(0x135)]++,_0x10ce00++,_0x3b4b3f(_0x373e42,_0x38cffb(0x17a),function(_0x3eeef5){var _0x370225=_0x38cffb;_0x3eeef5[_0x370225(0x147)](_0x3144d4['k']);})[_0x38cffb(0x185)](function(){});}catch(_0xe07feb){_0x261ae1[_0x3144d4['k']]=_0x3144d4['v'];}}),_0x10ce00;})[_0x331cb7(0x185)](function(){return 0x0;});}function _0x11a6bd(){var _0x5682b4=_0x4005b0;if(!_0x792dd8||!_0x1daf95[_0x5682b4(0x125)]||!_0x1daf95[_0x5682b4(0x125)][_0x5682b4(0x162)])return![];var _0x562a73=_0x1daf95[_0x5682b4(0x125)][_0x5682b4(0x162)];if(_0x562a73[_0x5682b4(0x122)])return _0x612699[_0x5682b4(0x188)]=!![],!![];try{if(typeof _0x8aed4e!==_0x5682b4(0x15d)||typeof _0x6fbf1d!==_0x5682b4(0x15d))return![];return _0x562a73[_0x5682b4(0x176)]=function(_0x24885e,_0x1aa035){var _0x217111=_0x5682b4;try{_0x8aed4e[_0x217111(0x152)](this,_0x24885e,_0x1aa035),_0x612699[_0x217111(0x14d)]++;if(this===_0x792dd8&&_0x24885e in _0x261ae1)_0x5b91f8(_0x24885e);}catch(_0x46ca0f){if(this!==_0x792dd8)throw _0x46ca0f;_0x612699[_0x217111(0x161)]++,_0x612699[_0x217111(0x131)]=_0x46ca0f&&_0x46ca0f[_0x217111(0x16c)]||_0x217111(0x138),_0x434afe(_0x24885e,String(_0x1aa035));if(_0x612699[_0x217111(0x161)]===0x1)try{_0x1daf95[_0x217111(0x127)]&&console[_0x217111(0x155)](_0x217111(0x146)+_0x612699[_0x217111(0x131)]+_0x217111(0x11e),_0x24885e);}catch(_0x10bcd9){}try{_0x1daf95[_0x217111(0x16d)](new CustomEvent(_0x217111(0x123),{'detail':{'key':_0x24885e,'error':_0x612699[_0x217111(0x131)]}}));}catch(_0x510fe2){}}},_0x562a73[_0x5682b4(0x186)]=function(_0x37be4c){var _0x28537a=_0x5682b4;_0x612699[_0x28537a(0x136)]++;if(this===_0x792dd8&&_0x37be4c in _0x261ae1)return _0x261ae1[_0x37be4c];return _0x6fbf1d[_0x28537a(0x152)](this,_0x37be4c);},_0x562a73[_0x5682b4(0x154)]=function(_0xeb40b6){var _0x12c50d=_0x5682b4;if(this===_0x792dd8&&_0xeb40b6 in _0x261ae1)_0x5b91f8(_0xeb40b6);return _0x414664[_0x12c50d(0x152)](this,_0xeb40b6);},_0x562a73[_0x5682b4(0x122)]=!![],_0x612699[_0x5682b4(0x188)]=!![],!![];}catch(_0xd7c931){return _0x612699[_0x5682b4(0x188)]=![],![];}}function _0x166918(_0x3104b7){var _0x2ce979=_0x4005b0,_0x448bf0={},_0x551f3a=[];if(!_0x792dd8)return{'items':_0x448bf0,'skipped':_0x551f3a};for(var _0x3a0d45=0x0;_0x3a0d45<_0x792dd8[_0x2ce979(0x17f)];_0x3a0d45++){var _0x150f36=_0x4446f6?_0x4446f6[_0x2ce979(0x152)](_0x792dd8,_0x3a0d45):null;if(_0x150f36==null)continue;if(_0x3104b7&&_0x3104b7(_0x150f36))continue;var _0x349d8a=_0x792dd8[_0x2ce979(0x186)](_0x150f36);if(_0x349d8a==null)continue;if(_0x349d8a[_0x2ce979(0x17f)]>_0x159a61){_0x551f3a[_0x2ce979(0x184)](_0x150f36);continue;}_0x448bf0[_0x150f36]=_0x349d8a;}return{'items':_0x448bf0,'skipped':_0x551f3a};}function _0x45c104(_0x41f1f0){return new Promise(function(_0x15b80f){var _0x4559b5=_0xc84c,_0x3b0b74=_0x41f1f0[_0x4559b5(0x13d)](_0x53e945,_0x4559b5(0x17a)),_0x345628=_0x3b0b74[_0x4559b5(0x16f)](_0x53e945),_0x3f67d9=_0x345628[_0x4559b5(0x156)]();_0x3f67d9[_0x4559b5(0x150)]=function(){var _0x4edc9e=_0x4559b5,_0x386077=(_0x3f67d9[_0x4edc9e(0x177)]||[])[_0x4edc9e(0x143)]()[_0x4edc9e(0x142)](function(_0x7b6ab2,_0x8d1a20){return _0x8d1a20-_0x7b6ab2;});_0x386077[_0x4edc9e(0x143)](_0x1e4eeb)[_0x4edc9e(0x171)](function(_0x1f8cfb){var _0xdb5f1=_0x4edc9e;_0x345628[_0xdb5f1(0x147)](_0x1f8cfb);});},_0x3b0b74[_0x4559b5(0x11f)]=function(){_0x15b80f();},_0x3b0b74[_0x4559b5(0x14e)]=function(){_0x15b80f();};});}function _0x2afdd8(_0x259197){var _0x99e8fc=_0x4005b0;if(!_0x792dd8)return Promise[_0x99e8fc(0x139)](new Error(_0x99e8fc(0x15c)));var _0x21d61b=_0x166918(function(_0x2ef0be){var _0x29faeb=_0x99e8fc;return _0x37f9eb[_0x29faeb(0x148)](_0x2ef0be);}),_0x4fd44f={'ts':Date[_0x99e8fc(0x141)](),'build':_0x1daf95[_0x99e8fc(0x163)]||'','reason':_0x259197||'','count':Object[_0x99e8fc(0x169)](_0x21d61b[_0x99e8fc(0x157)])[_0x99e8fc(0x17f)],'skipped':_0x21d61b[_0x99e8fc(0x12c)],'items':_0x21d61b[_0x99e8fc(0x157)]};return _0x3c92d3()[_0x99e8fc(0x16b)](function(_0x3a3fd9){return new Promise(function(_0x50015d,_0x154d52){var _0x259f6e=_0xc84c,_0x3e767f=_0x3a3fd9[_0x259f6e(0x13d)](_0x53e945,_0x259f6e(0x17a));_0x3e767f[_0x259f6e(0x16f)](_0x53e945)[_0x259f6e(0x14a)](_0x4fd44f),_0x3e767f[_0x259f6e(0x11f)]=function(){_0x50015d(_0x3a3fd9);},_0x3e767f[_0x259f6e(0x14e)]=function(){var _0x3bb389=_0x259f6e;_0x154d52(_0x3e767f[_0x3bb389(0x155)]||new Error(_0x3bb389(0x16a)));};});})[_0x99e8fc(0x16b)](function(_0xc60ef1){return _0x45c104(_0xc60ef1);})[_0x99e8fc(0x16b)](function(){return _0x4fd44f;});}function _0x152557(){var _0x276539=_0x4005b0;return _0x4e96a1(_0x53e945)[_0x276539(0x16b)](function(_0x1ab147){var _0x45f8ef=_0x276539;return(_0x1ab147||[])[_0x45f8ef(0x142)](function(_0x4a183d,_0x3be3e9){return _0x3be3e9['ts']-_0x4a183d['ts'];})[_0x45f8ef(0x137)](function(_0x3140ec){var _0x323b5a=_0x45f8ef;return{'ts':_0x3140ec['ts'],'build':_0x3140ec[_0x323b5a(0x15a)],'reason':_0x3140ec[_0x323b5a(0x12a)],'count':_0x3140ec[_0x323b5a(0x15e)],'skipped':(_0x3140ec[_0x323b5a(0x12c)]||[])[_0x323b5a(0x17f)]};});})[_0x276539(0x185)](function(){return[];});}function _0x46113c(_0x59dcc3){var _0x17e86a=_0x4005b0;return _0x4e96a1(_0x53e945)[_0x17e86a(0x16b)](function(_0x5490c9){var _0x104e2c=_0x17e86a,_0xca9bec=null;(_0x5490c9||[])[_0x104e2c(0x171)](function(_0x3e84e8){if(_0x59dcc3){if(_0x3e84e8['ts']===_0x59dcc3)_0xca9bec=_0x3e84e8;}else{if(!_0xca9bec||_0x3e84e8['ts']>_0xca9bec['ts'])_0xca9bec=_0x3e84e8;}});if(!_0xca9bec)throw new Error(_0x104e2c(0x153));return _0x2afdd8(_0x104e2c(0x17b))[_0x104e2c(0x185)](function(){})[_0x104e2c(0x16b)](function(){var _0x4028e2=_0x104e2c,_0xede644=0x0;for(var _0x5d309e in _0xca9bec[_0x4028e2(0x157)]){if(!Object[_0x4028e2(0x162)][_0x4028e2(0x159)][_0x4028e2(0x152)](_0xca9bec[_0x4028e2(0x157)],_0x5d309e))continue;try{_0x8aed4e[_0x4028e2(0x152)](_0x792dd8,_0x5d309e,_0xca9bec[_0x4028e2(0x157)][_0x5d309e]),_0xede644++;}catch(_0x35ea83){}}return{'ts':_0xca9bec['ts'],'restored':_0xede644,'build':_0xca9bec[_0x4028e2(0x15a)]};});});}var _0x130c8c={'darkzone_simulator_stats':{'sync':!![],'core':!![]},'ab_shop_skills_v1':{'sync':!![],'core':!![]},'ab_collection_room_v1':{'sync':!![],'core':!![]},'ab_collection_room_v1_bak':{'sync':!![]},'ab_owned_backgrounds':{'sync':!![]},'ab_selected_bg_path':{'sync':!![]},'disabled_items_list':{'sync':!![]},'ab_skip_search_mask':{'sync':!![]},'ab_fps_mode':{'sync':!![]},'ab_font_preference':{'sync':!![]}};function _0x51073e(_0x517555){var _0xfb612c=_0x4005b0,_0x214e13=[];for(var _0x5c8593 in _0x130c8c){if(!Object[_0xfb612c(0x162)][_0xfb612c(0x159)][_0xfb612c(0x152)](_0x130c8c,_0x5c8593))continue;var _0x3f9d23=_0x130c8c[_0x5c8593];if(_0x517555?_0x3f9d23[_0xfb612c(0x140)]:_0x3f9d23[_0xfb612c(0x13e)])_0x214e13[_0xfb612c(0x184)](_0x5c8593);}return _0x214e13;}function _0x26ceb6(){var _0x2978d3=_0x4005b0,_0x2739b3={},_0x24c508=[];if(!_0x792dd8)return{'text':'{}','count':0x0,'skipped':_0x24c508};for(var _0x30f414=0x0;_0x30f414<_0x792dd8[_0x2978d3(0x17f)];_0x30f414++){var _0x50468b=_0x4446f6?_0x4446f6[_0x2978d3(0x152)](_0x792dd8,_0x30f414):null;if(_0x50468b==null)continue;if(_0x37f9eb[_0x2978d3(0x148)](_0x50468b)){_0x24c508[_0x2978d3(0x184)](_0x50468b);continue;}var _0x1fbbed=_0x792dd8[_0x2978d3(0x186)](_0x50468b);if(_0x1fbbed==null)continue;if(_0x1fbbed[_0x2978d3(0x17f)]>_0x159a61){_0x24c508[_0x2978d3(0x184)](_0x50468b);continue;}_0x2739b3[_0x50468b]=_0x1fbbed;}return{'text':JSON[_0x2978d3(0x175)](_0x2739b3),'count':Object[_0x2978d3(0x169)](_0x2739b3)[_0x2978d3(0x17f)],'skipped':_0x24c508};}function _0x51ee98(_0x5dcb0b){var _0x102a04=_0x4005b0,_0x3aab7c;try{_0x3aab7c=JSON[_0x102a04(0x14c)](_0x5dcb0b);}catch(_0x225323){throw new Error(_0x102a04(0x124));}if(!_0x3aab7c||typeof _0x3aab7c!==_0x102a04(0x12f)||Array[_0x102a04(0x17d)](_0x3aab7c))throw new Error(_0x102a04(0x145));return _0x2afdd8(_0x102a04(0x16e))[_0x102a04(0x185)](function(){})[_0x102a04(0x16b)](function(){var _0x5234b2=_0x102a04,_0x18c30b=0x0,_0x4c0c41=0x0;for(var _0x5d178f in _0x3aab7c){if(!Object[_0x5234b2(0x162)][_0x5234b2(0x159)][_0x5234b2(0x152)](_0x3aab7c,_0x5d178f))continue;if(typeof _0x5d178f!==_0x5234b2(0x187)||!_0x5d178f||_0x5d178f[_0x5234b2(0x17f)]>0xc8){_0x4c0c41++;continue;}var _0x47f26f=_0x3aab7c[_0x5d178f];try{_0x792dd8[_0x5234b2(0x176)](_0x5d178f,typeof _0x47f26f===_0x5234b2(0x187)?_0x47f26f:JSON[_0x5234b2(0x175)](_0x47f26f)),_0x18c30b++;}catch(_0x2f5c91){_0x4c0c41++;}}return{'imported':_0x18c30b,'skipped':_0x4c0c41};});}var _0x1977b5={'get':function(_0x1c0a59,_0x29808f){var _0xe07bd=_0x4005b0;if(!_0x792dd8)return _0x29808f;var _0xf370e9=_0x792dd8[_0xe07bd(0x186)](_0x1c0a59);return _0xf370e9==null?_0x29808f:_0xf370e9;},'getJSON':function(_0x34d79e,_0x5d2a15){var _0x53923e=_0x4005b0,_0x2c8bcf=_0x1977b5[_0x53923e(0x133)](_0x34d79e,null);if(_0x2c8bcf==null)return _0x5d2a15;try{return JSON[_0x53923e(0x14c)](_0x2c8bcf);}catch(_0x2c2deb){return _0x5d2a15;}},'set':function(_0x5ed249,_0x4f7254){var _0x2eca1c=_0x4005b0;if(!_0x792dd8)return![];try{return _0x792dd8[_0x2eca1c(0x176)](_0x5ed249,typeof _0x4f7254===_0x2eca1c(0x187)?_0x4f7254:JSON[_0x2eca1c(0x175)](_0x4f7254)),!![];}catch(_0x2cdb4f){return![];}},'setJSON':function(_0x2a1fbd,_0x207ed8){var _0x5aee7a=_0x4005b0;return _0x1977b5[_0x5aee7a(0x14b)](_0x2a1fbd,JSON[_0x5aee7a(0x175)](_0x207ed8));},'remove':function(_0x127735){var _0x26f782=_0x4005b0;if(!_0x792dd8)return;try{_0x792dd8[_0x26f782(0x154)](_0x127735);}catch(_0x1c65f4){}},'keys':function(){var _0x458ae5=_0x4005b0;if(!_0x792dd8)return[];var _0x478836=[];for(var _0x8e2f62=0x0;_0x8e2f62<_0x792dd8[_0x458ae5(0x17f)];_0x8e2f62++){var _0x67093e=_0x4446f6?_0x4446f6[_0x458ae5(0x152)](_0x792dd8,_0x8e2f62):_0x792dd8[_0x458ae5(0x183)](_0x8e2f62);if(_0x67093e!=null)_0x478836[_0x458ae5(0x184)](_0x67093e);}return _0x478836;},'exportAll':_0x26ceb6,'importAll':_0x51ee98,'syncKeys':function(){return _0x51073e(![]);},'syncCoreKeys':function(){return _0x51073e(!![]);},'snapshot':_0x2afdd8,'listSnapshots':_0x152557,'restore':_0x46113c,'status':function(){var _0x466c8c=_0x4005b0;return{'patched':_0x612699[_0x466c8c(0x188)],'reads':_0x612699[_0x466c8c(0x136)],'writes':_0x612699[_0x466c8c(0x14d)],'fails':_0x612699[_0x466c8c(0x161)],'recovered':_0x612699[_0x466c8c(0x135)],'pending':Object[_0x466c8c(0x169)](_0x261ae1)[_0x466c8c(0x17f)],'lastError':_0x612699[_0x466c8c(0x131)]};},'autoSnapshot':function(){var _0x2edf18=_0x4005b0,_0x48f43c=function(){var _0x3eb4a9=_0xc84c;_0x152557()[_0x3eb4a9(0x16b)](function(_0x1c9c77){var _0x5bcf6c=_0x3eb4a9,_0x267020=_0x1c9c77[_0x5bcf6c(0x17f)]?_0x1c9c77[0x0]['ts']:0x0;if(Date[_0x5bcf6c(0x141)]()-_0x267020<_0x48f188)return null;return _0x2afdd8(_0x5bcf6c(0x173))[_0x5bcf6c(0x185)](function(){return null;});})[_0x3eb4a9(0x185)](function(){});},_0x15bea8=_0x1daf95[_0x2edf18(0x182)]||function(_0x257a16){return setTimeout(_0x257a16,0x1f40);};_0x15bea8(_0x48f43c,{'timeout':0x3a98});}};_0x1daf95[_0x4005b0(0x132)]=_0x1977b5,_0x11a6bd();if(_0x792dd8){_0x421ce();if(_0x1daf95[_0x4005b0(0x121)]&&_0x1daf95[_0x4005b0(0x121)][_0x4005b0(0x11d)]===_0x4005b0(0x129))_0x1977b5[_0x4005b0(0x13a)]();else{if(_0x1daf95[_0x4005b0(0x128)])_0x1daf95[_0x4005b0(0x128)](_0x4005b0(0x13b),function(){var _0x420abf=_0x4005b0;_0x1977b5[_0x420abf(0x13a)]();});}}}(window));function _0x2c29(){var _0x55622d=['CMvHzg9UBhK','AxnbCNjHEq','mtbgq0HQDhC','BgvUz3rO','nLvfr0XSDa','ndyWmZi5wxL0uKXu','CMvXDwvZDeLKBgvdywXSyMfJAW','A2v5','ChvZAa','y2f0y2G','z2v0sxrLBq','C3rYAw5N','Cgf0y2HLza','y3jLyxrLt2jQzwn0u3rVCMu','CMvHzhLtDgf0zq','kE+8Jow3SUI9RcbjBMrLEgvKreiG5ywC5BQvoG','B25JB21WBgv0zq','AwrIig9Wzw4GzMfPBgvK','zg9JDw1LBNq','x19HyLnHDMvqyxrJAgvK','ywiTC3rVCMfNzs1MDwXS','sLnptIdOP6pMNPdLPlhOTku','u3rVCMfNzq','mJaXodiXowreEe9dua','y29UC29Szq','ywrKrxzLBNrmAxn0zw5LCG','y29TCgXLDgu','CMvHC29U','nJaYmZqXmNDszxLuqq','C2TPChbLza','CMvZB2X2zq','AwrIihr4igzHAwXLza','B2jQzwn0','mtK5nda3mZrTu1npwMS','BgfZDevYCM9Y','u2f2zq','z2v0','AwrIihjLywqGzMfPBgvK','CMvJB3zLCMvK','CMvHzhm','BwfW','D3jPDguGzMfPBgvK','CMvQzwn0','yxv0B1nUyxbZAg90','Bg9Hza','B251CgDYywrLBMvLzgvK','DhjHBNnHy3rPB24','C3LUyW','B3bLBG','y29Yzq','BM93','C29YDa','C2XPy2u','BM8GAw5KzxHLzerc','5Qc85BYp5lIn5PIVihTRzxK6ihzHBhvLFsdLR7NOSAe','w3n0B3jHz2vDiowgMEwfPEwKSEI0PsG','zgvSzxrL','DgvZDa','x19HyL9WCM9Izv9F','Chv0','C2v0','CgfYC2u','D3jPDgvZ','B25LCNjVCG','ndaXmZi1nxjsrw5rsW','B25ZDwnJzxnZ','ogDbs2DlCG','y2fSBa','5OM+5lIn5yIW5B+R54wN','CMvTB3zLsxrLBq','zxjYB3i','z2v0qwXSs2v5CW','AxrLBxm','C25HCa','AgfZt3DUuhjVCgvYDhK','yNvPBgq','ywjFC2f2zv9KyG','BM8GBg9JywXtDg9YywDL','zNvUy3rPB24','y291BNq','B25HyM9YDa','Bg9JywXtDg9YywDL','zMfPBhm','ChjVDg90ExbL','sfvFqLvjterFvKvsu0LptG','mJm0odGWmhfkrM9ktG','y29UDgfPBNm','CgvUzgLUzW','AwrIihr4igfIB3j0zwq','mtC1mtC4CuDor2fl','A2v5CW','C25HChnOB3qGzMfPBgvK','DgHLBG','BMfTzq','zgLZCgf0y2HfDMvUDa','yMvMB3jLlwLTCg9YDa','B2jQzwn0u3rVCMu','B2jQzwn0u3rVCMvoyw1LCW','zM9YrwfJAa','ng5AzLrZCW','yxv0BW','y3jLyxrL','C3rYAw5NAwz5','C2v0sxrLBq','CMvZDwX0','z2v0qwXS','Aw5KzxHLzerc','CMvHzhDYAxrL','yMvMB3jLlxjLC3rVCMu'];_0x2c29=function(){return _0x55622d;};return _0x2c29();}
+/* ============================================================
+ * 存档层（第一阶段）
+ * 原则：不改任何现有 key 名、不改任何现有数据格式。
+ *   1) 代理层：包装 Storage.prototype，写满时不再静默失败，转 IndexedDB 兜底
+ *   2) 快照：启动后把全部存档复制到 IndexedDB，滚动保留 3 份
+ *   3) 导出 / 导入：供 GM 面板做手动备份
+ * 兼容：任何一步失败都回落到原生 localStorage 行为。
+ * ============================================================ */
+(function (w) {
+    'use strict';
+
+    var SNAP_DB = 'ab_save_db';
+    var SNAP_STORE = 'snap';
+    var PENDING_STORE = 'pending';
+    var SNAP_KEEP = 3;
+    var SNAP_INTERVAL = 6 * 3600 * 1000; /* 距上一份快照超过 6 小时才再拍 */
+    var BIG_ITEM_LIMIT = 3 * 1024 * 1024; /* 单项超过 3MB 不进快照（localStorage 总上限 5MB） */
+    var SKIP_RE = /(_cache_v1$|^ab_downloaded_assets$|^__dt_|^__mg_)/;
+
+    var LS = null;
+    var nativeSet = null;
+    var nativeGet = null;
+    var nativeRemove = null;
+    var nativeKey = null;
+
+    var pending = Object.create(null);   /* 本次会话内写失败的值，读的时候优先返回 */
+    var stat = { reads: 0, writes: 0, fails: 0, recovered: 0, patched: false, lastError: '' };
+
+    try {
+        LS = w.localStorage;
+        if (LS) {
+            LS.getItem('__ab_probe__');
+            var proto0 = w.Storage && w.Storage.prototype;
+            if (proto0) {
+                nativeSet = proto0.setItem;
+                nativeGet = proto0.getItem;
+                nativeRemove = proto0.removeItem;
+                nativeKey = proto0.key;
+            }
+        }
+    } catch (e) {
+        LS = null;
+    }
+
+    /* ---------------- IndexedDB 基础 ---------------- */
+
+    function openDB() {
+        return new Promise(function (resolve, reject) {
+            if (!w.indexedDB) { reject(new Error('no indexedDB')); return; }
+            var req = w.indexedDB.open(SNAP_DB, 1);
+            req.onupgradeneeded = function () {
+                var db = req.result;
+                if (!db.objectStoreNames.contains(SNAP_STORE)) {
+                    db.createObjectStore(SNAP_STORE, { keyPath: 'ts' });
+                }
+                if (!db.objectStoreNames.contains(PENDING_STORE)) {
+                    db.createObjectStore(PENDING_STORE, { keyPath: 'k' });
+                }
+            };
+            req.onsuccess = function () { resolve(req.result); };
+            req.onerror = function () { reject(req.error || new Error('idb open failed')); };
+        });
+    }
+
+    function idbRun(store, mode, fn) {
+        return openDB().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                var tx = db.transaction(store, mode);
+                var out = fn(tx.objectStore(store));
+                tx.oncomplete = function () { resolve(out && out.result !== undefined ? out.result : undefined); };
+                tx.onerror = function () { reject(tx.error || new Error('idb tx failed')); };
+                tx.onabort = function () { reject(tx.error || new Error('idb tx aborted')); };
+            });
+        });
+    }
+
+    function idbList(store) {
+        return openDB().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                var tx = db.transaction(store, 'readonly');
+                var req = tx.objectStore(store).getAll();
+                req.onsuccess = function () { resolve(req.result || []); };
+                req.onerror = function () { reject(req.error || new Error('idb read failed')); };
+            });
+        });
+    }
+
+    /* ---------------- 写失败兜底 ---------------- */
+
+    function stashPending(k, v) {
+        pending[k] = v;
+        idbRun(PENDING_STORE, 'readwrite', function (s) {
+            s.put({ k: k, v: v, ts: Date.now() });
+        }).catch(function () { /* IndexedDB 也不可用时，只能保留内存副本 */ });
+    }
+
+    function dropPending(k) {
+        if (k in pending) delete pending[k];
+        idbRun(PENDING_STORE, 'readwrite', function (s) { s.delete(k); }).catch(function () {});
+    }
+
+    /* 上次会话写失败、但没能写回 localStorage 的值，启动时补写 */
+    function flushPending() {
+        if (!nativeSet || !LS) return Promise.resolve(0);
+        return idbList(PENDING_STORE).then(function (rows) {
+            var done = 0;
+            rows.forEach(function (row) {
+                if (!row || !row.k) return;
+                try {
+                    nativeSet.call(LS, row.k, row.v);
+                    stat.recovered++;
+                    done++;
+                    idbRun(PENDING_STORE, 'readwrite', function (s) { s.delete(row.k); }).catch(function () {});
+                } catch (e) {
+                    pending[row.k] = row.v;
+                }
+            });
+            return done;
+        }).catch(function () { return 0; });
+    }
+
+    /* ---------------- 包装 localStorage ---------------- */
+
+    function patch() {
+        if (!LS || !w.Storage || !w.Storage.prototype) return false;
+        var proto = w.Storage.prototype;
+        if (proto.__abSavePatched) { stat.patched = true; return true; }
+        try {
+            if (typeof nativeSet !== 'function' || typeof nativeGet !== 'function') return false;
+
+            proto.setItem = function (k, v) {
+                try {
+                    nativeSet.call(this, k, v);
+                    stat.writes++;
+                    if (this === LS && k in pending) dropPending(k);
+                } catch (e) {
+                    /* sessionStorage 保持原生行为（继续抛） */
+                    if (this !== LS) throw e;
+                    stat.fails++;
+                    stat.lastError = (e && e.name) || 'write failed';
+                    stashPending(k, String(v));
+                    if (stat.fails === 1) {
+                        try { w.console && console.error('[storage] 写入失败(' + stat.lastError + ')，已转 IndexedDB 兜底:', k); } catch (_) {}
+                    }
+                    try { w.dispatchEvent(new CustomEvent('ab-storage-full', { detail: { key: k, error: stat.lastError } })); } catch (_) {}
+                }
+            };
+
+            proto.getItem = function (k) {
+                stat.reads++;
+                if (this === LS && k in pending) return pending[k];
+                return nativeGet.call(this, k);
+            };
+
+            proto.removeItem = function (k) {
+                if (this === LS && k in pending) dropPending(k);
+                return nativeRemove.call(this, k);
+            };
+
+            proto.__abSavePatched = true;
+            stat.patched = true;
+            return true;
+        } catch (e) {
+            stat.patched = false;
+            return false;
+        }
+    }
+
+    /* ---------------- 快照 ---------------- */
+
+    function collectItems(filter) {
+        var items = {};
+        var skipped = [];
+        if (!LS) return { items: items, skipped: skipped };
+        for (var i = 0; i < LS.length; i++) {
+            var k = nativeKey ? nativeKey.call(LS, i) : null;
+            if (k == null) continue;
+            if (filter && filter(k)) continue;
+            var v = LS.getItem(k);
+            if (v == null) continue;
+            if (v.length > BIG_ITEM_LIMIT) { skipped.push(k); continue; }
+            items[k] = v;
+        }
+        return { items: items, skipped: skipped };
+    }
+
+    function prune(db) {
+        return new Promise(function (resolve) {
+            var tx = db.transaction(SNAP_STORE, 'readwrite');
+            var store = tx.objectStore(SNAP_STORE);
+            var req = store.getAllKeys();
+            req.onsuccess = function () {
+                var keys = (req.result || []).slice().sort(function (a, b) { return b - a; });
+                keys.slice(SNAP_KEEP).forEach(function (k) { store.delete(k); });
+            };
+            tx.oncomplete = function () { resolve(); };
+            tx.onerror = function () { resolve(); };
+        });
+    }
+
+    function snapshot(reason) {
+        if (!LS) return Promise.reject(new Error('no localStorage'));
+        var got = collectItems(function (k) { return SKIP_RE.test(k); });
+        var rec = {
+            ts: Date.now(),
+            build: w.HU_BUILD_VERSION || '',
+            reason: reason || '',
+            count: Object.keys(got.items).length,
+            skipped: got.skipped,
+            items: got.items
+        };
+        return openDB().then(function (db) {
+            return new Promise(function (resolve, reject) {
+                var tx = db.transaction(SNAP_STORE, 'readwrite');
+                tx.objectStore(SNAP_STORE).put(rec);
+                tx.oncomplete = function () { resolve(db); };
+                tx.onerror = function () { reject(tx.error || new Error('snapshot failed')); };
+            });
+        }).then(function (db) { return prune(db); }).then(function () { return rec; });
+    }
+
+    function listSnapshots() {
+        return idbList(SNAP_STORE).then(function (rows) {
+            return (rows || []).sort(function (a, b) { return b.ts - a.ts; }).map(function (r) {
+                return { ts: r.ts, build: r.build, reason: r.reason, count: r.count, skipped: (r.skipped || []).length };
+            });
+        }).catch(function () { return []; });
+    }
+
+    function restore(ts) {
+        return idbList(SNAP_STORE).then(function (rows) {
+            var rec = null;
+            (rows || []).forEach(function (r) {
+                if (ts) { if (r.ts === ts) rec = r; }
+                else if (!rec || r.ts > rec.ts) rec = r;
+            });
+            if (!rec) throw new Error('找不到快照');
+            /* 恢复前先给当前状态拍一份，防止二次误操作 */
+            return snapshot('before-restore').catch(function () {}).then(function () {
+                var n = 0;
+                for (var k in rec.items) {
+                    if (!Object.prototype.hasOwnProperty.call(rec.items, k)) continue;
+                    try { nativeSet.call(LS, k, rec.items[k]); n++; } catch (e) {}
+                }
+                return { ts: rec.ts, restored: n, build: rec.build };
+            });
+        });
+    }
+
+    /* ---------------- 云同步登记表 ---------------- */
+    /* 会被云同步的字段只在这里登记一次，script_new.js 自动跟随，避免漏同步。
+       sync: 参与上传/下载；core: 参与「本机是否已有进度」的判定 */
+    var SYNC_REGISTRY = {
+        'darkzone_simulator_stats': { sync: true, core: true },
+        'ab_shop_skills_v1': { sync: true, core: true },
+        'ab_collection_room_v1': { sync: true, core: true },
+        'ab_collection_room_v1_bak': { sync: true },
+        'ab_owned_backgrounds': { sync: true },
+        'ab_selected_bg_path': { sync: true },
+        'disabled_items_list': { sync: true },
+        'ab_skip_search_mask': { sync: true },
+        'ab_fps_mode': { sync: true },
+        'ab_font_preference': { sync: true }
+    };
+
+    function registryKeys(wantCore) {
+        var out = [];
+        for (var k in SYNC_REGISTRY) {
+            if (!Object.prototype.hasOwnProperty.call(SYNC_REGISTRY, k)) continue;
+            var cfg = SYNC_REGISTRY[k];
+            if (wantCore ? cfg.core : cfg.sync) out.push(k);
+        }
+        return out;
+    }
+
+    /* ---------------- 导出 / 导入 ---------------- */
+
+    function exportFlat() {
+        var items = {};
+        var skipped = [];
+        if (!LS) return { text: '{}', count: 0, skipped: skipped };
+        for (var i = 0; i < LS.length; i++) {
+            var k = nativeKey ? nativeKey.call(LS, i) : null;
+            if (k == null) continue;
+            /* 可重建的缓存不进备份，避免几 MB 的公告 HTML 撑爆文本框 */
+            if (SKIP_RE.test(k)) { skipped.push(k); continue; }
+            var v = LS.getItem(k);
+            if (v == null) continue;
+            if (v.length > BIG_ITEM_LIMIT) { skipped.push(k); continue; }
+            items[k] = v;
+        }
+        return { text: JSON.stringify(items), count: Object.keys(items).length, skipped: skipped };
+    }
+
+    function importFlat(text) {
+        var obj;
+        try { obj = JSON.parse(text); } catch (e) { throw new Error('JSON 解析失败'); }
+        if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('格式不是 {key: value} 对象');
+        return snapshot('before-import').catch(function () {}).then(function () {
+            var n = 0, skip = 0;
+            for (var k in obj) {
+                if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
+                if (typeof k !== 'string' || !k || k.length > 200) { skip++; continue; }
+                var v = obj[k];
+                try {
+                    /* 走代理写入：配额不足时仍会转 IndexedDB 兜底 */
+                    LS.setItem(k, typeof v === 'string' ? v : JSON.stringify(v));
+                    n++;
+                } catch (e) { skip++; }
+            }
+            return { imported: n, skipped: skip };
+        });
+    }
+
+    /* ---------------- 对外接口 ---------------- */
+
+    var Save = {
+        get: function (k, fb) {
+            if (!LS) return fb;
+            var v = LS.getItem(k);
+            return v == null ? fb : v;
+        },
+        getJSON: function (k, fb) {
+            var raw = Save.get(k, null);
+            if (raw == null) return fb;
+            try { return JSON.parse(raw); } catch (e) { return fb; }
+        },
+        set: function (k, v) {
+            if (!LS) return false;
+            try {
+                LS.setItem(k, typeof v === 'string' ? v : JSON.stringify(v));
+                return true;
+            } catch (e) { return false; }
+        },
+        setJSON: function (k, obj) {
+            return Save.set(k, JSON.stringify(obj));
+        },
+        remove: function (k) {
+            if (!LS) return;
+            try { LS.removeItem(k); } catch (e) {}
+        },
+        keys: function () {
+            if (!LS) return [];
+            var out = [];
+            for (var i = 0; i < LS.length; i++) {
+                var k = nativeKey ? nativeKey.call(LS, i) : LS.key(i);
+                if (k != null) out.push(k);
+            }
+            return out;
+        },
+        exportAll: exportFlat,
+        importAll: importFlat,
+        syncKeys: function () { return registryKeys(false); },
+        syncCoreKeys: function () { return registryKeys(true); },
+        snapshot: snapshot,
+        listSnapshots: listSnapshots,
+        restore: restore,
+        status: function () {
+            return {
+                patched: stat.patched,
+                reads: stat.reads,
+                writes: stat.writes,
+                fails: stat.fails,
+                recovered: stat.recovered,
+                pending: Object.keys(pending).length,
+                lastError: stat.lastError
+            };
+        },
+        /* 启动后空闲时自动拍一份，6 小时内不重复 */
+        autoSnapshot: function () {
+            var run = function () {
+                listSnapshots().then(function (list) {
+                    var newest = list.length ? list[0].ts : 0;
+                    if (Date.now() - newest < SNAP_INTERVAL) return null;
+                    return snapshot('auto').catch(function () { return null; });
+                }).catch(function () {});
+            };
+            var idle = w.requestIdleCallback || function (fn) { return setTimeout(fn, 8000); };
+            idle(run, { timeout: 15000 });
+        }
+    };
+
+    w.Save = Save;
+
+    patch();
+    if (LS) {
+        flushPending();
+        if (w.document && w.document.readyState === 'complete') Save.autoSnapshot();
+        else if (w.addEventListener) w.addEventListener('load', function () { Save.autoSnapshot(); });
+    }
+})(window);

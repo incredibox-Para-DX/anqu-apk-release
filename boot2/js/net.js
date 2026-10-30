@@ -1,1 +1,203 @@
-(function(_0x449ffd,_0x4345e2){var _0x204e43=_0x2d9f,_0x543039=_0x449ffd();while(!![]){try{var _0x28e1ac=parseInt(_0x204e43(0x82))/0x1*(-parseInt(_0x204e43(0x96))/0x2)+parseInt(_0x204e43(0x74))/0x3*(parseInt(_0x204e43(0xae))/0x4)+-parseInt(_0x204e43(0xb2))/0x5*(parseInt(_0x204e43(0x71))/0x6)+parseInt(_0x204e43(0x79))/0x7+-parseInt(_0x204e43(0x7f))/0x8+parseInt(_0x204e43(0x84))/0x9+-parseInt(_0x204e43(0x95))/0xa;if(_0x28e1ac===_0x4345e2)break;else _0x543039['push'](_0x543039['shift']());}catch(_0x30bd63){_0x543039['push'](_0x543039['shift']());}}}(_0x3b20,0x62037),function(_0x5cb4eb){'use strict';var _0x1703a0=_0x2d9f;var _0x397e53=0x2ee0,_0x118573=0x258,_0x59fdc3={'total':0x0,'ok':0x0,'failed':0x0,'retries':0x0,'timeouts':0x0,'offline':0x0,'lastUrl':'','lastError':''};function _0xc02c8d(_0x37e6f9,_0x91ebbe,_0x45412b){var _0x3e0e1a=_0x2d9f,_0x4db8ab=new Error(_0x91ebbe||_0x37e6f9);_0x4db8ab[_0x3e0e1a(0x73)]=_0x3e0e1a(0x80),_0x4db8ab[_0x3e0e1a(0x9a)]=_0x37e6f9;if(_0x45412b)for(var _0x581768 in _0x45412b){if(Object[_0x3e0e1a(0x8b)][_0x3e0e1a(0x9e)][_0x3e0e1a(0x97)](_0x45412b,_0x581768))_0x4db8ab[_0x581768]=_0x45412b[_0x581768];}return _0x4db8ab;}function _0x326d11(){var _0x53c4ef=_0x2d9f;return typeof navigator!==_0x53c4ef(0xa9)&&navigator[_0x53c4ef(0xa3)]===![];}function _0x275335(_0x15c183){var _0x2f0be8=_0x2d9f;return/^(https?:)?\/\//i[_0x2f0be8(0xa7)](String(_0x15c183||''));}function _0x19e528(_0x4f6d5a){return new Promise(function(_0x1f1479){setTimeout(_0x1f1479,_0x4f6d5a);});}function _0x22a042(_0x26acfb){var _0x28b3d3=_0x2d9f,_0x39a7be={};for(var _0x59bc21 in _0x26acfb){if(!Object[_0x28b3d3(0x8b)][_0x28b3d3(0x9e)][_0x28b3d3(0x97)](_0x26acfb,_0x59bc21))continue;if(_0x59bc21===_0x28b3d3(0x89)||_0x59bc21===_0x28b3d3(0xad)||_0x59bc21===_0x28b3d3(0x7d)||_0x59bc21===_0x28b3d3(0x7b)||_0x59bc21===_0x28b3d3(0x99))continue;_0x39a7be[_0x59bc21]=_0x26acfb[_0x59bc21];}return _0x39a7be;}function _0x2dab6c(_0x1fb9d0,_0x5c607f){var _0x4b8f60=_0x2d9f;_0x5c607f=_0x5c607f||{};var _0xa29c17=_0x5c607f[_0x4b8f60(0x89)]==null?_0x397e53:_0x5c607f[_0x4b8f60(0x89)],_0x5d9ae7=Math[_0x4b8f60(0x9c)](0x0,_0x5c607f[_0x4b8f60(0xad)]==null?0x0:_0x5c607f[_0x4b8f60(0xad)]),_0x241503=_0x5c607f[_0x4b8f60(0x7d)]==null?_0x118573:_0x5c607f[_0x4b8f60(0x7d)],_0x3bc959=String(_0x5c607f[_0x4b8f60(0x88)]||_0x4b8f60(0xa1))[_0x4b8f60(0x9d)](),_0x47fb2b=_0x3bc959===_0x4b8f60(0xa1)||_0x3bc959===_0x4b8f60(0x90),_0x603e9a=0x0,_0x15b00f=_0x1fb9d0;_0x5c607f[_0x4b8f60(0x99)]&&(_0x15b00f=_0x1fb9d0+(_0x1fb9d0[_0x4b8f60(0x9b)]('?')===-0x1?'?':'&')+'t='+Date[_0x4b8f60(0x8e)]());function _0x4defe3(){var _0x256491=_0x4b8f60;if(_0x326d11()&&_0x275335(_0x15b00f)&&!_0x5c607f[_0x256491(0x7b)])return _0x59fdc3[_0x256491(0xac)]++,_0x59fdc3[_0x256491(0x7a)]++,_0x59fdc3[_0x256491(0xab)]=_0x15b00f,_0x59fdc3[_0x256491(0xb3)]=_0x256491(0xac),Promise[_0x256491(0xb1)](_0xc02c8d(_0x256491(0xac),_0x256491(0x81)));_0x59fdc3[_0x256491(0x8d)]++;var _0x468894=_0x22a042(_0x5c607f),_0x20156d=null,_0x7ab76=null,_0x3b8e24=![];typeof AbortController!==_0x256491(0xa9)&&!_0x468894[_0x256491(0x91)]&&(_0x20156d=new AbortController(),_0x468894[_0x256491(0x91)]=_0x20156d[_0x256491(0x91)],_0x7ab76=setTimeout(function(){var _0x280c86=_0x256491;_0x3b8e24=!![];try{_0x20156d[_0x280c86(0xa5)]();}catch(_0x4fe14b){}},_0xa29c17));var _0x11e348=new Promise(function(_0x33c256,_0x59e052){var _0x5b0dc3=_0x256491;!_0x20156d&&(_0x7ab76=setTimeout(function(){var _0x14c470=_0x2d9f;_0x3b8e24=!![],_0x59e052(_0xc02c8d(_0x14c470(0x89),_0x14c470(0x76)));},_0xa29c17)),fetch(_0x15b00f,_0x468894)[_0x5b0dc3(0x85)](_0x33c256,_0x59e052);});return _0x11e348[_0x256491(0x85)](function(_0x1fe672){var _0x18bba0=_0x256491;if(_0x7ab76)clearTimeout(_0x7ab76);if(!_0x1fe672['ok']){var _0x3f9c41=_0xc02c8d(_0x18bba0(0xa4),_0x18bba0(0x8c)+_0x1fe672[_0x18bba0(0x8f)],{'status':_0x1fe672[_0x18bba0(0x8f)],'response':_0x1fe672});if(_0x47fb2b&&(_0x1fe672[_0x18bba0(0x8f)]>=0x1f4||_0x1fe672[_0x18bba0(0x8f)]===0x1ad)&&_0x603e9a<_0x5d9ae7)throw _0x3f9c41;_0x59fdc3[_0x18bba0(0x7a)]++,_0x59fdc3[_0x18bba0(0xab)]=_0x15b00f,_0x59fdc3[_0x18bba0(0xb3)]=_0x3f9c41[_0x18bba0(0x9a)]+':\x20'+_0x3f9c41[_0x18bba0(0x75)];throw _0x3f9c41;}return _0x59fdc3['ok']++,_0x1fe672;})[_0x256491(0xa6)](function(_0x59271a){var _0x38363b=_0x256491;if(_0x7ab76)clearTimeout(_0x7ab76);var _0x4929db=_0x59271a;if(!(_0x4929db&&_0x4929db[_0x38363b(0x73)]===_0x38363b(0x80))){var _0x4994e1=_0x3b8e24||_0x4929db&&/abort/i[_0x38363b(0xa7)](_0x4929db[_0x38363b(0x73)]||'')?_0x38363b(0x89):_0x38363b(0x86);_0x4929db=_0xc02c8d(_0x4994e1,_0x4929db&&_0x4929db[_0x38363b(0x75)]||_0x38363b(0x98),{'cause':_0x59271a});}if(_0x4929db[_0x38363b(0x9a)]===_0x38363b(0x89))_0x59fdc3[_0x38363b(0x92)]++;var _0xe51da4=_0x47fb2b&&_0x4929db[_0x38363b(0x9a)]!==_0x38363b(0xac);if(_0x4929db[_0x38363b(0x9a)]===_0x38363b(0xa4))_0xe51da4=_0x47fb2b&&(_0x4929db[_0x38363b(0x8f)]>=0x1f4||_0x4929db[_0x38363b(0x8f)]===0x1ad);if(_0xe51da4&&_0x603e9a<_0x5d9ae7)return _0x603e9a++,_0x59fdc3[_0x38363b(0xad)]++,_0x19e528(_0x241503*_0x603e9a)[_0x38363b(0x85)](_0x4defe3);_0x59fdc3[_0x38363b(0x7a)]++,_0x59fdc3[_0x38363b(0xab)]=_0x15b00f,_0x59fdc3[_0x38363b(0xb3)]=_0x4929db[_0x38363b(0x9a)]+':\x20'+_0x4929db[_0x38363b(0x75)];throw _0x4929db;});}return _0x4defe3();}function _0x23d0fa(_0x23c09a,_0x365202){var _0x2437b7=_0x2d9f;return _0x2dab6c(_0x23c09a,_0x365202)[_0x2437b7(0x85)](function(_0x3fd05a){var _0x147d6a=_0x2437b7;return _0x3fd05a[_0x147d6a(0xa0)]();});}function _0x27ec45(_0x10ace8,_0xa6c7e0){var _0xb98281=_0x2d9f;return _0x2dab6c(_0x10ace8,_0xa6c7e0)[_0xb98281(0x85)](function(_0x2604b8){var _0x3f4f0a=_0xb98281;return _0x2604b8[_0x3f4f0a(0xaf)]();});}function _0x1da7dd(_0x1e4317,_0xe2b857,_0x302629,_0x14fe43){var _0x201a09=_0x2d9f,_0x195e60=_0x14fe43||{},_0x3a10ca={};for(var _0x194a9b in _0x195e60[_0x201a09(0x94)]||{}){if(Object[_0x201a09(0x8b)][_0x201a09(0x9e)][_0x201a09(0x97)](_0x195e60[_0x201a09(0x94)],_0x194a9b))_0x3a10ca[_0x194a9b]=_0x195e60[_0x201a09(0x94)][_0x194a9b];}if(!_0x3a10ca[_0x201a09(0x83)]&&!_0x3a10ca[_0x201a09(0x93)])_0x3a10ca[_0x201a09(0x83)]=_0x201a09(0x7c);return _0x195e60[_0x201a09(0x88)]=_0x1e4317,_0x195e60[_0x201a09(0x94)]=_0x3a10ca,_0x195e60[_0x201a09(0x7e)]=typeof _0x302629===_0x201a09(0xaa)?_0x302629:JSON[_0x201a09(0xa2)](_0x302629),_0x2dab6c(_0xe2b857,_0x195e60);}function _0xdf96b(_0x36b576,_0x3d241f,_0x17ecb6){var _0x47c6fe=_0x2d9f;return _0x1da7dd(_0x47c6fe(0x72),_0x36b576,_0x3d241f,_0x17ecb6);}function _0x2aae67(_0x54ec11,_0x26b926,_0x48a258){var _0x1051c7=_0x2d9f;return _0x1da7dd(_0x1051c7(0x78),_0x54ec11,_0x26b926,_0x48a258);}var _0x2a254d=[];function _0x2acbdc(){var _0x4f7d7c=_0x2d9f,_0xad0ef5=!_0x326d11();for(var _0x4fbf6a=0x0;_0x4fbf6a<_0x2a254d[_0x4f7d7c(0x87)];_0x4fbf6a++){try{_0x2a254d[_0x4fbf6a](_0xad0ef5);}catch(_0x4a50b9){}}try{_0x5cb4eb[_0x4f7d7c(0xb0)](new CustomEvent(_0x4f7d7c(0x77),{'detail':{'online':_0xad0ef5}}));}catch(_0x42057b){}}_0x5cb4eb[_0x1703a0(0xb4)](_0x1703a0(0x8a),_0x2acbdc),_0x5cb4eb[_0x1703a0(0xb4)](_0x1703a0(0xac),_0x2acbdc),_0x5cb4eb[_0x1703a0(0x9f)]={'request':_0x2dab6c,'getText':_0x23d0fa,'getJSON':_0x27ec45,'postJSON':_0xdf96b,'putJSON':_0x2aae67,'isOffline':_0x326d11,'isRemote':_0x275335,'onStateChange':function(_0x5e7e96){var _0x1b3829=_0x1703a0;if(typeof _0x5e7e96===_0x1b3829(0xa8))_0x2a254d[_0x1b3829(0x70)](_0x5e7e96);},'stats':_0x59fdc3,'NetError':_0xc02c8d};}(window));function _0x2d9f(_0x5ce237,_0x1bc170){_0x5ce237=_0x5ce237-0x70;var _0x3b20d5=_0x3b20();var _0x2d9f06=_0x3b20d5[_0x5ce237];if(_0x2d9f['fuftXO']===undefined){var _0x675251=function(_0x4bd92c){var _0xb634c1='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x129610='',_0x5cb4eb='';for(var _0x397e53=0x0,_0x118573,_0x59fdc3,_0xc02c8d=0x0;_0x59fdc3=_0x4bd92c['charAt'](_0xc02c8d++);~_0x59fdc3&&(_0x118573=_0x397e53%0x4?_0x118573*0x40+_0x59fdc3:_0x59fdc3,_0x397e53++%0x4)?_0x129610+=String['fromCharCode'](0xff&_0x118573>>(-0x2*_0x397e53&0x6)):0x0){_0x59fdc3=_0xb634c1['indexOf'](_0x59fdc3);}for(var _0x326d11=0x0,_0x275335=_0x129610['length'];_0x326d11<_0x275335;_0x326d11++){_0x5cb4eb+='%'+('00'+_0x129610['charCodeAt'](_0x326d11)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5cb4eb);};_0x2d9f['OVtThx']=_0x675251,_0x2d9f['GacwyO']={},_0x2d9f['fuftXO']=!![];}var _0x5ad8c3=_0x3b20d5[0x0];_0x2d9f['QAogpx']!==_0x5ad8c3&&(_0x2d9f['GacwyO']={},_0x2d9f['QAogpx']=_0x5ad8c3);var _0xc55f7c=_0x2d9f['GacwyO'][_0x5ce237];return _0xc55f7c===undefined?(_0x2d9f06=_0x2d9f['OVtThx'](_0x2d9f06),_0x2d9f['GacwyO'][_0x5ce237]=_0x2d9f06):_0x2d9f06=_0xc55f7c,_0x2d9f06;}function _0x3b20(){var _0x461e41=['Dgv4Da','r0vu','C3rYAw5NAwz5','B25mAw5L','Ahr0Ca','ywjVCNq','y2f0y2G','DgvZDa','zNvUy3rPB24','Dw5KzwzPBMvK','C3rYAw5N','BgfZDfvYBa','B2zMBgLUzq','CMv0CMLLCW','mJC4oeDszxbgsq','ANnVBG','zgLZCgf0y2HfDMvUDa','CMvQzwn0','mZvlwvrvuKy','BgfZDevYCM9Y','ywrKrxzLBNrmAxn0zw5LCG','ChvZAa','ntqWotK2r3PxufHb','ue9tva','BMfTzq','mZm0mNPvEhbVDq','BwvZC2fNzq','6k+35Rgc6lAf5PE2','ywiTBMv0lxn0yxrL','ufvu','mJmZnZa0oezjzLPdCW','zMfPBgvK','ywXSB3DpzMzSAw5L','yxbWBgLJyxrPB24VANnVBG','CMv0CNLezwXHEq','yM9KEq','nJyZmJHxEenKuMG','tMv0rxjYB3i','572r57UC5BEY5PAT5BYa','nJqYmdm2qLHzrMzr','q29UDgvUDc1uExbL','nJm2mZm2oxvNywzTuW','DgHLBG','BMv0D29YAW','BgvUz3rO','Bwv0Ag9K','DgLTzw91Da','B25SAw5L','ChjVDg90ExbL','sfruuca','Dg90ywW','BM93','C3rHDhvZ','sevbra','C2LNBMfS','DgLTzw91Dhm','y29UDgvUDc10ExbL','AgvHzgvYCW','mtm0ndeXmfrYrxzLyG','mMXetfPgCq','y2fSBa','572r57UC5BYc5BI4','y2fJAgvcDxn0','A2LUza','Aw5KzxHpzG','Bwf4','Dg9vChbLCKnHC2u','AgfZt3DUuhjVCgvYDhK','tMv0'];_0x3b20=function(){return _0x461e41;};return _0x3b20();}
+/* 网络层：统一超时、重试、离线短路与错误归一化。
+ * 只做请求封装，不改写全局 fetch；下载类大文件请求（Range 续传）仍走原生 fetch。
+ */
+(function (w) {
+    'use strict';
+
+    var DEFAULT_TIMEOUT = 12000;
+    var DEFAULT_RETRY_DELAY = 600;
+
+    var stats = {
+        total: 0,
+        ok: 0,
+        failed: 0,
+        retries: 0,
+        timeouts: 0,
+        offline: 0,
+        lastUrl: '',
+        lastError: ''
+    };
+
+    function NetError(kind, message, extra) {
+        var err = new Error(message || kind);
+        err.name = 'NetError';
+        err.kind = kind;
+        if (extra) {
+            for (var k in extra) {
+                if (Object.prototype.hasOwnProperty.call(extra, k)) err[k] = extra[k];
+            }
+        }
+        return err;
+    }
+
+    function isOffline() {
+        return typeof navigator !== 'undefined' && navigator.onLine === false;
+    }
+
+    // 相对路径（xml/、minigame 等）属于本地资源，离线也要能读
+    function isRemote(url) {
+        return /^(https?:)?\/\//i.test(String(url || ''));
+    }
+
+    function sleep(ms) {
+        return new Promise(function (resolve) { setTimeout(resolve, ms); });
+    }
+
+    function copyOptions(options) {
+        var out = {};
+        for (var k in options) {
+            if (!Object.prototype.hasOwnProperty.call(options, k)) continue;
+            if (k === 'timeout' || k === 'retries' || k === 'retryDelay' || k === 'allowOffline' || k === 'cacheBust') continue;
+            out[k] = options[k];
+        }
+        return out;
+    }
+
+    function request(url, options) {
+        options = options || {};
+        var timeout = options.timeout == null ? DEFAULT_TIMEOUT : options.timeout;
+        var retries = Math.max(0, options.retries == null ? 0 : options.retries);
+        var retryDelay = options.retryDelay == null ? DEFAULT_RETRY_DELAY : options.retryDelay;
+        var method = String(options.method || 'GET').toUpperCase();
+        var canRetry = method === 'GET' || method === 'HEAD';
+        var attempt = 0;
+
+        var finalUrl = url;
+        if (options.cacheBust) {
+            finalUrl = url + (url.indexOf('?') === -1 ? '?' : '&') + 't=' + Date.now();
+        }
+
+        function once() {
+            if (isOffline() && isRemote(finalUrl) && !options.allowOffline) {
+                stats.offline++;
+                stats.failed++;
+                stats.lastUrl = finalUrl;
+                stats.lastError = 'offline';
+                return Promise.reject(NetError('offline', '网络已断开'));
+            }
+
+            stats.total++;
+            var opts = copyOptions(options);
+            var controller = null;
+            var timer = null;
+            var timedOut = false;
+
+            if (typeof AbortController !== 'undefined' && !opts.signal) {
+                controller = new AbortController();
+                opts.signal = controller.signal;
+                timer = setTimeout(function () {
+                    timedOut = true;
+                    try { controller.abort(); } catch (e) {}
+                }, timeout);
+            }
+
+            var pending = new Promise(function (resolve, reject) {
+                if (!controller) {
+                    // 无 AbortController 的旧 WebView：超时只丢弃结果，底层请求仍在后台跑完
+                    timer = setTimeout(function () {
+                        timedOut = true;
+                        reject(NetError('timeout', '请求超时'));
+                    }, timeout);
+                }
+                fetch(finalUrl, opts).then(resolve, reject);
+            });
+
+            return pending.then(function (res) {
+                if (timer) clearTimeout(timer);
+                if (!res.ok) {
+                    var httpErr = NetError('http', 'HTTP ' + res.status, { status: res.status, response: res });
+                    if (canRetry && (res.status >= 500 || res.status === 429) && attempt < retries) {
+                        throw httpErr;
+                    }
+                    stats.failed++;
+                    stats.lastUrl = finalUrl;
+                    stats.lastError = httpErr.kind + ': ' + httpErr.message;
+                    throw httpErr;
+                }
+                stats.ok++;
+                return res;
+            }).catch(function (e) {
+                if (timer) clearTimeout(timer);
+                var err = e;
+                if (!(err && err.name === 'NetError')) {
+                    var kind = timedOut || (err && /abort/i.test(err.name || '')) ? 'timeout' : 'network';
+                    err = NetError(kind, (err && err.message) || '网络异常', { cause: e });
+                }
+                if (err.kind === 'timeout') stats.timeouts++;
+
+                var retryable = canRetry && err.kind !== 'offline';
+                if (err.kind === 'http') retryable = canRetry && (err.status >= 500 || err.status === 429);
+                if (retryable && attempt < retries) {
+                    attempt++;
+                    stats.retries++;
+                    return sleep(retryDelay * attempt).then(once);
+                }
+
+                stats.failed++;
+                stats.lastUrl = finalUrl;
+                stats.lastError = err.kind + ': ' + err.message;
+                throw err;
+            });
+        }
+
+        return once();
+    }
+
+    function getText(url, options) {
+        return request(url, options).then(function (res) { return res.text(); });
+    }
+
+    function getJSON(url, options) {
+        return request(url, options).then(function (res) { return res.json(); });
+    }
+
+    function sendJSON(method, url, body, options) {
+        var opts = options || {};
+        var headers = {};
+        for (var k in (opts.headers || {})) {
+            if (Object.prototype.hasOwnProperty.call(opts.headers, k)) headers[k] = opts.headers[k];
+        }
+        if (!headers['Content-Type'] && !headers['content-type']) headers['Content-Type'] = 'application/json';
+        opts.method = method;
+        opts.headers = headers;
+        opts.body = typeof body === 'string' ? body : JSON.stringify(body);
+        return request(url, opts);
+    }
+
+    function postJSON(url, body, options) {
+        return sendJSON('POST', url, body, options);
+    }
+
+    function putJSON(url, body, options) {
+        return sendJSON('PUT', url, body, options);
+    }
+
+    // 在线状态：统一从一个地方取，避免各模块各自读 navigator.onLine
+    var stateListeners = [];
+    function notifyState() {
+        var online = !isOffline();
+        for (var i = 0; i < stateListeners.length; i++) {
+            try { stateListeners[i](online); } catch (e) {}
+        }
+        try {
+            w.dispatchEvent(new CustomEvent('ab-net-state', { detail: { online: online } }));
+        } catch (e) {}
+    }
+    w.addEventListener('online', notifyState);
+    w.addEventListener('offline', notifyState);
+
+    w.Net = {
+        request: request,
+        getText: getText,
+        getJSON: getJSON,
+        postJSON: postJSON,
+        putJSON: putJSON,
+        isOffline: isOffline,
+        isRemote: isRemote,
+        onStateChange: function (fn) {
+            if (typeof fn === 'function') stateListeners.push(fn);
+        },
+        stats: stats,
+        NetError: NetError
+    };
+})(window);

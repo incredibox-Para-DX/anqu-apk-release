@@ -1,1 +1,676 @@
-function _0x3b3c(_0x2b61c7,_0x10d070){_0x2b61c7=_0x2b61c7-0x1d7;const _0x4785bd=_0x4785();let _0x3b3c88=_0x4785bd[_0x2b61c7];if(_0x3b3c['YoBOCJ']===undefined){var _0x27c8d5=function(_0xb79567){const _0x42c6d3='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x473688='',_0x1f4721='';for(let _0x1df4ca=0x0,_0x6ca298,_0x44a359,_0x417abd=0x0;_0x44a359=_0xb79567['charAt'](_0x417abd++);~_0x44a359&&(_0x6ca298=_0x1df4ca%0x4?_0x6ca298*0x40+_0x44a359:_0x44a359,_0x1df4ca++%0x4)?_0x473688+=String['fromCharCode'](0xff&_0x6ca298>>(-0x2*_0x1df4ca&0x6)):0x0){_0x44a359=_0x42c6d3['indexOf'](_0x44a359);}for(let _0x5e5af0=0x0,_0x3db167=_0x473688['length'];_0x5e5af0<_0x3db167;_0x5e5af0++){_0x1f4721+='%'+('00'+_0x473688['charCodeAt'](_0x5e5af0)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x1f4721);};_0x3b3c['iizHtO']=_0x27c8d5,_0x3b3c['TCjhbN']={},_0x3b3c['YoBOCJ']=!![];}const _0x3514f7=_0x4785bd[0x0];_0x3b3c['jokuBd']!==_0x3514f7&&(_0x3b3c['TCjhbN']={},_0x3b3c['jokuBd']=_0x3514f7);const _0x21b7f9=_0x3b3c['TCjhbN'][_0x2b61c7];return _0x21b7f9===undefined?(_0x3b3c88=_0x3b3c['iizHtO'](_0x3b3c88),_0x3b3c['TCjhbN'][_0x2b61c7]=_0x3b3c88):_0x3b3c88=_0x21b7f9,_0x3b3c88;}function _0x4785(){const _0x2af4e8=['z2v0u3bLy2LHBfzVBhvTzq','yNv0Dg9U','CgXHEq','CMDIysGXndeSidG0ocWGotuYlcaWlJaXnIK','C3rHDhvZ','CgfYC2vgCM9Tu3rYAw5N','lMXVywrPBMCTy29UDgfPBMvY','DgLW','zMXVB3i','54M56ygJ6zIF5zgy','mca1lJfWEcaYm3b4ihjNyMeOmcWGmcWGmcWGmc4ZmZaP','Aw5Zzxj0qMvMB3jL','C2L6zq','BwfW','yxv0BW','Bg9HzgvKzgf0yq','x19YzxnVDxjJzvzHBgLKyxrPB25oB3rPy2u','CMvTB3zL','lMXVywrPBMCTDgv4Da','Bg9Hza','x211DgvbChbSAwvK','otK3','Cg9YBG','mtC0uM50t0XV','B3bHy2L0EsaWlJqZmxmGzwfZzsWGDhjHBNnMB3jTidaUndiZCYbLyxnL','CMvUzgvYqwnOAwv2zw1LBNrnB2rHBa','mJm1nti4v0fnDuff','B3bHy2L0EsaWlJnZigvHC2u','tg9HzgLUzW','C2nHBguOmsK','z2v0qxr0CMLIDxrL','zgvJB2rLqxvKAw9eyxrH','iZKZyZvMza','mJKXoti0mfPVrfbYuW','D2LKDgG','Bwf4','cIaGicaGicaGicaGicaGicaGicaGzgLZCgXHEtOGAw5SAw5LlwjSB2nRoYbTyxjNAw4TDg9WoIaYnNb4oYbTyxjNAw4TyM90Dg9ToIaYm3b4oYbWywrKAw5NoIaXmhb4idm1ChG7cIaGicaGicaGicaGicaGicaGicaGyMfJA2DYB3vUzdOGCMDIysGXmZKSide5nsWGmJm4lcaWlJa3mYK7igjVCMrLCJOGmxb4ihnVBgLKihjNyMeOmtq1lcaXotKSidiZosWGmc4XmdyPoWOGicaGicaGicaGicaGicaGicaGignVBg9YoIb3AgL0ztSGyM9YzgvYlxjHzgL1CZOGmtuUnxb4oYbMB250lxnPEMu6ide4lJfWEdSGzM9UDc13zwLNAhq6idq5mZSGy3vYC29YoIbWB2LUDgvYoWOGicaGicaGicaGicaGicaGicaGihrYyw5ZAxrPB246igfSBcaWlJy1mxmGy3vIAwmTyMv6AwvYkdaUndaXlcaXlJyZnYWGmc43mZySidePoYbVCgfJAxr5oIaWoWOGicaGicaGicaGicaGicaGicaGihrYyw5ZzM9YBtOGDhjHBNnSyxrLwsGZm3b4ksbZy2fSzsGWlJG5osK7igjVEc1ZAgfKB3C6idaGnY4XChGGmJHWEcbYz2jHkdaSidaSidaSidaUndm0ktSkicaGicaGicaGicaGicaGicaGicbMB250lwzHBwLSEtOGAw5OzxjPDdSGBgv0DgvYlxnWywnPBMC6ideUmtvWEdSkicaGicaGicaGicaGicaGicaGicbIywnRzhjVCc1MAwX0zxi6igjSDxiOmtyUm3b4ktSGlxDLyMTPDc1IywnRzhjVCc1MAwX0zxi6igjSDxiOmtyUm3b4ktSkicaGicaGicaGicaGicaGia','yMXVy2S','DMLKzw8','Bw91C2vLBNrLCG','AM9PBG','Dgv4Dc94BwW','Bg9HzgLUzY10Axa','mJC4mLHIr3zjBG','mca2lJnWEcaYnxb4ihjNyMeOnZCSidKYlca5ncWGmc4WmdiP','Aw5JBhvKzxm','Bg9HzgLUzY1WCM9NCMvZCY1Iyxi','mJK4ww5vswXk','zM9UDfn0EwXL','Aw5PDa','DMfSDwu','yxvKAw8V5OIr5yE66lsN5lQgmI5TCdm','zgvZDgLUyxrPB24','Bg9HzgLUzY1VDMvYBgf5','CgLJDhvYzxmVzg9UyxrLl2rVBMf0zs1XCI5QCgC','x19vsv9tt1vorf9wt0XvtuvFxW','mti3nta1n0fODfrwuq','yM9KEq','zM9UDfnPEMu','CMDIysG3mYWGotaSidKYlcaWlJaYmcK','CMvWBgfJzq','CMDIysG3nIWGotiSidK1lcaWlJaXmcK','AgLKzgvU','CMDIysG3nYWGotiSidK1lcaWlJaWnsK','zNjVBq','z2v0rwXLBwvUDej5swq','ywjFDwLKx2nSzwfU','mJaUmxb4','ChjLDMvUDerLzMf1Bhq','DMLZAwjPBgL0Eq','y3jLyxrLr2fPBG','z2v0sxrLBq','pc9ZCgfUpG','D2LKDgG6mtaWjtTOzwLNAhq6mtaWjtTVyMPLy3qTzML0oMnVBNrHAw47zgLZCgXHEtPIBg9JAZS','yM94u2HHzg93','Bxv0zs1IDg4','mca3lJfWEcaYohb4ihjNyMeOmcWGmcWGmcWGmc40mJyP','C2v0u3bLy2LHBfzVBhvTzq','ios4QUI1HoA6KoAnN+wDJ++8Jow3SUIhQUwkQoA4HEEqHU+8JoIVT+MhJEAwSos4I+I9Vq','lMvUDgvYlwDHBwuTyNrU','yMDTx211DgvK','yxvKAw8V5OIr5yE66lsN5lQgnc5TCdm','x192ywXPzgf0zvjLC291CMnLugfJA3nFxW','mteYmdy0mgXdEKvkuW','Aw5Uzxjive1m','CMvZB2X2zq','ChvZAa','CgXHEs1ZB3vUzc1IDg4','C2HVD0zPCNn0tgf1BMnOugLJA2vY','zg9UyxrLlwLTywDLCW','C2XPy2u','DxjS','CMDIysG3ncWGotaSidKZlcaWlJaWncK','C2HVD1rVyxn0','B2jZzxj2zq','DhjHBNnPDgLVBG','zgLZy29UBMvJDa','DgHLBG','ywjFyxbWx2XHBMC','BwLU','Aw1Nw3nYy10','B3bHy2L0Eq','CxvLCNLtzwXLy3rVCG','C2v4','lMXVywrPBMCTDMLKzw8TyMC','mca5lJfWEcaZm3b4ihjNyMeOmJCSidy5lcaYmdeSidaUmtiXkq','y3vYCMvUDfrPBwu','pgKGy2XHC3m9iMzHCYbMys12B2X1BwuTBxv0zsi+pc9PpG','yxvKAw8VBg9HzgLUzY1LBMqUBxaZ','6lwE6lwp5PsV5OYb','DhjHBNnSyxrLwsGTns44ChGPihnJywXLkdeUmdu1kq','y2fUCgXHEq','ywrKrxzLBNrmAxn0zw5LCG','AxrHBgLJ','Dw5KzwzPBMvK','CMDIysGWlcaWlcaWlcaWlJa5msK','z2v0rwXLBwvUDhncEvrHz05HBwu','y2vUDgvYignLBNrLCG','y29SB3i','CMDIysG3nIWGoteSidK0lcaWlJaWocK','pgKGy2XHC3m9iMzHCYbMys12B2X1BwuTDxaIpJWVAt4','y2XPy2S','yML0y2G','C3jJ','y29UBMvJDa','y2XVBMvoB2rL','CMDIysGXmtmSide1ocWGmJa1lcaWlJa1msK','lMXVywrPBMCTChjVz3jLC3m','yMfKv29Yzhm','zM9UDfDLAwDODa','Dhj1zq','zgf0ytPPBwfNzs9WBMC7yMfZzty0lgLwqK9sDZblr2DVqufbqu5tvwHfvwDbqufbrufbqufcq0frqufbqZfiqxDdqufbqumWBevrvLi0mM1oA1LbqufbqvLbqwPdqJbdoefbqufbu1vwt1jlnunzsuK9','zgfTBG','yxvKAw8V5OIr5yE66lsN5lQgmY5TCdm','zM9Yy2uTy2fJAgu','Dgv4Da','Bg9VCa','CMDIysG3nsWGotmSidK2lcaWlJaWmsK','zMLSDgvY','cIaGicaGicaGicaGihbVC2L0Aw9UoIbMAxHLzdSGDg9WoIaYn3b4oYbYAwDODdOGmZnWEdSkicaGicaGicaGicaGD2LKDgG6idqWChG7igHLAwDODdOGndbWEdSGyM9YzgvYlxjHzgL1CZOGnJCLoWOGicaGicaGicaGicbIywnRz3jVDw5KoIbYz2jHkdC1lca5mcWGotmSidaUmdiYktSGyM9YzgvYoIaXChGGC29SAwqGCMDIysG3nsWGotaSidKZlcaWlJa0nYK7cIaGicaGicaGicaGignVBg9YoIb3AgL0ztSGzM9UDc1ZAxPLoIaXoxb4oYbJDxjZB3i6ihbVAw50zxi7ihOTAw5KzxG6idK4nZy1oWOGicaGicaGicaGicbKAxnWBgf5oIbMBgv4oYbHBgLNBI1PDgvTCZOGy2vUDgvYoYbQDxn0Awz5lwnVBNrLBNq6ignLBNrLCJSkicaGicaGicaGicaGDhjHBNnPDgLVBJOGywXSidaUmZeZCYbJDwjPyY1IzxPPzxiOmc4ZndeSideUntq0lcaWlJy4mIWGmsK7cIaGicaGicaGicaGigjHy2TKCM9WlwzPBhrLCJOGyMX1CIGXmc4XChGPoYaTD2vIA2L0lwjHy2TKCM9WlwzPBhrLCJOGyMX1CIGXmc4XChGPoWOGicaGicaGicaGicbIB3GTC2HHzg93oIaWiduUmxb4idiZChGGCMDIysGWlcaWlcaWlcaWlJmYnIK7cIaGicaGicaGicaGig9WywnPDhK6ide7ihrYyw5ZzM9YBtOGC2nHBguOmsK7igzVBNqTzMfTAwX5oIbPBMHLCML0oYbWB2LUDgvYlwv2zw50CZOGyxv0BYaHAw1WB3j0yw50oWOGicaGicaGia','EhH4','EKLUzgv4','BgvHzgvYyM9HCMrFBMLJA25HBwu','5QYI6l+o77Ym','B3bHy2L0EsaWlJC3nxmGzwfZzs1PBI1VDxqSihrYyw5ZzM9YBsaWlJGYn3mGzwfZzq','Eg1Sl3zPzgvVlwnVBMzPzY54BwW','z2fPBG','mJi1uLbZEePH','C2nHBguOmc4ZnJiPihjVDgf0zsG0odzKzwCP','yM9YzgvYq29SB3i','C2v0sxrLBq','ywrK','ChjLBg9Hza','CgXHExnjBMXPBMu','yMfJA2DYB3vUza','EdvqBgf5C0LUBgLUzq','EdvwAwrLB1bSyxLLCLr5Cgu','C3bSAxq','CMDIysGXndGSidiWncWGmJqXlcaWlJi3nsK','6k+356In5yczlI4U','Dgv4DenVBNrLBNq','yxvKAw8Vzw50zxiTz2fTzs5TCdm','yMXVyG','Cg9PBNrLCKv2zw50CW','zNvJAW','x211Dgviyw5KBgvYqxr0ywnOzwq','Bxv0zwq','DhjHBNnMB3jTt3jPz2LU','phnWyw4GC3r5Bgu9iMzVBNqTC2L6ztO4nYu7zM9UDc1ZDhLSztPPDgfSAwm7y29SB3i6iZKZyZvMzdSIpG','BgvUz3rO','Cg9ZDgvY','DgLTzw91Da','zgLZCgXHEq','C2v0','mJu5mJCZnvHIA1fxAW','Eg1Sl2XVywrPBMCTDgLWCY54BwW','B3bHy2L0EsaWlJuWoxmGzwfZzs1PBI1VDxq','Aw5PDeXLywrLCMjVyxjK','Bg9HzgLUzY12AwrLBY1IzW','yxv0B3bSyxK','mtC1n1rwywDPrG','y2XHC3noyw1L','cIaGicaGicaGicaGicaGicbWB3nPDgLVBJOGzML4zwq7ihrVCdOGmdSGBgvMDdOGmdSkicaGicaGicaGicaGicaGihDPzhrOoIaXmdb2DZSGAgvPz2H0oIaXmdb2AdSkicaGicaGicaGicaGicaGig9IAMvJDc1MAxq6ignVDMvYoYb6lwLUzgv4oIa5odG7cIaGicaGicaGicaGicaGicbMAwX0zxi6igjYAwDODg5LC3mOmc43mZKPoWOGicaGicaGicaGicaGicaGDhjHBNnMB3jToIbZy2fSzsGXlJa3nsK7cIaGicaGicaGicaGicaGicbWB2LUDgvYlwv2zw50CZOGBM9UztSkicaGicaGicaGicaGicaGigjHy2TNCM91BMq6icmWmda7cIaGicaGicaGicaGia','z2v0','C3rVCfbYB3bHz2f0Aw9U','Bw91C2vSzwf2zq','CMDIysGXmZuSide5mcWGmJqWlcaWlJeXmYK','zNvUy3rPB24','z2v0vwLK','BM9YBwfS','zNjVBunOyxjdB2rL','CgXHEvnWzwnPywXtB3vUza','ywXS','z2fTzs1JB250ywLUzxi','yxbWzw5Kq2HPBgq','CMvTB3zLrxzLBNrmAxn0zw5LCG','x19PBMXPBMvty3jPChrZsw5PDgLHBgL6zwq','y2XHC3nmAxn0','D2vIA2L0ugXHExnjBMXPBMu','CMvHzhLtDgf0zq','re9nq29UDgvUDeXVywrLza','DhjHBNnMB3jT','CgXHEvjHBMrVBvnVDw5K','D2vIA2L0qxvKAw9dB250zxH0','C2HPDa','Cgf1C2uTC2vHCMnOlwj0BG','Dg9mB3DLCKnHC2u','y3jLyxrLqNvMzMvYu291CMnL','zw50zxiTz2fTzs1IDg4','Bg9HzgLUzW','C2nHBguOms4WmJqP','C3rHCNq','Dg91y2HZDgfYDa','yxvKAw8V5OIr5yE66lsN5lQgms5TCdm','yNvMzMvY','lMXVywrPBMCTC3bPBM5LCG','y3jHCa','ywXSidaUntuYCYbLyxnL','yxnZ','C2LKzwjHCI1Hy2HPzxzLBwvUDc1IDg4','yxvKAw8Vy2XPy2SUBxaZ','CMfUzg9T','A2v5zg93BG','C3r5Bgu','x19ts0Lqx0XpqurjtKDFxW','DM9SDw1L','zM9YrwfJAa','5yQG6l295lITlI4U','BM9Uzq','C2nHBguOms4YodqP','CMDIysG3nIWGotiSidK0lcaWlJaWmYK','y3jLyxrLrwXLBwvUDa','EdvwAwrLB1bSyxLLCKz1BgXZy3jLzw4','DhjHBNnSyxrLwsGTndaUnxb4ksbZy2fSzsGXlJa2ocK','Dg9Nz2XLu2vHCMnOugf1C2u','DgvZDa','CMvTB3zLza','sfruuca','DhjHBNnSyxrLwsGWksbZy2fSzsGXkq','y2f0y2G','yxjYyxLcDwzMzxi','CMDIysG3ncWGotmSidK1lcaWlJaXnsK','zMLYC3rdAgLSza','y3nZvgv4Da','Aw1N','C2nHBguOms4XmZmP','qxvKAw9dB250zxH0','pgKGy2XHC3m9iMzHCYbMys1ZAwDUlwLUlwfSDci+pc9PpIdNMBVLVzu','B3bHy2L0EsaWlJqXmNmGzwfZzq','B25LBMrLza','CxvLCNLtzwXLy3rVCKfSBa','ywjFBgfUz19JAg9Zzw4','5Qoa5Rwl5yIWia','CMvQzwn0','z3vLC3q','DhjPBq','ste4tG','ywX0','zgLJAW','B3bHy2L0EsaWlJC4nNmGzwfZzs1PBI1VDxq'];_0x4785=function(){return _0x2af4e8;};return _0x4785();}(function(_0x3cd472,_0x4fd340){const _0x16e9be=_0x3b3c,_0x3795dc=_0x3cd472();while(!![]){try{const _0x2b4bf9=parseInt(_0x16e9be(0x253))/0x1*(parseInt(_0x16e9be(0x257))/0x2)+parseInt(_0x16e9be(0x260))/0x3+-parseInt(_0x16e9be(0x27b))/0x4+-parseInt(_0x16e9be(0x2d6))/0x5+parseInt(_0x16e9be(0x23f))/0x6*(-parseInt(_0x16e9be(0x1d8))/0x7)+-parseInt(_0x16e9be(0x242))/0x8*(-parseInt(_0x16e9be(0x2bb))/0x9)+-parseInt(_0x16e9be(0x249))/0xa;if(_0x2b4bf9===_0x4fd340)break;else _0x3795dc['push'](_0x3795dc['shift']());}catch(_0x4d229b){_0x3795dc['push'](_0x3795dc['shift']());}}}(_0x4785,0x749d4),(function(){const _0x3e379e=_0x3b3c;if(window[_0x3e379e(0x1e8)])return;window[_0x3e379e(0x1e8)]=!![];let _0x1f4721=0x2,_0x1df4ca=null,_0x6ca298=null,_0x44a359=new Map(),_0x417abd=![];const _0x5e5af0=[{'url':_0x3e379e(0x1f9)},{'url':_0x3e379e(0x25b)},{'url':_0x3e379e(0x2ad)},{'url':_0x3e379e(0x279)}],_0x3db167=new Audio(_0x3e379e(0x2c9));_0x3db167[_0x3e379e(0x2c0)]=_0x3e379e(0x236),_0x3db167[_0x3e379e(0x205)]=0.4;try{_0x3db167[_0x3e379e(0x23b)]();}catch(_0x4153f5){}const _0x59eea0=((()=>{let _0x4d22b8=[],_0x4e9eca=![];function _0x50f53f(){const _0x4a1c4b=_0x3b3c;if(_0x4e9eca)return;const _0x31b401=window[_0x4a1c4b(0x2a8)]||[_0x4a1c4b(0x2cc),_0x4a1c4b(0x1f0),_0x4a1c4b(0x1fe),_0x4a1c4b(0x2ac),_0x4a1c4b(0x2a2),_0x4a1c4b(0x1fc),_0x4a1c4b(0x226),_0x4a1c4b(0x23e),_0x4a1c4b(0x28f),_0x4a1c4b(0x2b4)];_0x4d22b8=_0x31b401[_0x4a1c4b(0x235)](_0x2b6151=>{const _0x33bfbf=_0x4a1c4b;try{return _0x2b6151[_0x33bfbf(0x264)](/\\x([0-9a-fA-F]{2})/g,(_0x2e6c40,_0x158767)=>String[_0x33bfbf(0x1e2)](parseInt(_0x158767,0x10)))[_0x33bfbf(0x264)](/\\u([0-9a-fA-F]{4})/g,(_0x5add08,_0x4e60da)=>String[_0x33bfbf(0x1e2)](parseInt(_0x4e60da,0x10)));}catch(_0x141a4c){return'';}})[_0x4a1c4b(0x2b2)](Boolean)[_0x4a1c4b(0x235)](_0x313bf6=>_0x43018f(_0x313bf6)),_0x4e9eca=!![];}function _0x43018f(_0x24a364){const _0x1a7a52=_0x3b3c;return _0x24a364[_0x1a7a52(0x264)](/[\s\p{P}\p{S}]+/gu,'')[_0x1a7a52(0x1f2)]();}function _0x5b0b3c(_0x10c16f){const _0xb9af1e=_0x3b3c;if(!_0x10c16f)return![];_0x50f53f();const _0x164768=_0x43018f(_0x10c16f);if(!_0x164768)return![];for(const _0x95144b of _0x4d22b8){if(_0x95144b&&_0x164768[_0xb9af1e(0x255)](_0x95144b))return!![];}const _0x5d38b5=_0x164768[_0xb9af1e(0x2c5)]('');for(let _0x5df489=0x0;_0x5df489<_0x5d38b5[_0xb9af1e(0x2d1)];_0x5df489++){for(let _0x2491ba=_0x5df489+0x2;_0x2491ba<=Math[_0xb9af1e(0x28b)](_0x5df489+0x8,_0x5d38b5[_0xb9af1e(0x2d1)]);_0x2491ba++){if(_0x4d22b8[_0xb9af1e(0x255)](_0x5d38b5[_0xb9af1e(0x282)](_0x5df489,_0x2491ba)[_0xb9af1e(0x250)]('')))return!![];}}return![];}return{'hasBadWord':_0x5b0b3c,'normalizeText':_0x43018f};})()),_0xd0ca82=async()=>{const _0x104c0b=_0x3e379e;if(_0x417abd)return;try{_0x1df4ca=new(window[(_0x104c0b(0x21a))]||window[(_0x104c0b(0x1ef))])(),_0x6ca298=_0x1df4ca[_0x104c0b(0x26e)](),_0x6ca298[_0x104c0b(0x2a4)](_0x1df4ca[_0x104c0b(0x25c)]);for(let _0x42a30c=0x0;_0x42a30c<_0x5e5af0[_0x104c0b(0x2d1)];_0x42a30c++){try{const _0x4c59da=await fetch(_0x5e5af0[_0x42a30c][_0x104c0b(0x283)]),_0x4e1c8e=await _0x4c59da[_0x104c0b(0x214)](),_0x4ed5c2=await _0x1df4ca[_0x104c0b(0x247)](_0x4e1c8e);_0x44a359[_0x104c0b(0x2d5)](_0x5e5af0[_0x42a30c][_0x104c0b(0x283)],_0x4ed5c2);}catch(_0x53d405){}}_0x417abd=!![],_0x42add2(_0x1f4721);}catch(_0x3a89ae){_0x31179f();}},_0x31179f=()=>{const _0x3b4b40=_0x3e379e,_0x2fe130=[];_0x5e5af0[_0x3b4b40(0x206)](_0x2ed85e=>{const _0x47a723=_0x3b4b40,_0x4db17e=new Audio();_0x4db17e[_0x47a723(0x2a3)]=_0x2ed85e[_0x47a723(0x283)],_0x4db17e[_0x47a723(0x2c0)]=_0x47a723(0x236),_0x4db17e[_0x47a723(0x23b)](),_0x2fe130[_0x47a723(0x27e)](_0x4db17e);});const _0x402ac6=()=>{const _0x28c6dd=_0x3b4b40;if(_0x2fe130[_0x28c6dd(0x2d1)]===0x0)return;const _0x5a3950=Math[_0x28c6dd(0x230)](Math[_0x28c6dd(0x201)]()*_0x2fe130[_0x28c6dd(0x2d1)]),_0x3ae7c2=_0x2fe130[_0x5a3950][_0x28c6dd(0x2a5)]();_0x3ae7c2[_0x28c6dd(0x205)]=Math[_0x28c6dd(0x28b)](0x1,_0x1f4721)*(window[_0x28c6dd(0x25f)]!=null?window[_0x28c6dd(0x25f)]:0x1),_0x3ae7c2[_0x28c6dd(0x292)]=0x0;const _0x36f244=_0x3ae7c2[_0x28c6dd(0x22a)]();_0x36f244!==undefined&&_0x36f244[_0x28c6dd(0x213)](()=>{setTimeout(()=>{const _0x2cc0ca=_0x3b3c;_0x3ae7c2[_0x2cc0ca(0x292)]=0x0,_0x3ae7c2[_0x2cc0ca(0x22a)]()[_0x2cc0ca(0x213)](()=>{});},0xa);}),_0x3ae7c2[_0x28c6dd(0x21d)]=()=>_0x3ae7c2[_0x28c6dd(0x239)]();};window[_0x3b4b40(0x1e3)]=_0x402ac6,_0x417abd=!![];},_0x3d7c57=()=>{const _0x35dfbe=_0x3e379e;if(!_0x417abd||!_0x1df4ca||!_0x6ca298){if(window[_0x35dfbe(0x1e3)])window[_0x35dfbe(0x1e3)]();return;}if(_0x5e5af0[_0x35dfbe(0x2d1)]===0x0)return;const _0x5d1716=Math[_0x35dfbe(0x230)](Math[_0x35dfbe(0x201)]()*_0x5e5af0[_0x35dfbe(0x2d1)]),_0x89a028=_0x5e5af0[_0x5d1716],_0x31042b=_0x44a359[_0x35dfbe(0x1db)](_0x89a028[_0x35dfbe(0x283)]);if(!_0x31042b){if(window[_0x35dfbe(0x1e3)])window[_0x35dfbe(0x1e3)]();return;}try{const _0x2ee02c=_0x1df4ca[_0x35dfbe(0x1f3)]();_0x2ee02c[_0x35dfbe(0x1fa)]=_0x31042b,_0x2ee02c[_0x35dfbe(0x2a4)](_0x6ca298),_0x2ee02c[_0x35dfbe(0x1f7)](0x0),_0x2ee02c[_0x35dfbe(0x21d)]=()=>_0x2ee02c[_0x35dfbe(0x288)]();}catch(_0xf37570){if(window[_0x35dfbe(0x1e3)])window[_0x35dfbe(0x1e3)]();}},_0x42add2=_0x206151=>{const _0x2c0b7a=_0x3e379e;if(_0x206151!=null)_0x1f4721=Math[_0x2c0b7a(0x24b)](0x0,_0x206151);if(_0x6ca298)_0x6ca298[_0x2c0b7a(0x2ba)][_0x2c0b7a(0x25a)]=_0x1f4721*(window[_0x2c0b7a(0x25f)]!=null?window[_0x2c0b7a(0x25f)]:0x1);},_0x159338=()=>{const _0x53b385=_0x3e379e,_0xf1ce35=document[_0x53b385(0x269)](_0x53b385(0x27f)),_0x5f1ed3=document[_0x53b385(0x269)](_0x53b385(0x1f1)),_0x38879b=document[_0x53b385(0x269)](_0x53b385(0x1ff));_0xf1ce35&&_0xf1ce35[_0x53b385(0x298)](_0x53b385(0x2a1),function(_0x5a7c5a){const _0xe223ab=_0x53b385;_0x5a7c5a[_0xe223ab(0x26c)](),_0x5a7c5a[_0xe223ab(0x1dc)](),!_0x417abd?_0xd0ca82()[_0xe223ab(0x289)](()=>_0x3d7c57()):_0x3d7c57();},{'capture':!![]});_0x5f1ed3&&_0x5f1ed3[_0x53b385(0x298)](_0x53b385(0x2a1),function(_0x5b4cc6){const _0x24de37=_0x53b385;_0x5b4cc6[_0x24de37(0x26c)](),_0x5b4cc6[_0x24de37(0x1dc)]();if(window[_0x24de37(0x20e)])window[_0x24de37(0x20e)]();},{'capture':!![]});_0x38879b&&_0x38879b[_0x53b385(0x298)](_0x53b385(0x2a1),function(_0x39e355){const _0x319fd7=_0x53b385;_0x39e355[_0x319fd7(0x26c)](),_0x39e355[_0x319fd7(0x1dc)](),typeof AchievementSystem!==_0x319fd7(0x29a)&&AchievementSystem[_0x319fd7(0x241)]();},{'capture':!![]});const _0x3d55fb=()=>{if(!_0x417abd)_0xd0ca82();};document[_0x53b385(0x298)](_0x53b385(0x2a1),_0x3d55fb,{'once':!![]}),document[_0x53b385(0x298)](_0x53b385(0x1f8),_0x3d55fb,{'once':!![]}),document[_0x53b385(0x298)](_0x53b385(0x202),_0x3d55fb,{'once':!![]});},_0x310d49=()=>{const _0x11b86e=_0x3e379e,_0x192d52=document[_0x11b86e(0x269)](_0x11b86e(0x281));if(!_0x192d52)return;_0x192d52[_0x11b86e(0x27c)]='';const _0x3eacd1=document[_0x11b86e(0x20b)](_0x11b86e(0x218));_0x3eacd1[_0x11b86e(0x2a3)]=_0x11b86e(0x25e),_0x3eacd1[_0x11b86e(0x225)]=_0x11b86e(0x295),_0x3eacd1[_0x11b86e(0x203)][_0x11b86e(0x217)]=_0x11b86e(0x271),_0x192d52[_0x11b86e(0x1e6)](_0x3eacd1);},_0x393a8a=(_0xdc3718,_0x41a5b2)=>new Promise((_0x4fa654,_0x24816f)=>{const _0x284e7d=_0x3e379e;let _0x74d248=![];const _0x449328=(_0x627c70,_0x53ab9f)=>{if(_0x74d248)return;_0x74d248=!![],clearTimeout(_0x48dac7),_0x627c70(_0x53ab9f);},_0x48dac7=setTimeout(()=>_0x449328(_0x24816f,new Error(_0x284e7d(0x2d3))),_0x41a5b2);fetch(_0xdc3718)[_0x284e7d(0x289)](_0x5a05d7=>{const _0x10250d=_0x284e7d;if(!_0x5a05d7['ok'])throw new Error(_0x10250d(0x211)+_0x5a05d7[_0x10250d(0x22c)]);return _0x5a05d7[_0x10250d(0x2af)]();})[_0x284e7d(0x289)](_0x2f2173=>_0x449328(_0x4fa654,_0x2f2173))[_0x284e7d(0x213)](_0x2ab0b5=>_0x449328(_0x24816f,_0x2ab0b5));}),_0x431558=async()=>{const _0x27e1f1=_0x3e379e;try{const _0x17a91c=await _0x393a8a(_0x27e1f1(0x2d7),0x7d0),_0x34d646=new DOMParser()[_0x27e1f1(0x22d)](_0x17a91c,_0x27e1f1(0x251));return Array[_0x27e1f1(0x268)](_0x34d646[_0x27e1f1(0x29c)](_0x27e1f1(0x22f)))[_0x27e1f1(0x235)](_0x412d1f=>_0x412d1f[_0x27e1f1(0x2c8)][_0x27e1f1(0x223)]());}catch(_0x2e93b8){return[_0x27e1f1(0x207),_0x27e1f1(0x2c7)];}},_0x74fe5d=async()=>{const _0x319115=_0x3e379e;try{const _0x30e6ca=await _0x393a8a(_0x319115(0x2b9),0x7d0),_0x241c41=new DOMParser()[_0x319115(0x22d)](_0x30e6ca,_0x319115(0x251));return Array[_0x319115(0x268)](_0x241c41[_0x319115(0x29c)](_0x319115(0x24e)))[_0x319115(0x235)](_0x489490=>_0x489490[_0x319115(0x2c8)][_0x319115(0x223)]());}catch(_0x32da1a){return[];}},_0x56212b=async()=>{const _0x5b8b21=_0x3e379e,_0x56fb1c=document[_0x5b8b21(0x269)](_0x5b8b21(0x25d)),_0x398022=document[_0x5b8b21(0x269)](_0x5b8b21(0x256)),_0x431415=document[_0x5b8b21(0x269)](_0x5b8b21(0x1e5)),_0x3c3291=document[_0x5b8b21(0x269)](_0x5b8b21(0x252)),_0x50e5f5=document[_0x5b8b21(0x28e)](_0x5b8b21(0x1fb)),_0x56cbb7=document[_0x5b8b21(0x28e)](_0x5b8b21(0x2a7)),_0x48d4e0=document[_0x5b8b21(0x28e)](_0x5b8b21(0x22e));if(window[_0x5b8b21(0x204)]){_0x56fb1c&&(_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x2d4)]=_0x5b8b21(0x208),_0x56fb1c[_0x5b8b21(0x1e9)][_0x5b8b21(0x2bf)](_0x5b8b21(0x266)));_0x431415&&(_0x431415[_0x5b8b21(0x1e9)][_0x5b8b21(0x239)](_0x5b8b21(0x266)),_0x431415[_0x5b8b21(0x203)][_0x5b8b21(0x2d4)]=_0x5b8b21(0x24d),_0x431415[_0x5b8b21(0x203)][_0x5b8b21(0x28d)]='1');var _0x44b325=document[_0x5b8b21(0x28e)](_0x5b8b21(0x290));if(_0x44b325)_0x44b325[_0x5b8b21(0x239)]();if(typeof window[_0x5b8b21(0x2d9)]===_0x5b8b21(0x1df))window[_0x5b8b21(0x2d9)]();if(typeof AchievementSystem!==_0x5b8b21(0x29a))AchievementSystem[_0x5b8b21(0x259)]();return;}const _0x2b37de=document[_0x5b8b21(0x21e)](_0x5b8b21(0x23a));let _0x4ec8b9=null;_0x2b37de[_0x5b8b21(0x206)](_0x2bbf18=>{const _0x28119d=_0x5b8b21,_0x2abca9=_0x2bbf18[_0x28119d(0x2c8)][_0x28119d(0x223)]();if(_0x2abca9[_0x28119d(0x255)](_0x28119d(0x244)))_0x4ec8b9=_0x2bbf18;});if(!_0x56fb1c||!_0x398022||!_0x431415||!_0x3c3291)return;const _0xfeb066=await _0x74fe5d(),_0x10c17b=document[_0x5b8b21(0x28e)](_0x5b8b21(0x290));if(!_0x10c17b&&_0xfeb066[_0x5b8b21(0x2d1)]>0x0){const _0xcc3e47=_0xfeb066[Math[_0x5b8b21(0x230)](Math[_0x5b8b21(0x201)]()*_0xfeb066[_0x5b8b21(0x2d1)])],_0x4b7c18=document[_0x5b8b21(0x20b)](_0x5b8b21(0x24e));_0x4b7c18[_0x5b8b21(0x1d9)]=_0x5b8b21(0x2da),_0x4b7c18[_0x5b8b21(0x2a3)]=_0xcc3e47,_0x4b7c18[_0x5b8b21(0x2c0)]=_0x5b8b21(0x236),_0x4b7c18[_0x5b8b21(0x1d7)]=!![],_0x4b7c18[_0x5b8b21(0x2b0)]=!![],_0x4b7c18[_0x5b8b21(0x2ce)]=!![],_0x4b7c18[_0x5b8b21(0x2c1)]=!![],_0x4b7c18[_0x5b8b21(0x1ea)]=!![],_0x4b7c18[_0x5b8b21(0x2c3)]=!![],_0x4b7c18[_0x5b8b21(0x2c4)]='h5',_0x4b7c18[_0x5b8b21(0x20c)]=!![],_0x4b7c18[_0x5b8b21(0x205)]=0.4,_0x4b7c18[_0x5b8b21(0x203)][_0x5b8b21(0x217)]=_0x5b8b21(0x1da),_0x4b7c18[_0x5b8b21(0x2d2)]=_0x5b8b21(0x2ab),document[_0x5b8b21(0x261)][_0x5b8b21(0x233)](_0x4b7c18,document[_0x5b8b21(0x261)][_0x5b8b21(0x216)]),_0x4b7c18[_0x5b8b21(0x298)](_0x5b8b21(0x237),function(){const _0x50fb92=_0x5b8b21;_0x4b7c18[_0x50fb92(0x22a)]()[_0x50fb92(0x213)](()=>{const _0x5e92a4=_0x50fb92;_0x4b7c18[_0x5e92a4(0x2ce)]=!![],_0x4b7c18[_0x5e92a4(0x22a)]()[_0x5e92a4(0x213)](()=>{});});}),_0x4b7c18[_0x5b8b21(0x298)](_0x5b8b21(0x297),function(){const _0x7f85ec=_0x5b8b21;_0x4b7c18[_0x7f85ec(0x22a)]()[_0x7f85ec(0x213)](()=>{});}),_0x4b7c18[_0x5b8b21(0x22a)]()[_0x5b8b21(0x213)](()=>{const _0x43e558=_0x5b8b21;_0x4b7c18[_0x43e558(0x2ce)]=!![],_0x4b7c18[_0x43e558(0x22a)]()[_0x43e558(0x213)](()=>{});});const _0x449d49=()=>{const _0x3ee26c=_0x5b8b21,_0x48000a=localStorage[_0x3ee26c(0x26f)](_0x3ee26c(0x278))===_0x3ee26c(0x2aa);_0x4b7c18[_0x3ee26c(0x2ce)]=_0x48000a,_0x4b7c18[_0x3ee26c(0x205)]=_0x48000a?0x0:0.4,_0x4b7c18[_0x3ee26c(0x22a)]()[_0x3ee26c(0x213)](()=>{}),document[_0x3ee26c(0x1e7)](_0x3ee26c(0x2a1),_0x449d49),document[_0x3ee26c(0x1e7)](_0x3ee26c(0x1f8),_0x449d49);};document[_0x5b8b21(0x298)](_0x5b8b21(0x2a1),_0x449d49,{'once':!![]}),document[_0x5b8b21(0x298)](_0x5b8b21(0x1f8),_0x449d49,{'once':!![]});}_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x2b5)]=_0x5b8b21(0x23d),_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x2c2)]=_0x5b8b21(0x29b),_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x1ed)]=_0x5b8b21(0x219),_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x2cf)]=_0x5b8b21(0x29d);const _0x14ab87=await _0x431558();_0x3c3291[_0x5b8b21(0x2c8)]=_0x14ab87[Math[_0x5b8b21(0x230)](Math[_0x5b8b21(0x201)]()*_0x14ab87[_0x5b8b21(0x2d1)])],_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x28d)]='0',_0x56fb1c[_0x5b8b21(0x203)][_0x5b8b21(0x287)]=_0x5b8b21(0x2d8),requestAnimationFrame(()=>{const _0x3a0ccc=_0x5b8b21;_0x56fb1c[_0x3a0ccc(0x203)][_0x3a0ccc(0x28d)]='1';});const _0x3d43f2=_0xd39d13=>{const _0x49470f=_0x5b8b21;_0x398022[_0x49470f(0x203)][_0x49470f(0x24a)]=Math[_0x49470f(0x24b)](0x0,Math[_0x49470f(0x28b)](0x64,_0xd39d13))+'%';},_0x424de4=()=>{const _0x2578bc=_0x5b8b21,_0x43f9fb=new Set(),_0x112e9d=Array[_0x2578bc(0x268)](document[_0x2578bc(0x21e)](_0x2578bc(0x28c)));for(const _0xf6719b of _0x112e9d){if(_0x43f9fb[_0x2578bc(0x234)]>=0x10)break;const _0x4d4b68=_0xf6719b[_0x2578bc(0x246)](_0x2578bc(0x2a3));if(_0x4d4b68&&!/^(data:|blob:|https?:)/i[_0x2578bc(0x20f)](_0x4d4b68))_0x43f9fb[_0x2578bc(0x2bf)](_0x4d4b68);}return[_0x2578bc(0x294),_0x2578bc(0x200)][_0x2578bc(0x206)](_0x57e817=>{const _0x544e42=_0x2578bc;try{const _0x3615bc=new Audio();_0x3615bc[_0x544e42(0x2c0)]=_0x544e42(0x236),_0x3615bc[_0x544e42(0x2a3)]=_0x57e817,_0x3615bc[_0x544e42(0x23b)]();}catch(_0x546bac){}}),Array[_0x2578bc(0x268)](_0x43f9fb);},_0x4bed79=async()=>{const _0x432519=_0x5b8b21;for(let _0x477dbc=0x0;_0x477dbc<0x14;_0x477dbc++){if(typeof window[_0x432519(0x27a)]===_0x432519(0x1df))return!![];await new Promise(_0x39200e=>setTimeout(_0x39200e,0x64));}return![];},_0x33a46b=(_0x3254df,_0x371ea5,_0x44dcf5)=>new Promise(_0x40dee4=>{const _0x21a49e=_0x5b8b21;let _0x18a39d=![];const _0x2bb72d=_0x597ac7=>{if(_0x18a39d)return;_0x18a39d=!![],_0x40dee4(_0x597ac7);},_0x6e5fea=setTimeout(()=>_0x2bb72d(_0x44dcf5),_0x371ea5);Promise[_0x21a49e(0x27d)](_0x3254df)[_0x21a49e(0x289)](_0x23b36a=>{clearTimeout(_0x6e5fea),_0x2bb72d(_0x23b36a);},()=>{clearTimeout(_0x6e5fea),_0x2bb72d(_0x44dcf5);});}),_0x392987=async _0x88c99e=>{const _0x578b18=_0x5b8b21;if(!_0x88c99e[_0x578b18(0x2d1)])return;let _0x4efbe7=0x0;_0x3d43f2(0x2),await Promise[_0x578b18(0x1e4)](_0x88c99e[_0x578b18(0x235)](_0x2f8764=>new Promise(_0x387ab5=>{const _0x36bcc9=_0x578b18;let _0x3b8b3b=![];const _0x50b0bb=()=>{const _0x48716d=_0x3b3c;if(_0x3b8b3b)return;_0x3b8b3b=!![],_0x4efbe7++,_0x3d43f2(0x2+_0x4efbe7/_0x88c99e[_0x48716d(0x2d1)]*0x4e),_0x387ab5();};setTimeout(_0x50b0bb,0x1f40),fetch(_0x2f8764,{'cache':_0x36bcc9(0x2ae)})[_0x36bcc9(0x289)](_0x239183=>_0x239183['ok']?_0x239183[_0x36bcc9(0x2ca)]():Promise[_0x36bcc9(0x221)](new Error(_0x36bcc9(0x211)+_0x239183[_0x36bcc9(0x22c)])))[_0x36bcc9(0x289)](_0x50b0bb)[_0x36bcc9(0x213)](_0x50b0bb);})));};let _0x3e7e17=![];const _0x5965dd=()=>{const _0x255a7f=_0x5b8b21;if(_0x3e7e17)return;_0x3e7e17=!![];try{_0x3d43f2(0x64);}catch(_0x2fed99){}_0x50e5f5&&(_0x50e5f5[_0x255a7f(0x203)][_0x255a7f(0x287)]=_0x255a7f(0x240),_0x50e5f5[_0x255a7f(0x203)][_0x255a7f(0x28d)]='0',_0x50e5f5[_0x255a7f(0x203)][_0x255a7f(0x1ed)]=_0x255a7f(0x2bc),setTimeout(()=>{const _0x183694=_0x255a7f;_0x50e5f5[_0x183694(0x203)][_0x183694(0x26d)]=_0x183694(0x266);},0x1e2));_0x56cbb7&&(_0x56cbb7[_0x255a7f(0x203)][_0x255a7f(0x287)]=_0x255a7f(0x21c),_0x56cbb7[_0x255a7f(0x203)][_0x255a7f(0x28d)]='0',setTimeout(()=>{const _0x36f015=_0x255a7f;_0x56cbb7[_0x36f015(0x203)][_0x36f015(0x26d)]=_0x36f015(0x266);},0x1dc));const _0x586c55=window[_0x255a7f(0x1e0)]||(()=>localStorage[_0x255a7f(0x26f)](_0x255a7f(0x26a))||_0x255a7f(0x222));let _0x1bc641=localStorage[_0x255a7f(0x26f)](_0x255a7f(0x2b6));if(!_0x1bc641)_0x1bc641=_0x255a7f(0x231)+_0x586c55();_0x4ec8b9&&(_0x4ec8b9[_0x255a7f(0x203)][_0x255a7f(0x287)]=_0x255a7f(0x1fd),_0x4ec8b9[_0x255a7f(0x27c)]=_0x255a7f(0x2d0)+(window[_0x255a7f(0x224)]?I18N['tr'](_0x255a7f(0x2b7)):_0x255a7f(0x2b7))+_0x1bc641+_0x255a7f(0x270),_0x4ec8b9[_0x255a7f(0x203)][_0x255a7f(0x29e)]=_0x255a7f(0x248),_0x4ec8b9[_0x255a7f(0x203)][_0x255a7f(0x262)]=_0x255a7f(0x26b),_0x4ec8b9[_0x255a7f(0x203)][_0x255a7f(0x2a9)]=_0x255a7f(0x1e1),_0x4ec8b9[_0x255a7f(0x203)][_0x255a7f(0x258)]=_0x255a7f(0x299));const _0x306525=document[_0x255a7f(0x28e)](_0x255a7f(0x277));if(!_0x306525){const _0x510094=document[_0x255a7f(0x20b)](_0x255a7f(0x229));_0x510094[_0x255a7f(0x1d9)]=_0x255a7f(0x1f4),_0x510094[_0x255a7f(0x27c)]=_0x255a7f(0x21b),_0x510094[_0x255a7f(0x203)][_0x255a7f(0x217)]=_0x255a7f(0x24c),_0x510094[_0x255a7f(0x298)](_0x255a7f(0x24f),()=>{const _0x1691cd=_0x255a7f;_0x510094[_0x1691cd(0x203)][_0x1691cd(0x2c2)]=_0x1691cd(0x1de),_0x510094[_0x1691cd(0x203)][_0x1691cd(0x2bd)]=_0x1691cd(0x2c6),_0x510094[_0x1691cd(0x203)][_0x1691cd(0x1ed)]=_0x1691cd(0x296),_0x510094[_0x1691cd(0x203)][_0x1691cd(0x272)]=_0x1691cd(0x291);}),_0x510094[_0x255a7f(0x298)](_0x255a7f(0x1dd),()=>{const _0x3ba126=_0x255a7f;_0x510094[_0x3ba126(0x203)][_0x3ba126(0x2c2)]=_0x3ba126(0x2a6),_0x510094[_0x3ba126(0x203)][_0x3ba126(0x2bd)]=_0x3ba126(0x22b),_0x510094[_0x3ba126(0x203)][_0x3ba126(0x1ed)]=_0x3ba126(0x212),_0x510094[_0x3ba126(0x203)][_0x3ba126(0x272)]=_0x3ba126(0x274);}),_0x510094[_0x255a7f(0x298)](_0x255a7f(0x2a1),function(){const _0x1cdad6=_0x255a7f;var _0x276d6e=!![];try{_0x276d6e=localStorage[_0x1cdad6(0x26f)](_0x1cdad6(0x21f))==='1'||!!localStorage[_0x1cdad6(0x26f)](_0x1cdad6(0x28a));}catch(_0x4af5bd){}if(!_0x276d6e&&window[_0x1cdad6(0x224)]&&I18N[_0x1cdad6(0x280)]){I18N[_0x1cdad6(0x280)](function(){const _0x5c4262=_0x1cdad6;var _0x1e9336=document[_0x5c4262(0x28e)](_0x5c4262(0x277));if(_0x1e9336)_0x1e9336[_0x5c4262(0x2a1)]();});return;}document[_0x1cdad6(0x21e)](_0x1cdad6(0x24e))[_0x1cdad6(0x206)](_0x33e254=>{const _0x582a2e=_0x1cdad6;_0x33e254[_0x582a2e(0x2ce)]=!![],_0x33e254[_0x582a2e(0x205)]=0x0;});if(window[_0x1cdad6(0x238)]){const _0x5214e3=window[_0x1cdad6(0x238)];delete window[_0x1cdad6(0x238)],setTimeout(()=>{const _0x113009=_0x1cdad6;try{if(window[_0x113009(0x285)])window[_0x113009(0x285)](_0x5214e3);}catch(_0x1d6367){}},0x4b0);}this[_0x1cdad6(0x203)][_0x1cdad6(0x2cb)]=_0x1cdad6(0x208),this[_0x1cdad6(0x203)][_0x1cdad6(0x28d)]='0',this[_0x1cdad6(0x203)][_0x1cdad6(0x1ed)]=_0x1cdad6(0x20d),_0x56fb1c[_0x1cdad6(0x203)][_0x1cdad6(0x287)]=_0x1cdad6(0x2b8),_0x56fb1c[_0x1cdad6(0x203)][_0x1cdad6(0x28d)]='0',_0x56fb1c[_0x1cdad6(0x203)][_0x1cdad6(0x1ed)]=_0x1cdad6(0x209),setTimeout(()=>{const _0x21008e=_0x1cdad6;_0x56fb1c[_0x21008e(0x1e9)][_0x21008e(0x2bf)](_0x21008e(0x266)),_0x56fb1c[_0x21008e(0x203)][_0x21008e(0x28d)]='',_0x56fb1c[_0x21008e(0x203)][_0x21008e(0x287)]='',_0x56fb1c[_0x21008e(0x203)][_0x21008e(0x1ed)]='';const _0x5a97d4=document[_0x21008e(0x28e)](_0x21008e(0x290));_0x5a97d4&&(_0x5a97d4[_0x21008e(0x203)][_0x21008e(0x287)]=_0x21008e(0x243),_0x5a97d4[_0x21008e(0x203)][_0x21008e(0x28d)]='0',setTimeout(()=>_0x5a97d4[_0x21008e(0x239)](),0x15e)),_0x431415[_0x21008e(0x1e9)][_0x21008e(0x239)](_0x21008e(0x266)),_0x431415[_0x21008e(0x203)][_0x21008e(0x28d)]='0',_0x431415[_0x21008e(0x203)][_0x21008e(0x287)]=_0x21008e(0x227),requestAnimationFrame(()=>{const _0x2dc802=_0x21008e;_0x431415[_0x2dc802(0x203)][_0x2dc802(0x28d)]='1',setTimeout(()=>{const _0x4eee1e=_0x2dc802;_0x431415[_0x4eee1e(0x203)][_0x4eee1e(0x28d)]='',_0x431415[_0x4eee1e(0x203)][_0x4eee1e(0x287)]='';},0x15e);});},0x32a);}),_0x48d4e0&&(_0x3c3291?_0x48d4e0[_0x255a7f(0x233)](_0x510094,_0x3c3291):_0x48d4e0[_0x255a7f(0x1e6)](_0x510094),requestAnimationFrame(()=>{const _0x4e0b94=_0x255a7f;_0x510094[_0x4e0b94(0x203)][_0x4e0b94(0x28d)]='1',_0x510094[_0x4e0b94(0x203)][_0x4e0b94(0x1ed)]=_0x4e0b94(0x212);}));}};setTimeout(_0x5965dd,0x2ee0),((async()=>{const _0x5431b7=_0x5b8b21;try{await _0x33a46b(_0x392987(_0x424de4()),0xfa0);}catch(_0x4fbf73){}_0x3d43f2(0x54);let _0x424fbc=null;try{await _0x4bed79()&&(_0x424fbc=await _0x33a46b(window[_0x5431b7(0x27a)](),0xbb8,null));}catch(_0x4da3b6){}_0x3d43f2(0x64);if(_0x424fbc&&_0x424fbc[_0x5431b7(0x210)]>0x0)try{window[_0x5431b7(0x238)]=_0x5431b7(0x220)+_0x424fbc[_0x5431b7(0x210)]+_0x5431b7(0x276);}catch(_0x2bef94){}_0x5965dd();})());},_0x583db5=()=>{const _0xf66889=_0x3e379e;_0x56212b();let _0x371557=localStorage[_0xf66889(0x26f)](_0xf66889(0x278))===_0xf66889(0x2aa);const _0x1cb0bf=document[_0xf66889(0x20b)](_0xf66889(0x229));_0x1cb0bf['id']=_0xf66889(0x273),_0x1cb0bf[_0xf66889(0x27c)]=_0x371557?_0xf66889(0x293):_0xf66889(0x2a0),_0x1cb0bf[_0xf66889(0x203)][_0xf66889(0x217)]=_0xf66889(0x2b3),document[_0xf66889(0x261)][_0xf66889(0x1e6)](_0x1cb0bf);const _0x325e07=document[_0xf66889(0x28e)](_0xf66889(0x290));_0x325e07&&(_0x325e07[_0xf66889(0x2ce)]=_0x371557,_0x325e07[_0xf66889(0x205)]=_0x371557?0x0:0.66);_0x1cb0bf[_0xf66889(0x298)](_0xf66889(0x24f),()=>{const _0xf9f5ea=_0xf66889;!_0x371557&&(_0x1cb0bf[_0xf9f5ea(0x203)][_0xf9f5ea(0x2c2)]=_0xf9f5ea(0x29f),_0x1cb0bf[_0xf9f5ea(0x203)][_0xf9f5ea(0x2bd)]=_0xf9f5ea(0x20a),_0x1cb0bf[_0xf9f5ea(0x203)][_0xf9f5ea(0x1ed)]=_0xf9f5ea(0x1f6),_0x1cb0bf[_0xf9f5ea(0x203)][_0xf9f5ea(0x272)]=_0xf9f5ea(0x254));}),_0x1cb0bf[_0xf66889(0x298)](_0xf66889(0x1dd),()=>{const _0x2abb7f=_0xf66889;!_0x371557&&(_0x1cb0bf[_0x2abb7f(0x203)][_0x2abb7f(0x2c2)]=_0x2abb7f(0x265),_0x1cb0bf[_0x2abb7f(0x203)][_0x2abb7f(0x2bd)]=_0x2abb7f(0x267),_0x1cb0bf[_0x2abb7f(0x203)][_0x2abb7f(0x1ed)]=_0x2abb7f(0x245),_0x1cb0bf[_0x2abb7f(0x203)][_0x2abb7f(0x272)]=_0x2abb7f(0x232));}),_0x1cb0bf[_0xf66889(0x298)](_0xf66889(0x2a1),function(){const _0x135a71=_0xf66889;_0x371557=!_0x371557,localStorage[_0x135a71(0x2be)](_0x135a71(0x278),_0x371557),document[_0x135a71(0x21e)](_0x135a71(0x24e))[_0x135a71(0x206)](_0xaa7467=>{const _0x2f4b6d=_0x135a71;_0xaa7467[_0x2f4b6d(0x2ce)]=_0x371557,_0xaa7467[_0x2f4b6d(0x205)]=_0x371557?0x0:0.7;}),_0x371557?(_0x1cb0bf[_0x135a71(0x27c)]=_0x135a71(0x293),_0x1cb0bf[_0x135a71(0x203)][_0x135a71(0x2bd)]=_0x135a71(0x215),_0x1cb0bf[_0x135a71(0x203)][_0x135a71(0x2c2)]=_0x135a71(0x263)):(_0x1cb0bf[_0x135a71(0x27c)]=_0x135a71(0x2a0),_0x1cb0bf[_0x135a71(0x203)][_0x135a71(0x2bd)]=_0x135a71(0x2b1),_0x1cb0bf[_0x135a71(0x203)][_0x135a71(0x2c2)]=_0x135a71(0x284));});const _0xdf830b=()=>{const _0x3a2f28=_0xf66889;document[_0x3a2f28(0x21e)](_0x3a2f28(0x24e))[_0x3a2f28(0x206)](_0x2b2ad5=>{const _0x1bce3e=_0x3a2f28;_0x2b2ad5[_0x1bce3e(0x2ce)]=_0x371557,_0x2b2ad5[_0x1bce3e(0x205)]=_0x371557?0x0:0.715;});};_0xdf830b();const _0x4c8851=new MutationObserver(()=>{const _0x26584c=_0xf66889;let _0x57c7ad=![];document[_0x26584c(0x21e)](_0x26584c(0x24e))[_0x26584c(0x206)](_0x517d06=>{const _0x332d47=_0x26584c;!_0x517d06[_0x332d47(0x23c)]&&(_0x517d06[_0x332d47(0x23c)]=!![],_0x517d06[_0x332d47(0x2ce)]=_0x371557,_0x517d06[_0x332d47(0x205)]=_0x371557?0x0:0.733,_0x57c7ad=!![]);});if(_0x57c7ad)_0x4c8851[_0x26584c(0x288)]();});_0x4c8851[_0xf66889(0x286)](document[_0xf66889(0x261)],{'childList':!![],'subtree':!![]}),setTimeout(()=>{const _0x2e9474=_0xf66889;_0x159338(),_0x310d49();if(typeof window[_0x2e9474(0x2d9)]===_0x2e9474(0x1df))window[_0x2e9474(0x2d9)]();if(typeof AchievementSystem!==_0x2e9474(0x29a))AchievementSystem[_0x2e9474(0x259)]();setTimeout(()=>{if(!_0x417abd)_0xd0ca82();},0x37c);},0xbc2);const _0x486950=new MutationObserver(()=>{const _0x459096=_0xf66889,_0x2eaa90=document[_0x459096(0x28e)](_0x459096(0x277));_0x2eaa90&&!_0x2eaa90[_0x459096(0x2cd)]&&(_0x2eaa90[_0x459096(0x2cd)]=!![],_0x2eaa90[_0x459096(0x298)](_0x459096(0x2a1),function(){const _0x66ec81=_0x459096;_0x1cb0bf[_0x66ec81(0x203)][_0x66ec81(0x2d4)]=_0x66ec81(0x208);}));});_0x486950[_0xf66889(0x286)](document[_0xf66889(0x261)],{'childList':!![],'subtree':!![]});};window[_0x3e379e(0x275)]=_0x42add2,window[_0x3e379e(0x228)]=()=>_0x1f4721,window[_0x3e379e(0x1ee)]=_0x3d7c57,document[_0x3e379e(0x1eb)]===_0x3e379e(0x1f5)?document[_0x3e379e(0x298)](_0x3e379e(0x1ec),_0x583db5):_0x583db5();}()));
+(function () {
+    if (window.__inlineScriptsInitialized) return;
+    window.__inlineScriptsInitialized = true;
+
+    let currentVolume = 2.0;
+    let audioContext = null;
+    let gainNode = null;
+    let audioBuffers = new Map();
+    let isInitialized = false;
+
+    const audioFiles = [
+        { url: 'audio/我出货了1.mp3' },
+        { url: 'audio/我出货了2.mp3' },
+        { url: 'audio/我出货了3.mp3' },
+        { url: 'audio/我出货了4.mp3' },
+    ];
+
+    const enterGameAudio = new Audio('audio/enter-game.mp3');
+    enterGameAudio.preload = 'auto';
+    enterGameAudio.volume = 0.4;
+    try { enterGameAudio.load(); } catch (e) {}
+
+    const BadWordFilter = (() => {
+        let decodedBadWords = [];
+        let isInitialized = false;
+
+        function initBadWords() {
+            if (isInitialized) return;
+            const rawWords = window.badWords || ['fuck', 'shit', 'ass', 'damn', 'bitch', 'crap', 'dick', 'porn', 'sex', 'xxx'];
+            decodedBadWords = rawWords.map(word => {
+                try {
+                    return word.replace(/\\x([0-9a-fA-F]{2})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+                               .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+                } catch (e) {
+                    return '';
+                }
+            }).filter(Boolean).map(word => normalizeText(word));
+            isInitialized = true;
+        }
+
+        function normalizeText(text) {
+            return text.replace(/[\s\p{P}\p{S}]+/gu, '').toLowerCase();
+        }
+
+        function hasBadWord(input) {
+            if (!input) return false;
+            initBadWords();
+            const normalizedInput = normalizeText(input);
+            if (!normalizedInput) return false;
+            for (const badWord of decodedBadWords) {
+                if (badWord && normalizedInput.includes(badWord)) return true;
+            }
+            const chars = normalizedInput.split('');
+            for (let i = 0; i < chars.length; i++) {
+                for (let j = i + 2; j <= Math.min(i + 8, chars.length); j++) {
+                    if (decodedBadWords.includes(chars.slice(i, j).join(''))) return true;
+                }
+            }
+            return false;
+        }
+
+        return { hasBadWord, normalizeText };
+    })();
+
+    const initAudioSystem = async () => {
+        if (isInitialized) return;
+
+        try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            gainNode = audioContext.createGain();
+            gainNode.connect(audioContext.destination);
+
+            for (let i = 0; i < audioFiles.length; i++) {
+                try {
+                    const response = await fetch(audioFiles[i].url);
+                    const arrayBuffer = await response.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                    audioBuffers.set(audioFiles[i].url, audioBuffer);
+                } catch (e) {}
+            }
+
+            isInitialized = true;
+            setSpecialVolume(currentVolume);
+        } catch (e) {
+            initFallbackAudioSystem();
+        }
+    };
+
+    const initFallbackAudioSystem = () => {
+        const fallbackAudios = [];
+        audioFiles.forEach(audioFile => {
+            const audio = new Audio();
+            audio.src = audioFile.url;
+            audio.preload = 'auto';
+            audio.load();
+            fallbackAudios.push(audio);
+        });
+
+        const playFallbackSound = () => {
+            if (fallbackAudios.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * fallbackAudios.length);
+            const audio = fallbackAudios[randomIndex].cloneNode();
+            audio.volume = Math.min(1, currentVolume) * (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            audio.currentTime = 0;
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    setTimeout(() => { audio.currentTime = 0; audio.play().catch(() => {}); }, 10);
+                });
+            }
+            audio.onended = () => audio.remove();
+        };
+
+        window.playSpecialSound = playFallbackSound;
+        isInitialized = true;
+    };
+
+    const playRandomSound = () => {
+        if (!isInitialized || !audioContext || !gainNode) {
+            if (window.playSpecialSound) window.playSpecialSound();
+            return;
+        }
+        if (audioFiles.length === 0) return;
+
+        const randomIndex = Math.floor(Math.random() * audioFiles.length);
+        const randomFile = audioFiles[randomIndex];
+        const audioBuffer = audioBuffers.get(randomFile.url);
+        if (!audioBuffer) {
+            if (window.playSpecialSound) window.playSpecialSound();
+            return;
+        }
+
+        try {
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(gainNode);
+            source.start(0);
+            source.onended = () => source.disconnect();
+        } catch (e) {
+            if (window.playSpecialSound) window.playSpecialSound();
+        }
+    };
+
+    const setSpecialVolume = (volume) => {
+        if (volume != null) currentVolume = Math.max(0, volume);
+        if (gainNode) gainNode.gain.value = currentVolume * (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+    };
+
+    const bindButtonEvents = () => {
+        const playSoundBtn = document.getElementById('play-sound-btn');
+        const pauseSearchBtn = document.getElementById('pause-search-btn');
+        const achievementBtn = document.getElementById('sidebar-achievement-btn');
+
+        if (playSoundBtn) {
+            playSoundBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!isInitialized) {
+                    initAudioSystem().then(() => playRandomSound());
+                } else {
+                    playRandomSound();
+                }
+            }, { capture: true });
+        }
+
+        if (pauseSearchBtn) {
+            pauseSearchBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.toggleSearchPause) window.toggleSearchPause();
+            }, { capture: true });
+        }
+
+        if (achievementBtn) {
+            achievementBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof AchievementSystem !== 'undefined') {
+                    AchievementSystem.renderAchievementModal();
+                }
+            }, { capture: true });
+        }
+
+        const triggerInit = () => { if (!isInitialized) initAudioSystem(); };
+        document.addEventListener('click', triggerInit, { once: true });
+        document.addEventListener('touchstart', triggerInit, { once: true });
+        document.addEventListener('keydown', triggerInit, { once: true });
+    };
+
+    const initDonateImages = () => {
+        const donateImagesContainer = document.getElementById('donate-images');
+        if (!donateImagesContainer) return;
+        donateImagesContainer.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = 'pictures/donate/donate-qr.jpg';
+        img.alt = '赞赏支持';
+        img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
+        donateImagesContainer.appendChild(img);
+    };
+
+    const fetchTextWithTimeout = (url, ms) => new Promise((resolve, reject) => {
+        let settled = false;
+        const finish = (fn, value) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
+            fn(value);
+        };
+        const timer = setTimeout(() => finish(reject, new Error('timeout')), ms);
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                return response.text();
+            })
+            .then(text => finish(resolve, text))
+            .catch(error => finish(reject, error));
+    });
+
+    const loadLoadingTips = async () => {
+        try {
+            const xmlText = await fetchTextWithTimeout('xml/loading-tips.xml', 2000);
+            const xmlDoc = new DOMParser().parseFromString(xmlText, 'text/xml');
+            return Array.from(xmlDoc.getElementsByTagName('tip')).map(tip => tip.textContent.trim());
+        } catch (e) {
+            return ['加载中...', '请稍候...'];
+        }
+    };
+
+    const loadVideoConfig = async () => {
+        try {
+            const xmlText = await fetchTextWithTimeout('xml/video-config.xml', 2000);
+            const xmlDoc = new DOMParser().parseFromString(xmlText, 'text/xml');
+            return Array.from(xmlDoc.getElementsByTagName('video')).map(v => v.textContent.trim());
+        } catch (e) {
+            return [];
+        }
+    };
+
+    const showLoadingScreen = async () => {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const progressBar = document.getElementById('loading-progress-bar');
+        const gameContainer = document.getElementById('game-container');
+        const loadingTipEl = document.getElementById('loading-tip');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const loadingProgress = document.querySelector('.loading-progress');
+        const loadingContainer = document.querySelector('.loading-container');
+
+        if (window.__SKIP_LOADING__) {
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+                loadingOverlay.classList.add('hidden');
+            }
+            if (gameContainer) {
+                gameContainer.classList.remove('hidden');
+                gameContainer.style.display = 'block';
+                gameContainer.style.opacity = '1';
+            }
+            var videoBg = document.querySelector('.loading-video-bg');
+            if (videoBg) videoBg.remove();
+            if (typeof window.initLeaderboard === 'function') window.initLeaderboard();
+            if (typeof AchievementSystem !== 'undefined') AchievementSystem.init();
+            return;
+        }
+
+        const allLoadingTexts = document.querySelectorAll('.loading-text');
+        let loadingStatusText = null;
+        allLoadingTexts.forEach(el => {
+            const text = el.textContent.trim();
+            if (text.includes('Loading')) loadingStatusText = el;
+        });
+
+        if (!loadingOverlay || !progressBar || !gameContainer || !loadingTipEl) return;
+
+        const videoList = await loadVideoConfig();
+        const existingVideoBg = document.querySelector('.loading-video-bg');
+
+        if (!existingVideoBg && videoList.length > 0) {
+            const randomVideo = videoList[Math.floor(Math.random() * videoList.length)];
+            const videoBg = document.createElement('video');
+            videoBg.className = 'loading-video-bg';
+            videoBg.src = randomVideo;
+            videoBg.preload = 'auto';
+            videoBg.autoplay = true;
+            videoBg.loop = true;
+            videoBg.muted = true;
+            videoBg.playsInline = true;
+            videoBg.webkitPlaysInline = true;
+            videoBg.x5PlaysInline = true;
+            videoBg.x5VideoPlayerType = 'h5';
+            videoBg.x5VideoPlayerFullscreen = true;
+            videoBg.volume = 0.4;
+            videoBg.style.cssText = `
+                position: fixed; top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                object-fit: cover; z-index: 988;
+                filter: brightness(0.739);
+                transform: scale(1.075);
+                pointer-events: none;
+                background: #000;
+            `;
+            videoBg.poster = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+            
+            document.body.insertBefore(videoBg, document.body.firstChild);
+
+            videoBg.addEventListener('loadeddata', function() {
+                videoBg.play().catch(() => {
+                    videoBg.muted = true;
+                    videoBg.play().catch(() => {});
+                });
+            });
+
+            videoBg.addEventListener('canplay', function() {
+                videoBg.play().catch(() => {});
+            });
+
+            videoBg.play().catch(() => {
+                videoBg.muted = true;
+                videoBg.play().catch(() => {});
+            });
+
+            const playVideoOnInteraction = () => {
+                const currentMuted = localStorage.getItem('bgm_muted') === 'true';
+                videoBg.muted = currentMuted;
+                videoBg.volume = currentMuted ? 0 : 0.4;
+                videoBg.play().catch(() => {});
+                document.removeEventListener('click', playVideoOnInteraction);
+                document.removeEventListener('touchstart', playVideoOnInteraction);
+            };
+            document.addEventListener('click', playVideoOnInteraction, { once: true });
+            document.addEventListener('touchstart', playVideoOnInteraction, { once: true });
+        }
+
+        loadingOverlay.style.zIndex = '997';
+        loadingOverlay.style.background = 'rgba(0, 0, 0, 0.091)';
+        loadingOverlay.style.transform = 'scale(1.133)';
+        loadingOverlay.style.transformOrigin = 'center center';
+
+        const tips = await loadLoadingTips();
+        loadingTipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
+
+        loadingOverlay.style.opacity = '0';
+        loadingOverlay.style.transition = 'opacity 0.509s ease-in-out';
+        requestAnimationFrame(() => { loadingOverlay.style.opacity = '1'; });
+
+        const setProgress = (pct) => {
+            progressBar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+        };
+
+        const collectCriticalAssets = () => {
+            const urls = new Set();
+            const imgs = Array.from(document.querySelectorAll('img[src]'));
+            for (const img of imgs) {
+                if (urls.size >= 16) break;
+                const src = img.getAttribute('src');
+                if (src && !/^(data:|blob:|https?:)/i.test(src)) urls.add(src);
+            }
+            ['audio/loading-end.mp3', 'audio/click.mp3'].forEach(u => {
+                try {
+                    const a = new Audio();
+                    a.preload = 'auto';
+                    a.src = u;
+                    a.load();
+                } catch (e) {}
+            });
+            return Array.from(urls);
+        };
+
+        const waitForValidator = async () => {
+            for (let i = 0; i < 20; i++) {
+                if (typeof window.__validateResourcePacks__ === 'function') return true;
+                await new Promise(r => setTimeout(r, 100));
+            }
+            return false;
+        };
+
+        const withTimeout = (promise, ms, fallback) => new Promise(resolve => {
+            let settled = false;
+            const finish = (value) => {
+                if (settled) return;
+                settled = true;
+                resolve(value);
+            };
+            const timer = setTimeout(() => finish(fallback), ms);
+            Promise.resolve(promise).then(
+                value => { clearTimeout(timer); finish(value); },
+                () => { clearTimeout(timer); finish(fallback); }
+            );
+        });
+
+        const preloadAssets = async (urls) => {
+            if (!urls.length) return;
+            let loaded = 0;
+            setProgress(2);
+            await Promise.all(urls.map(url => new Promise(resolve => {
+                let settled = false;
+                const done = () => {
+                    if (settled) return;
+                    settled = true;
+                    loaded++;
+                    setProgress(2 + (loaded / urls.length) * 78);
+                    resolve();
+                };
+                setTimeout(done, 8000);
+                fetch(url, { cache: 'force-cache' })
+                    .then(res => (res.ok ? res.blob() : Promise.reject(new Error('HTTP ' + res.status))))
+                    .then(done)
+                    .catch(done);
+            })));
+        };
+
+        let loginRevealed = false;
+        const revealLogin = () => {
+            if (loginRevealed) return;
+            loginRevealed = true;
+            try { setProgress(100); } catch (e) {}
+
+            if (loadingSpinner) {
+                loadingSpinner.style.transition = 'opacity 0.431s ease, transform 0.423s ease';
+                loadingSpinner.style.opacity = '0';
+                loadingSpinner.style.transform = 'scale(0.362) rotate(486deg)';
+                setTimeout(() => { loadingSpinner.style.visibility = 'hidden'; }, 482);
+            }
+
+            if (loadingProgress) {
+                loadingProgress.style.transition = 'opacity 0.412s ease';
+                loadingProgress.style.opacity = '0';
+                setTimeout(() => { loadingProgress.style.visibility = 'hidden'; }, 476);
+            }
+
+            const getUid = window.getUid || (() => localStorage.getItem('ab_uid_clean') || 'guest');
+            let playerNickname = localStorage.getItem('leaderboard_nickname');
+            if (!playerNickname) playerNickname = '特遣队员' + getUid();
+
+            if (loadingStatusText) {
+                loadingStatusText.style.transition = 'all 0.552s ease';
+                loadingStatusText.innerHTML = '<span style="font-size:87%;font-style:italic;color:#93c5fd;">' + (window.I18N ? I18N.tr('欢迎，') : '欢迎，') + playerNickname + '</span>';
+                loadingStatusText.style.color = '#93c5fd';
+                loadingStatusText.style.fontSize = '20.1px';
+                loadingStatusText.style.fontWeight = 'normal';
+                loadingStatusText.style.fontStyle = 'italic';
+            }
+
+            const existingBtn = document.querySelector('.enter-game-btn');
+            if (!existingBtn) {
+                const enterBtn = document.createElement('button');
+                enterBtn.className = 'enter-game-btn';
+                enterBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> 登录';
+                enterBtn.style.cssText = `
+                    display: inline-block; margin-top: 26px; margin-bottom: 23px; padding: 10px 35px;
+                    background: rgba(139, 195, 238, 0.073); border: 1px solid rgba(145, 199, 239, 0.106);
+                    color: white; border-radius: 15.5px; font-size: 18.1px; font-weight: 493; cursor: pointer;
+                    transition: all 0.651s cubic-bezier(0.401, 1.637, 0.736, 1); opacity: 0;
+                    transform: translateY(33px) scale(0.899); box-shadow: 0 7.1px 28px rgba(0, 0, 0, 0.434);
+                    font-family: inherit; letter-spacing: 1.15px;
+                    backdrop-filter: blur(16.3px); -webkit-backdrop-filter: blur(16.3px);
+                `;
+
+                enterBtn.addEventListener('mouseenter', () => {
+                    enterBtn.style.background = 'rgba(135, 190, 240, 0.113)';
+                    enterBtn.style.borderColor = 'rgba(148, 204, 241, 0.275)';
+                    enterBtn.style.transform = 'translateY(-5.8px) scale(1.055)';
+                    enterBtn.style.boxShadow = '0 9.1px 33px rgba(27, 69, 201, 0.121)';
+                });
+                enterBtn.addEventListener('mouseleave', () => {
+                    enterBtn.style.background = 'rgba(113, 158, 205, 0.051)';
+                    enterBtn.style.borderColor = 'rgba(141, 848, 952, 0.016)';
+                    enterBtn.style.transform = 'translateY(0) scale(1)';
+                    enterBtn.style.boxShadow = '0 7.1px 28px rgba(0, 0, 0, 0.426)';
+                });
+
+                enterBtn.addEventListener('click', function () {
+                    // 首次启动：先让玩家选择语言（选完自动重进）
+                    var langChosen = true;
+                    try { langChosen = localStorage.getItem('ab_lang_chosen') === '1' || !!localStorage.getItem('ab_app_lang'); } catch (e) {}
+                    if (!langChosen && window.I18N && I18N.showFirstLaunchPicker) {
+                        I18N.showFirstLaunchPicker(function () {
+                            var b = document.querySelector('.enter-game-btn');
+                            if (b) b.click();
+                        });
+                        return;
+                    }
+                    document.querySelectorAll('video').forEach(v => { v.muted = true; v.volume = 0; });
+                    if (window.__resourceValidationNotice) {
+                        const notice = window.__resourceValidationNotice;
+                        delete window.__resourceValidationNotice;
+                        setTimeout(() => { try { if (window.showToast) window.showToast(notice); } catch (e) {} }, 1200);
+                    }
+                    // 进入游戏不再播放 enter-game.mp3（用户反馈听感像退出弹窗音效）
+
+                    this.style.pointerEvents = 'none';
+                    this.style.opacity = '0';
+                    this.style.transform = 'translateY(-40.5px) scale(1.068)';
+
+                    loadingOverlay.style.transition = 'opacity 0.775s ease-in-out, transform 0.827s ease';
+                    loadingOverlay.style.opacity = '0';
+                    loadingOverlay.style.transform = 'scale(1.284)';
+
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden');
+                        loadingOverlay.style.opacity = '';
+                        loadingOverlay.style.transition = '';
+                        loadingOverlay.style.transform = '';
+
+                        const videoBg = document.querySelector('.loading-video-bg');
+                        if (videoBg) {
+                            videoBg.style.transition = 'opacity 0.3s ease';
+                            videoBg.style.opacity = '0';
+                            setTimeout(() => videoBg.remove(), 350);
+                        }
+
+                        gameContainer.classList.remove('hidden');
+                        gameContainer.style.opacity = '0';
+                        gameContainer.style.transition = 'opacity 0.786s ease-in-out';
+                        requestAnimationFrame(() => {
+                            gameContainer.style.opacity = '1';
+                            setTimeout(() => {
+                                gameContainer.style.opacity = '';
+                                gameContainer.style.transition = '';
+                            }, 350);
+                        });
+                    }, 810);
+                });
+
+                if (loadingContainer) {
+                    if (loadingTipEl) {
+                        loadingContainer.insertBefore(enterBtn, loadingTipEl);
+                    } else {
+                        loadingContainer.appendChild(enterBtn);
+                    }
+                    requestAnimationFrame(() => {
+                        enterBtn.style.opacity = '1';
+                        enterBtn.style.transform = 'translateY(0) scale(1)';
+                    });
+                }
+            }
+        };
+        // 真实加载完成前不提前显示登录；仅保留长超时兑底
+        setTimeout(revealLogin, 12000);
+
+        (async () => {
+            try {
+                await withTimeout(preloadAssets(collectCriticalAssets()), 4000);
+            } catch (e) {}
+
+            setProgress(84);
+            let verifyResult = null;
+            try {
+                if (await waitForValidator()) {
+                    verifyResult = await withTimeout(window.__validateResourcePacks__(), 3000, null);
+                }
+            } catch (e) {}
+            setProgress(100);
+            if (verifyResult && verifyResult.removed > 0) {
+                try { window.__resourceValidationNotice = '检测到 ' + verifyResult.removed + ' 个资源损坏，已自动清理，请重新下载'; } catch (e) {}
+            }
+            revealLogin();
+        })();
+    };
+
+    const init = () => {
+        showLoadingScreen();
+
+        let isMuted = localStorage.getItem('bgm_muted') === 'true';
+        const muteBtn = document.createElement('button');
+        muteBtn.id = 'mute-btn';
+        muteBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+        muteBtn.style.cssText = `
+            position: fixed; top: 27px; right: 33px;
+            width: 40px; height: 40px; border-radius: 67%;
+            background: rgba(75, 90, 93, 0.022); border: 1px solid rgba(75, 90, 93, 0.047);
+            color: white; font-size: 19px; cursor: pointer; z-index: 98765;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.313s cubic-bezier(0.341, 1.544, 0.682, 1);
+            backdrop-filter: blur(10.1px); -webkit-backdrop-filter: blur(10.1px);
+            box-shadow: 0 5.1px 23px rgba(0, 0, 0, 0.326);
+            opacity: 1; transform: scale(1); font-family: inherit; pointer-events: auto !important;
+        `;
+        document.body.appendChild(muteBtn);
+
+        const loadingVideoBg = document.querySelector('.loading-video-bg');
+        if (loadingVideoBg) {
+            loadingVideoBg.muted = isMuted;
+            loadingVideoBg.volume = isMuted ? 0 : 0.660;
+        }
+
+        muteBtn.addEventListener('mouseenter', () => {
+            if (!isMuted) {
+                muteBtn.style.background = 'rgba(76, 91, 94, 0.008)';
+                muteBtn.style.borderColor = 'rgba(76, 92, 94, 0.003)';
+                muteBtn.style.transform = 'scale(1.024)';
+                muteBtn.style.boxShadow = '0 6.3px 25px rgba(77, 92, 94, 0.002)';
+            }
+        });
+
+        muteBtn.addEventListener('mouseleave', () => {
+            if (!isMuted) {
+                muteBtn.style.background = 'rgba(76, 92, 95, 0.010)';
+                muteBtn.style.borderColor = 'rgba(77, 92, 95, 0.005)';
+                muteBtn.style.transform = 'scale(1)';
+                muteBtn.style.boxShadow = '0 5.1px 23px rgba(0, 0, 0, 0.330)';
+            }
+        });
+
+        muteBtn.addEventListener('click', function () {
+            isMuted = !isMuted;
+            localStorage.setItem('bgm_muted', isMuted);
+            document.querySelectorAll('video').forEach(v => {
+                v.muted = isMuted;
+                v.volume = isMuted ? 0 : 0.700;
+            });
+            if (isMuted) {
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                muteBtn.style.borderColor = 'rgba(74, 93, 95, 0.015)';
+                muteBtn.style.background = 'rgba(73, 90, 92, 0.020)';
+            } else {
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                muteBtn.style.borderColor = 'rgba(75, 93, 96, 0.001)';
+                muteBtn.style.background = 'rgba(74, 90, 93, 0.004)';
+            }
+        });
+
+        const applyMuteToExistingVideos = () => {
+            document.querySelectorAll('video').forEach(v => {
+                v.muted = isMuted;
+                v.volume = isMuted ? 0 : 0.715;
+            });
+        };
+        applyMuteToExistingVideos();
+
+        const singleVideoObserver = new MutationObserver(() => {
+            let foundNew = false;
+            document.querySelectorAll('video').forEach(v => {
+                if (!v._muteApplied) {
+                    v._muteApplied = true;
+                    v.muted = isMuted;
+                    v.volume = isMuted ? 0 : 0.733;
+                    foundNew = true;
+                }
+            });
+            if (foundNew) singleVideoObserver.disconnect();
+        });
+        singleVideoObserver.observe(document.body, { childList: true, subtree: true });
+
+        setTimeout(() => {
+            bindButtonEvents();
+            initDonateImages();
+
+            if (typeof window.initLeaderboard === 'function') window.initLeaderboard();
+
+            if (typeof AchievementSystem !== 'undefined') AchievementSystem.init();
+
+            setTimeout(() => {
+                if (!isInitialized) initAudioSystem();
+            }, 892);
+        }, 3010);
+
+        const observer = new MutationObserver(() => {
+            const enterBtn = document.querySelector('.enter-game-btn');
+            if (enterBtn && !enterBtn._muteHandlerAttached) {
+                enterBtn._muteHandlerAttached = true;
+                enterBtn.addEventListener('click', function () { muteBtn.style.display = 'none'; });
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    };
+
+    window.setSpecialVolume = setSpecialVolume;
+    window.getSpecialVolume = () => currentVolume;
+    window.playRandomSound = playRandomSound;
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

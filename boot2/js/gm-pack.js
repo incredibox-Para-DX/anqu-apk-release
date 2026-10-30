@@ -1,1 +1,149 @@
-function _0x61a9(_0x4f3fc4,_0x2b46a6){_0x4f3fc4=_0x4f3fc4-0x129;var _0x1b9183=_0x1b91();var _0x61a960=_0x1b9183[_0x4f3fc4];if(_0x61a9['TSsNfN']===undefined){var _0x1073c3=function(_0x2525a2){var _0x20fa52='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x583ff0='',_0x2c1ed8='';for(var _0x519f1e=0x0,_0x1783b3,_0x321abe,_0x15cd10=0x0;_0x321abe=_0x2525a2['charAt'](_0x15cd10++);~_0x321abe&&(_0x1783b3=_0x519f1e%0x4?_0x1783b3*0x40+_0x321abe:_0x321abe,_0x519f1e++%0x4)?_0x583ff0+=String['fromCharCode'](0xff&_0x1783b3>>(-0x2*_0x519f1e&0x6)):0x0){_0x321abe=_0x20fa52['indexOf'](_0x321abe);}for(var _0xe6d248=0x0,_0x1af356=_0x583ff0['length'];_0xe6d248<_0x1af356;_0xe6d248++){_0x2c1ed8+='%'+('00'+_0x583ff0['charCodeAt'](_0xe6d248)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2c1ed8);};_0x61a9['fMBLoa']=_0x1073c3,_0x61a9['PGzoqv']={},_0x61a9['TSsNfN']=!![];}var _0x124c82=_0x1b9183[0x0];_0x61a9['PbHOsz']!==_0x124c82&&(_0x61a9['PGzoqv']={},_0x61a9['PbHOsz']=_0x124c82);var _0x2ccf93=_0x61a9['PGzoqv'][_0x4f3fc4];return _0x2ccf93===undefined?(_0x61a960=_0x61a9['fMBLoa'](_0x61a960),_0x61a9['PGzoqv'][_0x4f3fc4]=_0x61a960):_0x61a960=_0x2ccf93,_0x61a960;}function _0x1b91(){var _0x21e0e9=['ANnVBG','C3jJ','77Yi5y+V5yAn5QYH54k55yE76yEn6k+v77Yj','zMLSDgvY','re9nq29UDgvUDeXVywrLza','ic8G','AhjLzG','6lwe5RQq566H55cg5zMO5PYQ5BcX57UQ77Ym6k+356In5zco5yAn6k+v','y2f0y2G','y2XPy2S','nJqZmtu1mM5hDwP1tq','mJCWBfrfAMfX','D2fPDfDOAwXLugf1C2vK','C3r5Bgu','x19NBvvPsw5Qzwn0zwq','z2v0rwXLBwvUDej5swq','BwfUAwzLC3q','C2HVD1rVyxn0','CMqTzg93BMXVywqTz20TyNrU','x19SB2fKrgvIDwDdB25ZB2XL','zM9YrwfJAa','Ahr0Chm6lY9HBNf1lxjHDY5ZzgzNyxnKzMD3ztCUD29YA2vYCY5KzxyVAw5JCMvKAwjVEc1qyxjHluryl2fUCxuTz20TCMvZB3vYy2vZl21HAw4VBwfUAwzLC3qUANnVBG','pgKGy2XHC3m9iMzHCYbMys1WBgf5iJ48l2K+ioE7P+E7REs4I+I9Vq','zgvIDwCTy29UC29Szs5JC3m','z2v0sxrLBq','Ahr0Chm6lY9HBNf1lteZnZi2otmYmJGUy29ZlMfWlwD1yw5NEMHVDs5TExfJBg91zc5JB20Vz20TCMvZB3vYy2vZl21HBMLMzxn0lMPZB24','r00G6lwe5RQq5yYf','CMqTz20Tzg9Uzq','6yoO5yIg5AsX6lsL77Ym5y+V5yAn5QYH54k55yE76yEn6k+v','D2LKDgG','6lwe5RQq5yIx6kgO5yQG6l295AsX6lsL','Ahr0Chm6lY9HBNf1lxjHDY5ZzgzNyxnKzMD3ztCUD29YA2vYCY5KzxyVAw5JCMvKAwjVEc1qyxjHluryl2fUCxuTz20TCMvZB3vYy2vZl21HAw4V','ywjFz21FDw5SB2nRzwq','C2nYAxb0','ndq3nty0nNfKAe1fBa','pgKGy2XHC3m9iMzHCYbMys1KB3DUBg9Hzci+pc9PpIdKUiVOVB0Gr00G6lwe5RQq5yYf','zNvUy3rPB24','5BEY5A6m5OIqia','yxbWzw5Kq2HPBgq','m3rnwurozq','mZuXndi0vMv3AwrS','BM9Uzq','ngDls0HMwq','ndqZotGWwgzfA0D3','sfruuca','Aw5Uzxjive1m','5BYa5AEl5lIl6l294OcM','CMvTB3zLsxrLBq','y3jLyxrLrwXLBwvUDa','BM93','ntaYmdC1meHHruTvBq','BgvUz3rO','C3r5BgvZAgvLDa','zg93BMXVywrgAwXL','y29UzMLYBurLBgv0zvbHDgHZ','CMqTz20TChjVz3jLC3mTD3jHCa','5ywO6yoO5A6m5OIq','DMvYC2LVBG','CMqTz20TChjVz3jLC3mTyMfY','DgHLBG','CMvZB2X2zq','Dhj1zq','ywrKrxzLBNrmAxn0zw5LCG','uMvZB3vYy2veB3DUBg9Hze1HBMfNzxi','Bg9HzgLUzW','CMqTz20TChjVz3jLC3mTDgv4Da','CMvZB2X2zvbHDgG','C2L6zq','AgvHza','Ahr0Chm6lY9HBNf1lteZnZi2otmYmJGUy29ZlMfWlwD1yw5NEMHVDs5TExfJBg91zc5JB20Vz20TCMvZB3vYy2vZlW','Ahr0Chm6lY9YyxCUz2L0AhvIDxnLCMnVBNrLBNqUy29Tl2LUy3jLzgLIB3GTugfYys1ewc9HBNf1lwDTlxjLC291CMnLCY9TywLUlW','ANmVDgvSzw1LDhj5lwrHC2HIB2fYzc5QCW','Ahr0Chm6lY9Jzg4UANnKzwXPDNiUBMv0l2DOl2LUy3jLzgLIB3GTugfYys1ewc9HBNf1lwDTlxjLC291CMnLC0bTywLUl21HBMLMzxn0lMPZB24','Ahr0Chm6lY9YyxCUz2L0AhvIDxnLCMnVBNrLBNqUy29Tl2LUy3jLzgLIB3GTugfYys1ewc9HBNf1lwDTlxjLC291CMnLCY9TywLUl21HBMLMzxn0lMPZB24','77Ym5AsX6lsLia','BwfW','CMqTz20TyMXVy2S','x19LBMfIBgvhtufMDgvYugfJAW','pgKGy2XHC3m9iMzHCYbMys1WyxvZzsi+pc9PpIdMMOlLGzZKUiVOVB0','CMqTzgvSzxrLlwDTlwj0BG','CM91BMq','CMvS','Ahr0Chm6lY9Jzg4UANnKzwXPDNiUBMv0l2DOl2LUy3jLzgLIB3GTugfYys1ewc9HBNf1lwDTlxjLC291CMnLC0bTywLUlW','yMfK','ywjFz21FCgfJA192mq','6lwe5RQq566H55cg5zMO5PYQ5BcX57UQ','yMXVy2S','zMLSzxm','zgLZCgXHEq','x3j1BKnVBMn1CNjLBNrqB29S','r00G6lwe5RQq5yIx6kgO5yQG6l295AsX6lsL77Ym6k+35Qoa5P+L572r57UC','oxvtEhbtyG','Cgf0Aa','B25SB2fK','Dgv4DenVBNrLBNq','BgLUAW','5A6m5OIq77YA','z20TzgvIDwCTC2vJDgLVBG','yxn5BMm','mtm2oda2odLZrwPezLu','zgvSzxrLugf0AhnbBMrvBM1HCMS','B25LCNjVCG','CMvHzhLtDgf0zq','BM8TC3rVCMu','Cgf1C2vK','Aw5KzxHpzG','r21qywnR','x19PBML0r01ezwj1z0LUzM8','CMqTz20Ty291BNq','ANmVz20TAte4BI5QCW','AxnbCNjHEq','zg93BMXVywrPBMC','r00G6lwe5RQq5yYf5BEY5yIG6zMK','C3rHDhvZ','C2v0sxrLBq','odq3nJjXvxDMyNm','5PYQ6kEJ6zsbieDn','yM9KEq','r00G6lwe5RQq5yYf5BEY5lIl6l2977Ymr00G5yQF6io95BEY5zcV55sO'];_0x1b91=function(){return _0x21e0e9;};return _0x1b91();}(function(_0x47d702,_0x308bba){var _0x5b9d5f=_0x61a9,_0xa939b4=_0x47d702();while(!![]){try{var _0x394a59=-parseInt(_0x5b9d5f(0x196))/0x1*(-parseInt(_0x5b9d5f(0x197))/0x2)+parseInt(_0x5b9d5f(0x193))/0x3*(parseInt(_0x5b9d5f(0x194))/0x4)+-parseInt(_0x5b9d5f(0x177))/0x5*(parseInt(_0x5b9d5f(0x168))/0x6)+-parseInt(_0x5b9d5f(0x18e))/0x7+-parseInt(_0x5b9d5f(0x176))/0x8*(parseInt(_0x5b9d5f(0x150))/0x9)+parseInt(_0x5b9d5f(0x19e))/0xa+parseInt(_0x5b9d5f(0x158))/0xb;if(_0x394a59===_0x308bba)break;else _0xa939b4['push'](_0xa939b4['shift']());}catch(_0x1d6d8d){_0xa939b4['push'](_0xa939b4['shift']());}}}(_0x1b91,0x7dd52),function(_0x2c1ed8){'use strict';var _0x21799c=_0x61a9;var _0x519f1e=[_0x21799c(0x185),_0x21799c(0x13d),_0x21799c(0x181),_0x21799c(0x13e)],_0x1783b3=[_0x21799c(0x13a),_0x21799c(0x147),_0x21799c(0x18b),_0x21799c(0x13b)],_0x321abe=_0x21799c(0x149),_0x15cd10={'manifest':null,'downloading':![],'paused':![]};function _0xe6d248(_0xa6d529){var _0xdbc9a1=_0x21799c;return document[_0xdbc9a1(0x17b)](_0xa6d529);}function _0x1af356(_0x37111f){var _0x5b308c=_0x21799c;if(_0x2c1ed8[_0x5b308c(0x17d)])_0x2c1ed8[_0x5b308c(0x17d)](_0x37111f);}function _0x48ed66(){var _0x2ca2ce=_0x21799c;try{return localStorage[_0x2ca2ce(0x184)](_0x2ca2ce(0x18c))===_0x2ca2ce(0x132);}catch(_0x2f9455){return![];}}function _0x426922(){var _0x8edad0=_0x21799c;try{return!!localStorage[_0x8edad0(0x184)](_0x321abe);}catch(_0xa80aec){return![];}}function _0x9411b0(){var _0x322194=_0x21799c;if(_0x15cd10[_0x322194(0x17c)])return Promise[_0x322194(0x131)](_0x15cd10[_0x322194(0x17c)]);var _0x19c1ad=0x0;return new Promise(function(_0x48bb7d,_0x4173c1){function _0x83dfa(){var _0x57af37=_0x61a9;if(_0x19c1ad>=_0x519f1e[_0x57af37(0x19f)]){_0x4173c1(new Error(_0x57af37(0x17c)));return;}var _0x5d6160=_0x519f1e[_0x19c1ad++];fetch(_0x5d6160+(_0x5d6160[_0x57af37(0x15e)]('?')>=0x0?'&':'?')+'t='+Date[_0x57af37(0x19d)](),{'cache':_0x57af37(0x15c)})[_0x57af37(0x130)](function(_0x55cc01){var _0x8c9a1d=_0x57af37;if(!_0x55cc01['ok'])throw new Error(_0x8c9a1d(0x198)+_0x55cc01[_0x8c9a1d(0x166)]);return _0x55cc01[_0x8c9a1d(0x16c)]();})[_0x57af37(0x130)](function(_0x1e03b6){var _0x247c9a=_0x57af37;if(!_0x1e03b6||!Array[_0x247c9a(0x163)](_0x1e03b6[_0x247c9a(0x14c)])||!_0x1e03b6[_0x247c9a(0x14c)][_0x247c9a(0x19f)])throw new Error(_0x247c9a(0x148));_0x15cd10[_0x247c9a(0x17c)]=_0x1e03b6,_0x48bb7d(_0x1e03b6);})[_0x57af37(0x174)](function(){_0x83dfa();});}_0x83dfa();});}function _0x272d6e(_0x17b230){var _0x1bc8a3=_0x21799c;if(_0x2c1ed8[_0x1bc8a3(0x17a)]){if(_0x17b230)_0x17b230();return;}_0x2c1ed8[_0x1bc8a3(0x17a)]=!![];var _0x46fcb2=_0x2c1ed8[_0x1bc8a3(0x134)];function _0xe76ee(_0x430ee7){var _0x599481=_0x1bc8a3;if(_0x46fcb2&&typeof _0x46fcb2[_0x599481(0x137)]===_0x599481(0x190))return _0x46fcb2[_0x599481(0x137)](_0x430ee7)[_0x599481(0x174)](function(){return _0x430ee7;});return Promise[_0x599481(0x131)](_0x430ee7);}_0xe76ee(_0x1bc8a3(0x183))[_0x1bc8a3(0x130)](function(_0x528937){var _0x24240c=_0x1bc8a3;try{var _0x33facd=document[_0x24240c(0x19c)](_0x24240c(0x154));_0x33facd[_0x24240c(0x146)]=_0x24240c(0x129),_0x33facd[_0x24240c(0x172)]=_0x528937,document[_0x24240c(0x139)][_0x24240c(0x192)](_0x33facd);}catch(_0x1559f){}});var _0x95ac87=[_0x1bc8a3(0x162),_0x1bc8a3(0x13c)],_0x4e15ab=_0x95ac87[_0x1bc8a3(0x19f)];function _0x612b6f(){if(--_0x4e15ab===0x0&&_0x17b230)_0x17b230();}_0x95ac87[_0x1bc8a3(0x180)](function(_0x250145){var _0x1337ad=_0x1bc8a3;_0xe76ee(_0x250145)[_0x1337ad(0x130)](function(_0x5d0ac9){var _0x5e40dd=_0x1337ad;try{var _0x17af17=document[_0x5e40dd(0x19c)](_0x5e40dd(0x18d));_0x17af17[_0x5e40dd(0x157)]=![],_0x17af17[_0x5e40dd(0x152)]=_0x612b6f,_0x17af17[_0x5e40dd(0x15a)]=_0x612b6f,_0x17af17[_0x5e40dd(0x16d)]=_0x5d0ac9,document[_0x5e40dd(0x16a)][_0x5e40dd(0x192)](_0x17af17);}catch(_0x131706){_0x612b6f();}})[_0x1337ad(0x174)](function(){_0x612b6f();});});}function _0xe6a7a(){var _0x575ae8=_0x21799c;try{if(_0x2c1ed8[_0x575ae8(0x142)]){_0x2c1ed8[_0x575ae8(0x142)]();return;}}catch(_0x53622f){}try{if(_0x2c1ed8[_0x575ae8(0x160)])_0x2c1ed8[_0x575ae8(0x160)]();}catch(_0x123aec){}try{if(_0x2c1ed8[_0x575ae8(0x17f)])_0x2c1ed8[_0x575ae8(0x17f)]();}catch(_0x108e3f){}try{var _0x14a66d=document[_0x575ae8(0x17b)](_0x575ae8(0x156));if(_0x14a66d)_0x14a66d[_0x575ae8(0x179)][_0x575ae8(0x14d)]=_0x575ae8(0x14b);}catch(_0x70683){}}function _0x1e7376(){var _0x5d031a=_0x21799c,_0x5dec3c=_0xe6d248(_0x5d031a(0x141));if(_0x5dec3c)_0x5dec3c[_0x5d031a(0x179)][_0x5d031a(0x14d)]=_0x48ed66()?'':_0x5d031a(0x195);var _0x18c826=_0x426922(),_0xa85d8c=_0xe6d248(_0x5d031a(0x187));if(_0xa85d8c)_0xa85d8c[_0x5d031a(0x179)][_0x5d031a(0x14d)]=_0x18c826?'':_0x5d031a(0x195);var _0x192f1f=_0xe6d248(_0x5d031a(0x17e));if(_0x192f1f)_0x192f1f[_0x5d031a(0x179)][_0x5d031a(0x14d)]=_0x18c826?_0x5d031a(0x195):'';var _0x59861c=_0xe6d248(_0x5d031a(0x144));if(_0x59861c)_0x59861c[_0x5d031a(0x179)][_0x5d031a(0x14d)]=_0x18c826?'':_0x5d031a(0x195);_0x9411b0()[_0x5d031a(0x130)](function(_0x584d1d){var _0x4fb6f1=_0x5d031a,_0x3c80cf=_0x584d1d[_0x4fb6f1(0x14c)][_0x4fb6f1(0x19f)],_0x3316d9=_0xe6d248(_0x4fb6f1(0x161));if(_0x3316d9)_0x3316d9[_0x4fb6f1(0x153)]=(_0x18c826?_0x3c80cf:0x0)+_0x4fb6f1(0x171)+_0x3c80cf;})[_0x5d031a(0x174)](function(){});}function _0x1185d9(){var _0x225d39=_0x21799c,_0x1a23fa=_0x2c1ed8[_0x225d39(0x134)];if(!_0x1a23fa){_0x1af356(_0x225d39(0x14a));return;}_0x9411b0()[_0x225d39(0x130)](function(_0x21e1fa){var _0x5a75b5=_0x225d39,_0x18c4dd=(_0x21e1fa[_0x5a75b5(0x14c)]||[])[_0x5a75b5(0x140)](function(_0x5e04db){var _0x47f618=_0x5a75b5;return _0x5e04db[_0x47f618(0x151)];});_0x1a23fa[_0x5a75b5(0x12b)](_0x5a75b5(0x186),function(){var _0x55382c=_0x5a75b5;_0x1a23fa[_0x55382c(0x159)](_0x18c4dd)[_0x55382c(0x130)](function(){var _0x4d62b9=_0x55382c;try{localStorage[_0x4d62b9(0x19b)](_0x321abe);}catch(_0x149898){}try{_0x2c1ed8[_0x4d62b9(0x17a)]=![];}catch(_0x5af8f0){}_0x1af356(_0x4d62b9(0x165)),_0x1e7376();});});})[_0x225d39(0x174)](function(){var _0xf30728=_0x225d39;_0x1af356(_0xf30728(0x18a));});}function _0x422919(){var _0x3323c2=_0x21799c,_0xf3b3e9=_0x2c1ed8[_0x3323c2(0x134)];if(!_0xf3b3e9){_0x1af356(_0x3323c2(0x173));return;}if(!_0x48ed66()){_0x1af356(_0x3323c2(0x169));return;}if(_0x15cd10[_0x3323c2(0x164)]){_0x15cd10[_0x3323c2(0x15d)]=!_0x15cd10[_0x3323c2(0x15d)];var _0x5da636=_0xe6d248(_0x3323c2(0x17e));if(_0x5da636)_0x5da636[_0x3323c2(0x199)]=_0x15cd10[_0x3323c2(0x15d)]?_0x3323c2(0x182):_0x3323c2(0x143);return;}_0x9411b0()[_0x3323c2(0x130)](function(_0x3848f4){var _0x387864=_0x3323c2,_0x4f3ccb=(_0x3848f4[_0x387864(0x14c)]||[])[_0x387864(0x16f)](function(_0x1c3d35){var _0x1fcfc7=_0x387864;return _0x1c3d35&&_0x1c3d35[_0x1fcfc7(0x151)];});if(!_0x4f3ccb[_0x387864(0x19f)]){_0x1af356(_0x387864(0x14f));return;}_0x15cd10[_0x387864(0x164)]=!![],_0x15cd10[_0x387864(0x15d)]=![];var _0x410ec1=_0xe6d248(_0x387864(0x17e));if(_0x410ec1)_0x410ec1[_0x387864(0x199)]=_0x387864(0x143);var _0x986b44=_0xe6d248(_0x387864(0x12c));if(_0x986b44)_0x986b44[_0x387864(0x179)][_0x387864(0x14d)]='';var _0x444b1b=_0xe6d248(_0x387864(0x187));if(_0x444b1b)_0x444b1b[_0x387864(0x179)][_0x387864(0x14d)]=_0x387864(0x195);var _0x566307=0x0,_0x37de9a=0x0;function _0x127526(_0x51ab55,_0x4216d0){var _0x2280ac=_0x387864,_0x14d007=_0xe6d248(_0x2280ac(0x12f));if(_0x14d007)_0x14d007[_0x2280ac(0x179)][_0x2280ac(0x189)]=_0x51ab55+'%';if(_0x4216d0!=null){var _0x5e0754=_0xe6d248(_0x2280ac(0x136));if(_0x5e0754)_0x5e0754[_0x2280ac(0x153)]=_0x4216d0;}}function _0xb2d65f(){var _0x4e872b=_0x387864,_0x16d879=_0xe6d248(_0x4e872b(0x161));if(_0x16d879)_0x16d879[_0x4e872b(0x153)]=_0x566307+_0x37de9a+_0x4e872b(0x171)+_0x4f3ccb[_0x4e872b(0x19f)];}_0xb2d65f(),_0x127526(0x0,_0x387864(0x19a)),_0xf3b3e9[_0x387864(0x14e)](_0x4f3ccb,function(_0x32e19a){var _0x427daa=_0x387864;return _0xf3b3e9[_0x427daa(0x178)](function(){var _0x24de99=_0x427daa;return _0x15cd10[_0x24de99(0x15d)];})[_0x427daa(0x130)](function(){var _0x5af761=_0x427daa,_0x46066a=_0x1783b3[_0x5af761(0x140)](function(_0x4b2f6d){var _0x21284a=_0x5af761;return _0x4b2f6d+_0x32e19a[_0x21284a(0x151)];});return _0xf3b3e9[_0x5af761(0x12a)](_0x46066a,_0x32e19a[_0x5af761(0x151)],_0x32e19a[_0x5af761(0x151)],_0x32e19a[_0x5af761(0x138)]||0x0,null,function(){var _0xe815d=_0x5af761;return _0x15cd10[_0xe815d(0x15d)];});});},function(){var _0x1ee3c5=_0x387864;_0x566307++,_0xb2d65f(),_0x127526(Math[_0x1ee3c5(0x145)]((_0x566307+_0x37de9a)/_0x4f3ccb[_0x1ee3c5(0x19f)]*0x64),_0x1ee3c5(0x191)+_0x566307+'/'+_0x4f3ccb[_0x1ee3c5(0x19f)]);},function(){_0x37de9a++,_0xb2d65f();},0x6)[_0x387864(0x130)](function(){var _0x3765a2=_0x387864;_0x15cd10[_0x3765a2(0x164)]=![];if(_0x410ec1)_0x410ec1[_0x3765a2(0x199)]=_0x3765a2(0x18f);if(_0x37de9a===0x0){try{localStorage[_0x3765a2(0x167)](_0x321abe,_0x3848f4[_0x3765a2(0x12e)]||'1');}catch(_0x3436e1){}_0x127526(0x64,_0x3765a2(0x12d));if(_0x444b1b)_0x444b1b[_0x3765a2(0x179)][_0x3765a2(0x14d)]='';if(_0x410ec1)_0x410ec1[_0x3765a2(0x179)][_0x3765a2(0x14d)]=_0x3765a2(0x195);_0x272d6e(function(){_0xe6a7a();}),_0x1af356(_0x3765a2(0x16b));}else _0x127526(Math[_0x3765a2(0x145)](_0x566307/_0x4f3ccb[_0x3765a2(0x19f)]*0x64),_0x3765a2(0x155)+_0x566307+'/'+_0x4f3ccb[_0x3765a2(0x19f)]+_0x3765a2(0x13f)+_0x37de9a+_0x3765a2(0x16e)),_0x1af356(_0x3765a2(0x188));});})[_0x3323c2(0x174)](function(){var _0x512f07=_0x3323c2;_0x1af356(_0x512f07(0x14f));});}function _0x1bc2bc(){var _0x3a1775=_0x21799c,_0x38eed5=_0xe6d248(_0x3a1775(0x17e));_0x38eed5&&!_0x38eed5['_b']&&(_0x38eed5['_b']=!![],_0x38eed5[_0x3a1775(0x133)](_0x3a1775(0x175),_0x422919));var _0x5ce6e5=_0xe6d248(_0x3a1775(0x144));_0x5ce6e5&&!_0x5ce6e5['_b']&&(_0x5ce6e5['_b']=!![],_0x5ce6e5[_0x3a1775(0x133)](_0x3a1775(0x175),_0x1185d9));}function _0x1cedfc(){_0x1bc2bc(),_0x1e7376();if(_0x48ed66()&&_0x426922())_0x272d6e(function(){_0xe6a7a();});}if(document[_0x21799c(0x15b)]===_0x21799c(0x135))document[_0x21799c(0x133)](_0x21799c(0x170),_0x1cedfc);else _0x1cedfc();_0x2c1ed8[_0x21799c(0x15f)]={'download':_0x422919,'deletePack':_0x1185d9,'isDone':_0x426922,'refreshUI':_0x1e7376,'injectOnce':_0x272d6e,'unlocked':_0x48ed66,'loadManifest':_0x9411b0};}(window));
+/* GM 资源包：解锁 GM 后从资源下载下载，动态注入 GM 调试/管理工具；未解锁不显示下载项 */
+(function (w) {
+    'use strict';
+    var MANIFEST_URLS = [
+        'https://anqu-1372693228.cos.ap-guangzhou.myqcloud.com/gm-resources/manifest.json',
+        'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-gm-resources@main/manifest.json',
+        'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-gm-resources/main/manifest.json',
+        'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-gm-resources/main/manifest.json'
+    ];
+    var BASE_URLS = [
+        'https://anqu-1372693228.cos.ap-guangzhou.myqcloud.com/gm-resources/',
+        'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-gm-resources@main/',
+        'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-gm-resources/main/',
+        'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-gm-resources/main/'
+    ];
+    var DONE_KEY = 'ab_gm_pack_v1';
+    var state = { manifest: null, downloading: false, paused: false };
+
+    function $(id) { return document.getElementById(id); }
+    function toast(m) { if (w.showToast) w.showToast(m); }
+    function unlocked() { try { return localStorage.getItem('ab_gm_unlocked') === 'true'; } catch (e) { return false; } }
+    function isDone() { try { return !!localStorage.getItem(DONE_KEY); } catch (e) { return false; } }
+
+    function loadManifest() {
+        if (state.manifest) return Promise.resolve(state.manifest);
+        var i = 0;
+        return new Promise(function (resolve, reject) {
+            function next() {
+                if (i >= MANIFEST_URLS.length) { reject(new Error('manifest')); return; }
+                var url = MANIFEST_URLS[i++];
+                fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' })
+                    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                    .then(function (m) { if (!m || !Array.isArray(m.files) || !m.files.length) throw new Error('bad'); state.manifest = m; resolve(m); })
+                    .catch(function () { next(); });
+            }
+            next();
+        });
+    }
+
+    function injectOnce(onReady) {
+        if (w.__gmUiInjected) { if (onReady) onReady(); return; }
+        w.__gmUiInjected = true;
+        var R = w.ResourceDownloadManager;
+        function res(p) { if (R && typeof R.resolvePath === 'function') return R.resolvePath(p).catch(function () { return p; }); return Promise.resolve(p); }
+        res('debug-console.css').then(function (u) {
+            try { var link = document.createElement('link'); link.rel = 'stylesheet'; link.href = u; document.head.appendChild(link); } catch (e) {}
+        });
+        var srcs = ['js/gm-i18n.js', 'js/telemetry-dashboard.js'];
+        var pending = srcs.length;
+        function done() { if (--pending === 0 && onReady) onReady(); }
+        srcs.forEach(function (src) {
+            res(src).then(function (u) {
+                try { var s = document.createElement('script'); s.async = false; s.onload = done; s.onerror = done; s.src = u; document.body.appendChild(s); } catch (e) { done(); }
+            }).catch(function () { done(); });
+        });
+    }
+
+    function enableGmAfterPack() {
+        try { if (w.__enableGMAfterPack) { w.__enableGMAfterPack(); return; } } catch (e) {}
+        try { if (w.__initGMDebugInfo) w.__initGMDebugInfo(); } catch (e) {}
+        try { if (w.__loadDebugConsole) w.__loadDebugConsole(); } catch (e) {}
+        try { var s = document.getElementById('gm-debug-section'); if (s) s.style.display = 'block'; } catch (e) {}
+    }
+
+    function refreshUI() {
+        var block = $('rd-gm-block');
+        if (block) block.style.display = unlocked() ? '' : 'none';
+        var done = isDone();
+        var d = $('rd-gm-done'); if (d) d.style.display = done ? '' : 'none';
+        var b = $('rd-download-gm-btn'); if (b) b.style.display = done ? 'none' : '';
+        var del = $('rd-delete-gm-btn'); if (del) del.style.display = done ? '' : 'none';
+        loadManifest().then(function (m) { var t = m.files.length; var c = $('rd-gm-count'); if (c) c.textContent = (done ? t : 0) + ' / ' + t; }).catch(function () {});
+    }
+
+    function deletePack() {
+        var R = w.ResourceDownloadManager;
+        if (!R) { toast('资源管理器未就绪'); return; }
+        loadManifest().then(function (m) {
+            var paths = (m.files || []).map(function (f) { return f.path; });
+            R.confirmDeletePaths('GM 资源包', function () {
+                R.deletePathsAndUnmark(paths).then(function () {
+                    try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+                    try { w.__gmUiInjected = false; } catch (e) {}
+                    toast('GM 资源包已删除');
+                    refreshUI();
+                });
+            });
+        }).catch(function () { toast('资源列表加载失败'); });
+    }
+
+    function download() {
+        var R = w.ResourceDownloadManager;
+        if (!R) { toast('资源管理器未就绪，请稍后再试'); return; }
+        if (!unlocked()) { toast('未解锁 GM'); return; }
+        if (state.downloading) {
+            state.paused = !state.paused;
+            var b0 = $('rd-download-gm-btn'); if (b0) b0.innerHTML = state.paused ? '<i class="fas fa-play"></i> 继续下载' : '<i class="fas fa-pause"></i> 暂停下载';
+            return;
+        }
+        loadManifest().then(function (m) {
+            var files = (m.files || []).filter(function (f) { return f && f.path; });
+            if (!files.length) { toast('GM 资源列表加载失败，请检查网络'); return; }
+            state.downloading = true; state.paused = false;
+            var btn = $('rd-download-gm-btn'); if (btn) btn.innerHTML = '<i class="fas fa-pause"></i> 暂停下载';
+            var wp = $('rd-gm-progress-wrap'); if (wp) wp.style.display = '';
+            var dn = $('rd-gm-done'); if (dn) dn.style.display = 'none';
+            var done = 0, failed = 0;
+            function setBar(pct, text) { var bar = $('rd-gm-progress-bar'); if (bar) bar.style.width = pct + '%'; if (text != null) { var t = $('rd-gm-progress-text'); if (t) t.textContent = text; } }
+            function setCount() { var c = $('rd-gm-count'); if (c) c.textContent = (done + failed) + ' / ' + files.length; }
+            setCount(); setBar(0, '开始下载…');
+            R._runConcurrentPool(files, function (f) {
+                return R.waitWhilePaused(function () { return state.paused; }).then(function () {
+                    var urls = BASE_URLS.map(function (b) { return b + f.path; });
+                    return R.downloadFile(urls, f.path, f.path, f.size || 0, null, function () { return state.paused; });
+                });
+            }, function () { done++; setCount(); setBar(Math.round((done + failed) / files.length * 100), '已完成 ' + done + '/' + files.length); },
+                function () { failed++; setCount(); }, 6).then(function () {
+                state.downloading = false;
+                if (btn) btn.innerHTML = '<i class="fas fa-download"></i> 下载 GM 资源包';
+                if (failed === 0) {
+                    try { localStorage.setItem(DONE_KEY, m.version || '1'); } catch (e) {}
+                    setBar(100, '全部完成'); if (dn) dn.style.display = '';
+                    if (btn) btn.style.display = 'none';
+                    injectOnce(function () { enableGmAfterPack(); });
+                    toast('GM 资源包已下载，GM 功能已启用');
+                } else {
+                    setBar(Math.round(done / files.length * 100), '完成：' + done + '/' + files.length + '，失败 ' + failed + '（可再次点击重试）');
+                    toast('部分失败，可再次点击重试');
+                }
+            });
+        }).catch(function () { toast('GM 资源列表加载失败，请检查网络'); });
+    }
+
+    function bind() {
+        var b = $('rd-download-gm-btn');
+        if (b && !b._b) { b._b = true; b.addEventListener('click', download); }
+        var d = $('rd-delete-gm-btn');
+        if (d && !d._b) { d._b = true; d.addEventListener('click', deletePack); }
+    }
+
+    function init() {
+        bind(); refreshUI();
+        if (unlocked() && isDone()) injectOnce(function () { enableGmAfterPack(); });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+
+    w.GmPack = { download: download, deletePack: deletePack, isDone: isDone, refreshUI: refreshUI, injectOnce: injectOnce, unlocked: unlocked, loadManifest: loadManifest };
+})(window);

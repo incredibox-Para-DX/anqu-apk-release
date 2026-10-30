@@ -1,1 +1,641 @@
-const _0x236251=_0x4233;function _0x4233(_0x1fadea,_0x35556a){_0x1fadea=_0x1fadea-0x182;const _0x8d08a1=_0x8d08();let _0x42337d=_0x8d08a1[_0x1fadea];if(_0x4233['DUjEUU']===undefined){var _0x16b5df=function(_0x42d944){const _0x6ef508='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xcf9fbc='',_0x785bb7='';for(let _0x5527ce=0x0,_0x4deded,_0x3dd3ec,_0x4f6097=0x0;_0x3dd3ec=_0x42d944['charAt'](_0x4f6097++);~_0x3dd3ec&&(_0x4deded=_0x5527ce%0x4?_0x4deded*0x40+_0x3dd3ec:_0x3dd3ec,_0x5527ce++%0x4)?_0xcf9fbc+=String['fromCharCode'](0xff&_0x4deded>>(-0x2*_0x5527ce&0x6)):0x0){_0x3dd3ec=_0x6ef508['indexOf'](_0x3dd3ec);}for(let _0x4fdb00=0x0,_0x4a3fd2=_0xcf9fbc['length'];_0x4fdb00<_0x4a3fd2;_0x4fdb00++){_0x785bb7+='%'+('00'+_0xcf9fbc['charCodeAt'](_0x4fdb00)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x785bb7);};_0x4233['hpmuMu']=_0x16b5df,_0x4233['udrXax']={},_0x4233['DUjEUU']=!![];}const _0x484fcd=_0x8d08a1[0x0];_0x4233['RZLNbm']!==_0x484fcd&&(_0x4233['udrXax']={},_0x4233['RZLNbm']=_0x484fcd);const _0x5644de=_0x4233['udrXax'][_0x1fadea];return _0x5644de===undefined?(_0x42337d=_0x4233['hpmuMu'](_0x42337d),_0x4233['udrXax'][_0x1fadea]=_0x42337d):_0x42337d=_0x5644de,_0x42337d;}function _0x8d08(){const _0x172582=['ChjLBg9Hza','Aw1WB3j0yw50','mtjWEa','B2jZzxj2zq','Ahr0Chm6lY92lMT1ywLZAg91lMnVBs83mJf6uxfSsa','yM9SzcaXzw0GqxzPy2LP','i2nYzwrPDhmTBw9KywW','pgKGy2XHC3m9iG','cIaGicaGicaGicaGicnJCMvKAxrZlw5HBwuUAgvMDw4TC3bLy2LHBc1MB250lxn0EwXLoJPIzwzVCMuGEWOGicaGicaGicaGicaGicaGy29UDgvUDdOGjYC7cIaGicaGicaGicaGicaGicbMB250lwzHBwLSEtOGj0f2AwnPAsC7cIaGicaGicaGicaGicaGicb2AxnPyMLSAxr5oIbOAwrKzw47cIaGicaGicaGicaGicaGicbWB3nPDgLVBJOGywjZB2X1Dgu7cIaGicaGicaGicaGih0kicaGicaGica','ndq4ndaWn0vQyuzQuG','ms4Yzw0','DxjSkgzVBNrZl0f2AwnPAs50DgyP','zM9UDc1Myw1PBhK','C3rVCfbYB3bHz2f0Aw9U','y3nZ','pgrPDIbPzd0Iz20TCgvYC2LZDgvUDc1PBMrPy2f0B3iIpJWVzgL2pG','mNb4idjWEca0ChGGCMDIysGWldaSmcWWlJeP','Dg9Nz2XLq2XHC3m','DhjHBNnMB3jTidaUmNmSigjHy2TNCM91BMqGmc4YCW','mwvTief2AwnPAq','zM9UDc1ZAxPL','zM9UDfDLAwDODa','ywjFz21FDw5SB2nRzwq','vflMUlJMIi/OR4tMTyS','r21qywnR','yMvMB3jL','C2v0qxr0CMLIDxrL','x19LBMfIBgvhtufMDgvYugfJAW','yxr0CG','Aw5JBhvKzxm','C3r5Bgu','Ahr0Chm6lY92lMT1ywLZAg91lMnVBs9kDNL6yMTkva','i2rVBMf0zs1TB2rHBa','yM9Sza','Ahr0Chm6lY92lMT1ywLZAg91lMnVBs9UsMqXoeW4Eq','DhjHBNnMB3jTidaUmxmGzwfZzs1VDxq','i2nYzwrPDhmTAw5KAwnHDg9YCW','Aw5KzxHpzG','DxbKyxrLvgL0BgveAxnWBgf5','y2XVC2vZDa','DhLWzq','Bw9UB3nWywnL','B25dAgfUz2u','i3nPzgvIyxiTzg9UyxrLlwj0BG','CgLJDhvYzxmVyxzHDgfYCY9XEs5WBMC','rgvIDwCGBw9KzsbOyxmGyMvLBIbLBMfIBgvK','zgf0ys1NBq','x19PBML0r01ezwj1z0LUzM8','BgLUAW','i2nYzwrPDhmTCM9Szq','y2XPy2STyxvKAw8','iZy2nG','y2fSBa','zM9UDc90Dgy','DhjPBq','yw5VBNLTB3vZ','x19SB2fKrgvIDwDdB25ZB2XL','C2nHBguOmsK','y3jLyxrLrwXLBwvUDa','yxvKAw8VC2LKzwjHCI1JBg9Zzs5TCdm','DgfYz2v0','BgLUA3m','zgf0ys1HDMf0yxiTC3jJ','zg91EwLU','6A2u5PA55BEL5l2C5A6K576K5PQx5yY656Qb5zU06Ag555UU57Ue','yxbWzw5Kq2HPBgq','CMvTB3zLq2XHC3m','y3jVC3npCMLNAw4','C2v0sxrLBq','mZe2nZy1nJjquwXwEwO','CgLJDhvYzxmVyxzHDgfYCY9sB250yw7cT01VDxnLW5DfDML0ys5QCgC','yMXVy2S','CgLJDhvYzxmVyxzHDgfYCY94yY5WBMC','yM9KEq','Dgv4Dc1ZAgfKB3C','i21LDgfwzxjZAw9UrgLZCgXHEq','x19vsv9tt1vorf9wt0XvtuvFxW','i2HLzNvUlxnWzwnPywWTzM9UDa','54M55yIR5OsF6lcI','ywn0AxzL','mtbWEa','z2v0rwXLBwvUDej5swq','zw1WDhK','iIb0yxjNzxq9iL9IBgfUAYiGCMvSpsjUB29Wzw5LCIbUB3jLzMvYCMvYiJ48l2e+','pgeGAhjLzJ0I','6Ag555UU6lsF6lsJ','BMfTzq','Bgv0DgvYlxnWywnPBMC','BgvUz3rO','DhjHBNnMB3jTidaUmNmGzwfZzs1VDxq','DxjS','ywX0','AgvMDw4TC3bLy2LHBc1MB250lxn0EwXL','zNvUy3rPB24','re9nq29UDgvUDeXVywrLza','yNvPBgrtzwXLy3rVCG','iJ48l2K+','A3vHAxnOB3u','y2HLy2S','i2nYzwrPDhmTyxzHDgfY','y2XHC3m','mJu4nde4uerpq3fX','CgXHEq','uM9UDgfUWRDnB3vZzCoxrxzPDge','mtqXntG0mZjhEfbUu1C','qxzPy2LP','CM9Szq','yxvKAw8VC2LKzwjHCI1VCgvUlM1WmW','C2HVD1rVyxn0','C3bLy2LHBc1HDwrPBY01','Bg9Hza','zMXLEa','AgLKzq','mtvWEa','vuLnyw5Hz2vY','Ahr0Chm6lY92lMrVDxLPBI5JB20VzMfzCw9TwgfVB3CV','zM9UDezHBwLSEq','ywrKrxzLBNrmAxn0zw5LCG','i2XVDhrLCNKTBw9KywW','CMvTB3zLuhjVCgvYDhK','i2DTlxbLCNnPC3rLBNqTAw5KAwnHDg9Y','ste4tG','CMvHzhK','i3nPzgvIyxiTywnOAwv2zw1LBNqTyNrU','y3jLzgL0CY1SAw5RCY1JB250ywLUzxi','y2f0y2G','yxvKAw8VB3bLBI1SB3r0zxj5lM1WmW','5lI756Il5BQp77Yg5lI76k6+6k6H','AgLKzgvU','C3DHCa','z2v0sxrLBq','iZq0na','y29TCgfJDc1PBMrPy2f0B3i','nxb4','CgLJDhvYzxmVyxzHDgfYCY9TB3jLzNvUlNbUzW','Ahr0Chm6lY9TlMjPBgLIAwXPlMnVBs9ZCgfJzs8Xote1mdu2otaZ','zM9UDfnPEMu','i2zMzG','yMLSAwjPBgK','CgLJDhvYzxmVyxzHDgfYCY9IB3HLzg1LywWUz2LM','cIaGicaGicaGicaGiebMB250lwzHy2uGEWOGicaGicaGicaGicaGicaGzM9UDc1Myw1PBhK6icDbDMLJAwKNoWOGicaGicaGicaGicaGicaGC3jJoIb1CMWOj2zVBNrZl0f2AwnPAs50DgyNksbMB3jTyxqOj3rYDwv0ExbLjYK7cIaGicaGicaGicaGicaGicbMB250lwrPC3bSyxK6ihn3yxa7cIaGicaGicaGicaGih0kicaGicaGicaGicaGi2nYzwrPDhmTBMfTzs5Ozwz1BI1ZCgvJAwfSlwzVBNqTC3r5BguScIaGicaGicaGicaGicnJCMvKAxrZlw5HBwuUAgvMDw4TC3bLy2LHBc1MB250lxn0EwXLicOGEWOGicaGicaGicaGicaGicaGzM9UDc1Myw1PBhK6icDbDMLJAwKNlcaNqxjPywWNlcbZyw5ZlxnLCMLMicfPBxbVCNrHBNq7cIaGicaGicaGicaGicaGicbMB250lxnPEMu6ideUmMvTicfPBxbVCNrHBNq7cIaGicaGicaGicaGicaGicb0zxH0lxnOywrVDZOGmNb4idjWEca0ChGGCMDIysGWldaSmcWWlJePicfPBxbVCNrHBNq7cIaGicaGicaGicaGicaGicbMB250lxDLAwDODdOGyM9SzcaHAw1WB3j0yw50oWOGicaGicaGicaGicaGicaGBgv0DgvYlxnWywnPBMC6idfWEcaHAw1WB3j0yw50oWOGicaGicaGicaGicb9cIaGicaGicaGicaGigjVzhKGi2nYzwrPDhmTBMfTzs5Ozwz1BI1ZCgvJAwfSlwzVBNqTC3r5BguScIaGicaGicaGicaGigjVzhKGi2nYzwrPDhmTBMfTzs5Ozwz1BI1ZCgvJAwfSlwzVBNqTC3r5BguGkIWkicaGicaGicaGicaGyM9KEsaUBw9KywWGi2nYzwrPDhmTBMfTzs5Ozwz1BI1ZCgvJAwfSlwzVBNqTC3r5BguScIaGicaGicaGicaGigjVzhKGlM1VzgfSicnJCMvKAxrZlw5HBwuUAgvMDw4TC3bLy2LHBc1MB250lxn0EwXLicOGEWOGicaGicaGicaGicaGicaGzM9UDc1Myw1PBhK6icDbDMLJAwKNlcaNqxjPywWNlcbZyw5ZlxnLCMLMicfPBxbVCNrHBNq7cIaGicaGicaGicaGicaGicbMB250lxnPEMu6ideUmMvTicfPBxbVCNrHBNq7cIaGicaGicaGicaGicaGicb0zxH0lxnOywrVDZOGmNb4idjWEca0ChGGCMDIysGWldaSmcWWlJePicfPBxbVCNrHBNq7cIaGicaGicaGicaGicaGicbMB250lxDLAwDODdOGyM9SzcaHAw1WB3j0yw50oWOGicaGicaGicaGicaGicaGBgv0DgvYlxnWywnPBMC6idfWEcaHAw1WB3j0yw50oWOGicaGicaGicaGicb9cIaGicaGicaGicaGicnJCMvKAxrZlw1VzgfSicnJCMvKAxrZlw5HBwuUAgvMDw4TC3bLy2LHBc1MB250lxn0EwXLihSkicaGicaGicaGicaGicaGigzVBNqTzMfTAwX5oIaNqxzPy2LPjYWGj0fYAwfSjYWGC2fUCY1ZzxjPzIaHAw1WB3j0yw50oWOGicaGicaGicaGicb9cIaGicaGicaGicaGicnJCMvKAxrZlw5HBwuUAgvMDw4TC3bLy2LHBc1MB250lxn0EwXLihSkicaGicaGicaGicaGicaGigzVBNqTzMfTAwX5oIaNqxzPy2LPjYWGj0fYAwfSjYWGC2fUCY1ZzxjPzIaHAw1WB3j0yw50oWOGicaGicaGicaGicaGicaGzM9UDc1ZAxPLoIaXlJjLBsaHAw1WB3j0yw50oWOGicaGicaGicaGicaGicaGDgv4Dc1ZAgfKB3C6idjWEcaYChGGnhb4ihjNyMeOmcWWldaSmc4XksaHAw1WB3j0yw50oWOGicaGicaGicaGicaGicaGzM9UDc13zwLNAhq6igjVBgqGiwLTCg9YDgfUDdSkicaGicaGicaGicaGicaGigXLDhrLCI1ZCgfJAw5NoIaXChGGiwLTCg9YDgfUDdSkicaGicaGicaGicaGicaGic13zwjRAxqTzM9UDc1ZBw9VDgHPBMC6igfUDgLHBgLHC2vKoWOGicaGicaGicaGicaGicaGlw1VEI1VC3GTzM9UDc1ZBw9VDgHPBMC6igDYyxLZy2fSztSkicaGicaGicaGicaGFqOGicaGicaGia','Aw5SAw5LlwzSzxG','i3nPzgvIyxiTBg90DgvYEs1IDg4','AhrTBa','mxb4','nfbwCKTMua','zM9UDhmVqxzPy2LPlNr0zG','zMfIigzHlxrPA3rVAW','lti1ChG','Bw91C2vSzwf2zq','lMnVBxbHy3qTAw5KAwnHDg9Y','r00G5BEY6kEJ6zsb77Ym6k+35yIW44cm6lwe5RQq5lIl6l2944cn5lIl6l29ieDnioI1HoA6KowmHEwqJUwgJEs9V+EuQa','DxbKyxrLsw52zw50B3j5','CMvS','DM9SDw1L','y2vUDgvY','yxzHDgfY','Bw91C2vLBNrLCG','i2fJAgLLDMvTzw50CY1JBg9Zzq','z2v0q29TChv0zwrtDhLSzq','Ahr0Chm6lY92lMrVDxLPBI5JB20VtdnztfbTCK5FtMmV','ndbWEa','Dhj1zq','AxneB25L','i2XVDhrLCNKTy2XVC2u','AwnVBG','mtqXmdC1nxvbwxftuG','Ahr0Chm6lY92lMrVDxLPBI5JB20Vy1beq2G3DhjeEfuV','Ahr0Chm6lY92lMT1ywLZAg91lMnVBs83rw80DNb5rG','ntaL','tNvSBcbtDhvKAw8','C2nHBguOms4XnsK','y3vYCMvUDfrPBwu','otK5oq','Aw5KzxG','Ahr0Chm6lY9TlMjPBgLIAwXPlMnVBs9ZCgfJzs8ZmJmWmJK0oti','ywrKq2XHC3m','vgL0Bgvnyw5Hz2vY','yxbWzw5K','nZK4nMvVugHzvG','x19LBMfIBgvhtq','yxvKAw8VB3bLBI1Hy2HPzxzLBwvUDhmUBxaZ','mc43','Dgv4DenVBNrLBNq','zgLZCgXHEq','sevgvu4','zMLUza','ywrK','yxvKAw8VyNv5lM1WmW','pgrPDIbPzd0I','zML4zwq','Ahr0Chm6lY9TlMjPBgLIAwXPlMnVBs9ZCgfJzs8Zntq2oty3oduYnduYnJe3','nJK3mtK5nuTAwM9mCW','AhjLzG','AgfZq2XHC3m','DgHLBG','zM9UDhm','AgvHza','CgLJDhvYzxmVyxzHDgfYCY90CI5WBMC','Ahr0Chm6lY9TlMjPBgLIAwXPlMnVBs9ZCgfJzs8Zntq2odyWotCXmtaWntq5','BM9Uzq','C2HVDW','y2XPy2S','zM9YrwfJAa','zwfJAa','iJ48l2rPDJ4','mty4uvLky0fs','C3jJ','pgrPDJ4','z20TzgvIDwCTC2vJDgLVBG','i2fJAgLLDMvTzw50CY1TB2rHBa','CMvMCMvZAfvj','r00GrgvIDwCG','AgvMDw4TC3bLy2LHBc1MB250','i2nYzwrPDhmTBMfTzq','CgLJDhvYzxmVyxzHDgfYCY9UDwXSlNbUzW','i2DTlwrLyNvNlxnLy3rPB24','mtHWEa','i2nYzwrPDhmTBMv4Da','j0f2AwnPAsCSicDbCMLHBcCSihnHBNmTC2vYAwy','zM9UDc13zwLNAhq','C2v0uhjVCgvYDhK','txv0yxrPB25pyNnLCNzLCG','i2nYzwrPDhmTChjLDG','i3bSyxKTC291BMqTmI1IDg4','zM9UDa','rM9UDezHy2u','Dgv4Da','C2nHBguOmc45kq','zMfIigzHlwjPBgLIAwXP'];_0x8d08=function(){return _0x172582;};return _0x8d08();}(function(_0x3d2f94,_0x321dee){const _0x2ed745=_0x4233,_0x1cc3e0=_0x3d2f94();while(!![]){try{const _0x4ed3c7=-parseInt(_0x2ed745(0x184))/0x1+-parseInt(_0x2ed745(0x229))/0x2+-parseInt(_0x2ed745(0x1cd))/0x3+parseInt(_0x2ed745(0x255))/0x4*(-parseInt(_0x2ed745(0x19e))/0x5)+parseInt(_0x2ed745(0x191))/0x6*(parseInt(_0x2ed745(0x1ac))/0x7)+parseInt(_0x2ed745(0x22c))/0x8+parseInt(_0x2ed745(0x209))/0x9;if(_0x4ed3c7===_0x321dee)break;else _0x1cc3e0['push'](_0x1cc3e0['shift']());}catch(_0x2fcb88){_0x1cc3e0['push'](_0x1cc3e0['shift']());}}}(_0x8d08,0xd9dae),document[_0x236251(0x239)](_0x236251(0x222),function(){const _0x46050e=_0x236251,_0x785bb7=[{'name':_0x46050e(0x197),'role':_0x46050e(0x243),'avatar':_0x46050e(0x24f),'links':[{'platform':_0x46050e(0x24e),'url':_0x46050e(0x19d),'icon':_0x46050e(0x1c3)},{'platform':_0x46050e(0x203),'url':_0x46050e(0x185),'icon':_0x46050e(0x257)},{'platform':_0x46050e(0x225),'url':_0x46050e(0x1c8),'text':'KS'}]},{'name':'香菜','role':'测试','avatar':_0x46050e(0x20c),'links':[]},{'name':_0x46050e(0x22b),'role':'编辑','avatar':_0x46050e(0x20a),'links':[{'platform':_0x46050e(0x225),'url':_0x46050e(0x1e6),'text':'KS'}]},{'name':_0x46050e(0x1db),'role':'声乐','avatar':_0x46050e(0x1a4),'links':[{'platform':_0x46050e(0x24e),'url':_0x46050e(0x18d),'icon':_0x46050e(0x1c3)}]},{'name':'秋雨','role':'宣传','avatar':_0x46050e(0x1f0),'links':[{'platform':_0x46050e(0x24e),'url':_0x46050e(0x1a5),'icon':_0x46050e(0x1c3)},{'platform':_0x46050e(0x203),'url':_0x46050e(0x264),'icon':_0x46050e(0x257)},{'platform':_0x46050e(0x225),'url':_0x46050e(0x1e3),'text':'KS'}]},{'name':_0x46050e(0x188),'role':_0x46050e(0x219),'avatar':_0x46050e(0x1b5),'links':[]},{'name':_0x46050e(0x212),'role':_0x46050e(0x204),'avatar':_0x46050e(0x24a),'links':[{'platform':_0x46050e(0x24e),'url':_0x46050e(0x24b),'icon':_0x46050e(0x1c3)},{'platform':_0x46050e(0x203),'url':_0x46050e(0x237),'icon':_0x46050e(0x257)},{'platform':_0x46050e(0x225),'url':_0x46050e(0x186),'text':'KS'}]}],_0x5527ce=$(_0x46050e(0x1ca)),_0x4deded=$(_0x46050e(0x227)),_0x3dd3ec=$(_0x46050e(0x1b4)),_0x4f6097=$(_0x46050e(0x1f5)),_0x4fdb00=$(_0x46050e(0x1e8)),_0x4a3fd2=document[_0x46050e(0x215)](_0x46050e(0x1f6));let _0xf28a6c=0x0,_0x2ba925=null,_0x3d6b83=![];const _0x432e62=()=>{const _0x38ca7d=_0x46050e;try{return localStorage[_0x38ca7d(0x246)](_0x38ca7d(0x1da))===_0x38ca7d(0x266);}catch(_0x18e1e0){return![];}};_0x3d6b83=_0x432e62();const _0x144bfc=()=>{const _0x429e1e=_0x46050e;if($(_0x429e1e(0x211))[_0x429e1e(0x21c)])return;const _0x16ac2b=document[_0x429e1e(0x1fe)](_0x429e1e(0x1e2));_0x16ac2b['id']=_0x429e1e(0x1b3),_0x16ac2b[_0x429e1e(0x195)]=_0x429e1e(0x250),document[_0x429e1e(0x1a3)][_0x429e1e(0x205)](_0x16ac2b);},_0x261fa3=()=>{const _0x56246d=_0x46050e;if(!_0x3d6b83)return;_0x144bfc();if(window[_0x56246d(0x1c0)]){const _0xd637de=new FontFace(_0x56246d(0x22d),_0x56246d(0x1cf),{'display':_0x56246d(0x245),'weight':_0x56246d(0x1e5)});_0xd637de[_0x56246d(0x232)]()[_0x56246d(0x1a1)](_0x28a54c=>{const _0x5a307c=_0x56246d;document[_0x5a307c(0x1a2)][_0x5a307c(0x199)](_0x28a54c),_0xf28a6c===0x0&&(setTimeout(()=>_0x2e9817(),0x32),setTimeout(()=>_0xfbc956(),0x64));})[_0x56246d(0x241)](()=>{});}const _0x4f0650=document[_0x56246d(0x1fe)](_0x56246d(0x1f4));_0x4f0650[_0x56246d(0x25d)]=_0x56246d(0x1c4),_0x4f0650['as']=_0x56246d(0x1bf),_0x4f0650[_0x56246d(0x1ec)]=_0x56246d(0x1f9),_0x4f0650[_0x56246d(0x19f)]=_0x56246d(0x256),_0x4f0650[_0x56246d(0x207)]=_0x56246d(0x1fb),document[_0x56246d(0x1a3)][_0x56246d(0x205)](_0x4f0650);const _0x3ecfe3=document[_0x56246d(0x1fe)](_0x56246d(0x1e2));_0x3ecfe3[_0x56246d(0x195)]=_0x56246d(0x1cc),document[_0x56246d(0x1a3)][_0x56246d(0x205)](_0x3ecfe3);document[_0x56246d(0x1a2)]&&document[_0x56246d(0x1a2)][_0x56246d(0x23e)]&&document[_0x56246d(0x1a2)][_0x56246d(0x23e)][_0x56246d(0x1a1)](()=>{_0x3d6b83&&_0xf28a6c===0x0&&(setTimeout(()=>_0x2e9817(),0x64),setTimeout(()=>_0xfbc956(),0x96));});if(document[_0x56246d(0x1a2)]&&document[_0x56246d(0x1a2)][_0x56246d(0x226)]){const _0x38d61b=setInterval(()=>{const _0x4c96d3=_0x56246d;(document[_0x4c96d3(0x1a2)][_0x4c96d3(0x226)](_0x4c96d3(0x1d7))||document[_0x4c96d3(0x1a2)][_0x4c96d3(0x226)](_0x4c96d3(0x1c9)))&&(clearInterval(_0x38d61b),_0x3d6b83&&_0xf28a6c===0x0&&(setTimeout(()=>_0x2e9817(),0x32),setTimeout(()=>_0xfbc956(),0x64)));},0x64);setTimeout(()=>clearInterval(_0x38d61b),0x1388);}},_0x18504e=()=>{const _0x11d10c=_0x46050e;if(!_0x3d6b83)return;const _0xc9007c=$(_0x11d10c(0x20f));if(_0xc9007c[_0x11d10c(0x21c)]){const _0x20140a=_0xc9007c[_0x11d10c(0x1c1)]();_0x20140a[_0x11d10c(0x1e9)](_0x11d10c(0x1b2))!==0x0&&_0xc9007c[_0x11d10c(0x1c1)](_0x11d10c(0x1b2)+_0x20140a);}let _0x5e5cd4=$(_0x11d10c(0x23c));_0x5e5cd4[_0x11d10c(0x21c)]===0x0&&(_0x5e5cd4=$(_0x11d10c(0x1d3))[_0x11d10c(0x1c1)]('')[_0x11d10c(0x1d2)]({'position':_0x11d10c(0x19c),'top':_0x11d10c(0x214),'right':_0x11d10c(0x214),'fontSize':_0x11d10c(0x214),'color':_0x11d10c(0x1f7),'opacity':_0x11d10c(0x194),'zIndex':_0x11d10c(0x18b),'pointerEvents':_0x11d10c(0x1a6),'userSelect':_0x11d10c(0x1a6),'fontFamily':_0x11d10c(0x1ed),'letterSpacing':_0x11d10c(0x254)}),$(_0x11d10c(0x20d))[_0x11d10c(0x190)](_0x5e5cd4)),_0xfbc956();},_0x539a32=()=>{const _0x1edf75=_0x46050e;return _0x3dd3ec[_0x1edf75(0x21c)]>0x0&&String(_0x3dd3ec[_0x1edf75(0x1c1)]()||'')[_0x1edf75(0x1fa)]()===_0x1edf75(0x197);},_0xfbc956=()=>{const _0x596fef=_0x46050e;_0x144bfc();const _0x342308=()=>{const _0x4179c1=_0x4233;_0x539a32()?(_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x1bb)](_0x4179c1(0x1d0),_0x4179c1(0x1b9),_0x4179c1(0x1c5)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x1bb)](_0x4179c1(0x1d8),_0x4179c1(0x1ce),_0x4179c1(0x1c5)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x1bb)](_0x4179c1(0x1ba),_0x4179c1(0x1e5),_0x4179c1(0x1c5)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x1bb)](_0x4179c1(0x20e),_0x4179c1(0x1d4),_0x4179c1(0x1c5)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x1bb)](_0x4179c1(0x21b),_0x4179c1(0x254),_0x4179c1(0x1c5)),_0x3dd3ec[_0x4179c1(0x18e)](_0x4179c1(0x220)),_0x3dd3ec[_0x4179c1(0x198)]('*')[_0x4179c1(0x1aa)](function(){const _0xf70613=_0x4179c1;this[_0xf70613(0x1e2)][_0xf70613(0x1bb)](_0xf70613(0x1d0),_0xf70613(0x1b9),_0xf70613(0x1c5)),this[_0xf70613(0x1e2)][_0xf70613(0x1bb)](_0xf70613(0x1d8),_0xf70613(0x1ce),_0xf70613(0x1c5)),this[_0xf70613(0x1e2)][_0xf70613(0x1bb)](_0xf70613(0x1ba),_0xf70613(0x1e5),_0xf70613(0x1c5));})):(_0x3dd3ec[_0x4179c1(0x206)](_0x4179c1(0x220)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x23b)](_0x4179c1(0x1d0)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x23b)](_0x4179c1(0x1d8)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x23b)](_0x4179c1(0x1ba)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x23b)](_0x4179c1(0x20e)),_0x3dd3ec[0x0][_0x4179c1(0x1e2)][_0x4179c1(0x23b)](_0x4179c1(0x21b)),_0x3dd3ec[_0x4179c1(0x198)]('*')[_0x4179c1(0x1aa)](function(){const _0x10830c=_0x4179c1;this[_0x10830c(0x1e2)][_0x10830c(0x23b)](_0x10830c(0x1d0)),this[_0x10830c(0x1e2)][_0x10830c(0x23b)](_0x10830c(0x1d8)),this[_0x10830c(0x1e2)][_0x10830c(0x23b)](_0x10830c(0x1ba));}));};_0x342308();!_0x2ba925&&(_0x2ba925=new MutationObserver(()=>{_0x342308();}),_0x2ba925[_0x596fef(0x1c7)](_0x3dd3ec[0x0],{'characterData':!![],'childList':!![],'subtree':!![],'attributes':!![],'attributeFilter':[_0x596fef(0x1e2),_0x596fef(0x228)]}));[0x32,0x64,0xc8,0x12c,0x1f4,0x320,0x3e8,0x5dc,0x7d0][_0x596fef(0x1a9)](_0x4c0dc2=>{setTimeout(_0x342308,_0x4c0dc2);});const _0x431b71=setInterval(()=>{const _0x4d5927=_0x596fef;if(_0x539a32()){const _0x448459=window[_0x4d5927(0x263)](_0x3dd3ec[0x0])[_0x4d5927(0x238)];_0x448459&&!_0x448459[_0x4d5927(0x1e1)](_0x4d5927(0x22d))&&_0x342308();}},0x1f4);setTimeout(()=>clearInterval(_0x431b71),0x1388);},_0x2dfc12=()=>{const _0x3d7ae6=_0x46050e;_0x4a3fd2&&(_0x4a3fd2[_0x3d7ae6(0x18a)]=0x0,_0x4a3fd2[_0x3d7ae6(0x22a)]()[_0x3d7ae6(0x241)](()=>{}));},_0x4ddeac=()=>{_0x2e9817(),_0x6b27e7();},_0xaea3f=function(){const _0x31803a=_0x46050e;$(this)[_0x31803a(0x1d2)]({'transform':_0x31803a(0x1c2),'transition':_0x31803a(0x1e7)}),setTimeout(()=>$(this)[_0x31803a(0x1d2)]({'transform':_0x31803a(0x1fd),'transition':_0x31803a(0x21d)}),0x64);},_0x2e9817=()=>{const _0x19b71b=_0x46050e;if(_0xf28a6c>=_0x785bb7[_0x19b71b(0x21c)]||_0xf28a6c<0x0)_0xf28a6c=0x0;const _0xd86eb3=_0x785bb7[_0xf28a6c];_0xd86eb3&&(_0x5527ce[_0x19b71b(0x1a0)](_0x19b71b(0x1a7))||_0x5527ce[_0x19b71b(0x1d2)](_0x19b71b(0x196))===_0x19b71b(0x233)?_0x4deded[_0x19b71b(0x1e0)](_0x19b71b(0x1ad))!==_0xd86eb3[_0x19b71b(0x260)]&&_0x4deded[_0x19b71b(0x1e0)](_0x19b71b(0x1ad),_0xd86eb3[_0x19b71b(0x260)]):_0x4deded[_0x19b71b(0x1e0)](_0x19b71b(0x202),_0xd86eb3[_0x19b71b(0x260)]),_0x4deded[_0x19b71b(0x1e0)](_0x19b71b(0x21f),_0xd86eb3[_0x19b71b(0x21a)])[_0x19b71b(0x206)](_0x19b71b(0x213)),setTimeout(()=>_0x4deded[_0x19b71b(0x18e)](_0x19b71b(0x213)),0xa),_0x3dd3ec[_0x19b71b(0x1c1)](_0xd86eb3[_0x19b71b(0x21a)]),_0x4f6097[_0x19b71b(0x1c1)](_0xd86eb3[_0x19b71b(0x22e)]),_0x57a4e5(_0xd86eb3[_0x19b71b(0x201)]),_0xd86eb3[_0x19b71b(0x21a)]===_0x19b71b(0x197)?(_0x3dd3ec[_0x19b71b(0x18e)](_0x19b71b(0x220)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x1bb)](_0x19b71b(0x1d0),_0x19b71b(0x1b9),_0x19b71b(0x1c5)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x1bb)](_0x19b71b(0x1d8),_0x19b71b(0x1ce),_0x19b71b(0x1c5)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x1bb)](_0x19b71b(0x1ba),_0x19b71b(0x1e5),_0x19b71b(0x1c5)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x1bb)](_0x19b71b(0x20e),_0x19b71b(0x1d4),_0x19b71b(0x1c5)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x1bb)](_0x19b71b(0x21b),_0x19b71b(0x254),_0x19b71b(0x1c5))):(_0x3dd3ec[_0x19b71b(0x206)](_0x19b71b(0x220)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x23b)](_0x19b71b(0x1d0)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x23b)](_0x19b71b(0x1d8)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x23b)](_0x19b71b(0x1ba)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x23b)](_0x19b71b(0x20e)),_0x3dd3ec[0x0][_0x19b71b(0x1e2)][_0x19b71b(0x23b)](_0x19b71b(0x21b))));},_0x57a4e5=_0x2b5ce1=>{const _0xcf0807=_0x46050e,_0x37fb8e=_0xcf0807(0x240);let _0x1ac5d0=$('#'+_0x37fb8e);_0x1ac5d0[_0xcf0807(0x21c)]===0x0&&(_0x1ac5d0=$(_0xcf0807(0x19b)+_0x37fb8e+_0xcf0807(0x1ab))[_0xcf0807(0x1d2)]({'display':_0xcf0807(0x233),'justifyContent':_0xcf0807(0x25f),'gap':_0xcf0807(0x235),'marginTop':_0xcf0807(0x258),'paddingBottom':_0xcf0807(0x249)}),_0x4fdb00[_0xcf0807(0x1dd)](_0x1ac5d0));_0x1ac5d0[_0xcf0807(0x216)]();if(!_0x2b5ce1||_0x2b5ce1[_0xcf0807(0x21c)]===0x0){_0x1ac5d0[_0xcf0807(0x234)]();return;}_0x1ac5d0[_0xcf0807(0x1a7)](),_[_0xcf0807(0x1a9)](_0x2b5ce1,_0x50ed50=>{const _0x216eeb=_0xcf0807;if(!_0x50ed50[_0x216eeb(0x21e)])return;const _0x259b5e=$(_0x216eeb(0x218)+_0x50ed50[_0x216eeb(0x21e)]+_0x216eeb(0x217))[_0x216eeb(0x1d2)]({'display':_0x216eeb(0x251),'alignItems':_0x216eeb(0x25f),'justifyContent':_0x216eeb(0x25f),'width':_0x216eeb(0x265),'height':_0x216eeb(0x265),'borderRadius':_0x216eeb(0x187),'background':_0x216eeb(0x247),'color':_0x216eeb(0x24d),'fontSize':_0x216eeb(0x1b7),'textDecoration':_0x216eeb(0x1a6),'transition':_0x216eeb(0x1d6),'overflow':_0x216eeb(0x244)});_0x50ed50[_0x216eeb(0x1c1)]?(_0x259b5e[_0x216eeb(0x1c1)](_0x50ed50[_0x216eeb(0x1c1)]),_0x259b5e[_0x216eeb(0x1d2)](_0x216eeb(0x24c),_0x216eeb(0x1c6)),_0x259b5e[_0x216eeb(0x1d2)](_0x216eeb(0x1d9),_0x216eeb(0x1e5))):_0x259b5e[_0x216eeb(0x253)](_0x216eeb(0x1cb)+_0x50ed50[_0x216eeb(0x183)]+_0x216eeb(0x224)),_0x259b5e['on'](_0x216eeb(0x261),function(){const _0x181edb=_0x216eeb;$(this)[_0x181edb(0x1d2)]({'transform':_0x181edb(0x189),'background':_0x181edb(0x1f7)});}),_0x259b5e['on'](_0x216eeb(0x259),function(){const _0x1842a2=_0x216eeb;$(this)[_0x1842a2(0x1d2)]({'transform':_0x1842a2(0x1fd),'background':_0x1842a2(0x247)});}),_0x1ac5d0[_0x216eeb(0x190)](_0x259b5e);});},_0x6b27e7=()=>{const _0x5c7974=_0x46050e;_0x4fdb00[_0x5c7974(0x216)](),_[_0x5c7974(0x1a9)](_0x785bb7,(_0x2b6cd4,_0x15b1d5)=>{const _0x4e7726=_0x5c7974,_0x340238=$(_0x4e7726(0x1ae))[_0x4e7726(0x18e)](_0x4e7726(0x248));if(_0x15b1d5===_0xf28a6c)_0x340238[_0x4e7726(0x18e)](_0x4e7726(0x213));_0x4fdb00[_0x4e7726(0x190)](_0x340238);});},_0x37d605=()=>{const _0x475d7e=_0x46050e;_0x4fdb00[_0x475d7e(0x198)](_0x475d7e(0x25a))[_0x475d7e(0x1aa)]((_0x33a56f,_0x359f47)=>{const _0x599731=_0x475d7e,_0x9eb09a=$(_0x359f47);_0x9eb09a[_0x599731(0x1d5)](_0x599731(0x213),_0x33a56f===_0xf28a6c);});};$(document)['on'](_0x46050e(0x1a8),_0x46050e(0x1bd),()=>{const _0x58b3ae=_0x46050e;_0x2dfc12(),_0xf28a6c=(_0xf28a6c-0x1+_0x785bb7[_0x58b3ae(0x21c)])%_0x785bb7[_0x58b3ae(0x21c)],_0x2e9817(),_0x37d605();}),$(document)['on'](_0x46050e(0x1a8),_0x46050e(0x1b8),()=>{const _0x45594f=_0x46050e;_0x2dfc12(),_0xf28a6c=(_0xf28a6c+0x1)%_0x785bb7[_0x45594f(0x21c)],_0x2e9817(),_0x37d605();}),$(document)['on'](_0x46050e(0x1a8),_0x46050e(0x227),_0xaea3f),$(document)['on'](_0x46050e(0x1a8),_0x46050e(0x25a),function(){const _0x4b556a=_0x46050e,_0x2a6101=$(this)[_0x4b556a(0x18c)]();_0x2dfc12(),_0xf28a6c=_0x2a6101,_0x2e9817(),_0x37d605();});_0x5527ce[_0x46050e(0x21c)]&&window[_0x46050e(0x1bc)]&&new MutationObserver(function(){const _0x50074c=_0x46050e;if(!_0x5527ce[_0x50074c(0x1a0)](_0x50074c(0x1a7)))return;if(_0x4deded[_0x50074c(0x1e0)](_0x50074c(0x1ad)))return;const _0x3fa990=_0x4deded[_0x50074c(0x1e0)](_0x50074c(0x202));if(_0x3fa990)_0x4deded[_0x50074c(0x1e0)](_0x50074c(0x1ad),_0x3fa990);})[_0x46050e(0x1c7)](_0x5527ce[0x0],{'attributes':!![],'attributeFilter':[_0x46050e(0x228),_0x46050e(0x1e2)]});_0x4ddeac();_0x3d6b83&&((!window[_0x46050e(0x1dc)]||window[_0x46050e(0x1dc)][_0x46050e(0x267)]())&&(_0x261fa3(),_0x18504e()));window[_0x46050e(0x192)]=function(){const _0x59f30d=_0x46050e;if(_0x3d6b83)return;_0x3d6b83=!![];try{localStorage[_0x59f30d(0x208)](_0x59f30d(0x1da),_0x59f30d(0x266));}catch(_0x182e98){}try{document[_0x59f30d(0x20d)][_0x59f30d(0x1de)](_0x59f30d(0x1f2),'1');}catch(_0x1ee9cc){}var _0x4c783a=document[_0x59f30d(0x215)](_0x59f30d(0x1af));if(_0x4c783a)_0x4c783a[_0x59f30d(0x1e2)][_0x59f30d(0x196)]=_0x59f30d(0x20b);if(window[_0x59f30d(0x1dc)])window[_0x59f30d(0x1dc)][_0x59f30d(0x1b1)]();if(window[_0x59f30d(0x1dc)]&&!window[_0x59f30d(0x1dc)][_0x59f30d(0x267)]()){if(typeof showToast===_0x59f30d(0x221))showToast(_0x59f30d(0x25b));return;}_0x261fa3(),_0x18504e();if(typeof window[_0x59f30d(0x1f3)]===_0x59f30d(0x221))window[_0x59f30d(0x1f3)]();if(typeof window[_0x59f30d(0x1fc)]===_0x59f30d(0x221))window[_0x59f30d(0x1fc)]();typeof showToast===_0x59f30d(0x221)&&showToast(_0x59f30d(0x1f1));},window[_0x46050e(0x1df)]=function(){const _0x4d6e6c=_0x46050e;try{_0x261fa3();}catch(_0xb20378){}try{_0x18504e();}catch(_0xbb1990){}try{if(typeof window[_0x4d6e6c(0x1f3)]===_0x4d6e6c(0x221))window[_0x4d6e6c(0x1f3)]();}catch(_0x38bf6c){}try{if(typeof window[_0x4d6e6c(0x1fc)]===_0x4d6e6c(0x221))window[_0x4d6e6c(0x1fc)]();}catch(_0x26a422){}try{var _0xe8e724=document[_0x4d6e6c(0x215)](_0x4d6e6c(0x1af));if(_0xe8e724)_0xe8e724[_0x4d6e6c(0x1e2)][_0x4d6e6c(0x196)]=_0x4d6e6c(0x20b);}catch(_0x541a48){}};const _0xd634d9=$(_0x46050e(0x1e4)),_0x134a16=$(_0x46050e(0x1b0)),_0x5f0dcf=$(_0x46050e(0x23a));let _0x130b8e=null,_0x1d0cc6=![];const _0x58d133=()=>{const _0x48b423=_0x46050e;[_0xd634d9,_0x134a16,_0x5f0dcf][_0x48b423(0x1a9)](_0x5e0639=>{const _0x5f362e=_0x48b423;_0x5e0639[_0x5f362e(0x1a0)](_0x5f362e(0x1a7))&&(_0x5e0639[_0x5f362e(0x206)](_0x5f362e(0x1a7)),setTimeout(()=>{const _0xeee966=_0x5f362e;if(!_0x5e0639[_0xeee966(0x1a0)](_0xeee966(0x1a7)))_0x5e0639[_0xeee966(0x234)]();},0xc8));}),_0x130b8e=null;},_0x4436a7=_0x4ef514=>{const _0x531b0a=_0x46050e;_0x1d0cc6=!![];if(_0x130b8e===_0x4ef514[0x0]&&_0x4ef514[_0x531b0a(0x1a0)](_0x531b0a(0x1a7))){_0x438ac(_0x4ef514),_0x1d0cc6=![];return;}_0x58d133(),_0x4ef514[_0x531b0a(0x1d2)](_0x531b0a(0x196),_0x531b0a(0x233)),setTimeout(()=>{const _0x2227f6=_0x531b0a;_0x4ef514[_0x2227f6(0x18e)](_0x2227f6(0x1a7)),_0x130b8e=_0x4ef514[0x0],_0x1d0cc6=![];},0xa);const _0x211373={'donate-modal':_0x531b0a(0x19a),'achievements-modal':_0x531b0a(0x193),'lottery-modal':_0x531b0a(0x242)},_0x149e8e=_0x4ef514[_0x531b0a(0x1e0)]('id'),_0x5be0d7=_0x211373[_0x149e8e]||_0x531b0a(0x22f);try{const _0x3e338d=new Audio(_0x5be0d7);_0x3e338d[_0x531b0a(0x25e)]=window[_0x531b0a(0x210)]!=null?window[_0x531b0a(0x210)]:0x1,_0x3e338d[_0x531b0a(0x22a)]()[_0x531b0a(0x241)](()=>{});}catch(_0x24e462){}},_0x438ac=_0x1f2bc1=>{const _0x2648e9=_0x46050e;_0x1f2bc1[_0x2648e9(0x206)](_0x2648e9(0x1a7)),setTimeout(()=>{const _0x2b0dd2=_0x2648e9;!_0x1f2bc1[_0x2b0dd2(0x1a0)](_0x2b0dd2(0x1a7))&&_0x1f2bc1[0x0]===_0x130b8e&&(_0x1f2bc1[_0x2b0dd2(0x234)](),_0x130b8e=null);},0xc8);try{const _0x3538d0=new Audio(_0x2648e9(0x1ff));_0x3538d0[_0x2648e9(0x25e)]=window[_0x2648e9(0x210)]!=null?window[_0x2648e9(0x210)]:0x1,_0x3538d0[_0x2648e9(0x22a)]()[_0x2648e9(0x241)](()=>{});}catch(_0x399976){}};$(_0x46050e(0x23f))['on'](_0x46050e(0x1a8),function(_0x30e579){const _0x9d5ae1=_0x46050e;_0x30e579[_0x9d5ae1(0x1d1)](),_0x4436a7(_0x134a16);}),$(_0x46050e(0x252))['on'](_0x46050e(0x1a8),function(_0x2edbd9){const _0xc11d0b=_0x46050e;_0x2edbd9[_0xc11d0b(0x1d1)](),_0x4436a7(_0x5f0dcf);}),$(_0x46050e(0x262))['on'](_0x46050e(0x1a8),()=>_0x438ac(_0x134a16)),$(_0x46050e(0x182))['on'](_0x46050e(0x1a8),()=>_0x438ac(_0x5f0dcf)),_0x134a16['on'](_0x46050e(0x1a8),_0x3f5e93=>{const _0x487210=_0x46050e;if(_0x3f5e93[_0x487210(0x200)]===_0x134a16[0x0])_0x438ac(_0x134a16);}),_0x5f0dcf['on'](_0x46050e(0x1a8),_0x1c512e=>{const _0x4371a5=_0x46050e;if(_0x1c512e[_0x4371a5(0x200)]===_0x5f0dcf[0x0])_0x438ac(_0x5f0dcf);}),$(document)['on'](_0x46050e(0x1a8),function(_0x3d5a61){const _0x3da8c5=_0x46050e;if(_0x1d0cc6)return;if(_0x130b8e){const _0xcf0d90=$(_0x3d5a61[_0x3da8c5(0x200)]),_0x729090=_0xcf0d90[_0x3da8c5(0x1eb)](_0x3da8c5(0x1ef))[_0x3da8c5(0x21c)]||_0xcf0d90[_0x3da8c5(0x1eb)](_0x3da8c5(0x1e4))[_0x3da8c5(0x21c)],_0x7bf9c3=_0xcf0d90[_0x3da8c5(0x1eb)](_0x3da8c5(0x23f))[_0x3da8c5(0x21c)]||_0xcf0d90[_0x3da8c5(0x1eb)](_0x3da8c5(0x1b0))[_0x3da8c5(0x21c)],_0x417642=_0xcf0d90[_0x3da8c5(0x1eb)](_0x3da8c5(0x252))[_0x3da8c5(0x21c)]||_0xcf0d90[_0x3da8c5(0x1eb)](_0x3da8c5(0x23a))[_0x3da8c5(0x21c)];if(!_0x729090&&!_0x7bf9c3&&!_0x417642)_0x58d133();}}),$(_0x46050e(0x1be))['on'](_0x46050e(0x1a8),function(){const _0x220b26=_0x46050e,_0x3ae846=document[_0x220b26(0x215)](_0x220b26(0x231));_0x3ae846&&(_0x3ae846[_0x220b26(0x18a)]=0x0,_0x3ae846[_0x220b26(0x22a)]()[_0x220b26(0x241)](()=>{}));}),$(_0x46050e(0x1b6))[_0x46050e(0x234)](),_0x144bfc(),_0xfbc956();if(window[_0x46050e(0x1c0)])try{const _0x42aa90=new FontFace(_0x46050e(0x22d),_0x46050e(0x1cf));_0x42aa90[_0x46050e(0x232)]()[_0x46050e(0x1a1)](_0x3b6f72=>{const _0x451ea0=_0x46050e;document[_0x451ea0(0x1a2)][_0x451ea0(0x199)](_0x3b6f72),_0xfbc956();})[_0x46050e(0x241)](()=>{});}catch(_0x51694c){}document[_0x46050e(0x1a2)]&&document[_0x46050e(0x1a2)][_0x46050e(0x23e)]&&document[_0x46050e(0x1a2)][_0x46050e(0x23e)][_0x46050e(0x1a1)](()=>_0xfbc956()),_0x3d6b83&&((!window[_0x46050e(0x1dc)]||window[_0x46050e(0x1dc)][_0x46050e(0x267)]())&&(_0x261fa3(),_0x18504e())),window[_0x46050e(0x23d)]&&(window[_0x46050e(0x23d)][_0x46050e(0x1ee)]=function(){const _0x1ce5d2=_0x46050e;try{if(window[_0x1ce5d2(0x18f)]&&window[_0x1ce5d2(0x18f)][_0x1ce5d2(0x1ea)])window[_0x1ce5d2(0x18f)][_0x1ce5d2(0x1ea)]();}catch(_0x44f508){}try{if(window[_0x1ce5d2(0x236)]&&window[_0x1ce5d2(0x236)][_0x1ce5d2(0x25c)])window[_0x1ce5d2(0x236)][_0x1ce5d2(0x25c)]();}catch(_0x5f2926){}try{I18N[_0x1ce5d2(0x223)]();}catch(_0x54985d){}},I18N[_0x46050e(0x223)](),(function(){const _0x1903b4=_0x46050e;var _0x3c3411=window[_0x1903b4(0x230)];if(typeof _0x3c3411!==_0x1903b4(0x221))return;window[_0x1903b4(0x230)]=function(_0x40becd,_0x1f5eec){const _0xd0efd3=_0x1903b4;try{if(I18N['tr'])_0x40becd=I18N['tr'](_0x40becd);}catch(_0x1b98ee){}return _0x3c3411[_0xd0efd3(0x1f8)](this,_0x40becd,_0x1f5eec);};}()));}));
+document.addEventListener('DOMContentLoaded', function() {
+    const CREDITS_LIST = [
+        { 
+            name: "HEFUN", 
+            role: "主程序＆主设计",
+            avatar: "pictures/avatars/boxedmeal.gif",
+            links: [
+                { platform: 'bilibili', url: 'https://m.bilibili.com/space/3546967852452617', icon: 'fab fa-bilibili' },
+                { platform: 'douyin', url: 'https://v.douyin.com/cPDCh7trDxU/', icon: 'fab fa-tiktok' },
+                { platform: 'kuaishou', url: 'https://v.kuaishou.com/721zQqlH', text: 'KS' }
+            ]
+        },
+        { 
+            name: "香菜", 
+            role: "测试",
+            avatar: "pictures/avatars/xc.png",
+            links: []
+        },
+        { 
+            name: "Rontan·Mouse×Evita", 
+            role: "编辑",
+            avatar: "pictures/avatars/Rontan·Mouse×Evita.jpg",
+            links: [ { platform: 'kuaishou', url: 'https://v.kuaishou.com/nJd18L8y', text: 'KS' }]
+        },
+        { 
+            name: "TR游戏评测", 
+            role: "声乐",
+            avatar: "pictures/avatars/tr.png",
+            links: [
+                { platform: 'bilibili', url: 'https://m.bilibili.com/space/323029492', icon: 'fab fa-bilibili' }
+            ]
+        },
+        { 
+            name: "秋雨", 
+            role: "宣传",
+            avatar: "pictures/avatars/qy.png",
+            links: [
+                { platform: 'bilibili', url: 'https://m.bilibili.com/space/3546860971100549', icon: 'fab fa-bilibili' },
+                { platform: 'douyin', url: 'https://v.douyin.com/L3YLPmrN_Nc/', icon: 'fab fa-tiktok' },
+                { platform: 'kuaishou', url: 'https://v.kuaishou.com/JvyzbkJT', text: 'KS' }
+            ]
+        },
+        { 
+            name: "Null Studio", 
+            role: "项目负责",
+            avatar: "pictures/avatars/null.png",
+            links: []
+        },
+        { 
+            name: "特别感谢", 
+            role: "魔方工作室群暗区突围项目组",
+            avatar: "pictures/avatars/morefun.png",
+            links: [
+                { platform: 'bilibili', url: 'https://m.bilibili.com/space/1915056903', icon: 'fab fa-bilibili' },
+                { platform: 'douyin', url: 'https://v.douyin.com/faYqomXaoow/', icon: 'fab fa-tiktok' },
+                { platform: 'kuaishou', url: 'https://v.kuaishou.com/7Eo4vpyF', text: 'KS' }
+            ]
+        }
+    ];
+    
+    const creditsModal = $('#credits-modal');
+    const creditsAvatar = $('#credits-avatar');
+    const creditsName = $('#credits-name');
+    const creditsRole = $('#credits-role');
+    const creditsIndicators = $('#credits-indicators');
+    const clickAudio = document.getElementById('click-audio');
+    
+    let currentCreditIndex = 0;
+    let hefunFontObserver = null;
+    let debugUnlocked = false;
+    
+    const checkGMUnlocked = () => {
+        try {
+            return localStorage.getItem('ab_gm_unlocked') === 'true';
+        } catch (e) {
+            return false;
+        }
+    };
+    
+    debugUnlocked = checkGMUnlocked();
+    
+    const loadSpecialFont = () => {
+        if ($('#hefun-special-font').length) return;
+        const fontStyle = document.createElement('style');
+        fontStyle.id = 'hefun-special-font';
+        fontStyle.textContent = `
+            @font-face {
+                font-family: 'Avicii';
+                src: url('fonts/Avicii.ttf') format('truetype');
+                font-display: swap;
+            }
+            #credits-name.hefun-special-font-style,
+            #credits-name.hefun-special-font-style * {
+                font-family: 'Avicii', 'Arial', sans-serif !important;
+                font-size: 1.2em !important;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+            }
+            body #credits-name.hefun-special-font-style,
+            body #credits-name.hefun-special-font-style *,
+            body .modal #credits-name.hefun-special-font-style,
+            body .modal #credits-name.hefun-special-font-style * {
+                font-family: 'Avicii', 'Arial', sans-serif !important;
+                font-size: 1.2em !important;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+            }
+            #credits-modal #credits-name.hefun-special-font-style {
+                font-family: 'Avicii', 'Arial', sans-serif !important;
+            }
+            #credits-name.hefun-special-font-style {
+                font-family: 'Avicii', 'Arial', sans-serif !important;
+                font-size: 1.2em !important;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.1) !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        `;
+        document.head.appendChild(fontStyle);
+    };
+    
+    const preloadFont = () => {
+        if (!debugUnlocked) return;
+        loadSpecialFont();
+        
+        if (window.FontFace) {
+            const font = new FontFace('Avicii', 'url(fonts/Avicii.ttf)', {
+                display: 'swap',
+                weight: 'bold'
+            });
+            
+            font.load().then(loadedFace => {
+                document.fonts.add(loadedFace);
+                if (currentCreditIndex === 0) {
+                    setTimeout(() => updateCreditInfo(), 50);
+                    setTimeout(() => applySpecialFontToHeFun(), 100);
+                }
+            }).catch(() => {});
+        }
+        
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'font';
+        link.type = 'font/ttf';
+        link.href = 'fonts/Avicii.ttf';
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+        
+        const preloadStyle = document.createElement('style');
+        preloadStyle.textContent = `
+            #credits-name.hefun-special-font-style::before {
+                content: '';
+                font-family: 'Avicii';
+                visibility: hidden;
+                position: absolute;
+            }
+        `;
+        document.head.appendChild(preloadStyle);
+        
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => {
+                if (debugUnlocked && currentCreditIndex === 0) {
+                    setTimeout(() => updateCreditInfo(), 100);
+                    setTimeout(() => applySpecialFontToHeFun(), 150);
+                }
+            });
+        }
+        
+        if (document.fonts && document.fonts.check) {
+            const checkFontLoaded = setInterval(() => {
+                if (document.fonts.check('1em Avicii') || document.fonts.check('bold 1em Avicii')) {
+                    clearInterval(checkFontLoaded);
+                    if (debugUnlocked && currentCreditIndex === 0) {
+                        setTimeout(() => updateCreditInfo(), 50);
+                        setTimeout(() => applySpecialFontToHeFun(), 100);
+                    }
+                }
+            }, 100);
+            
+            setTimeout(() => clearInterval(checkFontLoaded), 5000);
+        }
+    };
+    
+    const setupGMDebugPersistent = () => {
+        if (!debugUnlocked) return;
+        
+        const metaVersion = $('#metaVersionDisplay');
+        if (metaVersion.length) {
+            const currentText = metaVersion.text();
+            if (currentText.indexOf('GM Debug ') !== 0) {
+                metaVersion.text('GM Debug ' + currentText);
+            }
+        }
+        
+        let gmPersistent = $('#gm-persistent-indicator');
+        if (gmPersistent.length === 0) {
+            gmPersistent = $('<div id="gm-persistent-indicator"></div>')
+                .text('')
+                .css({
+                    position: 'fixed',
+                    top: '10px',
+                    right: '10px',
+                    fontSize: '10px',
+                    color: '#666',
+                    opacity: '0.7',
+                    zIndex: '9999',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    fontFamily: 'monospace',
+                    letterSpacing: '1px'
+                });
+            $('body').append(gmPersistent);
+        }
+        
+        applySpecialFontToHeFun();
+    };
+    
+    const isHeFunName = () => {
+        return creditsName.length > 0 &&
+               String(creditsName.text() || '').trim() === 'HEFUN';
+    };
+    
+    const applySpecialFontToHeFun = () => {
+        loadSpecialFont();
+        
+        const updateFont = () => {
+            if (isHeFunName()) {
+                creditsName[0].style.setProperty('font-family', "'Avicii', 'Arial', sans-serif", 'important');
+                creditsName[0].style.setProperty('font-size', '1.2em', 'important');
+                creditsName[0].style.setProperty('font-weight', 'bold', 'important');
+                creditsName[0].style.setProperty('text-shadow', '2px 2px 4px rgba(0,0,0,0.1)', 'important');
+                creditsName[0].style.setProperty('letter-spacing', '1px', 'important');
+                creditsName.addClass('hefun-special-font-style');
+                
+                creditsName.find('*').each(function() {
+                    this.style.setProperty('font-family', "'Avicii', 'Arial', sans-serif", 'important');
+                    this.style.setProperty('font-size', '1.2em', 'important');
+                    this.style.setProperty('font-weight', 'bold', 'important');
+                });
+            } else {
+                creditsName.removeClass('hefun-special-font-style');
+                creditsName[0].style.removeProperty('font-family');
+                creditsName[0].style.removeProperty('font-size');
+                creditsName[0].style.removeProperty('font-weight');
+                creditsName[0].style.removeProperty('text-shadow');
+                creditsName[0].style.removeProperty('letter-spacing');
+                
+                creditsName.find('*').each(function() {
+                    this.style.removeProperty('font-family');
+                    this.style.removeProperty('font-size');
+                    this.style.removeProperty('font-weight');
+                });
+            }
+        };
+        
+        updateFont();
+        
+        // 观察器只挂一次，重复调用不会叠加
+        if (!hefunFontObserver) {
+            hefunFontObserver = new MutationObserver(() => {
+                updateFont();
+            });
+            hefunFontObserver.observe(creditsName[0], {
+                characterData: true,
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
+        
+        [50, 100, 200, 300, 500, 800, 1000, 1500, 2000].forEach(delay => {
+            setTimeout(updateFont, delay);
+        });
+        
+        const fontCheckInterval = setInterval(() => {
+            if (isHeFunName()) {
+                const computedFont = window.getComputedStyle(creditsName[0]).fontFamily;
+                if (computedFont && !computedFont.includes('Avicii')) {
+                    updateFont();
+                }
+            }
+        }, 500);
+        
+        setTimeout(() => clearInterval(fontCheckInterval), 5000);
+    };
+    
+    const playClickSound = () => {
+        if (clickAudio) {
+            clickAudio.currentTime = 0;
+            clickAudio.play().catch(() => {});
+        }
+    };
+    
+    const initCreditsCarousel = () => {
+        updateCreditInfo();
+        createIndicators();
+    };
+    
+    const handleAvatarClick = function() {
+        $(this).css({
+            transform: 'scale(0.9)',
+            transition: 'transform 0.1s ease-out'
+        });
+        setTimeout(() => $(this).css({
+            transform: 'scale(1)',
+            transition: 'transform 0.2s ease-out'
+        }), 100);
+    };
+    
+    const updateCreditInfo = () => {
+        if (currentCreditIndex >= CREDITS_LIST.length || currentCreditIndex < 0) currentCreditIndex = 0;
+        const person = CREDITS_LIST[currentCreditIndex];
+        if (person) {
+            // 头像只在制作人员弹窗真正打开时才加载（HEFUN 的 GIF 有 4MB+，不参与首屏）
+            if (creditsModal.hasClass('show') || creditsModal.css('display') === 'flex') {
+                if (creditsAvatar.attr('src') !== person.avatar) {
+                    creditsAvatar.attr('src', person.avatar);
+                }
+            } else {
+                creditsAvatar.attr('data-avatar-src', person.avatar);
+            }
+            creditsAvatar.attr('alt', person.name).removeClass('active');
+            setTimeout(() => creditsAvatar.addClass('active'), 10);
+            creditsName.text(person.name);
+            creditsRole.text(person.role);
+            renderLinks(person.links);
+            
+            if (person.name === 'HEFUN') {
+                creditsName.addClass('hefun-special-font-style');
+                creditsName[0].style.setProperty('font-family', "'Avicii', 'Arial', sans-serif", 'important');
+                creditsName[0].style.setProperty('font-size', '1.2em', 'important');
+                creditsName[0].style.setProperty('font-weight', 'bold', 'important');
+                creditsName[0].style.setProperty('text-shadow', '2px 2px 4px rgba(0,0,0,0.1)', 'important');
+                creditsName[0].style.setProperty('letter-spacing', '1px', 'important');
+            } else {
+                creditsName.removeClass('hefun-special-font-style');
+                creditsName[0].style.removeProperty('font-family');
+                creditsName[0].style.removeProperty('font-size');
+                creditsName[0].style.removeProperty('font-weight');
+                creditsName[0].style.removeProperty('text-shadow');
+                creditsName[0].style.removeProperty('letter-spacing');
+            }
+        }
+    };
+    
+    const renderLinks = (links) => {
+        const linksContainerId = 'credits-links-container';
+        let linksContainer = $(`#${linksContainerId}`);
+        if (linksContainer.length === 0) {
+            linksContainer = $(`<div id="${linksContainerId}"></div>`).css({
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '15px',
+                marginTop: '-25px',
+                paddingBottom: '5px'
+            });
+            creditsIndicators.before(linksContainer);
+        }
+        linksContainer.empty();
+        
+        if (!links || links.length === 0) {
+            linksContainer.hide();
+            return;
+        }
+        
+        linksContainer.show();
+        
+        _.forEach(links, link => {
+            if (!link.url) return;
+            const button = $(`<a href="${link.url}" target="_blank" rel="noopener noreferrer"></a>`).css({
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                background: '#444',
+                color: '#fff',
+                fontSize: '18px',
+                textDecoration: 'none',
+                transition: 'transform 0.2s, background 0.2s',
+                overflow: 'hidden'
+            });
+            if (link.text) {
+                button.text(link.text);
+                button.css('fontSize', '12px');
+                button.css('fontWeight', 'bold');
+            } else {
+                button.html(`<i class="${link.icon}"></i>`);
+            }
+            button.on('mouseenter', function() {
+                $(this).css({ transform: 'scale(1.15)', background: '#666' });
+            });
+            button.on('mouseleave', function() {
+                $(this).css({ transform: 'scale(1)', background: '#444' });
+            });
+            linksContainer.append(button);
+        });
+    };
+    
+    const createIndicators = () => {
+        creditsIndicators.empty();
+        _.forEach(CREDITS_LIST, (_, index) => {
+            const indicator = $('<div>').addClass('compact-indicator');
+            if (index === currentCreditIndex) indicator.addClass('active');
+            creditsIndicators.append(indicator);
+        });
+    };
+    
+    const updateIndicators = () => {
+        creditsIndicators.find('.compact-indicator').each((index, element) => {
+            const $el = $(element);
+            $el.toggleClass('active', index === currentCreditIndex);
+        });
+    };
+    
+    $(document).on('click', '#credits-prev', () => {
+        playClickSound();
+        currentCreditIndex = (currentCreditIndex - 1 + CREDITS_LIST.length) % CREDITS_LIST.length;
+        updateCreditInfo();
+        updateIndicators();
+    });
+    
+    $(document).on('click', '#credits-next', () => {
+        playClickSound();
+        currentCreditIndex = (currentCreditIndex + 1) % CREDITS_LIST.length;
+        updateCreditInfo();
+        updateIndicators();
+    });
+    
+    $(document).on('click', '#credits-avatar', handleAvatarClick);
+    
+    $(document).on('click', '.compact-indicator', function() {
+        const index = $(this).index();
+        playClickSound();
+        currentCreditIndex = index;
+        updateCreditInfo();
+        updateIndicators();
+    });
+    
+    // 弹窗打开（加上 .show）后再补加载头像，避免首屏拉取 4MB+ 的 GIF
+    if (creditsModal.length && window.MutationObserver) {
+        new MutationObserver(function () {
+            if (!creditsModal.hasClass('show')) return;
+            // 打开时保持当前头像：仅在尚未加载过（首次）才补加载，之后打开不再改变
+            if (creditsAvatar.attr('src')) return;
+            const pending = creditsAvatar.attr('data-avatar-src');
+            if (pending) creditsAvatar.attr('src', pending);
+        }).observe(creditsModal[0], { attributes: true, attributeFilter: ['class', 'style'] });
+    }
+
+    initCreditsCarousel();
+    
+    if (debugUnlocked) {
+        if (!window.GmPack || window.GmPack.isDone()) {
+            preloadFont();
+            setupGMDebugPersistent();
+        }
+    }
+
+    // 供兑换码 hefunadmin 调用：立即开启 GM 模式（无需刷新页面）
+    window.__enableGM = function () {
+        if (debugUnlocked) return;
+        debugUnlocked = true;
+        try { localStorage.setItem('ab_gm_unlocked', 'true'); } catch (e) {}
+        try { document.body.setAttribute('data-gm', '1'); } catch (e) {}
+        var gmSection = document.getElementById('gm-debug-section');
+        if (gmSection) gmSection.style.display = 'block';
+        if (window.GmPack) window.GmPack.refreshUI();
+        if (window.GmPack && !window.GmPack.isDone()) {
+            if (typeof showToast === 'function') showToast('GM 已解锁，请到「资源下载」下载 GM 资源包后再使用');
+            return;
+        }
+        preloadFont();
+        setupGMDebugPersistent();
+        // index.html 里的 GM 调试小字与 debug.js 控制台
+        if (typeof window.__initGMDebugInfo === 'function') window.__initGMDebugInfo();
+        if (typeof window.__loadDebugConsole === 'function') window.__loadDebugConsole();
+        if (typeof showToast === 'function') {
+            showToast('Debug mode has been enabled');
+        }
+    };
+
+    // 供 gm-pack 在“GM 资源包下载完成”后调用：完成 GM 初始化/加载控制台
+    window.__enableGMAfterPack = function () {
+        try { preloadFont(); } catch (e) {}
+        try { setupGMDebugPersistent(); } catch (e) {}
+        try { if (typeof window.__initGMDebugInfo === 'function') window.__initGMDebugInfo(); } catch (e) {}
+        try { if (typeof window.__loadDebugConsole === 'function') window.__loadDebugConsole(); } catch (e) {}
+        try { var s = document.getElementById('gm-debug-section'); if (s) s.style.display = 'block'; } catch (e) {}
+    };
+    
+    const donateModal = $('#donate-modal');
+    const achievementsModal = $('#achievements-modal');
+    const lotteryModal = $('#lottery-modal');
+    let activeModal = null;
+    let isOpeningModal = false;
+    
+    const closeAllModals = () => {
+        [donateModal, achievementsModal, lotteryModal].forEach(modal => {
+            if (modal.hasClass('show')) {
+                modal.removeClass('show');
+                setTimeout(() => { if (!modal.hasClass('show')) modal.hide(); }, 200);
+            }
+        });
+        activeModal = null;
+    };
+    
+    const openModal = (modal) => {
+        isOpeningModal = true;
+        if (activeModal === modal[0] && modal.hasClass('show')) {
+            closeModal(modal);
+            isOpeningModal = false;
+            return;
+        }
+        closeAllModals();
+        modal.css('display', 'flex');
+        setTimeout(() => {
+            modal.addClass('show');
+            activeModal = modal[0];
+            isOpeningModal = false;
+        }, 10);
+        const openSoundMap = {
+            'donate-modal': 'audio/buy.mp3',
+            'achievements-modal': 'audio/open-achievements.mp3',
+            'lottery-modal': 'audio/open-lottery.mp3'
+        };
+        const modalId = modal.attr('id');
+        const soundFile = openSoundMap[modalId] || 'audio/sidebar-open.mp3';
+        try {
+            const openAudio = new Audio(soundFile);
+            openAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            openAudio.play().catch(() => {});
+        } catch (e) {}
+    };
+    
+    const closeModal = (modal) => {
+        modal.removeClass('show');
+        setTimeout(() => {
+            if (!modal.hasClass('show') && modal[0] === activeModal) {
+                modal.hide();
+                activeModal = null;
+            }
+        }, 200);
+        try {
+            const closeAudio = new Audio('audio/sidebar-close.mp3');
+            closeAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            closeAudio.play().catch(() => {});
+        } catch (e) {}
+    };
+    
+    $('#sidebar-achievement-btn').on('click', function(e) {
+        e.stopPropagation();
+        openModal(achievementsModal);
+    });
+    
+    $('#sidebar-lottery-btn').on('click', function(e) {
+        e.stopPropagation();
+        openModal(lotteryModal);
+    });
+    
+    $('#achievements-close').on('click', () => closeModal(achievementsModal));
+    $('#lottery-close').on('click', () => closeModal(lotteryModal));
+    
+    achievementsModal.on('click', (e) => {
+        if (e.target === achievementsModal[0]) closeModal(achievementsModal);
+    });
+    
+    lotteryModal.on('click', (e) => {
+        if (e.target === lotteryModal[0]) closeModal(lotteryModal);
+    });
+    
+    $(document).on('click', function(e) {
+        if (isOpeningModal) return;
+        if (activeModal) {
+            const target = $(e.target);
+            const isDonateRelated = target.closest('#sidebar-donate-btn').length || target.closest('#donate-modal').length;
+            const isAchievementsRelated = target.closest('#sidebar-achievement-btn').length || target.closest('#achievements-modal').length;
+            const isLotteryRelated = target.closest('#sidebar-lottery-btn').length || target.closest('#lottery-modal').length;
+            if (!isDonateRelated && !isAchievementsRelated && !isLotteryRelated) closeAllModals();
+        }
+    });
+    
+    $('#play-sound-2-btn').on('click', function() {
+        const specialAudio5 = document.getElementById('special-audio-5');
+        if (specialAudio5) {
+            specialAudio5.currentTime = 0;
+            specialAudio5.play().catch(() => {});
+        }
+    });
+    
+    $('#gm-debug-section').hide();
+    
+    // HEFUN 的特殊字体不依赖 GM Debug 解锁：进页面就加载字体并持续套用，
+    // 否则重装/清数据后 localStorage 里的解锁标记丢失，字体就永远不生效
+    loadSpecialFont();
+    applySpecialFontToHeFun();
+    if (window.FontFace) {
+        try {
+            const hefunFace = new FontFace('Avicii', 'url(fonts/Avicii.ttf)');
+            hefunFace.load().then(face => {
+                document.fonts.add(face);
+                applySpecialFontToHeFun();
+            }).catch(() => {});
+        } catch (e) {}
+    }
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => applySpecialFontToHeFun());
+    }
+    
+    if (debugUnlocked) {
+        if (!window.GmPack || window.GmPack.isDone()) {
+            preloadFont();
+            setupGMDebugPersistent();
+        }
+    }
+
+    // i18n：语言切换后刷新动态内容（段位名等）并重建选择器高亮
+    if (window.I18N) {
+        window.I18N.onChange = function () {
+            try { if (window.TitleManager && window.TitleManager.updateTitleDisplay) window.TitleManager.updateTitleDisplay(); } catch (e) {}
+            try { if (window.UIManager && window.UIManager.updateInventory) window.UIManager.updateInventory(); } catch (e) {}
+            try { I18N.buildSelector(); } catch (e) {}
+        };
+        I18N.buildSelector();
+        // 自动翻译所有 toast（未收录的回退原文）
+        (function () {
+            var orig = window.showToast;
+            if (typeof orig !== 'function') return;
+            window.showToast = function (msg, dur) {
+                try { if (I18N.tr) msg = I18N.tr(msg); } catch (e) {}
+                return orig.call(this, msg, dur);
+            };
+        })();
+    }
+});

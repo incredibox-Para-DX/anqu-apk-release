@@ -1,1 +1,226 @@
-function _0x1cbd(){var _0x468a9e=['z2v0rwXLBwvUDej5swq','AgLKzgvU','CxvLCNLtzwXLy3rVCKfSBa','yxvKAw8VB3bLBI1Hy2n1BxvSyxrLzc12ywX1zs5TCdm','ywrKrxzLBNrmAxn0zw5LCG','C3bSAwnL','nZe3ota0Euf4uMPi','yxvKAw8VB3bLBI1SzwfKzxjIB2fYzc5TCdm','yxvKAw8VC2LKzwjHCI1JBg9Zzs5TCdm','Dg9W','zgLZCgXHEq','C2HVD0rLBgf5','lM1VzgfSlw92zxjSyxLBAwrD','D2LKDgG','yxvKAw8VB3bLBI1JB25MAxjTlwrPC2fIBguUBxaZ','mhb4','nZyYota2DeDPs1fy','mJrYyw5wt1a','B3bLBLnVDw5K','CgXHEq','x29YAwDAsw5KzxG','CMvTB3zL','A2LUza','zM9YrwfJAa','yxvKAw8VB3bLBI1IzY1ZzwXLy3qUBxaZ','AgLKzurLBgf5','AgvPz2H0','C2LSzw50','x19vsv9tt1vorf9wt0XvtuvFxW','C2HVDW','Bg9HzgLUzW','y2f0y2G','BgvMDa','Aw5UzxjxAwr0Aa','zNvUy3rPB24','C2XPy2u','B2zMC2v0v2LKDgG','yxvKAw8VB3bLBI1PDgvTlwnVBNrYB2WUBxaZ','Aw5UzxjizwLNAhq','yxvKAw8VB3bLBI1JCMvKAxrZlM1WmW','ndrlz25IqwS','re9nq29UDgvUDeXVywrLza','zMXLEa','B2zMC2v0sgvPz2H0','yxvKAw8VC2LKzwjHCI1VCgvUlM1WmW','yxvKAw8VB3bLBI1JB25MAxjTlwvUywjSzs5TCdm','y2fSBa','mZG2nJbPyLbgse0','odG2nde4mxjZzvDUuq','Bwf4','B25pCgvU','yxbWlwz1BgWTCgfNzq','yxvKAw8VB3bLBI1JB2XSzwn0lM1WmW','y29UDgfPBNm','DMLZAwjPBgL0Eq','BgvUz3rO','Aw5KzxHpzG','yxvKAw8VyNv5lM1WmW','yxvKAw8VzgvSzxrLlwnSAwnRlM1WmW','AxrLBs10B29SDgLW','DM9SDw1L','yxvKAw8VB3bLBI1UB3rPzMLJyxrPB24UBxaZ','mJuXmZK4n3DVyKzuAa','CMLNAhq','yxvKAw8VB3bLBI10AxrSzs5TCdm','C3r5Bgu','CMvJDa','B25dBg9Zzq','AgfZt3DUuhjVCgvYDhK','yxvKAw8VB3bLBI1ZDwjTAxqTC2nVCMuUBxaZ','mZC1mZG3s1PKEKzv','BM9Uzq','yxvKAw8VBMv3lw1HAwWUBxaZ','CM91BMq','y2XVC2vtB3vUza','Cg9WDxa','ywrK','yxvKAw8VywrTAw4TB3bLBI5TCdm','Bw9KywW','y2XPzw50v2LKDgG','yxvKAw8VB3bLBI1TDxnPyY1WBgf5BgLZDc5TCdm','y2XHC3nmAxn0','CMvHzhLtDgf0zq','ChjVDg90ExbL','ndyYmJzYChnJBwK','EKLUzgv4','zg9JDw1LBNrfBgvTzw50','ChvZAa','yxvKAw8VB3bLBI1UAwnRBMfTzs5TCdm','tw9KywXszwDPC3rYEq','BwLU','z2v0qM91BMrPBMDdBgLLBNrszwn0','y2XPzw50sgvPz2H0'];_0x1cbd=function(){return _0x468a9e;};return _0x1cbd();}function _0x5be7(_0x2a4cac,_0x4d6020){_0x2a4cac=_0x2a4cac-0x108;var _0x1cbda9=_0x1cbd();var _0x5be753=_0x1cbda9[_0x2a4cac];if(_0x5be7['SPRLxg']===undefined){var _0x24c9c4=function(_0x287ed4){var _0x39ab6f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x501b28='',_0x241bb4='';for(var _0x2a3f8b=0x0,_0x3c3f1d,_0x45ae2f,_0x52f35d=0x0;_0x45ae2f=_0x287ed4['charAt'](_0x52f35d++);~_0x45ae2f&&(_0x3c3f1d=_0x2a3f8b%0x4?_0x3c3f1d*0x40+_0x45ae2f:_0x45ae2f,_0x2a3f8b++%0x4)?_0x501b28+=String['fromCharCode'](0xff&_0x3c3f1d>>(-0x2*_0x2a3f8b&0x6)):0x0){_0x45ae2f=_0x39ab6f['indexOf'](_0x45ae2f);}for(var _0x7718a2=0x0,_0x12d545=_0x501b28['length'];_0x7718a2<_0x12d545;_0x7718a2++){_0x241bb4+='%'+('00'+_0x501b28['charCodeAt'](_0x7718a2)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x241bb4);};_0x5be7['AQMcNJ']=_0x24c9c4,_0x5be7['OjbpSv']={},_0x5be7['SPRLxg']=!![];}var _0x58f608=_0x1cbda9[0x0];_0x5be7['tlOvSD']!==_0x58f608&&(_0x5be7['OjbpSv']={},_0x5be7['tlOvSD']=_0x58f608);var _0x3d72ad=_0x5be7['OjbpSv'][_0x2a4cac];return _0x3d72ad===undefined?(_0x5be753=_0x5be7['AQMcNJ'](_0x5be753),_0x5be7['OjbpSv'][_0x2a4cac]=_0x5be753):_0x5be753=_0x3d72ad,_0x5be753;}(function(_0x2dc7a3,_0x591276){var _0x1b203c=_0x5be7,_0x265193=_0x2dc7a3();while(!![]){try{var _0x3df794=-parseInt(_0x1b203c(0x148))/0x1+-parseInt(_0x1b203c(0x156))/0x2*(parseInt(_0x1b203c(0x113))/0x3)+-parseInt(_0x1b203c(0x12a))/0x4*(-parseInt(_0x1b203c(0x131))/0x5)+parseInt(_0x1b203c(0x112))/0x6+-parseInt(_0x1b203c(0x140))/0x7+-parseInt(_0x1b203c(0x108))/0x8+parseInt(_0x1b203c(0x132))/0x9;if(_0x3df794===_0x591276)break;else _0x265193['push'](_0x265193['shift']());}catch(_0x1def6f){_0x265193['push'](_0x265193['shift']());}}}(_0x1cbd,0x2de26),function(_0x241bb4){'use strict';var _0x34574c=_0x5be7;var _0x2a3f8b={'bg-select-modal':_0x34574c(0x11a),'donate-modal':_0x34574c(0x13b),'credits-modal':_0x34574c(0x129),'effect-settings-modal':_0x34574c(0x129),'sound-settings-modal':_0x34574c(0x14a),'update-check-modal':_0x34574c(0x14f),'cloud-sync-modal':_0x34574c(0x109),'view-leaderboard-modal':_0x34574c(0x109),'music-playlist-modal':_0x34574c(0x152),'submit-score-modal':_0x34574c(0x147),'title-modal':_0x34574c(0x142),'item-control-modal':_0x34574c(0x127),'custom-confirm-modal':_0x34574c(0x110),'enable-confirm-modal':_0x34574c(0x12f),'accumulated-value-modal':_0x34574c(0x162),'collect-page':_0x34574c(0x136),'nickname-modal':_0x34574c(0x15a),'notification-modal':_0x34574c(0x13f),'resource-download-modal':_0x34574c(0x13c)},_0x3c3f1d=_0x34574c(0x12e),_0x45ae2f=_0x34574c(0x10a),_0x52f35d={},_0x7718a2=[];function _0x12d545(_0x5564b2){var _0x23f65b=_0x34574c;return document[_0x23f65b(0x15f)](_0x5564b2);}function _0x1b508d(_0x3d2890,_0x4c8d33){var _0xced503=_0x34574c;if(!_0x3d2890)return;try{var _0x2d72fc=new Audio(_0x3d2890);_0x2d72fc[_0xced503(0x13e)]=_0x4c8d33!=null?_0x4c8d33:_0x241bb4[_0xced503(0x11e)]!=null?_0x241bb4[_0xced503(0x11e)]:0x1;var _0x1ab791=_0x2d72fc[_0xced503(0x115)]();if(_0x1ab791&&typeof _0x1ab791[_0xced503(0x121)]===_0xced503(0x124))_0x1ab791[_0xced503(0x121)](function(){});}catch(_0x8990db){}}function _0x57a6c4(_0x4cc1a7){var _0xf5224c=_0x34574c,_0x20a125=_0x12d545(_0x4cc1a7),_0x322d80=!!(_0x20a125&&_0x20a125[_0xf5224c(0x153)][_0xf5224c(0x137)](_0xf5224c(0x135)));return{'kind':_0xf5224c(0x150),'openSound':_0x2a3f8b[_0x4cc1a7]||_0x3c3f1d,'closeSound':_0x45ae2f,'showDelay':0xa,'hideDelay':_0x322d80?0x168:0x12c,'silent':![]};}function _0x48f6f2(_0x56efa4,_0x5e2fd4){var _0x471ac8=_0x34574c;if(!_0x56efa4)return null;var _0x35b099=_0x57a6c4(_0x56efa4);if(_0x52f35d[_0x56efa4])for(var _0x239917 in _0x52f35d[_0x56efa4]){if(Object[_0x471ac8(0x155)][_0x471ac8(0x146)][_0x471ac8(0x130)](_0x52f35d[_0x56efa4],_0x239917))_0x35b099[_0x239917]=_0x52f35d[_0x56efa4][_0x239917];}if(_0x5e2fd4)for(var _0x2b8f26 in _0x5e2fd4){if(Object[_0x471ac8(0x155)][_0x471ac8(0x146)][_0x471ac8(0x130)](_0x5e2fd4,_0x2b8f26))_0x35b099[_0x2b8f26]=_0x5e2fd4[_0x2b8f26];}return _0x52f35d[_0x56efa4]=_0x35b099,_0x35b099;}function _0x2090ae(_0x5353c9){return _0x52f35d[_0x5353c9]||_0x48f6f2(_0x5353c9,null);}function _0x1f26c7(_0x51b8d3,_0x5b2bb9){var _0xc02847=_0x34574c;_0x5b2bb9=_0x5b2bb9||{};var _0x5422ec=_0x12d545(_0x51b8d3);if(!_0x5422ec)return![];var _0x325763=_0x2090ae(_0x51b8d3);if(!_0x5b2bb9[_0xc02847(0x11d)]&&!_0x325763[_0xc02847(0x11d)])_0x1b508d(_0x325763[_0xc02847(0x114)]);if(_0x5b2bb9[_0xc02847(0x157)]!=null){if(_0x5422ec[_0xc02847(0x116)]===undefined)_0x5422ec[_0xc02847(0x116)]=_0x5422ec[_0xc02847(0x143)][_0xc02847(0x157)]||'';_0x5422ec[_0xc02847(0x143)][_0xc02847(0x157)]=_0x5b2bb9[_0xc02847(0x157)];}_0x5422ec[_0xc02847(0x143)][_0xc02847(0x10c)]=_0xc02847(0x12c);_0x325763[_0xc02847(0x118)]===_0xc02847(0x150)?setTimeout(function(){var _0x370b31=_0xc02847;_0x5422ec[_0x370b31(0x153)][_0x370b31(0x14e)](_0x370b31(0x11f));},_0x325763[_0xc02847(0x10d)]):_0x5422ec[_0xc02847(0x153)][_0xc02847(0x14e)](_0xc02847(0x11f));if(_0x7718a2[_0xc02847(0x13a)](_0x51b8d3)===-0x1)_0x7718a2[_0xc02847(0x159)](_0x51b8d3);if(typeof _0x325763[_0xc02847(0x134)]===_0xc02847(0x124))try{_0x325763[_0xc02847(0x134)](_0x5422ec,_0x5b2bb9);}catch(_0x507e15){}return!![];}function _0xa257a5(_0x5dfc3f,_0x3b5607){var _0x13db2=_0x34574c;_0x3b5607=_0x3b5607||{};var _0x3938c3=_0x12d545(_0x5dfc3f);if(!_0x3938c3)return![];var _0x483278=_0x2090ae(_0x5dfc3f);if(!_0x3b5607[_0x13db2(0x11d)]&&!_0x483278[_0x13db2(0x11d)])_0x1b508d(_0x483278[_0x13db2(0x14c)]);_0x3938c3[_0x13db2(0x153)][_0x13db2(0x117)](_0x13db2(0x11f)),setTimeout(function(){var _0x5ab748=_0x13db2;!_0x3938c3[_0x5ab748(0x153)][_0x5ab748(0x137)](_0x5ab748(0x11f))&&(_0x3938c3[_0x5ab748(0x143)][_0x5ab748(0x10c)]=_0x5ab748(0x149),_0x3938c3[_0x5ab748(0x116)]!==undefined&&(_0x3938c3[_0x5ab748(0x143)][_0x5ab748(0x157)]=_0x3938c3[_0x5ab748(0x116)],delete _0x3938c3[_0x5ab748(0x116)]));},_0x483278[_0x13db2(0x11b)]);var _0x5cb00e=_0x7718a2[_0x13db2(0x13a)](_0x5dfc3f);if(_0x5cb00e!==-0x1)_0x7718a2[_0x13db2(0x164)](_0x5cb00e,0x1);if(typeof _0x483278[_0x13db2(0x145)]===_0x13db2(0x124))try{_0x483278[_0x13db2(0x145)](_0x3938c3,_0x3b5607);}catch(_0x339a9e){}return!![];}function _0x19e0b8(_0x2faba3){var _0x451fee=_0x34574c,_0x1af53c=_0x12d545(_0x2faba3);if(!_0x1af53c)return![];return _0x1af53c[_0x451fee(0x143)][_0x451fee(0x10c)]!==_0x451fee(0x149)&&_0x1af53c[_0x451fee(0x153)][_0x451fee(0x137)](_0x451fee(0x11f));}function _0x1ff939(_0x2b7bf1){var _0x1b9d73=_0x34574c;_0x7718a2[_0x1b9d73(0x125)]()[_0x1b9d73(0x119)](function(_0x3729f3){if(_0x3729f3!==_0x2b7bf1)_0xa257a5(_0x3729f3,{'silent':!![]});});}function _0x516480(_0xea41b8,_0x5cfb2e,_0x4d88d0){var _0x105583=_0x34574c;if(!_0xea41b8)return null;_0x4d88d0=_0x4d88d0==null?0x8:_0x4d88d0;var _0x4bc4d7=_0xea41b8[_0x105583(0x143)][_0x105583(0x138)];_0xea41b8[_0x105583(0x143)][_0x105583(0x138)]=_0x105583(0x160);if(!_0xea41b8[_0x105583(0x143)][_0x105583(0x10c)]||_0xea41b8[_0x105583(0x143)][_0x105583(0x10c)]===_0x105583(0x149))_0xea41b8[_0x105583(0x143)][_0x105583(0x10c)]=_0x105583(0x12c);_0xea41b8[_0x105583(0x143)][_0x105583(0x122)]=_0x105583(0x111),_0xea41b8[_0x105583(0x143)][_0x105583(0x10b)]=_0x105583(0x111);var _0x430d85=_0xea41b8[_0x105583(0x15d)](),_0x4890a6=_0x430d85[_0x105583(0x10f)]||_0xea41b8[_0x105583(0x126)]||0x0,_0x52905f=_0x430d85[_0x105583(0x11c)]||_0xea41b8[_0x105583(0x12d)]||0x0,_0xdd1dba=_0x241bb4[_0x105583(0x123)]||document[_0x105583(0x158)][_0x105583(0x151)]||0x0,_0x68939f=_0x241bb4[_0x105583(0x128)]||document[_0x105583(0x158)][_0x105583(0x15e)]||0x0,_0x2180ce,_0x79b171,_0x6e09ba=_0x5cfb2e&&_0x5cfb2e[_0x105583(0x144)];if(_0x6e09ba&&(_0x6e09ba[_0x105583(0x10f)]>0x0||_0x6e09ba[_0x105583(0x11c)]>0x0)){_0x2180ce=_0x6e09ba[_0x105583(0x141)]+_0x4d88d0,_0x79b171=_0x6e09ba[_0x105583(0x10b)]+_0x6e09ba[_0x105583(0x11c)]/0x2-_0x52905f/0x2;if(_0x2180ce+_0x4890a6>_0xdd1dba-_0x4d88d0)_0x2180ce=_0x6e09ba[_0x105583(0x122)]-_0x4890a6-_0x4d88d0;}else{if(_0x5cfb2e&&isFinite(_0x5cfb2e['x'])&&isFinite(_0x5cfb2e['y'])){_0x2180ce=_0x5cfb2e['x']+0xc,_0x79b171=_0x5cfb2e['y']-_0x52905f-0xc;if(_0x79b171<_0x4d88d0)_0x79b171=_0x5cfb2e['y']+0x10;}else _0x2180ce=(_0xdd1dba-_0x4890a6)/0x2,_0x79b171=(_0x68939f-_0x52905f)/0x2;}return _0x2180ce=Math[_0x105583(0x133)](_0x4d88d0,Math[_0x105583(0x15c)](_0x2180ce,_0xdd1dba-_0x4890a6-_0x4d88d0)),_0x79b171=Math[_0x105583(0x133)](_0x4d88d0,Math[_0x105583(0x15c)](_0x79b171,_0x68939f-_0x52905f-_0x4d88d0)),_0xea41b8[_0x105583(0x143)][_0x105583(0x122)]=Math[_0x105583(0x14b)](_0x2180ce)+'px',_0xea41b8[_0x105583(0x143)][_0x105583(0x10b)]=Math[_0x105583(0x14b)](_0x79b171)+'px',_0xea41b8[_0x105583(0x143)][_0x105583(0x138)]=_0x4bc4d7||'',{'left':Math[_0x105583(0x14b)](_0x2180ce),'top':Math[_0x105583(0x14b)](_0x79b171),'width':_0x4890a6,'height':_0x52905f};}function _0x1220e1(){var _0x4bdaca=_0x34574c,_0x26bdaa=document[_0x4bdaca(0x161)](_0x4bdaca(0x10e));for(var _0x1af82b=0x0;_0x1af82b<_0x26bdaa[_0x4bdaca(0x139)];_0x1af82b++){_0x48f6f2(_0x26bdaa[_0x1af82b]['id'],null);}_0x48f6f2(_0x4bdaca(0x13d),{'kind':_0x4bdaca(0x14d),'silent':!![],'hideDelay':0x82});}document[_0x34574c(0x154)]===_0x34574c(0x120)?document[_0x34574c(0x163)](_0x34574c(0x12b),_0x1220e1):_0x1220e1(),_0x241bb4[_0x34574c(0x15b)]={'register':_0x48f6f2,'config':_0x2090ae,'open':_0x1f26c7,'close':_0xa257a5,'closeAll':_0x1ff939,'isOpen':_0x19e0b8,'openList':function(){var _0x2a5151=_0x34574c;return _0x7718a2[_0x2a5151(0x125)]();},'list':function(){var _0x216e0f=_0x34574c,_0x360072=[];for(var _0x3a18ca in _0x52f35d){if(Object[_0x216e0f(0x155)][_0x216e0f(0x146)][_0x216e0f(0x130)](_0x52f35d,_0x3a18ca))_0x360072[_0x216e0f(0x159)](_0x3a18ca);}return _0x360072;},'positionPopup':_0x516480,'playSound':_0x1b508d};}(window));
+/* 弹窗注册表：所有 modal 的开关音效、动画时长、显示方式只在这里定义一次。
+ * 旧代码里 EventManager 与 ModalManager 各存了一份映射，这里合并为单一来源。
+ */
+(function (w) {
+    'use strict';
+
+    var OPEN_SOUNDS = {
+        'bg-select-modal': 'audio/open-bg-select.mp3',
+        'donate-modal': 'audio/buy.mp3',
+        'credits-modal': 'audio/open-credits.mp3',
+        'effect-settings-modal': 'audio/open-credits.mp3',
+        'sound-settings-modal': 'audio/new-mail.mp3',
+        'update-check-modal': 'audio/admin-open.mp3',
+        'cloud-sync-modal': 'audio/open-leaderboard.mp3',
+        'view-leaderboard-modal': 'audio/open-leaderboard.mp3',
+        'music-playlist-modal': 'audio/open-music-playlist.mp3',
+        'submit-score-modal': 'audio/open-submit-score.mp3',
+        'title-modal': 'audio/open-title.mp3',
+        'item-control-modal': 'audio/open-item-control.mp3',
+        'custom-confirm-modal': 'audio/open-confirm-disable.mp3',
+        'enable-confirm-modal': 'audio/open-confirm-enable.mp3',
+        'accumulated-value-modal': 'audio/open-accumulated-value.mp3',
+        'collect-page': 'audio/open-collect.mp3',
+        'nickname-modal': 'audio/open-nickname.mp3',
+        'notification-modal': 'audio/open-notification.mp3',
+        'resource-download-modal': 'audio/delete-click.mp3'
+    };
+
+    var DEFAULT_OPEN_SOUND = 'audio/sidebar-open.mp3';
+    var CLOSE_SOUND = 'audio/sidebar-close.mp3';
+    var registry = {};
+    var openIds = [];
+
+    function el(id) {
+        return document.getElementById(id);
+    }
+
+    function play(file, volume) {
+        if (!file) return;
+        try {
+            var audio = new Audio(file);
+            audio.volume = volume != null ? volume : (w.__UI_SOUND_VOLUME__ != null ? w.__UI_SOUND_VOLUME__ : 1);
+            var p = audio.play();
+            if (p && typeof p.catch === 'function') p.catch(function () {});
+        } catch (e) {}
+    }
+
+    function defaults(id) {
+        var node = el(id);
+        var fullPage = !!(node && node.classList.contains('app-full-page'));
+        return {
+            kind: 'modal',
+            openSound: OPEN_SOUNDS[id] || DEFAULT_OPEN_SOUND,
+            closeSound: CLOSE_SOUND,
+            showDelay: 10,
+            hideDelay: fullPage ? 360 : 300,
+            silent: false
+        };
+    }
+
+    function register(id, cfg) {
+        if (!id) return null;
+        var merged = defaults(id);
+        if (registry[id]) {
+            for (var k in registry[id]) {
+                if (Object.prototype.hasOwnProperty.call(registry[id], k)) merged[k] = registry[id][k];
+            }
+        }
+        if (cfg) {
+            for (var j in cfg) {
+                if (Object.prototype.hasOwnProperty.call(cfg, j)) merged[j] = cfg[j];
+            }
+        }
+        registry[id] = merged;
+        return merged;
+    }
+
+    function cfgOf(id) {
+        return registry[id] || register(id, null);
+    }
+
+    function open(id, options) {
+        options = options || {};
+        var node = el(id);
+        if (!node) return false;
+        var cfg = cfgOf(id);
+
+        if (!options.silent && !cfg.silent) play(cfg.openSound);
+
+        // 支持调用方指定层级（如弹窗中心打开的弹窗需要高于自身）
+        if (options.zIndex != null) {
+            if (node._origZIndex === undefined) node._origZIndex = node.style.zIndex || '';
+            node.style.zIndex = options.zIndex;
+        }
+
+        node.style.display = 'flex';
+        if (cfg.kind === 'modal') {
+            setTimeout(function () { node.classList.add('show'); }, cfg.showDelay);
+        } else {
+            node.classList.add('show');
+        }
+        if (openIds.indexOf(id) === -1) openIds.push(id);
+        if (typeof cfg.onOpen === 'function') {
+            try { cfg.onOpen(node, options); } catch (e) {}
+        }
+        return true;
+    }
+
+    function close(id, options) {
+        options = options || {};
+        var node = el(id);
+        if (!node) return false;
+        var cfg = cfgOf(id);
+
+        if (!options.silent && !cfg.silent) play(cfg.closeSound);
+
+        node.classList.remove('show');
+        setTimeout(function () {
+            // 期间被重新打开就不要隐藏，避免快速开关时闪一下
+            if (!node.classList.contains('show')) {
+                node.style.display = 'none';
+                // 恢复弹窗中心临时设置的层级
+                if (node._origZIndex !== undefined) {
+                    node.style.zIndex = node._origZIndex;
+                    delete node._origZIndex;
+                }
+            }
+        }, cfg.hideDelay);
+        var pos = openIds.indexOf(id);
+        if (pos !== -1) openIds.splice(pos, 1);
+        if (typeof cfg.onClose === 'function') {
+            try { cfg.onClose(node, options); } catch (e) {}
+        }
+        return true;
+    }
+
+    function isOpen(id) {
+        var node = el(id);
+        if (!node) return false;
+        return node.style.display !== 'none' && node.classList.contains('show');
+    }
+
+    function closeAll(exceptId) {
+        openIds.slice().forEach(function (id) {
+            if (id !== exceptId) close(id, { silent: true });
+        });
+    }
+
+    // 浮层（物品详情等）定位：先量实际尺寸，再按锚点在视口内钳制。
+    // 锚点无效时退回点击坐标，再退回屏幕中心，绝不依赖元素的静态位置。
+    function positionPopup(node, anchor, margin) {
+        if (!node) return null;
+        margin = margin == null ? 8 : margin;
+        var prevVisibility = node.style.visibility;
+
+        node.style.visibility = 'hidden';
+        if (!node.style.display || node.style.display === 'none') node.style.display = 'flex';
+        node.style.left = '0px';
+        node.style.top = '0px';
+
+        var rect = node.getBoundingClientRect();
+        var pw = rect.width || node.offsetWidth || 0;
+        var ph = rect.height || node.offsetHeight || 0;
+        var vw = w.innerWidth || document.documentElement.clientWidth || 0;
+        var vh = w.innerHeight || document.documentElement.clientHeight || 0;
+
+        var left;
+        var top;
+        var anchorRect = anchor && anchor.rect;
+
+        if (anchorRect && (anchorRect.width > 0 || anchorRect.height > 0)) {
+            left = anchorRect.right + margin;
+            top = anchorRect.top + anchorRect.height / 2 - ph / 2;
+            if (left + pw > vw - margin) left = anchorRect.left - pw - margin;
+        } else if (anchor && isFinite(anchor.x) && isFinite(anchor.y)) {
+            left = anchor.x + 12;
+            top = anchor.y - ph - 12;
+            if (top < margin) top = anchor.y + 16;
+        } else {
+            left = (vw - pw) / 2;
+            top = (vh - ph) / 2;
+        }
+
+        left = Math.max(margin, Math.min(left, vw - pw - margin));
+        top = Math.max(margin, Math.min(top, vh - ph - margin));
+
+        node.style.left = Math.round(left) + 'px';
+        node.style.top = Math.round(top) + 'px';
+        node.style.visibility = prevVisibility || '';
+
+        return { left: Math.round(left), top: Math.round(top), width: pw, height: ph };
+    }
+
+    function bootstrap() {
+        var nodes = document.querySelectorAll('.modal-overlay[id]');
+        for (var i = 0; i < nodes.length; i++) {
+            register(nodes[i].id, null);
+        }
+        register('item-tooltip', { kind: 'popup', silent: true, hideDelay: 130 });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootstrap);
+    } else {
+        bootstrap();
+    }
+
+    w.ModalRegistry = {
+        register: register,
+        config: cfgOf,
+        open: open,
+        close: close,
+        closeAll: closeAll,
+        isOpen: isOpen,
+        openList: function () { return openIds.slice(); },
+        list: function () {
+            var out = [];
+            for (var k in registry) {
+                if (Object.prototype.hasOwnProperty.call(registry, k)) out.push(k);
+            }
+            return out;
+        },
+        positionPopup: positionPopup,
+        playSound: play
+    };
+})(window);

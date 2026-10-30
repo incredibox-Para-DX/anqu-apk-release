@@ -1,1 +1,179 @@
-function _0x4e0b(){var _0x2960d9=['ywjFz21FDw5SB2nRzwq','Dhj1zq','zgLZCgXHEq','C2HVDW','i3jLzgvLBs1JB2rLlxn1yM1PDa','A2v5','y2XVC2vZDa','A2v5CW','44cm54MP5zob5RgG566H55cg44cn5BEY6kEJ6zsb','yw5XDv9PDgvTCg9VBf8Ymdi2x3yX','C2XPy2u','5ywr5O2I5OIq5yQF77Yb57sV6k6H5lU35yc8icSYme0','tw9KywXszwDPC3rYEq','ywjFDwLKx2nSzwfU','C3vJy2vZCW','DMfSDwu','zgvZDgLUEv9WAxr5','CMvKzwvTlwnVzguTy2XVC2u','6k+36l6t5ywL5ywr5O2I56cb','C3r5Bgu','CMvKzwvTlwnVzguTC3vIBwL0','CMvHzhLtDgf0zq','mJu1otq4owP5zfb2va','zMXLEa','z2v0sxrLBq','C2v0sxrLBq','i2y4nZe3mq','r00G5QIH5BYp5BEY5BYa5zcV','5OQa6io96kEJ6zsb5AsX6lsL','ntG3mtm0ofj4q29QBW','5ywr5O2I5AsX6lsL77Ym6k+356In5zco6yEn6k+v','B3bLBG','y2XVC2u','Dgv4DenVBNrLBNq','6k+L5ywr5O2I56cb5BEY5l2/55sO','mZe0odyXmfzXtKPptq','C2HVD1rVyxn0','BM9Uzq','y29SB3i','Dg9tDhjPBMC','CMvKzwvTlwnVzguTAw5WDxq','x19LBMfIBgvhtq','oxrgDw5PuG','z3jHBNq','B25Jzq','DgfYz2v0','5ywr5O2I56cb5PEG5Pwi','mZiYnZm1mdrusNvtv20','C2LKzwjHCI1YzwrLzw0TyNrU','zM9JDxm','uMvKzwvTq29Kzq','Aw5KzxHpzG','y2HHCKnVzgvbDa','CMvWBgfJzq','rw50zxi','re9nq29UDgvUDeXVywrLza','ywjFC2HVCf9ZA2LSBhnFDJe','zNvUy3rPB24','BwvZC2fNzq','CMvKzwvTlwnVzguTBw9KywW','C3rYAw5NAwz5','x191BMXVy2TtA2LSBej5uMvKzwvT','AxnbCNjHEq','ChvZAa','ywrKrxzLBNrmAxn0zw5LCG','FgLWFa','z2v0vwLK','ywjFCMvKzwvTx2nVzgvZx3yX','CMvTB3zL','Dg9vChbLCKnHC2u','iZm0zdm5oq','y2XHC3nmAxn0','A2v5zg93BG','ywjFAxrLBv9JB250CM9Sx3vUBg9JA2vK','mJy5ndG4BKThqw1f','z2v0rwXLBwvUDej5swq','CgfYC2u','Bg9HzgLUzW','CMvKzwvTlwnVzguTCMvZDwX0','BgvUz3rO','DhjPBq','x19Hzgrby2n1BxvSyxrLzfzHBhvL','y2XPy2S','5OQa6io944cm5zg96l+q5l+D5BQv44cn5BEY6kEJ6zsb','ywrK','nduWotKWzg9hsgH4','nde0ndyWng1hrNvjAW'];_0x4e0b=function(){return _0x2960d9;};return _0x4e0b();}function _0x5580(_0x4993df,_0x26f298){_0x4993df=_0x4993df-0x1ea;var _0x4e0b99=_0x4e0b();var _0x5580cb=_0x4e0b99[_0x4993df];if(_0x5580['dSiZHI']===undefined){var _0x5b5de8=function(_0x51e959){var _0x261b1b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x1e02a0='',_0x116731='';for(var _0x29bedb=0x0,_0x5aa47a,_0x1fb873,_0x14adc1=0x0;_0x1fb873=_0x51e959['charAt'](_0x14adc1++);~_0x1fb873&&(_0x5aa47a=_0x29bedb%0x4?_0x5aa47a*0x40+_0x1fb873:_0x1fb873,_0x29bedb++%0x4)?_0x1e02a0+=String['fromCharCode'](0xff&_0x5aa47a>>(-0x2*_0x29bedb&0x6)):0x0){_0x1fb873=_0x261b1b['indexOf'](_0x1fb873);}for(var _0x39b61b=0x0,_0xce79f7=_0x1e02a0['length'];_0x39b61b<_0xce79f7;_0x39b61b++){_0x116731+='%'+('00'+_0x1e02a0['charCodeAt'](_0x39b61b)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x116731);};_0x5580['fZoBSG']=_0x5b5de8,_0x5580['ORcSAK']={},_0x5580['dSiZHI']=!![];}var _0x4cfed4=_0x4e0b99[0x0];_0x5580['ODdtqf']!==_0x4cfed4&&(_0x5580['ORcSAK']={},_0x5580['ODdtqf']=_0x4cfed4);var _0x560c28=_0x5580['ORcSAK'][_0x4993df];return _0x560c28===undefined?(_0x5580cb=_0x5580['fZoBSG'](_0x5580cb),_0x5580['ORcSAK'][_0x4993df]=_0x5580cb):_0x5580cb=_0x560c28,_0x5580cb;}(function(_0x45ce97,_0x52ecdf){var _0x47c615=_0x5580,_0x5dda9c=_0x45ce97();while(!![]){try{var _0x2dcc4a=parseInt(_0x47c615(0x1ff))/0x1*(-parseInt(_0x47c615(0x21f))/0x2)+-parseInt(_0x47c615(0x1eb))/0x3+-parseInt(_0x47c615(0x22b))/0x4+parseInt(_0x47c615(0x1f8))/0x5+-parseInt(_0x47c615(0x22a))/0x6+-parseInt(_0x47c615(0x1f2))/0x7+parseInt(_0x47c615(0x204))/0x8;if(_0x2dcc4a===_0x52ecdf)break;else _0x5dda9c['push'](_0x5dda9c['shift']());}catch(_0x28a2a7){_0x5dda9c['push'](_0x5dda9c['shift']());}}}(_0x4e0b,0x9e323),function(_0x116731){'use strict';var _0x555099=_0x5580;var _0x29bedb=_0x555099(0x218),_0x5aa47a=_0x555099(0x235);function _0x1fb873(_0x52d95b){var _0x593a51=_0x555099,_0x164b27=0x811c9dc5;for(var _0x5eb868=0x0;_0x5eb868<_0x52d95b[_0x593a51(0x224)];_0x5eb868++){_0x164b27^=_0x52d95b[_0x593a51(0x209)](_0x5eb868),_0x164b27=_0x164b27*0x1000193>>>0x0;}return _0x164b27>>>0x0;}function _0x14adc1(_0x6288a2){var _0x5cf21d=_0x555099;_0x6288a2=String(_0x6288a2||'')[_0x5cf21d(0x225)]();if(!_0x6288a2)return'';var _0x5d87f6=_0x1fb873(_0x5aa47a+_0x5cf21d(0x216)+_0x6288a2),_0x59004b=_0x1fb873(_0x6288a2+_0x5cf21d(0x216)+_0x5aa47a+'|x'),_0x9913a3=(_0x5d87f6[_0x5cf21d(0x1fc)](0x24)+_0x59004b[_0x5cf21d(0x1fc)](0x24))[_0x5cf21d(0x21a)]()[_0x5cf21d(0x20a)](/[^A-Z0-9]/g,'');while(_0x9913a3[_0x5cf21d(0x224)]<0xa)_0x9913a3+='X';return'IP'+_0x9913a3[_0x5cf21d(0x236)](0x0,0x4)+'-'+_0x9913a3[_0x5cf21d(0x236)](0x4,0x8);}function _0x39b61b(_0x3299ae){var _0x227233=_0x555099;return String(_0x3299ae||'')[_0x227233(0x21a)]()[_0x227233(0x20a)](/[\s\-]/g,'');}var _0xce79f7={'Camona':{'once':!![],'grant':function(){var _0x5dc6b9=_0x555099;return typeof _0x116731[_0x5dc6b9(0x226)]===_0x5dc6b9(0x20e)&&_0x116731[_0x5dc6b9(0x226)](0x1312d00),_0x5dc6b9(0x237);}},'hefunadmin':{'once':!![],'grant':function(){var _0x1a3a0c=_0x555099;if(typeof _0x116731[_0x1a3a0c(0x1fe)]===_0x1a3a0c(0x20e))_0x116731[_0x1a3a0c(0x1fe)]();else try{localStorage[_0x1a3a0c(0x1ee)](_0x1a3a0c(0x22c),_0x1a3a0c(0x22d));}catch(_0x136064){}return _0x1a3a0c(0x1f0);}},'ItemPool':{'once':!![],'grant':function(){var _0x568072=_0x555099;try{localStorage[_0x568072(0x1ee)](_0x568072(0x21e),'1');}catch(_0x2b8250){}return _0x568072(0x234);}},'Destiny':{'once':!![],'grant':function(){var _0x2a5d72=_0x555099;if(typeof _0x116731[_0x2a5d72(0x212)]===_0x2a5d72(0x20e)){const _0x230514=_0x116731[_0x2a5d72(0x212)](_0x2a5d72(0x23c));return _0x230514[_0x2a5d72(0x23a)]?_0x230514[_0x2a5d72(0x20f)]:_0x2a5d72(0x1f1);}try{var _0x316ae8=JSON[_0x2a5d72(0x221)](localStorage[_0x2a5d72(0x1ed)](_0x2a5d72(0x20d))||'{}');if(!_0x316ae8[_0x2a5d72(0x23c)])_0x316ae8[_0x2a5d72(0x23c)]={'owned':!![],'enabled':!![],'remaining':0x0};return localStorage[_0x2a5d72(0x1ee)](_0x2a5d72(0x20d),JSON[_0x2a5d72(0x211)](_0x316ae8)),_0x2a5d72(0x228);}catch(_0x23765c){return _0x2a5d72(0x1f1);}}}};function _0x3b5790(){var _0x3fe8a6=_0x555099;try{var _0x21f8ab=localStorage[_0x3fe8a6(0x1ed)](_0x29bedb),_0x1ec047=_0x21f8ab?JSON[_0x3fe8a6(0x221)](_0x21f8ab):[];return Array[_0x3fe8a6(0x213)](_0x1ec047)?_0x1ec047:[];}catch(_0x30366f){return[];}}function _0x1da465(_0x51de6e){var _0x2fae4d=_0x555099,_0x29a018=_0x3b5790();if(_0x29a018[_0x2fae4d(0x208)](_0x51de6e)===-0x1)_0x29a018[_0x2fae4d(0x214)](_0x51de6e);try{localStorage[_0x2fae4d(0x1ee)](_0x29bedb,JSON[_0x2fae4d(0x211)](_0x29a018));}catch(_0x49bdb9){}}function _0x5b25e2(_0x5579f4){var _0x344cbc=_0x555099;return _0x3b5790()[_0x344cbc(0x208)](_0x5579f4)!==-0x1;}function _0x492dcf(_0x5c5855,_0x45821c){var _0x1536ae=_0x555099,_0x44ff6d=document[_0x1536ae(0x220)](_0x1536ae(0x223));_0x44ff6d&&(_0x44ff6d[_0x1536ae(0x1f6)]=_0x5c5855,_0x44ff6d[_0x1536ae(0x23f)][_0x1536ae(0x1fb)]=_0x45821c?_0x1536ae(0x21b):_0x1536ae(0x1ef));try{if(_0x116731[_0x1536ae(0x1f9)])_0x116731[_0x1536ae(0x1f9)](_0x5c5855);}catch(_0x1571c5){}}function _0x1bc114(_0x5c2e2a){var _0x230961=_0x555099,_0x3dcca6=(_0x5c2e2a||'')[_0x230961(0x225)]();if(!_0x3dcca6){_0x492dcf(_0x230961(0x23e),![]);return;}var _0x19d234=_0xce79f7[_0x3dcca6];if(!_0x19d234){try{var _0x2f4b4a=typeof _0x116731[_0x230961(0x217)]===_0x230961(0x20e)&&_0x116731[_0x230961(0x217)]()||localStorage[_0x230961(0x1ed)](_0x230961(0x239))||'';if(_0x2f4b4a&&_0x39b61b(_0x3dcca6)===_0x39b61b(_0x14adc1(_0x2f4b4a))){localStorage[_0x230961(0x1ee)](_0x230961(0x21e),'1'),_0x492dcf(_0x230961(0x234),!![]);return;}}catch(_0x51c4bd){}_0x492dcf(_0x230961(0x203),![]);return;}if(_0x19d234[_0x230961(0x201)]&&_0x5b25e2(_0x3dcca6)){_0x492dcf(_0x230961(0x1f7),![]);return;}try{var _0x55d378=_0x19d234[_0x230961(0x200)]();if(_0x19d234[_0x230961(0x201)])_0x1da465(_0x3dcca6);_0x492dcf(_0x55d378,!![]);}catch(_0x1c87ea){_0x492dcf(_0x230961(0x1f3),![]);}}function _0x430ae9(){var _0x18285e=_0x555099,_0x2edb6d=document[_0x18285e(0x220)](_0x18285e(0x205)),_0x545b5a=document[_0x18285e(0x220)](_0x18285e(0x210)),_0x18d8bb=document[_0x18285e(0x220)](_0x18285e(0x23d)),_0x314594=document[_0x18285e(0x220)](_0x18285e(0x240)),_0x2c009e=document[_0x18285e(0x220)](_0x18285e(0x1fd)),_0x76828b=document[_0x18285e(0x220)](_0x18285e(0x223));_0x2edb6d&&_0x2edb6d[_0x18285e(0x215)](_0x18285e(0x227),function(){var _0x1ca4df=_0x18285e;if(_0x116731[_0x1ca4df(0x238)])_0x116731[_0x1ca4df(0x238)][_0x1ca4df(0x1f4)](_0x1ca4df(0x210));else _0x545b5a&&(_0x545b5a[_0x1ca4df(0x23f)][_0x1ca4df(0x22e)]=_0x1ca4df(0x1ec),setTimeout(function(){var _0x5ca72d=_0x1ca4df;_0x545b5a[_0x5ca72d(0x21c)][_0x5ca72d(0x229)](_0x5ca72d(0x22f));},0xa));_0x2c009e&&(_0x2c009e[_0x1ca4df(0x23b)]='',_0x2c009e[_0x1ca4df(0x206)]()),_0x76828b&&(_0x76828b[_0x1ca4df(0x1f6)]='');}),_0x18d8bb&&_0x18d8bb[_0x18285e(0x215)](_0x18285e(0x227),function(){var _0x51fbe8=_0x18285e;if(_0x116731[_0x51fbe8(0x238)])_0x116731[_0x51fbe8(0x238)][_0x51fbe8(0x1f5)](_0x51fbe8(0x210));else _0x545b5a&&(_0x545b5a[_0x51fbe8(0x21c)][_0x51fbe8(0x219)](_0x51fbe8(0x22f)),setTimeout(function(){var _0x290d58=_0x51fbe8;_0x545b5a[_0x290d58(0x23f)][_0x290d58(0x22e)]=_0x290d58(0x1fa);},0x12c));}),document[_0x18285e(0x215)](_0x18285e(0x227),function(_0x5bf3aa){var _0x453377=_0x18285e;if(_0x5bf3aa[_0x453377(0x202)]&&_0x5bf3aa[_0x453377(0x202)][_0x453377(0x232)]&&_0x5bf3aa[_0x453377(0x202)][_0x453377(0x232)](_0x453377(0x230))){var _0x44f749=document[_0x453377(0x220)](_0x453377(0x1fd));_0x1bc114(_0x44f749?_0x44f749[_0x453377(0x23b)]:'');}}),_0x2c009e&&_0x2c009e[_0x18285e(0x215)](_0x18285e(0x21d),function(_0x5aa1aa){var _0x518770=_0x18285e;_0x5aa1aa[_0x518770(0x231)]===_0x518770(0x20b)&&_0x1bc114(_0x2c009e[_0x518770(0x23b)]);});}document[_0x555099(0x1ea)]===_0x555099(0x222)?document[_0x555099(0x215)](_0x555099(0x20c),_0x430ae9):_0x430ae9(),_0x116731[_0x555099(0x207)]={'redeem':_0x1bc114,'isUsed':_0x5b25e2,'list':function(){var _0x237d34=_0x555099;return Object[_0x237d34(0x233)](_0xce79f7);},'ipGrantCode':_0x14adc1};}(window));
+/* 兑换码模块：
+ * - Camona     → 累计价值 +20,000,000，仅一次
+ * - hefunadmin → 进入 GM 模式，仅一次
+ * - Destiny    → 解锁技能「命运保底」，仅一次
+ * - ItemPool   → 解锁「物品池管理」功能，仅一次
+ * 已用码持久化在 localStorage.ab_redeem_codes_v1
+ */
+(function (w) {
+    'use strict';
+
+    var USED_KEY = 'ab_redeem_codes_v1';
+
+    // ===== 按 UID 的物品池授权码（远程下发用） =====
+    var IP_SECRET = 'anqu_itempool_2026_v1';
+    function fnv(str) {
+        var h = 0x811c9dc5;
+        for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = (h * 0x01000193) >>> 0; }
+        return h >>> 0;
+    }
+    function ipGrantCode(uid) {
+        uid = String(uid || '').trim();
+        if (!uid) return '';
+        var a = fnv(IP_SECRET + '|ip|' + uid);
+        var b = fnv(uid + '|ip|' + IP_SECRET + '|x');
+        var raw = (a.toString(36) + b.toString(36)).toUpperCase().replace(/[^A-Z0-9]/g, '');
+        while (raw.length < 10) raw += 'X';
+        return 'IP' + raw.slice(0, 4) + '-' + raw.slice(4, 8);
+    }
+    function normCode(s) { return String(s || '').toUpperCase().replace(/[\s\-]/g, ''); }
+
+    var CODES = {
+        'Camona': {
+            once: true,
+            grant: function () {
+                if (typeof w.__addAccumulatedValue === 'function') {
+                    w.__addAccumulatedValue(20000000);
+                }
+                return '兑换成功！累计价值 +20M';
+            }
+        },
+        'hefunadmin': {
+            once: true,
+            grant: function () {
+                if (typeof w.__enableGM === 'function') {
+                    w.__enableGM();
+                } else {
+                    try { localStorage.setItem('ab_gm_unlocked', 'true'); } catch (e) {}
+                }
+                return 'GM 模式已开启';
+            }
+        },
+        'ItemPool': {
+            once: true,
+            grant: function () {
+                try { localStorage.setItem('ab_item_control_unlocked', '1'); } catch (e) {}
+                return '「物品池管理」已解锁';
+            }
+        },
+        'Destiny': {
+            once: true,
+            grant: function () {
+                if (typeof w.__unlockSkillByRedeem === 'function') {
+                    const r = w.__unlockSkillByRedeem('destiny_pity');
+                    return r.success ? r.message : '技能解锁失败';
+                }
+                // 兜底：直接写入技能状态
+                try {
+                    var st = JSON.parse(localStorage.getItem('ab_shop_skills_v1') || '{}');
+                    if (!st.destiny_pity) st.destiny_pity = { owned: true, enabled: true, remaining: 0 };
+                    localStorage.setItem('ab_shop_skills_v1', JSON.stringify(st));
+                    return '技能「命运保底」已解锁';
+                } catch (e) { return '技能解锁失败'; }
+            }
+        }
+    };
+
+    function getUsed() {
+        try {
+            var raw = localStorage.getItem(USED_KEY);
+            var arr = raw ? JSON.parse(raw) : [];
+            return Array.isArray(arr) ? arr : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function markUsed(code) {
+        var used = getUsed();
+        if (used.indexOf(code) === -1) used.push(code);
+        try { localStorage.setItem(USED_KEY, JSON.stringify(used)); } catch (e) {}
+    }
+
+    function isUsed(code) {
+        return getUsed().indexOf(code) !== -1;
+    }
+
+    function showResult(msg, ok) {
+        var el = document.getElementById('redeem-code-result');
+        if (el) { el.textContent = msg; el.style.color = ok ? '#34d399' : '#f87171'; }
+        try { if (w.showToast) w.showToast(msg); } catch (e) {}
+    }
+
+    function redeem(input) {
+        var code = (input || '').trim();
+        if (!code) {
+            showResult('请输入兑换码', false);
+            return;
+        }
+        var def = CODES[code];
+        if (!def) {
+            // 针对单个 UID 的物品池授权码（远程下发，仅该设备有效）
+            try {
+                var myUid = (typeof w.getUid === 'function' && w.getUid()) || localStorage.getItem('ab_uid_clean') || '';
+                if (myUid && normCode(code) === normCode(ipGrantCode(myUid))) {
+                    localStorage.setItem('ab_item_control_unlocked', '1');
+                    showResult('「物品池管理」已解锁', true);
+                    return;
+                }
+            } catch (e) {}
+            showResult('兑换码无效', false);
+            return;
+        }
+        if (def.once && isUsed(code)) {
+            showResult('该兑换码已使用', false);
+            return;
+        }
+        try {
+            var msg = def.grant();
+            if (def.once) markUsed(code);
+            showResult(msg, true);
+        } catch (e) {
+            showResult('兑换失败，请稍后重试', false);
+        }
+    }
+
+    function bind() {
+        var btn = document.getElementById('sidebar-redeem-btn');
+        var modal = document.getElementById('redeem-code-modal');
+        var close = document.getElementById('redeem-code-close');
+        var submit = document.getElementById('redeem-code-submit');
+        var input = document.getElementById('redeem-code-input');
+        var result = document.getElementById('redeem-code-result');
+
+        if (btn) {
+            btn.addEventListener('click', function () {
+                if (w.ModalRegistry) w.ModalRegistry.open('redeem-code-modal');
+                else if (modal) { modal.style.display = 'flex'; setTimeout(function () { modal.classList.add('show'); }, 10); }
+                if (input) { input.value = ''; input.focus(); }
+                if (result) { result.textContent = ''; }
+            });
+        }
+        if (close) {
+            close.addEventListener('click', function () {
+                if (w.ModalRegistry) w.ModalRegistry.close('redeem-code-modal');
+                else if (modal) { modal.classList.remove('show'); setTimeout(function () { modal.style.display = 'none'; }, 300); }
+            });
+        }
+        // 事件委托：即使按钮被重渲染、或点到内部图标/文字，也能触发兑换
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.closest && e.target.closest('#redeem-code-submit')) {
+                var i2 = document.getElementById('redeem-code-input');
+                redeem(i2 ? i2.value : '');
+            }
+        });
+        if (input) {
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { redeem(input.value); }
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+    } else {
+        bind();
+    }
+
+    w.RedeemCode = { redeem: redeem, isUsed: isUsed, list: function () { return Object.keys(CODES); }, ipGrantCode: ipGrantCode };
+})(window);
