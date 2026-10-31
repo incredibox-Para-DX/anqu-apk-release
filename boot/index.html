@@ -667,6 +667,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <span id="profile-dev-badge" class="dev-badge" style="display:none;">DEV</span>
 <i class="fas fa-pen" id="profile-edit-nickname-icon"></i>
 </div>
+<div id="profile-dev-label" style="display:none;font-size:10px;letter-spacing:2px;color:#a78bfa;margin-top:-2px;">DEVELOPER</div>
 <div class="profile-title-row" id="profile-title-row">
 <span class="title-label" data-i18n="rank">段位</span>
 <span id="profile-title" class="profile-title-text">暗区新锐</span>
@@ -3215,7 +3216,7 @@ if (document.readyState === 'loading') {
             const _av = (window.__lbAvatars || {})[uid];
             html += '<div class="leaderboard-avatar' + (__devStyle ? ' dev-avatar' : '') + '">' + (_av ? '<img src="' + escapeHtml(_av) + '" onerror="this.style.display=\'none\'">' : '<i class="fas fa-user"></i>') + '</div>';
             html += '<div class="leaderboard-info">';
-            html += '<div class="leaderboard-nickname' + (item.name_style && item.name_style !== 'normal' ? ' name-' + item.name_style : '') + '">' + escapeHtml(item.nickname || '匿名') + (__devStyle ? ' <span class="dev-badge">DEV</span>' : '') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
+            html += '<div class="leaderboard-nickname' + (item.name_style && item.name_style !== 'normal' ? ' name-' + item.name_style : '') + '">' + escapeHtml(item.nickname || '匿名') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
             html += '<div class="leaderboard-meta"><span class="leaderboard-uid">' + escapeHtml(uid) + '</span> · <span class="stat-inline">📦' + searched + '</span> · <span class="stat-inline">💰' + formatCurrency(totalVal) + '</span></div>';
             html += '</div>';
             html += '<div class="leaderboard-score"><img src="images/img_b353ca7f64.png" alt="柯恩币"> ' + formattedScore + '</div>';
@@ -3396,6 +3397,10 @@ if (document.readyState === 'loading') {
         if (badge) badge.style.display = isDev ? 'inline-block' : 'none';
         const wrap = document.getElementById('profile-avatar-wrapper');
         if (wrap) wrap.classList.toggle('dev-ring', isDev);
+        const devLabel = document.getElementById('profile-dev-label');
+        if (devLabel) devLabel.style.display = isDev ? 'block' : 'none';
+        const sec = document.getElementById('profile-section');
+        if (sec) sec.classList.toggle('dev-mode', isDev);
     }
 
     function displayUID() {
