@@ -2792,3 +2792,25 @@ textarea.dt-in{
     position: relative;
     z-index: 1;
 }
+.leaderboard-item {
+    position: relative;
+    overflow: hidden;
+}
+.lb-card-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    pointer-events: none;
+}
+.lb-card-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .62);
+}
+.leaderboard-item > *:not(.lb-card-layer) {
+    position: relative;
+    z-index: 1;
+}

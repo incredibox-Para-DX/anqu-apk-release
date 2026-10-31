@@ -3143,7 +3143,13 @@ if (document.readyState === 'loading') {
                 if (!cid || !__rows[idx]) return;
                 Cards.resolveById(cid, function (u) {
                     if (u && __rows[idx]) {
-                        __rows[idx].style.backgroundImage = 'linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)), url("' + u + '")';
+                        var layer = __rows[idx].querySelector('.lb-card-layer');
+                        if (!layer) {
+                            layer = document.createElement('div');
+                            layer.className = 'lb-card-layer';
+                            __rows[idx].appendChild(layer);
+                        }
+                        layer.style.backgroundImage = 'url("' + u + '")';
                         __rows[idx].classList.add('has-card');
                     }
                 });
