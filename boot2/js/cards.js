@@ -1,9 +1,9 @@
 (function () {
     var CARDS = [
-        { id: 'card_030', img: 'images/cards/card_030.png', code: 'CARD030' },
-        { id: 'card_052', img: 'images/cards/card_052.png', code: 'CARD052' },
-        { id: 'card_047', img: 'images/cards/card_047.png', code: 'CARD047' },
-        { id: 'card_017', img: 'images/cards/card_017.png', code: 'CARD017' }
+        { id: 'card_030', img: 'cards/card_030.png', code: 'CARD030' },
+        { id: 'card_052', img: 'cards/card_052.png', code: 'CARD052' },
+        { id: 'card_047', img: 'cards/card_047.png', code: 'CARD047' },
+        { id: 'card_017', img: 'cards/card_017.png', code: 'CARD017' }
     ];
     var UNLOCK_KEY = 'ab_cards_unlocked';
     var SEL_KEY = 'ab_card_selected';
@@ -17,6 +17,7 @@
             card_equipped: ['使用中', '使用中', 'In use', 'Используется'],
             card_unlock_hint: ['使用兑换码解锁', '使用兌換碼解鎖', 'Unlock with a redeem code', 'Откройте кодом'],
             card_none: ['未装备', '未裝備', 'None', 'Нет'],
+            card_need_download: ['请先到「资源下载」下载名片资源包', '請先到「資源下載」下載名片資源包', 'Download the card pack in Downloads first', 'Сначала скачайте набор визиток в «Загрузках»'],
             card_reset: ['恢复初始名片', '恢復初始名片', 'Reset card', 'Сбросить визитку'],
             nick_style: ['昵称样式', '暱稱樣式', 'Name style', 'Стиль ника'],
             nick_style_normal: ['普通', '普通', 'Normal', 'Обычный'],
@@ -29,6 +30,7 @@
     }
 
     function t(k) { return window.I18N && I18N.t ? I18N.t(k) : k; }
+    function packReady() { return !!(window.CardPack && CardPack.isDone()); }
     function getUnlocked() {
         try { var a = JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
     }
@@ -41,19 +43,29 @@
     function selected() { try { return localStorage.getItem(SEL_KEY) || ''; } catch (e) { return ''; } }
     function byId(id) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].id === id) return CARDS[i]; return null; }
 
+    function resolveImg(c, cb) {
+        if (!c || !packReady()) { cb(''); return; }
+        var R = window.ResourceDownloadManager;
+        if (!R || !R.resolvePath) { cb(''); return; }
+        try {
+            Promise.resolve(R.resolvePath(c.img)).then(function (u) {
+                cb(u && u.indexOf('blob:') === 0 ? u : '');
+            }).catch(function () { cb(''); });
+        } catch (e) { cb(''); }
+    }
+
     function apply() {
         var c = byId(selected());
         var layer = document.getElementById('profile-card-layer');
         var nameEl = document.getElementById('profile-card-name');
-        if (layer) {
-            if (c) { layer.style.backgroundImage = 'url("' + c.img + '")'; layer.classList.add('show'); }
+        var k = c ? c.id : 'card_none';
+        if (nameEl) { nameEl.setAttribute('data-i18n', k); nameEl.textContent = t(k); }
+        if (!layer) return;
+        if (!c) { layer.style.backgroundImage = ''; layer.classList.remove('show'); return; }
+        resolveImg(c, function (url) {
+            if (url) { layer.style.backgroundImage = 'url("' + url + '")'; layer.classList.add('show'); }
             else { layer.style.backgroundImage = ''; layer.classList.remove('show'); }
-        }
-        if (nameEl) {
-            var k = c ? c.id : 'card_none';
-            nameEl.setAttribute('data-i18n', k);
-            nameEl.textContent = t(k);
-        }
+        });
     }
 
     function equip(id) {
@@ -67,24 +79,41 @@
         var grid = document.getElementById('card-grid');
         if (!grid) return;
         grid.innerHTML = '';
+        if (!packReady()) {
+            var tip = document.createElement('div');
+            tip.style.cssText = 'grid-column:1/-1;font-size:12px;color:#f59e0b;line-height:1.7;';
+            tip.textContent = t('card_need_download');
+            grid.appendChild(tip);
+        }
         CARDS.forEach(function (c) {
             var un = isUnlocked(c.id), sel = selected() === c.id;
             var d = document.createElement('div');
             d.style.cssText = 'border:1px solid ' + (sel ? '#3b82f6' : '#334155') + ';border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);';
-            d.innerHTML =
-                '<div style="height:78px;background:url(' + c.img + ') center/cover;opacity:' + (un ? '1' : '.45') + ';"></div>' +
-                '<div style="padding:8px 10px;font-size:12px;color:#e2e8f0;font-weight:600;">' + t(c.id) + '</div>' +
-                '<div style="padding:0 10px 10px;">' +
-                (un
-                    ? '<button class="modal-btn primary" data-id="' + c.id + '" style="width:100%;padding:6px 0;font-size:12px;" ' + (sel ? 'disabled' : '') + '>' + (sel ? t('card_equipped') : t('card_equip')) + '</button>'
-                    : '<div style="font-size:11px;color:#94a3b8;line-height:1.5;">' + t('card_locked') + '<br>' + t('card_unlock_hint') + '</div>') +
-                '</div>';
+            var thumb = document.createElement('div');
+            thumb.style.cssText = 'height:78px;background:rgba(255,255,255,.06);background-size:cover;background-position:center;opacity:' + (un ? '1' : '.45') + ';';
+            resolveImg(c, function (u) { if (u) thumb.style.backgroundImage = 'url("' + u + '")'; });
+            var name = document.createElement('div');
+            name.style.cssText = 'padding:8px 10px;font-size:12px;color:#e2e8f0;font-weight:600;';
+            name.textContent = t(c.id);
+            var foot = document.createElement('div');
+            foot.style.cssText = 'padding:0 10px 10px;';
+            if (un) {
+                var btn = document.createElement('button');
+                btn.className = 'modal-btn primary';
+                btn.style.cssText = 'width:100%;padding:6px 0;font-size:12px;';
+                btn.disabled = sel;
+                btn.textContent = sel ? t('card_equipped') : t('card_equip');
+                btn.onclick = function () { equip(c.id); };
+                foot.appendChild(btn);
+            } else {
+                var lock = document.createElement('div');
+                lock.style.cssText = 'font-size:11px;color:#94a3b8;line-height:1.5;';
+                lock.textContent = t('card_locked') + ' · ' + t('card_unlock_hint');
+                foot.appendChild(lock);
+            }
+            d.appendChild(thumb); d.appendChild(name); d.appendChild(foot);
             grid.appendChild(d);
         });
-        var btns = grid.querySelectorAll('button[data-id]');
-        for (var i = 0; i < btns.length; i++) {
-            btns[i].onclick = function () { equip(this.getAttribute('data-id')); };
-        }
     }
 
     function open() {
@@ -121,5 +150,11 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
 
-    window.Cards = { unlock: unlock, isUnlocked: isUnlocked, selected: selected, apply: apply, list: CARDS, imgOf: function (id) { var c = byId(id); return c ? c.img : ''; } };
+    window.Cards = {
+        unlock: unlock, isUnlocked: isUnlocked, selected: selected, apply: apply,
+        list: CARDS,
+        imgOf: function (id) { var c = byId(id); return c ? c.img : ''; },
+        resolveById: function (id, cb) { resolveImg(byId(id), cb); },
+        refreshImages: function () { apply(); render(); }
+    };
 })();

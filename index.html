@@ -1122,6 +1122,24 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-collect-progress-text">准备中...</div>
 </div>
 </div>
+<div style="border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:12px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<div style="font-weight:600;font-size:14px;"><i class="fas fa-id-card" style="color:#f59e0b;"></i> 名片资源包</div>
+<div style="font-size:12px;color:#64748b;" id="rd-card-count">0 / 0</div>
+</div>
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;">包含全部名片背景图</div>
+<div style="display:flex;gap:8px;align-items:center;">
+<button class="modal-btn primary" id="rd-download-card-btn" style="flex:1;"><i class="fas fa-download"></i> 下载名片资源包</button>
+<button class="modal-btn danger" id="rd-delete-card-btn" style="display:none;"><i class="fas fa-trash"></i> 删除</button>
+</div>
+<div id="rd-card-done" style="display:none;color:#16a34a;font-weight:600;font-size:13px;"><i class="fas fa-check-circle"></i> 名片资源包已全部下载</div>
+<div id="rd-card-progress-wrap" style="display:none;margin-top:8px;">
+<div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
+<div id="rd-card-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#f59e0b,#fbbf24);transition:width 0.3s;"></div>
+</div>
+<div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-card-progress-text">准备中...</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1996,6 +2014,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/i18n-next.js"></script>
 <script src="js/i18n-rules.js"></script>
 <script src="js/cards.js"></script>
+<script src="js/card-pack.js"></script>
 <script src="js/item-i18n.js"></script>
 <script src="js/bg-i18n.js"></script>
 <script src="js/gm-i18n.js"></script>
@@ -3090,10 +3109,8 @@ if (document.readyState === 'loading') {
             const rowClass = isMe ? 'leaderboard-item leaderboard-item-me' : 'leaderboard-item';
 
             const __cid = item.card_id || (isMe && window.Cards && Cards.selected ? Cards.selected() : '');
-            const __cardImg = (__cid && window.Cards && Cards.imgOf) ? Cards.imgOf(__cid) : '';
-            const __rowExtra = __cardImg ? ' has-card' : '';
-            const __rowStyle = __cardImg ? " style=\"background-image:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)),url('" + escapeHtml(__cardImg) + "');\"" : '';
-            html += '<div class="' + rowClass + __rowExtra + '"' + __rowStyle + '>';
+            const __rowExtra = __cid ? ' has-card' : '';
+            html += '<div class="' + rowClass + __rowExtra + '" data-card="' + escapeHtml(__cid) + '">';
             html += '<div class="leaderboard-rank">' + medal + '</div>';
             const _av = (window.__lbAvatars || {})[uid];
             html += '<div class="leaderboard-avatar">' + (_av ? '<img src="' + escapeHtml(_av) + '" onerror="this.style.display=\'none\'">' : '<i class="fas fa-user"></i>') + '</div>';
@@ -3112,6 +3129,20 @@ if (document.readyState === 'loading') {
         }
 
         listEl.innerHTML = html;
+
+        if (window.Cards && Cards.resolveById) {
+            const __rows = listEl.querySelectorAll('.leaderboard-item');
+            showData.forEach(function (item, idx) {
+                const cid = item.card_id || (item.uid === myUid && Cards.selected ? Cards.selected() : '');
+                if (!cid || !__rows[idx]) return;
+                Cards.resolveById(cid, function (u) {
+                    if (u && __rows[idx]) {
+                        __rows[idx].style.backgroundImage = 'linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)), url("' + u + '")';
+                        __rows[idx].classList.add('has-card');
+                    }
+                });
+            });
+        }
 
         const loadMoreBtn = document.getElementById('load-more-btn');
         if (loadMoreBtn) {
