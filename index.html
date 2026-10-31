@@ -3054,6 +3054,8 @@ if (document.readyState === 'loading') {
 
     function openViewModal() {
         viewModal.style.display = 'flex';
+        var __lbBody = viewModal.querySelector('.leaderboard-page-body');
+        if (__lbBody) __lbBody.scrollTop = 0;
         requestAnimationFrame(function () { viewModal.classList.add('show'); });
         playSafeSound('audio/open-leaderboard.mp3');
         allLeaderboardData = [];
@@ -3063,7 +3065,7 @@ if (document.readyState === 'loading') {
 
     function closeViewModal() {
         viewModal.classList.remove('show');
-        setTimeout(function () { viewModal.style.display = 'none'; }, 500);
+        setTimeout(function () { viewModal.style.display = 'none'; }, 320);
         playSafeSound('audio/sidebar-close.mp3');
     }
 
