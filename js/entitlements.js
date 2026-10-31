@@ -63,10 +63,20 @@
 
     function sync() {
         var u = uid();
-        if (!u) return Promise.resolve();
-        return rpc('get_entitlements', { p_uid: u }).then(function (list) {
-            applyList(list);
-        }).catch(function () {});
+        if (!u) return Promise.resolve(false);
+        function attempt(n) {
+            return rpc('get_entitlements', { p_uid: u }).then(function (list) {
+                applyList(list);
+                return true;
+            }).catch(function () {
+                if (n > 0) {
+                    return new Promise(function (res) { setTimeout(res, 1200 * (4 - n)); })
+                        .then(function () { return attempt(n - 1); });
+                }
+                return false;
+            });
+        }
+        return attempt(3);
     }
 
     function serverRedeem(code) {
@@ -103,6 +113,11 @@
         btn.addEventListener('click', open);
         if (close) close.addEventListener('click', closeM);
         if (modal) modal.addEventListener('click', function (e) { if (e.target === modal) closeM(); });
+        var syncBtn = document.getElementById('gm-sync-ent-btn');
+        if (syncBtn) syncBtn.addEventListener('click', function () {
+            if (w.showToast) w.showToast('正在同步权益…');
+            sync().then(function (ok) { if (w.showToast) w.showToast(ok ? '权益已同步' : '同步失败，请检查网络'); });
+        });
         if (submit) submit.addEventListener('click', function () {
             var uidEl = document.getElementById('gm-grant-uid');
             var typeEl = document.getElementById('gm-grant-type');
@@ -127,4 +142,10 @@
     else bindGrantUI();
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(sync, 1500); });
     else setTimeout(sync, 1500);
+
+    // 网络恢复 / 回到前台 时自动补同步（网差时不会永久错过）
+    try {
+        window.addEventListener('online', function () { sync(); });
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) sync(); });
+    } catch (e) {}
 })(window);
