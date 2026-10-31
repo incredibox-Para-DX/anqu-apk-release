@@ -2738,7 +2738,7 @@ textarea.dt-in{
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(115deg, transparent 32%, rgba(255, 240, 180, .45) 45%, rgba(255, 255, 255, .75) 50%, rgba(255, 240, 180, .45) 55%, transparent 68%);
+    background: linear-gradient(115deg, transparent 32%, rgba(255, 240, 180, .16) 45%, rgba(255, 255, 255, .32) 50%, rgba(255, 240, 180, .16) 55%, transparent 68%);
     background-size: 250% 100%;
     background-repeat: no-repeat;
     animation: cardShine 3.6s linear infinite;
