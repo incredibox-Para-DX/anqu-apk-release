@@ -29,6 +29,8 @@
                 lng: lng,
                 fallbackLng: 'zh-CN',
                 resources: bundles(),
+                keySeparator: false,
+                nsSeparator: false,
                 interpolation: { escapeValue: false },
                 returnNull: false,
                 initImmediate: false
