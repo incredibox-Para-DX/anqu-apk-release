@@ -2818,7 +2818,6 @@ textarea.dt-in{
     animation: nameGoldSweep 2.6s ease-in-out infinite alternate;
 }
 .leaderboard-item.has-card {
-    min-height: 170px;
     background-size: cover;
     background-position: center;
     border-radius: 8px;
@@ -2835,10 +2834,8 @@ textarea.dt-in{
 .lb-card-layer {
     position: absolute;
     inset: 0;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    background-color: #0b0e13;
     z-index: 0;
     pointer-events: none;
 }
@@ -2846,7 +2843,7 @@ textarea.dt-in{
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .62);
     z-index: 1;
 }
 .leaderboard-item > *:not(.lb-card-layer) {
