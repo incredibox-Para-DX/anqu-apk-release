@@ -6719,10 +6719,12 @@ const EventManager = {
     var HU_PROXY_BASE = HU_COS_BASE;
     // 兜底：jsDelivr（GitHub 内容）
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@p-i18n/boot';
+    // 直链兜底：GitHub raw（CDN 均不可用时）
+    var HU_RAW_BASE = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/p-i18n/boot';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.59';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.60';
 
     /* ============================================================
      * 检查更新
@@ -7301,10 +7303,11 @@ const EventManager = {
             });
         };
         // 三路并发，全部返回（成功/失败）后再选最高版本，避免不同线路缓存新旧不一致导致版本号跳变
-        var pending = 3;
+        var pending = 4;
         getOnce(HU_PROXY_BASE, gotOne);
         getOnce(HU_BASE_URL, gotOne);
         getOnce(HU_JD_BASE, gotOne);
+        getOnce(HU_RAW_BASE, gotOne);
         // 兜底：最长等 12s，超时直接结算（用已收到的最高版本）
         setTimeout(settle, 12000);
     };

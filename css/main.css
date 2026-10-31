@@ -2739,39 +2739,39 @@ textarea.dt-in{
     inset: 0;
     border-radius: inherit;
     background: linear-gradient(115deg,
-        transparent 38%,
-        rgba(255, 255, 255, .06) 44%,
-        rgba(255, 248, 220, .16) 48%,
-        rgba(255, 255, 255, .22) 50%,
-        rgba(255, 248, 220, .16) 52%,
-        rgba(255, 255, 255, .06) 56%,
-        transparent 62%);
+        transparent 40%,
+        rgba(255, 255, 255, .05) 45%,
+        rgba(255, 245, 205, .12) 48.5%,
+        rgba(255, 255, 255, .18) 50%,
+        rgba(255, 245, 205, .12) 51.5%,
+        rgba(255, 255, 255, .05) 55%,
+        transparent 60%);
     background-size: 260% 100%;
     background-repeat: no-repeat;
-    filter: blur(5px);
+    filter: blur(6px);
     mix-blend-mode: screen;
-    animation: cardShine 6s cubic-bezier(.4, 0, .2, 1) infinite;
+    animation: cardShine 10s cubic-bezier(.25, .1, .25, 1) infinite;
     pointer-events: none;
     z-index: 2;
 }
 .profile-card-layer.no-shine::before { display: none; }
 @keyframes cardShine {
-    0% { background-position: -140% 0; }
-    32% { background-position: 240% 0; }
-    100% { background-position: 240% 0; }
+    0% { background-position: -150% 0; }
+    28% { background-position: 250% 0; }
+    100% { background-position: 250% 0; }
 }
 .profile-card-layer.show {
     opacity: .95;
     transform: scale(1);
 }
 .name-gold {
-    background: linear-gradient(100deg, #f7e08a 0%, #c9962b 25%, #fff6cf 50%, #d4a017 75%, #f7e08a 100%);
+    background: linear-gradient(100deg, #a8791f 0%, #f3d27a 18%, #fff4c9 34%, #e8b84b 50%, #a8791f 66%, #f3d27a 82%, #fff4c9 100%);
     background-size: 220% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: nameGoldSweep 2.6s ease-in-out infinite alternate;
+    animation: nameGoldSweep 5s ease-in-out infinite alternate;
 }
 @keyframes nameGoldSweep {
     from { background-position: 0% 50%; }
