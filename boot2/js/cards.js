@@ -116,6 +116,10 @@
                 lock.style.cssText = 'font-size:11px;color:#94a3b8;line-height:1.5;';
                 lock.textContent = t('card_locked') + ' · ' + t('card_unlock_hint');
                 foot.appendChild(lock);
+                d.style.cursor = 'pointer';
+                d.addEventListener('click', function () {
+                    if (window.showToast) showToast('此功能为赞赏专属，需要输入兑换码解锁');
+                });
             }
             d.appendChild(thumb); d.appendChild(name); d.appendChild(foot);
             grid.appendChild(d);
