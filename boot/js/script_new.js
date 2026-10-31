@@ -18,7 +18,7 @@ $(function() {
         purpleSpawn: { min: 1, max: 2 },
         valueRange: { min: 1, max: 4000000, base: 1000 },
         valueWeight: { baseWeight: 100, decayFactor: 0.00005, minWeight: 10 },
-        spawn: { red: 0.5, orange: 8, gold: 12, purple: 5 },
+        spawn: { red: 0.3, orange: 8, gold: 18, purple: 5 },
         storageKey: "darkzone_simulator_stats",
         titles: [
             { value: 0, name: '暗区新锐', icon: 'titles/XR.png', description: '初入暗区' },
@@ -1306,14 +1306,14 @@ previewCurrentBackground() {
             }
             const tide = this.getSkillState('supply_tide');
             if (tide.owned && tide.enabled && tide.remaining > 0) {
-                Config.spawn.red = 0.8;
+                Config.spawn.red = 0.6;
                 Config.spawn.orange = 14;
-                Config.spawn.gold = 20;
+                Config.spawn.gold = 30;
                 Config.spawn.purple = 0;
             } else {
-                Config.spawn.red = 0.5;
+                Config.spawn.red = 0.3;
                 Config.spawn.orange = 8;
-                Config.spawn.gold = 12;
+                Config.spawn.gold = 18;
                 Config.spawn.purple = 0;
             }
         },
@@ -2573,7 +2573,11 @@ previewCurrentBackground() {
         getRandomItemByRarity(rarity) {
             const disabledIds = ItemControlManager.getDisabledItems();
             const sampleEnabled = window.__SAMPLE_SPAWN_ENABLED__ !== false;
-            const itemsOfRarity = _.filter(allItemsConfig, { rarity }).filter(item =>
+            const itemsOfRarity = _.filter(allItemsConfig, item => {
+                if (rarity === 'gold' && item.id === 40077) return false;
+                if (rarity === 'purple') return item.rarity === 'purple' || item.id === 40077;
+                return item.rarity === rarity;
+            }).filter(item =>
                 !disabledIds.includes(item.id) && (sampleEnabled || !item.isSample)
             );
             if (_.isEmpty(itemsOfRarity)) return null;
@@ -3101,7 +3105,7 @@ _runOpenSafe() {
     const disabledPurpleIds = ItemControlManager.getDisabledItems();
     const sampleEnabled = window.__SAMPLE_SPAWN_ENABLED__ !== false;
     const purpleItems = _.filter(allItemsConfig, item =>
-        item.rarity === 'purple' && !disabledPurpleIds.includes(item.id) && (sampleEnabled || !item.isSample)
+        (item.rarity === 'purple' || item.id === 40077) && !disabledPurpleIds.includes(item.id) && (sampleEnabled || !item.isSample)
     );
     
     if (!_.isEmpty(purpleItems)) {
@@ -3118,7 +3122,7 @@ _runOpenSafe() {
     }
     
     const highQualityItems = _.filter(allItemsConfig, item =>
-        _.includes(['red', 'orange', 'gold'], item.rarity) &&
+        _.includes(['red', 'orange', 'gold'], item.rarity) && item.id !== 40077 &&
         !disabledPurpleIds.includes(item.id) && (sampleEnabled || !item.isSample)
     );
 
@@ -6717,7 +6721,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.31';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.32';
 
     /* ============================================================
      * 检查更新
