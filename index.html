@@ -2964,11 +2964,16 @@ if (document.readyState === 'loading') {
             const body = JSON.stringify(Object.assign({}, baseBody, { card_id: __cardId, name_style: __nameStyle }));
 
             if (existing && existing.length > 0) {
-                const oldScore = existing[0].total_value || 0;
-                if (stats.value <= oldScore) {
+                const old = existing[0];
+                const oldScore = old.total_value || 0;
+                const metaChanged = (old.card_id || '') !== __cardId || (old.name_style || 'normal') !== __nameStyle || old.nickname !== nickname;
+                if (stats.value <= oldScore && !metaChanged) {
                     showToast('你的累计价值没有提高，无需更新');
                     return false;
                 }
+                const __patchBody = stats.value > oldScore
+                    ? body
+                    : JSON.stringify({ nickname: nickname, card_id: __cardId, name_style: __nameStyle });
                 const updateRes = await requestWithRetry(
                     SUPABASE_URL + '/rest/v1/ab_leaderboard?uid=eq.' + encodeURIComponent(uid) + '&week_start=eq.' + weekStart,
                     {
@@ -2979,7 +2984,7 @@ if (document.readyState === 'loading') {
                             'Content-Type': 'application/json',
                             'Prefer': 'return=representation'
                         },
-                        body: body
+                        body: __patchBody
                     }
                 );
                 if (updateRes.ok) {
