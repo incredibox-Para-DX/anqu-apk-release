@@ -2677,3 +2677,7 @@ textarea.dt-in{
     flex-shrink: 0;
 }
 .leaderboard-page-footer .modal-btn { flex: 1; }
+.leaderboard-page-header .leaderboard-rules-btn {
+    left: auto;
+    right: 12px;
+}

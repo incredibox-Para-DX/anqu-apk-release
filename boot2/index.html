@@ -850,7 +850,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="leaderboard-page-header">
 <button class="modal-close" id="view-leaderboard-close"><i class="fas fa-arrow-left"></i></button>
 <div class="modal-title"><i class="fas fa-ranking-star"></i> 本周排行榜</div>
-<div style="width:32px;"></div>
+<button class="modal-close leaderboard-rules-btn" id="leaderboard-rules-btn"><i class="fas fa-circle-info"></i></button>
 </div>
 <div class="leaderboard-page-body">
 <div class="leaderboard-list" id="leaderboard-list">
@@ -861,6 +861,27 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="modal-btn refresh-btn" id="refresh-leaderboard-btn"><i class="fas fa-sync-alt"></i> 刷新</button>
 <button class="modal-btn danger clear-btn" id="clear-my-record-btn"><i class="fas fa-trash-can"></i> 清除</button>
 <button class="modal-btn primary upload-btn" id="upload-my-score-btn"><i class="fas fa-upload"></i> 上传</button>
+</div>
+</div>
+
+<!-- 排行榜须知 -->
+<div class="modal-overlay" id="leaderboard-rules-modal">
+<div class="modal-content" style="max-width:420px;width:92vw;max-height:78vh;display:flex;flex-direction:column;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-circle-info"></i> 排行榜须知</div>
+<button class="modal-close" id="leaderboard-rules-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:14px 16px;overflow-y:auto;font-size:13px;line-height:1.85;color:#cbd5e1;">
+<ol style="padding-left:18px;margin:0;">
+<li>统计范围：本周（周一 00:00 至周日 23:59，以服务器时间为准）内，单次搜索物品的累计总价值。</li>
+<li>上榜方式：需点击「上传」提交本周成绩；同一玩家仅保留本周最高一次成绩。</li>
+<li>同一玩家按 UID 去重；修改昵称不会改变成绩与排名。</li>
+<li>严禁使用外挂、修改器、篡改文件或刷分等行为，一经发现取消成绩并取消上榜资格。</li>
+<li>榜单每周重置，历史成绩不累计。</li>
+<li>昵称请勿使用违规词，否则可能被清除。</li>
+<li>数据以服务器记录为准，最终解释权归官方所有。</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="modal-overlay" id="nickname-modal">
@@ -3075,6 +3096,24 @@ if (document.readyState === 'loading') {
     if (viewLeaderboardBtn) {
         viewLeaderboardBtn.addEventListener('click', openViewModal);
     }
+
+    // 排行榜须知
+    const rulesModal = document.getElementById('leaderboard-rules-modal');
+    const rulesBtn = document.getElementById('leaderboard-rules-btn');
+    const rulesClose = document.getElementById('leaderboard-rules-close');
+    function openRules() {
+        if (!rulesModal) return;
+        rulesModal.style.display = 'flex';
+        requestAnimationFrame(function () { rulesModal.classList.add('show'); });
+    }
+    function closeRules() {
+        if (!rulesModal) return;
+        rulesModal.classList.remove('show');
+        setTimeout(function () { rulesModal.style.display = 'none'; }, 300);
+    }
+    if (rulesBtn) rulesBtn.addEventListener('click', openRules);
+    if (rulesClose) rulesClose.addEventListener('click', closeRules);
+    if (rulesModal) rulesModal.addEventListener('click', function (e) { if (e.target === rulesModal) closeRules(); });
 
     if (refreshBtn) {
         refreshBtn.addEventListener('click', refreshLeaderboard);
