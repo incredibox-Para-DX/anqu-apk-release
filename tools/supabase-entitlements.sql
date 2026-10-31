@@ -219,10 +219,10 @@ revoke all on public.ab_bans from anon, authenticated;
 
 create or replace function public.ban_user(p_secret text, p_uid text, p_until timestamptz, p_reason text)
 returns jsonb language plpgsql security definer set search_path = public as $$
-declare v text;
+declare v_secret text;
 begin
-  select v into v from public.ab_admin_config where k = 'grant_secret';
-  if v is null or p_secret is null or p_secret <> v then
+  select v into v_secret from public.ab_admin_config where k = 'grant_secret';
+  if v_secret is null or p_secret is null or p_secret <> v_secret then
     return jsonb_build_object('ok', false, 'message', '管理密钥错误');
   end if;
   if p_uid is null or length(trim(p_uid)) = 0 then
@@ -237,10 +237,10 @@ grant execute on function public.ban_user(text, text, timestamptz, text) to anon
 
 create or replace function public.unban_user(p_secret text, p_uid text)
 returns jsonb language plpgsql security definer set search_path = public as $$
-declare v text;
+declare v_secret text;
 begin
-  select v into v from public.ab_admin_config where k = 'grant_secret';
-  if v is null or p_secret is null or p_secret <> v then
+  select v into v_secret from public.ab_admin_config where k = 'grant_secret';
+  if v_secret is null or p_secret is null or p_secret <> v_secret then
     return jsonb_build_object('ok', false, 'message', '管理密钥错误');
   end if;
   delete from public.ab_bans where uid = trim(p_uid);
@@ -251,10 +251,10 @@ grant execute on function public.unban_user(text, text) to anon, authenticated;
 
 create or replace function public.revoke_entitlement(p_secret text, p_uid text, p_ekey text)
 returns jsonb language plpgsql security definer set search_path = public as $$
-declare v text;
+declare v_secret text;
 begin
-  select v into v from public.ab_admin_config where k = 'grant_secret';
-  if v is null or p_secret is null or p_secret <> v then
+  select v into v_secret from public.ab_admin_config where k = 'grant_secret';
+  if v_secret is null or p_secret is null or p_secret <> v_secret then
     return jsonb_build_object('ok', false, 'message', '管理密钥错误');
   end if;
   delete from public.ab_entitlements where uid = trim(p_uid) and ekey = p_ekey;
