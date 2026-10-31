@@ -2753,6 +2753,18 @@ textarea.dt-in{
     -webkit-text-fill-color: #fff;
     color: #fff;
 }
+.profile-title-text {
+    color: #e2e8f0 !important;
+}
+.card-name-shine {
+    background: linear-gradient(100deg, #ffffff 0%, #ffe9a8 25%, #ffffff 50%, #ffe9a8 75%, #ffffff 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 2.6s ease-in-out infinite alternate;
+}
 .leaderboard-item.has-card {
     background-size: cover;
     background-position: center;

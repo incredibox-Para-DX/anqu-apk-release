@@ -22,10 +22,10 @@
             nick_style: ['昵称样式', '暱稱樣式', 'Name style', 'Стиль ника'],
             nick_style_normal: ['普通', '普通', 'Normal', 'Обычный'],
             nick_style_gold: ['金色', '金色', 'Gold', 'Золотой'],
-            card_030: ['极夜', '極夜', 'Polar Night', 'Полярная ночь'],
-            card_052: ['黎明', '黎明', 'Dawn', 'Рассвет'],
-            card_047: ['赤霞', '赤霞', 'Crimson Dusk', 'Алый закат'],
-            card_017: ['幽蓝', '幽藍', 'Deep Blue', 'Глубокая синь']
+            card_030: ['收藏家', '收藏家', 'Collector', 'Коллекционер'],
+            card_052: ['招财进宝', '招財進寶', 'Fortune', 'Привлечение богатства'],
+            card_047: ['黑金授信', '黑金授信', 'Black Gold Credit', 'Кредит «чёрное золото»'],
+            card_017: ['殿堂', '殿堂', 'Hall', 'Зал']
         });
     }
 
@@ -59,7 +59,11 @@
         var layer = document.getElementById('profile-card-layer');
         var nameEl = document.getElementById('profile-card-name');
         var k = c ? c.id : 'card_none';
-        if (nameEl) { nameEl.setAttribute('data-i18n', k); nameEl.textContent = t(k); }
+        if (nameEl) {
+            nameEl.setAttribute('data-i18n', k);
+            nameEl.textContent = t(k);
+            nameEl.classList.toggle('card-name-shine', !!c && c.id !== 'card_052');
+        }
         if (!layer) return;
         if (!c) { layer.style.backgroundImage = ''; layer.classList.remove('show'); return; }
         resolveImg(c, function (url) {
