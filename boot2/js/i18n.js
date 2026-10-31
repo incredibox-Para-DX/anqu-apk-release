@@ -1017,8 +1017,14 @@
 
     var I18N = {
         LANGS: LANGS,
+        __dict: M,
         getLang: function () { return cur; },
         t: function (key, fallback) {
+            try {
+                if (window.__I18NEXT_READY__ && window.i18next && typeof i18next.exists === 'function' && i18next.exists(String(key))) {
+                    return i18next.t(String(key));
+                }
+            } catch (e) {}
             var row = M[key];
             if (!row) return (typeof fallback === 'undefined') ? key : fallback;
             var v = row[idx()];
@@ -1061,12 +1067,14 @@
         has: function (key) { var r = M[key]; return !!(r && (r[idx()] || r[0])); },
         addEntries: function (obj) { // 允许后续文件扩展词表
             for (var k in obj) if (obj.hasOwnProperty(k)) { M[k] = obj[k]; if (obj[k] && obj[k][0] != null) REV[obj[k][0]] = k; }
+            try { if (window.__i18nNextSync) window.__i18nNextSync(); } catch (e) {}
         },
         setLang: function (lang, silent) {
             if (LANGS.indexOf(lang) === -1) return;
             cur = lang;
             try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
             try { document.documentElement.setAttribute('lang', cur === 'zh-TW' ? 'zh-Hant' : cur); } catch (e) {}
+            try { if (window.__i18nNextSetLang) window.__i18nNextSetLang(cur); } catch (e) {}
             if (!silent) {
                 try { if (window.Telemetry) Telemetry.event('lang_change', { lang: cur }); } catch (e) {}
                 I18N.translateStatic();
