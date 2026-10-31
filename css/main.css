@@ -2706,6 +2706,7 @@ textarea.dt-in{
 .profile-section {
     position: relative;
     isolation: isolate;
+    padding: 10px 10px;
 }
 .profile-section > .profile-avatar-wrapper,
 .profile-section > .profile-info {
