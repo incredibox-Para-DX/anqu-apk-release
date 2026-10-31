@@ -716,6 +716,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="gm-leaderboard-admin-btn"><i class="fas fa-ranking-star"></i> <span data-i18n="gm_board">榜单管理</span></button>
 <button class="sidebar-btn full-width" id="gm-mod-upload-open-btn" style="margin-top:6px;"><i class="fas fa-upload"></i> <span data-i18n="gm_upload">Mod 上传</span></button>
 <button class="sidebar-btn full-width" id="gm-mod-manage-btn" style="margin-top:6px;"><i class="fas fa-trash-can"></i> Mod 管理</button>
+<button class="sidebar-btn full-width" id="gm-grant-btn" style="margin-top:6px;"><i class="fas fa-user-shield"></i> UID 授权</button>
 <button class="sidebar-btn full-width" id="gm-ipcode-open-btn" style="margin-top:6px;"><i class="fas fa-key"></i> 物品池授权码</button>
 <button class="sidebar-btn full-width" id="gm-telemetry-btn" style="margin-top:6px;"><i class="fas fa-chart-line"></i> 遥测看板</button>
 <button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> <span data-i18n="gm_center">弹窗中心</span></button>
@@ -906,6 +907,33 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="margin-top:12px;">
 <button class="modal-btn danger" id="card-reset-btn" style="width:100%;padding:8px 0;" data-i18n="card_reset">恢复初始名片</button>
 </div>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="gm-grant-modal">
+<div class="modal-content" style="max-width:420px;width:92vw;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-user-shield"></i> UID 授权</div>
+<button class="modal-close" id="gm-grant-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:14px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;line-height:1.6;">输入对方 UID 直接为其解锁，对方下次启动自动生效。</div>
+<input class="input-field" id="gm-grant-uid" placeholder="对方 UID" style="width:100%;box-sizing:border-box;font-size:12px;" autocomplete="off" spellcheck="false">
+<select class="input-field" id="gm-grant-type" style="width:100%;box-sizing:border-box;font-size:12px;margin-top:8px;">
+<option value="card:card_030">名片·收藏家</option>
+<option value="card:card_052">名片·招财进宝</option>
+<option value="card:card_047">名片·黑金授信</option>
+<option value="card:card_017">名片·殿堂</option>
+<option value="gold_name">金色昵称</option>
+<option value="gm">GM 模式</option>
+<option value="item_pool">物品池管理</option>
+<option value="skill:destiny_pity">技能·命运保底</option>
+<option value="value:20000000">累计价值 +20M</option>
+</select>
+<input class="input-field" id="gm-grant-secret" placeholder="管理密钥（grant_secret）" style="width:100%;box-sizing:border-box;font-size:12px;margin-top:8px;" autocomplete="off" spellcheck="false">
+<button class="sidebar-btn full-width" id="gm-grant-submit" style="margin-top:10px;"><i class="fas fa-unlock"></i> 授权</button>
+<div id="gm-grant-status" style="font-size:12px;color:#94a3b8;margin-top:8px;line-height:1.6;"></div>
 </div>
 </div>
 </div>

@@ -111,3 +111,40 @@ insert into public.ab_redeem_codes(code, kind, payload, once) values
  ('CARD017', 'card', '{"card_id":"card_017"}', true),
  ('GOLDNAME', 'gold_name', '{}', true)
 on conflict (code) do update set kind = excluded.kind, payload = excluded.payload, active = true;
+
+-- ===== UID 授权（管理员输入对方 UID 直接解锁）=====
+create table if not exists public.ab_admin_config (
+  k text primary key,
+  v text not null
+);
+alter table public.ab_admin_config enable row level security;
+
+insert into public.ab_admin_config(k, v)
+values ('grant_secret', 'CHANGE_ME_请改成随机长串')
+on conflict (k) do nothing;
+
+create or replace function public.grant_entitlement(p_secret text, p_uid text, p_ekey text, p_evalue text)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_secret text;
+begin
+  select v into v_secret from public.ab_admin_config where k = 'grant_secret';
+  if v_secret is null or v_secret = '' or p_secret is null or p_secret <> v_secret then
+    return jsonb_build_object('ok', false, 'message', '管理密钥错误');
+  end if;
+  if p_uid is null or length(trim(p_uid)) = 0 or p_ekey is null or length(trim(p_ekey)) = 0 then
+    return jsonb_build_object('ok', false, 'message', '参数错误');
+  end if;
+  insert into public.ab_entitlements(uid, ekey, evalue)
+  values (trim(p_uid), p_ekey, coalesce(p_evalue, '1'))
+  on conflict (uid, ekey) do update set evalue = coalesce(p_evalue, '1');
+  return jsonb_build_object('ok', true, 'message', '已为 ' || trim(p_uid) || ' 授权');
+end;
+$$;
+
+revoke all on public.ab_admin_config from anon, authenticated;
+grant execute on function public.grant_entitlement(text, text, text, text) to anon, authenticated;

@@ -75,7 +75,56 @@
         return rpc('redeem_code', { p_uid: u, p_code: code });
     }
 
-    w.Entitlements = { sync: sync, serverRedeem: serverRedeem, apply: applyList };
+    function grant(secret, targetUid, ekey, evalue) {
+        return rpc('grant_entitlement', { p_secret: secret, p_uid: targetUid, p_ekey: ekey, p_evalue: evalue });
+    }
+
+    w.Entitlements = { sync: sync, serverRedeem: serverRedeem, grant: grant, apply: applyList };
+
+    function bindGrantUI() {
+        var btn = document.getElementById('gm-grant-btn');
+        if (!btn || btn._b) return;
+        btn._b = true;
+        var modal = document.getElementById('gm-grant-modal');
+        var close = document.getElementById('gm-grant-close');
+        var submit = document.getElementById('gm-grant-submit');
+        var status = document.getElementById('gm-grant-status');
+        function st(t, c) { if (status) { status.textContent = t; status.style.color = c || '#94a3b8'; } }
+        function open() {
+            if (!modal) return;
+            modal.style.display = 'flex';
+            requestAnimationFrame(function () { modal.classList.add('show'); });
+        }
+        function closeM() {
+            if (!modal) return;
+            modal.classList.remove('show');
+            setTimeout(function () { modal.style.display = 'none'; }, 300);
+        }
+        btn.addEventListener('click', open);
+        if (close) close.addEventListener('click', closeM);
+        if (modal) modal.addEventListener('click', function (e) { if (e.target === modal) closeM(); });
+        if (submit) submit.addEventListener('click', function () {
+            var uidEl = document.getElementById('gm-grant-uid');
+            var typeEl = document.getElementById('gm-grant-type');
+            var secretEl = document.getElementById('gm-grant-secret');
+            var u = (uidEl && uidEl.value || '').trim();
+            var type = (typeEl && typeEl.value || '').trim();
+            var secret = (secretEl && secretEl.value || '').trim();
+            if (!u) { st('请输入对方 UID', '#f87171'); return; }
+            if (!secret) { st('请输入管理密钥', '#f87171'); return; }
+            var ekey = type, evalue = '1';
+            if (type.indexOf('skill:') === 0) { ekey = 'skill'; evalue = JSON.stringify({ skill: type.slice(6) }); }
+            else if (type.indexOf('value:') === 0) { ekey = 'value'; evalue = JSON.stringify({ amount: Number(type.slice(6)) || 0 }); }
+            st('授权中…');
+            submit.disabled = true;
+            grant(secret, u, ekey, evalue).then(function (res) {
+                if (res && res.ok) { st(res.message || '已授权', '#34d399'); if (w.showToast) w.showToast('已授权：' + u); }
+                else { st((res && res.message) || '授权失败', '#f87171'); }
+            }).catch(function (e) { st('请求失败：' + String(e && e.message || e).slice(0, 80), '#f87171'); }).then(function () { submit.disabled = false; });
+        });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindGrantUI);
+    else bindGrantUI();
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(sync, 1500); });
     else setTimeout(sync, 1500);
 })(window);
