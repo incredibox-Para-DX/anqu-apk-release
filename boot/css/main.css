@@ -2743,16 +2743,17 @@ textarea.dt-in{
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    animation: nameGoldSweep 3.2s linear infinite;
+    animation: nameGoldSweep 2.6s ease-in-out infinite alternate;
 }
 @keyframes nameGoldSweep {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 220% 50%; }
+    from { background-position: 0% 50%; }
+    to { background-position: 100% 50%; }
 }
 .leaderboard-item.has-card {
     background-size: cover;
     background-position: center;
     border-radius: 8px;
+    background-color: transparent;
 }
 .leaderboard-item.has-card .leaderboard-info {
     position: relative;

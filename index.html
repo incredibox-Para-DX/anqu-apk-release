@@ -3089,9 +3089,10 @@ if (document.readyState === 'loading') {
             const isMe = item.uid === myUid;
             const rowClass = isMe ? 'leaderboard-item leaderboard-item-me' : 'leaderboard-item';
 
-            const __cardImg = (item.card_id && window.Cards && Cards.imgOf) ? Cards.imgOf(item.card_id) : '';
+            const __cid = item.card_id || (isMe && window.Cards && Cards.selected ? Cards.selected() : '');
+            const __cardImg = (__cid && window.Cards && Cards.imgOf) ? Cards.imgOf(__cid) : '';
             const __rowExtra = __cardImg ? ' has-card' : '';
-            const __rowStyle = __cardImg ? ' style="background-image:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)),url(&quot;' + escapeHtml(__cardImg) + '&quot;);"' : '';
+            const __rowStyle = __cardImg ? " style=\"background-image:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)),url('" + escapeHtml(__cardImg) + "');\"" : '';
             html += '<div class="' + rowClass + __rowExtra + '"' + __rowStyle + '>';
             html += '<div class="leaderboard-rank">' + medal + '</div>';
             const _av = (window.__lbAvatars || {})[uid];
