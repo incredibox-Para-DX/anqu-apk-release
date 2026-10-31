@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.58.m",
+  "version": "v2.3.0_hotfix.59.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,7 +19,7 @@
     },
     {
       "path": "css/main.css",
-      "size": 65531
+      "size": 65535
     },
     {
       "path": "css/styles.css",
@@ -71,7 +71,7 @@
     },
     {
       "path": "js/collect-pack.js",
-      "size": 6919
+      "size": 7303
     },
     {
       "path": "js/cloud-profile.js",
@@ -127,7 +127,7 @@
     },
     {
       "path": "js/card-pack.js",
-      "size": 6949
+      "size": 7345
     },
     {
       "path": "js/entitlements.js",
@@ -171,7 +171,7 @@
     },
     {
       "path": "js/mods.js",
-      "size": 86254
+      "size": 86634
     },
     {
       "path": "admin/anqu-admin.html",
@@ -231,9 +231,9 @@
     },
     {
       "path": "index.html",
-      "size": 159088
+      "size": 159261
     }
   ],
   "fileCount": 58,
-  "totalSize": 2992541
+  "totalSize": 2993878
 }

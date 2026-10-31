@@ -2811,7 +2811,7 @@ textarea.dt-in{
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     z-index: 0;
     pointer-events: none;
 }

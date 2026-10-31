@@ -61,11 +61,15 @@
         TEMPLATE_MIRROR: REPO_RAW_MAIN + '/tools/mod-template/anqu-mod-template-v1.zip',
         manifestUrls: [
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/mods.json',
-            GH + '/mods.json',
-            JD + '/mods.json'
+            JD + '/mods.json',
+            'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/mods.json',
+            'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/mods.json',
+            GH + '/mods.json'
         ],
         baseUrls: [
             JD + '/',
+            'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/',
+            'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/',
             WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
             GH + '/'
         ],
