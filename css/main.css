@@ -2604,3 +2604,37 @@ textarea.dt-in{
 #rd-title-progress-bar {
     background: linear-gradient(90deg, #5f6672, #9299a3) !important;
 }
+#view-leaderboard-modal.leaderboard-page {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: none;
+    flex-direction: column;
+    background: var(--bg, #0f172a);
+    color: var(--text, #e2e8f0);
+}
+#view-leaderboard-modal.leaderboard-page.show { display: flex; }
+.leaderboard-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(148, 163, 184, .22);
+    flex-shrink: 0;
+}
+.leaderboard-page-header .modal-title { font-size: 16px; font-weight: 600; }
+.leaderboard-page-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 16px 24px;
+}
+.leaderboard-page-footer {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(148, 163, 184, .22);
+    flex-shrink: 0;
+}
+.leaderboard-page-footer .modal-btn { flex: 1; }

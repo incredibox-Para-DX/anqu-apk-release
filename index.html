@@ -846,22 +846,21 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<div class="modal-overlay" id="view-leaderboard-modal">
-<div class="modal-content leaderboard-modal-content">
-<div class="modal-header">
+<div id="view-leaderboard-modal" class="leaderboard-page">
+<div class="leaderboard-page-header">
+<button class="modal-close" id="view-leaderboard-close"><i class="fas fa-arrow-left"></i></button>
 <div class="modal-title"><i class="fas fa-ranking-star"></i> 本周排行榜</div>
-<button class="modal-close" id="view-leaderboard-close">&times;</button>
+<div style="width:32px;"></div>
 </div>
-<div class="modal-body leaderboard-modal-body">
+<div class="leaderboard-page-body">
 <div class="leaderboard-list" id="leaderboard-list">
 <div class="leaderboard-loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div>
 </div>
 </div>
-<div class="modal-footer leaderboard-modal-footer">
+<div class="leaderboard-page-footer">
 <button class="modal-btn refresh-btn" id="refresh-leaderboard-btn"><i class="fas fa-sync-alt"></i> 刷新</button>
 <button class="modal-btn danger clear-btn" id="clear-my-record-btn"><i class="fas fa-trash-can"></i> 清除</button>
 <button class="modal-btn primary upload-btn" id="upload-my-score-btn"><i class="fas fa-upload"></i> 上传</button>
-</div>
 </div>
 </div>
 <div class="modal-overlay" id="nickname-modal">
@@ -3069,11 +3068,6 @@ if (document.readyState === 'loading') {
     }
 
     if (viewCloseBtn) viewCloseBtn.addEventListener('click', closeViewModal);
-    if (viewModal) {
-        viewModal.addEventListener('click', function (e) {
-            if (e.target === viewModal) closeViewModal();
-        });
-    }
 
     const viewLeaderboardBtn = document.getElementById('sidebar-view-leaderboard-btn');
     if (viewLeaderboardBtn) {
