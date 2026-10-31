@@ -2681,3 +2681,11 @@ textarea.dt-in{
     left: auto;
     right: 12px;
 }
+#leaderboard-rules-modal {
+    z-index: 10002;
+    transition: none;
+}
+#leaderboard-rules-modal .modal-content {
+    transform: none !important;
+    transition: none !important;
+}
