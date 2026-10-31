@@ -2813,18 +2813,6 @@ textarea.dt-in{
     background: rgba(0, 0, 0, .62);
     z-index: 1;
 }
-.lb-card-layer::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(115deg, transparent 32%, rgba(255, 240, 180, .45) 45%, rgba(255, 255, 255, .75) 50%, rgba(255, 240, 180, .45) 55%, transparent 68%);
-    background-size: 250% 100%;
-    background-repeat: no-repeat;
-    animation: cardShine 3.6s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-.lb-card-layer.no-shine::before { display: none; }
 .leaderboard-item > *:not(.lb-card-layer) {
     position: relative;
     z-index: 1;
