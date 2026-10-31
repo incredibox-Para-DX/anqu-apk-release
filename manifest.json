@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.66",
+  "version": "v2.3.0_hotfix.67",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,7 +19,7 @@
     },
     {
       "path": "css/main.css",
-      "size": 66204
+      "size": 67390
     },
     {
       "path": "css/styles.css",
@@ -123,7 +123,7 @@
     },
     {
       "path": "js/cards.js",
-      "size": 8999
+      "size": 10510
     },
     {
       "path": "js/card-pack.js",
@@ -231,9 +231,9 @@
     },
     {
       "path": "index.html",
-      "size": 161524
+      "size": 163741
     }
   ],
   "fileCount": 58,
-  "totalSize": 2998893
+  "totalSize": 3003807
 }

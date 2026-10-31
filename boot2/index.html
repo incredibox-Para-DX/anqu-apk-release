@@ -718,6 +718,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="sidebar-btn full-width" id="gm-mod-manage-btn" style="margin-top:6px;"><i class="fas fa-trash-can"></i> Mod 管理</button>
 <button class="sidebar-btn full-width" id="gm-grant-btn" style="margin-top:6px;"><i class="fas fa-user-shield"></i> UID 授权</button>
 <button class="sidebar-btn full-width" id="gm-sync-ent-btn" style="margin-top:6px;"><i class="fas fa-rotate"></i> 同步权益</button>
+<button class="sidebar-btn full-width" id="gm-devname-btn" style="margin-top:6px;"><i class="fas fa-wand-magic-sparkles"></i> 开发者昵称</button>
 <button class="sidebar-btn full-width" id="gm-ipcode-open-btn" style="margin-top:6px;"><i class="fas fa-key"></i> 物品池授权码</button>
 <button class="sidebar-btn full-width" id="gm-telemetry-btn" style="margin-top:6px;"><i class="fas fa-chart-line"></i> 遥测看板</button>
 <button class="sidebar-btn full-width" id="gm-modal-center-btn"><i class="fas fa-window-restore"></i> <span data-i18n="gm_center">弹窗中心</span></button>
@@ -965,6 +966,24 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
+<div class="modal-overlay" id="gm-devname-modal">
+<div class="modal-content" style="max-width:380px;width:92vw;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-wand-magic-sparkles"></i> 开发者昵称</div>
+<button class="modal-close" id="gm-devname-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:14px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;line-height:1.6;">仅可授予自己（本机），不对外发放。</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+<button class="modal-btn gm-devname-grant" data-style="violet" style="padding:8px 0;"><span class="name-violet">紫罗兰</span></button>
+<button class="modal-btn gm-devname-grant" data-style="aurora" style="padding:8px 0;"><span class="name-aurora">极光</span></button>
+<button class="modal-btn gm-devname-grant" data-style="rainbow" style="padding:8px 0;"><span class="name-rainbow">彩虹</span></button>
+</div>
+<div id="gm-devname-status" style="font-size:12px;color:#94a3b8;margin-top:8px;"></div>
+</div>
+</div>
+</div>
+
 <div class="modal-overlay" id="nickname-modal">
 <div class="modal-content nickname-modal-content">
 <div class="modal-header">
@@ -983,6 +1002,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="gold"> <span class="name-gold" data-i18n="nick_style_gold">尊贵金</span> <span class="style-lock" data-lock="gold">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="red"> <span class="name-red" data-i18n="nick_style_red">质感红</span> <span class="style-lock" data-lock="red">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="blue"> <span class="name-blue" data-i18n="nick_style_blue">蓝宝石</span> <span class="style-lock" data-lock="blue">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="violet"> <span class="name-violet">紫罗兰</span> <span class="style-lock" data-lock="violet">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="aurora"> <span class="name-aurora">极光</span> <span class="style-lock" data-lock="aurora">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="rainbow"> <span class="name-rainbow">彩虹</span> <span class="style-lock" data-lock="rainbow">🔒</span></label>
 </div>
 </div>
 </div>
@@ -3020,7 +3042,10 @@ if (document.readyState === 'loading') {
                 var __ok = __st === 'normal'
                     || (__st === 'gold' && localStorage.getItem('ab_gold_name') === '1')
                     || (__st === 'red' && localStorage.getItem('ab_red_name') === '1')
-                    || (__st === 'blue' && localStorage.getItem('ab_blue_name') === '1');
+                    || (__st === 'blue' && localStorage.getItem('ab_blue_name') === '1')
+                    || (__st === 'violet' && localStorage.getItem('ab_dev_violet') === '1')
+                    || (__st === 'aurora' && localStorage.getItem('ab_dev_aurora') === '1')
+                    || (__st === 'rainbow' && localStorage.getItem('ab_dev_rainbow') === '1');
                 __nameStyle = __ok ? __st : 'normal';
             } catch (e) {}
             const baseBody = {
@@ -3352,7 +3377,7 @@ if (document.readyState === 'loading') {
 
     function isStyleUnlocked(style) {
         if (style === 'normal') return true;
-        const map = { gold: 'ab_gold_name', red: 'ab_red_name', blue: 'ab_blue_name' };
+        const map = { gold: 'ab_gold_name', red: 'ab_red_name', blue: 'ab_blue_name', violet: 'ab_dev_violet', aurora: 'ab_dev_aurora', rainbow: 'ab_dev_rainbow' };
         try { return localStorage.getItem(map[style] || '') === '1'; } catch (e) { return false; }
     }
 
@@ -3362,7 +3387,7 @@ if (document.readyState === 'loading') {
         let st = 'normal';
         try { st = localStorage.getItem('ab_name_style') || 'normal'; } catch (e) {}
         if (!isStyleUnlocked(st)) st = 'normal';
-        el.classList.remove('name-gold', 'name-red', 'name-blue');
+        el.classList.remove('name-gold', 'name-red', 'name-blue', 'name-violet', 'name-aurora', 'name-rainbow');
         if (st !== 'normal') el.classList.add('name-' + st);
     }
 

@@ -156,6 +156,31 @@
             apply();
             render();
         });
+        var devBtn = document.getElementById('gm-devname-btn');
+        var devModal = document.getElementById('gm-devname-modal');
+        var devClose = document.getElementById('gm-devname-close');
+        var devStatus = document.getElementById('gm-devname-status');
+        if (devBtn && devModal) {
+            devBtn.addEventListener('click', function () {
+                devModal.style.display = 'flex';
+                requestAnimationFrame(function () { devModal.classList.add('show'); });
+            });
+            function closeDev() {
+                devModal.classList.remove('show');
+                setTimeout(function () { devModal.style.display = 'none'; }, 300);
+            }
+            if (devClose) devClose.addEventListener('click', closeDev);
+            devModal.addEventListener('click', function (e) { if (e.target === devModal) closeDev(); });
+            var devBtns = devModal.querySelectorAll('.gm-devname-grant');
+            for (var di = 0; di < devBtns.length; di++) {
+                devBtns[di].addEventListener('click', function () {
+                    var st = this.getAttribute('data-style');
+                    try { localStorage.setItem('ab_dev_' + st, '1'); } catch (e) {}
+                    if (devStatus) { devStatus.textContent = '已解锁：' + st + '（可在修改昵称中选择）'; devStatus.style.color = '#34d399'; }
+                    if (window.showToast) showToast('已解锁开发者昵称：' + st);
+                });
+            }
+        }
         apply();
         window.addEventListener('load', apply);
         setTimeout(apply, 1200);
