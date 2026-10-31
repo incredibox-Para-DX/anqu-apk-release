@@ -274,3 +274,9 @@ returns jsonb language sql security definer set search_path = public as $$
 $$;
 
 grant execute on function public.get_ban(text) to anon, authenticated;
+
+-- ===== 昵称颜色兑换码（质感红 / 蓝宝石）=====
+insert into public.ab_redeem_codes(code, kind, payload, once) values
+ ('NAME-RED-8K2M', 'name_red', '{}', true),
+ ('NAME-BLUE-5Q7X', 'name_blue', '{}', true)
+on conflict (code) do update set kind = excluded.kind, payload = excluded.payload, active = true;

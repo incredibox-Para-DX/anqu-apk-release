@@ -53,6 +53,8 @@
             if (key === 'gm') { setFlag('ab_gm_unlocked', 'true'); if (typeof w.__enableGM === 'function') { try { w.__enableGM(); } catch (e) {} } }
             else if (key === 'item_pool') { setFlag('ab_item_control_unlocked', '1'); }
             else if (key === 'gold_name') { setFlag('ab_gold_name', '1'); }
+            else if (key === 'name_red') { setFlag('ab_red_name', '1'); }
+            else if (key === 'name_blue') { setFlag('ab_blue_name', '1'); }
             else if (key.indexOf('card:') === 0) { try { if (w.Cards) w.Cards.unlock(key.slice(5)); } catch (e) {} }
         }
         try {

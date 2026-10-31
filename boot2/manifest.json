@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.61.m",
+  "version": "v2.3.0_hotfix.62.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,7 +19,7 @@
     },
     {
       "path": "css/main.css",
-      "size": 65652
+      "size": 66447
     },
     {
       "path": "css/styles.css",
@@ -87,7 +87,7 @@
     },
     {
       "path": "js/redeem.js",
-      "size": 6162
+      "size": 6312
     },
     {
       "path": "js/script_new.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "js/cards.js",
-      "size": 8516
+      "size": 8766
     },
     {
       "path": "js/card-pack.js",
@@ -131,7 +131,7 @@
     },
     {
       "path": "js/entitlements.js",
-      "size": 11169
+      "size": 11415
     },
     {
       "path": "js/bans.js",
@@ -231,9 +231,9 @@
     },
     {
       "path": "index.html",
-      "size": 159261
+      "size": 160616
     }
   ],
   "fileCount": 58,
-  "totalSize": 2994198
+  "totalSize": 2996994
 }

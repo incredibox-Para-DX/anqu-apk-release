@@ -42,6 +42,10 @@
                 try { localStorage.setItem('ab_item_control_unlocked', '1'); } catch (x) {}
             } else if (k === 'gold_name') {
                 try { localStorage.setItem('ab_gold_name', '1'); } catch (x) {}
+            } else if (k === 'name_red') {
+                try { localStorage.setItem('ab_red_name', '1'); } catch (x) {}
+            } else if (k === 'name_blue') {
+                try { localStorage.setItem('ab_blue_name', '1'); } catch (x) {}
             } else if (k === 'value') {
                 try {
                     if (!localStorage.getItem('ab_ent_value_applied')) {

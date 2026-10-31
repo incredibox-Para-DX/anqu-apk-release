@@ -2777,6 +2777,28 @@ textarea.dt-in{
     from { background-position: 0% 50%; }
     to { background-position: 100% 50%; }
 }
+.name-red {
+    background: linear-gradient(100deg, #7f1d1d 0%, #ef4444 22%, #ffe4e6 38%, #dc2626 52%, #7f1d1d 70%, #ef4444 88%, #ffe4e6 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 5s ease-in-out infinite alternate;
+}
+.name-blue {
+    background: linear-gradient(100deg, #0b2a5b 0%, #3b82f6 22%, #e0f2fe 38%, #1d4ed8 52%, #0b2a5b 70%, #3b82f6 88%, #e0f2fe 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 5s ease-in-out infinite alternate;
+}
+.style-lock {
+    font-size: 10px;
+    opacity: .8;
+}
 .name-gold .me-tag {
     -webkit-text-fill-color: #fff;
     color: #fff;

@@ -926,7 +926,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <option value="card:card_052">名片·招财进宝</option>
 <option value="card:card_047">名片·黑金授信</option>
 <option value="card:card_017">名片·殿堂</option>
-<option value="gold_name">金色昵称</option>
+<option value="gold_name">尊贵金</option>
+<option value="name_red">质感红</option>
+<option value="name_blue">蓝宝石</option>
 <option value="gm">GM 模式</option>
 <option value="item_pool">物品池管理</option>
 <option value="skill:destiny_pity">技能·命运保底</option>
@@ -949,7 +951,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <option value="card:card_052">名片·招财进宝</option>
 <option value="card:card_047">名片·黑金授信</option>
 <option value="card:card_017">名片·殿堂</option>
-<option value="gold_name">金色昵称</option>
+<option value="gold_name">尊贵金</option>
+<option value="name_red">质感红</option>
+<option value="name_blue">蓝宝石</option>
 <option value="gm">GM 模式</option>
 <option value="item_pool">物品池管理</option>
 <option value="skill">技能</option>
@@ -972,10 +976,12 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <input type="text" id="nickname-modal-input" placeholder="输入新昵称" maxlength="12" autocomplete="off">
 <span id="nickname-input-counter">0/12</span>
 </div>
-<div id="nickname-style-row" style="display:none;margin-top:10px;font-size:12px;color:#94a3b8;">
+<div id="nickname-style-row" style="margin-top:10px;font-size:12px;color:#94a3b8;">
 <span data-i18n="nick_style">昵称样式</span>
-<label style="margin-left:8px;cursor:pointer;"><input type="radio" name="nickname-style" value="normal" checked> <span data-i18n="nick_style_normal">普通</span></label>
-<label style="margin-left:12px;cursor:pointer;"><input type="radio" name="nickname-style" value="gold"> <span class="name-gold" data-i18n="nick_style_gold">金色</span></label>
+<label style="margin-left:8px;cursor:pointer;"><input type="radio" name="nickname-style" value="normal" checked> <span data-i18n="nick_style_normal">普通白</span></label>
+<label style="margin-left:12px;cursor:pointer;"><input type="radio" name="nickname-style" value="gold"> <span class="name-gold" data-i18n="nick_style_gold">尊贵金</span> <span class="style-lock" data-lock="gold">🔒</span></label>
+<label style="margin-left:12px;cursor:pointer;"><input type="radio" name="nickname-style" value="red"> <span class="name-red" data-i18n="nick_style_red">质感红</span> <span class="style-lock" data-lock="red">🔒</span></label>
+<label style="margin-left:12px;cursor:pointer;"><input type="radio" name="nickname-style" value="blue"> <span class="name-blue" data-i18n="nick_style_blue">蓝宝石</span> <span class="style-lock" data-lock="blue">🔒</span></label>
 </div>
 </div>
 <div class="modal-footer nickname-modal-footer">
@@ -3337,8 +3343,10 @@ if (document.readyState === 'loading') {
         applyNickStyle();
     }
 
-    function isGoldUnlocked() {
-        try { return localStorage.getItem('ab_gold_name') === '1'; } catch (e) { return false; }
+    function isStyleUnlocked(style) {
+        if (style === 'normal') return true;
+        const map = { gold: 'ab_gold_name', red: 'ab_red_name', blue: 'ab_blue_name' };
+        try { return localStorage.getItem(map[style] || '') === '1'; } catch (e) { return false; }
     }
 
     function applyNickStyle() {
@@ -3346,7 +3354,9 @@ if (document.readyState === 'loading') {
         if (!el) return;
         let st = 'normal';
         try { st = localStorage.getItem('ab_name_style') || 'normal'; } catch (e) {}
-        el.classList.toggle('name-gold', st === 'gold' && isGoldUnlocked());
+        if (!isStyleUnlocked(st)) st = 'normal';
+        el.classList.remove('name-gold', 'name-red', 'name-blue');
+        if (st !== 'normal') el.classList.add('name-' + st);
     }
 
     function displayUID() {
@@ -3399,11 +3409,19 @@ if (document.readyState === 'loading') {
                 updateCounter();
             }
             const styleRow = document.getElementById('nickname-style-row');
-            if (styleRow) styleRow.style.display = isGoldUnlocked() ? 'block' : 'none';
+            if (styleRow) styleRow.style.display = 'block';
             let curStyle = 'normal';
             try { curStyle = localStorage.getItem('ab_name_style') || 'normal'; } catch (e) {}
+            if (!isStyleUnlocked(curStyle)) curStyle = 'normal';
             const radios = document.querySelectorAll('input[name="nickname-style"]');
-            for (let i = 0; i < radios.length; i++) radios[i].checked = radios[i].value === curStyle;
+            for (let i = 0; i < radios.length; i++) {
+                const v = radios[i].value;
+                const ok = isStyleUnlocked(v);
+                radios[i].disabled = !ok;
+                radios[i].checked = v === curStyle;
+                const lock = document.querySelector('.style-lock[data-lock="' + v + '"]');
+                if (lock) lock.style.display = ok ? 'none' : '';
+            }
             if (nicknameModal) {
                 nicknameModal.style.display = 'flex';
                 requestAnimationFrame(function () {
@@ -3437,7 +3455,9 @@ if (document.readyState === 'loading') {
             if (nicknameEl) nicknameEl.textContent = trimmed;
             localStorage.setItem('leaderboard_nickname', trimmed);
             const selStyle = document.querySelector('input[name="nickname-style"]:checked');
-            try { localStorage.setItem('ab_name_style', selStyle ? selStyle.value : 'normal'); } catch (e) {}
+            let __st = selStyle ? selStyle.value : 'normal';
+            if (!isStyleUnlocked(__st)) __st = 'normal';
+            try { localStorage.setItem('ab_name_style', __st); } catch (e) {}
             applyNickStyle();
             closeNicknameModal();
             showToast('昵称已更新');
