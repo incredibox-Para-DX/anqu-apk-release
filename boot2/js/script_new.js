@@ -939,7 +939,7 @@ previewCurrentBackground() {
             } catch (e) {}
         },
         
-        updateAccumulatedValue(value) {
+        updateAccumulatedValue(value, isModItem) {
             State.totalAccumulatedValue += value;
             State.sessionAccumulatedValue += value;
             const currentWeek = this.getCurrentWeek();
@@ -952,7 +952,7 @@ previewCurrentBackground() {
             try {
                 poolModified = ItemControlManager.getDisabledItems().length > 0;
             } catch (e) {}
-            if (!poolModified) {
+            if (!poolModified && !isModItem) {
                 State.weeklyAccumulatedValue += value;
             }
             this.saveAccumulatedStats();
@@ -3489,7 +3489,8 @@ _runOpenSafe() {
             State.totalValue += State.currentSearch.value;
             State.searchTime += State.currentSearch.searchTime;
             
-            StatsManager.updateAccumulatedValue(State.currentSearch.value);
+            const __isModItem = !!(State.currentSearch && typeof State.currentSearch.id === 'string' && State.currentSearch.id.indexOf('mod_') === 0);
+            StatsManager.updateAccumulatedValue(State.currentSearch.value, __isModItem);
             
             if (State.currentSearch.value > State.highestValue) {
                 State.highestValue = State.currentSearch.value;
@@ -6721,7 +6722,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.50';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.51';
 
     /* ============================================================
      * 检查更新
