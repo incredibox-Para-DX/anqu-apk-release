@@ -51,6 +51,7 @@ CODE_FILES = [
     "js/cards.js",
     "js/card-pack.js",
     "js/entitlements.js",
+    "js/bans.js",
     "js/item-i18n.js",
     "js/bg-i18n.js",
     "js/gm-i18n.js",

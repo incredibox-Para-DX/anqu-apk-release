@@ -206,3 +206,71 @@ values ('HEFUN-2026-ALL', 'bundle',
 on conflict (code) do update set kind = excluded.kind, payload = excluded.payload, active = true;
 
 -- Camona（加价值）与 Destiny（命运保底）保持不变
+
+-- ===== 封禁 / 解封 / 撤权 =====
+create table if not exists public.ab_bans (
+  uid text primary key,
+  reason text,
+  until timestamptz,
+  created_at timestamptz not null default now()
+);
+alter table public.ab_bans enable row level security;
+revoke all on public.ab_bans from anon, authenticated;
+
+create or replace function public.ban_user(p_secret text, p_uid text, p_until timestamptz, p_reason text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v text;
+begin
+  select v into v from public.ab_admin_config where k = 'grant_secret';
+  if v is null or p_secret is null or p_secret <> v then
+    return jsonb_build_object('ok', false, 'message', '管理密钥错误');
+  end if;
+  if p_uid is null or length(trim(p_uid)) = 0 then
+    return jsonb_build_object('ok', false, 'message', '参数错误');
+  end if;
+  insert into public.ab_bans(uid, reason, until) values (trim(p_uid), p_reason, p_until)
+    on conflict (uid) do update set reason = excluded.reason, until = excluded.until;
+  return jsonb_build_object('ok', true, 'message', '已封禁 ' || trim(p_uid));
+end; $$;
+
+grant execute on function public.ban_user(text, text, timestamptz, text) to anon, authenticated;
+
+create or replace function public.unban_user(p_secret text, p_uid text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v text;
+begin
+  select v into v from public.ab_admin_config where k = 'grant_secret';
+  if v is null or p_secret is null or p_secret <> v then
+    return jsonb_build_object('ok', false, 'message', '管理密钥错误');
+  end if;
+  delete from public.ab_bans where uid = trim(p_uid);
+  return jsonb_build_object('ok', true, 'message', '已解封 ' || trim(p_uid));
+end; $$;
+
+grant execute on function public.unban_user(text, text) to anon, authenticated;
+
+create or replace function public.revoke_entitlement(p_secret text, p_uid text, p_ekey text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare v text;
+begin
+  select v into v from public.ab_admin_config where k = 'grant_secret';
+  if v is null or p_secret is null or p_secret <> v then
+    return jsonb_build_object('ok', false, 'message', '管理密钥错误');
+  end if;
+  delete from public.ab_entitlements where uid = trim(p_uid) and ekey = p_ekey;
+  return jsonb_build_object('ok', true, 'message', '已撤除 ' || trim(p_uid) || ' 的 ' || p_ekey);
+end; $$;
+
+grant execute on function public.revoke_entitlement(text, text, text) to anon, authenticated;
+
+create or replace function public.get_ban(p_uid text)
+returns jsonb language sql security definer set search_path = public as $$
+  select coalesce(
+    (select jsonb_build_object('banned', true, 'until', until, 'reason', reason)
+       from public.ab_bans
+      where uid = p_uid and (until is null or until > now())),
+    jsonb_build_object('banned', false)
+  );
+$$;
+
+grant execute on function public.get_ban(text) to anon, authenticated;

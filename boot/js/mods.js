@@ -685,6 +685,41 @@
                 });
             });
         },
+        gmReplaceZip: function (id, file, token, onStatus) {
+            var self = this;
+            var st = onStatus || function () {};
+            if (!token) return Promise.reject(new Error('请先填写 GitHub Token'));
+            if (!/\.zip$/i.test(file.name || '')) return Promise.reject(new Error('请选择 zip 文件'));
+            var api = '/repos/' + this.GM_REPO + '/contents/mods.json';
+            return this._ghApi(token, 'GET', api + '?ref=' + this.GM_BRANCH).then(function (info) {
+                var raw;
+                try { raw = decodeURIComponent(escape(atob(String(info.content || '').replace(/\n/g, '')))); } catch (e) { raw = '{}'; }
+                var m;
+                try { m = JSON.parse(raw); } catch (e) { m = { mods: [] }; }
+                var arr = m.mods || [];
+                var idx = -1;
+                for (var i = 0; i < arr.length; i++) { if (arr[i].id === id) { idx = i; break; } }
+                if (idx < 0) throw new Error('未找到该 Mod');
+                var entry = arr[idx];
+                if (!entry.file) throw new Error('该 Mod 缺少 zip 路径');
+                st('上传新 zip…');
+                return file.arrayBuffer().then(function (b) {
+                    return self._ghPutFile(token, entry.file, self._b64(b), '替换模组 zip ' + entry.file);
+                }).then(function () {
+                    st('更新 mods.json…');
+                    entry.size = file.size;
+                    entry.updatedAt = Date.now();
+                    arr[idx] = entry;
+                    m.mods = arr;
+                    var jsonStr = JSON.stringify(m, null, 2);
+                    var bytes = new TextEncoder().encode(jsonStr);
+                    var base64 = self._b64(bytes.buffer);
+                    return self._ghApi(token, 'GET', api + '?ref=' + self.GM_BRANCH).then(function (fresh) {
+                        return self._ghApi(token, 'PUT', api, { message: '替换模组 zip ' + (entry.name || id), content: base64, branch: self.GM_BRANCH, sha: fresh.sha });
+                    });
+                });
+            });
+        },
         gmUploadZip: function (file, token, onStatus) {
             var self = this;
             var st = onStatus || function () {};

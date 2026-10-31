@@ -88,8 +88,20 @@
     function grant(secret, targetUid, ekey, evalue) {
         return rpc('grant_entitlement', { p_secret: secret, p_uid: targetUid, p_ekey: ekey, p_evalue: evalue });
     }
+    function banUser(secret, targetUid, untilIso, reason) {
+        return rpc('ban_user', { p_secret: secret, p_uid: targetUid, p_until: untilIso, p_reason: reason });
+    }
+    function unbanUser(secret, targetUid) {
+        return rpc('unban_user', { p_secret: secret, p_uid: targetUid });
+    }
+    function revokeEntitlement(secret, targetUid, ekey) {
+        return rpc('revoke_entitlement', { p_secret: secret, p_uid: targetUid, p_ekey: ekey });
+    }
+    function checkBan(targetUid) {
+        return rpc('get_ban', { p_uid: targetUid });
+    }
 
-    w.Entitlements = { sync: sync, serverRedeem: serverRedeem, grant: grant, apply: applyList };
+    w.Entitlements = { sync: sync, serverRedeem: serverRedeem, grant: grant, banUser: banUser, unbanUser: unbanUser, revokeEntitlement: revokeEntitlement, checkBan: checkBan, apply: applyList };
 
     function bindGrantUI() {
         var btn = document.getElementById('gm-grant-btn');
@@ -102,6 +114,8 @@
         function st(t, c) { if (status) { status.textContent = t; status.style.color = c || '#94a3b8'; } }
         function open() {
             if (!modal) return;
+            var sec = document.getElementById('gm-grant-secret');
+            if (sec && !sec.value) { try { sec.value = localStorage.getItem('ab_grant_secret') || ''; } catch (e) {} }
             modal.style.display = 'flex';
             requestAnimationFrame(function () { modal.classList.add('show'); });
         }
@@ -118,6 +132,47 @@
             if (w.showToast) w.showToast('正在同步权益…');
             sync().then(function (ok) { if (w.showToast) w.showToast(ok ? '权益已同步' : '同步失败，请检查网络'); });
         });
+        function secretVal() { var e = document.getElementById('gm-grant-secret'); return (e && e.value || '').trim(); }
+        function uidVal() { var e = document.getElementById('gm-grant-uid'); return (e && e.value || '').trim(); }
+        function saveSecret() { var s = secretVal(); if (s) { try { localStorage.setItem('ab_grant_secret', s); } catch (e) {} } }
+        var banBtn = document.getElementById('gm-ban-submit');
+        if (banBtn) banBtn.addEventListener('click', function () {
+            var u = uidVal(), s = secretVal();
+            if (!u) { st('请输入对方 UID', '#f87171'); return; }
+            if (!s) { st('请输入管理密钥', '#f87171'); return; }
+            var dEl = document.getElementById('gm-ban-days');
+            var days = Number(((dEl && dEl.value) || '0').trim()) || 0;
+            var rEl = document.getElementById('gm-ban-reason');
+            var reason = ((rEl && rEl.value) || '').trim();
+            var until = days > 0 ? new Date(Date.now() + days * 86400000).toISOString() : null;
+            saveSecret(); st('封禁中…');
+            banUser(s, u, until, reason).then(function (res) {
+                st(res && res.ok ? (res.message || '已封禁') : ((res && res.message) || '失败'), res && res.ok ? '#34d399' : '#f87171');
+            }).catch(function () { st('请求失败', '#f87171'); });
+        });
+        var unbanBtn = document.getElementById('gm-unban-submit');
+        if (unbanBtn) unbanBtn.addEventListener('click', function () {
+            var u = uidVal(), s = secretVal();
+            if (!u) { st('请输入对方 UID', '#f87171'); return; }
+            if (!s) { st('请输入管理密钥', '#f87171'); return; }
+            saveSecret(); st('解封中…');
+            unbanUser(s, u).then(function (res) {
+                st(res && res.ok ? (res.message || '已解封') : ((res && res.message) || '失败'), res && res.ok ? '#34d399' : '#f87171');
+            }).catch(function () { st('请求失败', '#f87171'); });
+        });
+        var revokeBtn = document.getElementById('gm-revoke-submit');
+        if (revokeBtn) revokeBtn.addEventListener('click', function () {
+            var u = uidVal(), s = secretVal();
+            var t = document.getElementById('gm-revoke-type');
+            var ek = t && t.value;
+            if (!u) { st('请输入对方 UID', '#f87171'); return; }
+            if (!s) { st('请输入管理密钥', '#f87171'); return; }
+            if (!ek) { st('请选择要撤除的权益', '#f87171'); return; }
+            saveSecret(); st('撤除中…');
+            revokeEntitlement(s, u, ek).then(function (res) {
+                st(res && res.ok ? (res.message || '已撤除') : ((res && res.message) || '失败'), res && res.ok ? '#34d399' : '#f87171');
+            }).catch(function () { st('请求失败', '#f87171'); });
+        });
         if (submit) submit.addEventListener('click', function () {
             var uidEl = document.getElementById('gm-grant-uid');
             var typeEl = document.getElementById('gm-grant-type');
@@ -127,6 +182,7 @@
             var secret = (secretEl && secretEl.value || '').trim();
             if (!u) { st('请输入对方 UID', '#f87171'); return; }
             if (!secret) { st('请输入管理密钥', '#f87171'); return; }
+            try { localStorage.setItem('ab_grant_secret', secret); } catch (e) {}
             var ekey = type, evalue = '1';
             if (type.indexOf('skill:') === 0) { ekey = 'skill'; evalue = JSON.stringify({ skill: type.slice(6) }); }
             else if (type.indexOf('value:') === 0) { ekey = 'value'; evalue = JSON.stringify({ amount: Number(type.slice(6)) || 0 }); }

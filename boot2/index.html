@@ -935,6 +935,28 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <input class="input-field" id="gm-grant-secret" placeholder="管理密钥（grant_secret）" style="width:100%;box-sizing:border-box;font-size:12px;margin-top:8px;" autocomplete="off" spellcheck="false">
 <button class="sidebar-btn full-width" id="gm-grant-submit" style="margin-top:10px;"><i class="fas fa-unlock"></i> 授权</button>
 <div id="gm-grant-status" style="font-size:12px;color:#94a3b8;margin-top:8px;line-height:1.6;"></div>
+<div style="border-top:1px solid rgba(148,163,184,.2);margin-top:12px;padding-top:10px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">封禁管理</div>
+<input class="input-field" id="gm-ban-days" placeholder="封禁天数（0=永久）" style="width:100%;box-sizing:border-box;font-size:12px;" autocomplete="off">
+<input class="input-field" id="gm-ban-reason" placeholder="封禁原因（可选）" style="width:100%;box-sizing:border-box;font-size:12px;margin-top:8px;" autocomplete="off">
+<button class="sidebar-btn full-width" id="gm-ban-submit" style="margin-top:8px;"><i class="fas fa-ban"></i> 封禁账号</button>
+<button class="sidebar-btn full-width" id="gm-unban-submit" style="margin-top:8px;"><i class="fas fa-unlock"></i> 解封账号</button>
+</div>
+<div style="border-top:1px solid rgba(148,163,184,.2);margin-top:12px;padding-top:10px;">
+<div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">撤除权益</div>
+<select class="input-field" id="gm-revoke-type" style="width:100%;box-sizing:border-box;font-size:12px;">
+<option value="card:card_030">名片·收藏家</option>
+<option value="card:card_052">名片·招财进宝</option>
+<option value="card:card_047">名片·黑金授信</option>
+<option value="card:card_017">名片·殿堂</option>
+<option value="gold_name">金色昵称</option>
+<option value="gm">GM 模式</option>
+<option value="item_pool">物品池管理</option>
+<option value="skill">技能</option>
+<option value="value">累计价值权益</option>
+</select>
+<button class="sidebar-btn full-width" id="gm-revoke-submit" style="margin-top:8px;"><i class="fas fa-eraser"></i> 撤除权益</button>
+</div>
 </div>
 </div>
 </div>
@@ -2045,6 +2067,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/cards.js"></script>
 <script src="js/card-pack.js"></script>
 <script src="js/entitlements.js"></script>
+<script src="js/bans.js"></script>
 <script src="js/item-i18n.js"></script>
 <script src="js/bg-i18n.js"></script>
 <script src="js/gm-i18n.js"></script>

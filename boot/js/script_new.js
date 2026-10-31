@@ -6722,7 +6722,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.55';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.56';
 
     /* ============================================================
      * 检查更新
@@ -7097,7 +7097,27 @@ const EventManager = {
                             $del.html('<i class="fas fa-trash"></i> 删除');
                         });
                     });
-                    $row.append($info, $del);
+                    var $rep = $('<button class="modal-btn" style="padding:6px 10px;white-space:nowrap;margin-left:6px;"><i class="fas fa-file-arrow-up"></i> 替换</button>');
+                    var $file = $('<input type="file" accept=".zip,application/zip" style="display:none;">');
+                    $rep.on('click', function () { $file.val(''); $file.click(); });
+                    $file.on('change', function () {
+                        var f = this.files && this.files[0];
+                        if (!f) return;
+                        var tk = token();
+                        if (!tk) { status('请先在「Mod 上传」里填写并保存 GitHub Token', '#f87171'); return; }
+                        $list.find('button').prop('disabled', true);
+                        $rep.html('替换中…');
+                        M.gmReplaceZip(it.id, f, tk, function (t) { status(t); }).then(function () {
+                            status('✅ 已替换：' + (it.name || it.id), '#34d399');
+                            if (window.showToast) window.showToast('已替换 zip');
+                            setTimeout(loadList, 400);
+                        }).catch(function (e) {
+                            status('❌ ' + String(e && e.message || e), '#f87171');
+                            $list.find('button').prop('disabled', false);
+                            $rep.html('<i class="fas fa-file-arrow-up"></i> 替换');
+                        });
+                    });
+                    $row.append($info, $rep, $file, $del);
                     $list.append($row);
                 });
             }).catch(function (e) { status('❌ ' + String(e && e.message || e), '#f87171'); });
