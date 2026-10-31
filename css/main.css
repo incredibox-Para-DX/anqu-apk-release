@@ -2689,3 +2689,37 @@ textarea.dt-in{
     transform: none !important;
     transition: none !important;
 }
+.profile-avatar-wrapper {
+    overflow: visible !important;
+    border: none !important;
+    background: transparent !important;
+}
+.profile-avatar-wrapper img {
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+}
+#profile-avatar-hover {
+    border-radius: 50%;
+    z-index: 3;
+}
+.profile-card-layer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 76px;
+    transform: translate(-50%, -50%) scale(.92);
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity .25s ease, transform .3s cubic-bezier(.22, .61, .36, 1);
+    pointer-events: none;
+}
+.profile-card-layer.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}

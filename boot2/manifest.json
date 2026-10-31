@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.35.m",
+  "version": "v2.3.0_hotfix.36.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,7 +19,7 @@
     },
     {
       "path": "css/main.css",
-      "size": 61974
+      "size": 62793
     },
     {
       "path": "css/styles.css",
@@ -87,7 +87,7 @@
     },
     {
       "path": "js/redeem.js",
-      "size": 6986
+      "size": 7578
     },
     {
       "path": "js/script_new.js",
@@ -120,6 +120,26 @@
     {
       "path": "js/i18n-rules.js",
       "size": 3883
+    },
+    {
+      "path": "js/cards.js",
+      "size": 5705
+    },
+    {
+      "path": "images/cards/card_030.png",
+      "size": 348159
+    },
+    {
+      "path": "images/cards/card_052.png",
+      "size": 376175
+    },
+    {
+      "path": "images/cards/card_047.png",
+      "size": 476730
+    },
+    {
+      "path": "images/cards/card_017.png",
+      "size": 322214
     },
     {
       "path": "js/item-i18n.js",
@@ -215,9 +235,9 @@
     },
     {
       "path": "index.html",
-      "size": 147405
+      "size": 148328
     }
   ],
-  "fileCount": 54,
-  "totalSize": 2943615
+  "fileCount": 59,
+  "totalSize": 4474932
 }

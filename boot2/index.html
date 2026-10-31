@@ -656,6 +656,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-section-body" id="section-personal">
 <div class="profile-section" id="profile-section">
 <div class="profile-avatar-wrapper" id="profile-avatar-wrapper">
+<div class="profile-card-layer" id="profile-card-layer"></div>
 <img id="profile-avatar" src="pictures/avatar.png" alt="头像">
 <div id="profile-avatar-hover"><i class="fas fa-camera"></i></div>
 <input type="file" id="profile-avatar-input" accept="image/*">
@@ -669,6 +670,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <span class="title-label" data-i18n="rank">段位</span>
 <span id="profile-title" class="profile-title-text">暗区新锐</span>
 <i class="fas fa-chevron-right title-arrow" id="profile-title-arrow"></i>
+</div>
+<div class="profile-title-row" id="profile-card-row" style="cursor:pointer;">
+<span class="title-label" data-i18n="card_label">名片</span>
+<span id="profile-card-name" class="profile-title-text">未装备</span>
+<i class="fas fa-chevron-right title-arrow"></i>
 </div>
 <div class="profile-uid-row">
 <span class="uid-label">UID:</span>
@@ -888,6 +894,19 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
+<!-- 名片 -->
+<div class="modal-overlay" id="card-modal">
+<div class="modal-content" style="max-width:460px;width:92vw;max-height:80vh;display:flex;flex-direction:column;">
+<div class="modal-header">
+<div class="modal-title"><i class="fas fa-id-card"></i> <span data-i18n="card_title">名片</span></div>
+<button class="modal-close" id="card-modal-close">&times;</button>
+</div>
+<div class="modal-body" style="padding:14px;overflow-y:auto;">
+<div id="card-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
+</div>
+</div>
+</div>
+
 <div class="modal-overlay" id="nickname-modal">
 <div class="modal-content nickname-modal-content">
 <div class="modal-header">
@@ -1968,6 +1987,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/i18n.js"></script>
 <script src="js/i18n-next.js"></script>
 <script src="js/i18n-rules.js"></script>
+<script src="js/cards.js"></script>
 <script src="js/item-i18n.js"></script>
 <script src="js/bg-i18n.js"></script>
 <script src="js/gm-i18n.js"></script>
