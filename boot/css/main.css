@@ -2736,3 +2736,25 @@ textarea.dt-in{
     opacity: .95;
     transform: scale(1);
 }
+.name-gold {
+    background: linear-gradient(100deg, #f7e08a 0%, #c9962b 25%, #fff6cf 50%, #d4a017 75%, #f7e08a 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 3.2s linear infinite;
+}
+@keyframes nameGoldSweep {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 220% 50%; }
+}
+.leaderboard-item.has-card {
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+}
+.leaderboard-item.has-card .leaderboard-info {
+    position: relative;
+    z-index: 1;
+}

@@ -17,6 +17,10 @@
             card_equipped: ['使用中', '使用中', 'In use', 'Используется'],
             card_unlock_hint: ['使用兑换码解锁', '使用兌換碼解鎖', 'Unlock with a redeem code', 'Откройте кодом'],
             card_none: ['未装备', '未裝備', 'None', 'Нет'],
+            card_reset: ['恢复初始名片', '恢復初始名片', 'Reset card', 'Сбросить визитку'],
+            nick_style: ['昵称样式', '暱稱樣式', 'Name style', 'Стиль ника'],
+            nick_style_normal: ['普通', '普通', 'Normal', 'Обычный'],
+            nick_style_gold: ['金色', '金色', 'Gold', 'Золотой'],
             card_030: ['极夜', '極夜', 'Polar Night', 'Полярная ночь'],
             card_052: ['黎明', '黎明', 'Dawn', 'Рассвет'],
             card_047: ['赤霞', '赤霞', 'Crimson Dusk', 'Алый закат'],
@@ -106,10 +110,16 @@
         if (c) c.addEventListener('click', close);
         var m = document.getElementById('card-modal');
         if (m) m.addEventListener('click', function (e) { if (e.target === m) close(); });
+        var reset = document.getElementById('card-reset-btn');
+        if (reset) reset.addEventListener('click', function () {
+            try { localStorage.removeItem(SEL_KEY); } catch (e) {}
+            apply();
+            render();
+        });
         apply();
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
 
-    window.Cards = { unlock: unlock, isUnlocked: isUnlocked, selected: selected, apply: apply, list: CARDS };
+    window.Cards = { unlock: unlock, isUnlocked: isUnlocked, selected: selected, apply: apply, list: CARDS, imgOf: function (id) { var c = byId(id); return c ? c.img : ''; } };
 })();

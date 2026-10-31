@@ -75,7 +75,8 @@
         'CARD030': { once: true, grant: function () { if (window.Cards) window.Cards.unlock('card_030'); return '名片「极夜」已解锁'; } },
         'CARD052': { once: true, grant: function () { if (window.Cards) window.Cards.unlock('card_052'); return '名片「黎明」已解锁'; } },
         'CARD047': { once: true, grant: function () { if (window.Cards) window.Cards.unlock('card_047'); return '名片「赤霞」已解锁'; } },
-        'CARD017': { once: true, grant: function () { if (window.Cards) window.Cards.unlock('card_017'); return '名片「幽蓝」已解锁'; } }
+        'CARD017': { once: true, grant: function () { if (window.Cards) window.Cards.unlock('card_017'); return '名片「幽蓝」已解锁'; } },
+        'GOLDNAME': { once: true, grant: function () { try { localStorage.setItem('ab_gold_name', '1'); } catch (e) {} return '金色昵称已解锁（修改昵称时可切换）'; } }
     };
 
     function getUsed() {

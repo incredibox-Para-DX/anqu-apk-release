@@ -903,6 +903,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="modal-body" style="padding:14px;overflow-y:auto;">
 <div id="card-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
+<div style="margin-top:12px;">
+<button class="modal-btn danger" id="card-reset-btn" style="width:100%;padding:8px 0;" data-i18n="card_reset">恢复初始名片</button>
+</div>
 </div>
 </div>
 </div>
@@ -917,6 +920,11 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="nickname-input-wrapper">
 <input type="text" id="nickname-modal-input" placeholder="输入新昵称" maxlength="12" autocomplete="off">
 <span id="nickname-input-counter">0/12</span>
+</div>
+<div id="nickname-style-row" style="display:none;margin-top:10px;font-size:12px;color:#94a3b8;">
+<span data-i18n="nick_style">昵称样式</span>
+<label style="margin-left:8px;cursor:pointer;"><input type="radio" name="nickname-style" value="normal" checked> <span data-i18n="nick_style_normal">普通</span></label>
+<label style="margin-left:12px;cursor:pointer;"><input type="radio" name="nickname-style" value="gold"> <span class="name-gold" data-i18n="nick_style_gold">金色</span></label>
 </div>
 </div>
 <div class="modal-footer nickname-modal-footer">
@@ -2923,12 +2931,18 @@ if (document.readyState === 'loading') {
             }
             const existing = await checkRes.json();
 
-            const body = JSON.stringify({
+            let __cardId = '', __nameStyle = 'normal';
+            try {
+                __cardId = (window.Cards && Cards.selected && Cards.selected()) || '';
+                __nameStyle = (localStorage.getItem('ab_name_style') === 'gold' && localStorage.getItem('ab_gold_name') === '1') ? 'gold' : 'normal';
+            } catch (e) {}
+            const baseBody = {
                 nickname: nickname,
                 total_value: stats.value,
                 searched_count: stats.searched,
                 total_accumulated_value: stats.totalVal
-            });
+            };
+            const body = JSON.stringify(Object.assign({}, baseBody, { card_id: __cardId, name_style: __nameStyle }));
 
             if (existing && existing.length > 0) {
                 const oldScore = existing[0].total_value || 0;
@@ -2954,17 +2968,23 @@ if (document.readyState === 'loading') {
                     return true;
                 }
                 const errText = await updateRes.text().catch(() => '');
+                if (updateRes.status === 400 && /card_id|name_style|column|schema/i.test(errText)) {
+                    const r2 = await requestWithRetry(SUPABASE_URL + '/rest/v1/ab_leaderboard?uid=eq.' + encodeURIComponent(uid) + '&week_start=eq.' + weekStart, {
+                        method: 'PATCH',
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=representation'
+                        },
+                        body: JSON.stringify(baseBody)
+                    });
+                    if (r2.ok) { showToast('累计价值已更新（未写入名片字段）'); return true; }
+                }
                 showToast('提交失败 (' + updateRes.status + ') ' + (errText || ''));
                 return false;
             } else {
-                const insertBody = JSON.stringify({
-                    uid: uid,
-                    nickname: nickname,
-                    total_value: stats.value,
-                    searched_count: stats.searched,
-                    total_accumulated_value: stats.totalVal,
-                    week_start: weekStart
-                });
+                const insertBody = JSON.stringify(Object.assign({}, baseBody, { uid: uid, week_start: weekStart, card_id: __cardId, name_style: __nameStyle }));
                 const insertRes = await requestWithRetry(SUPABASE_URL + '/rest/v1/ab_leaderboard', {
                     method: 'POST',
                     headers: {
@@ -2980,6 +3000,19 @@ if (document.readyState === 'loading') {
                     return true;
                 }
                 const errText = await insertRes.text().catch(() => '');
+                if (insertRes.status === 400 && /card_id|name_style|column|schema/i.test(errText)) {
+                    const r2 = await requestWithRetry(SUPABASE_URL + '/rest/v1/ab_leaderboard', {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=representation'
+                        },
+                        body: JSON.stringify(Object.assign({}, baseBody, { uid: uid, week_start: weekStart }))
+                    });
+                    if (r2.ok) { showToast('提交成功（未写入名片字段）'); return true; }
+                }
                 showToast('提交失败 (' + insertRes.status + ') ' + (errText || ''));
                 return false;
             }
@@ -3056,12 +3089,15 @@ if (document.readyState === 'loading') {
             const isMe = item.uid === myUid;
             const rowClass = isMe ? 'leaderboard-item leaderboard-item-me' : 'leaderboard-item';
 
-            html += '<div class="' + rowClass + '">';
+            const __cardImg = (item.card_id && window.Cards && Cards.imgOf) ? Cards.imgOf(item.card_id) : '';
+            const __rowExtra = __cardImg ? ' has-card' : '';
+            const __rowStyle = __cardImg ? ' style="background-image:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.62)),url(&quot;' + escapeHtml(__cardImg) + '&quot;);"' : '';
+            html += '<div class="' + rowClass + __rowExtra + '"' + __rowStyle + '>';
             html += '<div class="leaderboard-rank">' + medal + '</div>';
             const _av = (window.__lbAvatars || {})[uid];
             html += '<div class="leaderboard-avatar">' + (_av ? '<img src="' + escapeHtml(_av) + '" onerror="this.style.display=\'none\'">' : '<i class="fas fa-user"></i>') + '</div>';
             html += '<div class="leaderboard-info">';
-            html += '<div class="leaderboard-nickname">' + escapeHtml(item.nickname || '匿名') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
+            html += '<div class="leaderboard-nickname' + (item.name_style === 'gold' ? ' name-gold' : '') + '">' + escapeHtml(item.nickname || '匿名') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
             html += '<div class="leaderboard-meta"><span class="leaderboard-uid">' + escapeHtml(uid) + '</span> · <span class="stat-inline">📦' + searched + '</span> · <span class="stat-inline">💰' + formatCurrency(totalVal) + '</span></div>';
             html += '</div>';
             html += '<div class="leaderboard-score"><img src="images/img_b353ca7f64.png" alt="柯恩币"> ' + formattedScore + '</div>';
@@ -3196,6 +3232,19 @@ if (document.readyState === 'loading') {
         } else if (nicknameEl) {
             nicknameEl.textContent = '特遣队员' + uid;
         }
+        applyNickStyle();
+    }
+
+    function isGoldUnlocked() {
+        try { return localStorage.getItem('ab_gold_name') === '1'; } catch (e) { return false; }
+    }
+
+    function applyNickStyle() {
+        const el = document.getElementById('profile-nickname');
+        if (!el) return;
+        let st = 'normal';
+        try { st = localStorage.getItem('ab_name_style') || 'normal'; } catch (e) {}
+        el.classList.toggle('name-gold', st === 'gold' && isGoldUnlocked());
     }
 
     function displayUID() {
@@ -3247,6 +3296,12 @@ if (document.readyState === 'loading') {
                 nicknameInput.value = current === defaultName ? '' : current;
                 updateCounter();
             }
+            const styleRow = document.getElementById('nickname-style-row');
+            if (styleRow) styleRow.style.display = isGoldUnlocked() ? 'block' : 'none';
+            let curStyle = 'normal';
+            try { curStyle = localStorage.getItem('ab_name_style') || 'normal'; } catch (e) {}
+            const radios = document.querySelectorAll('input[name="nickname-style"]');
+            for (let i = 0; i < radios.length; i++) radios[i].checked = radios[i].value === curStyle;
             if (nicknameModal) {
                 nicknameModal.style.display = 'flex';
                 requestAnimationFrame(function () {
@@ -3279,6 +3334,9 @@ if (document.readyState === 'loading') {
             if (BadWordFilter.hasBadWord(trimmed)) { showToast('昵称包含违规词汇'); return; }
             if (nicknameEl) nicknameEl.textContent = trimmed;
             localStorage.setItem('leaderboard_nickname', trimmed);
+            const selStyle = document.querySelector('input[name="nickname-style"]:checked');
+            try { localStorage.setItem('ab_name_style', selStyle ? selStyle.value : 'normal'); } catch (e) {}
+            applyNickStyle();
             closeNicknameModal();
             showToast('昵称已更新');
         }
