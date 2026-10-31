@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.57.m",
+  "version": "v2.3.0_hotfix.58.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,7 +19,7 @@
     },
     {
       "path": "css/main.css",
-      "size": 65346
+      "size": 65531
     },
     {
       "path": "css/styles.css",
@@ -235,5 +235,5 @@
     }
   ],
   "fileCount": 58,
-  "totalSize": 2992356
+  "totalSize": 2992541
 }
