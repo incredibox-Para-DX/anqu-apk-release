@@ -3014,7 +3014,12 @@ if (document.readyState === 'loading') {
             let __cardId = '', __nameStyle = 'normal';
             try {
                 __cardId = (window.Cards && Cards.selected && Cards.selected()) || '';
-                __nameStyle = (localStorage.getItem('ab_name_style') === 'gold' && localStorage.getItem('ab_gold_name') === '1') ? 'gold' : 'normal';
+                var __st = localStorage.getItem('ab_name_style') || 'normal';
+                var __ok = __st === 'normal'
+                    || (__st === 'gold' && localStorage.getItem('ab_gold_name') === '1')
+                    || (__st === 'red' && localStorage.getItem('ab_red_name') === '1')
+                    || (__st === 'blue' && localStorage.getItem('ab_blue_name') === '1');
+                __nameStyle = __ok ? __st : 'normal';
             } catch (e) {}
             const baseBody = {
                 nickname: nickname,
@@ -3181,7 +3186,7 @@ if (document.readyState === 'loading') {
             const _av = (window.__lbAvatars || {})[uid];
             html += '<div class="leaderboard-avatar">' + (_av ? '<img src="' + escapeHtml(_av) + '" onerror="this.style.display=\'none\'">' : '<i class="fas fa-user"></i>') + '</div>';
             html += '<div class="leaderboard-info">';
-            html += '<div class="leaderboard-nickname' + (item.name_style === 'gold' ? ' name-gold' : '') + '">' + escapeHtml(item.nickname || '匿名') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
+            html += '<div class="leaderboard-nickname' + (item.name_style && item.name_style !== 'normal' ? ' name-' + item.name_style : '') + '">' + escapeHtml(item.nickname || '匿名') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
             html += '<div class="leaderboard-meta"><span class="leaderboard-uid">' + escapeHtml(uid) + '</span> · <span class="stat-inline">📦' + searched + '</span> · <span class="stat-inline">💰' + formatCurrency(totalVal) + '</span></div>';
             html += '</div>';
             html += '<div class="leaderboard-score"><img src="images/img_b353ca7f64.png" alt="柯恩币"> ' + formattedScore + '</div>';

@@ -2799,7 +2799,9 @@ textarea.dt-in{
     font-size: 10px;
     opacity: .8;
 }
-.name-gold .me-tag {
+.name-gold .me-tag,
+.name-red .me-tag,
+.name-blue .me-tag {
     -webkit-text-fill-color: #fff;
     color: #fff;
 }
