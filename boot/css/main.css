@@ -2732,6 +2732,23 @@ textarea.dt-in{
     border-radius: inherit;
     background: linear-gradient(90deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, .12));
 }
+.profile-card-layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(115deg, transparent 32%, rgba(255, 240, 180, .45) 45%, rgba(255, 255, 255, .75) 50%, rgba(255, 240, 180, .45) 55%, transparent 68%);
+    background-size: 250% 100%;
+    background-repeat: no-repeat;
+    animation: cardShine 3.6s linear infinite;
+    pointer-events: none;
+}
+.profile-card-layer.no-shine::before { display: none; }
+@keyframes cardShine {
+    0% { background-position: -130% 0; }
+    55% { background-position: 230% 0; }
+    100% { background-position: 230% 0; }
+}
 .profile-card-layer.show {
     opacity: .95;
     transform: scale(1);
@@ -2754,7 +2771,7 @@ textarea.dt-in{
     color: #fff;
 }
 .profile-title-text {
-    color: #e2e8f0 !important;
+    color: #94a3b8 !important;
 }
 .card-name-shine {
     background: linear-gradient(100deg, #ffffff 0%, #ffe9a8 25%, #ffffff 50%, #ffe9a8 75%, #ffffff 100%);

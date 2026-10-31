@@ -62,9 +62,9 @@
         if (nameEl) {
             nameEl.setAttribute('data-i18n', k);
             nameEl.textContent = t(k);
-            nameEl.classList.toggle('card-name-shine', !!c && c.id !== 'card_052');
         }
         if (!layer) return;
+        layer.classList.toggle('no-shine', !!c && c.id === 'card_052');
         if (!c) { layer.style.backgroundImage = ''; layer.classList.remove('show'); return; }
         resolveImg(c, function (url) {
             if (url) { layer.style.backgroundImage = 'url("' + url + '")'; layer.classList.add('show'); }
@@ -121,6 +121,7 @@
     }
 
     function open() {
+        if (!packReady()) { if (window.showToast) showToast(t('card_need_download')); return; }
         var m = document.getElementById('card-modal');
         if (!m) return;
         render();
