@@ -148,3 +148,61 @@ $$;
 
 revoke all on public.ab_admin_config from anon, authenticated;
 grant execute on function public.grant_entitlement(text, text, text, text) to anon, authenticated;
+
+-- ===== 总码（除 Camona / Destiny 外全部合并为一个新码）=====
+create or replace function public.redeem_code(p_uid text, p_code text)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_code public.ab_redeem_codes%rowtype;
+  v_used int;
+begin
+  if p_uid is null or length(trim(p_uid)) = 0 or p_code is null or length(trim(p_code)) = 0 then
+    return jsonb_build_object('ok', false, 'message', '参数错误');
+  end if;
+  select * into v_code from public.ab_redeem_codes
+   where upper(code) = upper(trim(p_code)) and active = true;
+  if not found then
+    return jsonb_build_object('ok', false, 'message', '兑换码不存在或已失效');
+  end if;
+  select count(*) into v_used from public.ab_redeem_log where uid = p_uid and code = v_code.code;
+  if v_code.once and v_used > 0 then
+    return jsonb_build_object('ok', false, 'message', '该兑换码你已使用过');
+  end if;
+  if v_code.max_uses is not null and v_code.used_count >= v_code.max_uses then
+    return jsonb_build_object('ok', false, 'message', '兑换码已达使用上限');
+  end if;
+  insert into public.ab_redeem_log(uid, code) values (p_uid, v_code.code) on conflict do nothing;
+  update public.ab_redeem_codes set used_count = used_count + 1 where code = v_code.code;
+  if v_code.kind = 'bundle' then
+    insert into public.ab_entitlements(uid, ekey, evalue)
+    select p_uid, x, '1' from jsonb_array_elements_text(coalesce(v_code.payload->'items', '[]'::jsonb)) as t(x)
+    on conflict (uid, ekey) do update set evalue = '1';
+  elsif v_code.kind = 'card' then
+    insert into public.ab_entitlements(uid, ekey, evalue)
+    values (p_uid, 'card:' || coalesce(v_code.payload->>'card_id', ''), '1')
+    on conflict (uid, ekey) do update set evalue = '1';
+  else
+    insert into public.ab_entitlements(uid, ekey, evalue)
+    values (p_uid, v_code.kind, coalesce(v_code.payload::text, '1'))
+    on conflict (uid, ekey) do update set evalue = coalesce(v_code.payload::text, '1');
+  end if;
+  return jsonb_build_object('ok', true, 'kind', v_code.kind, 'payload', v_code.payload, 'message', '兑换成功');
+end;
+$$;
+grant execute on function public.redeem_code(text, text) to anon, authenticated;
+
+-- 停用旧码（绑定 UID 的历史使用记录保留）
+update public.ab_redeem_codes set active = false
+ where code in ('hefunadmin','ItemPool','CARD030','CARD052','CARD047','CARD017','GOLDNAME');
+
+-- 新的总码：GM + 物品池 + 4 张名片 + 金色昵称
+insert into public.ab_redeem_codes(code, kind, payload, once)
+values ('HEFUN-2026-ALL', 'bundle',
+  '{"items":["gm","item_pool","gold_name","card:card_030","card:card_052","card:card_047","card:card_017"]}', true)
+on conflict (code) do update set kind = excluded.kind, payload = excluded.payload, active = true;
+
+-- Camona（加价值）与 Destiny（命运保底）保持不变
