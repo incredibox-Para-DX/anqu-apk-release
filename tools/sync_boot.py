@@ -47,6 +47,7 @@ CODE_FILES = [
     "js/i18next.min.js",
     "js/i18n.js",
     "js/i18n-next.js",
+    "js/i18n-rules.js",
     "js/item-i18n.js",
     "js/bg-i18n.js",
     "js/gm-i18n.js",

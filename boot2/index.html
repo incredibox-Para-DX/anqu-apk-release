@@ -868,22 +868,22 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-overlay" id="leaderboard-rules-modal">
 <div class="modal-content" style="max-width:420px;width:92vw;max-height:78vh;display:flex;flex-direction:column;">
 <div class="modal-header">
-<div class="modal-title"><i class="fas fa-circle-info"></i> 排行榜须知</div>
+<div class="modal-title"><i class="fas fa-circle-info"></i> <span data-i18n="rules_title">排行榜须知</span></div>
 <button class="modal-close" id="leaderboard-rules-close">&times;</button>
 </div>
 <div class="modal-body" style="padding:14px 16px;overflow-y:auto;font-size:13px;line-height:1.85;color:#cbd5e1;">
 <ol style="padding-left:18px;margin:0;">
-<li>统计范围：本周（周一 00:00 至周日 23:59，以服务器时间为准）内，单次搜索物品的累计总价值。</li>
-<li>上榜方式：需点击「上传」提交本周成绩；同一玩家仅保留本周最高一次成绩。</li>
-<li>同一玩家按 UID 去重；修改昵称不会改变成绩与排名。</li>
-<li>严禁使用外挂、修改器、篡改文件或刷分等行为，一经发现取消成绩并取消上榜资格。</li>
-<li>榜单每周重置，历史成绩不累计。</li>
-<li>昵称请勿使用违规词，否则可能被清除。</li>
+<li><span data-i18n="rules_1">统计范围：本周（周一 00:00 至周日 23:59，以服务器时间为准）内，单次搜索物品的累计总价值。</span></li>
+<li><span data-i18n="rules_2">上榜方式：需点击「上传」提交本周成绩；同一玩家仅保留本周最高一次成绩。</span></li>
+<li><span data-i18n="rules_3">同一玩家按 UID 去重；修改昵称不会改变成绩与排名。</span></li>
+<li><span data-i18n="rules_4">严禁使用外挂、修改器、篡改文件或刷分等行为，一经发现取消成绩并取消上榜资格。</span></li>
+<li><span data-i18n="rules_5">榜单每周重置，历史成绩不累计。</span></li>
+<li><span data-i18n="rules_6">昵称请勿使用违规词，否则可能被清除。</span></li>
 </ol>
-<div style="margin-top:14px;font-weight:600;color:#e2e8f0;font-size:13px;">图标说明</div>
+<div style="margin-top:14px;font-weight:600;color:#e2e8f0;font-size:13px;"><span data-i18n="rules_icons_title">图标说明</span></div>
 <ul style="padding-left:0;list-style:none;margin:6px 0 0;font-size:13px;line-height:1.9;">
-<li>📦 箱子：累计搜索物品数</li>
-<li>💰 钱袋：累计总价值</li>
+<li>📦 <span data-i18n="rules_icon_box">箱子：累计搜索物品数</span></li>
+<li>💰 <span data-i18n="rules_icon_bag">钱袋：累计总价值</span></li>
 </ul>
 </div>
 </div>
@@ -1967,6 +1967,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/i18next.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/i18n-next.js"></script>
+<script src="js/i18n-rules.js"></script>
 <script src="js/item-i18n.js"></script>
 <script src="js/bg-i18n.js"></script>
 <script src="js/gm-i18n.js"></script>
