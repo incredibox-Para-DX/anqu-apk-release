@@ -664,7 +664,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="profile-info">
 <div class="profile-name-row">
 <span id="profile-nickname">特遣队员</span>
-<span id="profile-dev-badge" class="dev-badge" style="display:none;">DEV</span>
+<span id="profile-dev-badge" class="dev-badge" data-i18n="dev_badge" style="display:none;">开发者</span>
 <i class="fas fa-pen" id="profile-edit-nickname-icon"></i>
 </div>
 <div id="profile-dev-label" style="display:none;font-size:10px;letter-spacing:2px;color:#a78bfa;margin-top:-2px;">DEVELOPER</div>
@@ -3216,7 +3216,7 @@ if (document.readyState === 'loading') {
             const _av = (window.__lbAvatars || {})[uid];
             html += '<div class="leaderboard-avatar' + (__devStyle ? ' dev-avatar' : '') + '">' + (_av ? '<img src="' + escapeHtml(_av) + '" onerror="this.style.display=\'none\'">' : '<i class="fas fa-user"></i>') + '</div>';
             html += '<div class="leaderboard-info">';
-            html += '<div class="leaderboard-nickname' + (item.name_style && item.name_style !== 'normal' ? ' name-' + item.name_style : '') + '">' + escapeHtml(item.nickname || '匿名') + (__devStyle ? ' <span class="dev-badge">DEV</span>' : '') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
+            html += '<div class="leaderboard-nickname' + (item.name_style && item.name_style !== 'normal' ? ' name-' + item.name_style : '') + '">' + escapeHtml(item.nickname || '匿名') + (__devStyle ? ' <span class="dev-badge">' + ((window.I18N && I18N.t) ? I18N.t('dev_badge') : '开发者') + '</span>' : '') + (isMe ? ' <span class="me-tag">我</span>' : '') + '</div>';
             html += '<div class="leaderboard-meta"><span class="leaderboard-uid">' + escapeHtml(uid) + '</span> · <span class="stat-inline">📦' + searched + '</span> · <span class="stat-inline">💰' + formatCurrency(totalVal) + '</span></div>';
             html += '</div>';
             html += '<div class="leaderboard-score"><img src="images/img_b353ca7f64.png" alt="柯恩币"> ' + formattedScore + '</div>';

@@ -24,6 +24,7 @@
             nick_style_gold: ['尊贵金', '尊貴金', 'Royal Gold', 'Благородное золото'],
             nick_style_red: ['质感红', '質感紅', 'Textured Red', 'Фактурный красный'],
             nick_style_blue: ['蓝宝石', '藍寶石', 'Sapphire', 'Сапфир'],
+            dev_badge: ['开发者', '開發者', 'DEV', 'DEV'],
             card_030: ['收藏家', '收藏家', 'Collector', 'Коллекционер'],
             card_052: ['招财进宝', '招財進寶', 'Fortune', 'Привлечение богатства'],
             card_047: ['黑金授信', '黑金授信', 'Black Gold Credit', 'Кредит «чёрное золото»'],

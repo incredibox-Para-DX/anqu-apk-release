@@ -2830,6 +2830,7 @@ textarea.dt-in{
     border-radius: 6px;
     background: linear-gradient(135deg, #7c3aed, #06b6d4);
     color: #fff;
+    -webkit-text-fill-color: #fff;
     font-weight: 700;
     letter-spacing: .5px;
     margin-left: 4px;
