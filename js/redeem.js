@@ -105,7 +105,7 @@
         try { if (w.showToast) w.showToast(msg); } catch (e) {}
     }
 
-    function redeem(input) {
+    function localRedeem(input) {
         var code = (input || '').trim();
         if (!code) {
             showResult('请输入兑换码', false);
@@ -178,6 +178,43 @@
         document.addEventListener('DOMContentLoaded', bind);
     } else {
         bind();
+    }
+
+    function applyServerGrant(res) {
+        var kind = res && res.kind;
+        var p = (res && res.payload) || {};
+        try {
+            if (kind === 'gm') { localStorage.setItem('ab_gm_unlocked', 'true'); if (typeof w.__enableGM === 'function') w.__enableGM(); }
+            else if (kind === 'item_pool') { localStorage.setItem('ab_item_control_unlocked', '1'); }
+            else if (kind === 'gold_name') { localStorage.setItem('ab_gold_name', '1'); }
+            else if (kind === 'value') { if (typeof w.__addAccumulatedValue === 'function') w.__addAccumulatedValue(p.amount || 0); }
+            else if (kind === 'skill') { if (p.skill && typeof w.__unlockSkillByRedeem === 'function') w.__unlockSkillByRedeem(p.skill); }
+            else if (kind === 'card') { if (w.Cards && w.Cards.unlock && p.card_id) w.Cards.unlock(p.card_id); }
+        } catch (e) {}
+    }
+
+    function redeem(input) {
+        var code = (input || '').trim();
+        if (!code) { showResult('请输入兑换码', false); return; }
+        if (isUsed(code)) { showResult('该兑换码你已使用过', false); return; }
+        var E = w.Entitlements;
+        if (E && E.serverRedeem) {
+            showResult('验证中…', true);
+            E.serverRedeem(code).then(function (res) {
+                if (res && res.ok) {
+                    try { applyServerGrant(res); } catch (e) {}
+                    markUsed(code);
+                    showResult(res.message || '兑换成功', true);
+                    try { if (E.sync) E.sync(); } catch (e) {}
+                } else {
+                    showResult((res && res.message) || '兑换失败', false);
+                }
+            }).catch(function () {
+                localRedeem(code);
+            });
+            return;
+        }
+        localRedeem(code);
     }
 
     w.RedeemCode = { redeem: redeem, isUsed: isUsed, list: function () { return Object.keys(CODES); }, ipGrantCode: ipGrantCode };
