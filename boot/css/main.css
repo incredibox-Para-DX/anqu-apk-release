@@ -2749,6 +2749,10 @@ textarea.dt-in{
     from { background-position: 0% 50%; }
     to { background-position: 100% 50%; }
 }
+.name-gold .me-tag {
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+}
 .leaderboard-item.has-card {
     background-size: cover;
     background-position: center;

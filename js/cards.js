@@ -44,7 +44,7 @@
     function byId(id) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].id === id) return CARDS[i]; return null; }
 
     function resolveImg(c, cb) {
-        if (!c || !packReady()) { cb(''); return; }
+        if (!c) { cb(''); return; }
         var R = window.ResourceDownloadManager;
         if (!R || !R.resolvePath) { cb(''); return; }
         try {
@@ -146,6 +146,9 @@
             render();
         });
         apply();
+        window.addEventListener('load', apply);
+        setTimeout(apply, 1200);
+        setTimeout(apply, 3000);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();

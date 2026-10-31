@@ -3135,7 +3135,8 @@ if (document.readyState === 'loading') {
 
         listEl.innerHTML = html;
 
-        if (window.Cards && Cards.resolveById) {
+        function __applyLbCards() {
+            if (!window.Cards || !Cards.resolveById) return;
             const __rows = listEl.querySelectorAll('.leaderboard-item');
             showData.forEach(function (item, idx) {
                 const cid = item.card_id || (item.uid === myUid && Cards.selected ? Cards.selected() : '');
@@ -3148,6 +3149,9 @@ if (document.readyState === 'loading') {
                 });
             });
         }
+        __applyLbCards();
+        setTimeout(__applyLbCards, 900);
+        setTimeout(__applyLbCards, 2500);
 
         const loadMoreBtn = document.getElementById('load-more-btn');
         if (loadMoreBtn) {
