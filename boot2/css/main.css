@@ -2703,23 +2703,36 @@ textarea.dt-in{
     border-radius: 50%;
     z-index: 3;
 }
+.profile-section {
+    position: relative;
+    isolation: isolate;
+}
+.profile-section > .profile-avatar-wrapper,
+.profile-section > .profile-info {
+    position: relative;
+    z-index: 1;
+}
 .profile-card-layer {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 120px;
-    height: 76px;
-    transform: translate(-50%, -50%) scale(.92);
-    border-radius: 10px;
+    inset: 0;
+    border-radius: 12px;
     background-size: cover;
     background-position: center;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
     z-index: 0;
     opacity: 0;
-    transition: opacity .25s ease, transform .3s cubic-bezier(.22, .61, .36, 1);
+    transform: scale(.97);
+    transition: opacity .3s ease, transform .35s cubic-bezier(.22, .61, .36, 1);
     pointer-events: none;
 }
+.profile-card-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, .12));
+}
 .profile-card-layer.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    opacity: .95;
+    transform: scale(1);
 }
