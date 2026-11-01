@@ -63,9 +63,23 @@
     // UI
     var mask, panel, view = { t: 'main' };
     function el(tag, css, text) { var d = document.createElement(tag); if (css) d.style.cssText = css; if (text != null) d.textContent = text; return d; }
+    function ensureStyle() {
+        if (document.getElementById('pass-style')) return;
+        var s = document.createElement('style');
+        s.id = 'pass-style';
+        s.textContent = '@keyframes passIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}' +
+            '@keyframes cellIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}' +
+            '.pass-enter{animation:passIn .26s ease both}' +
+            '.pass-cell{animation:cellIn .3s ease both;transition:border-color .2s ease, transform .12s ease}' +
+            '.pass-cell:active{transform:scale(.97)}' +
+            '.pass-bar-fill{transition:width .6s cubic-bezier(.22,.61,.36,1)}' +
+            '.pass-btn{transition:opacity .15s ease, transform .12s ease}' +
+            '.pass-btn:active{transform:scale(.97);opacity:.9}';
+        document.head.appendChild(s);
+    }
     function btn(txt, fn, css) { var b = el('button', 'border:0;background:transparent;color:#e2e8f0;font-size:13px;padding:8px 6px;' + (css || ''), txt); b.onclick = fn; return b; }
     function header(title, back, right) {
-        var h = el('div', 'display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 10px 10px;background:linear-gradient(180deg,rgba(251,191,36,.10),transparent);border-bottom:1px solid rgba(251,191,36,.22);');
+        var h = el('div', 'display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 10px 10px;background:#10141b;border-bottom:1px solid rgba(255,255,255,.08);');
         h.appendChild(btn('返回', back));
         h.appendChild(el('div', 'font-size:16px;font-weight:700;color:#f8fafc;', title));
         h.appendChild(right || el('div', 'width:40px;'));
@@ -82,7 +96,9 @@
         var reached = level() >= st.lv;
         var c = claims(), got = !!c[st.lv + ':' + kind];
         var locked = kind === 'prem' && !isPremium();
-        var cell = el('div', 'min-width:92px;border-radius:12px;border:1px solid ' + (reached ? 'rgba(251,191,36,.55)' : 'rgba(255,255,255,.12)') + ';background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));padding:8px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 4px 12px rgba(0,0,0,.25);');
+        var cell = el('div', 'min-width:92px;border-radius:10px;border:1px solid ' + (reached ? 'rgba(209,162,74,.45)' : 'rgba(255,255,255,.08)') + ';background:#141922;padding:8px;display:flex;flex-direction:column;gap:6px;');
+        cell.className = 'pass-cell';
+        cell.style.animationDelay = Math.min(8, Math.round((st.lv - 10) / 10)) * 35 + 'ms';
         cell.appendChild(el('div', 'font-size:11px;color:#94a3b8;', 'Lv.' + st.lv));
         var img = el('div', 'height:52px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;', (item && item.type) || '');
         cell.appendChild(img);
@@ -107,12 +123,13 @@
         var lv = level(), xp = num(K.xp);
         var top = el('div', 'padding:10px;');
         var line1 = el('div', 'display:flex;align-items:center;justify-content:space-between;');
-        line1.appendChild(el('div', 'font-size:18px;font-weight:800;color:#fde68a;letter-spacing:1px;text-shadow:0 0 12px rgba(251,191,36,.35);', S.id + '·' + S.name));
+        line1.appendChild(el('div', 'font-size:17px;font-weight:700;color:#e6e9ef;letter-spacing:.5px;', S.id + '·' + S.name));
         line1.appendChild(coinTag(num(K.coins)));
         top.appendChild(line1);
         var barWrap = el('div', 'display:flex;align-items:center;gap:8px;margin-top:8px;');
         var bar = el('div', 'flex:1;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;');
-        var fill = el('div', 'height:100%;width:' + Math.round((xp % S.perLevel) / S.perLevel * 100) + '%;background:linear-gradient(90deg,#f59e0b,#fbbf24);box-shadow:0 0 10px rgba(251,191,36,.55);');
+        var fill = el('div', 'height:100%;width:' + Math.round((xp % S.perLevel) / S.perLevel * 100) + '%;background:#d1a24a;');
+        fill.className = 'pass-bar-fill';
         bar.appendChild(fill); barWrap.appendChild(bar);
         barWrap.appendChild(el('div', 'font-size:11px;color:#94a3b8;', lv + '/' + S.levels));
         top.appendChild(barWrap);
@@ -121,9 +138,11 @@
         row2.appendChild(el('div', '', num(K.weekXp) >= S.capLevels * S.perLevel ? '已达上限' : ''));
         top.appendChild(row2);
         var actions = el('div', 'display:flex;gap:8px;margin-top:10px;');
-        var all = el('button', 'flex:1;padding:9px;border-radius:12px;border:1px solid rgba(148,163,184,.35);background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));color:#e2e8f0;font-size:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);', '一键领取');
+        var all = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#171c25;color:#cfd6e2;font-size:12px;', '一键领取');
+        all.className = 'pass-btn';
         all.onclick = claimAll;
-        var up = el('button', 'flex:1;padding:9px;border-radius:12px;border:1px solid rgba(251,191,36,.55);background:linear-gradient(135deg,rgba(251,191,36,.38),rgba(245,158,11,.16));color:#fde68a;font-size:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 4px 14px rgba(245,158,11,.18);', isPremium() ? '典藏已解锁' : '升级典藏');
+        var up = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(209,162,74,.55);background:rgba(209,162,74,.12);color:#e8c98a;font-size:12px;', isPremium() ? '典藏已解锁' : '升级典藏');
+        up.className = 'pass-btn';
         up.onclick = function () { view = { t: 'upgrade' }; render(); };
         actions.appendChild(all); actions.appendChild(up);
         top.appendChild(actions);
@@ -134,9 +153,9 @@
         panel.appendChild(header('升级典藏', function () { view = { t: 'main' }; render(); }));
         var wrap = el('div', 'display:flex;gap:8px;padding:12px;align-items:stretch;');
         var tiers = [
-            ['普通版', '已解锁', '#94a3b8', ['每级 10 赛季币', '普通轨 10–80 级奖励', '可累积赛季进度', '赛季商店不可用']],
-            ['典藏版', '150M', '#fbbf24', ['含普通版全部权益', '解锁典藏轨 10–80 级奖励', '开启赛季商店', '80 级解锁「恶魔契约」购买权']],
-            ['尊享版', '赞助兑换码解锁', '#a78bfa', ['含典藏版全部权益', '额外名片「长夜终烬」', '立即提升 10 级', '赛季内一次性解锁']]
+            ['普通版', '已解锁', '#8b93a3', ['每级 10 赛季币', '普通轨 10–80 级里程碑', '赛季进度永久累积', '不含典藏外观与商店']],
+            ['典藏版', '150M', '#d1a24a', ['普通版全部内容', '典藏轨 10–80 级里程碑', '开放赛季商店', '80 级解锁恶魔契约购买权']],
+            ['尊享版', '赞助兑换码', '#b9a7ff', ['典藏版全部内容', '名片·长夜终烬', '立即提升 10 级', '赛季限一次']]
         ];
         tiers.forEach(function (x, i) {
             var col = el('div', 'flex:1;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.03);');
@@ -196,14 +215,16 @@
     }
     function open() {
         if (!mask) {
-            mask = el('div', 'position:fixed;inset:0;z-index:12000;background:#0b0f15;overflow:auto;');
-            panel = el('div', 'width:100%;min-height:100%;margin:0;background:linear-gradient(180deg,#151b26 0%,#0b0f15 100%);color:#e2e8f0;padding-bottom:calc(24px + env(safe-area-inset-bottom));');
+            mask = el('div', 'position:fixed;inset:0;z-index:12000;background:#0b0e13;overflow:auto;');
+            panel = el('div', 'width:100%;min-height:100%;margin:0;background:#10141b;color:#e6e9ef;padding-bottom:calc(24px + env(safe-area-inset-bottom));');
             mask.appendChild(panel);
             mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
+            panel.className = 'pass-enter';
             document.body.appendChild(mask);
         }
         mask.style.display = 'block';
         view = { t: 'main' };
+        ensureStyle();
         render();
     }
     function bind() {
