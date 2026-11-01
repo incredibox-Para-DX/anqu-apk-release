@@ -2843,15 +2843,6 @@ textarea.dt-in{
     box-shadow: 0 0 0 2px rgba(124, 58, 237, .6), 0 0 10px rgba(6, 182, 212, .5);
     border-radius: 50%;
 }
-/* 性能优化：榜单内不做文字扫光（几十行同时动画易发热掉帧） */
-.leaderboard-nickname.name-gold,
-.leaderboard-nickname.name-red,
-.leaderboard-nickname.name-blue,
-.leaderboard-nickname.name-violet,
-.leaderboard-nickname.name-aurora,
-.leaderboard-nickname.name-rainbow {
-    animation: none !important;
-}
 /* 榜单行离屏不渲染，减少绘制 */
 .leaderboard-item {
     content-visibility: auto;
