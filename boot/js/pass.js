@@ -1,192 +1,214 @@
-/* 通行证核心：经验=本周累计价值；5M/级；每周上限 12 级；每级 10 赛季币 */
+/* 通行证：8周/80级/5M一级/周上限12级/每级10赛季币 */
 (function (w) {
-    var S = {
-        id: 'S1',
-        weeks: 8,
-        levels: 80,
-        perLevel: 5000000,
-        weeklyCapLevels: 12,
-        coinPerLevel: 10,
-        premiumCost: 150000000
-    };
-    var K = {
-        xp: 'ab_pass_xp',
-        week: 'ab_pass_week',
-        weekXp: 'ab_pass_week_xp',
-        start: 'ab_pass_start',
-        premium: 'ab_pass_premium',
-        coins: 'ab_pass_coins',
-        claimedCoins: 'ab_pass_coins_claimed',
-        claims: 'ab_pass_claims',
-        lastWeekly: 'ab_pass_last_weekly'
-    };
+    var S = { id: 'S1', name: '启程', weeks: 8, levels: 80, perLevel: 5000000, capLevels: 12, coinPerLevel: 10, premiumCost: 150000000 };
+    var K = { xp: 'ab_pass_xp', week: 'ab_pass_week', weekXp: 'ab_pass_week_xp', start: 'ab_pass_start', premium: 'ab_pass_premium', coins: 'ab_pass_coins', claimedCoins: 'ab_pass_coins_claimed', claims: 'ab_pass_claims', lastW: 'ab_pass_last_weekly' };
     function num(k) { try { return Number(localStorage.getItem(k) || 0) || 0; } catch (e) { return 0; } }
     function str(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
     function set(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
-    function monday(d) {
-        var x = new Date(d); var day = (x.getDay() + 6) % 7;
-        x.setDate(x.getDate() - day); x.setHours(0, 0, 0, 0);
-        return x.getFullYear() + '-' + ('0' + (x.getMonth() + 1)).slice(-2) + '-' + ('0' + x.getDate()).slice(-2);
-    }
-    function weekNow() { return monday(new Date()); }
-    function seasonWeekIndex() {
-        var st = str(K.start);
-        if (!st) { st = weekNow(); set(K.start, st); }
-        var a = new Date(st + 'T00:00:00'), b = new Date(weekNow() + 'T00:00:00');
-        return Math.max(0, Math.floor((b - a) / 604800000));
-    }
+    function monday() { var x = new Date(); var d = (x.getDay() + 6) % 7; x.setDate(x.getDate() - d); x.setHours(0, 0, 0, 0); return x.toISOString().slice(0, 10); }
     function level() { return Math.min(S.levels, Math.floor(num(K.xp) / S.perLevel)); }
     function isPremium() { return str(K.premium) === '1'; }
+    function fmt(n) { return Math.floor(n).toLocaleString('en-US'); }
 
     function tick() {
-        var wk = weekNow();
-        if (str(K.week) !== wk) { set(K.week, wk); set(K.weekXp, 0); set(K.lastWeekly, 0); }
+        var wk = monday();
+        if (str(K.week) !== wk) { set(K.week, wk); set(K.weekXp, 0); set(K.lastW, 0); }
         var cur = 0;
-        try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) { cur = 0; }
-        var last = num(K.lastWeekly);
+        try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) {}
+        var last = num(K.lastW);
         if (cur > last) {
-            var delta = cur - last;
-            var cap = S.weeklyCapLevels * S.perLevel;
-            var wx = Math.min(cap, num(K.weekXp) + delta);
+            var cap = S.capLevels * S.perLevel;
+            var wx = Math.min(cap, num(K.weekXp) + (cur - last));
             var add = wx - num(K.weekXp);
-            if (add > 0) { set(K.weekXp, wx); set(K.xp, num(K.xp) + add); }
-            set(K.lastWeekly, cur);
+            if (add > 0) { set(K.weekXp, wx); set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + add)); }
+            set(K.lastW, cur);
         }
-        if (num(K.xp) > S.levels * S.perLevel) set(K.xp, S.levels * S.perLevel);
-
-        var lv = level();
-        var totalCoins = lv * S.coinPerLevel;
-        var claimed = num(K.claimedCoins);
-        var coins = num(K.coins) + Math.max(0, totalCoins - claimed);
-        set(K.coins, coins);
-        if (totalCoins > claimed) set(K.claimedCoins, totalCoins);
+        var total = level() * S.coinPerLevel, claimed = num(K.claimedCoins);
+        if (total > claimed) { set(K.coins, num(K.coins) + (total - claimed)); set(K.claimedCoins, total); }
     }
     setInterval(tick, 3000);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(tick, 1200); });
     else setTimeout(tick, 1200);
 
     var STEPS = [
-        { lv: 10, free: { key: 'cyberorange', name: '名称色·赛博橙' }, prem: { key: 'cyberblue', name: '名称色·赛博蓝' } },
-        { lv: 20, free: { key: 'vpurple', name: '名称色·紫罗兰' }, prem: { key: 'vaurora', name: '名称色·极光' } },
-        { lv: 30, free: { key: 'bg_pulse', name: '背景·脉冲极客' }, prem: { key: 'bg_jiuke', name: '背景·九课特工' } },
-        { lv: 40, free: { key: 'card_wolf', name: '名片·白狼连队' }, prem: { key: 'card_bhj', name: '名片·黑金国际' } },
-        { lv: 50, free: { key: 'bg_laizhan', name: '背景·来战' }, prem: { key: 'bg_jixi', name: '背景·急袭·近身战' } },
-        { lv: 60, free: { key: 'card_gjzb', name: '名片·国际装备' }, prem: { key: 'card_qxys', name: '名片·前线要塞' } },
-        { lv: 70, free: { key: 'card_yinghe', name: '名片·硬核行旅' }, prem: { key: 'card_zsxf', name: '名片·战术先锋' } },
-        { lv: 80, free: { key: 'bg_jinshen', name: '背景·近身战' }, prem: { key: 'ability_devil', name: '恶魔契约购买权' } }
+        { lv: 10, free: { key: 'cyberorange', name: '赛博橙', type: '名称色' }, prem: { key: 'cyberblue', name: '赛博蓝', type: '名称色' } },
+        { lv: 20, free: { key: 'vpurple', name: '紫罗兰', type: '名称色' }, prem: { key: 'vaurora', name: '极光', type: '名称色' } },
+        { lv: 30, free: { key: 'bg_pulse', name: '脉冲极客', type: '背景' }, prem: { key: 'bg_jiuke', name: '九课特工', type: '背景' } },
+        { lv: 40, free: { key: 'card_wolf', name: '白狼连队', type: '名片' }, prem: { key: 'card_bhj', name: '黑金国际', type: '名片' } },
+        { lv: 50, free: { key: 'bg_laizhan', name: '来战', type: '背景' }, prem: { key: 'bg_jixi', name: '急袭·近身战', type: '背景' } },
+        { lv: 60, free: { key: 'card_gjzb', name: '国际装备', type: '名片' }, prem: { key: 'card_qxys', name: '前线要塞', type: '名片' } },
+        { lv: 70, free: { key: 'card_yinghe', name: '硬核行旅', type: '名片' }, prem: { key: 'card_zsxf', name: '战术先锋', type: '名片' } },
+        { lv: 80, free: { key: 'bg_jinshen', name: '近身战', type: '背景' }, prem: { key: 'ability_devil', name: '恶魔契约', type: '购买权' } }
     ];
     function claims() { try { return JSON.parse(localStorage.getItem(K.claims) || '{}') || {}; } catch (e) { return {}; } }
-    function saveClaims(o) { try { localStorage.setItem(K.claims, JSON.stringify(o)); } catch (e) {} }
-    function grant(step, kind) {
-        var item = kind === 'prem' ? step.prem : step.free;
+    function grant(st, kind) {
+        if (kind === 'prem' && !isPremium()) { toast('需解锁典藏'); return; }
+        var item = kind === 'prem' ? st.prem : st.free;
         if (!item) return;
-        if (kind === 'prem' && !isPremium()) return;
-        var c = claims();
-        var id = step.lv + ':' + kind;
+        var c = claims(), id = st.lv + ':' + kind;
         if (c[id]) return;
-        c[id] = 1; saveClaims(c);
+        c[id] = 1; try { localStorage.setItem(K.claims, JSON.stringify(c)); } catch (e) {}
         try { localStorage.setItem('ab_pass_' + item.key, '1'); } catch (e) {}
-        if (w.showToast) w.showToast('已领取：' + item.name);
+        toast('已领取：' + item.name);
+        view = { t: view.t };
         render();
     }
-
-    /* ------- UI ------- */
-    var mask = null, body = null;
-    function el(tag, css, text) { var d = document.createElement(tag); if (css) d.style.cssText = css; if (text != null) d.textContent = text; return d; }
-    function fmt(n) { return Math.floor(n).toLocaleString('en-US'); }
-    function render() {
-        if (!body) return;
-        body.innerHTML = '';
-        var lv = level(), lvXp = num(K.xp) % S.perLevel;
-        var h = el('div', 'font-size:18px;font-weight:700;color:#f8fafc;', '通行证 · ' + S.id);
-        body.appendChild(h);
-        var sub = el('div', 'font-size:12px;color:#94a3b8;margin-top:4px;',
-            '等级 ' + lv + '/' + S.levels + ' · 本周经验 ' + fmt(num(K.weekXp)) + ' / ' + fmt(S.weeklyCapLevels * S.perLevel));
-        body.appendChild(sub);
-        var bar = el('div', 'height:10px;border-radius:6px;background:rgba(255,255,255,.12);margin-top:10px;overflow:hidden;');
-        var fill = el('div', 'height:100%;width:' + Math.round(lvXp / S.perLevel * 100) + '%;background:linear-gradient(90deg,#f59e0b,#fbbf24);');
-        bar.appendChild(fill); body.appendChild(bar);
-        var coin = el('div', 'font-size:13px;color:#fbbf24;margin-top:10px;', '赛季币：' + fmt(num(K.coins)));
-        body.appendChild(coin);
-
-        var pre = el('div', 'margin-top:12px;display:flex;gap:8px;align-items:center;');
-        if (isPremium()) {
-            pre.appendChild(el('div', 'font-size:13px;color:#34d399;', '典藏已解锁'));
-        } else {
-            var b = el('button', 'flex:1;padding:10px;border-radius:10px;border:1px solid rgba(59,130,246,.5);background:rgba(59,130,246,.18);color:#dbeafe;font-size:13px;', '消耗 150M 解锁典藏');
-            b.onclick = function () {
-                if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) {
-                    set(K.premium, '1');
-                    if (w.showToast) w.showToast('典藏通行证已解锁');
-                    render();
-                } else if (w.showToast) w.showToast('累计价值不足 150M');
-            };
-            pre.appendChild(b);
-        }
-        body.appendChild(pre);
-
-        var shopRow = el('div', 'display:flex;gap:8px;margin-top:10px;');
-        var shopBtn = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(251,191,36,.45);background:rgba(251,191,36,.12);color:#fde68a;font-size:13px;', '赛季商店');
-        shopBtn.onclick = function () {
-            if (!isPremium()) { if (w.showToast) w.showToast('需先解锁典藏通行证'); return; }
-            if (w.showToast) w.showToast('赛季商店筹备中，商品待定');
-        };
-        var reBtn = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.08);color:#94a3b8;font-size:13px;', '返厂商店');
-        reBtn.onclick = function () { if (w.showToast) w.showToast('返厂商店暂未开放'); };
-        shopRow.appendChild(shopBtn);
-        shopRow.appendChild(reBtn);
-        body.appendChild(shopRow);
-
+    function claimAll() {
         STEPS.forEach(function (st) {
-            var row = el('div', 'margin-top:10px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;background:rgba(255,255,255,.03);');
-            row.appendChild(el('div', 'font-size:13px;color:#e2e8f0;font-weight:600;', 'Lv.' + st.lv));
-            [['free', '普通', st.free, '#94a3b8'], ['prem', '高级', st.prem, '#fbbf24']].forEach(function (x) {
-                var kind = x[0], label = x[1], item = x[2];
-                if (!item) return;
-                var c = claims(); var done = !!c[st.lv + ':' + kind];
-                var line = el('div', 'display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;');
-                line.appendChild(el('div', 'font-size:12px;color:' + x[3] + ';', label + '：' + item.name));
-                var btn = el('button', 'padding:5px 10px;border-radius:8px;border:1px solid rgba(148,163,184,.4);background:rgba(148,163,184,.12);color:#e2e8f0;font-size:12px;', done ? '已领取' : '领取');
-                btn.disabled = done;
-                btn.onclick = function () { grant(st, kind); };
-                line.appendChild(btn);
-                row.appendChild(line);
-            });
-            body.appendChild(row);
+            if (level() >= st.lv) { grant(st, 'free'); if (isPremium()) grant(st, 'prem'); }
         });
+    }
+    function toast(m) { try { if (w.showToast) w.showToast(m); } catch (e) {} }
+
+    // UI
+    var mask, panel, view = { t: 'main' };
+    function el(tag, css, text) { var d = document.createElement(tag); if (css) d.style.cssText = css; if (text != null) d.textContent = text; return d; }
+    function btn(txt, fn, css) { var b = el('button', 'border:0;background:transparent;color:#e2e8f0;font-size:13px;padding:8px 6px;' + (css || ''), txt); b.onclick = fn; return b; }
+    function header(title, back, right) {
+        var h = el('div', 'display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 10px 10px;border-bottom:1px solid rgba(255,255,255,.1);');
+        h.appendChild(btn('返回', back));
+        h.appendChild(el('div', 'font-size:16px;font-weight:700;color:#f8fafc;', title));
+        h.appendChild(right || el('div', 'width:40px;'));
+        return h;
+    }
+    function coinTag(n) {
+        var d = el('div', 'display:flex;align-items:center;gap:4px;font-size:13px;color:#e2e8f0;');
+        var i = el('img', 'width:18px;height:18px;'); i.src = 'images/season/coin.webp';
+        d.appendChild(i); d.appendChild(el('span', '', fmt(n)));
+        return d;
+    }
+    function rewardCell(st, kind) {
+        var item = kind === 'prem' ? st.prem : st.free;
+        var reached = level() >= st.lv;
+        var c = claims(), got = !!c[st.lv + ':' + kind];
+        var locked = kind === 'prem' && !isPremium();
+        var cell = el('div', 'min-width:92px;border-radius:10px;border:1px solid ' + (reached ? 'rgba(251,191,36,.45)' : 'rgba(255,255,255,.12)') + ';background:rgba(255,255,255,.03);padding:8px;display:flex;flex-direction:column;gap:6px;');
+        cell.appendChild(el('div', 'font-size:11px;color:#94a3b8;', 'Lv.' + st.lv));
+        var img = el('div', 'height:52px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;', (item && item.type) || '');
+        cell.appendChild(img);
+        cell.appendChild(el('div', 'font-size:12px;color:#e2e8f0;', item ? item.name : ''));
+        var b = el('button', 'padding:5px 0;border-radius:8px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.12);color:#e2e8f0;font-size:11px;', got ? '已领取' : (locked ? '典藏解锁' : (reached ? '领取' : '未达成')));
+        b.disabled = got || locked || !reached;
+        b.onclick = function () { grant(st, kind); };
+        cell.appendChild(b);
+        return cell;
+    }
+    function track() {
+        var wrap = el('div', 'overflow-x:auto;padding:10px;');
+        ['free', 'prem'].forEach(function (kind) {
+            var row = el('div', 'display:flex;align-items:center;gap:8px;margin-bottom:10px;');
+            row.appendChild(el('div', 'width:36px;font-size:12px;color:' + (kind === 'prem' ? '#fbbf24' : '#94a3b8') + ';writing-mode:vertical-rl;letter-spacing:2px;', kind === 'prem' ? '典藏' : '普通'));
+            STEPS.forEach(function (st) { row.appendChild(rewardCell(st, kind)); });
+            wrap.appendChild(row);
+        });
+        return wrap;
+    }
+    function renderMain() {
+        var lv = level(), xp = num(K.xp);
+        var top = el('div', 'padding:10px;');
+        var line1 = el('div', 'display:flex;align-items:center;justify-content:space-between;');
+        line1.appendChild(el('div', 'font-size:18px;font-weight:700;color:#f8fafc;', S.id + '·' + S.name));
+        line1.appendChild(coinTag(num(K.coins)));
+        top.appendChild(line1);
+        var barWrap = el('div', 'display:flex;align-items:center;gap:8px;margin-top:8px;');
+        var bar = el('div', 'flex:1;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;');
+        var fill = el('div', 'height:100%;width:' + Math.round((xp % S.perLevel) / S.perLevel * 100) + '%;background:linear-gradient(90deg,#f59e0b,#fbbf24);');
+        bar.appendChild(fill); barWrap.appendChild(bar);
+        barWrap.appendChild(el('div', 'font-size:11px;color:#94a3b8;', lv + '/' + S.levels));
+        top.appendChild(barWrap);
+        var row2 = el('div', 'display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:11px;color:#94a3b8;');
+        row2.appendChild(el('div', '', '本周 ' + fmt(num(K.weekXp)) + ' / ' + fmt(S.capLevels * S.perLevel)));
+        row2.appendChild(el('div', '', num(K.weekXp) >= S.capLevels * S.perLevel ? '已达上限' : ''));
+        top.appendChild(row2);
+        var actions = el('div', 'display:flex;gap:8px;margin-top:10px;');
+        var all = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.1);color:#e2e8f0;font-size:12px;', '一键领取');
+        all.onclick = claimAll;
+        var up = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(251,191,36,.5);background:rgba(251,191,36,.15);color:#fde68a;font-size:12px;', isPremium() ? '典藏已解锁' : '升级典藏');
+        up.onclick = function () { view = { t: 'upgrade' }; render(); };
+        actions.appendChild(all); actions.appendChild(up);
+        top.appendChild(actions);
+        panel.appendChild(top);
+        panel.appendChild(track());
+    }
+    function renderUpgrade() {
+        panel.appendChild(header('升级典藏', function () { view = { t: 'main' }; render(); }));
+        var wrap = el('div', 'display:flex;gap:8px;padding:12px;align-items:stretch;');
+        [['普通版', '已解锁', '#94a3b8'], ['典藏版', '150M', '#fbbf24'], ['尊享版', '赞助兑换码解锁', '#a78bfa']].forEach(function (x, i) {
+            var col = el('div', 'flex:1;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.03);');
+            col.appendChild(el('div', 'font-size:14px;font-weight:700;color:#f8fafc;', x[0]));
+            col.appendChild(el('div', 'font-size:11px;color:#94a3b8;line-height:1.6;', '权益简介占位'));
+            var foot = el('div', 'margin-top:auto;font-size:12px;color:' + x[2] + ';');
+            if (i === 1) {
+                var b = el('button', 'width:100%;padding:8px;border-radius:10px;border:1px solid rgba(251,191,36,.5);background:rgba(251,191,36,.15);color:#fde68a;font-size:12px;', isPremium() ? '已解锁' : '150M 解锁');
+                b.disabled = isPremium();
+                b.onclick = function () { if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) { set(K.premium, '1'); toast('典藏已解锁'); view = { t: 'main' }; render(); } else toast('累计价值不足 150M'); };
+                foot.appendChild(b);
+            } else { foot.textContent = x[1]; }
+            col.appendChild(foot);
+            wrap.appendChild(col);
+        });
+        panel.appendChild(wrap);
+    }
+    function renderShop() {
+        panel.appendChild(header('赛季商店', function () { view = { t: 'main' }; render(); }, coinTag(num(K.coins))));
+        var wrap = el('div', 'padding:12px;');
+        if (!isPremium()) {
+            wrap.appendChild(el('div', 'font-size:13px;color:#f87171;', '需先解锁典藏通行证才能开启赛季商店'));
+        } else {
+            var item = el('div', 'display:flex;gap:10px;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;background:rgba(255,255,255,.03);');
+            item.appendChild(el('div', 'width:96px;height:64px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;', '商品图'));
+            var info = el('div', 'flex:1;display:flex;flex-direction:column;gap:6px;');
+            info.appendChild(el('div', 'font-size:13px;color:#e2e8f0;', '占位商品'));
+            info.appendChild(coinTag(999));
+            var b = el('button', 'align-self:flex-start;padding:6px 12px;border-radius:8px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.1);color:#94a3b8;font-size:12px;', '购买');
+            b.disabled = true;
+            info.appendChild(b);
+            item.appendChild(info);
+            wrap.appendChild(item);
+        }
+        panel.appendChild(wrap);
+    }
+    function renderRules() {
+        panel.appendChild(header('规则', function () { view = { t: 'main' }; render(); }));
+        var t = el('div', 'padding:12px;font-size:12px;color:#cbd5e1;line-height:1.9;');
+        t.innerHTML = '1. 赛季 8 周，80 级，每级 5M 本周累计价值。<br>2. 每周最多升 12 级，周一重置当周经验。<br>3. 每级获得 10 赛季币，资料页显示余额。<br>4. 典藏：消耗 150M 累计价值解锁；尊享：赞助兑换码解锁（额外名片 + 直升 10 级）。<br>5. 赛季商店需典藏；返厂商店暂未开放。';
+        panel.appendChild(t);
+    }
+    function render() {
+        if (!panel) return;
+        panel.innerHTML = '';
+        if (view.t === 'main') {
+            panel.appendChild(header('通行证', function () { mask.style.display = 'none'; }, btn('赛季商店', function () { view = { t: 'shop' }; render(); })));
+            renderMain();
+            panel.appendChild(btn('规则', function () { view = { t: 'rules' }; render(); }, 'width:100%;padding:10px;color:#94a3b8;'));
+        } else if (view.t === 'upgrade') renderUpgrade();
+        else if (view.t === 'shop') renderShop();
+        else renderRules();
     }
     function open() {
         if (!mask) {
-            mask = el('div', 'position:fixed;inset:0;z-index:12000;background:rgba(6,8,12,.75);display:flex;align-items:flex-end;justify-content:center;');
-            var panel = el('div', 'width:100%;max-width:560px;max-height:82vh;overflow:auto;background:#0f1319;border-radius:16px 16px 0 0;padding:16px 14px calc(20px + env(safe-area-inset-bottom));color:#e2e8f0;');
-            var head = el('div', 'display:flex;justify-content:space-between;align-items:center;');
-            head.appendChild(el('div', 'font-size:13px;color:#94a3b8;', ''));
-            var x = el('button', 'background:transparent;border:0;color:#94a3b8;font-size:22px;', '\u00d7');
-            x.onclick = function () { mask.style.display = 'none'; };
-            head.appendChild(x);
-            panel.appendChild(head);
-            body = el('div', '');
-            panel.appendChild(body);
+            mask = el('div', 'position:fixed;inset:0;z-index:12000;background:rgba(6,8,12,.86);display:flex;align-items:flex-end;');
+            panel = el('div', 'width:100%;max-width:620px;margin:0 auto;max-height:88vh;overflow:auto;background:#0f1319;border-radius:16px 16px 0 0;color:#e2e8f0;padding-bottom:env(safe-area-inset-bottom);');
             mask.appendChild(panel);
             mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
             document.body.appendChild(mask);
         }
         mask.style.display = 'flex';
+        view = { t: 'main' };
         render();
     }
-
     function bind() {
         var sec = document.getElementById('section-other');
-        if (!sec) return;
-        if (document.getElementById('sidebar-pass-btn')) return;
-        var btn = el('button', 'margin-top:6px;', '');
-        btn.className = 'sidebar-btn full-width';
-        btn.id = 'sidebar-pass-btn';
-        btn.innerHTML = '<i class="fas fa-ticket"></i> 通行证';
-        btn.onclick = open;
-        sec.insertBefore(btn, sec.firstChild);
+        if (!sec || document.getElementById('sidebar-pass-btn')) return;
+        var b = el('button', '', '');
+        b.className = 'sidebar-btn full-width';
+        b.id = 'sidebar-pass-btn';
+        b.style.marginTop = '6px';
+        b.innerHTML = '<i class="fas fa-ticket"></i> 通行证';
+        b.onclick = open;
+        sec.insertBefore(b, sec.firstChild);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
-    w.PassSeason = { open: open, level: level, xp: function () { return num(K.xp); }, coins: function () { return num(K.coins); }, isPremium: isPremium, steps: STEPS };
+    w.PassSeason = { open: open, level: level, isPremium: isPremium, coins: function () { return num(K.coins); } };
 })(window);

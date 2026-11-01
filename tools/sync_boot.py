@@ -50,6 +50,7 @@ CODE_FILES = [
     "js/i18n-rules.js",
     "js/cards.js",
     "js/pass.js",
+    "images/season/coin.webp",
     "js/card-pack.js",
     "js/entitlements.js",
     "js/bans.js",
