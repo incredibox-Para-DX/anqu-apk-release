@@ -618,6 +618,7 @@
           try { localStorage.setItem('ab_fast_base', JSON.stringify({ base: base, ts: Date.now() })); } catch (e) {}
           CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
           panel.style.display = 'none';
+          setTimeout(function () { location.reload(); }, 150);
         };
         row.appendChild(name); row.appendChild(sp); row.appendChild(sel);
         list.appendChild(row);
