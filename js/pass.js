@@ -125,6 +125,18 @@
         }
         body.appendChild(pre);
 
+        var shopRow = el('div', 'display:flex;gap:8px;margin-top:10px;');
+        var shopBtn = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(251,191,36,.45);background:rgba(251,191,36,.12);color:#fde68a;font-size:13px;', '赛季商店');
+        shopBtn.onclick = function () {
+            if (!isPremium()) { if (w.showToast) w.showToast('需先解锁典藏通行证'); return; }
+            if (w.showToast) w.showToast('赛季商店筹备中，商品待定');
+        };
+        var reBtn = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.08);color:#94a3b8;font-size:13px;', '返厂商店');
+        reBtn.onclick = function () { if (w.showToast) w.showToast('返厂商店暂未开放'); };
+        shopRow.appendChild(shopBtn);
+        shopRow.appendChild(reBtn);
+        body.appendChild(shopRow);
+
         STEPS.forEach(function (st) {
             var row = el('div', 'margin-top:10px;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;background:rgba(255,255,255,.03);');
             row.appendChild(el('div', 'font-size:13px;color:#e2e8f0;font-weight:600;', 'Lv.' + st.lv));
