@@ -185,22 +185,24 @@
         if (!panel) return;
         panel.innerHTML = '';
         if (view.t === 'main') {
-            panel.appendChild(header('通行证', function () { mask.style.display = 'none'; }, btn('赛季商店', function () { view = { t: 'shop' }; render(); })));
+            var right = el('div', 'display:flex;gap:2px;');
+            right.appendChild(btn('赛季商店', function () { view = { t: 'shop' }; render(); }));
+            right.appendChild(btn('规则', function () { view = { t: 'rules' }; render(); }));
+            panel.appendChild(header('通行证', function () { mask.style.display = 'none'; }, right));
             renderMain();
-            panel.appendChild(btn('规则', function () { view = { t: 'rules' }; render(); }, 'width:100%;padding:10px;color:#94a3b8;'));
         } else if (view.t === 'upgrade') renderUpgrade();
         else if (view.t === 'shop') renderShop();
         else renderRules();
     }
     function open() {
         if (!mask) {
-            mask = el('div', 'position:fixed;inset:0;z-index:12000;background:rgba(6,8,12,.86);display:flex;align-items:flex-end;');
-            panel = el('div', 'width:100%;max-width:620px;margin:0 auto;max-height:88vh;overflow:auto;background:linear-gradient(180deg,#151b26 0%,#0b0f15 100%);border:1px solid rgba(255,255,255,.08);border-radius:18px 18px 0 0;color:#e2e8f0;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -12px 48px rgba(0,0,0,.65);');
+            mask = el('div', 'position:fixed;inset:0;z-index:12000;background:#0b0f15;overflow:auto;');
+            panel = el('div', 'width:100%;min-height:100%;margin:0;background:linear-gradient(180deg,#151b26 0%,#0b0f15 100%);color:#e2e8f0;padding-bottom:calc(24px + env(safe-area-inset-bottom));');
             mask.appendChild(panel);
             mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
             document.body.appendChild(mask);
         }
-        mask.style.display = 'flex';
+        mask.style.display = 'block';
         view = { t: 'main' };
         render();
     }
