@@ -1172,6 +1172,16 @@ previewCurrentBackground() {
                 unlockBy: 'redeem',
                 desc: '连续开保险未出橙色/红色道具时，第10次必出橙色及以上；触发保底后下次保底次数-1（最低3次）。若在保底前就开出橙/红，保底重置为10次。兑换码获取：前往交流群 1082453829',
                 type: 'permanent'
+            },
+            {
+                id: 'devil_contract',
+                name: '恶魔契约',
+                icon: 'pictures/skills/destiny_pity.png',
+                price: 1000000,
+                unlockBy: 'pass',
+                desc: '开启后每次搜索消耗 1 次：50% 概率本次全部为紫色物品；50% 概率必出 2 个红色物品。需通行证 80 级（典藏）解锁购买权，可重复购买。',
+                type: 'limited',
+                uses: 1
             }
         ],
         state: {},
@@ -1222,6 +1232,11 @@ previewCurrentBackground() {
             // 兑换解锁项只能通过兑换码获得，不能用金币购买
             if (skill.unlockBy === 'redeem') {
                 return { success: false, message: '该技能需通过兑换码解锁' };
+            }
+            if (skill.unlockBy === 'pass') {
+                let ok = false;
+                try { ok = localStorage.getItem('ab_pass_ability_devil') === '1'; } catch (e) {}
+                if (!ok) return { success: false, message: '需通行证 80 级（典藏）解锁购买权' };
             }
 
             if (skill.type === 'permanent' && st.owned) {
@@ -3077,6 +3092,15 @@ _runOpenSafe() {
     ShopManager.consumeLimitedUse('lucky_streak');
     const luckyActive = ShopManager.isEnabled('lucky_streak');
 
+    let devilMode = 0;
+    try {
+        const devil = ShopManager.getSkillState('devil_contract');
+        if (devil && devil.owned && devil.enabled && devil.remaining > 0) {
+            ShopManager.consumeLimitedUse('devil_contract');
+            devilMode = Math.random() < 0.5 ? 1 : 2;
+        }
+    } catch (e) {}
+
     State.grid = _.times(Config.grid.rows, () => _.times(Config.grid.cols, () => 0));
     
     let itemId = 1;
@@ -3120,6 +3144,7 @@ _runOpenSafe() {
     if (!_.isEmpty(purpleItems)) {
         let purpleItemCount = _.random(Config.purpleSpawn.min, Config.purpleSpawn.max);
         if (tideActive) purpleItemCount *= 2;
+        if (devilMode === 1) purpleItemCount = 60;
         _.times(purpleItemCount, () => {
             const purpleItem = _.cloneDeep(_.sample(purpleItems));
             purpleItem.id = itemId++;
@@ -3167,6 +3192,8 @@ _runOpenSafe() {
     if (!_.isEmpty(highQualityItems)) {
         let hqCount = _.random(1, 4);
         if (tideActive) hqCount *= 2;
+        if (devilMode === 1) hqCount = 0;
+        if (devilMode === 2) hqCount = 2;
         let luckyPlaced = false;
         _.times(hqCount, (idx) => {
             let hqItem;
@@ -3178,6 +3205,8 @@ _runOpenSafe() {
                     hqItem = _.cloneDeep(hqItem);
                     luckyPlaced = true;
                 }
+            } else if (devilMode === 2) {
+                hqItem = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItem();
             } else {
                 hqItem = GameCore.getRandomItem();
             }
@@ -6751,7 +6780,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.84';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.85';
 
     /* ============================================================
      * 检查更新

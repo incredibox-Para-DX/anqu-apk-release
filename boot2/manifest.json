@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.84.m",
+  "version": "v2.3.0_hotfix.85.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -87,11 +87,11 @@
     },
     {
       "path": "js/redeem.js",
-      "size": 6312
+      "size": 6706
     },
     {
       "path": "js/script_new.js",
-      "size": 364106
+      "size": 365486
     },
     {
       "path": "js/synthesis.js",
@@ -139,7 +139,7 @@
     },
     {
       "path": "js/entitlements.js",
-      "size": 11415
+      "size": 11830
     },
     {
       "path": "js/bans.js",
@@ -243,5 +243,5 @@
     }
   ],
   "fileCount": 60,
-  "totalSize": 3045847
+  "totalSize": 3048036
 }

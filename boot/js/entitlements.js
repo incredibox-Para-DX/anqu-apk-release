@@ -46,6 +46,13 @@
                 try { localStorage.setItem('ab_red_name', '1'); } catch (x) {}
             } else if (k === 'name_blue') {
                 try { localStorage.setItem('ab_blue_name', '1'); } catch (x) {}
+            } else if (k === 'pass_supreme') {
+                try {
+                    localStorage.setItem('ab_pass_premium', '1');
+                    localStorage.setItem('ab_pass_card_night', '1');
+                    var pxp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
+                    localStorage.setItem('ab_pass_xp', String(Math.min(400000000, pxp)));
+                } catch (x) {}
             } else if (k === 'value') {
                 try {
                     if (!localStorage.getItem('ab_ent_value_applied')) {

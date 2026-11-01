@@ -60,6 +60,14 @@
         try {
             if (kind === 'bundle') { (p.items || []).forEach(one); }
             else if (kind === 'card') { if (p.card_id && w.Cards) w.Cards.unlock(p.card_id); }
+            else if (kind === 'pass_supreme') {
+                setFlag('ab_pass_premium', '1');
+                setFlag('ab_pass_card_night', '1');
+                try {
+                    var xp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
+                    localStorage.setItem('ab_pass_xp', String(Math.min(400000000, xp)));
+                } catch (e) {}
+            }
             else if (kind === 'value') { if (typeof w.__addAccumulatedValue === 'function') w.__addAccumulatedValue(p.amount || 0); }
             else if (kind === 'skill') { if (p.skill && typeof w.__unlockSkillByRedeem === 'function') w.__unlockSkillByRedeem(p.skill); }
             else { one(kind); }
