@@ -6,6 +6,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>暗区保险模拟</title>
 <link rel="stylesheet" href="css/shell.css">
+<style>
+@font-face {
+    font-family: 'ABShell';
+    src: url('fonts/Arena Breakout.ttf') format('truetype');
+    font-display: swap;
+}
+body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
+#route-btn {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top));
+    right: 14px;
+    z-index: 10001;
+    display: none;
+    padding: 7px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, .28);
+    background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.05));
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+    color: #f1f5f9;
+    font-size: 13px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 18px rgba(0,0,0,.35);
+}
+#route-panel {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    padding: calc(18px + env(safe-area-inset-top)) 14px 22px;
+    overflow: auto;
+    color: #eef2f7;
+    background: linear-gradient(160deg, rgba(18,20,26,.55), rgba(10,12,16,.72));
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    backdrop-filter: blur(22px) saturate(140%);
+}
+.route-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 11px 13px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, .22);
+    background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 6px 16px rgba(0,0,0,.25);
+}
+.route-name { font-size: 13px; color: #f8fafc; }
+.route-speed { font-size: 12px; min-width: 74px; text-align: right; color: #94a3b8; }
+.route-sel {
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(147, 197, 253, .55);
+    background: linear-gradient(145deg, rgba(59,130,246,.35), rgba(59,130,246,.12));
+    color: #dbeafe;
+    font-size: 12px;
+}
+</style>
 </head>
 <body>
 <video id="video-intro" src="backgrounds/Login/LoginCG.mp4" autoplay playsinline webkit-playsinline x5-playsinline x-webkit-airplay="allow" poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" preload="auto"></video>
@@ -16,14 +73,14 @@
 <div class="dl-line dl-bytes"><span id="dl-msg">正在下载资源中…</span></div>
 </div>
 <div class="dl-bar" id="dl-bar"><div class="dl-bar-fill" id="dl-fill"></div></div>
-<button id="route-btn" style="position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;z-index:10001;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#e2e8f0;font-size:12px;">线路</button>
-<div id="route-panel" style="display:none;position:fixed;inset:0;z-index:10002;background:rgba(8,10,14,.96);color:#e2e8f0;padding:calc(16px + env(safe-area-inset-top)) 14px 20px;overflow:auto;">
+<button id="route-btn">线路</button>
+<div id="route-panel">
 <div style="display:flex;justify-content:space-between;align-items:center;">
-<div style="font-size:16px;font-weight:700;">选择下载线路</div>
+<div style="font-size:17px;font-weight:700;">选择下载线路</div>
 <button id="route-close" style="background:transparent;border:0;color:#94a3b8;font-size:22px;">&times;</button>
 </div>
-<div id="route-list" style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"></div>
-<button id="route-rescan" style="margin-top:14px;width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#e2e8f0;font-size:13px;">重新测速</button>
+<div id="route-list" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;"></div>
+<button id="route-rescan" style="margin-top:14px;width:100%;padding:11px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#e2e8f0;font-size:13px;">重新测速</button>
 </div>
 <script src="js/shell.js"></script>
 </body>

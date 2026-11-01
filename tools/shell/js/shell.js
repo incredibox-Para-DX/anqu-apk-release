@@ -604,28 +604,22 @@
       list.innerHTML = '';
       bases().forEach(function (base) {
         var row = document.createElement('div');
-        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;';
-        var info = document.createElement('div');
-        info.style.cssText = 'min-width:0;flex:1;';
+        row.className = 'route-row';
         var name = document.createElement('div');
-        name.style.cssText = 'font-size:13px;color:#e2e8f0;';
+        name.className = 'route-name';
         name.textContent = labelOf(base);
-        var host = document.createElement('div');
-        host.style.cssText = 'font-size:11px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
-        host.textContent = base;
-        info.appendChild(name); info.appendChild(host);
         var sp = document.createElement('div');
-        sp.style.cssText = 'font-size:12px;color:#94a3b8;min-width:74px;text-align:right;';
+        sp.className = 'route-speed';
         sp.textContent = '测速中…';
         var sel = document.createElement('button');
+        sel.className = 'route-sel';
         sel.textContent = '选择';
-        sel.style.cssText = 'padding:6px 10px;border-radius:8px;border:1px solid rgba(59,130,246,.5);background:rgba(59,130,246,.15);color:#93c5fd;font-size:12px;';
         sel.onclick = function () {
           try { localStorage.setItem('ab_fast_base', JSON.stringify({ base: base, ts: Date.now() })); } catch (e) {}
           CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
           panel.style.display = 'none';
         };
-        row.appendChild(info); row.appendChild(sp); row.appendChild(sel);
+        row.appendChild(name); row.appendChild(sp); row.appendChild(sel);
         list.appendChild(row);
         bench(base, function (bytes, ms) {
           if (!ms || !bytes) { sp.textContent = '不可用'; sp.style.color = '#f87171'; return; }
@@ -639,6 +633,18 @@
     btn.onclick = function () { panel.style.display = 'block'; render(); };
     if (closeBtn) closeBtn.onclick = function () { panel.style.display = 'none'; };
     if (rescan) rescan.onclick = function () { render(); };
+
+    // LoginCG 播完后再显示线路按钮
+    btn.style.display = 'none';
+    var intro = document.getElementById('video-intro');
+    var shown = false;
+    function showBtn() { if (!shown) { shown = true; btn.style.display = 'block'; } }
+    if (intro) {
+      intro.addEventListener('ended', showBtn);
+      setTimeout(showBtn, 9000);
+    } else {
+      showBtn();
+    }
   })();
 
   boot();
