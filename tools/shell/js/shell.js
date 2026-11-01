@@ -10,29 +10,29 @@
   var RAW = 'https://raw.githubusercontent.com/' + GH;
   var GLIST = ['https://ghproxy.net/', 'https://ghfast.top/', 'https://gh-proxy.com/'];
   var CODE_BASES = [
-    DOMAIN + '/' + GH + '/p-i18n/boot',
-    WORKER2 + '/' + GH + '/p-i18n/boot',
-    PROXY_ROOT + '/' + GH + '/p-i18n/boot',
-    RAW + '/p-i18n/boot',
-    'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
-    'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
-    'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
-    'https://cdn.statically.io/gh/' + GH + '/p-i18n/boot',
-    'https://raw.githack.com/' + GH + '/p-i18n/boot'
+    DOMAIN + '/' + GH + '/dev/boot',
+    WORKER2 + '/' + GH + '/dev/boot',
+    PROXY_ROOT + '/' + GH + '/dev/boot',
+    RAW + '/dev/boot',
+    'https://cdn.jsdelivr.net/gh/' + GH + '@dev/boot',
+    'https://fastly.jsdelivr.net/gh/' + GH + '@dev/boot',
+    'https://gcore.jsdelivr.net/gh/' + GH + '@dev/boot',
+    'https://cdn.statically.io/gh/' + GH + '/dev/boot',
+    'https://raw.githack.com/' + GH + '/dev/boot'
   ]
-    .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot'; }))
+    .concat(GLIST.map(function (m) { return m + RAW + '/dev/boot'; }))
     .concat([
-      DOMAIN + '/' + GH + '/p-i18n/boot2',
-      WORKER2 + '/' + GH + '/p-i18n/boot2',
-      PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
-      RAW + '/p-i18n/boot2',
-      'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
-      'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
-      'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
-      'https://cdn.statically.io/gh/' + GH + '/p-i18n/boot2',
-      'https://raw.githack.com/' + GH + '/p-i18n/boot2'
+      DOMAIN + '/' + GH + '/dev/boot2',
+      WORKER2 + '/' + GH + '/dev/boot2',
+      PROXY_ROOT + '/' + GH + '/dev/boot2',
+      RAW + '/dev/boot2',
+      'https://cdn.jsdelivr.net/gh/' + GH + '@dev/boot2',
+      'https://fastly.jsdelivr.net/gh/' + GH + '@dev/boot2',
+      'https://gcore.jsdelivr.net/gh/' + GH + '@dev/boot2',
+      'https://cdn.statically.io/gh/' + GH + '/dev/boot2',
+      'https://raw.githack.com/' + GH + '/dev/boot2'
     ])
-    .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot2'; }));
+    .concat(GLIST.map(function (m) { return m + RAW + '/dev/boot2'; }));
   var SHELL_MARK = 'anqu-shell';
 
   var CODE_TIMEOUT = 180000;
