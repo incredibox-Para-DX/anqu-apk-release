@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.91",
+  "version": "v2.3.0_hotfix.92",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -127,7 +127,7 @@
     },
     {
       "path": "js/pass.js",
-      "size": 20178
+      "size": 22693
     },
     {
       "path": "images/season/coin.webp",
@@ -243,5 +243,5 @@
     }
   ],
   "fileCount": 60,
-  "totalSize": 3054880
+  "totalSize": 3057395
 }
