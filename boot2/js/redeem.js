@@ -7,22 +7,6 @@
 
     var USED_KEY = 'ab_redeem_codes_v1';
 
-    // 本地兑换码（服务端不可用/未收录时直兑）
-    var LOCAL_CODES = {
-        'CAMONA': { kind: 'value', payload: { amount: 20000000 } },
-        'HEFUNADMIN': { kind: 'gm' },
-        'ITEMPOOL': { kind: 'item_pool' },
-        'DESTINY': { kind: 'skill', payload: { skill: 'destiny_pity' } },
-        'CARD030': { kind: 'card', payload: { card_id: 'card_030' } },
-        'CARD052': { kind: 'card', payload: { card_id: 'card_052' } },
-        'CARD047': { kind: 'card', payload: { card_id: 'card_047' } },
-        'CARD017': { kind: 'card', payload: { card_id: 'card_017' } },
-        'GOLDNAME': { kind: 'gold_name' },
-        'NAMERED8K2M': { kind: 'name_red' },
-        'NAMEBLUE5Q7X': { kind: 'name_blue' },
-        'HEFUN2026ALL': { kind: 'bundle', payload: { items: ['gm', 'item_pool', 'gold_name', 'card:card_030', 'card:card_052', 'card:card_047', 'card:card_017'] } }
-    };
-
     // ===== 按 UID 的物品池授权码（保留）=====
     var IP_SECRET = 'anqu_itempool_2026_v1';
     function fnv(str) {
@@ -107,24 +91,10 @@
                 showResult(res.message || '兑换成功', true);
                 try { if (E.sync) E.sync(); } catch (e) {}
             } else {
-                var lc = LOCAL_CODES[normCode(code)];
-                if (lc) {
-                    try { applyServerGrant(lc); } catch (e) {}
-                    markUsed(code);
-                    showResult('兑换成功', true);
-                } else {
-                    showResult((res && res.message) || '兑换失败', false);
-                }
+                showResult((res && res.message) || '兑换失败', false);
             }
         }).catch(function () {
-            var lc2 = LOCAL_CODES[normCode(code)];
-            if (lc2) {
-                try { applyServerGrant(lc2); } catch (e) {}
-                markUsed(code);
-                showResult('兑换成功', true);
-            } else {
-                showResult('网络异常，请稍后再试', false);
-            }
+            showResult('网络异常，请稍后再试', false);
         });
     }
 
