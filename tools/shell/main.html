@@ -16,6 +16,15 @@
 <div class="dl-line dl-bytes"><span id="dl-msg">正在下载资源中…</span></div>
 </div>
 <div class="dl-bar" id="dl-bar"><div class="dl-bar-fill" id="dl-fill"></div></div>
+<button id="route-btn" style="position:fixed;top:calc(12px + env(safe-area-inset-top));right:14px;z-index:10001;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#e2e8f0;font-size:12px;">线路</button>
+<div id="route-panel" style="display:none;position:fixed;inset:0;z-index:10002;background:rgba(8,10,14,.96);color:#e2e8f0;padding:calc(16px + env(safe-area-inset-top)) 14px 20px;overflow:auto;">
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<div style="font-size:16px;font-weight:700;">选择下载线路</div>
+<button id="route-close" style="background:transparent;border:0;color:#94a3b8;font-size:22px;">&times;</button>
+</div>
+<div id="route-list" style="margin-top:12px;display:flex;flex-direction:column;gap:8px;"></div>
+<button id="route-rescan" style="margin-top:14px;width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#e2e8f0;font-size:13px;">重新测速</button>
+</div>
 <script src="js/shell.js"></script>
 </body>
 </html>
