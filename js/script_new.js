@@ -6731,19 +6731,16 @@ const EventManager = {
     /* ============================================================
      * 热更新常量（安全增量：只加常量，不改旧代码逻辑）
      * ============================================================ */
-    var HU_COS_BASE = 'https://anqu-1372693228.cos.ap-guangzhou.myqcloud.com/boot';
-    var HU_BASE_URL = HU_COS_BASE;
-    var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
-    // 热更主源：COS（下面两个仅作兜底）
-    var HU_PROXY_BASE = HU_COS_BASE;
-    // 兜底：jsDelivr（GitHub 内容）
-    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@p-i18n/boot';
-    // 直链兜底：GitHub raw（CDN 均不可用时）
+    // 热更新源（已移除 COS）：GitHub raw 直链 + jsDelivr 兜底
     var HU_RAW_BASE = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/p-i18n/boot';
+    var HU_BASE_URL = HU_RAW_BASE;
+    var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
+    var HU_PROXY_BASE = HU_RAW_BASE;
+    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@p-i18n/boot';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.71';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.72';
 
     /* ============================================================
      * 检查更新
