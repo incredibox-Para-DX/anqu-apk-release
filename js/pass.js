@@ -133,10 +133,17 @@
     function renderUpgrade() {
         panel.appendChild(header('升级典藏', function () { view = { t: 'main' }; render(); }));
         var wrap = el('div', 'display:flex;gap:8px;padding:12px;align-items:stretch;');
-        [['普通版', '已解锁', '#94a3b8'], ['典藏版', '150M', '#fbbf24'], ['尊享版', '赞助兑换码解锁', '#a78bfa']].forEach(function (x, i) {
+        var tiers = [
+            ['普通版', '已解锁', '#94a3b8', ['每级 10 赛季币', '普通轨 10–80 级奖励', '可累积赛季进度', '赛季商店不可用']],
+            ['典藏版', '150M', '#fbbf24', ['含普通版全部权益', '解锁典藏轨 10–80 级奖励', '开启赛季商店', '80 级解锁「恶魔契约」购买权']],
+            ['尊享版', '赞助兑换码解锁', '#a78bfa', ['含典藏版全部权益', '额外名片「长夜终烬」', '立即提升 10 级', '赛季内一次性解锁']]
+        ];
+        tiers.forEach(function (x, i) {
             var col = el('div', 'flex:1;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.03);');
             col.appendChild(el('div', 'font-size:14px;font-weight:700;color:#f8fafc;', x[0]));
-            col.appendChild(el('div', 'font-size:11px;color:#94a3b8;line-height:1.6;', '权益简介占位'));
+            var ul = el('div', 'font-size:11px;color:#94a3b8;line-height:1.7;');
+            ul.innerHTML = x[3].map(function (t) { return '· ' + t; }).join('<br>');
+            col.appendChild(ul);
             var foot = el('div', 'margin-top:auto;font-size:12px;color:' + x[2] + ';');
             if (i === 1) {
                 var b = el('button', 'width:100%;padding:8px;border-radius:10px;border:1px solid rgba(251,191,36,.5);background:rgba(251,191,36,.15);color:#fde68a;font-size:12px;', isPremium() ? '已解锁' : '150M 解锁');
