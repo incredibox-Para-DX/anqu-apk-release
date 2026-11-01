@@ -2628,9 +2628,7 @@ textarea.dt-in{
     align-items: center;
     justify-content: center;
     padding: calc(12px + env(safe-area-inset-top)) 16px 12px;
-    background: rgba(15, 19, 25, .92);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: #0f1319;
     border-bottom: 1px solid rgba(255, 255, 255, .08);
     flex-shrink: 0;
 }
@@ -2670,9 +2668,7 @@ textarea.dt-in{
     display: flex;
     gap: 8px;
     padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-    background: rgba(15, 19, 25, .92);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: #0f1319;
     border-top: 1px solid rgba(255, 255, 255, .08);
     flex-shrink: 0;
 }
@@ -2846,6 +2842,26 @@ textarea.dt-in{
 .leaderboard-avatar.dev-avatar {
     box-shadow: 0 0 0 2px rgba(124, 58, 237, .6), 0 0 10px rgba(6, 182, 212, .5);
     border-radius: 50%;
+}
+/* 性能优化：榜单内不做文字扫光（几十行同时动画易发热掉帧） */
+.leaderboard-nickname.name-gold,
+.leaderboard-nickname.name-red,
+.leaderboard-nickname.name-blue,
+.leaderboard-nickname.name-violet,
+.leaderboard-nickname.name-aurora,
+.leaderboard-nickname.name-rainbow {
+    animation: none !important;
+}
+/* 榜单行离屏不渲染，减少绘制 */
+.leaderboard-item {
+    content-visibility: auto;
+    contain-intrinsic-size: 72px;
+}
+/* 后台暂停所有动画，减少耗电发热 */
+body.app-paused *,
+body.app-paused *::before,
+body.app-paused *::after {
+    animation-play-state: paused !important;
 }
 .name-gold .me-tag,
 .name-red .me-tag,

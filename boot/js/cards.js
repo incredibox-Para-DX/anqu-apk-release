@@ -190,6 +190,12 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
 
+    try {
+        document.addEventListener('visibilitychange', function () {
+            if (document.body) document.body.classList.toggle('app-paused', document.hidden);
+        });
+    } catch (e) {}
+
     window.Cards = {
         unlock: unlock, isUnlocked: isUnlocked, selected: selected, apply: apply,
         list: CARDS,
