@@ -6781,7 +6781,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.90';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.91';
 
     /* ============================================================
      * 检查更新
@@ -6818,6 +6818,7 @@ const EventManager = {
                     $('#update-check-confirm').show().text('立即更新').off('click').on('click', function() {
                         // 第二步：用户确认后才开始下载
                         window.__huBusy = true;
+                        window.__huAttempting = true;
                         $('#update-check-later').hide();
                         $('#update-check-confirm').hide();
                         $('#update-check-cancel').hide();
@@ -6836,7 +6837,8 @@ const EventManager = {
                         }
                         try {
                             // 用刚才 manifest 竞速选中的 base（可能是 Worker 反代），保证下载与版本一致
-                            window.AndroidUpdate.check(window.__huActiveBase || HU_BASE_URL);
+                            window.__huLastBase = window.__huActiveBase || HU_BASE_URL;
+                            window.AndroidUpdate.check(window.__huLastBase);
                         } catch (e) {
                             window.__huBusy = false;
                             window.__huStopProgress();
@@ -6867,6 +6869,7 @@ const EventManager = {
     });
     window.__onUpdateCheckResult = function(result) {
         var updated = !!(result && result.updated);
+        if (updated) { window.__huAttempting = false; }
         window.__huStopProgress();
         if (updated) {
             // 下载完成 → 直接刷新生效
@@ -6881,10 +6884,29 @@ const EventManager = {
             setTimeout(function() { location.reload(); }, 800);
         } else {
             window.__huBusy = false;
+            var wasTrying = !!window.__huAttempting;
+            window.__huAttempting = false;
             $('#update-check-progress').hide();
             $('#update-check-close').show();
-            $('#update-check-cancel').show().text('关闭');
-            $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
+            if (wasTrying) {
+                $('#update-check-cancel').show().text('关闭');
+                $('#update-check-confirm').show().text('重试更新').off('click').on('click', function () {
+                    window.__huBusy = true;
+                    window.__huAttempting = true;
+                    $('#update-check-confirm').hide();
+                    $('#update-check-cancel').hide();
+                    $('#update-check-close').hide();
+                    $('#update-check-progress').show();
+                    $('#update-check-status').html('正在重新下载，请稍候…');
+                    window.__huStartProgress();
+                    try { window.AndroidUpdate.check(window.__huLastBase || window.__huActiveBase || HU_BASE_URL); }
+                    catch (e) { window.__huBusy = false; window.__huAttempting = false; window.__huStopProgress(); $('#update-check-progress').hide(); $('#update-check-confirm').show(); $('#update-check-cancel').show(); $('#update-check-status').html('<span style="color:#f87171;">重试失败：' + e + '</span>'); }
+                });
+                $('#update-check-status').html('<span style="color:#f87171;">更新失败（弱网或线路不通）</span><br>可重试，或到 GM 切换线路后再试');
+            } else {
+                $('#update-check-cancel').show().text('关闭');
+                $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
+            }
         }
     };
 
