@@ -65,7 +65,7 @@
     function el(tag, css, text) { var d = document.createElement(tag); if (css) d.style.cssText = css; if (text != null) d.textContent = text; return d; }
     function btn(txt, fn, css) { var b = el('button', 'border:0;background:transparent;color:#e2e8f0;font-size:13px;padding:8px 6px;' + (css || ''), txt); b.onclick = fn; return b; }
     function header(title, back, right) {
-        var h = el('div', 'display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 10px 10px;border-bottom:1px solid rgba(255,255,255,.1);');
+        var h = el('div', 'display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 10px 10px;background:linear-gradient(180deg,rgba(251,191,36,.10),transparent);border-bottom:1px solid rgba(251,191,36,.22);');
         h.appendChild(btn('返回', back));
         h.appendChild(el('div', 'font-size:16px;font-weight:700;color:#f8fafc;', title));
         h.appendChild(right || el('div', 'width:40px;'));
@@ -82,12 +82,12 @@
         var reached = level() >= st.lv;
         var c = claims(), got = !!c[st.lv + ':' + kind];
         var locked = kind === 'prem' && !isPremium();
-        var cell = el('div', 'min-width:92px;border-radius:10px;border:1px solid ' + (reached ? 'rgba(251,191,36,.45)' : 'rgba(255,255,255,.12)') + ';background:rgba(255,255,255,.03);padding:8px;display:flex;flex-direction:column;gap:6px;');
+        var cell = el('div', 'min-width:92px;border-radius:12px;border:1px solid ' + (reached ? 'rgba(251,191,36,.55)' : 'rgba(255,255,255,.12)') + ';background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));padding:8px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 4px 12px rgba(0,0,0,.25);');
         cell.appendChild(el('div', 'font-size:11px;color:#94a3b8;', 'Lv.' + st.lv));
         var img = el('div', 'height:52px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;', (item && item.type) || '');
         cell.appendChild(img);
         cell.appendChild(el('div', 'font-size:12px;color:#e2e8f0;', item ? item.name : ''));
-        var b = el('button', 'padding:5px 0;border-radius:8px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.12);color:#e2e8f0;font-size:11px;', got ? '已领取' : (locked ? '典藏解锁' : (reached ? '领取' : '未达成')));
+        var b = el('button', 'padding:5px 0;border-radius:8px;border:1px solid ' + (got || locked || !reached ? 'rgba(148,163,184,.3)' : 'rgba(251,191,36,.55)') + ';background:' + (got || locked || !reached ? 'rgba(148,163,184,.10)' : 'linear-gradient(135deg,rgba(251,191,36,.35),rgba(245,158,11,.18))') + ';color:' + (got || locked || !reached ? '#94a3b8' : '#fde68a') + ';font-size:11px;', got ? '已领取' : (locked ? '典藏解锁' : (reached ? '领取' : '未达成')));
         b.disabled = got || locked || !reached;
         b.onclick = function () { grant(st, kind); };
         cell.appendChild(b);
@@ -107,12 +107,12 @@
         var lv = level(), xp = num(K.xp);
         var top = el('div', 'padding:10px;');
         var line1 = el('div', 'display:flex;align-items:center;justify-content:space-between;');
-        line1.appendChild(el('div', 'font-size:18px;font-weight:700;color:#f8fafc;', S.id + '·' + S.name));
+        line1.appendChild(el('div', 'font-size:18px;font-weight:800;color:#fde68a;letter-spacing:1px;text-shadow:0 0 12px rgba(251,191,36,.35);', S.id + '·' + S.name));
         line1.appendChild(coinTag(num(K.coins)));
         top.appendChild(line1);
         var barWrap = el('div', 'display:flex;align-items:center;gap:8px;margin-top:8px;');
         var bar = el('div', 'flex:1;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;');
-        var fill = el('div', 'height:100%;width:' + Math.round((xp % S.perLevel) / S.perLevel * 100) + '%;background:linear-gradient(90deg,#f59e0b,#fbbf24);');
+        var fill = el('div', 'height:100%;width:' + Math.round((xp % S.perLevel) / S.perLevel * 100) + '%;background:linear-gradient(90deg,#f59e0b,#fbbf24);box-shadow:0 0 10px rgba(251,191,36,.55);');
         bar.appendChild(fill); barWrap.appendChild(bar);
         barWrap.appendChild(el('div', 'font-size:11px;color:#94a3b8;', lv + '/' + S.levels));
         top.appendChild(barWrap);
@@ -121,9 +121,9 @@
         row2.appendChild(el('div', '', num(K.weekXp) >= S.capLevels * S.perLevel ? '已达上限' : ''));
         top.appendChild(row2);
         var actions = el('div', 'display:flex;gap:8px;margin-top:10px;');
-        var all = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(148,163,184,.35);background:rgba(148,163,184,.1);color:#e2e8f0;font-size:12px;', '一键领取');
+        var all = el('button', 'flex:1;padding:9px;border-radius:12px;border:1px solid rgba(148,163,184,.35);background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));color:#e2e8f0;font-size:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);', '一键领取');
         all.onclick = claimAll;
-        var up = el('button', 'flex:1;padding:9px;border-radius:10px;border:1px solid rgba(251,191,36,.5);background:rgba(251,191,36,.15);color:#fde68a;font-size:12px;', isPremium() ? '典藏已解锁' : '升级典藏');
+        var up = el('button', 'flex:1;padding:9px;border-radius:12px;border:1px solid rgba(251,191,36,.55);background:linear-gradient(135deg,rgba(251,191,36,.38),rgba(245,158,11,.16));color:#fde68a;font-size:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 4px 14px rgba(245,158,11,.18);', isPremium() ? '典藏已解锁' : '升级典藏');
         up.onclick = function () { view = { t: 'upgrade' }; render(); };
         actions.appendChild(all); actions.appendChild(up);
         top.appendChild(actions);
@@ -195,7 +195,7 @@
     function open() {
         if (!mask) {
             mask = el('div', 'position:fixed;inset:0;z-index:12000;background:rgba(6,8,12,.86);display:flex;align-items:flex-end;');
-            panel = el('div', 'width:100%;max-width:620px;margin:0 auto;max-height:88vh;overflow:auto;background:#0f1319;border-radius:16px 16px 0 0;color:#e2e8f0;padding-bottom:env(safe-area-inset-bottom);');
+            panel = el('div', 'width:100%;max-width:620px;margin:0 auto;max-height:88vh;overflow:auto;background:linear-gradient(180deg,#151b26 0%,#0b0f15 100%);border:1px solid rgba(255,255,255,.08);border-radius:18px 18px 0 0;color:#e2e8f0;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -12px 48px rgba(0,0,0,.65);');
             mask.appendChild(panel);
             mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
             document.body.appendChild(mask);
