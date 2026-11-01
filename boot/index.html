@@ -1007,10 +1007,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="violet"> <span class="name-violet">紫罗兰</span> <span class="style-lock" data-lock="violet">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="aurora"> <span class="name-aurora">极光</span> <span class="style-lock" data-lock="aurora">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="rainbow"> <span class="name-rainbow">彩虹</span> <span class="style-lock" data-lock="rainbow">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberorange"> <span class="name-cyberorange">赛博橙</span> <span class="style-lock" data-lock="cyberorange">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberblue"> <span class="name-cyberblue">赛博蓝</span> <span class="style-lock" data-lock="cyberblue">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="vpurple"> <span class="name-vpurple">紫罗兰</span> <span class="style-lock" data-lock="vpurple">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="vaurora"> <span class="name-vaurora">极光</span> <span class="style-lock" data-lock="vaurora">🔒</span></label>
 </div>
 </div>
 </div>
@@ -2101,7 +2097,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/i18n-next.js"></script>
 <script src="js/i18n-rules.js"></script>
 <script src="js/cards.js"></script>
-<script src="js/pass.js"></script>
 <script src="js/card-pack.js"></script>
 <script src="js/entitlements.js"></script>
 <script src="js/bans.js"></script>
@@ -3052,11 +3047,7 @@ if (document.readyState === 'loading') {
                     || (__st === 'blue' && localStorage.getItem('ab_blue_name') === '1')
                     || (__st === 'violet' && localStorage.getItem('ab_dev_violet') === '1')
                     || (__st === 'aurora' && localStorage.getItem('ab_dev_aurora') === '1')
-                    || (__st === 'rainbow' && localStorage.getItem('ab_dev_rainbow') === '1')
-                    || (__st === 'cyberorange' && localStorage.getItem('ab_pass_cyberorange') === '1')
-                    || (__st === 'cyberblue' && localStorage.getItem('ab_pass_cyberblue') === '1')
-                    || (__st === 'vpurple' && localStorage.getItem('ab_pass_vpurple') === '1')
-                    || (__st === 'vaurora' && localStorage.getItem('ab_pass_vaurora') === '1');
+                    || (__st === 'rainbow' && localStorage.getItem('ab_dev_rainbow') === '1');
                 __nameStyle = __ok ? __st : 'normal';
             } catch (e) {}
             const baseBody = {
@@ -3389,7 +3380,7 @@ if (document.readyState === 'loading') {
 
     function isStyleUnlocked(style) {
         if (style === 'normal') return true;
-        const map = { gold: 'ab_gold_name', red: 'ab_red_name', blue: 'ab_blue_name', violet: 'ab_dev_violet', aurora: 'ab_dev_aurora', rainbow: 'ab_dev_rainbow', cyberorange: 'ab_pass_cyberorange', cyberblue: 'ab_pass_cyberblue', vpurple: 'ab_pass_vpurple', vaurora: 'ab_pass_vaurora' };
+        const map = { gold: 'ab_gold_name', red: 'ab_red_name', blue: 'ab_blue_name', violet: 'ab_dev_violet', aurora: 'ab_dev_aurora', rainbow: 'ab_dev_rainbow' };
         try { return localStorage.getItem(map[style] || '') === '1'; } catch (e) { return false; }
     }
 
@@ -3399,7 +3390,7 @@ if (document.readyState === 'loading') {
         let st = 'normal';
         try { st = localStorage.getItem('ab_name_style') || 'normal'; } catch (e) {}
         if (!isStyleUnlocked(st)) st = 'normal';
-        el.classList.remove('name-gold', 'name-red', 'name-blue', 'name-violet', 'name-aurora', 'name-rainbow', 'name-cyberorange', 'name-cyberblue', 'name-vpurple', 'name-vaurora');
+        el.classList.remove('name-gold', 'name-red', 'name-blue', 'name-violet', 'name-aurora', 'name-rainbow');
         if (st !== 'normal') el.classList.add('name-' + st);
         const isDev = (st === 'violet' || st === 'aurora' || st === 'rainbow');
         const badge = document.getElementById('profile-dev-badge');

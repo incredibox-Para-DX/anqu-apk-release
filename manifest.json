@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.80",
+  "version": "v2.3.0_hotfix.79",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -19,7 +19,7 @@
     },
     {
       "path": "css/main.css",
-      "size": 69950
+      "size": 68402
     },
     {
       "path": "css/styles.css",
@@ -91,7 +91,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 364118
+      "size": 363758
     },
     {
       "path": "js/synthesis.js",
@@ -124,10 +124,6 @@
     {
       "path": "js/cards.js",
       "size": 10779
-    },
-    {
-      "path": "js/pass.js",
-      "size": 10052
     },
     {
       "path": "js/card-pack.js",
@@ -235,9 +231,9 @@
     },
     {
       "path": "index.html",
-      "size": 166719
+      "size": 165287
     }
   ],
-  "fileCount": 59,
-  "totalSize": 3020997
+  "fileCount": 58,
+  "totalSize": 3007605
 }
