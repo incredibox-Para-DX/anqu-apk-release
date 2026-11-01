@@ -12,14 +12,19 @@
     RAW + '/p-i18n/boot',
     'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
     'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
-    'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot'
+    'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot',
+    'https://cdn.statically.io/gh/' + GH + '/p-i18n/boot',
+    'https://raw.githack.com/' + GH + '/p-i18n/boot'
   ]
     .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot'; }))
     .concat([
       PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
       RAW + '/p-i18n/boot2',
       'https://cdn.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
-      'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot2'
+      'https://fastly.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
+      'https://gcore.jsdelivr.net/gh/' + GH + '@p-i18n/boot2',
+      'https://cdn.statically.io/gh/' + GH + '/p-i18n/boot2',
+      'https://raw.githack.com/' + GH + '/p-i18n/boot2'
     ])
     .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot2'; }));
   var SHELL_MARK = 'anqu-shell';

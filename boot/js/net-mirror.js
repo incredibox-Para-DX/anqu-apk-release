@@ -13,10 +13,20 @@
         'https://ghp.ci/'
     ];
     function mirrorsFor(url) {
-        if (typeof url === 'string' && url.indexOf(GH_RAW) === 0) {
-            return MIRRORS.map(function (m) { return m + url; });
+        if (typeof url !== 'string' || url.indexOf(GH_RAW) !== 0) return [];
+        var rest = url.slice(GH_RAW.length);
+        var parts = rest.split('/');
+        if (parts.length >= 3) {
+            var user = parts[0], repo = parts[1], branch = parts[2], tail = parts.slice(3).join('/');
+            var out = [
+                'https://cdn.statically.io/gh/' + user + '/' + repo + '/' + branch + '/' + tail,
+                'https://raw.githack.com/' + user + '/' + repo + '/' + branch + '/' + tail,
+                'https://cdn.jsdelivr.net/gh/' + user + '/' + repo + '@' + branch + '/' + tail
+            ];
+            MIRRORS.forEach(function (m) { out.push(m + url); });
+            return out;
         }
-        return [];
+        return MIRRORS.map(function (m) { return m + url; });
     }
     var orig = w.fetch.bind(w);
     function tryList(list, i, input, init, lastResp) {
