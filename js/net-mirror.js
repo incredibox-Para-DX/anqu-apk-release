@@ -19,6 +19,7 @@
         if (parts.length >= 3) {
             var user = parts[0], repo = parts[1], branch = parts[2], tail = parts.slice(3).join('/');
             var out = [
+                'https://raw.hefunovo.xyz/' + user + '/' + repo + '/' + branch + '/' + tail,
                 'https://anqu-raw2.sdfgasdfgwe7.workers.dev/' + user + '/' + repo + '/' + branch + '/' + tail,
                 'https://cdn.statically.io/gh/' + user + '/' + repo + '/' + branch + '/' + tail,
                 'https://raw.githack.com/' + user + '/' + repo + '/' + branch + '/' + tail,

@@ -6,9 +6,11 @@
   var GH = 'incredibox-Para-DX/anqu-apk-release';
   var PROXY_ROOT = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
   var WORKER2 = 'https://anqu-raw2.sdfgasdfgwe7.workers.dev';
+  var DOMAIN = 'https://raw.hefunovo.xyz';
   var RAW = 'https://raw.githubusercontent.com/' + GH;
   var GLIST = ['https://ghproxy.net/', 'https://ghfast.top/', 'https://gh-proxy.com/'];
   var CODE_BASES = [
+    DOMAIN + '/' + GH + '/p-i18n/boot',
     WORKER2 + '/' + GH + '/p-i18n/boot',
     PROXY_ROOT + '/' + GH + '/p-i18n/boot',
     RAW + '/p-i18n/boot',
@@ -20,6 +22,7 @@
   ]
     .concat(GLIST.map(function (m) { return m + RAW + '/p-i18n/boot'; }))
     .concat([
+      DOMAIN + '/' + GH + '/p-i18n/boot2',
       WORKER2 + '/' + GH + '/p-i18n/boot2',
       PROXY_ROOT + '/' + GH + '/p-i18n/boot2',
       RAW + '/p-i18n/boot2',
