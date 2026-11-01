@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.73",
+  "version": "v2.3.0_hotfix.74",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -51,7 +51,7 @@
     },
     {
       "path": "js/net-mirror.js",
-      "size": 2451
+      "size": 2562
     },
     {
       "path": "js/telemetry.js",
@@ -91,7 +91,7 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 363442
+      "size": 363616
     },
     {
       "path": "js/synthesis.js",
@@ -235,5 +235,5 @@
     }
   ],
   "fileCount": 58,
-  "totalSize": 3006753
+  "totalSize": 3007038
 }
