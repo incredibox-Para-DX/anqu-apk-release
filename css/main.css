@@ -2810,6 +2810,42 @@ textarea.dt-in{
     color: transparent;
     animation: rainbowFlow 8s linear infinite;
 }
+.name-cyberorange {
+    background: linear-gradient(100deg, #ff7a18 0%, #ffb347 25%, #ffe3b3 50%, #ff9a2e 75%, #ff7a18 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 5s ease-in-out infinite alternate;
+}
+.name-cyberblue {
+    background: linear-gradient(100deg, #22d3ee 0%, #38bdf8 25%, #e0f7ff 50%, #6366f1 75%, #22d3ee 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 5s ease-in-out infinite alternate;
+}
+.name-vpurple {
+    background: linear-gradient(100deg, #4c1d95 0%, #8b5cf6 22%, #e9d5ff 38%, #7c3aed 52%, #4c1d95 70%, #8b5cf6 88%, #e9d5ff 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 6s ease-in-out infinite alternate;
+}
+.name-vaurora {
+    background: linear-gradient(100deg, #06b6d4 0%, #8b5cf6 22%, #e0f2fe 38%, #6366f1 52%, #06b6d4 70%, #8b5cf6 88%, #e0f2fe 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: nameGoldSweep 6s ease-in-out infinite alternate;
+}
 @keyframes rainbowFlow {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
@@ -2859,7 +2895,11 @@ body.app-paused *::after {
 .name-blue .me-tag,
 .name-violet .me-tag,
 .name-aurora .me-tag,
-.name-rainbow .me-tag {
+.name-rainbow .me-tag,
+.name-cyberorange .me-tag,
+.name-cyberblue .me-tag,
+.name-vpurple .me-tag,
+.name-vaurora .me-tag {
     -webkit-text-fill-color: #fff;
     color: #fff;
 }
