@@ -3144,7 +3144,7 @@ _runOpenSafe() {
     if (!_.isEmpty(purpleItems)) {
         let purpleItemCount = _.random(Config.purpleSpawn.min, Config.purpleSpawn.max);
         if (tideActive) purpleItemCount *= 2;
-        if (devilMode === 1) purpleItemCount = 60;
+        if (devilMode === 1) purpleItemCount = 40;
         _.times(purpleItemCount, () => {
             const purpleItem = _.cloneDeep(_.sample(purpleItems));
             purpleItem.id = itemId++;
@@ -3206,7 +3206,8 @@ _runOpenSafe() {
                     luckyPlaced = true;
                 }
             } else if (devilMode === 2) {
-                hqItem = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItem();
+                var __r = Math.random() < 0.2 ? 'red' : 'orange';
+                hqItem = GameCore.getRandomItemByRarity(__r) || GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItem();
             } else {
                 hqItem = GameCore.getRandomItem();
             }
@@ -6780,7 +6781,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.89';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.90';
 
     /* ============================================================
      * 检查更新

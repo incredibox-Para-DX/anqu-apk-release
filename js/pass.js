@@ -69,6 +69,8 @@
         s.id = 'pass-style';
         s.textContent = '@keyframes passIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}' +
             '@keyframes cellIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}' +
+            '@keyframes viewIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}' +
+            '.pass-view{animation:viewIn .22s ease both}' +
             '.pass-enter{animation:passIn .26s ease both}' +
             '.pass-cell{animation:cellIn .3s ease both;transition:border-color .2s ease, transform .12s ease}' +
             '.pass-cell:active{transform:scale(.97)}' +
@@ -203,6 +205,9 @@
     function render() {
         if (!panel) return;
         panel.innerHTML = '';
+        panel.classList.remove('pass-view');
+        void panel.offsetWidth;
+        panel.classList.add('pass-view');
         if (view.t === 'main') {
             var right = el('div', 'display:flex;gap:2px;');
             right.appendChild(btn('赛季商店', function () { view = { t: 'shop' }; render(); }));
@@ -229,14 +234,52 @@
     }
     function bind() {
         var sec = document.getElementById('section-other');
-        if (!sec || document.getElementById('sidebar-pass-btn')) return;
-        var b = el('button', '', '');
-        b.className = 'sidebar-btn full-width';
-        b.id = 'sidebar-pass-btn';
-        b.style.marginTop = '6px';
-        b.innerHTML = '<i class="fas fa-ticket"></i> 通行证';
-        b.onclick = open;
-        sec.insertBefore(b, sec.firstChild);
+        if (sec && !document.getElementById('sidebar-pass-btn')) {
+            var b = el('button', '', '');
+            b.className = 'sidebar-btn full-width';
+            b.id = 'sidebar-pass-btn';
+            b.style.marginTop = '6px';
+            b.innerHTML = '<i class="fas fa-ticket"></i> 通行证';
+            b.onclick = open;
+            sec.insertBefore(b, sec.firstChild);
+        }
+        var gm = document.getElementById('gm-debug-section');
+        if (gm && !document.getElementById('gm-pass-debug-btn')) {
+            var g = el('button', '', '');
+            g.className = 'sidebar-btn full-width';
+            g.id = 'gm-pass-debug-btn';
+            g.style.marginTop = '6px';
+            g.innerHTML = '<i class="fas fa-flask"></i> 通行证调试';
+            g.onclick = openDebug;
+            gm.appendChild(g);
+        }
+    }
+    function dbgState() {
+        return 'Lv ' + level() + ' / ' + S.levels + '\nXP ' + fmt(num(K.xp)) + '\n本周 ' + fmt(num(K.weekXp)) + '\n币 ' + fmt(num(K.coins)) + '\n典藏 ' + (isPremium() ? '已解锁' : '未解锁');
+    }
+    function openDebug() {
+        var m = el('div', 'position:fixed;inset:0;z-index:13000;background:rgba(6,8,12,.9);display:flex;align-items:center;justify-content:center;padding:16px;');
+        var p = el('div', 'width:100%;max-width:420px;max-height:82vh;overflow:auto;background:#11161f;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;color:#e2e8f0;');
+        p.appendChild(el('div', 'font-size:15px;font-weight:700;', '通行证调试'));
+        var st = el('div', 'font-size:12px;color:#94a3b8;margin-top:8px;white-space:pre-line;line-height:1.6;', dbgState());
+        p.appendChild(st);
+        function add(txt, fn) {
+            var b = el('button', 'width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:#1a2029;color:#e2e8f0;font-size:12px;', txt);
+            b.onclick = function () { try { fn(); } catch (e) {} st.textContent = dbgState(); render(); };
+            p.appendChild(b);
+        }
+        add('+10 级（+50M 经验）', function () { set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + S.perLevel * 10)); });
+        add('+1000 赛季币', function () { set(K.coins, num(K.coins) + 1000); });
+        add('解锁典藏', function () { set(K.premium, '1'); });
+        add('解锁尊享（典藏+10级+长夜终烬）', function () { set(K.premium, '1'); set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + S.perLevel * 10)); try { localStorage.setItem('ab_pass_card_night', '1'); } catch (e) {} });
+        add('解锁恶魔契约购买权', function () { try { localStorage.setItem('ab_pass_ability_devil', '1'); } catch (e) {} });
+        add('重置赛季进度', function () { [K.xp, K.weekXp, K.week, K.start, K.premium, K.coins, K.claimedCoins, K.claims, K.lastW].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} }); });
+        var close = el('button', 'width:100%;margin-top:12px;padding:8px;border-radius:8px;border:0;background:#243040;color:#cbd5e1;font-size:12px;', '关闭');
+        close.onclick = function () { m.remove(); };
+        p.appendChild(close);
+        m.appendChild(p);
+        m.addEventListener('click', function (e) { if (e.target === m) m.remove(); });
+        document.body.appendChild(m);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
     else bind();
