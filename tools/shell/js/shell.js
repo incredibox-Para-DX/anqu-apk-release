@@ -553,5 +553,93 @@
     }).catch(function(){ __integrityFail('读取失败'); });
   }
 
+  // ===== 线路选择面板（首装下载页右上角）=====
+  (function initRouteUI() {
+    var btn = document.getElementById('route-btn');
+    var panel = document.getElementById('route-panel');
+    var list = document.getElementById('route-list');
+    var closeBtn = document.getElementById('route-close');
+    var rescan = document.getElementById('route-rescan');
+    if (!btn || !panel || !list) return;
+
+    function labelOf(u) {
+      try {
+        var h = new URL(u).host;
+        if (h.indexOf('workers.dev') >= 0) return 'Cloudflare Worker';
+        if (h.indexOf('raw.githubusercontent.com') >= 0) return 'GitHub 直链';
+        if (h.indexOf('fastly.jsdelivr') >= 0) return 'jsDelivr fastly';
+        if (h.indexOf('gcore.jsdelivr') >= 0) return 'jsDelivr gcore';
+        if (h.indexOf('jsdelivr') >= 0) return 'jsDelivr cdn';
+        if (h.indexOf('statically') >= 0) return 'Statically';
+        if (h.indexOf('githack') >= 0) return 'raw.githack';
+        return '镜像 ' + h;
+      } catch (e) { return u; }
+    }
+
+    function bases() {
+      var seen = {}, out = [];
+      CODE_BASES.forEach(function (b) {
+        if (b.indexOf('/boot2') >= 0) return;
+        var k = b.replace(/\/$/, '');
+        if (seen[k]) return;
+        seen[k] = 1;
+        out.push(b);
+      });
+      return out;
+    }
+
+    function bench(base, cb) {
+      var n = 0, bytes = 0, t0 = Date.now();
+      function one() {
+        if (n >= 3 || Date.now() - t0 > 7000) { cb(bytes, Date.now() - t0); return; }
+        fetch(base + '/manifest.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.arrayBuffer(); })
+          .then(function (b) { bytes += (b && b.byteLength) || 0; n++; one(); })
+          .catch(function () { cb(bytes, Date.now() - t0); });
+      }
+      one();
+    }
+
+    function render() {
+      list.innerHTML = '';
+      bases().forEach(function (base) {
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;';
+        var info = document.createElement('div');
+        info.style.cssText = 'min-width:0;flex:1;';
+        var name = document.createElement('div');
+        name.style.cssText = 'font-size:13px;color:#e2e8f0;';
+        name.textContent = labelOf(base);
+        var host = document.createElement('div');
+        host.style.cssText = 'font-size:11px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
+        host.textContent = base;
+        info.appendChild(name); info.appendChild(host);
+        var sp = document.createElement('div');
+        sp.style.cssText = 'font-size:12px;color:#94a3b8;min-width:74px;text-align:right;';
+        sp.textContent = '测速中…';
+        var sel = document.createElement('button');
+        sel.textContent = '选择';
+        sel.style.cssText = 'padding:6px 10px;border-radius:8px;border:1px solid rgba(59,130,246,.5);background:rgba(59,130,246,.15);color:#93c5fd;font-size:12px;';
+        sel.onclick = function () {
+          try { localStorage.setItem('ab_fast_base', JSON.stringify({ base: base, ts: Date.now() })); } catch (e) {}
+          CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
+          panel.style.display = 'none';
+        };
+        row.appendChild(info); row.appendChild(sp); row.appendChild(sel);
+        list.appendChild(row);
+        bench(base, function (bytes, ms) {
+          if (!ms || !bytes) { sp.textContent = '不可用'; sp.style.color = '#f87171'; return; }
+          var kbps = bytes / 1024 / (ms / 1000);
+          sp.textContent = kbps.toFixed(0) + ' KB/s';
+          sp.style.color = kbps > 300 ? '#34d399' : (kbps > 80 ? '#fbbf24' : '#f87171');
+        });
+      });
+    }
+
+    btn.onclick = function () { panel.style.display = 'block'; render(); };
+    if (closeBtn) closeBtn.onclick = function () { panel.style.display = 'none'; };
+    if (rescan) rescan.onclick = function () { render(); };
+  })();
+
   boot();
 })();
