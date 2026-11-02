@@ -678,6 +678,13 @@
         add('解锁典藏', function () { set(K.premium, '1'); });
         add('解锁尊享（典藏+10级+长夜终烬）', function () { set(K.premium, '1'); set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + S.perLevel * 10)); try { localStorage.setItem('ab_pass_card_night', '1'); } catch (e) {} });
         add('解锁恶魔契约购买权', function () { try { localStorage.setItem('ab_pass_ability_devil', '1'); } catch (e) {} });
+        add('清除获得的奖励', function () {
+            try { localStorage.removeItem(K.claims); } catch (e) {}
+            ['cyberorange', 'cyberblue', 'vpurple', 'vaurora', 'bg_pulse', 'bg_jiuke', 'bg_laizhan', 'bg_jixi', 'bg_jinshen', 'card_wolf', 'card_bhj', 'card_gjzb', 'card_qxys', 'card_yinghe', 'card_zsxf', 'ability_devil', 'card_night'].forEach(function (k) {
+                try { localStorage.removeItem('ab_pass_' + k); } catch (e) {}
+            });
+            toast('已清除通行证奖励');
+        });
         add('重置赛季进度', function () { [K.xp, K.weekXp, K.week, K.start, K.premium, K.coins, K.claimedCoins, K.claims, K.lastW].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} }); });
     }
 
