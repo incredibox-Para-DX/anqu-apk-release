@@ -81,6 +81,7 @@
         pass_week_of: ['第 %s 周 / 共 %s 周', '第 %s 週 / 共 %s 週', 'Week %s of %s', 'Неделя %s из %s'],
         pass_season_starts_in: ['赛季将于 %s 天后开始', '賽季將於 %s 天後開始', 'Season starts in %s days', 'Сезон начнётся через %s дн.'],
         pass_reward: ['通行证奖励', '通行證獎勵', 'Pass reward', 'Награда пропуска'],
+        pass_unlock: ['通行证解锁', '通行證解鎖', 'Pass unlock', 'Открыть пропуском'],
         pass_season_left: ['剩余 %s 天', '剩餘 %s 天', '%s days left', 'Осталось дней: %s'],
         pass_season_ended: ['赛季已结束', '賽季已結束', 'Season ended', 'Сезон завершён'],
         pass_bg_pulse: ['脉冲极客', '脈衝極客', 'Pulse Geek', 'Пульс-гик'],

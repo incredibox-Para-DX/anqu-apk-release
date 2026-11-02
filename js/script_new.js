@@ -99,8 +99,9 @@ const BackgroundManager = {
     },
 
     purchaseBackground(bgId) {
-        const bg = this.backgrounds.find(b => Number(b.id) === Number(bgId));
+        const bg = this.backgrounds.find(b => Number(b.id) === Number(bgId) || b.id === bgId);
         if (!bg) return { success: false, message: '背景不存在' };
+        if (bg.passOnly) return { success: false, message: (window.I18N && I18N.t) ? I18N.t('pass_unlock') : '通行证解锁' };
         if (this.isBackgroundUnlocked(bgId)) return { success: false, message: '已拥有此背景' };
 
         const price = Number(bg.price) || 0;
@@ -411,6 +412,9 @@ previewCurrentBackground() {
         const $buyBtn = $('#bg-buy-btn');
         if (unlocked) {
             $buyBtn.prop('disabled', true).html('<i class="fas fa-check"></i> 已拥有').css('opacity', '0.5');
+        } else if (bg.passOnly) {
+            // 通行证背景不能购买，只能通过通行证领取
+            $buyBtn.prop('disabled', true).html('<i class="fas fa-ticket"></i> ' + ((window.I18N && I18N.t) ? I18N.t('pass_unlock') : '通行证解锁')).css('opacity', '1');
         } else {
             $buyBtn.prop('disabled', false).html(`<i class="fas fa-shopping-cart"></i> 购买`).css('opacity', '1');
         }
@@ -469,7 +473,7 @@ previewCurrentBackground() {
         }
 
         if (!this.isBackgroundUnlocked(bg.id)) {
-            if (window.showToast) window.showToast('该背景尚未解锁，请先购买');
+            if (window.showToast) window.showToast(bg.passOnly ? ((window.I18N && I18N.t) ? I18N.t('pass_unlock') : '通行证解锁') : '该背景尚未解锁，请先购买');
             return;
         }
 
@@ -6737,7 +6741,7 @@ const EventManager = {
                 el.querySelector('.bg-thumb-name').textContent = bg.name;
                 el.querySelector('.bg-thumb-price').innerHTML = unlocked
                     ? '<span style="color:#4ade80;">已解锁</span>'
-                    : (bg.passOnly ? '<span style="color:#d1a24a;">' + ((window.I18N && I18N.t) ? I18N.t('pass_reward') : '通行证奖励') + '</span>' : Utils.formatCurrency(bg.price));
+                    : (bg.passOnly ? '<span style="color:#d1a24a;">' + ((window.I18N && I18N.t) ? I18N.t('pass_unlock') : '通行证解锁') + '</span>' : Utils.formatCurrency(bg.price));
                 frag.appendChild(el);
             });
             if (!frag.childElementCount) {
@@ -6901,7 +6905,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.119';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.120';
 
     /* ============================================================
      * 检查更新
