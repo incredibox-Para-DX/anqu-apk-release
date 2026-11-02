@@ -23,7 +23,11 @@
         'collect-page': 'audio/open-collect.mp3',
         'nickname-modal': 'audio/open-nickname.mp3',
         'notification-modal': 'audio/open-notification.mp3',
-        'resource-download-modal': 'audio/delete-click.mp3'
+        'resource-download-modal': 'audio/delete-click.mp3',
+        'redeem-code-modal': 'audio/buy.mp3',
+        'mod-editor-modal': 'audio/open-synthesis.mp3',
+        'mod-guide-page': 'audio/open-leaderboard.mp3',
+        'mod-library-page': 'audio/open-mods.mp3'
     };
 
     var DEFAULT_OPEN_SOUND = 'audio/sidebar-open.mp3';

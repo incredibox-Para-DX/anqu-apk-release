@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.138.m",
+  "version": "v2.3.0_hotfix.139.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -53,8 +53,8 @@
     },
     {
       "path": "js/modal-registry.js",
-      "size": 8119,
-      "sha256": "c12b49a640383e3fc7b092d9cb9b8b1293e89aef02f5a0f389b45bff68c7f2d8"
+      "size": 8328,
+      "sha256": "37b58716f31f8bbdf43aaefafa5ab4cf32fb5b31d85aa6429ed1a7f6262a6335"
     },
     {
       "path": "js/music.js",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 381381,
-      "sha256": "191f5b4c6d15e5e0d9a85273c395d25c8263a47a6858b4935ae4327a90b89514"
+      "sha256": "1179d625050df03f86872e9ad0f98589fe2c47631b0d89ac7c6aec6b6add9f03"
     },
     {
       "path": "js/synthesis.js",
@@ -158,8 +158,8 @@
     },
     {
       "path": "js/pass.js",
-      "size": 51306,
-      "sha256": "cd3d18cf5c9cb874ca7090a3b70882995542be4755b3eff7797cbf7ff55297fe"
+      "size": 51303,
+      "sha256": "81d7f53445c60869b552760b057d59fecf29e70d62901ec800063758a3270d84"
     },
     {
       "path": "images/season/coin.webp",
@@ -317,11 +317,21 @@
       "sha256": "7b3b06c5d9580650b28f5855c8872b9155b2b104fafb2a3d7742e8bfb67842b8"
     },
     {
+      "path": "audio/open-mods.mp3",
+      "size": 22409,
+      "sha256": "0829eb9849af4a82fc42f30b38e9bcaac4041938356dc25f711d26c76a72c9ed"
+    },
+    {
+      "path": "audio/open-pass.mp3",
+      "size": 33376,
+      "sha256": "262c9aeffbdd81c9c1d699e05c92978c2b8de321c6648b0f982ae60d4762416e"
+    },
+    {
       "path": "index.html",
       "size": 167729,
       "sha256": "6af965bafba345d54abc613c59d8bffa997a9d1980292479fac2d40eb105637d"
     }
   ],
-  "fileCount": 64,
-  "totalSize": 3193348
+  "fileCount": 66,
+  "totalSize": 3249339
 }

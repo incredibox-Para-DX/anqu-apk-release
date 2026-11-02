@@ -82,6 +82,8 @@ CODE_FILES = [
     "cards/card_000.png",
     "audio/pass-toast-show.mp3",
     "audio/pass-toast-hide.mp3",
+    "audio/open-mods.mp3",
+    "audio/open-pass.mp3",
 ]
 
 # 首次打开只下载代码文件；audio / music-player 均在 APK 内

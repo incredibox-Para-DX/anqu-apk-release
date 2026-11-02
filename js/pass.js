@@ -269,7 +269,7 @@
         root.appendChild(content);
         document.body.appendChild(root);
         if (w.ModalRegistry) {
-            try { ModalRegistry.register('pass-page', { openSound: 'audio/sidebar-open.mp3', hideDelay: 360 }); } catch (e) {}
+            try { ModalRegistry.register('pass-page', { openSound: 'audio/open-pass.mp3', hideDelay: 360 }); } catch (e) {}
         }
     }
 
