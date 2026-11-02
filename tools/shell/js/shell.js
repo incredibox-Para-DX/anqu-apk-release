@@ -477,14 +477,16 @@
         jsDownload(base, list, function (fails) {
           if (done) return;
           if (fails && fails.length) {
-            jsRetry = fails;
-            if (ci < CODE_BASES.length) {
-              setMsg('部分文件失败，切换线路补传…', false);
-              tryCode();
-              return;
-            }
             jsRetry = null;
-            setMsg('部分资源下载失败，点击屏幕重试', false);
+            setMsg('切换备用下载方式补完剩余文件…', false);
+            startPoll();
+            call(base, CODE_TIMEOUT, function () {
+              stopPoll();
+              verifyCode(function (ok) {
+                if (ok) { enter(); return; }
+                tryCode();
+              });
+            });
             return;
           }
           jsRetry = null;
