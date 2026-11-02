@@ -483,7 +483,10 @@
                 b.className = 'modal-btn primary full-width';
                 b.disabled = isPremium();
                 b.onclick = function () {
-                    if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) {
+                    var cost = S.premiumCost;
+                    var cur = 0;
+                    try { cur = Number(w.__getAccumulatedValue && w.__getAccumulatedValue()) || 0; } catch (e) { cur = 0; }
+                    if (cur >= cost && w.__spendTotalValue && w.__spendTotalValue(cost)) {
                         set(K.premium, '1');
                         showPassToast(t('premium_unlocked'), 'audio/buy.mp3', 'audio/toastend.mp3');
                         view = { t: 'main' };
