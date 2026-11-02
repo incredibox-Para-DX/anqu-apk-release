@@ -23,7 +23,7 @@
             card_title: ['名片', '名片', 'Profile Card', 'Визитка'],
             card_000_default: ['默认名片', '預設名片', 'Default Card', 'Визитка по умолчанию'],
             card_night_name: ['长夜终烬', '長夜終燼', 'Endless Night', 'Вечная ночь'],
-            card_gm_name: ['GM 名片', 'GM 名片', 'GM Card', 'Визитка GM'],
+            card_gm_name: ['巡查员', '巡查員', 'Inspector', 'Инспектор'],
             card_locked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
             card_equip: ['装备', '裝備', 'Equip', 'Надеть'],
             card_equipped: ['使用中', '使用中', 'In use', 'Используется'],
@@ -101,7 +101,8 @@
             nameEl.textContent = t(k);
         }
         if (!layer) return;
-        layer.classList.toggle('no-shine', !!c && (c.id === 'card_052' || c.id === 'card_000'));
+        var NO_SHINE = ['card_052', 'card_000', 'card_wolf', 'card_bhj', 'card_qxys', 'card_yinghe', 'card_zsxf'];
+        layer.classList.toggle('no-shine', !!c && NO_SHINE.indexOf(c.id) >= 0);
         if (!c) { layer.style.backgroundImage = ''; delete layer.dataset.cardUrl; layer.classList.remove('show'); return; }
         resolveImg(c, function (url) {
             // 重复 apply（启动、可见性变化）不重新设置同一张图，避免闪一下

@@ -320,38 +320,22 @@
             var demo = el('span', 'font-size:18px;font-weight:700;', 'Aa');
             demo.className = 'name-' + item.key;
             box.appendChild(demo);
-        } else if (item.typeKey === 'pass_type_bg') {
-            box.innerHTML = '<i class="fas fa-image" style="color:#60a5fa;font-size:20px;"></i>';
-            // 背景资源包已下载时尝试取真实缩略图；没有映射就保留图标
+        } else if (item.typeKey === 'pass_type_bg' || item.typeKey === 'pass_type_card') {
+            var isBg = item.typeKey === 'pass_type_bg';
+            box.innerHTML = '<i class="fas ' + (isBg ? 'fa-image' : 'fa-id-card') + '" style="color:' + (isBg ? '#60a5fa' : '#a78bfa') + ';font-size:20px;"></i>';
             try {
                 var R = window.ResourceDownloadManager;
-                var list = (R && R.getBgItems) ? R.getBgItems() : [];
-                for (var i = 0; i < list.length; i++) {
-                    if (list[i].name === itemName(item)) {
-                        (function (hit) {
-                            R.resolvePath(hit.path).then(function (u) {
-                                if (u) { box.style.backgroundImage = 'url("' + u + '")'; box.innerHTML = ''; }
-                            }).catch(function () {});
-                        })(list[i]);
-                        break;
-                    }
-                }
-            } catch (e) {}
-        } else if (item.typeKey === 'pass_type_card') {
-            box.innerHTML = '<i class="fas fa-id-card" style="color:#a78bfa;font-size:20px;"></i>';
-            // 名片资源包已下载时加载真实缩略图
-            try {
-                var C = (window.Cards && window.Cards.list) ? window.Cards.list() : [];
-                var R2 = window.ResourceDownloadManager;
-                for (var j = 0; j < C.length; j++) {
-                    if (C[j].id === item.key) {
-                        if (R2 && R2.resolvePath) {
-                            R2.resolvePath(C[j].img).then(function (u) {
-                                if (u) { box.style.backgroundImage = 'url("' + u + '")'; box.innerHTML = ''; }
-                            }).catch(function () {});
-                        }
-                        break;
-                    }
+                var path = rewardResPath(item);
+                var applyThumb = function (u) {
+                    if (u) { box.style.backgroundImage = 'url("' + u + '")'; box.innerHTML = ''; }
+                };
+                if (R && R.resolvePath) {
+                    R.resolvePath(path).then(function (u) {
+                        if (u) { applyThumb(u); return; }
+                        applyThumb(rewardRemoteUrl(item));
+                    }).catch(function () { applyThumb(rewardRemoteUrl(item)); });
+                } else {
+                    applyThumb(rewardRemoteUrl(item));
                 }
             } catch (e) {}
         } else if (item.typeKey === 'pass_type_pass') {
@@ -507,54 +491,53 @@
         bodyEl.appendChild(wrap);
     }
 
-    function showImagePreview(url, title) {
-        var ov = el('div', 'position:fixed;inset:0;z-index:100050;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;padding:20px;', '');
-        var img = el('img', 'max-width:100%;max-height:90%;border-radius:12px;object-fit:contain;');
-        img.src = url;
-        ov.appendChild(img);
+    function rewardResPath(item) {
+        if (!item) return '';
+        if (item.typeKey === 'pass_type_bg') return 'backgrounds/' + item.key + '.png';
+        if (item.typeKey === 'pass_type_card') return 'cards/' + item.key + '.png';
+        return '';
+    }
+
+    function rewardRemoteUrl(item) {
+        if (!item) return '';
+        if (item.typeKey === 'pass_type_bg') return 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-bg-resources@main/backgrounds/' + item.key + '.png';
+        if (item.typeKey === 'pass_type_card') return 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/cards/' + item.key + '.png';
+        return '';
+    }
+
+    function showMediaPreview(url, title, isVideo) {
+        var ov = el('div', 'position:fixed;inset:0;z-index:100050;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:20px;', '');
+        var media;
+        if (isVideo) {
+            media = el('video', 'max-width:100%;max-height:90%;border-radius:12px;');
+            media.src = url; media.autoplay = true; media.loop = true; media.muted = true;
+            media.setAttribute('playsinline', ''); media.setAttribute('webkit-playsinline', '');
+        } else {
+            media = el('img', 'max-width:100%;max-height:90%;border-radius:12px;object-fit:contain;');
+            media.src = url;
+        }
+        ov.appendChild(media);
         ov.appendChild(el('div', 'position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:12px;color:#e2e8f0;background:rgba(0,0,0,.5);padding:6px 14px;border-radius:999px;', title || ''));
-        ov.onclick = function () { ov.remove(); };
+        ov.onclick = function () { try { if (isVideo) media.pause(); } catch (e) {} ov.remove(); };
         document.body.appendChild(ov);
     }
 
     function previewReward(item) {
-        if (!item) return;
-        if (item.typeKey === 'pass_type_bg') {
-            try {
-                var B = window.BackgroundManager;
-                if (B && B.backgrounds && B.previewCurrentBackground) {
-                    var nm = itemName(item), idx = -1;
-                    for (var i = 0; i < B.backgrounds.length; i++) {
-                        if (B.backgrounds[i].name === nm) { idx = i; break; }
-                    }
-                    if (idx >= 0) {
-                        var old = B.currentIndex;
-                        B.currentIndex = idx;
-                        B.previewCurrentBackground();
-                        B.currentIndex = old;
-                        return;
-                    }
-                }
-            } catch (e) {}
-            toast(t('hu_bg_preview_unavailable'));
-            return;
+        var path = rewardResPath(item);
+        if (!path) return;
+        var label = itemName(item);
+        var isVideo = /\.mp4($|\?)/i.test(path);
+        var R = window.ResourceDownloadManager;
+        function fallback() {
+            var remote = rewardRemoteUrl(item);
+            if (remote) showMediaPreview(remote, label, isVideo);
+            else toast(item.typeKey === 'pass_type_bg' ? t('hu_bg_preview_unavailable') : t('hu_card_preview_unavailable'));
         }
-        if (item.typeKey === 'pass_type_card') {
-            try {
-                var C = (window.Cards && window.Cards.list) ? window.Cards.list() : [];
-                var card = null;
-                for (var j = 0; j < C.length; j++) if (C[j].id === item.key) { card = C[j]; break; }
-                var R = window.ResourceDownloadManager;
-                if (card && R && R.resolvePath) {
-                    R.resolvePath(card.img).then(function (u) {
-                        if (u) showImagePreview(u, itemName(item));
-                        else toast(t('hu_card_preview_unavailable'));
-                    }).catch(function () { toast(t('hu_card_preview_unavailable')); });
-                    return;
-                }
-            } catch (e) {}
-            toast(t('hu_card_preview_unavailable'));
-        }
+        if (R && R.resolvePath) {
+            R.resolvePath(path).then(function (u) {
+                if (u) showMediaPreview(u, label, isVideo); else fallback();
+            }).catch(fallback);
+        } else fallback();
     }
 
     function renderPreview() {
@@ -604,6 +587,8 @@
     function render() {
         ensurePage();
         var content = root.querySelector('.modal-content');
+        var oldTrack = content.querySelector('.pass-track');
+        var keepScroll = (view.t === 'main' && lastView === 'main' && oldTrack) ? oldTrack.scrollLeft : 0;
         content.innerHTML = '';
         content.appendChild(buildHeader());
         bodyEl = el('div', '', '');
@@ -623,6 +608,10 @@
         else if (view.t === 'shop') renderShop();
         else if (view.t === 'preview') renderPreview();
         else renderRules();
+        if (keepScroll) {
+            var newTrack = bodyEl.querySelector('.pass-track');
+            if (newTrack) newTrack.scrollLeft = keepScroll;
+        }
     }
 
     function open() {
