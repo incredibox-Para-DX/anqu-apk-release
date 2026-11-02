@@ -400,7 +400,7 @@
   }
   function fetchOne(base, file, cb) {
     var expected = file.size || 0, have = 0;
-    try { have = Number(window.AndroidUpdate && AndroidUpdate.fileSize ? AndroidUpdate.fileSize(file.path) : 0) || 0; } catch (e) { have = 0; }
+    try { have = Number(window.AndroidUpdate && AndroidUpdate.fileSize ? AndroidUpdate.fileSize('www/' + file.path) : 0) || 0; } catch (e) { have = 0; }
     if (expected && have === expected) { cb(true, expected, true); return; }
     var start = (have > 0 && have < expected) ? have : 0;
     var opts = { cache: 'no-store' };
@@ -409,7 +409,7 @@
       .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
       .then(function (buf) {
         var b = b64(buf);
-        var ok = start > 0 ? AndroidUpdate.writeFileAt(file.path, b, start) : AndroidUpdate.writeFile(file.path, b);
+        var ok = start > 0 ? AndroidUpdate.writeFileAt('www/' + file.path, b, start) : AndroidUpdate.writeFile('www/' + file.path, b);
         if (!ok) throw new Error('write');
         cb(true, buf.byteLength, false);
       })
