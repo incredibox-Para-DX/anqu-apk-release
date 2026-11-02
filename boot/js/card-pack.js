@@ -2,6 +2,8 @@
 (function (w) {
     'use strict';
     var MANIFEST_URLS = [
+        'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-collect-resources/main/cards/manifest.json',
+        'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-collect-resources/main/cards/manifest.json',
         'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/cards/manifest.json',
         'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/cards/manifest.json',
         'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/cards/manifest.json',
@@ -9,6 +11,8 @@
         'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-collect-resources/main/cards/manifest.json'
     ];
     var BASE_URLS = [
+        'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-collect-resources/main/',
+        'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-collect-resources/main/',
         'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/',
         'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/',
         'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-collect-resources@main/',
