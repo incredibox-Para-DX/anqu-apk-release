@@ -1,4 +1,4 @@
-/* 感谢名单：全屏滚动字幕 + 模糊循环视频，随机从 037/038 开始，按音频长度自动切换 */
+
 (function () {
     'use strict';
 
@@ -134,7 +134,7 @@
                 audio.play().then(function () {
                     fadeAudio(audio, targetVol, 1200);
                 }).catch(function () {
-                    // 音频被拦截时按视频时长兜底推进
+                    
                     setTimeout(function () {
                         if (OPENED && !closing) {
                             if (next) playSegment(next, null);
@@ -158,7 +158,7 @@
                 video = overlay.querySelector('video');
                 scrollEl = overlay.querySelector('#thanks-scroll');
                 overlay.addEventListener('click', close);
-                // 手动滑动时暂停自动滚动，松手 2.5 秒后按剩余距离继续
+                
                 scrollEl.addEventListener('touchstart', function () {
                     userPaused = true;
                     if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
@@ -176,7 +176,7 @@
                     overlay.classList.add('show');
                     startScroll();
                 });
-                // 每次打开随机从 037 或 038 开始，播完再切另一个
+                
                 var first = Math.random() < 0.5 ? 1 : 2;
                 playSegment(first, first === 1 ? 2 : 1);
             },

@@ -1,4 +1,4 @@
-/* 主题切换：glass(液态玻璃) / nostalgic(怀旧) / flat(极简) / cyber(赛博) / warm(暖褐) */
+
 (function (w) {
     'use strict';
     var KEY = 'ab_theme', DEFAULT = 'glass';

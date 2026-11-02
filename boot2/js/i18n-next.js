@@ -15,7 +15,6 @@
                 if (v == null || v === '') v = row[0];
                 if (v == null) continue;
                 out[LANGS[i]][k] = String(v);
-                // 同时以中文原文作为 key，兼容 tr(中文)
                 if (row[0] != null && row[0] !== '') out[LANGS[i]][String(row[0])] = String(v);
             }
         });

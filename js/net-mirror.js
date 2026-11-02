@@ -1,5 +1,5 @@
-/* 全局下载镜像兜底：当 raw.githubusercontent.com 直连失败/被屏蔽时，自动尝试国内可达的 GitHub 加速镜像。
-   代码走镜像也安全：boot 有签名清单 + 哈希校验，被篡改会被拒绝进入。 */
+
+
 (function (w) {
     'use strict';
     if (!w.fetch) return;

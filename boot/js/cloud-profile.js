@@ -1,5 +1,5 @@
-/* 玩家头像：优先上传到 Worker -> GitHub(anqu-collect-resources/avatars) -> jsDelivr CDN；
- * Worker 不可用时回退 Supabase Storage。ab_profiles 只保存头像 URL。 */
+
+
 (function (w) {
     'use strict';
     var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
@@ -28,7 +28,6 @@
         return new Blob([u8], { type: mime });
     }
 
-    // 头像压到 128px 再上传，减少 CDN 与数据库负担
     function compressAvatar(dataUrl) {
         return new Promise(function (resolve) {
             try {
@@ -105,7 +104,7 @@
         if (!uid || !dataUrl) return Promise.resolve(false);
         var mime = dataUrlMime(dataUrl);
         var isGif = mime === 'image/gif';
-        // GIF 头像仅 GM 可用；普通用户直接拒绝
+        
         if (isGif && !isGmUser()) return Promise.resolve(false);
         var prepare = isGif ? Promise.resolve(dataUrl) : compressAvatar(dataUrl);
         return prepare.then(function (payload) {

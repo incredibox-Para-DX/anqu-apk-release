@@ -1,11 +1,11 @@
-/* ============================================================
- * 存档层（第一阶段）
- * 原则：不改任何现有 key 名、不改任何现有数据格式。
- *   1) 代理层：包装 Storage.prototype，写满时不再静默失败，转 IndexedDB 兜底
- *   2) 快照：启动后把全部存档复制到 IndexedDB，滚动保留 3 份
- *   3) 导出 / 导入：供 GM 面板做手动备份
- * 兼容：任何一步失败都回落到原生 localStorage 行为。
- * ============================================================ */
+
+
+
+
+
+
+
+
 (function (w) {
     'use strict';
 
@@ -13,8 +13,8 @@
     var SNAP_STORE = 'snap';
     var PENDING_STORE = 'pending';
     var SNAP_KEEP = 3;
-    var SNAP_INTERVAL = 6 * 3600 * 1000; /* 距上一份快照超过 6 小时才再拍 */
-    var BIG_ITEM_LIMIT = 3 * 1024 * 1024; /* 单项超过 3MB 不进快照（localStorage 总上限 5MB） */
+    var SNAP_INTERVAL = 6 * 3600 * 1000; 
+    var BIG_ITEM_LIMIT = 3 * 1024 * 1024; 
     var SKIP_RE = /(_cache_v1$|^ab_downloaded_assets$|^__dt_|^__mg_)/;
 
     var LS = null;
@@ -23,7 +23,7 @@
     var nativeRemove = null;
     var nativeKey = null;
 
-    var pending = Object.create(null);   /* 本次会话内写失败的值，读的时候优先返回 */
+    var pending = Object.create(null);   
     var stat = { reads: 0, writes: 0, fails: 0, recovered: 0, patched: false, lastError: '' };
 
     try {
@@ -42,7 +42,7 @@
         LS = null;
     }
 
-    /* ---------------- IndexedDB 基础 ---------------- */
+    
 
     function openDB() {
         return new Promise(function (resolve, reject) {
@@ -85,13 +85,13 @@
         });
     }
 
-    /* ---------------- 写失败兜底 ---------------- */
+    
 
     function stashPending(k, v) {
         pending[k] = v;
         idbRun(PENDING_STORE, 'readwrite', function (s) {
             s.put({ k: k, v: v, ts: Date.now() });
-        }).catch(function () { /* IndexedDB 也不可用时，只能保留内存副本 */ });
+        }).catch(function () {  });
     }
 
     function dropPending(k) {
@@ -99,7 +99,7 @@
         idbRun(PENDING_STORE, 'readwrite', function (s) { s.delete(k); }).catch(function () {});
     }
 
-    /* 上次会话写失败、但没能写回 localStorage 的值，启动时补写 */
+    
     function flushPending() {
         if (!nativeSet || !LS) return Promise.resolve(0);
         return idbList(PENDING_STORE).then(function (rows) {
@@ -119,7 +119,7 @@
         }).catch(function () { return 0; });
     }
 
-    /* ---------------- 包装 localStorage ---------------- */
+    
 
     function patch() {
         if (!LS || !w.Storage || !w.Storage.prototype) return false;
@@ -134,7 +134,7 @@
                     stat.writes++;
                     if (this === LS && k in pending) dropPending(k);
                 } catch (e) {
-                    /* sessionStorage 保持原生行为（继续抛） */
+                    
                     if (this !== LS) throw e;
                     stat.fails++;
                     stat.lastError = (e && e.name) || 'write failed';
@@ -166,7 +166,7 @@
         }
     }
 
-    /* ---------------- 快照 ---------------- */
+    
 
     function collectItems(filter) {
         var items = {};
@@ -235,7 +235,7 @@
                 else if (!rec || r.ts > rec.ts) rec = r;
             });
             if (!rec) throw new Error('找不到快照');
-            /* 恢复前先给当前状态拍一份，防止二次误操作 */
+            
             return snapshot('before-restore').catch(function () {}).then(function () {
                 var n = 0;
                 for (var k in rec.items) {
@@ -247,9 +247,9 @@
         });
     }
 
-    /* ---------------- 云同步登记表 ---------------- */
-    /* 会被云同步的字段只在这里登记一次，script_new.js 自动跟随，避免漏同步。
-       sync: 参与上传/下载；core: 参与「本机是否已有进度」的判定 */
+    
+    
+
     var SYNC_REGISTRY = {
         'darkzone_simulator_stats': { sync: true, core: true },
         'ab_shop_skills_v1': { sync: true, core: true },
@@ -273,7 +273,7 @@
         return out;
     }
 
-    /* ---------------- 导出 / 导入 ---------------- */
+    
 
     function exportFlat() {
         var items = {};
@@ -282,7 +282,7 @@
         for (var i = 0; i < LS.length; i++) {
             var k = nativeKey ? nativeKey.call(LS, i) : null;
             if (k == null) continue;
-            /* 可重建的缓存不进备份，避免几 MB 的公告 HTML 撑爆文本框 */
+            
             if (SKIP_RE.test(k)) { skipped.push(k); continue; }
             var v = LS.getItem(k);
             if (v == null) continue;
@@ -303,7 +303,7 @@
                 if (typeof k !== 'string' || !k || k.length > 200) { skip++; continue; }
                 var v = obj[k];
                 try {
-                    /* 走代理写入：配额不足时仍会转 IndexedDB 兜底 */
+                    
                     LS.setItem(k, typeof v === 'string' ? v : JSON.stringify(v));
                     n++;
                 } catch (e) { skip++; }
@@ -312,7 +312,7 @@
         });
     }
 
-    /* ---------------- 对外接口 ---------------- */
+    
 
     var Save = {
         get: function (k, fb) {
@@ -366,7 +366,7 @@
                 lastError: stat.lastError
             };
         },
-        /* 启动后空闲时自动拍一份，6 小时内不重复 */
+        
         autoSnapshot: function () {
             var run = function () {
                 listSnapshots().then(function (list) {

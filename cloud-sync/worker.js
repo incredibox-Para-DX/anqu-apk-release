@@ -1,18 +1,18 @@
-/**
- * 暗区突围保险模拟 · 云同步 Worker
- *
- * 部署步骤（网页版，无需命令行）：
- * 1. 打开 https://dash.cloudflare.com → 左侧「Workers & Pages」→「Create」
- * 2. 选择「Worker」→ 命名随意（如 anqu-sync）→ Deploy
- * 3. 进入刚创建的 Worker →「Edit code」，把本文件全部内容粘贴进去 → Deploy
- * 4. 返回 Worker 页面 →「Settings」→「Variables and Secrets」→
- *    添加 KV Namespace Binding：变量名必须填 SYNC_KV，选择「Create new namespace」新建一个
- * 5. 复制 Worker 的访问地址（形如 https://anqu-sync.xxx.workers.dev），填到客户端 SYNC_API
- *
- * 数据格式：
- *   PUT /<12位同步码>   body: {"data":{...},"updatedAt":1712345678901}
- *   GET /<12位同步码>   → 原样返回上面的 body
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default {
   async fetch(request, env) {

@@ -88,9 +88,9 @@ const BackgroundManager = {
     },
 
     isBackgroundUnlocked(bgId) {
-        // Mod 背景（字符串 id 带 mod_ 前缀）：始终解锁
+        
         if (typeof bgId === 'string' && bgId.indexOf('mod_') === 0) return true;
-        // 通行证背景：读取通行证领取标记
+        
         if (typeof bgId === 'string' && bgId.indexOf('bg_') === 0) {
             try { return localStorage.getItem('ab_pass_' + bgId) === '1'; } catch (e) { return false; }
         }
@@ -201,7 +201,7 @@ previewCurrentBackground() {
             const xmlDoc = parser.parseFromString(text, "text/xml");
             const nodes = xmlDoc.getElementsByTagName('background');
 
-            // 不使用可选链，兼容旧版 Android WebView
+            
             const pickText = (node, tag) => {
                 const el = node.getElementsByTagName(tag)[0];
                 return el && el.textContent ? el.textContent : '';
@@ -220,7 +220,7 @@ previewCurrentBackground() {
             this.backgrounds = [{ id: 1, name: '默认背景', path: 'pictures/background.mp4', price: 0 }];
         }
 
-        // 通行证新增背景：参与商城展示与解锁（资源就位后缩略图自动加载）
+        
         var bgName = function (key, fallback) {
             try { return (window.I18N && I18N.t) ? I18N.t(key) : fallback; } catch (e) { return fallback; }
         };
@@ -247,7 +247,7 @@ previewCurrentBackground() {
         });
 
         if (isVideo) {
-            // 直接使用 src 而非 <source>，便于监听 error 并回退
+            
             const video = document.createElement('video');
             video.id = 'bg-video';
             video.muted = true;
@@ -258,12 +258,12 @@ previewCurrentBackground() {
             video.setAttribute('webkit-playsinline', '');
             video.preload = 'auto';
             video.volume = 0;
-            // video 自己也用黑色背景，首帧没出来时不会显示 body 颜色
+            
             video.style.cssText = 'width:100vw;height:100vh;object-fit:cover;background:#000;position:fixed;top:0;left:0;z-index:-1;';
             video.src = path;
             video.poster = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
-            // 首帧 ready 后清 body 的黑色背景（消除启动黑屏闪一下）
+            
             const clearBlack = () => {
                 $('body').css('background-color', 'transparent');
                 video.removeEventListener('loadeddata', onLoaded);
@@ -277,7 +277,7 @@ previewCurrentBackground() {
             video.addEventListener('loadeddata', onLoaded, { once: true });
             video.addEventListener('canplay', onLoaded, { once: true });
             video.addEventListener('playing', clearBlack, { once: true });
-            // readyState 已经 >= 2（HAVE_CURRENT_DATA）时立刻清
+            
             if (video.readyState >= 2) {
                 try { video.currentTime = 0.1; } catch (e) {}
                 clearBlack();
@@ -310,7 +310,7 @@ previewCurrentBackground() {
                 if (el) el.play().catch(() => {});
             }, 100);
 
-            // 部分 WebView 禁止无手势自动播放，用户首次交互后恢复播放
+            
             if (!window.__bgVideoInteractionBound) {
                 window.__bgVideoInteractionBound = true;
                 const resumeBgVideo = () => {
@@ -330,13 +330,13 @@ previewCurrentBackground() {
             });
         }
 
-        // 自定义（相册上传）背景由 CustomBackground 单独记录，不写入内置背景选择项
+        
         if (!skipSave) localStorage.setItem(this.storageKey, path);
     },
 
     loadSavedBackground() {
         let savedPath = localStorage.getItem(this.storageKey);
-        // 兼容旧版本错误写入的 blob URL / JSON 数组，避免背景设置失效
+        
         if (savedPath && (savedPath.indexOf('blob:') === 0 || /^[\[{"']/.test(savedPath) || !this.backgrounds.some(b => b.path === savedPath))) {
             localStorage.removeItem(this.storageKey);
             savedPath = null;
@@ -413,7 +413,7 @@ previewCurrentBackground() {
         if (unlocked) {
             $buyBtn.prop('disabled', true).html('<i class="fas fa-check"></i> 已拥有').css('opacity', '0.5');
         } else if (bg.passOnly) {
-            // 通行证背景不能购买，只能通过通行证领取
+            
             $buyBtn.prop('disabled', true).html('<i class="fas fa-ticket"></i> ' + ((window.I18N && I18N.t) ? I18N.t('pass_unlock') : '通行证解锁')).css('opacity', '1');
         } else {
             $buyBtn.prop('disabled', false).html(`<i class="fas fa-shopping-cart"></i> 购买`).css('opacity', '1');
@@ -477,7 +477,7 @@ previewCurrentBackground() {
             return;
         }
 
-        // 切换到内置/解锁背景时，自动清除自定义背景（IndexedDB + blob URL）
+        
         if (window.CustomBackground && typeof window.CustomBackground.clear === 'function') {
             await window.CustomBackground.clear(true).catch(() => {});
         }
@@ -536,8 +536,8 @@ previewCurrentBackground() {
     }
 };
 
-    /* ===== 自定义背景（调用系统相册上传图片 / 视频） =====
-       图片与视频以 blob 形式保存在独立 IndexedDB 中，启动时若标记存在则自动恢复 */
+    
+
     const CustomBackground = {
         dbName: 'ab_custom_bg',
         storeName: 'files',
@@ -603,7 +603,7 @@ previewCurrentBackground() {
             }));
         },
 
-        /* 把存储的 blob 应用为界面背景 */
+        
         applyRecord(record) {
             if (!record || !record.blob) return false;
             if (this._objectUrl) {
@@ -618,9 +618,8 @@ previewCurrentBackground() {
             return true;
         },
 
-        /* 启动时恢复自定义背景（存在则覆盖默认背景） */
+        
         restore() {
-            // 轮放开启时不恢复自定义背景
             const playFavorites = typeof BackgroundFavorites !== 'undefined' && BackgroundFavorites.settings && BackgroundFavorites.settings.playFavorites;
             if (playFavorites) {
                 this.setFlag(false);
@@ -644,11 +643,11 @@ previewCurrentBackground() {
         },
 
         pick() {
-            // 优先用背景设置弹窗里的文件输入（移动端/新版入口）
+            
             let input = document.getElementById('bg-settings-custom-file-input');
             if (!input) input = document.getElementById('custom-bg-file-input');
             if (!input) return;
-            // 重置 value，保证重复选择同一个文件也能触发 change
+            
             input.value = '';
             input.click();
         },
@@ -696,7 +695,7 @@ previewCurrentBackground() {
                     }
                     this.updateClearButton();
                     if (skipFallback) return;
-                    // 回退到默认背景
+                    
                     const defaultBg = BackgroundManager.backgrounds.find(b => Number(b.id) === 1)
                         || BackgroundManager.backgrounds[0];
                     if (defaultBg) BackgroundManager.applyBackground(defaultBg.path);
@@ -712,7 +711,7 @@ previewCurrentBackground() {
             if ($btn.length) {
                 if (this.hasCustom()) $btn.show(); else $btn.hide();
             }
-            // 同步背景设置弹窗内的清除按钮状态
+            
             const $settingsBtn = $('#bg-settings-custom-bg-clear-btn');
             if ($settingsBtn.length) {
                 if (this.hasCustom()) $settingsBtn.show(); else $settingsBtn.hide();
@@ -728,7 +727,7 @@ previewCurrentBackground() {
                 this.pick();
             });
             $('#sidebar-custom-bg-clear-btn').on('click', () => this.clear());
-            // 背景设置弹窗内的文件输入
+            
             const settingsInput = document.getElementById('bg-settings-custom-file-input');
             if (settingsInput) {
                 settingsInput.addEventListener('change', () => {
@@ -737,7 +736,6 @@ previewCurrentBackground() {
                     settingsInput.value = '';
                 });
             }
-            // 侧边栏旧入口（保留兼容）
             const input = document.getElementById('custom-bg-file-input');
             if (input) {
                 input.addEventListener('change', () => {
@@ -771,7 +769,7 @@ previewCurrentBackground() {
             $('#tooltip-name').text(window.I18N ? I18N.tr(item.fullName || item.name || '') : (item.fullName || item.name || ''));
             $('#tooltip-desc').text(window.I18N ? I18N.tr(item.desc || '世界观内容待补充。') : (item.desc || '世界观内容待补充。'));
             
-            /* 物品详情弹窗显示对应稀有度底色 */
+            
             const rarityBgColors = {
                 red: 'rgba(58, 32, 20, 0.9)',
                 orange: 'rgba(58, 32, 20, 0.9)',
@@ -791,8 +789,8 @@ previewCurrentBackground() {
                 $('#tooltip-price').closest('.tooltip-price-row').show();
             }
 
-            // 锚点必须在点击瞬间取好：等 50ms 再取，物品可能已被重排/移除，
-            // 拿到全 0 的 rect 就会把弹窗丢到屏幕角落
+            
+            
             if (!anchor) {
                 anchor = {};
                 if (element && element.getBoundingClientRect) {
@@ -817,7 +815,7 @@ previewCurrentBackground() {
             }
         },
 
-        // 注册表不可用时的兜底定位（同样按实测尺寸钳制）
+        
         fallbackPosition(node, anchor) {
             node.style.visibility = 'hidden';
             node.style.left = '0px';
@@ -931,7 +929,7 @@ previewCurrentBackground() {
                     const currentWeek = this.getCurrentWeek();
                     if (stats.weeklyAccumulatedWeek === currentWeek) {
                         State.weeklyAccumulatedValue = stats.weeklyAccumulatedValue || 0;
-                        // 必须把周次写回 State，否则重启后首次收益会被误判为跨周而清零
+                        
                         State.weeklyAccumulatedWeek = currentWeek;
                     } else {
                         State.weeklyAccumulatedValue = 0;
@@ -945,7 +943,7 @@ previewCurrentBackground() {
                 State.weeklyAccumulatedValue = 0;
                 State.weeklyAccumulatedWeek = this.getCurrentWeek();
             }
-            // 启动/云同步恢复后，以当前周累计作为通行证基线，避免把已有周累计一次性算进等级
+            
             try { localStorage.setItem('ab_pass_last_weekly', String(State.weeklyAccumulatedValue || 0)); } catch (e) {}
         },
         
@@ -970,7 +968,7 @@ previewCurrentBackground() {
                 State.weeklyAccumulatedValue = 0;
                 State.weeklyAccumulatedWeek = currentWeek;
             }
-            // 物品池被改动（存在被禁用的物品）时，本次收益不计入本周累计价值（防刷榜）
+            
             let poolModified = false;
             try {
                 poolModified = ItemControlManager.getDisabledItems().length > 0;
@@ -982,7 +980,7 @@ previewCurrentBackground() {
             this.updateAccumulatedValueDisplay();
         },
         
-        // 背景商店 / 歌曲列表顶栏的科恩币余额
+        
         updateCoinBalances() {
             const text = Utils.formatCurrency(State.totalAccumulatedValue);
             $('#bg-coin-balance, #playlist-coin-balance').text(text);
@@ -1006,7 +1004,7 @@ previewCurrentBackground() {
         }
     };
 
-    // 供 music.js 等外部模块刷新顶栏科恩币余额
+    
     window.__refreshCoinBalances = () => StatsManager.updateCoinBalances();
 
     const TitleManager = {
@@ -1078,7 +1076,7 @@ previewCurrentBackground() {
             $('#title-current-name').text(window.i18nRankName ? window.i18nRankName(current.name) : current.name);
             const $icon = $('#title-current-icon');
             if ($icon.length) {
-                // 未下载资源包时先用内置 SVG 占位图，已下载则替换为 IndexedDB blob
+                
                 const localIcon = window.ResourceDownloadManager
                     ? window.ResourceDownloadManager.getTitleLocalFallback(current.icon) : current.icon;
                 $icon.attr('src', localIcon);
@@ -1107,7 +1105,7 @@ previewCurrentBackground() {
             titles.forEach((title, index) => {
                 const unlocked = this.isUnlocked(title.value);
                 const isCurrent = current.name === title.name;
-                // 列表图标同样先用内置 SVG 占位图，已下载资源包时再异步替换
+                
                 const localIcon = window.ResourceDownloadManager
                     ? window.ResourceDownloadManager.getTitleLocalFallback(title.icon) : title.icon;
                 
@@ -1264,7 +1262,7 @@ previewCurrentBackground() {
             const skill = this.getSkill(id);
             if (!skill) return { success: false, message: '技能不存在' };
             const st = this.getSkillState(id);
-            // 兑换解锁项只能通过兑换码获得，不能用金币购买
+            
             if (skill.unlockBy === 'redeem') {
                 return { success: false, message: '该技能需通过兑换码解锁' };
             }
@@ -1477,7 +1475,6 @@ previewCurrentBackground() {
                 const ownedBadge = showOwned ? '<div class="shop-owned-badge">已拥有</div>' : '';
                 const limitedInfo = (isLimited && st.owned) ? `<div class="shop-limited-info">剩余 ${st.remaining} 次</div>` : '';
                 const permanentInfo = (skill.type === 'permanent' && st.owned) ? '<div class="shop-limited-info">永久</div>' : '';
-                // 兑换解锁项在卡片上显示「兑换码解锁」而非金币价
                 const priceInfo = showPrice && !isRedeemUnlocked ? `<div class="shop-price"><i class="fas fa-coins"></i> ${Utils.formatCurrency(skill.price)}</div>` : '';
                 const redeemHint = isRedeemUnlocked && !st.owned ? '<div class="shop-price"><i class="fas fa-key"></i> 兑换码解锁</div>' : '';
 
@@ -1511,7 +1508,6 @@ previewCurrentBackground() {
             const isRedeemOnly = skill.unlockBy === 'redeem';
             const exhausted = isLimited && st.remaining <= 0;
             const atMaxLimit = isLimited && (st.remaining + skill.uses > 100);
-            // 兑换解锁项没有金币购买，只能通过兑换码获取
             const canBuy = (!isRedeemOnly) && ((skill.type === 'permanent' && !st.owned) || (isLimited && !atMaxLimit));
 
             let actionHtml = '';
@@ -1604,7 +1600,7 @@ previewCurrentBackground() {
         currentIndex: 0,
 
         load() {
-            // 尝试从主 key 读取，失败则从备份 key 读取
+            
             const tryParse = (raw) => {
                 if (!raw) return null;
                 const parsed = JSON.parse(raw);
@@ -1616,17 +1612,17 @@ previewCurrentBackground() {
                 if (parsed && parsed.length > 0) {
                     this.list = parsed;
                 } else {
-                    // 主 key 为空或损坏，尝试备份
+                    
                     const backup = localStorage.getItem(this.BACKUP_KEY);
                     const backupParsed = tryParse(backup);
                     if (backupParsed && backupParsed.length > 0) {
                         this.list = backupParsed;
-                        // 恢复主 key
+                        
                         this._write(this.STORAGE_KEY, this.list);
                     }
                 }
             } catch (e) {
-                // JSON 解析失败时，尝试备份
+                
                 try {
                     const backup = localStorage.getItem(this.BACKUP_KEY);
                     const backupParsed = backup ? JSON.parse(backup) : null;
@@ -1643,9 +1639,9 @@ previewCurrentBackground() {
             const out = [];
             (list || []).forEach(item => {
                 if (!item || !item.name) return;
-                // 旧版调试菜单写入的是“计算机验算模块”，与游戏内名称不一致，会多出一条重复项
+                
                 const name = item.name === '计算机验算模块' ? '验算模块' : item.name;
-                // 已从收藏室下架的藏品，旧存档里丢掉，避免继续显示
+                
                 if (!this.COLLECT_MAP[name]) return;
                 const image = this.COLLECT_MAP[name] || item.image;
                 const exist = _.find(out, { name: name });
@@ -1665,7 +1661,7 @@ previewCurrentBackground() {
         },
 
         save() {
-            // 防止空列表覆盖已有数据（除非确实没有任何收藏品）
+            
             if (this.list.length === 0) {
                 try {
                     const existing = localStorage.getItem(this.STORAGE_KEY);
@@ -1675,7 +1671,7 @@ previewCurrentBackground() {
                     }
                 } catch (e) {}
             }
-            // 同时写入主 key 和备份 key
+            
             this._write(this.STORAGE_KEY, this.list);
             this._write(this.BACKUP_KEY, this.list);
         },
@@ -1891,10 +1887,10 @@ previewCurrentBackground() {
     };
 
     window.Utils = {
-        /* 振动：兼容浏览器 Vibration API 与 Cordova，支持数字或数组（振动模式） */
+        
         vibrate(pattern) {
             try {
-                /* Cordova 环境：同时尝试原生插件桥与 WebView 自带 Vibration API */
+                
                 if (window.cordova) {
                     if (window.cordova.exec) {
                         window.cordova.exec(null, null, 'Vibration', 'vibrate', [pattern]);
@@ -1904,13 +1900,13 @@ previewCurrentBackground() {
                     }
                     return;
                 }
-                /* 旧版 Cordova 通知 API：不支持数组模式，退化为总时长 */
+                
                 if (navigator.notification && navigator.notification.vibrate) {
                     const total = Array.isArray(pattern) ? pattern.reduce((s, v) => s + v, 0) : pattern;
                     navigator.notification.vibrate(total);
                     return;
                 }
-                /* 浏览器 Vibration API：原生支持数组振动模式 */
+                
                 if (navigator.vibrate) {
                     navigator.vibrate(pattern);
                 }
@@ -1982,7 +1978,7 @@ previewCurrentBackground() {
         }
     };
 
-    // 暴露给音乐商城(js/music.js)访问累计价值余额
+    
     window.__getAccumulatedValue = () => State.totalAccumulatedValue;
     window.__getWeeklyAccumulatedValue = () => State.weeklyAccumulatedValue;
     window.__getTotalSearchedItems = () => State.totalSearchedItems;
@@ -1995,7 +1991,7 @@ previewCurrentBackground() {
     window.__addAccumulatedValue = (amount) => {
         StatsManager.updateAccumulatedValue(amount);
     };
-    /* 仅增加总累计价值，不影响本周累计价值（用于合成奖励等非搜索收益） */
+    
     window.__addAccumulatedValueNoWeekly = (amount) => {
         State.totalAccumulatedValue += amount;
         State.sessionAccumulatedValue += amount;
@@ -2278,7 +2274,7 @@ previewCurrentBackground() {
                 }
             });
             
-            // 变向物品的旋转放在父容器上，避免与 .item-image 的 quickReveal 动画 transform 冲突
+            
             const $imageContainer = Utils.createElement('div', {
                 style: {
                     display: 'flex',
@@ -2452,7 +2448,7 @@ previewCurrentBackground() {
         },
 
         setAccumulatedValue(value) {
-            // GM 调试仅修改总累计价值（用于消耗系统），不影响本周累计价值
+            
             State.totalAccumulatedValue = value;
             State.sessionAccumulatedValue = value;
             this.saveAccumulatedValue(value);
@@ -2566,7 +2562,7 @@ previewCurrentBackground() {
                 `);
                 
                 $row.find('.item-toggle').on('change', function() {
-                    // 不能用 parseInt：Mod 物品 id 是字符串（mod_xxx_0），parseInt 会变 NaN 导致开关失效
+                    
                     const itemId = $(this).data('id');
                     const disabled = !$(this).is(':checked');
                     ItemControlManager.toggleItem(itemId, disabled);
@@ -2753,7 +2749,7 @@ previewCurrentBackground() {
             return null;
         },
 
-        // 物品变向：横↔竖，仅交换宽高，不做上下/左右翻转
+        
         rotateItem(item) {
             const w = item.width;
             item.width = item.height;
@@ -2762,7 +2758,7 @@ previewCurrentBackground() {
             return item;
         },
 
-        // 从 grid 中清除某个物品占用的格子（不移除 items 数组中的对象）
+        
         removeItemFromGrid(item, grid) {
             _.times(item.height, r => {
                 _.times(item.width, c => {
@@ -2773,7 +2769,7 @@ previewCurrentBackground() {
             });
         },
 
-        // 自动变向放置：先尝试原方向，放不下再尝试变向（仅非正方形物品）
+        
         tryPlaceItemWithRotation(item, grid) {
             const placed = this.tryPlaceItem(item, grid);
             if (placed) return placed;
@@ -2781,26 +2777,26 @@ previewCurrentBackground() {
                 this.rotateItem(item);
                 const rotated = this.tryPlaceItem(item, grid);
                 if (rotated) return rotated;
-                // 变向仍放不下，恢复原方向
+                
                 this.rotateItem(item);
             }
             return null;
         },
 
-        // 查找占据 (row, col) 的柯恩币
+        
         findCoinAt(row, col, items) {
             return _.find(items, it => it.isCoin && it.row === row && it.col === col);
         },
 
-        // 把物品移动到 (newRow, newCol)。柯恩币允许与目标格的柯恩币重叠并合并数值。
-        // 普通物品放不下时，若目标格被其他物品占据则尝试交换位置。
-        // 移动成功返回 true；放不下且无法交换则恢复原位返回 false。
+        
+        
+        
         moveItem(item, newRow, newCol, grid, items) {
             const oldRow = item.row, oldCol = item.col;
             this.removeItemFromGrid(item, grid);
 
             if (item.isCoin) {
-                // 柯恩币：允许叠在另一枚柯恩币上，合并数值
+                
                 const targetCoin = this.findCoinAt(newRow, newCol, items);
                 this.placeItem(item, newRow, newCol, grid);
                 if (targetCoin && targetCoin.id !== item.id) {
@@ -2816,7 +2812,7 @@ previewCurrentBackground() {
                 return true;
             }
 
-            // 放不下：检查目标区域是否被某个物品占据，尝试交换
+            
             const blocker = this.findBlockerAt(item, newRow, newCol, grid, items);
             if (blocker && blocker.id !== item.id) {
                 this.removeItemFromGrid(blocker, grid);
@@ -2826,16 +2822,16 @@ previewCurrentBackground() {
                     this.placeItem(item, newRow, newCol, grid);
                     return true;
                 }
-                // 交换失败，恢复 blocker
+                
                 this.placeItem(blocker, blocker.row, blocker.col, grid);
             }
 
-            // 放不下，恢复原位
+            
             this.placeItem(item, oldRow, oldCol, grid);
             return false;
         },
 
-        // 查找占据 (row, col) 区域的物品
+        
         findBlockerAt(item, row, col, grid, items) {
             for (let r = row; r < row + item.height; r++) {
                 for (let c = col; c < col + item.width; c++) {
@@ -2857,8 +2853,8 @@ previewCurrentBackground() {
         }
     };
 
-    /* ===== 动画帧率限制器 =====
-       效果设置中的「30 帧 / 60 帧 / 无上限」，作用于所有基于 requestAnimationFrame 的动画循环 */
+    
+
     const FrameLimiter = {
         storageKey: 'ab_fps_mode',
         mode: 'unlimited',
@@ -2880,7 +2876,7 @@ previewCurrentBackground() {
                 try { localStorage.setItem(this.storageKey, mode); } catch (e) {}
             }
         },
-        // 返回 true 表示本帧应当渲染，false 表示跳过（由调用方继续排队下一帧）
+        
         allow() {
             if (!this.interval) return true;
             const now = Date.now();
@@ -2898,8 +2894,8 @@ previewCurrentBackground() {
         updateResetButtonState() {
             const $resetBtn = $('#reset-btn');
             const hasItems = State.items.length > 0 || State.inventory.length > 0;
-            /* 只要场上有道具即可重置：搜索进行中也允许直接重置，
-               resetGame 会取消 rAF 定时器并清空搜索队列，不会留下半截状态 */
+            
+
             if (hasItems) {
                 $resetBtn
                     .prop('disabled', false)
@@ -3044,7 +3040,7 @@ previewCurrentBackground() {
                     $itemImage.removeClass('icon-reveal-quick');
                     setTimeout(() => {
                         $itemImage.addClass('icon-reveal-quick');
-                        // jQuery 的 .on(types, data, fn) 不支持 {once:true} 选项，改用原生监听
+                        
                         const imgEl = $itemImage[0];
                         if (imgEl && imgEl.addEventListener) {
                             const onEnd = function() {
@@ -3059,7 +3055,7 @@ previewCurrentBackground() {
                         }
                     }, 10);
                 }
-                /* 物品揭示瞬间的白色闪光：照搬 index.html，在 #safe-grid 独立图层上覆盖物品位置，320ms 后移除 */
+                
                 if (window.__ITEM_FLASH_ENABLED__ !== false) {
                     const itemEl = $element[0];
                     const $flash = $('<div class="item-flash"></div>').css({
@@ -3090,7 +3086,7 @@ previewCurrentBackground() {
         
         createGridCells() {
             const $safeGrid = $('#safe-grid');
-            /* 保留中央"搜索中"覆盖层，避免被 empty() 清掉 */
+            
             const $overlay = $('#searching-overlay').detach();
             $safeGrid.empty().css({
                 gridTemplateColumns: `repeat(${Config.grid.cols}, 1fr)`,
@@ -3121,7 +3117,7 @@ openSafe() {
     try {
         this._runOpenSafe();
     } catch (e) {
-        /* 生成流程异常时不能让按钮永久停在"生成中..."，否则整局都无法再开保险 */
+        
         console.error('[openSafe] 开保险流程异常：', e);
         State.isOpenSafeBtnDisabled = false;
         $('#open-safe-btn').prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
@@ -3130,7 +3126,7 @@ openSafe() {
 },
 
 _runOpenSafe() {
-    // 清理上一轮可能残留的计时器/遮罩，避免旧流程卡住或遮罩残留
+    
     if (State.searchTimer) { try { cancelAnimationFrame(State.searchTimer); } catch (e) {} State.searchTimer = null; }
     if (State.searchTransitionTimer) { try { clearTimeout(State.searchTransitionTimer); } catch (e) {} State.searchTransitionTimer = null; }
     try { $('#searching-overlay').attr('hidden', ''); } catch (e) {}
@@ -3142,7 +3138,7 @@ _runOpenSafe() {
     
     Utils.playAudio('open-safe-audio', { volume: 1 });
     this.resetGameState();
-    /* resetGameState 会把防重入标志写回 false，这里补回，保证生成期间真正防重复点击 */
+    
     State.isOpenSafeBtnDisabled = true;
 
     ShopManager.consumeLimitedUse('supply_tide');
@@ -3160,7 +3156,7 @@ _runOpenSafe() {
                 devilMode = 1;
             } else {
                 devilMode = 2;
-                // 高价值组合：45% 两橙，5% 两红 / 一红一橙各半
+                
                 var __mix = Math.random();
                 if (__mix < 0.45) devilMix = 'orange';
                 else if (__mix < 0.475) devilMix = 'redred';
@@ -3228,7 +3224,7 @@ _runOpenSafe() {
         !disabledPurpleIds.includes(item.id) && (sampleEnabled || !item.isSample)
     );
 
-    // 命运保底逻辑：连续 N 次未出橙/红，第 N 次保底触发；越靠近保底概率越高，触发后下次阈值 -1
+    
     const DESTINY_KEY = 'ab_destiny_pity_state';
     let destinyState = { consecutive: 0, threshold: 10 };
     try {
@@ -3243,11 +3239,11 @@ _runOpenSafe() {
     if (destinyOwned && highQualityItems.length > 0 && destinyState.threshold > 0) {
         destinyState.consecutive++;
         if (destinyState.consecutive >= destinyState.threshold) {
-            // 保底触发：必出橙色（不强制红，给玩家留一点惊喜空间）
+            
             destinyPityTriggered = true;
             destinyForceOrange = true;
         } else {
-            // 递增概率：从第 threshold-3 次开始有概率提前出
+            
             var earlyChance = Math.max(0, (destinyState.consecutive - (destinyState.threshold - 3)) / 3);
             if (Math.random() < earlyChance) {
                 destinyPityTriggered = true;
@@ -3274,7 +3270,7 @@ _runOpenSafe() {
                     luckyPlaced = true;
                 }
             } else if (devilMode === 2) {
-                // 必须深拷贝：直接改配置对象会污染 allItemsConfig（id/遮罩等字段）
+                
                 var __pick;
                 if (devilMix === 'orange') {
                     __pick = GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItemByRarity('red');
@@ -3301,21 +3297,21 @@ _runOpenSafe() {
         });
     }
 
-    // 命运保底：若触发保底，强制插入一个橙色物品（如已有则改为红色）
+    
     if (destinyOwned && destinyPityTriggered) {
-        // 已出橙/红则重置连续计数并恢复阈值；本次保底触发后下次阈值 -1
+        
         let hasOrangeOrRed = _.some(items, function(it) { return it.rarity === 'red' || it.rarity === 'orange'; });
         var nextThreshold = destinyState.threshold - 1;
         if (nextThreshold < 3) nextThreshold = 3;
         if (hasOrangeOrRed || destinyForceOrange) {
-            // 提前出了或保底触发，重置连续计数为 0
+            
             destinyState.consecutive = 0;
             destinyState.threshold = 10;
         } else {
-            // 没出橙/红，阈值降到 nextThreshold（保底次数缩短）
+            
             destinyState.threshold = nextThreshold;
         }
-        // 保底强制插入橙色（若格子满就放弃）
+        
         if (destinyForceOrange) {
             const orangeItem = GameCore.getRandomItemByRarity('orange');
             if (orangeItem) {
@@ -3327,12 +3323,12 @@ _runOpenSafe() {
         try { localStorage.setItem(DESTINY_KEY, JSON.stringify(destinyState)); } catch (e) {}
     }
 
-    // 不再强行填充剩余空格，物品之间允许有空隙，避免过多单格物品填充
+    
     
     if (_.isEmpty(items)) {
         State.isOpenSafeBtnDisabled = false;
         $openButton.prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
-        // 失败时也保证可以重置：清理可能残留的搜索/遮罩状态
+        
         try {
             $('#reset-btn').prop('disabled', false).removeClass('disabled').css({ opacity: '1', cursor: 'pointer' });
             UIManager.updatePauseButtonState();
@@ -3342,7 +3338,6 @@ _runOpenSafe() {
         return;
     }
     
-    // 80% 概率将最高价值物品移到生成列表末尾（最后刷新）
     if (items.length > 1 && Math.random() < 0.8) {
         let maxIdx = 0;
         for (let i = 1; i < items.length; i++) {
@@ -3363,7 +3358,7 @@ _runOpenSafe() {
     UIManager.updateInventory();
     State.isFirstOpen = false;
 
-    /* 打开保险后立即显示全局搜索遮罩（由 startGlobalSearch 统一控制显示/隐藏/跳过） */
+    
 
     if (ShopManager.isEnabled('prophet')) {
         const topItem = ShopManager.getHighestValueItem();
@@ -3377,7 +3372,7 @@ _runOpenSafe() {
     this.startGlobalSearch();
 },
 
-        /* 全局搜索阶段（照搬 index.html：保险箱中央显示"搜索中 + 秒表"，持续 2.20s 后再逐个揭示物品） */
+        
         startGlobalSearch() {
             if (State.isSearching || State.isGlobalSearching) return;
 
@@ -3392,7 +3387,7 @@ _runOpenSafe() {
             try { _skipMask = localStorage.getItem('ab_skip_search_mask') === '1'; } catch (e) {}
 
             if (_skipMask) {
-                // 跳过遮罩：延迟 0.5s 后进入逐个搜索（给玩家一个短暂停顿）
+                
                 if ($overlay.length) $overlay.attr('hidden', '');
                 UIManager.updatePauseButtonState();
                 UIManager.renderAllItems();
@@ -3404,7 +3399,6 @@ _runOpenSafe() {
                 return;
             }
 
-            // 正常模式：显示遮罩 2.2s
             if ($overlay.length) $overlay.removeAttr('hidden');
             if ($ssTime.length) $ssTime.text('0.00');
 
@@ -3423,7 +3417,7 @@ _runOpenSafe() {
                     State.searchTimer = requestAnimationFrame(tick);
                     return;
                 }
-                // 帧率限制：跳过的帧不刷新读秒，但继续排队下一帧
+                
                 if (!FrameLimiter.allow()) {
                     State.searchTimer = requestAnimationFrame(tick);
                     return;
@@ -3436,7 +3430,7 @@ _runOpenSafe() {
                     if ($ssTime.length) $ssTime.text('2.20');
                     if ($overlay.length) $overlay.attr('hidden', '');
                     State.isGlobalSearching = false;
-                    /* 大遮罩消失后延迟 0.25s 再开始逐个搜索，避免视觉突兀 */
+                    
                     setTimeout(() => {
                         if (!State.isPaused) this.startSearch();
                     }, 250);
@@ -3464,7 +3458,7 @@ _runOpenSafe() {
         startSearchTimer() {
             if (State.searchTimer) cancelAnimationFrame(State.searchTimer);
             
-            /* 恢复时从已暂停的进度接着走，而非从零开始 */
+            
             let startTime = performance.now() - (State.pauseElapsed || 0) * 1000;
             
             const updateTimer = () => {
@@ -3472,7 +3466,6 @@ _runOpenSafe() {
                     startTime = performance.now() - State.pauseElapsed * 1000;
                     return;
                 }
-                // 帧率限制：跳过本帧但仍继续排队，保证计时链路不断
                 if (!FrameLimiter.allow()) {
                     State.searchTimer = requestAnimationFrame(updateTimer);
                     return;
@@ -3502,13 +3495,13 @@ _runOpenSafe() {
             if (State.isPaused) {
                 $pauseBtn.html('<i class="fas fa-play"></i> 继续搜索');
                 SoundManager.pauseAllSounds();
-                /* 暂停时仅隐藏"搜索中"文字与读秒，保留斑马线遮罩 */
+                
                 $overlay.find('.ss-text, .ss-time').hide();
                 if (State.searchTimer) {
                     cancelAnimationFrame(State.searchTimer);
                     State.searchTimer = null;
                 }
-                /* 取消物品间的过渡定时器，防止恢复时用旧 currentSearch 重复计时 */
+                
                 if (State.searchTransitionTimer) {
                     clearTimeout(State.searchTransitionTimer);
                     State.searchTransitionTimer = null;
@@ -3516,20 +3509,20 @@ _runOpenSafe() {
             } else {
                 $pauseBtn.html('<i class="fas fa-pause"></i> 暂停搜索');
                 SoundManager.resumeAllSounds();
-                /* 继续搜索时恢复"搜索中"文字与读秒 */
+                
                 $overlay.find('.ss-text, .ss-time').show();
                 if (State.isGlobalSearching) {
-                    /* 全局搜索阶段继续：重新启动 2.20s 全局秒表（从暂停处接着走） */
+                    
                     this.resumeGlobalSearch();
                 } else if (State.currentSearch === null && State.searchQueue.length > 0) {
-                    /* 处于物品间过渡间隙：直接开始搜索队列中下一个物品 */
+                    
                     State.currentSearch = _.cloneDeep(_.first(State.searchQueue));
                     State.currentSearchTime = State.currentSearch.searchTime;
                     State.pauseElapsed = 0;
                     this.startSearchTimer();
                     UIManager.renderAllItems();
                 } else if (State.currentSearch) {
-                    /* 正在搜索某个物品：从暂停处继续计时 */
+                    
                     this.startSearchTimer();
                 }
             }
@@ -3553,7 +3546,7 @@ _runOpenSafe() {
                     State.searchTimer = requestAnimationFrame(tick);
                     return;
                 }
-                // 帧率限制：跳过的帧不刷新读秒，但继续排队下一帧
+                
                 if (!FrameLimiter.allow()) {
                     State.searchTimer = requestAnimationFrame(tick);
                     return;
@@ -3566,7 +3559,7 @@ _runOpenSafe() {
                     if ($ssTime.length) $ssTime.text('2.20');
                     if ($overlay.length) $overlay.attr('hidden', '');
                     State.isGlobalSearching = false;
-                    /* 大遮罩消失后延迟 0.25s 再开始逐个搜索，避免视觉突兀 */
+                    
                     setTimeout(() => {
                         if (!State.isPaused) this.startSearch();
                     }, 250);
@@ -3593,7 +3586,7 @@ _runOpenSafe() {
                 State.items[itemIndex].isFreshSearch = true;
             }
             
-            /* 金色、橙色、红色品质物品揭示时四连振动（兼容 Cordova 与浏览器） */
+            
             const _rarity = State.currentSearch.rarity;
             const _hvVibrateOn = window.__HIGH_VALUE_VIBRATE_ENABLED__ !== false;
             if (_hvVibrateOn && (_rarity === 'gold' || _rarity === 'orange' || _rarity === 'red')) {
@@ -3649,7 +3642,7 @@ _runOpenSafe() {
                 State.isSearching = false;
                 State.isPaused = false;
                 State.currentSearch = null;
-                /* 一轮搜完：恢复"打开保险"按钮，避免按钮一直 disabled 导致点了完全没反应 */
+                
                 State.isOpenSafeBtnDisabled = false;
                 $('#open-safe-btn').prop('disabled', false).html('<i class="fas fa-hand-pointer"></i> 打开保险');
                 $('#pause-search-btn').html('<i class="fas fa-pause"></i> 暂停搜索');
@@ -3658,14 +3651,14 @@ _runOpenSafe() {
                 try { $('#searching-overlay').attr('hidden', ''); } catch (e) {}
                 this.stopOpenSafeSound();
             } else {
-                /* 清空 currentSearch，标记处于物品间过渡间隙，防止暂停时误用旧数据 */
+                
                 State.currentSearch = null;
-                /* 正常搜索间隔 560ms，迅捷巧手时无延迟立即搜索下一个 */
+                
                 const swift = typeof SkillManager !== 'undefined' ? SkillManager.getSkillState('swift_hands') : { owned: false, enabled: false };
                 const nextDelay = (swift.owned && swift.enabled) ? 0 : 560;
                 State.searchTransitionTimer = setTimeout(() => {
                     State.searchTransitionTimer = null;
-                    if (State.isPaused) return; /* 暂停期间不自动开始，由恢复按钮触发 */
+                    if (State.isPaused) return; 
                     State.currentSearch = _.cloneDeep(_.first(State.searchQueue));
                     State.currentSearchTime = State.currentSearch.searchTime;
                     State.pauseElapsed = 0;
@@ -3821,7 +3814,7 @@ _runOpenSafe() {
             this.goToImage(type, nextIndex);
         }
         
-        // 开关音效 / 时长 / id 全部登记在 js/modal-registry.js
+        
         showModal(modalId) {
             if (window.ModalRegistry) return ModalRegistry.open(modalId);
             const $modal = $(`#${modalId}`);
@@ -3847,7 +3840,7 @@ _runOpenSafe() {
         
         updateItemPool() {
             allItemsConfig = itemsConfig.slice();
-            // Mod 物品合并（启用中的物品类 Mod）
+            
             if (window.ModManager && typeof window.ModManager.getEnabledItems === 'function') {
                 try {
                     var modItems = window.ModManager.getEnabledItems();
@@ -3857,19 +3850,19 @@ _runOpenSafe() {
         }
     };
 
-/* ========== 物品旋转 / 边缘换位 ==========
- * - 点击已搜索物品：横竖变向（旋转 90°）
- * - 旋转后原地放不下时，与阻挡物品交换位置（边缘换位）
- * - 交换失败则恢复原朝向，不做任何改动
- */
+
+
+
+
+
 const ItemDragManager = {
     init() {
-        // 已移除长按拖拽与选中移动机制，物品交互仅保留点击旋转/换位
+        
     },
 
-    // 点击物品：尝试旋转，放不下则与阻挡物品交换位置
+    
     rotateOrSwap(item) {
-        if (!item || item.width === item.height) return false; // 正方形无需变向
+        if (!item || item.width === item.height) return false; 
 
         const oldRow = item.row, oldCol = item.col;
         const oldW = item.width, oldH = item.height;
@@ -3877,14 +3870,14 @@ const ItemDragManager = {
 
         GameCore.removeItemFromGrid(item, State.grid);
 
-        // 1. 尝试在原位旋转
+        
         GameCore.rotateItem(item);
         if (GameCore.canPlaceItem(item, oldRow, oldCol, State.grid)) {
             GameCore.placeItem(item, oldRow, oldCol, State.grid);
             return true;
         }
 
-        // 2. 原位放不下：找到阻挡物品，尝试交换（旋转后的 item 去 blocker 位置，blocker 来 item 原位）
+        
         const blocker = this.findBlockerAt(item, oldRow, oldCol);
         if (blocker && blocker.id !== item.id) {
             GameCore.removeItemFromGrid(blocker, State.grid);
@@ -3899,11 +3892,11 @@ const ItemDragManager = {
                 return true;
             }
 
-            // 交换失败，恢复 blocker
+            
             GameCore.placeItem(blocker, blockerOldRow, blockerOldCol, State.grid);
         }
 
-        // 3. 全部失败：恢复原朝向与位置
+        
         item.width = oldW;
         item.height = oldH;
         item.rotated = oldRotated;
@@ -3911,7 +3904,7 @@ const ItemDragManager = {
         return false;
     },
 
-    // 找到占据 (row, col) 起 item 尺寸区域的物品
+    
     findBlockerAt(item, row, col) {
         for (let r = row; r < row + item.height; r++) {
             for (let c = col; c < col + item.width; c++) {
@@ -4020,7 +4013,7 @@ const EventManager = {
                 return;
             }
             
-            // 点击瞬间就把锚点定下来，避免 50ms 后元素已被重排导致弹窗落到屏幕角落
+            
             const rect = element.getBoundingClientRect();
             const anchor = {
                 rect: (rect.width > 0 || rect.height > 0) ? rect : null,
@@ -4094,7 +4087,7 @@ const EventManager = {
         });
         
         $(document).on('click', '#profile-title-row', function() {
-            // 段位图标资源包未下载时阻止打开 —— 引导用户去资源下载
+            
             const RDM = window.ResourceDownloadManager;
             if (RDM && typeof RDM.isTitlesDownloaded === 'function' && !RDM.isTitlesDownloaded()) {
                 if (window.showToast) window.showToast('请先在资源下载中下载段位图标');
@@ -4151,7 +4144,7 @@ const EventManager = {
             BackgroundManager.previewCurrentBackground();
         });
 
-        // 加入 / 取消喜好
+        
         $('#bg-favorite-btn').on('click', () => {
             const bg = BackgroundManager.backgrounds[BackgroundManager.currentIndex];
             if (!bg) return;
@@ -4167,7 +4160,7 @@ const EventManager = {
             }
         });
 
-        // 背景设置弹窗
+        
         $('#bg-settings-open-btn').on('click', () => {
             BackgroundFavorites.openSettingsModal();
         });
@@ -4175,13 +4168,13 @@ const EventManager = {
         $('#bg-settings-save').on('click', () => BackgroundFavorites.saveSettings());
         $('#bg-favorites-play').on('change', function () {
             BackgroundFavorites._syncCustomBgRow();
-            // 立即处理：开启轮放则删自定义；关闭轮放保留自定义
+            
             if (this.checked) {
                 BackgroundFavorites._deleteCustomBg();
             }
             $('#bg-settings-desc').toggle(this.checked);
         });
-        // 背景设置弹窗内自定义背景按钮
+        
         $('#bg-settings-custom-bg-btn').on('click', () => {
             if (window.CustomBackground) window.CustomBackground.pick();
         });
@@ -4191,7 +4184,7 @@ const EventManager = {
         $('#bg-settings-custom-file-input').on('change', function () {
             const file = this.files && this.files[0];
             if (file && window.CustomBackground) window.CustomBackground.handleFile(file);
-            // 重置让同一文件可重复选
+            
             this.value = '';
         });
         $('#bg-settings-modal').on('click', function (e) {
@@ -4275,9 +4268,9 @@ const EventManager = {
                 }
             }, 1000);
         }
-        // 物品池管理不再需要密码校验，点开直接进入
+        
         $('#sidebar-item-control-btn').on('click', () => {
-            // 需解锁（赞助兑换码）
+            
             var unlocked = false;
             try { unlocked = localStorage.getItem('ab_item_control_unlocked') === '1'; } catch (e) {}
             if (!unlocked) {
@@ -4494,7 +4487,7 @@ const EventManager = {
         $('#sidebar-overlay').css('display', 'none');
     },
     
-    // 开关音效 / 时长 / id 全部登记在 js/modal-registry.js
+    
     openModal(modalId) {
         if (window.ModalRegistry) return ModalRegistry.open(modalId);
         const $modal = $(`#${modalId}`);
@@ -4542,8 +4535,8 @@ const EventManager = {
             TitleManager.updateTitleDisplay();
             
             await BackgroundManager.loadBackgrounds();
-            // 「播放喜好的壁纸」：开启时每次进入随机切换一张喜好背景（确定性应用并持久化），
-            // 此时跳过「上次保存/默认背景」与「自定义背景恢复」，避免覆盖随机结果
+            
+            
             const enteredFavorite = BackgroundFavorites.pickRandomFavoriteOnEntry();
             if (!enteredFavorite) {
                 const savedPath = localStorage.getItem(BackgroundManager.storageKey);
@@ -4553,11 +4546,11 @@ const EventManager = {
                     BackgroundManager.loadSavedBackground();
                 }
             }
-            // 自定义（相册上传）背景优先于内置背景
+            
             CustomBackground.bind();
             if (!enteredFavorite) CustomBackground.restore();
 
-            // 效果设置：动画帧率（30 / 60 / 无上限）
+            
             (function initFpsOption() {
                 const $group = $('#fps-option-group');
                 if (!$group.length) return;
@@ -4572,7 +4565,7 @@ const EventManager = {
                 sync();
             })();
 
-            // 效果设置：跳过搜索遮罩（默认显示遮罩，用户勾选后跳过）
+            
             (function initSearchMaskToggle() {
                 const STORAGE_KEY = 'ab_skip_search_mask';
                 const $toggle = $('#search-mask-toggle');
@@ -4589,7 +4582,7 @@ const EventManager = {
 
             window.toggleSearchPause = GameController.toggleSearchPause.bind(GameController);
 
-            // 页面关闭/隐藏时自动保存收藏室数据
+            
             const _saveCollection = () => CollectionManager.save();
             window.addEventListener('beforeunload', _saveCollection);
             window.addEventListener('pagehide', _saveCollection);
@@ -4597,7 +4590,7 @@ const EventManager = {
                 if (document.visibilityState === 'hidden') CollectionManager.save();
             });
 
-            // 请求持久化存储，防止浏览器/WebView 自动清理 localStorage
+            
             if (navigator.storage && navigator.storage.persist) {
                 navigator.storage.persist().catch(() => {});
             }
@@ -4610,14 +4603,14 @@ const EventManager = {
         init();
     }
 
-    /* ============================================================
-     * 资源下载管理器 (ResourceDownloadManager)
-     * - 从 GitHub 拉取背景与音乐 manifest
-     * - 使用 IndexedDB 存储下载的资源 blob
-     * - 覆盖 BackgroundManager / MusicPlayer 以从 IndexedDB 解析路径
-     * ============================================================ */
+    
+
+
+
+
+
     const ResourceDownloadManager = {
-        // CDN 优先（国内可访问），GitHub raw 作为兜底
+        
         bgManifestUrls: [
             'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-bg-resources/main/manifest.json',
             'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-bg-resources/main/manifest.json',
@@ -4646,7 +4639,7 @@ const EventManager = {
             'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-music-resources/main/',
             'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-music-resources/main/'
         ],
-        // 段位徽章图标资源包（结构同背景/音乐：manifest.json + 图标文件）
+        
         titleManifestUrls: [
             'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-title-resources/main/manifest.json',
             'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-title-resources/main/manifest.json',
@@ -4702,17 +4695,17 @@ const EventManager = {
         minigameLastResult: null,
 
         init() {
-            // 音乐缓存就绪信号（供 MusicPlayer 启动时等待，避免回退成默认音乐）
+            
             if (!this.musicCacheReady) {
                 this.musicCacheReady = new Promise(res => { this._musicCacheResolve = res; });
             }
             this.bindEvents();
-            // 先用本地状态渲染，避免弱网/离线时下载界面长时间空白
+            
             this.refreshUI();
             this.loadAllManifests()
                 .then(() => {
                     this.refreshUI();
-                    // 校验与音乐缓存属于重 IO 操作，放到空闲时执行，避免进入游戏/音效卡顿
+                    
                     const runDeferred = () => {
                         this.validateDownloads()
                             .then(() => this.preloadMusicCache())
@@ -4727,7 +4720,7 @@ const EventManager = {
                     }
                 })
                 .catch(() => {
-                    // 清单加载失败也要放行，避免 MusicPlayer 一直等缓存
+                    
                     this.notifyMusicCacheReady();
                 });
         },
@@ -4759,7 +4752,7 @@ const EventManager = {
                     if (window.Net && Net.getJSON) {
                         return await Net.getJSON(finalUrl, { cache: 'no-store', timeout: 8000, retries: 0 });
                     }
-                    // 网络层缺失时的兜底：竞速超时（旧版 WebView 无 AbortController）
+                    
                     return await new Promise((resolve, reject) => {
                         let settled = false;
                         const finish = (fn, value) => {
@@ -4824,7 +4817,7 @@ const EventManager = {
             }
         },
 
-        // 段位图标清单：远程仓库加载失败时的兜底清单（安装包内已不再内置图片文件）
+        
         builtinTitleManifest: {
             version: 1,
             icons: [
@@ -4856,7 +4849,7 @@ const EventManager = {
             }
         },
 
-        // MiniGame（水果忍者）资源包清单：结构 files: [{path, size}]
+        
         builtinMiniGameManifest: {
             version: 1,
             files: [
@@ -4946,7 +4939,6 @@ const EventManager = {
         },
 
         isMiniGameDownloaded() {
-            // 已改为内置，始终返回 true
             return true;
         },
 
@@ -4970,7 +4962,6 @@ const EventManager = {
             }));
         },
 
-        // 段位图标占位：安装包内已不内置图片，未下载资源包时用内置 SVG 占位（不同段位显示不同首字）
         _titlePlaceholderCache: {},
         titlePlaceholderIcon(path) {
             if (this._titlePlaceholderCache[path]) return this._titlePlaceholderCache[path];
@@ -4995,7 +4986,6 @@ const EventManager = {
         getTitleDownloadUrls(item) {
             const urls = [];
             if (item.url) urls.push(item.url);
-            // manifest 里的 path 形如 titles/XR.png，仓库内实际路径也是 titles/XR.png
             this.titleBaseUrls.forEach(base => urls.push(base + item.path));
             const seen = {};
             return urls.filter(u => (seen[u] ? false : (seen[u] = true)));
@@ -5009,7 +4999,6 @@ const EventManager = {
             return items.every(item => this.isDownloaded(item.path));
         },
 
-        // 合并背景清单：images + videos
         getBgItems() {
             if (!this.bgManifest) return [];
             const imgs = (this.bgManifest.images || []).map(i => ({ id: i.id, name: i.name, path: i.path, url: i.url, size: i.size, type: 'image' }));
@@ -5017,14 +5006,14 @@ const EventManager = {
             return imgs.concat(vids);
         },
 
-        // 背景原始路径对应的远程地址（用于 blob 播放失败时回退）
+        
         getBgRemoteUrl(path) {
             const item = this.getBgItems().find(i => i.path === path);
             if (item && item.url) return item.url;
             return this.bgBaseUrls[0] + path;
         },
 
-        // 背景下载地址列表：清单内 url → jsDelivr → GitHub raw
+        
         getBgDownloadUrls(item) {
             const urls = [];
             if (item.url) urls.push(item.url);
@@ -5041,7 +5030,7 @@ const EventManager = {
                     if (!db.objectStoreNames.contains(this.storeName)) {
                         db.createObjectStore(this.storeName, { keyPath: 'path' });
                     }
-                    // pending store：存下载中断前已收到的 chunk 累积 blob，用于 Range 续传
+                    
                     if (!db.objectStoreNames.contains('pending')) {
                         db.createObjectStore('pending', { keyPath: 'path' });
                     }
@@ -5051,7 +5040,7 @@ const EventManager = {
             });
         },
 
-        _DB_PENDING_FLUSH_BYTES: 524288, // 每累计 512KB 刷一次 pending，避免内存里 chunks 数组无限膨胀
+        _DB_PENDING_FLUSH_BYTES: 524288, 
 
         async _getPending(path) {
             try {
@@ -5089,7 +5078,7 @@ const EventManager = {
             } catch (e) {}
         },
 
-        // 探测某个 URL 是否支持 Range 头（发 HEAD + Range: bytes=0-0，看是否回 206）
+        
         async _supportsRange(url) {
             try {
                 const resp = await fetch(url, { method: 'HEAD', headers: { Range: 'bytes=0-0' } });
@@ -5131,7 +5120,7 @@ const EventManager = {
         isBackgroundsDownloaded() {
             const items = this.getBgItems();
             if (items.length === 0) {
-                // 清单未加载（如离线）时，按已下载记录兜底判断
+                
                 return this.getDownloadedPaths().some(p => p.indexOf('backgrounds/') === 0);
             }
             return items.every(item => this.isDownloaded(item.path));
@@ -5140,7 +5129,7 @@ const EventManager = {
         isMusicDownloaded() {
             const tracks = (this.musicManifest && this.musicManifest.tracks) || [];
             if (tracks.length === 0) {
-                // 清单未加载（如离线）时，按已下载记录兜底判断
+                
                 return this.getDownloadedPaths().some(p => p.indexOf('music-player/') === 0);
             }
             return tracks.every(t => this.isDownloaded(t.audio_path) && this.isDownloaded(t.cover_path));
@@ -5185,45 +5174,45 @@ const EventManager = {
                     req.onerror = () => reject(req.error);
                 });
                 if (record && record.blob) {
-                    // 重新构造带正确 MIME 的 blob，兼容部分 WebView 对空 type blob 的播放限制
+                    
                     const blob = record.blob.type ? record.blob : new Blob([record.blob], { type: this.getMime(path) });
                     const url = URL.createObjectURL(blob);
                     this.blobUrlCache[path] = url;
                     return url;
                 }
             } catch (e) {}
-            // 未下载时回退到对应默认资源，避免黑屏/无声
+            
             if (path.indexOf('music-player/') === 0) {
                 return path.indexOf('covers/') !== -1 ? this.defaultMusicCover : this.defaultMusicFile;
             }
-            // 段位图标未下载时回退到安装包内置图标
+            
             if (path.indexOf('titles/') === 0) {
                 return this.getTitleLocalFallback(path) || path;
             }
-            // 收藏图未下载时返回空（由收藏室提示先下载资源包），不回退到背景
+            
             if (path.indexOf('collect/') === 0) {
                 return null;
             }
-            // 背景未下载时优先回退到远程地址（保持图片/视频类型正确），远程不可用再回退默认背景
+            
             return this.getBgRemoteUrl(path) || this.defaultBgPath;
         },
 
-        // 暂停等待：暂停期间每 150ms 检查一次，恢复后继续
+        
         async waitWhilePaused(isPaused) {
             while (isPaused && isPaused()) {
                 await new Promise(r => setTimeout(r, 150));
             }
         },
 
-        // urls: 候选下载地址（按优先级）
-        // storagePath: IndexedDB / 已下载标记使用的路径（与应用内引用路径保持一致）
-        // isPaused: 可选，返回 true 时暂停下载
+        
+        
+        
         async downloadFile(urls, storagePath, name, size, onProgress, isPaused) {
             if (!Array.isArray(urls)) urls = [urls];
             const maxAttempts = Math.max(3, urls.length + 1);
             let lastError = null;
 
-            // 已下载且完整：直接返回主 store 里的 blob，不走网络
+            
             try {
                 const db = await this.openDB();
                 const record = await new Promise((resolve, reject) => {
@@ -5242,7 +5231,7 @@ const EventManager = {
                 }
             } catch (e) {}
 
-            // 启动时读取 pending 记录（上次中断时留下来的累积 blob + 已收到字节数）
+            
             let pending = await this._getPending(storagePath);
             let resumed = !!(pending && pending.received > 0 && pending.partialBlob);
 
@@ -5255,7 +5244,7 @@ const EventManager = {
                     const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
                     if (controller) abortTimer = setTimeout(() => controller.abort(), 120000);
 
-                    // 只有第一次 attempt 才尝试 Range 续传；后续 attempt 都走全量（换源了，不保证新源支持 Range）
+                    
                     let useRange = resumed && attempt === 0;
                     const headers = {};
                     if (useRange && pending.received > 0) {
@@ -5270,12 +5259,12 @@ const EventManager = {
                             headers: headers
                         });
                     } catch (e) {
-                        // 网络异常也算可续传场景：保留 pending，下次重来
+                        
                         if (abortTimer) clearTimeout(abortTimer);
                         throw e;
                     }
 
-                    // 416 Range Not Satisfiable：pending 里的字节已经被远端重算（文件变了），放弃 pending，全量重来
+                    
                     if (useRange && resp.status === 416) {
                         await this._clearPending(storagePath);
                         pending = null;
@@ -5290,16 +5279,16 @@ const EventManager = {
                     if (!resp.ok) throw new Error('HTTP ' + resp.status);
 
                     let total = Number(resp.headers.get('content-length')) || size || 0;
-                    // Range 成功（206）时，content-length 是剩余部分的长度，要加上 pending.received 才是总字节
+                    
                     if (useRange && resp.status === 206) {
                         const cl = Number(resp.headers.get('content-length')) || 0;
                         if (pending && Number(pending.received) > 0 && cl > 0) {
                             total = pending.received + cl;
                         }
-                        // Range 成功后，从 pending.partialBlob 继续累积
+                        
                         pending.received = Number(pending.received) || 0;
                     } else if (useRange && resp.status !== 206) {
-                        // 服务器宣称支持但实际忽略了 Range（回 200），全量重来
+                        
                         useRange = false;
                         await this._clearPending(storagePath);
                         pending = null;
@@ -5307,7 +5296,7 @@ const EventManager = {
                     }
 
                     const reader = resp.body && typeof resp.body.getReader === 'function' ? resp.body.getReader() : null;
-                    // 起始 received 来自 pending（续传）或 0（全量）
+                    
                     let received = (pending && Number(pending.received)) || 0;
                     let currentFlush = 0;
                     let partialBlob = pending ? pending.partialBlob : null;
@@ -5320,7 +5309,7 @@ const EventManager = {
                             try {
                                 readResult = await reader.read();
                             } catch (e) {
-                                // 中途 abort/断网 —— pending 保留用于下次续传
+                                
                                 streamAborted = true;
                                 throw e;
                             }
@@ -5331,7 +5320,7 @@ const EventManager = {
                             currentFlush += value.length;
                             if (onProgress) onProgress(received, total, name);
 
-                            // 每 512KB 刷一次 pending，避免内存里 chunks 累积过多
+                            
                             if (currentFlush >= this._DB_PENDING_FLUSH_BYTES) {
                                 try {
                                     const merged = partialBlob
@@ -5351,7 +5340,7 @@ const EventManager = {
                             }
                         }
                     } else {
-                        // 旧 WebView 没有 ReadableStream：整包读取，放弃分片进度与断点续传
+                        
                         const ab = await resp.arrayBuffer();
                         const all = new Uint8Array(ab);
                         chunks.push(all);
@@ -5361,24 +5350,24 @@ const EventManager = {
 
                     if (abortTimer) clearTimeout(abortTimer);
 
-                    // 中途断流但 reader 正常 done（极少数 WebView 边界行为）：保留 pending 让下次续
+                    
                     if (streamAborted) {
                         throw new Error('stream interrupted');
                     }
 
-                    // 合并最终 blob
+                    
                     const finalBlob = partialBlob
                         ? new Blob([partialBlob].concat(chunks), { type: this.getMime(storagePath) })
                         : new Blob(chunks, { type: this.getMime(storagePath) });
                     const finalSize = finalBlob.size;
 
-                    // 完整性校验
+                    
                     const expected = Number(size) || 0;
                     if (expected > 0 && Math.abs(finalSize - expected) > Math.max(2048, expected * 0.01)) {
                         throw new Error('资源不完整 (' + finalSize + '/' + expected + ')');
                     }
 
-                    // 落主 store
+                    
                     const db = await this.openDB();
                     await new Promise((resolve, reject) => {
                         const tx = db.transaction(this.storeName, 'readwrite');
@@ -5392,10 +5381,10 @@ const EventManager = {
                     });
                     this.markDownloaded(storagePath);
 
-                    // 下载完成：清 pending，让下次不必再试续传
+                    
                     await this._clearPending(storagePath);
 
-                    // 失效旧缓存
+                    
                     if (this.blobUrlCache[storagePath]) {
                         try { URL.revokeObjectURL(this.blobUrlCache[storagePath]); } catch (e) {}
                         delete this.blobUrlCache[storagePath];
@@ -5410,8 +5399,8 @@ const EventManager = {
                     if (abortTimer) clearTimeout(abortTimer);
                     if (onProgress && onProgress.cancel) onProgress.cancel();
                     lastError = e;
-                    // 网络错误/中断：pending 已在刷盘循环里保留，下次 attempt 会从 received 续
-                    // 如果中途还没来得及 flush 任何字节（pending 还空着），也保留 pending 结构让下次 attempt 续用
+                    
+                    
                     if (!pending) {
                         pending = await this._getPending(storagePath);
                         resumed = !!(pending && pending.received > 0);
@@ -5425,9 +5414,9 @@ const EventManager = {
             throw lastError || new Error('下载失败');
         },
 
-        // 并发下载池：同时最多 concurrency 个 worker 跑，每个 worker 完成/失败会启动下一个补位
-        // worker(item) → Promise；done/fail 是闭包更新外部计数的函数
-        // 旧 WebView 兼容：不用 Promise.all / allSettled / Object.fromEntries
+        
+        
+        
         _runConcurrentPool(items, worker, done, fail, concurrency) {
             concurrency = concurrency || 6;
             return new Promise(function(resolve) {
@@ -5446,7 +5435,7 @@ const EventManager = {
                         .catch(function(e) { if (fail) fail(e); })
                         .then(function() {
                             active--;
-                            next(); // 补位
+                            next(); 
                         });
                 }
                 for (var i = 0; i < Math.min(concurrency, items.length); i++) next();
@@ -5454,7 +5443,7 @@ const EventManager = {
             });
         },
 
-        // 节流：120ms 内最多触发一次 UI 更新，避免高频进度回调卡死 WebView
+        
         _wrapThrottledProgress(onProgress, interval) {
             interval = interval || 120;
             var lastEmit = 0;
@@ -5475,7 +5464,7 @@ const EventManager = {
                     }, interval - (now - lastEmit));
                 }
             };
-            // 清掉挂起的尾部回调（下载结束时调用）
+            
             fn.cancel = function() {
                 if (timer) { clearTimeout(timer); timer = null; }
                 lastArgs = null;
@@ -5483,9 +5472,9 @@ const EventManager = {
             return fn;
         },
 
-        // 启动时校验已下载资源，清理中断/损坏的记录，使其可以重新下载
+        
         validateDownloads() {
-            // 并发调用（启动初始化 + 登录加载校验）复用同一个任务，避免重复删除
+            
             if (!this._validatePromise) {
                 this._validatePromise = this._validateDownloads().then(result => {
                     this._validatePromise = null;
@@ -5500,7 +5489,7 @@ const EventManager = {
 
         async _validateDownloads() {
             const expected = {};
-            // 校验只依赖本地清单缓存与 IndexedDB，不访问网络，避免登录前加载被弱网卡住
+            
             try {
                 const bgData = this.bgManifest || this.readCachedManifest(this.bgManifestCacheKey);
                 if (bgData) {
@@ -5521,7 +5510,7 @@ const EventManager = {
             let checked = 0;
             try {
                 const db = await this.openDB();
-                // 使用游标逐条读取，只收集元数据，避免把几百 MB 的 blob 全部载入内存
+                
                 const records = await new Promise((resolve, reject) => {
                     const tx = db.transaction(this.storeName, 'readonly');
                     const req = tx.objectStore(this.storeName).openCursor();
@@ -5546,7 +5535,7 @@ const EventManager = {
                     checked++;
                     if (!rec.path) continue;
                     const exp = expected[rec.path];
-                    // blob 缺失、记录大小与实际不一致、或与清单大小不一致 → 视为损坏
+                    
                     const blobOk = rec.hasBlob && rec.blobSize > 0 && rec.blobSize === rec.size;
                     const sizeOk = !exp || (Math.abs(rec.size - exp) <= Math.max(2048, exp * 0.01));
                     if (!blobOk || !sizeOk) {
@@ -5562,12 +5551,12 @@ const EventManager = {
                     }
                 }
 
-                // 清理 localStorage 中指向不存在/损坏记录的「已下载」标记
+                
                 const paths = this.getDownloadedPaths();
                 const cleaned = paths.filter(p => validPaths.has(p));
                 if (cleaned.length !== paths.length || removed > 0) {
                     this.saveDownloadedPaths(cleaned);
-                    // 释放旧 blob URL，防止继续使用已损坏资源
+                    
                     Object.keys(this.blobUrlCache).forEach(k => {
                         try { URL.revokeObjectURL(this.blobUrlCache[k]); } catch (e) {}
                     });
@@ -5576,7 +5565,7 @@ const EventManager = {
                     });
                     this.blobUrlCache = {};
                     this.musicBlobCache = {};
-                    // 清理后重新应用背景，避免页面仍引用已释放的 blob URL
+                    
                     if (removed > 0 && window.BackgroundManager) {
                         setTimeout(function() {
                             try { BackgroundManager.loadSavedBackground(); } catch (e) {}
@@ -5584,10 +5573,10 @@ const EventManager = {
                     }
                 }
 
-                // 清理 pending store：
-                // - 已下载完整的文件如果还留 pending（理论上不应发生）→ 清掉占空间
-                // - 孤儿 pending（没有 partialBlob 或 received=0）→ 清掉
-                // - 超期 pending（超过 24h 未更新）→ 清掉，防止半成品堆积
+                
+                
+                
+                
                 try {
                     const pendingRecords = await new Promise((resolve, reject) => {
                         const tx = db.transaction('pending', 'readonly');
@@ -5646,7 +5635,7 @@ const EventManager = {
         },
 
         async downloadBackgrounds() {
-            // 下载中再次点击 → 暂停 / 继续
+            
             if (this.bgDownloading) {
                 this.bgPaused = !this.bgPaused;
                 this.setDownloadButton('bg');
@@ -5654,7 +5643,7 @@ const EventManager = {
                 return;
             }
             if (!this.bgManifest || this.getBgItems().length === 0) {
-                // 允许清单加载失败后重新拉取
+                
                 this.bgManifest = null;
             }
             $('#rd-bg-progress-wrap').show();
@@ -5717,7 +5706,7 @@ const EventManager = {
         },
 
         async downloadMusic() {
-            // 下载中再次点击 → 暂停 / 继续
+            
             if (this.musicDownloading) {
                 this.musicPaused = !this.musicPaused;
                 this.setDownloadButton('music');
@@ -5725,7 +5714,7 @@ const EventManager = {
                 return;
             }
             if (!this.musicManifest || !(this.musicManifest.tracks || []).length) {
-                // 允许清单加载失败后重新拉取
+                
                 this.musicManifest = null;
             }
             $('#rd-music-progress-wrap').show();
@@ -5799,7 +5788,7 @@ const EventManager = {
             $('#rd-music-count').text(`${done} / ${total}`);
         },
 
-        // 段位徽章图标资源包下载（与音乐/背景同一套机制：IndexedDB + 进度 + 暂停）
+        
         async downloadTitles() {
             if (this.titleDownloading) {
                 this.titlePaused = !this.titlePaused;
@@ -5968,7 +5957,7 @@ const EventManager = {
             const musicAll = tracks.length > 0 && musicDone >= tracks.length;
             const titleAll = titleItems.length > 0 && titleDone >= titleItems.length;
 
-            // 已下载过但远端清单版本变化时提醒补充更新（同一版本只提示一次）
+            
             const verNotice = (savedKey, curVer, doneCount, total, flagKey) => {
                 if (!curVer || !doneCount || doneCount >= total) return;
                 let saved = null;
@@ -5981,7 +5970,7 @@ const EventManager = {
             verNotice('ab_rd_music_ver', this.musicManifest && this.musicManifest.version, musicDone, tracks.length, '_musicVerNotified');
             verNotice('ab_rd_title_ver', this.titleManifest && this.titleManifest.version, titleDone, titleItems.length, '_titleVerNotified');
 
-            // 下载完成后隐藏下载按钮，改为「已下载」提示，避免重复下载
+            
             if (bgAll) {
                 $('#rd-download-bg-btn').hide();
                 $('#rd-delete-bg-btn').show();
@@ -5992,13 +5981,13 @@ const EventManager = {
             } else {
                 $('#rd-delete-bg-btn').hide();
                 $('#rd-bg-done').hide();
-                // 未全部完成时进度条按实际比例显示，避免残留满格进度
+                
                 $('#rd-bg-progress-bar').css('width', (bgItems.length ? Math.round(bgDone / bgItems.length * 100) : 0) + '%');
                 if (this.bgDownloading) {
                     this.setDownloadButton('bg');
                 } else {
                     $('#rd-download-bg-btn').show().prop('disabled', false).html('<i class="fas fa-download"></i> 下载背景资源包');
-                    // 未下载完成且未在下载：恢复为可下载状态提示
+                    
                     if (bgItems.length === 0) {
                         $('#rd-bg-progress-text').text('资源清单加载失败，请检查网络后点击下载重试');
                     } else if (bgDone > 0) {
@@ -6049,10 +6038,10 @@ const EventManager = {
                 } else {
                     $('#rd-download-title-btn').show().prop('disabled', false).html('<i class="fas fa-download"></i> 下载段位图标资源包');
                     if (titleItems.length === 0) {
-                        // 清单还没加载完时不要显示「加载失败」，避免误导
+                        
                         $('#rd-title-progress-text').text(this.titleManifest ? '资源清单加载失败，请检查网络后点击下载重试' : '正在获取资源清单...');
                     } else if (this.titleLastResult) {
-                        // 上次下载有失败项：保留失败提示
+                        
                         $('#rd-title-progress-text').text(this.titleLastResult);
                     } else if (titleDone > 0) {
                         $('#rd-title-progress-text').text(`已下载 ${titleDone}/${titleItems.length}，点击继续下载`);
@@ -6062,7 +6051,7 @@ const EventManager = {
                 }
             }
 
-            // 段位图标未下载时，主界面段位入口加锁标记，提示用户需要先下载
+            
             try {
                 var $row = $('#profile-title-row');
                 if ($row.length) {
@@ -6079,7 +6068,7 @@ const EventManager = {
             } catch (e) {}
         },
         openModal() {
-            // 打开时重新校验：清理上次中断/退出留下的损坏记录，避免「显示已下载但无法再次下载」
+            
             if (!this.bgManifest || this.getBgItems().length === 0) this.bgManifest = null;
             if (!this.musicManifest || !(this.musicManifest.tracks || []).length) this.musicManifest = null;
             if (!this.titleManifest || this.getTitleItems().length === 0) this.titleManifest = null;
@@ -6092,7 +6081,7 @@ const EventManager = {
             EventManager.openModal('resource-download-modal');
         },
 
-        // 通用：确认删除弹窗（与旧资源包同样式），供收藏室/GM 等自定义包复用
+        
         confirmDeletePaths(label, onOk) {
             var modalId = '__rd-delete-confirm';
             $('#' + modalId).remove();
@@ -6127,7 +6116,7 @@ const EventManager = {
             try { this.blobUrlCache = {}; } catch (e) {}
         },
 
-        // 删除某类已下载的资源（从 IndexedDB 移除）
+        
         deleteResource(type) {
             var labelMap = { bg: '背景资源包', music: '音乐资源包', title: '段位图标资源包', minigame: '小游戏资源包' };
             var label = labelMap[type] || '资源包';
@@ -6155,7 +6144,7 @@ const EventManager = {
                 '</div>'
             );
             $('body').append($modal);
-            // 关键：加 .show class 让 modal-overlay opacity 从 0 过渡到 1
+            
             _.delay(function() { $modal.addClass('show'); }, 10);
             try { var _a = new Audio('audio/open-confirm-disable.mp3'); _a.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1); _a.play().catch(function(){}); } catch (e) {}
 
@@ -6198,7 +6187,7 @@ const EventManager = {
                 }
 
                 var db = await this.openDB();
-                // 主 store
+                
                 await new Promise(function(resolve, reject) {
                     var tx = db.transaction(this.storeName, 'readwrite');
                     var store = tx.objectStore(this.storeName);
@@ -6209,7 +6198,7 @@ const EventManager = {
                     tx.onerror = function() { reject(tx.error); };
                 }.bind(this));
 
-                // pending store（如果存在的话）
+                
                 try {
                     await new Promise(function(resolve) {
                         try {
@@ -6224,7 +6213,7 @@ const EventManager = {
                     });
                 } catch (e) {}
 
-                // 回退当前背景
+                
                 try {
                     var curBg = localStorage.getItem(BackgroundManager.storageKey);
                     if (type === 'bg' && curBg && paths.indexOf(curBg) >= 0) {
@@ -6234,7 +6223,7 @@ const EventManager = {
                 } catch (e) {}
 
                 await this.preloadMusicCache();
-                // 关键：删除后刷新清单状态 + UI，确保已删除项不会被误判为已下载
+                
                 await this.validateDownloads();
                 this.refreshUI();
                 if (window.showToast) window.showToast(label + ' 已删除（' + paths.length + ' 个文件）');
@@ -6244,7 +6233,7 @@ const EventManager = {
             }
         },
 
-        // 取出 IndexedDB 里某条资源 blob，未找到则回退远程地址再不行返回 null
+        
         async _getBlobOrRemote(path) {
             if (!path) return null;
             try {
@@ -6260,19 +6249,19 @@ const EventManager = {
             return null;
         },
 
-        // 启动 MiniGame：内置版直接跳转
+        
         launchMiniGame() {
             try {
-                // 注入返回按钮到 MiniGame/index.html，通过 location.href 跳转
+                
                 location.href = 'MiniGame/index.html';
             } catch (e) {
                 console.warn('[RDM] launchMiniGame failed', e);
                 if (window.showToast) window.showToast('小游戏启动失败');
             }
         },
-        // 音乐路径缓存：预先把已下载的音乐 blob URL 缓存起来，供 MusicPlayer 同步使用
+        
         musicBlobCache: {},
-        // 缓存就绪信号：MusicPlayer 初始化时若在此前加载曲目，会回退成默认音乐
+        
         musicCacheReady: null,
         _musicCacheResolve: null,
         musicCacheLoaded: false,
@@ -6297,11 +6286,11 @@ const EventManager = {
                 } catch (e) {}
             }
             if (tracks.length) this.musicCacheLoaded = true;
-            // 缓存到位后校正可能已按默认资源加载的当前曲目
+            
             this.reconcileMusicSource();
         },
 
-        // 通知等待方：音乐缓存已就绪（或已确认无可加载资源）
+        
         notifyMusicCacheReady() {
             if (this._musicCacheResolve) {
                 this._musicCacheResolve();
@@ -6310,7 +6299,7 @@ const EventManager = {
             this.reconcileMusicSource();
         },
 
-        // 曲目实际播放源与正确资源不一致时（常见于启动早于缓存就绪），重新加载并找回进度
+        
         reconcileMusicSource() {
             try {
                 const p = window.musicPlayer;
@@ -6320,16 +6309,13 @@ const EventManager = {
                 const correct = p.getFullPath(track.file);
                 const cur = p.audio.currentSrc || p.audio.src || '';
                 if (!correct || !cur) return;
-                // 已是正确资源，或正在用该曲目自己的 blob，则无需处理
                 if (cur === correct) return;
                 if (track._seekBlobUrl && cur === track._seekBlobUrl && track._seekBlobSrc === correct) return;
-                // 清掉可能被污染的 blob（例如按默认音乐转出来的那份）
                 if (track._seekBlobUrl) {
                     try { URL.revokeObjectURL(track._seekBlobUrl); } catch (e) {}
                     delete track._seekBlobUrl;
                     delete track._seekBlobSrc;
                 }
-                // 用已保存的原始进度；此时 audio.currentTime 可能已被短时长资源 clamp 坏
                 const saved = typeof p.loadPlayState === 'function' ? p.loadPlayState() : null;
                 const keepTime = (saved && saved.index === p.currentTrackIndex && _.isNumber(saved.time))
                     ? saved.time
@@ -6338,7 +6324,7 @@ const EventManager = {
                 if (keepTime > 1) {
                     p.pendingRestoreTime = keepTime;
                     const audio = p.audio;
-                    // seekTo 返回 false（元数据未就绪）时保留 pendingRestoreTime，交给 loadedmetadata
+                    
                     if (audio && audio.readyState >= 1 && typeof p.seekTo === 'function') {
                         if (p.seekTo(keepTime)) p.pendingRestoreTime = null;
                     }
@@ -6348,7 +6334,6 @@ const EventManager = {
             } catch (e) {}
         },
 
-        // 下载完成后清除旧的音频缓存，确保下次播放使用新下载的文件
         invalidateMusicBlobs() {
             const p = window.musicPlayer;
             if (!p || !p.playlist) return;
@@ -6357,7 +6342,6 @@ const EventManager = {
                     try { URL.revokeObjectURL(t._blobUrl); } catch (e) {}
                     delete t._blobUrl;
                 }
-                // seek 用的包内音源 blob 也一并失效
                 if (t._seekBlobUrl) {
                     try { URL.revokeObjectURL(t._seekBlobUrl); } catch (e) {}
                     delete t._seekBlobUrl;
@@ -6365,46 +6349,43 @@ const EventManager = {
             });
         },
 
-        // 音乐资源路径解析（同步，从缓存取；未缓存则返回原路径或默认）
         getCachedMusicPath(path) {
             if (!path) return path;
-            // blob: 是本地导入音乐的内嵌封面或音频，直接返回，不能回退成默认资源
             if (path.indexOf('blob:') === 0) return path;
             if (path === this.defaultMusicFile || path === this.defaultMusicCover) return path;
-            // 本地导入音乐的默认封面是内置静态资源，不走音乐缓存回退
             if (path.indexOf('custom-music-default') !== -1) return path;
             if (this.musicBlobCache[path]) return this.musicBlobCache[path];
-            // IndexedDB 缓存还没恢复完：先返回原路径。
-            // 此时若回退成默认音乐，会出现“封面是当前曲目、声音却是默认曲目”的错位。
+            
+            
             if (!this.musicCacheLoaded) return path;
-            // 未下载回退到默认
+            
             return path.indexOf('covers/') !== -1 ? this.defaultMusicCover : this.defaultMusicFile;
         }
     };
 
-    // 暴露到 window 供外部调用
+    
     window.ResourceDownloadManager = ResourceDownloadManager;
-    // 段位图标下载完成后需要刷新段位弹窗
+    
     window.TitleManager = TitleManager;
-    // 供 i18n 切换语言后重绘动态区域
+    
     window.UIManager = UIManager;
 
-    /* ============================================================
-     * 覆盖 BackgroundManager 方法
-     * 1. applyBackground - 从 IndexedDB 解析路径，localStorage 存原始路径
-     * 2. openSelector - 资源未全部下载时跳转资源下载弹窗
-     * 3. previewCurrentBackground - 解析路径
-     * 4. buildGrid - 缩略图解析路径
-     * ============================================================ */
+    
+
+
+
+
+
+
     (function patchBackgroundManager() {
         const RDM = ResourceDownloadManager;
 
-        // applyBackground
+        
         const _origApplyBackground = BackgroundManager.applyBackground;
         BackgroundManager.applyBackground = function(path, isVideoHint) {
             const self = this;
             const originalPath = path;
-            // 视频判断必须基于原始路径（解析后是 blob: URL，不含扩展名）
+            
             const isVideo = isVideoHint !== undefined ? isVideoHint : /\.(mp4|webm)(\?|$)/i.test(originalPath);
             const fallback = RDM.getBgRemoteUrl(originalPath);
 
@@ -6414,7 +6395,7 @@ const EventManager = {
                     localStorage.setItem(self.storageKey, originalPath);
                     return;
                 }
-                // 图片：先探测能否加载，失败时回退默认背景视频，避免出现纯黑背景
+                
                 let settled = false;
                 const apply = (url, asVideo) => {
                     if (settled) return;
@@ -6426,26 +6407,26 @@ const EventManager = {
                 probe.onload = () => apply(resolved, false);
                 probe.onerror = () => apply(RDM.defaultBgPath, true);
                 probe.src = resolved;
-                // 3 秒内没加载完也先应用，避免一直黑屏等待
+                
                 setTimeout(() => apply(resolved, false), 3000);
             };
 
             RDM.resolvePath(path).then(applyResolved).catch(() => {
-                // 存储异常时直接走远程地址，保证只有已下载但索引损坏时也能显示
+                
                 applyResolved(isVideo ? fallback : RDM.getBgRemoteUrl(originalPath));
             });
         };
 
-        // openSelector - 未下载也可打开；未下载的背景在网格里不显示
+        
         const _origOpenSelector = BackgroundManager.openSelector;
         BackgroundManager.openSelector = function() {
-            // 每次打开都重建网格，避免继续使用已失效的 blob URL（重新下载/校验清理后）
+            
             const $grid = $('#bg-grid');
             if ($grid.length) $grid.empty();
             return _origOpenSelector.call(this);
         };
 
-        // previewCurrentBackground - 解析路径
+        
         const _origPreview = BackgroundManager.previewCurrentBackground;
         BackgroundManager.previewCurrentBackground = function() {
             const bg = this.backgrounds[this.currentIndex];
@@ -6481,7 +6462,7 @@ const EventManager = {
             });
         };
 
-        // 视频首帧缓存 + 串行截图队列：只在卡片进入可视区域后截图，避免几十个视频同时解码
+        
         const posterCache = Object.create(null);
         const posterQueue = [];
         let posterBusy = false;
@@ -6491,8 +6472,8 @@ const EventManager = {
             video.muted = true;
             video.playsInline = true;
             video.preload = 'auto';
-            // 关键：blob URL 同源不需要 crossOrigin，远程 CDN 加了反而可能因没 CORS 头导致 canvas taint
-            // 先尝试不加 crossOrigin；如果 canvas 抛 SecurityError 再 fallback
+            
+            
             video.src = src;
             let settled = false;
             const finish = (url) => {
@@ -6511,11 +6492,10 @@ const EventManager = {
                     canvas.getContext('2d').drawImage(video, 0, 0, 320, 180);
                     finish(canvas.toDataURL('image/jpeg', 0.7));
                 } catch (e) {
-                    // canvas tainted（跨域）→ 用 video 元素的 poster 兜底
+                    
                     finish('');
                 }
             };
-            // 多事件兜底：loadeddata / canplay / seeked / timeupdate 都尝试截图
             video.addEventListener('loadeddata', () => {
                 try { video.currentTime = Math.min(0.1, (video.duration || 0.1)); } catch (e) { finish(''); }
             }, { once: true });
@@ -6543,9 +6523,7 @@ const EventManager = {
             });
         };
 
-        /* ============================================================
-         * 背景喜好 + 背景设置（定时切换 / 每次重开更换）
-         * ============================================================ */
+
         const BG_FAV_KEY = 'ab_bg_favorites';
         const BG_SETTINGS_KEY = 'ab_bg_settings';
         window.BackgroundFavorites = {
@@ -6594,7 +6572,7 @@ const EventManager = {
                 $('#bg-settings-info').html(favCount
                     ? `当前已喜好 ${favCount} 个背景。`
                     : '还没有喜好的背景，请先在背景商店中加入喜好。');
-                // 同步自定义背景按钮状态：轮放开启时隐藏自定义区，关闭时显示
+                
                 this._syncCustomBgRow();
                 if (window.ModalRegistry) ModalRegistry.open('bg-settings-modal');
                 else { $('#bg-settings-modal').css('display', 'flex'); setTimeout(() => $('#bg-settings-modal').addClass('show'), 10); }
@@ -6626,35 +6604,35 @@ const EventManager = {
                 this.settings.playFavorites = $('#bg-favorites-play').is(':checked');
                 this._saveSettings();
                 this.applyCycling();
-                // 轮放开启时：立即清除自定义背景
+                
                 if (this.settings.playFavorites && !wasPlaying) {
                     this._deleteCustomBg();
                 }
                 if (window.showToast) window.showToast('背景设置已保存');
                 this.closeSettingsModal();
             },
-            // 清除自定义背景并回退到默认/喜好背景
+            
             _deleteCustomBg() {
                 if (!window.CustomBackground || !window.CustomBackground.hasCustom()) return;
                 try {
-                    // 1. 清除 localStorage 标志（立即生效）
+                    
                     window.CustomBackground.setFlag(false);
-                    // 2. 删除 IndexedDB 数据库
+                    
                     if (typeof indexedDB !== 'undefined') {
                         const dbReq = indexedDB.deleteDatabase(window.CustomBackground.dbName);
                         dbReq.onsuccess = () => { window.CustomBackground._db = null; };
                         dbReq.onerror = () => { window.CustomBackground._db = null; };
                     }
-                    // 3. 清除内存中的 blob URL
+                    
                     if (window.CustomBackground._objectUrl) {
                         try { URL.revokeObjectURL(window.CustomBackground._objectUrl); } catch (e) {}
                         window.CustomBackground._objectUrl = null;
                     }
-                    // 4. 更新按钮状态
+                    
                     if (window.CustomBackground.updateClearButton) {
                         window.CustomBackground.updateClearButton();
                     }
-                    // 5. 回退到默认背景（关键：屏幕视觉也要同步清除）
+                    
                     if (window.BackgroundManager) {
                         const defaultBg = window.BackgroundManager.backgrounds.find(b => Number(b.id) === 1)
                             || window.BackgroundManager.backgrounds[0];
@@ -6664,10 +6642,10 @@ const EventManager = {
             },
             applyCycling() {
                 if (this._timer) { clearInterval(this._timer); this._timer = null; }
-                // 已移除定时切换，仅保留"每次进入游戏随机切换"，无需定时器
+                
             },
-            // 每次进入游戏：若开启「播放喜好的壁纸」，则随机切换一张喜好背景并应用+持久化。
-            // 返回选中的背景；未开启/无喜好/全部未解锁时返回 null（调用方回退到保存的或默认背景）。
+            
+            
             pickRandomFavoriteOnEntry() {
                 if (!this.settings.playFavorites) return null;
                 const favs = this.getFavoriteBackgrounds();
@@ -6678,7 +6656,7 @@ const EventManager = {
                 if (!BackgroundManager.isBackgroundUnlocked(pick.id)) return null;
                 BackgroundManager.currentIndex = realIdx;
                 BackgroundManager.selectedIndex = realIdx;
-                // 应用喜好背景时清除自定义背景（避免两者冲突）
+                
                 BackgroundManager.applyBackground(pick.path);
                 BackgroundFavorites._deleteCustomBg();
                 return pick;
@@ -6699,7 +6677,7 @@ const EventManager = {
                 if (!this.settings.playFavorites) return;
                 const favs = this.getFavoriteBackgrounds();
                 if (favs.length === 0) return;
-                // 随机选一个喜好背景
+                
                 const pick = favs[Math.floor(Math.random() * favs.length)];
                 const realIdx = BackgroundManager.backgrounds.indexOf(pick);
                 if (realIdx !== -1) {
@@ -6709,9 +6687,9 @@ const EventManager = {
             }
         };
         BackgroundFavorites.init();
-        // 「每次进入游戏随机切换喜好背景」由游戏启动流程调用 BackgroundFavorites.pickRandomFavoriteOnEntry() 处理，
-        // 不再包装 loadBackgrounds（避免与启动处的 loadSavedBackground 竞态覆盖随机结果）
-        // 卡片选中时更新喜好按钮状态
+        
+        
+        
         const _origRenderPreview = BackgroundManager.renderPreview;
         BackgroundManager.renderPreview = async function () {
             const r = _origRenderPreview ? await _origRenderPreview.call(this) : undefined;
@@ -6719,7 +6697,7 @@ const EventManager = {
             return r;
         };
 
-        // buildGrid - 立即渲染卡片，缩略图按需异步加载（不再为每张卡创建 video）
+        
         BackgroundManager.buildGrid = function() {
             const self = this;
             const $grid = $('#bg-grid');
@@ -6727,7 +6705,7 @@ const EventManager = {
             if (this.backgrounds.length === 0) return;
 
             const frag = document.createDocumentFragment();
-            // 喜好的背景置顶
+            
             const favIds = BackgroundFavorites._ids;
             const sorted = this.backgrounds.slice().sort((a, b) => {
                 const af = favIds.indexOf(a.id) !== -1 ? 1 : 0;
@@ -6767,7 +6745,7 @@ const EventManager = {
             self._fillThumbs();
         };
 
-        // 按可视区域填充缩略图
+        
         BackgroundManager._fillThumbs = function() {
             const self = this;
             const grid = document.getElementById('bg-grid');
@@ -6782,7 +6760,7 @@ const EventManager = {
                 if (!bg) return;
                 const img = el.querySelector('.bg-thumb-img img');
                 if (!img) return;
-                // Mod 背景：直接从本地 blob 解析
+                
                 if (window.ModManager && window.ModManager.isModPath(bg.path)) {
                     const modUrl = window.ModManager.resolvePath(bg.path);
                     if (modUrl) {
@@ -6804,7 +6782,7 @@ const EventManager = {
                 };
 
                 if (bg.passOnly) {
-                    // 通行证背景：资源未就位时保持空白占位，不请求 404 远程图
+                    
                     RDM.resolvePath(bg.path).then(function (u) { if (u) img.src = u; }).catch(function () {});
                     return;
                 }
@@ -6816,7 +6794,7 @@ const EventManager = {
                     applyImage(posterCache[bg.path]);
                     return;
                 }
-                // 已下载优先用 blob，未下载用远程地址；截图串行执行
+                
                 RDM.resolvePath(bg.path).then(src => {
                     posterQueue.push({ el, img, orig: bg.path, src: src || remote });
                     runPosterQueue();
@@ -6841,7 +6819,7 @@ const EventManager = {
             }
         };
 
-        // 卡片点击使用事件委托，避免绑定几十个处理器
+        
         $(document).off('click.bgGrid', '#bg-grid .bg-thumb').on('click.bgGrid', '#bg-grid .bg-thumb', function() {
             const index = Number(this.getAttribute('data-index'));
             if (isNaN(index)) return;
@@ -6849,7 +6827,7 @@ const EventManager = {
             BackgroundManager.renderPreview();
         });
 
-        // renderPreview - buildGrid 现在是异步的，需要等待完成
+        
         const _origRenderPreviewGrid = BackgroundManager.renderPreview;
         BackgroundManager.renderPreview = async function() {
             if (this.backgrounds.length === 0) return;
@@ -6861,9 +6839,9 @@ const EventManager = {
         };
     })();
 
-    /* ============================================================
-     * 覆盖 MusicPlayer.getFullPath，从 IndexedDB 缓存解析音乐路径
-     * ============================================================ */
+    
+
+
     (function patchMusicPlayer() {
         const RDM = ResourceDownloadManager;
         if (typeof MusicPlayer === 'undefined' || !MusicPlayer.prototype) return;
@@ -6872,24 +6850,21 @@ const EventManager = {
         MusicPlayer.prototype.getFullPath = function(filename) {
             if (!filename) return '';
             const full = _origGetFullPath.call(this, filename);
-            // 用缓存解析（已下载→blob URL，未下载→默认资源）
             return RDM.getCachedMusicPath(full);
         };
     })();
 
-    /* ============================================================
-     * 未下载音乐资源包时禁止打开音乐列表
-     * ============================================================ */
+
     document.addEventListener('click', function(e) {
         const target = e.target;
         const btn = target && target.closest ? target.closest('#music-playlist-btn') : null;
         if (!btn) return;
-        // 未下载音乐资源也可打开列表；未下载曲目在列表里过滤（见 music.js）
+        
     }, true);
 
-    /* ============================================================
-     * 效果设置 / 声音设置弹窗
-     * ============================================================ */
+    
+
+
     $('#sidebar-effect-settings-btn').on('click', function() {
         EventManager.openModal('effect-settings-modal');
     });
@@ -6906,10 +6881,10 @@ const EventManager = {
         if ($(e.target).is(this)) EventManager.closeModal($(this).attr('id'));
     });
 
-    /* ============================================================
-     * 热更新常量（安全增量：只加常量，不改旧代码逻辑）
-     * ============================================================ */
-    // 热更新源（无 COS）：Cloudflare Worker 反代 → GitHub raw → jsDelivr
+    
+
+
+    
     var HU_DOMAIN_BASE = 'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-apk-release/dev/boot'; 
     var HU_WORKER_BASE = 'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/dev/boot';
     var HU_RAW_BASE = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/dev/boot';
@@ -6918,15 +6893,15 @@ const EventManager = {
     var HU_PROXY_BASE = HU_DOMAIN_BASE;
     var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@dev/boot';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
-    // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
-    // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.154';
-    // 版本文件始终覆盖，避免与旧版同大小时被跳过
+    
+    
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.155';
+    
     var __HU_SIZE_BUMP_150 = 1;
 
-    /* ============================================================
-     * 检查更新
-     * ============================================================ */
+    
+
+
     $('#sidebar-update-check-btn').on('click', function() {
         window.__huBusy = false;
         $('#update-check-progress').hide();
@@ -6946,7 +6921,7 @@ const EventManager = {
                 }
                 var curVer = window.HU_BUILD_VERSION;
                 if (hasUpdate) {
-                    // 第一步：确认是否更新（此时还没有下载任何东西）
+                    
                     $('#update-check-status').html(
                         '<span style="color:#fbbf24;">' + __i18n('hu_new_version', '发现新版本') + '</span>' +
                         '<br>' + __i18n('hu_current_version', '当前版本：') + curVer +
@@ -6957,7 +6932,7 @@ const EventManager = {
                         EventManager.closeModal('update-check-modal');
                     });
                     $('#update-check-confirm').show().text(__i18n('hu_update_now', '立即更新')).off('click').on('click', function() {
-                        // 第二步：用户确认后才开始下载
+                        
                         window.__huBusy = true;
                         window.__huAttempting = true;
                         $('#update-check-later').hide();
@@ -6966,7 +6941,7 @@ const EventManager = {
                         $('#update-check-close').hide();
                         $('#update-check-progress').show();
                         $('#update-check-status').html(__i18n('hu_downloading', '正在下载更新包，请稍候…') + '<br><span style="color:#64748b;font-size:11px;">' + __i18n('hu_keep_open', '更新过程中请勿退出') + '</span>');
-                        // 用刚才 manifest 竞速选中的 base（可能是 Worker 反代），保证下载与版本一致
+                        
                         window.__huStartUpdate(window.__huActiveBase || HU_BASE_URL);
                     });
                 } else {
@@ -6982,7 +6957,7 @@ const EventManager = {
         }
     });
     $('#update-check-close, #update-check-cancel').on('click', function() {
-        if (window.__huBusy) return;  // 更新过程中不允许关闭
+        if (window.__huBusy) return;  
         EventManager.closeModal('update-check-modal');
     });
     $('#update-check-modal').on('click', function(e) {
@@ -6993,7 +6968,7 @@ const EventManager = {
         if (updated) { window.__huAttempting = false; }
         window.__huStopProgress();
         if (updated) {
-            // 下载完成 → 直接刷新生效
+            
             $('#update-check-progress').show();
             $('#update-check-progress-bar').css('width', '100%');
             $('#update-check-progress-text').text('100%');
@@ -7022,10 +6997,10 @@ const EventManager = {
         }
     };
 
-    /* ============================================================
-     * GM：自定义地址热更新（正式版里的私有测试通道）
-     * 只有解锁了 GM Debug 才看得到入口，不会影响普通玩家
-     * ============================================================ */
+    
+
+
+
     (function () {
         var GM_HU_URL_KEY = 'ab_gm_hu_url';
         var $btn = $('#gm-hotupdate-btn');
@@ -7034,21 +7009,20 @@ const EventManager = {
         if (!$btn.length || !$input.length) return;
 
         $('#gm-hotupdate-curver').text(window.HU_BUILD_VERSION || '-');
-        // 不自动回填历史链接（每次测试手动输入，避免旧地址残留）
+        
         try { localStorage.removeItem(GM_HU_URL_KEY); } catch (e) {}
 
         function showStatus(html, color) {
             $status.show().css('color', color || '#94a3b8').html(html);
         }
 
-        // 允许填 base 目录，也允许直接贴 .../manifest.json
+        
         function normalizeUrl(raw) {
             return String(raw || '').trim()
                 .replace(/\/+$/, '')
                 .replace(/\/manifest\.json$/i, '');
         }
 
-        // 原生下载结束后会回调这里：成功会自动刷新，失败则把原因留在 GM 面板
         var origUpdateResult = window.__onUpdateCheckResult;
         window.__onUpdateCheckResult = function (result) {
             if (window.__gmHuBusy) {
@@ -7076,7 +7050,7 @@ const EventManager = {
             }
             window.__gmHuBusy = true;
             $btn.prop('disabled', true);
-            // 开始更新后清空输入框，避免链接残留
+            
             $input.val('').blur();
             showStatus('正在拉取：<br><span style="color:#60a5fa;">' + url + '/manifest.json</span><br>下载完成后自动刷新，请勿退出', '#fbbf24');
             window.__huDownloadJs(url, function (ok, msg) {
@@ -7092,9 +7066,9 @@ const EventManager = {
         });
     })();
 
-    /* ============================================================
-     * GM：Toast 中心（调用/测试全部 toast）
-     * ============================================================ */
+    
+
+
     (function () {
         var $btn = $('#gm-toast-center-btn');
         if (!$btn.length) return;
@@ -7129,9 +7103,9 @@ const EventManager = {
         $search.on('input', function () { render(this.value); });
     })();
 
-    /* ============================================================
-     * GM：物品池授权码生成（按 UID 远程下发）
-     * ============================================================ */
+    
+
+
     (function () {
         var $btn = $('#gm-ipcode-gen-btn');
         if (!$btn.length) return;
@@ -7169,9 +7143,9 @@ const EventManager = {
         });
     })();
 
-    /* ============================================================
-     * GM：管理后台（资源管理 / 榜单管理）—— 整页 iframe
-     * ============================================================ */
+    
+
+
     (function () {
         var $page = $('#admin-frame-page');
         var iframe = document.getElementById('admin-frame');
@@ -7193,9 +7167,9 @@ const EventManager = {
         });
     })();
 
-    /* ============================================================
-     * GM：Mod 上传（本地 zip → GitHub 仓库）
-     * ============================================================ */
+    
+
+
     (function () {
         var TOKEN_KEY = 'ab_gh_token';
         var $tok = $('#gm-mod-token');
@@ -7238,9 +7212,9 @@ const EventManager = {
         });
     })();
 
-    /* ============================================================
-     * GM：Mod 管理（删除仓库中的 Mod 及文件）
-     * ============================================================ */
+    
+
+
     (function () {
         var TOKEN_KEY = 'ab_gh_token';
         var $btn = $('#gm-mod-manage-btn');
@@ -7322,11 +7296,11 @@ const EventManager = {
         $('#gm-mod-manage-close').on('click', close);
     })();
 
-    /* ============================================================
-     * GM：私链热更新弹窗 / 弹窗中心
-     * ============================================================ */
+    
+
+
     (function () {
-        // 私链热更新弹窗
+        
         $('#gm-hotupdate-open-btn').on('click', function () {
             if (window.ModalRegistry) ModalRegistry.open('gm-hotupdate-modal');
             else {
@@ -7342,17 +7316,17 @@ const EventManager = {
             }
         });
 
-        // 弹窗中心：列出游戏内所有弹窗，点击即可打开
+        
         function buildModalCenterList() {
             var $list = $('#gm-modal-center-list').empty();
             var ids = window.ModalRegistry ? window.ModalRegistry.list() : [];
-            // 排除自身和 item-tooltip
+            
             ids = ids.filter(function (id) {
                 return id !== 'gm-modal-center-modal' && id !== 'item-tooltip';
             });
             ids.sort();
 
-            // 需要走专属打开流程（含初始化）的弹窗，直接显示 DOM 会内容为空或异常
+            
             var SPECIAL_OPENERS = {
                 'music-playlist-modal': function () {
                     if (window.__openMusicPlaylist) window.__openMusicPlaylist(false);
@@ -7363,7 +7337,7 @@ const EventManager = {
             };
 
             ids.forEach(function (id) {
-                // 优先读取弹窗内的中文标题，找不到则用 id
+                
                 var $node = $('#' + id);
                 var title = '';
                 if ($node.length) {
@@ -7374,7 +7348,7 @@ const EventManager = {
                 var $btn = $('<button class="sidebar-btn" style="text-align:left;justify-content:flex-start;padding:8px 12px;"></button>')
                     .html('<i class="fas fa-window-maximize" style="margin-right:8px;color:#60a5fa;"></i>' + label)
                     .on('click', function () {
-                        // 先立刻关掉弹窗中心（不等关闭动画，否则其 z-index 10002 会遮挡刚打开的弹窗）
+                        
                         var $center = $('#gm-modal-center-modal');
                         $center.removeClass('show').css('display', 'none');
                         var opener = SPECIAL_OPENERS[id];
@@ -7410,15 +7384,15 @@ const EventManager = {
         });
     })();
 
-    /* ============================================================
-     * 热更新：fetch manifest + 进度条 + 红点 + 自动检查
-     * ============================================================ */
+    
+
+
     window.__huProgressTimer = null;
-    // 版本对比：支持 v2.3.0.hotfix.5 与 v2.1.0_hotfix.37（下划线/点均可）
-    // 规则：依次比 major → minor → patch → hotfix（无 hotfix 视为 0）
+    
+    
     window.__huVersionGt = function(a, b) {
         if (!a) return false;
-        if (!b) return true;  // 本地没存过版本 = 有更新
+        if (!b) return true;  
         function parse(v) {
             var hm = v.match(/[._]hotfix\.(\d+)/);
             var hotfix = hm ? parseInt(hm[1], 10) : 0;
@@ -7433,16 +7407,15 @@ const EventManager = {
         if (pa.hotfix !== pb.hotfix) return pa.hotfix > pb.hotfix;
         return false;
     };
-    // 右上角版本号立即同步为当前构建版本（不等 manifest 返回）
     try { $('#metaVersionDisplay').text('Arena Breakout Safebox Simulator ' + window.HU_BUILD_VERSION); } catch(e) {}
-    // fetch manifest + 版本对比 + 回调 (供 sidebar 按钮和自动检查共用)
-    // 主源并发竞速：Worker 反代（国内快）与 raw 直连同时请求，谁先回用谁；
-    // 两路都失败才退到 jsDelivr 兜底。选中的 base 同时用于后续原生下载，保证版本一致。
+    
+    
+    
     window.__huFetchAndCompare = function(onResult) {
         var done = typeof onResult === 'function' ? onResult : function() {};
         var finished = false;
-        // 三路并发：Worker / raw GitHub / jsDelivr 同时请求，选版本号最大的有效结果
-        // （避免 jsDelivr 缓存旧 manifest 导致误判「已是最新」）
+        
+        
         var curVer = window.HU_BUILD_VERSION || '';
         var bestM = null;
         var bestBase = null;
@@ -7451,22 +7424,17 @@ const EventManager = {
             if (finished) return;
             finished = true;
             if (!bestM) {
-                // 所有源都失败或返回的 manifest 版本异常（<= 本地版本），视为网络错误
                 done(null, false);
                 return;
             }
-            // 最高版本等于本地版本 → 真的已最新
             var hasUpdate = window.__huVersionGt(bestVer, curVer);
-            // 同版本优先走 Worker（国内可达）；否则用最高版本对应 base
             window.__huActiveBase = (workerM && bestM && workerM.version === bestM.version) ? HU_PROXY_BASE : bestBase;
-            // 顶部版本号固定显示本地构建版本（服务器版本受各线路缓存影响会跳变，只在更新弹窗里展示）
             done(bestM, hasUpdate);
         };
         var workerM = null;
         var record = function(m, base) {
             if (base === HU_PROXY_BASE && m && m.version) workerM = m;
             if (!m || !m.version) return;
-            // 拒绝异常旧版本（缓存回滚或脏数据），只有严格大于当前最佳才替换
             if (window.__huVersionGt(m.version, bestVer)) {
                 bestM = m;
                 bestBase = base;
@@ -7496,7 +7464,7 @@ const EventManager = {
                 error: function() { finish(null); }
             });
         };
-        // 三路并发，全部返回（成功/失败）后再选最高版本，避免不同线路缓存新旧不一致导致版本号跳变
+        
         var pending = 6;
         getOnce(HU_PROXY_BASE, gotOne);
         getOnce(HU_BASE_URL, gotOne);
@@ -7504,11 +7472,11 @@ const EventManager = {
         getOnce(HU_RAW_BASE, gotOne);
         getOnce(HU_WORKER_BASE, gotOne);
         getOnce(HU_DOMAIN_BASE, gotOne);
-        // 兜底：最长等 12s，超时直接结算（用已收到的最高版本）
+        
         setTimeout(settle, 12000);
     };
-    // 热更下载：逐文件校验大小后通过 writeFile 落盘，全部成功才算更新完成。
-    // 不使用原生 check：它在单个文件下载失败时会跳过，却仍把版本号写成最新。
+    
+    
     window.__huB64 = function (buf) {
         var bytes = new Uint8Array(buf), bin = '', chunk = 0x8000;
         for (var i = 0; i < bytes.length; i += chunk) {
@@ -7555,7 +7523,6 @@ const EventManager = {
                             tries++;
                             var have = 0;
                             try { have = bt.fileSize ? (Number(bt.fileSize('www/' + f.path)) || 0) : 0; } catch (e) { have = 0; }
-                            // 版本文件即使大小相同也必须覆盖，否则只改版本号时会被误判为已存在
                             var forceVer = (f.path === 'js/script_new.js' || f.path === 'index.html');
                             if (!forceVer && f.size && have === f.size) { doneCount++; active--; pump(); return; }
                             var line = bases[(tries - 1) % bases.length];
@@ -7618,7 +7585,7 @@ const EventManager = {
         $('#update-check-progress-bar').css('width', pct + '%');
         $('#update-check-progress-text').text(pct + '%');
         window.__huProgressTimer = setInterval(function() {
-            // 模拟原生下载进度：平滑上升到 90% 停下（等 callback）
+            
             var prev = pct;
             var delta = Math.max(1, Math.floor(Math.random() * 5) + 1);
             pct = Math.min(90, prev + delta);
@@ -7641,13 +7608,13 @@ const EventManager = {
     window.__huShowRedDot = function(show) {
         $('[data-hudot]').css('display', show ? 'block' : 'none');
     };
-    // 自动检查（APP 启动 3s 后）
+    
     setTimeout(function() {
         try {
             window.__huFetchAndCompare(function(m, hasUpdate) {
                 if (hasUpdate) {
                     window.__huShowRedDot(true);
-                    // 新增：toast 提示有更新
+                    
                     if (typeof window.showToast === 'function') {
                         window.showToast('检测到新版本，请点击「检查更新」');
                     }
@@ -7658,9 +7625,9 @@ const EventManager = {
         } catch (e) {}
     }, 3000);
 
-    /* ============================================================
-     * 资源校验（供登录前加载界面调用）：清理中断下载产生的损坏记录
-     * ============================================================ */
+    
+
+
     window.__validateResourcePacks__ = function() {
         if (!window.__validateResourcePacksPromise) {
             window.__validateResourcePacksPromise = ResourceDownloadManager.validateDownloads();
@@ -7668,11 +7635,11 @@ const EventManager = {
         return window.__validateResourcePacksPromise;
     };
 
-    /* ============================================================
-     * 云同步（免注册同步码）
-     * ============================================================ */
-    var SYNC_API = 'https://anqu-sync.sdfgasdfgwe7.workers.dev';  // Cloudflare Worker 云同步地址
-    // 同步范围登记在 js/storage.js 的 SYNC_REGISTRY，新增存档字段只需改那一处
+    
+
+
+    var SYNC_API = 'https://anqu-sync.sdfgasdfgwe7.workers.dev';  
+    
     var SYNC_KEYS = (window.Save && Save.syncKeys) ? Save.syncKeys() : [
         'darkzone_simulator_stats',
         'ab_shop_skills_v1',
@@ -7822,7 +7789,7 @@ const EventManager = {
         setTimeout(function () { window.__huReload(); }, 800);
     }
 
-    // 监听本地进度变化 → 3 秒防抖自动上传
+    
     try {
         var _syncOrigSet = Storage.prototype.setItem;
         Storage.prototype.setItem = function (k, v) {
@@ -7907,7 +7874,7 @@ const EventManager = {
         syncRefreshUi();
     }
 
-    // 启动后检查云端是否有更新的进度
+    
     setTimeout(function () {
         try {
             var code = syncGetCode();
@@ -7922,11 +7889,11 @@ const EventManager = {
         } catch (e) {}
     }, 5000);
 
-    /* ============================================================
-     * 输入框焦点修复
-     * Android WebView 下首次点击输入框可能不聚焦/不弹键盘，
-     * 这里做一次强制聚焦兜底（含 readonly 预热法）。
-     * ============================================================ */
+    
+
+
+
+
     (function () {
         function isField(el) {
             if (!el || !el.tagName) return false;
@@ -7940,7 +7907,7 @@ const EventManager = {
                 el.focus();
                 setTimeout(function () {
                     if (document.activeElement === el) return;
-                    // 第二次尝试：readonly 预热法（可强制唤起输入法）
+                    
                     try {
                         el.setAttribute('readonly', 'readonly');
                         el.focus();
@@ -7968,14 +7935,14 @@ const EventManager = {
         }, true);
     })();
 
-    // ===== Mod 库接入桥 =====
+    
     window.__modHooks = {
         refreshItemPool: function () { SettingsManager.updateItemPool(); },
-        // 开关/删除物品类 Mod 后清空当前局（否则盘面残留旧物品）
+        
         resetBoard: function () {
             try { if (State.items && State.items.length) GameController.resetGame(); } catch (e) {}
         },
-        // 背景类 Mod 被删除/停用：若当前正在使用它的背景，立即回退到默认背景
+        
         clearModBackgroundIfCurrent: function (modId) {
             try {
                 var key = BackgroundManager.storageKey;
@@ -7991,19 +7958,19 @@ const EventManager = {
         },
         calcWeight: function (v) { return GameCore.calculateItemWeight(v); },
         searchTime: function (r) { return _.get(Config.searchTimes, r, Config.searchTimes.purple); },
-        // 替换 BackgroundManager.backgrounds 中的 Mod 背景部分
+        
         appendModBackgrounds: function (list) {
             var base = BackgroundManager.backgrounds.filter(function (b) {
                 return !(typeof b.id === 'string' && b.id.indexOf('mod_') === 0);
             });
             BackgroundManager.backgrounds = base.concat(list || []);
-            // 若背景选择器正在显示，重建网格
+            
             try {
                 if ($('#bg-select-modal').hasClass('show') && BackgroundManager.buildGrid) BackgroundManager.buildGrid();
             } catch (e) {}
         }
     };
-    // 背景类 Mod：加载完成后追加
+    
     var __origLoadBgs = BackgroundManager.loadBackgrounds;
     BackgroundManager.loadBackgrounds = async function () {
         var r = await __origLoadBgs.call(this);
@@ -8015,7 +7982,7 @@ const EventManager = {
         }
         return r;
     };
-    // 背景类 Mod：applyBackground 支持虚拟路径 mods/...（转 blob URL + 视频标记）
+    
     var __origApplyBg = BackgroundManager.applyBackground;
     BackgroundManager.applyBackground = function (path, isVideoHint, fallbackPath, skipSave) {
         if (typeof path === 'string' && path.indexOf('mods/') === 0 && window.ModManager) {
@@ -8027,10 +7994,10 @@ const EventManager = {
         return __origApplyBg.call(this, path, isVideoHint, fallbackPath, skipSave);
     };
 
-    // 初始化资源下载管理器
+    
     ResourceDownloadManager.init();
 
-    // 暴露兑换解锁接口（供 redeem.js 调用）
+    
     window.__unlockSkillByRedeem = function(id) {
         if (typeof ShopManager === 'undefined') return { success: false, message: '技能系统未就绪' };
         const skill = ShopManager.getSkill(id);

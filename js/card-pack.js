@@ -1,4 +1,4 @@
-/* 名片资源包：按需下载到 IndexedDB，避免占用代码包流量 */
+
 (function (w) {
     'use strict';
     var MANIFEST_URLS = [

@@ -3,13 +3,13 @@
 import json, os, sys, urllib.request, uuid, mimetypes
 
 def upload(path):
-    # 1. 取上传服务器
+
     with urllib.request.urlopen('https://api.gofile.io/servers', timeout=20) as r:
         servers = json.load(r)
     server = servers['data']['servers'][0]['name']
     print('使用服务器:', server)
 
-    # 2. multipart 上传
+
     boundary = '----' + uuid.uuid4().hex
     fname = os.path.basename(path)
     ctype = mimetypes.guess_type(fname)[0] or 'application/octet-stream'

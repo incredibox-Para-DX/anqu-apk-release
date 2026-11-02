@@ -23,7 +23,7 @@
     font-style: normal;
     font-display: swap;
 }
-/* 字体统一由 CSS 变量控制，避免启动时遍历全部节点写内联样式（首屏优化） */
+
 :root {
     --ab-font-stack: 'Arena Breakout1', 'Microsoft YaHei', sans-serif;
 }
@@ -398,7 +398,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     display: none;
 }
 
-    /* 热更新红点 */
+    
     .hu-red-dot {
         position: absolute;
         top: -2px;
@@ -441,7 +441,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         50% { opacity: 0.7; transform: scale(0.85); }
     }
 
-    /* ===== 全局错误边界 ===== */
+    
     #ab-err-boundary {
         position: fixed;
         top: 0;
@@ -530,7 +530,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 
 </style>
 <script>
-/* 全局错误边界：把「点哪都没反应」降级成「可重新载入」的提示层 */
+
 (function () {
     var shown = false;
     var cooldownUntil = 0;
@@ -586,7 +586,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     }
 
     window.addEventListener('error', function (e) {
-        /* 图片/脚本 404 等资源加载失败不弹窗，只处理脚本运行时异常 */
+        
         if (!e) return;
         if (e.target && e.target !== window && !e.message) return;
         if (!e.message && !e.error) return;
@@ -604,7 +604,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         var r = e && e.reason;
         var name = r && r.name ? String(r.name) : '';
         var msg = r && r.message ? String(r.message) : String(r || '');
-        /* 网络失败/主动取消不是界面异常，避免弱网下误弹 */
+        
         if (name === 'AbortError') return;
         if (/failed to fetch|networkerror|load failed|network request failed|timeout|request aborted|aborterror|the user aborted/i.test(msg)) return;
         onError('Promise: ' + (msg || name || 'unhandled rejection'));
@@ -876,7 +876,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- 排行榜须知 -->
+
 <div class="modal-overlay" id="leaderboard-rules-modal">
 <div class="modal-content" style="max-width:420px;width:92vw;max-height:78vh;display:flex;flex-direction:column;">
 <div class="modal-header">
@@ -900,7 +900,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<!-- 名片 -->
+
 <div class="modal-overlay" id="card-modal">
 <div class="modal-content" style="max-width:460px;width:92vw;max-height:80vh;display:flex;flex-direction:column;">
 <div class="modal-header">
@@ -1076,7 +1076,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<!-- 背景设置弹窗 -->
+
 <div class="modal-overlay" id="bg-settings-modal">
 <div class="modal-content">
 <div class="modal-header">
@@ -1640,7 +1640,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<!-- 私链热更新弹窗 -->
+
 <div class="modal-overlay" id="gm-hotupdate-modal">
 <div class="modal-content">
 <div class="modal-header">
@@ -1655,7 +1655,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 </div>
-<!-- GM 弹窗中心 -->
+
 <div class="modal-overlay" id="gm-modal-center-modal">
 <div class="modal-content">
 <div class="modal-header">
@@ -1701,8 +1701,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 })();
 </script>
 <script>
-/* 侧边栏条目展开：用实际高度驱动 max-height，避免固定 2000px 导致的
-   展开拖沓 / 收起延迟，并让内容随高度一起淡入 */
+
+
 (function() {
     var OPEN_EASE = 'max-height 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease';
     var CLOSE_EASE = 'max-height 0.24s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.18s ease';
@@ -1816,7 +1816,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     }
 })();
 </script>
-<!-- Mod 制作与上传 指南页 -->
+
 <div class="modal-overlay app-full-page" id="mod-guide-page">
 <div class="modal-content bg-select-modal-content">
 <div class="modal-header mod-page-header">
@@ -1918,7 +1918,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- MOD库 整页 -->
+
 <div class="modal-overlay app-full-page" id="mod-library-page">
 <div class="modal-content bg-select-modal-content">
 <div class="modal-header mod-page-header">
@@ -1965,7 +1965,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- 物品池管理 未解锁提示 -->
+
 <div class="modal-overlay" id="item-unlock-modal">
 <div class="modal-content" style="max-width:400px;width:90vw;">
 <div class="modal-header">
@@ -1984,7 +1984,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- 管理后台 整页 iframe -->
+
 <div class="modal-overlay app-full-page" id="admin-frame-page">
 <div class="modal-content">
 <div class="modal-header mod-page-header">
@@ -1998,7 +1998,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- 首次启动 语言选择 -->
+
 <div class="modal-overlay" id="first-lang-modal" style="display:none; z-index:100200;">
 <div class="modal-content" style="max-width:420px; width:90vw;">
 <div class="modal-header">
@@ -2010,7 +2010,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- GM：Toast 中心 -->
+
 <div class="modal-overlay" id="gm-toast-center-modal">
 <div class="modal-content" style="max-width:460px;width:92vw;max-height:80vh;display:flex;flex-direction:column;">
 <div class="modal-header">
@@ -2024,7 +2024,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- GM：Mod 上传 -->
+
 <div class="modal-overlay" id="gm-mod-upload-modal">
 <div class="modal-content" style="max-width:460px;width:92vw;">
 <div class="modal-header">
@@ -2040,7 +2040,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- GM：Mod 管理 -->
+
 <div class="modal-overlay" id="gm-mod-manage-modal">
 <div class="modal-content" style="max-width:560px;width:94vw;max-height:80vh;display:flex;flex-direction:column;">
 <div class="modal-header">
@@ -2055,7 +2055,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- GM：物品池授权码 -->
+
 <div class="modal-overlay" id="gm-ipcode-modal">
 <div class="modal-content" style="max-width:460px;width:92vw;">
 <div class="modal-header">
@@ -2072,7 +2072,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 </div>
 
-<!-- 模组详情弹窗 -->
+
 <div class="modal-overlay" id="mod-detail-modal">
 <div class="modal-content mod-detail-content">
 <div class="modal-header">
@@ -2122,7 +2122,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/synthesis.js"></script>
 <script>
 (function () {
-    // 三源顺序：jsDelivr CDN → raw GitHub → GitHub Pages
+    
     var NOTIFICATION_URLS = [
         'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/ab-notice@main/index.html',
         'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/ab-notice@main/index.html',
@@ -2131,7 +2131,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         'https://incredibox-para-dx.github.io/ab-notice/'
     ];
     var NOTIFICATION_CACHE_KEY = 'ab_notice_cache_v1';
-    var NOTIFICATION_CACHE_TTL = 30 * 60 * 1000; // 30 分钟
+    var NOTIFICATION_CACHE_TTL = 30 * 60 * 1000; 
 
     var btn = document.getElementById('sidebar-notification-btn');
     var modal = document.getElementById('notification-modal');
@@ -2139,12 +2139,12 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     var closeBtn = document.getElementById('notification-modal-close');
     var refreshBtn = document.getElementById('notification-refresh-btn');
     var loading = document.getElementById('notification-loading');
-    var cachedHtml = null; // 内存级缓存（本次会话内）
+    var cachedHtml = null; 
     var loadingTimer = null;
     var rendered = false;
 
     if (iframe) iframe.addEventListener('load', function () {
-        // srcdoc 被清空时浏览器也会触发 load，此时不能当加载完成
+        
         if (iframe.srcdoc && iframe.srcdoc.length > 0) hideLoading();
     });
 
@@ -2169,7 +2169,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         if (loading) loading.style.display = 'none';
     }
 
-    /* ---- 公告缓存放 IndexedDB：公告页有几 MB，留在 localStorage 会挤占存档配额 ---- */
+    
     var NDB_NAME = 'ab_notice_db';
     var NDB_STORE = 'html';
     var notifDbPromise = null;
@@ -2214,12 +2214,12 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         }).catch(function () { return null; });
     }
 
-    /* 同步读取只用内存副本，避免把几 MB 字符串反复从磁盘拉起 */
+    
     function readNotifCache() {
         return cachedHtml;
     }
 
-    /* 老版本把公告 HTML 塞在 localStorage，首次启动搬到 IndexedDB 并删除旧 key */
+    
     function migrateLegacyNotifCache() {
         var raw = null;
         try { raw = localStorage.getItem(NOTIFICATION_CACHE_KEY); } catch (e) { return; }
@@ -2237,13 +2237,13 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
             var tx = db.transaction(NDB_STORE, 'readwrite');
             tx.objectStore(NDB_STORE).put({ id: 'latest', html: html, ts: Date.now() });
             tx.oncomplete = function () {
-                /* 只有写入成功才删旧 key，IndexedDB 不可用时保留原样 */
+                
                 try { localStorage.removeItem(NOTIFICATION_CACHE_KEY); } catch (e) {}
             };
         }).catch(function () {});
     }
 
-    // 统一走网络层（超时 / 离线短路）；net.js 未加载时退回本地实现
+    
     function fetchWithTimeout(url, timeout) {
         timeout = timeout || 8000;
         if (window.Net && Net.getText) {
@@ -2268,9 +2268,9 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         });
     }
 
-    // 多源顺序尝试（前两个走 fetch→srcdoc，最后一个 GitHub Pages 走 iframe.src）
+    
     async function tryAllSources(forceReload) {
-        // 离线：直接给本地缓存/内置文案，不等两个远程源各自超时
+        
         if (typeof navigator !== 'undefined' && navigator.onLine === false) {
             showOfflineFallback();
             return true;
@@ -2278,7 +2278,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         if (iframe.contentWindow) {
             try { iframe.srcdoc = ''; } catch (e) {}
         }
-        // 源 0,1: jsDelivr / raw GitHub → fetch HTML 写 srcdoc
         for (var i = 0; i < 2; i++) {
             try {
                 var html = await fetchWithTimeout(NOTIFICATION_URLS[i] + (forceReload ? ('?t=' + Date.now()) : ''), 8000);
@@ -2294,8 +2293,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
                 console.warn('[Notification] source ' + i + ' failed:', e && e.message);
             }
         }
-        // 源 2: GitHub Pages → iframe.src 兜底（允许 iframe 自行加载）
-        // 离线时 iframe.src 会一直空白且跨域无法判断成败，直接给缓存/内置文案
         if (typeof navigator !== 'undefined' && navigator.onLine === false) {
             showOfflineFallback();
             return true;
@@ -2312,14 +2309,14 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         }
     }
 
-    // 离线兜底：localStorage 缓存 → 内置静态文案
+    
     function showOfflineFallback() {
         var stored = readNotifCache();
         if (stored && stored.length > 0) {
             iframe.srcdoc = stored;
             rendered = true;
         } else {
-            // 完全离线：显示内置兜底 HTML
+            
             var offlineHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' +
                 'body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;' +
                 'margin:0;padding:24px;background:#0f1419;color:#e2e8f0;}' +
@@ -2341,21 +2338,21 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     function loadNotification(forceReload) {
         if (!iframe) return;
         showLoading();
-        // 优先用内存缓存（本次会话内预取过的）
+        
         if (!forceReload && cachedHtml) {
             iframe.srcdoc = cachedHtml;
             rendered = true;
             hideLoading();
             return;
         }
-        // 非强制刷新：先检查 localStorage 缓存（30min 内），有则秒开再后台刷新
+        
         if (!forceReload) {
             var stored = readNotifCache();
             if (stored && stored.length > 0) {
                 iframe.srcdoc = stored;
                 rendered = true;
                 hideLoading();
-                // 后台静默刷新，成功后更新内存/localStorage
+                
                 tryAllSources(false).then(function () {}).catch(function () {});
                 return;
             }
@@ -2365,8 +2362,8 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         }).catch(function () { showOfflineFallback(); });
     }
 
-    // 页面加载后预取（后台静默，失败不影响）
-    // 只缓存 HTML 文本，不写入 iframe：避免启动阶段解析 3MB+ 的公告页
+    
+    
     function preloadNotification() {
         if (window.Net && Net.getText) {
             Net.getText(NOTIFICATION_URLS[0], { cache: 'default', timeout: 15000 })
@@ -2390,7 +2387,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
             .catch(function () {});
     }
 
-    // 首屏期间不预取公告，等进入游戏后再在空闲时拉取
+    
     function scheduleNotificationPreload() {
         setTimeout(function () {
             if (window.requestIdleCallback) {
@@ -2401,7 +2398,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
         }, 6000);
     }
 
-    /* 释放老版本留在 localStorage 里的几 MB 公告缓存 */
+    
     migrateLegacyNotifCache();
 
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -2469,7 +2466,7 @@ window.__loadDebugConsole = function () {
 
     function a(n) {
         var r = n === 'arena1' ? e : t;
-        // 只改一个 CSS 变量，由样式表统一生效，不再逐个节点写内联样式
+        
         document.documentElement.style.setProperty('--ab-font-stack', r + ', Microsoft YaHei, sans-serif');
         n === 'arena1' ? u() : v();
         localStorage.setItem('ab_font_preference', n);
@@ -2512,15 +2509,15 @@ const mapBtn = document.getElementById('sidebar-map-btn');
 if (mapBtn) {
     mapBtn.addEventListener('click', function () {
         var url = 'https://aqtw.qq.com/act/a20260928map/menu.html?v=20261020v238c';
-        // Cordova WebView 里直接 location.href 会在当前 WebView 打开，
-        // 这个链接需要外部浏览器的话可以走 cordova.InAppBrowser.open，但先让它在 WebView 里试
+        
+        
         try { window.open(url, '_blank'); } catch (e) { try { location.href = url; } catch (e2) {} }
     });
 }
 </script>
 <script>
-// GM 调试上方小字（设备信息 / FPS）。包成可重复调用的函数，
-// 解锁后立即调用即可显示，无需刷新页面。
+
+
 window.__initGMDebugInfo = function () {
     if (document.getElementById('device-info-fps')) return;
     if (localStorage.getItem('ab_gm_unlocked') !== 'true') return;
@@ -2580,8 +2577,8 @@ window.__initGMDebugInfo = function () {
 };
 </script>
 <script>
-// 统一应用 GM 解锁状态：设 data-gm、显示侧边栏分组、加载 debug 控制台与小字。
-// 页面加载时若已解锁则调用一次；兑换码 hefunadmin 解锁后由 main.js 的 __enableGM 间接触发。
+
+
 window.__applyGMState = function () {
     if (localStorage.getItem('ab_gm_unlocked') !== 'true') return;
     try { document.body.setAttribute('data-gm', '1'); } catch (e) {}
@@ -2655,7 +2652,7 @@ if (document.readyState === 'loading') {
         window.__UI_SOUND_VOLUME__ = uiVolume;
         localStorage.setItem(VOLUME_KEY, String(uiVolume));
         renderVolume();
-        // 同步更新 Web Audio gain 节点，否则已加载的合成音效音量不变化
+        
         if (typeof window.setSpecialVolume === 'function') window.setSpecialVolume();
     }
 
@@ -2738,7 +2735,7 @@ if (document.readyState === 'loading') {
 })();
 </script>
 <script>
-/* toast 提示音音量控制：包装 window.showToast，使其播放的提示音使用独立的 toast 音量 */
+
 (function() {
     var toastDepth = 0;
     var savedUIVolume = null;
@@ -2751,13 +2748,13 @@ if (document.readyState === 'loading') {
             var ctx = this;
             var toastVol = (window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1;
 
-            /* 仅在首个 toast 进入时保存真正的 UI 音量，避免嵌套 toast 互相污染恢复值 */
+            
             if (toastDepth === 0) {
                 savedUIVolume = (window.__UI_SOUND_VOLUME__ != null) ? window.__UI_SOUND_VOLUME__ : 1;
             }
             toastDepth++;
 
-            /* toast 提示音使用独立的 toast 音量（不与 UI 音量相乘，保证各音量滑块互不影响） */
+            
             window.__UI_SOUND_VOLUME__ = toastVol;
             try {
                 return original.apply(ctx, args);
@@ -2792,7 +2789,7 @@ if (document.readyState === 'loading') {
 })();
 </script>
 <script>
-/* ===== 新版周排行榜 ===== */
+
 (function () {
     if (window.__leaderboardInitialized) return;
     window.__leaderboardInitialized = true;
@@ -2840,7 +2837,7 @@ if (document.readyState === 'loading') {
         const hideSfx = (sfx && sfx.hide !== undefined) ? sfx.hide : 'audio/toastend.mp3';
         if (showSfx) try {
             const toastAudio = new Audio(showSfx);
-            // 尊重「弹窗提示音量」滑块（__TOAST_VOLUME__，独立于界面音效音量），此前硬编码 0.555 导致调滑块不生效
+            
             toastAudio.volume = 0.555 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
             toastAudio.play().catch(() => {});
         } catch (e) {}
@@ -2851,7 +2848,7 @@ if (document.readyState === 'loading') {
         el._hideTimer = setTimeout(() => {
             if (hideSfx) try {
                 const toastEndAudio = new Audio(hideSfx);
-                // 与出现音一致，尊重「弹窗提示音量」（__TOAST_VOLUME__）
+                
                 toastEndAudio.volume = 0.565 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
                 toastEndAudio.play().catch(() => {});
             } catch (e) {}
@@ -2859,7 +2856,7 @@ if (document.readyState === 'loading') {
         }, duration);
     }
 
-    // ===== 敏感词过滤 =====
+    
     const BadWordFilter = (() => {
         let decodedBadWords = [];
         let isInitialized = false;
@@ -2902,7 +2899,6 @@ if (document.readyState === 'loading') {
         return { hasBadWord };
     })();
 
-    // ===== UID =====
     function getUid() {
         let uid = localStorage.getItem('ab_uid_clean');
         if (!uid) {
@@ -2916,7 +2912,7 @@ if (document.readyState === 'loading') {
         return uid;
     }
 
-    // ===== 获取玩家数据 =====
+    
     function getPlayerStats() {
         const value = window.__getWeeklyAccumulatedValue ? window.__getWeeklyAccumulatedValue() : 0;
         const searched = window.__getTotalSearchedItems ? window.__getTotalSearchedItems() : 0;
@@ -2924,12 +2920,12 @@ if (document.readyState === 'loading') {
         return { value: Math.round(value), searched: searched || 0, totalVal: totalVal || 0 };
     }
 
-    // ===== API 请求 =====
+    
     function sleep(ms) {
         return new Promise(function (resolve) { setTimeout(resolve, ms); });
     }
 
-    // 统一网络请求：超时 + 重试，避免弱网/服务端抖动直接报「请求异常」
+    
     async function requestWithRetry(url, options, attempts) {
         attempts = attempts || 3;
         if (window.Net && Net.request) {
@@ -2954,7 +2950,7 @@ if (document.readyState === 'loading') {
                 }
                 var res = await fetch(url, opts);
                 if (timer) clearTimeout(timer);
-                // 5xx / 429 视为可重试
+                
                 if ((res.status >= 500 || res.status === 429) && i < attempts - 1) {
                     lastError = new Error('HTTP ' + res.status);
                     await sleep(600 * (i + 1));
@@ -2970,9 +2966,9 @@ if (document.readyState === 'loading') {
         throw lastError || new Error('network error');
     }
 
-    // ===== 排行榜 localStorage 缓存 =====
+    
     var LB_CACHE_KEY = 'ab_leaderboard_cache_v1';
-    var LB_CACHE_TTL = 5 * 60 * 1000; // 5 分钟
+    var LB_CACHE_TTL = 5 * 60 * 1000; 
     function saveLBCache(data) {
         try {
             localStorage.setItem(LB_CACHE_KEY, JSON.stringify({ data: data, ts: Date.now() }));
@@ -2991,7 +2987,7 @@ if (document.readyState === 'loading') {
     async function fetchLeaderboard() {
         const weekStart = getMonday(new Date());
         try {
-            // 服务端按本周过滤，避免只取前 200 条导致本周数据被历史数据挤掉
+            
             const url = SUPABASE_URL + '/rest/v1/ab_leaderboard?week_start=eq.' + encodeURIComponent(weekStart) + '&order=total_value.desc.nullslast&limit=200';
             const res = await requestWithRetry(url, {
                 headers: {
@@ -3005,12 +3001,11 @@ if (document.readyState === 'loading') {
             }
             const allData = await res.json();
             if (!Array.isArray(allData)) return null;
-            // 兼容 week_start 带时间的情况，再做一次本地过滤
+            
             var filtered = allData.filter(function (item) {
                 const itemDate = item.week_start ? String(item.week_start).substring(0, 10) : '';
                 return !itemDate || itemDate === weekStart;
             });
-            // 成功后写入 localStorage 缓存（5min TTL），弱网时兜底
             saveLBCache(filtered);
             try { if (window.CloudProfile) { window.__lbAvatars = await window.CloudProfile.fetchProfiles(); } } catch (e) {}
             return filtered;
@@ -3175,7 +3170,7 @@ if (document.readyState === 'loading') {
         if (listEl) listEl.innerHTML = '<div class="leaderboard-loading"><i class="fas fa-spinner fa-spin"></i> 加载中...</div>';
         const data = await fetchLeaderboard();
         if (data === null) {
-            // 网络失败 → 尝试读 localStorage 缓存
+            
             var _cached = readLBCache();
             if (_cached && _cached.length > 0) {
                 allLeaderboardData = _cached;
@@ -3273,7 +3268,7 @@ if (document.readyState === 'loading') {
         }
     }
 
-    // ===== 弹窗控制 =====
+    
     const viewModal = document.getElementById('view-leaderboard-modal');
     const viewCloseBtn = document.getElementById('view-leaderboard-close');
     const refreshBtn = document.getElementById('refresh-leaderboard-btn');
@@ -3312,7 +3307,7 @@ if (document.readyState === 'loading') {
         viewLeaderboardBtn.addEventListener('click', openViewModal);
     }
 
-    // 排行榜须知
+    
     const rulesModal = document.getElementById('leaderboard-rules-modal');
     const rulesBtn = document.getElementById('leaderboard-rules-btn');
     const rulesClose = document.getElementById('leaderboard-rules-close');
@@ -3364,7 +3359,7 @@ if (document.readyState === 'loading') {
         });
     }
 
-    // ===== 个人资料 =====
+    
     function loadProfileAvatar() {
         const savedAvatar = localStorage.getItem('profile_avatar_data');
         const avatarImg = document.getElementById('profile-avatar');
@@ -3613,7 +3608,7 @@ if (document.readyState === 'loading') {
         bindCopyUID();
     }
 
-    // ===== 初始化 =====
+    
     window.showToast = showToast;
     window.getUid = getUid;
     window.initLeaderboard = function () {
@@ -3632,7 +3627,7 @@ if (document.readyState === 'loading') {
 })();
 </script>
 
-<!-- 自定义背景：系统相册/文件选择器 -->
+
 <input type="file" id="custom-bg-file-input" accept="image/*,video/*" style="display:none;">
 </body>
 </html>

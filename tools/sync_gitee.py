@@ -24,7 +24,7 @@ def main():
             shutil.rmtree(dst)
         shutil.copytree(src, dst)
     shutil.copy2(os.path.join(REPO, 'manifest.json'), os.path.join(MIRROR, 'manifest.json'))
-    # Mod 模板（供 mods.js 的 TEMPLATE_MIRROR 使用）
+
     tpl_src = os.path.join(REPO, 'tools', 'mod-template')
     if os.path.isdir(tpl_src):
         tpl_dst = os.path.join(MIRROR, 'tools', 'mod-template')

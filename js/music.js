@@ -40,22 +40,22 @@ class MusicPlayer {
             pendingRestoreTime: null,
             _lastSaveTime: 0,
             _isRestoring: false,
-            // 当前音频源真正对应的曲目索引（切源过程中与 currentTrackIndex 解耦）
+            
             _audioTrackIndex: 0,
-            // 切源瞬间禁止落盘，避免把旧曲目的进度写到新曲目上
+            
             _blockSave: false,
-            // 本次会话是否有过用户主动操作（切歌 / 拖进度条）
+            
             _userActed: false,
-            // 切歌后待补写新曲目起点，避免退出后恢复到上一首
+            
             _pendingSwitchCommit: false,
             _switchUnblockTimer: null,
             _restoreGuardTimer: null,
-            // 本地导入的音乐：元数据与音频字节都存在独立的 IndexedDB
+            
             customTracks: [],
             _customMusicDb: null,
             customMusicMaxSize: 40 * 1024 * 1024,
-            // 导入的本地音乐在没有扫描到内嵌封面时使用这张默认封面
-            // 注意：basePath 已是 'music-player/'，这里不要再加前缀，否则 getFullPath 会拼接成 music-player/music-player/...
+            
+            
             customMusicDefaultCover: 'covers/custom-music-default.png'
         });
         this.initImageCache();
@@ -82,7 +82,7 @@ class MusicPlayer {
         } catch (e) {}
     }
 
-    // 上次播放状态：曲目索引 / 进度 / 音量 / 播放模式
+    
     getLastStateKey() {
         return 'ab_music_last_state_v1';
     }
@@ -100,15 +100,15 @@ class MusicPlayer {
 
     savePlayState(force) {
         try {
-            // 恢复播放状态期间（init）不写，避免把进度覆盖成 0
+            
             if (this._isRestoring) return;
-            // 切源瞬间事件（pause / timeupdate）里的时间属于上一首，不能落盘
+            
             if (this._blockSave) return;
-            // seek 进行中位置不可信：只有强制保存（退出/暂停）且目标明确时按目标位置写
+            
             if (this.isSeeking && (!force || this.seekTarget == null)) return;
 
             const now = Date.now();
-            // 节流：非强制保存时最多每 2 秒写一次
+            
             if (!force && now - this._lastSaveTime < 2000) return;
             this._lastSaveTime = now;
 
@@ -116,23 +116,23 @@ class MusicPlayer {
             const audio = this.audio;
             const hasMeta = audio && audio.readyState >= 1;
 
-            // 索引与进度只有在元数据就绪时才更新；否则沿用上次保存值，
-            // 避免音频未加载就把进度抹成 0。
+            
+            
             let index = _.isNumber(prev.index) ? prev.index : this._audioTrackIndex;
             let time = prev.time;
 
             if (hasMeta) {
                 const t = this.isSeeking ? this.seekTarget : audio.currentTime;
                 if (isFinite(t) && t >= 0) {
-                    // 本次会话从未播放过、也未主动切歌/拖动（例如打开 App 看一眼就退出）：
-                    // 此时的 currentTime 恒为 0，不能拿它覆盖上次的真实进度。
+                    
+                    
                     const keepProgress = !this.hasStartedPlayback && !this._userActed && _.isNumber(prev.time);
                     index = keepProgress ? prev.index : this._audioTrackIndex;
                     time = keepProgress ? prev.time : t;
                 }
             }
 
-            // 音量与播放模式始终保存，不依赖音频是否加载完成
+            
             const data = {
                 index: index,
                 time: time,
@@ -144,8 +144,8 @@ class MusicPlayer {
     }
 
     isTrackOwned(index) {
-        // 本地导入的曲目默认属于自己，且不写入 ownedTracks，
-        // 这样删除任意一首都不会影响内置曲目的索引
+        
+        
         const track = this.playlist && this.playlist[index];
         if (track && track.isCustom) return true;
         return this.ownedTracks.includes(index);
@@ -177,7 +177,7 @@ class MusicPlayer {
             if (cached) {
                 const data = JSON.parse(cached);
                 if (_.get(data, 'version') === this.cacheVersion && data.cache) {
-                    // Object.entries 在旧版 WebView 上不稳定，手动遍历
+                    
                     const _m = new Map();
                     for (const _k in data.cache) {
                         if (Object.prototype.hasOwnProperty.call(data.cache, _k)) _m.set(_k, data.cache[_k]);
@@ -192,7 +192,7 @@ class MusicPlayer {
 
     saveImageCache() {
         try {
-            // Object.fromEntries 在旧版 WebView 不支持，手动遍历 Map
+            
             const _obj = {};
             this.imageCache.forEach(function(v, k) { _obj[k] = v; });
             localStorage.setItem(this.imageCacheKey, JSON.stringify({
@@ -204,9 +204,9 @@ class MusicPlayer {
     }
 
     async init() {
-        // 音乐资源缓存在 IndexedDB 里，MusicPlayer 往往比它先启动；
-        // 缓存为空时 getCachedMusicPath 会回退成默认音乐，导致恢复出错误曲目与进度。
-        // 这里最多等 4 秒，拿不到就照常继续（后续由 RDM.reconcileMusicSource 自愈）。
+        
+        
+        
         try {
             const rdm = window.ResourceDownloadManager;
             if (rdm && rdm.musicCacheReady) {
@@ -218,12 +218,12 @@ class MusicPlayer {
         } catch (e) {}
 
         await this.loadPlaylistFromXML();
-        // 本地导入的曲目追加在内置曲目之后，索引因此保持稳定
+        
         await this.loadCustomTracks();
         this.setupAudio();
         this.isInitialized = true;
 
-        // 恢复上次播放的曲目与进度（不自动播放，保持暂停态）
+        
         this._isRestoring = true;
         const saved = this.loadPlayState();
         let startIndex = 0;
@@ -234,15 +234,15 @@ class MusicPlayer {
         if (saved && _.isNumber(saved.volume)) this.setVolume(saved.volume);
         if (saved && _.isNumber(saved.playMode)) this.playMode = saved.playMode;
 
-        // 必须在 loadTrack 之前设好：本地音频可能极快返回 loadedmetadata，
-        // 晚设置会错过这次事件，导致进度恢复失败
+        
+        
         if (saved && _.isNumber(saved.time) && saved.time > 1 && startIndex === saved.index) {
             this.pendingRestoreTime = saved.time;
         }
 
         this.loadTrack(startIndex, false);
 
-        // 恢复保护兜底：无论 seek 是否成功，最多 6 秒后解除，避免永久禁写
+        
         if (this._restoreGuardTimer) clearTimeout(this._restoreGuardTimer);
         this._restoreGuardTimer = setTimeout(() => this.endRestore(), 6000);
 
@@ -251,17 +251,17 @@ class MusicPlayer {
         this.bindUnloadSave();
     }
 
-    // 切源稳定后补写新曲目起点（未播放时时间就是 0），
-    // 否则用户切歌后直接退出，下次会恢复到上一首。
+    
+    
     commitSwitch() {
         if (!this._pendingSwitchCommit) return;
-        if (this._isRestoring) return; // 恢复流程中先挂起，等 endRestore
+        if (this._isRestoring) return; 
         this._pendingSwitchCommit = false;
         this.savePlayState(true);
     }
 
-    // 结束恢复态：只解除保护，不主动写盘。
-    // 这样即使 seek 没落地，也不会把 localStorage 里的正确进度抹成 0。
+    
+    
     endRestore() {
         if (!this._isRestoring) return;
         this._isRestoring = false;
@@ -310,11 +310,7 @@ class MusicPlayer {
         return this.basePath + filename;
     }
 
-    /* ============================================================
-     * 本地导入音乐
-     * 音频字节与元数据放在独立的 IndexedDB（ab_custom_music），
-     * 不写 localStorage，避免几十 MB 的音频撑爆 5MB 配额。
-     * ============================================================ */
+
     openCustomMusicDB() {
         if (!window.indexedDB) return Promise.reject(new Error('indexedDB unavailable'));
         if (this._customMusicDb) return Promise.resolve(this._customMusicDb);
@@ -334,7 +330,7 @@ class MusicPlayer {
         });
     }
 
-    // 用游标读取，兼容旧版 WebView（不一定有 getAll）
+    
     readCustomTrackRecords() {
         return this.openCustomMusicDB().then(db => new Promise((resolve, reject) => {
             const tx = db.transaction('tracks', 'readonly');
@@ -362,11 +358,11 @@ class MusicPlayer {
         if (!record || !record.blob || !record.id) return null;
         if (_.some(this.customTracks, t => t && t.customId === record.id)) return null;
         let blob = record.blob;
-        // 部分 WebView 读回来的 blob 会丢 type，补上保证能解码
+        
         if (!blob.type) {
             try { blob = new Blob([blob], { type: record.type || 'audio/mpeg' }); } catch (e) {}
         }
-        // 封面：优先用扫描到的内嵌封面，没有就用默认封面
+        
         let cover = this.customMusicDefaultCover;
         let coverBlobUrl = '';
         if (record.coverBlob) {
@@ -399,8 +395,6 @@ class MusicPlayer {
         return (raw || '本地音乐').slice(0, 40);
     }
 
-    // 读取 mp3 的 ID3v2 标签，提取标题/作者/内嵌封面。
-    // 没扫到就返回空字段，导入时用文件名当标题、默认封面兜底。
     async parseAudioTags(blob) {
         const out = { title: '', artist: '', coverBlob: null, coverType: '' };
         try {
@@ -418,7 +412,7 @@ class MusicPlayer {
             const frameSizeIsSynchsafe = (major === 4);
             const readText = (arr, start, encoding) => {
                 if (encoding === 1 || encoding === 2) {
-                    // UTF-16：终止符是 0x00 0x00，必须两字节两字节地找，否则会把 ASCII 字符的高字节 0x00 当成终止符
+                    
                     let i = start;
                     while (i + 1 < arr.length && !(arr[i] === 0 && arr[i + 1] === 0)) i += 2;
                     const slice = arr.slice(start, i);
@@ -444,7 +438,6 @@ class MusicPlayer {
                     fsize = ((data[pos + 4] & 0x7f) << 21) | ((data[pos + 5] & 0x7f) << 14)
                         | ((data[pos + 6] & 0x7f) << 7) | (data[pos + 7] & 0x7f);
                 } else {
-                    // v2.3 帧大小是 32 位大端，用乘法避免 <<24 在 JS 里变负数
                     fsize = data[pos + 4] * 0x1000000 + (data[pos + 5] << 16) + (data[pos + 6] << 8) + data[pos + 7];
                 }
                 if (fsize <= 0 || pos + 10 + fsize > data.length) break;
@@ -458,16 +451,16 @@ class MusicPlayer {
                     let j = 1;
                     while (j < frame.length && frame[j] !== 0) j++;
                     const mime = new TextDecoder('ascii').decode(frame.subarray(1, j));
-                    j++; // picture type
+                    j++; 
                     if (j < frame.length) j++;
-                    // description：UTF-16 的终止符是 0x00 0x00，需两字节步进
+                    
                     let k = j;
                     if (enc === 1 || enc === 2) {
                         while (k + 1 < frame.length && !(frame[k] === 0 && frame[k + 1] === 0)) k += 2;
-                        k += 2; // 跳过 UTF-16 终止符 0x00 0x00
+                        k += 2; 
                     } else {
                         while (k < frame.length && frame[k] !== 0) k++;
-                        k++; // 跳过单字节终止符
+                        k++; 
                     }
                     if (k < frame.length) {
                         const imgBytes = frame.subarray(k);
@@ -477,7 +470,7 @@ class MusicPlayer {
                 }
                 pos += 10 + fsize;
             }
-        } catch (e) { /* 解析失败就走默认值 */ }
+        } catch (e) {  }
         return out;
     }
 
@@ -545,7 +538,6 @@ class MusicPlayer {
         return added;
     }
 
-    // 长按弹窗保存修改后的元数据/封面/音频
     async updateCustomTrack(index, patch) {
         const track = this.playlist[index];
         if (!track || !track.isCustom) return false;
@@ -577,7 +569,7 @@ class MusicPlayer {
                 tx.oncomplete = () => resolve();
                 tx.onerror = () => reject(tx.error);
             });
-            // 释放旧的 blob url，按新数据重建
+            
             if (track._blobUrl) { try { URL.revokeObjectURL(track._blobUrl); } catch (e) {} }
             if (track._coverBlobUrl) { try { URL.revokeObjectURL(track._coverBlobUrl); } catch (e) {} }
             let audioBlob = rec.blob;
@@ -595,7 +587,7 @@ class MusicPlayer {
             track.cover = cover;
             track.title = rec.title;
             track.artist = rec.artist;
-            // 只有更换了音频文件才需要切源；改名称/作者/封面不中断当前播放
+            
             if (blobChanged && this.currentTrackIndex === index) {
                 this.loadTrack(index, false);
             }
@@ -619,7 +611,7 @@ class MusicPlayer {
         }
         this.playlist.splice(index, 1);
         this.customTracks = this.customTracks.filter(t => t !== track);
-        // 删的是当前曲目之前的：当前索引整体前移一位
+        
         if (!wasCurrent && index < this.currentTrackIndex) {
             this.currentTrackIndex -= 1;
             this._audioTrackIndex -= 1;
@@ -635,7 +627,7 @@ class MusicPlayer {
             });
         } catch (e) {}
         if (wasCurrent) {
-            // 优先接替原位置，没有则退回最后一首已解锁曲目
+            
             const owned = this.getOwnedIndices();
             if (owned.length) {
                 let target = owned[0];
@@ -651,7 +643,7 @@ class MusicPlayer {
 
     setupAudio() {
         this.audio.volume = this.volume;
-        this.audio.preload = 'metadata'; // 只取时长信息，避免启动即缓冲整首曲子
+        this.audio.preload = 'metadata'; 
         const audio = this.audio;
         
         $(audio).on({
@@ -675,14 +667,14 @@ class MusicPlayer {
                 this.isSeeking = true;
             },
             seeked: () => {
-                // seek 落地后立刻校验一次；seekTo 尚未接管时按普通 seek 收尾
+                
                 if (this.seekTarget == null) { this.isSeeking = false; return; }
                 if (typeof this.seekCheck === 'function') this.seekCheck();
             },
             loadedmetadata: () => {
-                // 新音源元数据就绪后，切源期间的事件已经消化完，可以恢复落盘
+                
                 this._blockSave = false;
-                // 刚切到 blob 源：在这里恢复目标位置（blob 可 seek，写入即生效）
+                
                 if (this.pendingSeek != null) {
                     const target = this.pendingSeek;
                     const resume = this.pendingSeekResume;
@@ -695,12 +687,12 @@ class MusicPlayer {
                     if (resume) this.audio.play().catch(() => {});
                     return;
                 }
-                // 启动时恢复上次播放进度：seekTo 会自动处理 blob / 非 blob 音源
+                
                 if (this.pendingRestoreTime != null) {
                     const t = this.pendingRestoreTime;
                     this.pendingRestoreTime = null;
                     this.seekTo(t);
-                    // seek 落地后再解除恢复态；期间保持禁写，避免把 0 写回
+                    
                     setTimeout(() => this.endRestore(), 1500);
                     return;
                 }
@@ -709,7 +701,7 @@ class MusicPlayer {
                     this.isSeeking = false;
                     this.play();
                 }
-                // 没有待恢复进度时，元数据就绪即视为恢复完成
+                
                 this.endRestore();
             }
         });
@@ -781,11 +773,11 @@ class MusicPlayer {
     loadTrack(index, autoPlay = false) {
         if (_.isEmpty(this.playlist) || !_.inRange(index, 0, this.playlist.length)) return;
 
-        // 切源前先把上一首的真实进度落盘（此刻 currentTrackIndex 还是旧值）
+        
         if (!this._isRestoring) this.savePlayState(true);
-        // 切源会触发 pause / timeupdate，期间的 currentTime 属于上一首，一律不写
+        
         this._blockSave = true;
-        // 用户主动切歌：等切源稳定后补写新曲目的起点，否则退出会回到上一首
+        
         if (!this._isRestoring) {
             this._userActed = true;
             this._pendingSwitchCommit = true;
@@ -803,7 +795,7 @@ class MusicPlayer {
 
         const track = this.playlist[index];
         this.currentTrackIndex = index;
-        // 音频源绑定的索引：只有真正换源成功后才更新，保存进度用它
+        
         this._audioTrackIndex = index;
         this.isSeeking = false;
         this.pendingResume = false;
@@ -816,14 +808,14 @@ class MusicPlayer {
         if (this.seekTimer) { clearTimeout(this.seekTimer); this.seekTimer = null; }
         
         const fileUrl = track._blobUrl || this.getFullPath(track.file);
-        // 之前缓存的 blob 若来自另一个源（例如启动时缓存未就绪、按默认音乐转出来的），
-        // 继续复用会播成默认音乐而界面还显示当前曲目，这里强制丢弃重建
+        
+        
         if (track._seekBlobUrl && track._seekBlobSrc && track._seekBlobSrc !== fileUrl) {
             try { URL.revokeObjectURL(track._seekBlobUrl); } catch (e) {}
             delete track._seekBlobUrl;
             delete track._seekBlobSrc;
         }
-        // 同一首之前已转成 blob（例如单曲循环重启）：直接复用，保持可 seek
+        
         const playUrl = track._seekBlobUrl || fileUrl;
         
         if (track._blobUrl) {
@@ -836,14 +828,14 @@ class MusicPlayer {
             return;
         }
         
-        // 直接用文件地址播放，首帧不等 fetch
+        
         this.audio.src = playUrl;
         this.audio.load();
         if (autoPlay) {
             this.audio.play().catch(() => {});
         }
-        // 包内音源由 WebViewAssetLoader 提供，不支持 Range，无法直接 seek；
-        // 播放开始后后台取成同源 blob，供拖动进度条时切换（不影响当前播放）
+        
+        
         if (playUrl.indexOf('blob:') !== 0) this.prefetchSeekBlob(track, fileUrl);
         unblock();
     }
@@ -901,12 +893,12 @@ class MusicPlayer {
         return this.playModes[this.playMode];
     }
 
-    // 目标位置是否在浏览器给出的可 seek 区间内
+    
     canSeekTo(target) {
         const audio = this.audio;
         if (!audio) return false;
         const ranges = audio.seekable;
-        // 还没拿到区间信息（刚换源）时先放行，交给 seeked 事件判断
+        
         if (!ranges || ranges.length === 0) return true;
         for (let i = 0; i < ranges.length; i++) {
             if (target >= ranges.start(i) - 0.5 && target <= ranges.end(i) + 0.5) return true;
@@ -925,12 +917,8 @@ class MusicPlayer {
         if (!isFinite(target)) return false;
 
         const src = audio.currentSrc || audio.src || '';
-        // blob 源（已下载曲目 / 已转换的包内曲目）可直接原生 seek
         if (src.indexOf('blob:') === 0) return this.nativeSeek(target);
 
-        // 包内曲目由 WebViewAssetLoader 提供，响应不带 Content-Length 与 Range，
-        // 写 currentTime 会被静默忽略（表现就是进度条弹回）。先取成同源 blob，
-        // 再从 blob 源跳转；已下载曲目本来就是 blob，不会走到这里。
         const track = this.playlist[this.currentTrackIndex];
         if (track) {
             this.seekViaBlob(track, target, src);
@@ -939,8 +927,6 @@ class MusicPlayer {
         return this.nativeSeek(target);
     }
 
-    // 原生 seek：seek 期间只等待，绝不重写 currentTime。
-    // 重写会把排队中的 seek 打断重启，听感上就是“卡两下”，最后还弹回原位。
     nativeSeek(target) {
         const audio = this.audio;
         if (!audio) return false;
@@ -974,11 +960,11 @@ class MusicPlayer {
             this.seekCheck = null;
             this.isSeeking = false;
             this.seekTarget = null;
-            // 到位后若播放被中断才补一次 play；失败时不要再制造声音
+            
             const needResume = shouldResume && audio.paused && (ok || this.seekPaused);
             this.seekPaused = false;
             if (needResume) audio.play().catch(() => {});
-            // seek 真正落地，把最终位置写盘（此前 isSeeking 期间是禁写的）
+            
             if (ok) this.savePlayState(true);
         };
         const write = () => {
@@ -986,7 +972,7 @@ class MusicPlayer {
             this.seekLastWrite = Date.now();
             try { audio.currentTime = target; } catch (e) {}
         };
-        // 唯一的校验入口：由 seeked 事件和定时器共同驱动
+        
         const check = () => {
             if (token !== this.seekToken) return;
             if (Date.now() > this.seekDeadline) { finish(false); return; }
@@ -995,7 +981,7 @@ class MusicPlayer {
             if (!audio.seeking && drift <= 0.75) { finish(true); return; }
 
             if (audio.seeking) {
-                // 慢设备边播边 seek 会拖很久：超过 2.5 秒先暂停，让浏览器专心完成 seek
+                
                 if (!this.seekPaused && Date.now() - this.seekLastWrite > 2500) {
                     this.seekPaused = true;
                     try { audio.pause(); } catch (e) {}
@@ -1004,17 +990,17 @@ class MusicPlayer {
                 return;
             }
 
-            // 刚写过、seek 可能还没启动，先给浏览器一点时间
+            
             if (Date.now() - this.seekLastWrite < 900) { arm(350); return; }
 
-            // 位置仍是旧的：补写一次（最多 2 次，每次都会让音频卡一下）
+            
             if (this.seekAttempts < 2) { write(); arm(700); return; }
 
             finish(false);
         };
         this.seekCheck = check;
 
-        // 元数据未就绪时写 currentTime 会被直接忽略，等 loadedmetadata 再写
+        
         if (audio.readyState < 1) {
             $(audio).one('loadedmetadata', () => {
                 if (token !== this.seekToken) return;
@@ -1030,7 +1016,7 @@ class MusicPlayer {
         return true;
     }
 
-    // 把不可 seek 的音源取成 blob 后再跳转
+    
     seekViaBlob(track, target, src) {
         const token = ++this.seekToken;
         this.isSeeking = true;
@@ -1058,7 +1044,6 @@ class MusicPlayer {
                 return;
             }
 
-            // 切源到 blob，在 loadedmetadata 里恢复目标位置
             this.pendingSeek = target;
             this.pendingSeekResume = !audio.paused && !this.userPaused;
             this.isSeeking = true;
@@ -1067,7 +1052,6 @@ class MusicPlayer {
             audio.src = blobUrl;
             audio.load();
 
-            // 兜底：元数据迟迟不来也要放开锁，避免进度条一直卡住
             this.seekTimer = setTimeout(() => {
                 if (token !== this.seekToken) return;
                 this.pendingSeek = null;
@@ -1079,23 +1063,18 @@ class MusicPlayer {
         }).catch(fail);
     }
 
-    // 同一首只转换一次；并发调用复用同一个 Promise
     ensureSeekBlob(track, src) {
         if (!track) return Promise.resolve(null);
         if (track._seekBlobUrl) return Promise.resolve(track._seekBlobUrl);
         if (this.blobBuildTrack === track && this.blobBuildPromise) return this.blobBuildPromise;
 
         const url = src || this.getFullPath(track.file);
-        // 解析结果被回退成了默认音乐，而曲目本身不是默认曲目：
-        // 此时绝不能把这把字节缓存到该曲目上，否则会“封面是这首歌、声音是默认曲”
         if (this.isDefaultFallback(track, url)) return Promise.resolve(null);
         this.blobBuildTrack = track;
         const p = this.fetchAsBlobUrl(url).then(blobUrl => {
             if (blobUrl) {
                 track._seekBlobUrl = blobUrl;
-                // 记录这份 blob 对应的原始源，供 loadTrack 校验是否被错误复用
                 track._seekBlobSrc = url;
-                // 只有当它仍是当前曲目时才清理别人的 blob，避免误回收正在播放的那首
                 if (this.playlist[this.currentTrackIndex] === track) this.trimSeekBlobs(track);
             }
             return blobUrl;
@@ -1108,7 +1087,6 @@ class MusicPlayer {
         return p;
     }
 
-    // 只保留当前曲目的 blob，避免多首累计占用内存
     trimSeekBlobs(keep) {
         this.playlist.forEach(t => {
             if (t === keep || !t._seekBlobUrl) return;
@@ -1118,21 +1096,18 @@ class MusicPlayer {
         });
     }
 
-    // 解析出的路径是默认音乐、但曲目本身不是默认曲目 → 说明资源缓存还没就绪或未下载
     isDefaultFallback(track, url) {
         try {
             const rdm = window.ResourceDownloadManager;
             if (!rdm || !rdm.defaultMusicFile) return false;
             const def = rdm.defaultMusicFile;
             if (String(url).indexOf(def) === -1) return false;
-            // 曲目自己就是默认音乐时属于正常情况
             return (this.basePath + track.file).indexOf(def) === -1;
         } catch (e) {
             return false;
         }
     }
 
-    // 播放开始后后台预取 blob，用户第一次拖动时无需等待
     prefetchSeekBlob(track, url) {
         if (!track || !url || url.indexOf('blob:') === 0) return;
         if (track._seekBlobUrl) return;
@@ -1147,7 +1122,7 @@ class MusicPlayer {
         if (!url || url.indexOf('blob:') === 0) return null;
         const type = /\.(m4a|mp4)$/i.test(url) ? 'audio/mp4' : 'audio/mpeg';
         const candidates = [url];
-        // 页面若以 file:///android_asset 加载，再试 WebViewAssetLoader 的 https 入口
+        
         const m = String(url).match(/^file:\/\/\/android_asset\/(.+)$/);
         if (m) candidates.push('https://appassets.androidplatform.net/assets/' + m[1]);
 
@@ -1162,7 +1137,7 @@ class MusicPlayer {
                 }
             } catch (e) {}
 
-            // fetch 被拦时退回 XHR（部分 WebView 允许 file:// 的 XHR）
+            
             const viaXhr = await new Promise(resolve => {
                 try {
                     const xhr = new XMLHttpRequest();
@@ -1185,7 +1160,7 @@ class MusicPlayer {
         return null;
     }
 
-    // 进度条显示用：seek 尚未落地时显示目标位置，避免来回跳
+    
     getDisplayTime() {
         if (this.isSeeking && this.seekTarget != null) return this.seekTarget;
         const t = this.audio ? this.audio.currentTime : 0;
@@ -1273,7 +1248,7 @@ class MusicPlayer {
         }
     }
 
-    // 页面隐藏 / 卸载时立即保存当前播放进度
+    
     bindUnloadSave() {
         const save = () => this.savePlayState(true);
         window.addEventListener('pagehide', save);
@@ -1334,7 +1309,7 @@ $(function() {
         return null;
     };
 
-    // 曲名来自本地文件名，插进 HTML 前必须转义
+    
     const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[c]));
@@ -1348,7 +1323,7 @@ $(function() {
         } catch (e) {}
     };
 
-    // 通用点击音效（歌曲列表点击唱片统一使用）
+    
     const playItemClickSound = () => {
         try {
             const clickAudio = new Audio('audio/click.mp3');
@@ -1458,8 +1433,8 @@ $(function() {
         return _.clamp((x - offset.left) / width, 0, 1);
     };
 
-    // 拖动过程中只画预览，不碰 audio：旧实现每次 move 都写 currentTime，
-    // 会不断打断缓冲，松手后进度条又被真实播放位置拉回去
+    
+    
     const previewProgress = ratio => {
         const player = window.musicPlayer;
         const duration = (player && player.audio && player.audio.duration) || 0;
@@ -1481,7 +1456,7 @@ $(function() {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized)) return;
 
-        // 先播放音效，避免被DOM操作卡没（删除后重绘时静默）
+        
         if (!silent) {
             try {
                 const openAudio = new Audio('audio/open-music-playlist.mp3');
@@ -1494,7 +1469,7 @@ $(function() {
 
         $els.playlistContainer.empty();
         $els.playlistEmpty.toggle(_.isEmpty(player.playlist));
-        // 全屏歌曲列表页头部的统计
+        
         const $pageCount = $('#playlist-page-count');
         if ($pageCount.length) {
             $pageCount.text(player.playlist.length ? ('共 ' + player.playlist.length + ' 首') : '');
@@ -1503,7 +1478,6 @@ $(function() {
         let selectedIndex = player.currentTrackIndex;
 
         _.forEach(player.playlist, (track, index) => {
-            // 未下载的内置曲目不显示（默认/导入曲目除外）
             if (!track.isCustom && track.file && track.file !== 'BGM_Main_UI_Loop_A.mp3' &&
                 window.ResourceDownloadManager && window.ResourceDownloadManager.isDownloaded &&
                 !window.ResourceDownloadManager.isDownloaded('music-player/' + track.file)) {
@@ -1532,7 +1506,7 @@ $(function() {
                     $(this).addClass('active');
                     updateActionBar();
                 });
-            // 长按导入的音乐 → 弹出编辑弹窗
+            
             if (track.isCustom) {
                 (function() {
                     let pressTimer = null;
@@ -1581,7 +1555,7 @@ $(function() {
             const $btn = $('#pl-action-btn');
             const $del = $('#pl-del-btn');
             $title.text(track.title);
-            // 切换选中项时重置删除两段式状态
+            
             delArmed = false;
             if (disarmTimer) { clearTimeout(disarmTimer); disarmTimer = null; }
             $del.removeClass('del-armed').html('<i class="fas fa-trash-alt"></i> 删除');
@@ -1594,7 +1568,7 @@ $(function() {
                 $price.css('color', '#f5c34d');
                 $btn.text('购买').removeClass('play').addClass('buy').prop('disabled', false);
             }
-            // 删除按钮只对导入的本地音乐显示
+            
             if (track.isCustom) {
                 $del.css('display', '').prop('disabled', false);
             } else {
@@ -1624,7 +1598,7 @@ $(function() {
             }
         });
 
-        // 操作栏删除按钮：两段式确认
+        
         $('#pl-del-btn').on('click', () => {
             const track = player.playlist[selectedIndex];
             if (!track || !track.isCustom) return;
@@ -1652,20 +1626,20 @@ $(function() {
             updateActionBar();
         }
 
-        // 顶栏科恩币余额（与技能商店同款）
+        
         if (window.__refreshCoinBalances) window.__refreshCoinBalances();
         $els.playlistModal.css('display', 'flex');
         setTimeout(() => $els.playlistModal.addClass('show'), 10);
     };
 
-    // 长按导入的本地音乐 → 编辑弹窗：改名称/作者/封面/更换音频文件
+    
     const openCustomMusicEdit = (index) => {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized)) return;
         const track = player.playlist[index];
         if (!track || !track.isCustom) return;
 
-        // 先移除可能存在的旧弹窗
+        
         $('#custom-music-edit-modal').remove();
 
         const coverPath = player.getFullPath(track.cover);
@@ -1713,8 +1687,8 @@ $(function() {
             </div>
         `);
         $('body').append($modal);
-        // 编辑弹窗必须始终在播放列表之上：播放列表可能从弹窗中心以 z-index 10003 打开，
-        // 这里动态取播放列表当前层级 +1，避免硬编码被超过
+        
+        
         const plZ = parseInt($('#music-playlist-modal').css('z-index')) || 10001;
         $modal.css('z-index', plZ + 1);
 
@@ -1946,7 +1920,7 @@ $(function() {
         });
     });
 
-    // 音量滑块：支持点击 + 拖动（原仅 click，移动端难以精确调整）
+    
     let isDraggingVolume = false;
     const handleVolumeEvent = e => {
         e.stopPropagation();
@@ -1976,7 +1950,7 @@ $(function() {
             e.stopPropagation();
             e.preventDefault();
             if (e.type === 'touchstart') lastTouchTs = Date.now();
-            // 触摸后浏览器补发的 mousedown，忽略
+            
             else if (Date.now() - lastTouchTs < 800) return;
             const ratio = progressRatio(e);
             if (ratio === null) return;
@@ -1987,7 +1961,7 @@ $(function() {
         .on('click', e => {
             e.stopPropagation();
             e.preventDefault();
-            // 拖拽结束后的 click 已经提交过 seek，避免重复
+            
             if (suppressClick) return;
             const ratio = progressRatio(e);
             if (ratio === null) return;
@@ -2015,7 +1989,7 @@ $(function() {
             dragRatio = null;
         });
 
-    // 本地音乐导入：选择文件后直接进播放列表末尾
+    
     const importInput = document.getElementById('playlist-import-input');
     const triggerImport = e => {
         e.stopPropagation();
@@ -2061,7 +2035,7 @@ $(function() {
     controlsRafId = requestAnimationFrame(controlsLoop);
     updateMusicControls();
 
-    // 暴露给 GM 弹窗中心等外部调用，保证走完整初始化流程
+    
     window.__openMusicPlaylist = openPlaylist;
     window.__openCustomMusicEdit = openCustomMusicEdit;
 });

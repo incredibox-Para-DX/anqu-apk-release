@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateFont();
         
-        // 观察器只挂一次，重复调用不会叠加
+        
         if (!hefunFontObserver) {
             hefunFontObserver = new MutationObserver(() => {
                 updateFont();
@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentCreditIndex >= CREDITS_LIST.length || currentCreditIndex < 0) currentCreditIndex = 0;
         const person = CREDITS_LIST[currentCreditIndex];
         if (person) {
-            // 头像只在制作人员弹窗真正打开时才加载（HEFUN 的 GIF 有 4MB+，不参与首屏）
+            
             if (creditsModal.hasClass('show') || creditsModal.css('display') === 'flex') {
                 if (creditsAvatar.attr('src') !== person.avatar) {
                     creditsAvatar.attr('src', person.avatar);
@@ -443,11 +443,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateIndicators();
     });
     
-    // 弹窗打开（加上 .show）后再补加载头像，避免首屏拉取 4MB+ 的 GIF
+    
     if (creditsModal.length && window.MutationObserver) {
         new MutationObserver(function () {
             if (!creditsModal.hasClass('show')) return;
-            // 打开时保持当前头像：仅在尚未加载过（首次）才补加载，之后打开不再改变
+            
             if (creditsAvatar.attr('src')) return;
             const pending = creditsAvatar.attr('data-avatar-src');
             if (pending) creditsAvatar.attr('src', pending);
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setupGMDebugPersistent();
     }
 
-    // 供兑换码 hefunadmin 调用：立即开启 GM 模式（无需刷新页面）
+    
     window.__enableGM = function () {
         if (debugUnlocked) return;
         debugUnlocked = true;
@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (gmSection) gmSection.style.display = 'block';
         preloadFont();
         setupGMDebugPersistent();
-        // index.html 里的 GM 调试小字与 debug.js 控制台
+        
         if (typeof window.__initGMDebugInfo === 'function') window.__initGMDebugInfo();
         if (typeof window.__loadDebugConsole === 'function') window.__loadDebugConsole();
         if (typeof showToast === 'function') {
@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // 供 gm-pack 在“GM 资源包下载完成”后调用：完成 GM 初始化/加载控制台
+    
     window.__enableGMAfterPack = function () {
         try { preloadFont(); } catch (e) {}
         try { setupGMDebugPersistent(); } catch (e) {}
@@ -589,8 +589,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     $('#gm-debug-section').hide();
     
-    // HEFUN 的特殊字体不依赖 GM Debug 解锁：进页面就加载字体并持续套用，
-    // 否则重装/清数据后 localStorage 里的解锁标记丢失，字体就永远不生效
+    
+    
     loadSpecialFont();
     applySpecialFontToHeFun();
     if (window.FontFace) {
@@ -611,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setupGMDebugPersistent();
     }
 
-    // i18n：语言切换后刷新动态内容（段位名等）并重建选择器高亮
+    
     if (window.I18N) {
         window.I18N.onChange = function () {
             try { if (window.TitleManager && window.TitleManager.updateTitleDisplay) window.TitleManager.updateTitleDisplay(); } catch (e) {}
@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try { I18N.buildSelector(); } catch (e) {}
         };
         I18N.buildSelector();
-        // 自动翻译所有 toast（未收录的回退原文）
+        
         (function () {
             var orig = window.showToast;
             if (typeof orig !== 'function') return;

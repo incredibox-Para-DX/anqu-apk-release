@@ -469,7 +469,7 @@
                 });
 
                 enterBtn.addEventListener('click', function () {
-                    // 首次启动：先让玩家选择语言（选完自动重进）
+                    
                     var langChosen = true;
                     try { langChosen = localStorage.getItem('ab_lang_chosen') === '1' || !!localStorage.getItem('ab_app_lang'); } catch (e) {}
                     if (!langChosen && window.I18N && I18N.showFirstLaunchPicker) {
@@ -485,7 +485,7 @@
                         delete window.__resourceValidationNotice;
                         setTimeout(() => { try { if (window.showToast) window.showToast(notice); } catch (e) {} }, 1200);
                     }
-                    // 进入游戏不再播放 enter-game.mp3（用户反馈听感像退出弹窗音效）
+                    
 
                     this.style.pointerEvents = 'none';
                     this.style.opacity = '0';
@@ -534,7 +534,7 @@
                 }
             }
         };
-        // 真实加载完成前不提前显示登录；仅保留长超时兑底
+        
         setTimeout(revealLogin, 12000);
 
         (async () => {

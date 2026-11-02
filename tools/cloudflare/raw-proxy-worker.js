@@ -1,15 +1,15 @@
-/**
- * anqu-raw —— GitHub raw 反代 + 头像 CDN 上传（Cloudflare Worker）
- *
- * GET/HEAD：反代 GitHub raw（main / p-xxxx 分支）
- * POST /avatar/<uid>：把头像写入 anqu-collect-resources 的 avatars/ 目录，
- *   返回 jsDelivr CDN 地址。需要 Worker Secret：
- *     GH_TOKEN  GitHub token（对 anqu-collect-resources 有 contents 写权限）
- *     AVATAR_KEY 可选，客户端需带 x-avatar-key 才能上传
- *
- * 部署：Cloudflare Dashboard -> Workers & Pages -> anqu-raw -> 编辑代码粘贴本文件
- *       设置 -> 变量 -> 添加 GH_TOKEN（加密），可选 AVATAR_KEY
- */
+
+
+
+
+
+
+
+
+
+
+
+
 
 const OWNER = 'incredibox-Para-DX';
 const REPO = 'anqu-apk-release';
@@ -118,7 +118,7 @@ export default {
 
     const segs = path.split('/');
     let ref = 'main';
-    // 兼容 /<owner>/<repo>/<ref>/<path>（壳的 PROXY_ROOT 使用这种完整路径）
+    
     if (segs.length >= 4 && segs[0] === OWNER && segs[1] === REPO && REF_RE.test(segs[2])) {
       ref = segs[2];
       path = segs.slice(3).join('/');

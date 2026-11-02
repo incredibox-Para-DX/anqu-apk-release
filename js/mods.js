@@ -1,7 +1,7 @@
-/* Mod 库核心：清单拉取 / ZIP 下载解析校验 / IndexedDB 存储 / 装载注入 / 本地导入 / UI 渲染
- * 依赖：JSZip（window.JSZip）、jQuery、lodash
- * 虚拟资源路径约定：mods/<modId>/<zip 内相对路径>，由 ModManager.resolvePath 转成 blob URL
- */
+
+
+
+
 (function (w) {
     'use strict';
 
@@ -106,7 +106,7 @@
             }).catch(function () { return self._dlCounts || {}; });
         },
         _blobUrls: {},
-        _meta: {},        // modId -> meta（含 enabled）
+        _meta: {},        
         _itemsCache: null,
         _bgCache: null,
         _storeFilter: 'all',
@@ -141,7 +141,7 @@
         _currentTab: 'mine',
         _detailId: null,
 
-        /* ---------- IndexedDB ---------- */
+        
         openDB: function () {
             var self = this;
             if (this._db) return Promise.resolve(this._db);
@@ -231,7 +231,7 @@
             });
         },
 
-        /* ---------- 已安装注册表（localStorage 仅存开关状态） ---------- */
+        
         getInstalled: function () {
             try { return JSON.parse(localStorage.getItem(INSTALLED_KEY) || '{}') || {}; } catch (e) { return {}; }
         },
@@ -250,7 +250,7 @@
             }, function (e) { clearTimeout(t); throw e; });
         },
 
-        /* ---------- 清单 ---------- */
+        
         fetchManifest: function (force) {
             var self = this;
             var now = Date.now();
@@ -263,8 +263,8 @@
                     .then(function (m) { if (!m || !Array.isArray(m.mods)) throw new Error('bad manifest'); return m; })
                     .catch(function () { return null; });
             }
-            // 三路并发取最高 version：各线路（raw / jsDelivr）缓存刷新时间不一致，
-            // 串行取首个成功会拿到旧清单（例如只含早期模组）
+            
+            
             var tasks = this.manifestUrls.map(tryOne);
             return Promise.all(tasks).then(function (list) {
                 var best = null;
@@ -273,7 +273,7 @@
                     if (!best || (Number(m.version) || 0) > (Number(best.version) || 0)) best = m;
                 });
                 if (best) {
-                    // 本地持久化的已知最佳清单：网络只拿到旧版本时用它，避免市场凭空少模组
+                    
                     var cached = null;
                     try { cached = JSON.parse(localStorage.getItem(self.MANIFEST_CACHE_KEY) || 'null'); } catch (e) {}
                     if (cached && Array.isArray(cached.mods) && (Number(cached.version) || 0) > (Number(best.version) || 0)) {
@@ -286,7 +286,7 @@
                     try { localStorage.setItem(self.MANIFEST_CACHE_KEY, JSON.stringify({ version: best.version, mods: best.mods })); } catch (e) {}
                     return best;
                 }
-                // 全部失败：优先用内存、再回退到本地缓存
+                
                 if (self._manifest && Array.isArray(self._manifest.mods) && self._manifest.mods.length) {
                     return self._manifest;
                 }
@@ -298,7 +298,7 @@
             });
         },
 
-        /* ---------- ZIP 下载 ---------- */
+        
         downloadZip: function (relFile) {
             var bases = this.baseUrls.slice();
             function tryOne(i) {
@@ -311,7 +311,7 @@
             }
             return tryOne(0);
         },
-        // 带进度的下载（XHR onprogress），多线路回退
+        
         downloadZipProgress: function (relFile, onProgress) {
             var bases = this.baseUrls.slice();
             function tryOne(i) {
@@ -338,7 +338,7 @@
             return tryOne(0);
         },
 
-        /* ---------- 校验 ---------- */
+        
         _checkText: function (v, max, name) {
             v = String(v == null ? '' : v).trim();
             if (!v) return name + '不能为空';
@@ -352,7 +352,7 @@
             err = this._checkText(json.name, 20, '模组名称'); if (err) return err;
             err = this._checkText(json.author, 16, '作者名'); if (err) return err;
             err = this._checkText(json.version, 16, '版本号'); if (err) return err;
-            // 模组简介不限字数（仅需为字符串）
+            
             if (json.desc != null && typeof json.desc !== 'string') json.desc = String(json.desc);
 
             function normPath(p) {
@@ -371,7 +371,6 @@
                 return '';
             }
 
-            // 展示图（thumb.png / avatar.png 可选，缺失时用占位）
             var screenCount = 0;
             for (var s = 1; s <= LIMITS.screens; s++) if (zipEntry('screen-' + s + '.png')) screenCount++;
 
@@ -382,7 +381,7 @@
                     var it = json.items[i] || {};
                     var tag = '第 ' + (i + 1) + ' 个物品：';
                     err = this._checkText(it.name, 12, tag + '名称'); if (err) return err;
-                    // 道具简介不限字数（仅需为字符串）
+                    
                     if (it.desc != null && typeof it.desc !== 'string') it.desc = String(it.desc);
                     var wd = parseInt(it.width, 10), ht = parseInt(it.height, 10);
                     if (!(wd >= 1 && wd <= 5)) return tag + 'width 必须是 1~5';
@@ -440,7 +439,7 @@
             }[ext] || 'application/octet-stream';
         },
 
-        /* ---------- 安装 ---------- */
+        
         installFromZip: function (zipBlob, listMeta) {
             var self = this;
             if (!w.JSZip) return Promise.reject(new Error('ZIP 解析组件未加载'));
@@ -454,7 +453,7 @@
                 return f.async('blob');
             }
 
-            // 已上架模组用清单 id（稳定），本地导入用内容哈希（防重复安装）
+            
             var hashReady = this._hashBlob(zipBlob);
             var idReady = idOverride ? Promise.resolve(idOverride)
                 : hashReady.then(function (h) { return 'mod_' + h + '_' + zipBlob.size.toString(36); });
@@ -464,7 +463,6 @@
                 modId = res[0];
                 contentHash = res[1];
                 if (self._meta[modId]) throw new Error('该模组已安装，如需重装请先删除');
-                // 相同内容（换了个来源/id）也拦截
                 var dupId = null;
                 Object.keys(self._meta).forEach(function (k) {
                     if (!dupId && self._meta[k].hash && self._meta[k].hash === contentHash) dupId = k;
@@ -476,7 +474,6 @@
                 var names = Object.keys(z.files).filter(function (n) { return !z.files[n].dir; });
                 if (names.length > LIMITS.entries) throw new Error('zip 内文件数超过 ' + LIMITS.entries);
                 var namesLow = names.map(function (n) { return n.toLowerCase(); });
-                // mod.json 可能在根目录或唯一一级子目录
                 var modPath = names.find(function (n) { return /^mod\.json$/i.test(n); });
                 if (!modPath) {
                     var nested = names.find(function (n) { return /^[^/]+\/mod\.json$/i.test(n); });
@@ -484,7 +481,6 @@
                 }
                 if (!modPath) throw new Error('zip 内缺少 mod.json');
                 var rootDir = modPath.indexOf('/') === -1 ? '' : modPath.replace(/mod\.json$/i, '');
-                // 统一把子目录根忽略：读取时优先 rootDir
                 function resolveName(n) {
                     if (rootDir && zip.file(rootDir + n)) return rootDir + n;
                     if (zip.file(n)) return n;
@@ -492,14 +488,14 @@
                 }
                 return zip.file(modPath).async('string').then(function (txt) {
                     try { modJson = JSON.parse(txt); } catch (e) { throw new Error('mod.json 不是合法 JSON（常见原因：多写了逗号或引号）'); }
-                    // 校验用 rootDir 映射后的 zip
+                    
                     var proxy = { file: function (n) { var real = resolveName(n); return real ? zip.file(real) : null; } };
                     var err = self.validate(modJson, proxy, zipBlob.size);
                     if (err) throw new Error(err);
 
-                    // modId 已在入口确定（清单 id 或内容哈希）
+                    
                     var tasks = [];
-                    // 展示资源
+                    
                     ['thumb.png', 'avatar.png', 'screen-1.png', 'screen-2.png', 'screen-3.png'].forEach(function (n) {
                         tasks.push(readFile(resolveName(n) || n).then(function (blob) {
                             if (!blob) return;
@@ -508,7 +504,7 @@
                             assetRecs.push({ path: path, blob: blob, mime: self._mimeOf(n) });
                         }));
                     });
-                    // 内容资源
+                    
                     var contentFiles = [];
                     if (modJson.type === 'item') {
                         modJson.items.forEach(function (it) { contentFiles.push(it.image); if (it.sound) contentFiles.push(it.sound); });
@@ -559,15 +555,15 @@
                         }
                         return out;
                     }
-                    // 修正展示资源路径（若 zip 有外层目录，上面 readFile 用的是 resolveName 的真实名，
-                    // 但存 blob 时统一用标准名，故元数据里用标准名）
+                    
+                    
                     meta.thumbs = { thumb: zip.file('thumb.png') ? 'thumb.png' : null, avatar: zip.file('avatar.png') ? 'avatar.png' : null, screens: screenList() };
 
                     return self.putAssets(assetRecs).then(function () { return self.putMeta(meta); }).then(function () {
                         self._meta[modId] = meta;
                         wrote = true;
                         self.invalidateCache();
-                        // 关键：预载新安装资源的 blob URL，否则物品图片为空
+                        
                         return self.preloadBlobs();
                     }).then(function () {
                         return self.applyMod(meta).then(function () {
@@ -576,7 +572,7 @@
                     });
                 });
             }).catch(function (e) {
-                // 仅在已开始写入时清理，避免误删已安装的同 id 模组
+                
                 if (wrote && modId) {
                     self.deleteMetaAndAssets(modId).catch(function () {});
                     delete self._meta[modId];
@@ -593,7 +589,7 @@
             });
         },
 
-        /* ---------- GM：ZIP 直传 GitHub 仓库 ---------- */
+        
         GM_REPO: 'incredibox-Para-DX/anqu-mods-resources',
         GM_BRANCH: 'main',
         _ghApi: function (token, method, path, body) {
@@ -627,7 +623,7 @@
             return this._ghApi(token, 'GET', api + '?ref=' + this.GM_BRANCH).then(function (info) {
                 return self._ghApi(token, 'PUT', api, { message: message, content: base64, branch: self.GM_BRANCH, sha: info.sha });
             }).catch(function (e) {
-                // 文件不存在时直接新建
+                
                 if (String(e.message).indexOf('404') === -1) throw e;
                 return self._ghApi(token, 'PUT', api, { message: message, content: base64, branch: self.GM_BRANCH });
             });
@@ -667,7 +663,7 @@
                 });
                 return seq.then(function () {
                     st('更新 mods.json…');
-                    // 删除文件后重新拉取最新 sha，避免并发/过期 sha 导致 409
+                    
                     function putWithFresh() {
                         return self._ghApi(token, 'GET', api + '?ref=' + self.GM_BRANCH).then(function (fresh) {
                             var raw2; try { raw2 = decodeURIComponent(escape(atob(String(fresh.content || '').replace(/\n/g, '')))); } catch (e) { raw2 = '{}'; }
@@ -809,7 +805,7 @@
             }).then(function () { return createdEntry; });
         },
 
-        /* ---------- 资源路径解析 ---------- */
+        
         resolvePath: function (path) {
             if (!path || typeof path !== 'string') return path;
             if (path.indexOf('mods/') !== 0) return path;
@@ -834,7 +830,6 @@
             }
             return null;
         },
-        // 预载所有资源 blob URL（页面启动或安装后）
         preloadBlobs: function () {
             var self = this;
             return this.openDB().then(function (db) {
@@ -859,7 +854,7 @@
             });
         },
 
-        /* ---------- 注入 ---------- */
+        
         invalidateCache: function () {
             this._itemsCache = null;
             this._bgCache = null;
@@ -918,13 +913,11 @@
             this._bgCache = out;
             return out;
         },
-        // 追加背景（供 script_new 的 loadBackgrounds/初始化后调用）
         applyBackgroundsToManager: function () {
             if (w.__modHooks && w.__modHooks.appendModBackgrounds) {
                 w.__modHooks.appendModBackgrounds(this.getEnabledBackgrounds());
             }
         },
-        // 音乐：把启用中 Mod 的曲目写入 ab_custom_music 并挂到播放列表
         applyMusic: function (meta) {
             return this._applyMusicMeta(meta).catch(function () {});
         },
@@ -982,7 +975,7 @@
             meta.trackDefs.forEach(function (tr, i) { ids['mod_' + meta.id + '_' + i] = true; });
             var cur = player.playlist[player.currentTrackIndex];
             var removedCurrent = !!(cur && cur.isCustom && ids[cur.customId]);
-            // 从播放列表 / customTracks 移除
+            
             for (var i = player.playlist.length - 1; i >= 0; i--) {
                 var t = player.playlist[i];
                 if (t && t.isCustom && ids[t.customId]) {
@@ -995,7 +988,7 @@
                 player.customTracks = (player.customTracks || []).filter(function (t) { return !(t && ids[t.customId]); });
             } catch (e) {}
             if (removedCurrent) {
-                // 删除/停用后不再播放：停止当前音频，不自动切歌
+                
                 try { player.audio.pause(); } catch (e) {}
                 player.isPlaying = false;
                 player.userPaused = true;
@@ -1018,7 +1011,7 @@
                 });
             }).catch(function () {});
         },
-        // 应用一个 Mod（安装后 / 启动恢复）
+        
         applyMod: function (meta) {
             var self = this;
             var promises = [];
@@ -1050,7 +1043,7 @@
             return Promise.resolve();
         },
 
-        /* ---------- 开关 / 删除 ---------- */
+        
         toggle: function (id) {
             var meta = this._meta[id];
             if (!meta) return Promise.reject(new Error('模组不存在'));
@@ -1066,7 +1059,7 @@
             var self = this;
             var meta = this._meta[id];
             if (!meta) return Promise.resolve();
-            // 先移除注册与缓存并刷新物品池，避免残留（unapply 依赖 _meta 状态）
+            
             delete this._meta[id];
             this.invalidateCache();
             if (w.__modHooks && w.__modHooks.refreshItemPool) {
@@ -1085,7 +1078,7 @@
                 });
                 return self.deleteMetaAndAssets(id).catch(function () {});
             }).then(function () {
-                // 与 IndexedDB 对齐一次，避免内存与存储脱节导致列表错乱
+                
                 return self.getAllMeta().then(function (list) {
                     var fresh = {};
                     list.forEach(function (m) { fresh[m.id] = m; });
@@ -1107,10 +1100,10 @@
             return { bytes: total, count: count };
         },
 
-        /* ---------- 启动 ---------- */
+        
         init: function () {
             var self = this;
-            // 启动时先载入本地缓存清单，市场可立即展示（网络回来后自动更新）
+            
             try {
                 var c = JSON.parse(localStorage.getItem(this.MANIFEST_CACHE_KEY) || 'null');
                 if (c && Array.isArray(c.mods) && c.mods.length) { this._manifest = c; this._manifestTs = 0; }
@@ -1119,7 +1112,7 @@
                 list.forEach(function (m) { self._meta[m.id] = m; });
                 return self.preloadBlobs();
             }).then(function () {
-                // 恢复启用中的 Mod
+                
                 var seq = Promise.resolve();
                 Object.keys(self._meta).forEach(function (id) {
                     var m = self._meta[id];
@@ -1133,7 +1126,7 @@
             }).catch(function () {});
         },
 
-        /* ---------- UI ---------- */
+        
         openLibrary: function () {
             this.switchTab(this._currentTab || 'mine');
             openModal('mod-library-page');
@@ -1141,7 +1134,7 @@
             this.renderStoreList();
         },
         switchTab: function (tab) {
-            if (tab === 'import') tab = this._currentTab || 'mine'; // 导入不走页面切换
+            if (tab === 'import') tab = this._currentTab || 'mine'; 
             this._currentTab = tab;
             $('#mod-library-page .mod-tab-btn').removeClass('active');
             $('#mod-library-page .mod-tab-btn[data-tab="' + tab + '"]').addClass('active');
@@ -1150,13 +1143,12 @@
             if (tab === 'store') { this.renderStoreList(); this.markModsSeen(this._manifest); }
             if (tab === 'mine') this.renderMineList();
         },
-        /* 远程图片：离屏预载成功后再显示，彻底避免换线路时的闪动 */
+        
         _imgResolved: {},
         _assetImg: function (path, cls, alt) {
             if (!path) return '';
             return '<img data-modpath="' + esc(path) + '" class="mod-img ' + (cls || '') + '" alt="' + esc(alt || '') + '">';
         },
-        // 为 root 内所有待加载的模组远程图片做预载（优先用已验证线路）
         _loadModImgs: function (root) {
             var self = this;
             var imgs = (root || document).querySelectorAll('img[data-modpath]');
@@ -1191,7 +1183,7 @@
                 })(0);
             });
         },
-        _bindImgFallback: function () { /* 旧回退机制已由 _loadModImgs 取代 */ },
+        _bindImgFallback: function () {  },
 
         _metaToListShape: function (m) {
             return {
@@ -1199,7 +1191,6 @@
                 desc: m.desc, size: m.size, file: '', thumb: '', avatar: '', screens: []
             };
         },
-        // 统一风格确认弹窗（替代原生 confirm）
         _confirm: function (text, onOk) {
             var $m = $('#mod-confirm-modal');
             if (!$m.length) $m = $(this._confirmHtml());
@@ -1278,7 +1269,7 @@
                         });
                     });
                 });
-                // 点击行主体 / 缩略图查看详情（已安装模组的详情）
+                
                 $row.on('click', function () { self.openDetail(self._metaToListShape(m)); });
                 $row.find('.mod-row-thumb, .mod-row-main').css('cursor', 'pointer');
                 $list.append($row);
@@ -1292,15 +1283,15 @@
             var seq = ++this._storeSeq;
             Promise.all([this.fetchManifest(), this.fetchDownloadCounts()]).then(function (res) {
                 var m0 = res[0], counts = res[1] || {};
-                // 丢弃过期渲染（并发调用时只保留最新一次）
+                
                 if (seq !== self._storeSeq) return;
-                // 拿到的清单为空但内存里还有上次成功的数据 → 用旧的，不清空列表
+                
                 var m = m0;
                 if ((!m || !m.mods || !m.mods.length) && self._manifest && self._manifest.mods && self._manifest.mods.length) {
                     m = self._manifest;
                 }
                 if (!m || !Array.isArray(m.mods)) m = { version: 0, mods: [] };
-                // 相同数据不重复渲染（避免切页缩略图闪动）；已安装状态变化会进 key
+                
                 var key = [m.version, self._storeFilter, self._storeSearch, self._storeSort, Object.keys(self._meta).join(',')].join('|');
                 if (self._storeRenderKey === key && $list.children().length) return;
                 self._storeRenderKey = key;
@@ -1308,7 +1299,7 @@
                     if (self._storeFilter !== 'all' && x.type !== self._storeFilter) return false;
                     var kw = self._storeSearch.trim().toLowerCase();
                     if (!kw) return true;
-                    // 搜索只匹配名称与作者，不包含简介
+                    
                     return (String(x.name || '') + ' ' + String(x.author || '')).toLowerCase().indexOf(kw) !== -1;
                 });
                 $list.empty();
@@ -1337,7 +1328,7 @@
                     $row.find('.mod-detail-btn, .mod-row-thumb, .mod-row-main').on('click', function () { self.openDetail(x); });
                     $list.append($row);
                 });
-                // 列表图片可能插入前就已失败，插入后统一扫一次
+                
                 self._loadModImgs($list[0]);
             });
         },
@@ -1399,7 +1390,6 @@
                 '<div class="mod-detail-desc">' + esc(x.desc || '') + '</div>' +
                 actionHtml
             );
-            // 翻页圆点 + 5 秒自动轮播
             var $scr = $('#mod-detail-body .mod-detail-screens');
             if (this._detailTimer) { clearInterval(this._detailTimer); this._detailTimer = null; }
             if ($scr.length) {
@@ -1467,9 +1457,9 @@
                     self.renderStoreList();
                 }).catch(function (e) { toast(String(e.message || e)); });
             });
-            // 详情弹窗必须显示在 Mod 库整页（z-index 10001）之上
+            
             openModal('mod-detail-modal', 10050);
-            // 详情内远程图片同样挂超时兜底
+            
             this._loadModImgs(document.getElementById('mod-detail-body'));
         },
         importLocalFile: function (file) {
@@ -1487,7 +1477,7 @@
             });
         },
 
-        /* ---------- 事件绑定 ---------- */
+        
         bind: function () {
             var self = this;
             if ($('#sidebar-mod-library-btn').length) {
@@ -1500,7 +1490,7 @@
             $('#mod-library-close').on('click', function () { closeModal('mod-library-page'); });
             $('#mod-detail-close').on('click', function () { self.hideDetail(); });
             $('#mod-detail-modal').on('click', function (e) { if ($(e.target).is(this)) self.hideDetail(); });
-            // 复制模板链接（仅允许复制访问，不提供内置直接下载）
+            
             $('#mod-template-copy').on('click', function () {
                 var url = self.TEMPLATE_URL;
                 if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { toast('链接已复制'); });
@@ -1510,11 +1500,11 @@
                 if (navigator.clipboard) navigator.clipboard.writeText(GUIDE_QQ).then(function () { toast('QQ 已复制：' + GUIDE_QQ); });
                 else toast('QQ：' + GUIDE_QQ);
             });
-            // tab 切换（导入按钮单独处理）
+            
             $('#mod-library-page').on('click', '.mod-tab-btn[data-tab]', function () {
                 self.switchTab($(this).data('tab'));
             });
-            // 搜索 & 筛选
+            
             $('#mod-store-search').on('input', function () {
                 self._storeSearch = this.value || '';
                 self.renderStoreList();
@@ -1524,13 +1514,13 @@
                 self._storeFilter = $(this).data('f') || 'all';
                 self.renderStoreList();
             });
-            // 排序：默认 / 最新 / 最热
+            
             $('#mod-store-sort').on('click', '.mod-filter-btn[data-s]', function () {
                 $(this).addClass('active').siblings().removeClass('active');
                 self._storeSort = $(this).data('s') || 'default';
                 self.renderStoreList();
             });
-            // 刷新：强制重拉清单 + 下载量
+            
             $('#mod-store-refresh').on('click', function () {
                 var $b = $(this); if ($b.prop('disabled')) return;
                 $b.prop('disabled', true);
@@ -1540,14 +1530,13 @@
                     try { if (window.showToast) window.showToast('已刷新'); } catch (e) {}
                 }).catch(function () {}).then(function () { $b.prop('disabled', false); });
             });
-            // 筛选栏折叠/展开
+            
             $('#mod-filter-toggle').on('click', function () {
                 var $p = $('#mod-filter-panel');
                 var open = $p.hasClass('open');
                 $p.toggleClass('open', !open);
                 $('#mod-filter-arrow').css('transform', open ? '' : 'rotate(180deg)');
             });
-            // 从本地导入：直接唤起文件选择，不切页
             $('#mod-import-tab-btn').on('click', function () {
                 var inp = document.getElementById('mod-import-file');
                 if (inp) { inp.value = ''; inp.click(); }

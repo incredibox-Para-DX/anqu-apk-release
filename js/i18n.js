@@ -1179,7 +1179,7 @@
     }
     function _translateTextNode(node) {
         if (!node || node.nodeType !== 3 || _skipParent(node)) return;
-        if (I18N.getLang() === 'zh-CN') return; // 默认语言无需翻译，省开销
+        if (I18N.getLang() === 'zh-CN') return; 
         var cur = node.nodeValue;
         if (cur == null) return;
         var trimmed = cur.trim();
@@ -1309,7 +1309,7 @@
     }
     I18N.buildSelector = buildSelector;
 
-    // 首次启动语言选择弹窗（登录后调用）
+    
     I18N.showFirstLaunchPicker = function (onDone) {
         var modal = document.getElementById('first-lang-modal');
         var box = document.getElementById('first-lang-options');

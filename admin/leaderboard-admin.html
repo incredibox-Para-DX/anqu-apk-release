@@ -521,7 +521,7 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// 事件绑定
+
 document.getElementById('save-key-btn').onclick = () => {
     const key = document.getElementById('service-key').value.trim();
     if (key) { setServiceKey(key); showToast('Key 已保存', 'success'); }
@@ -540,7 +540,7 @@ document.getElementById('check-all').onchange = (e) => {
     updateBatchBtn();
 };
 
-// 初始化
+
 document.getElementById('service-key').value = getServiceKey();
 populateWeekOptions();
 fetchData();

@@ -1,4 +1,4 @@
-/* 收藏室资源包：从 Gitee 等线路下载 collect 图片到 IndexedDB，收藏室需先下载才能查看 */
+
 (function (w) {
     'use strict';
     var MANIFEST_URLS = [

@@ -155,9 +155,9 @@ def main():
         out_dir = os.path.join(args.repo, 'mods', slug)
         os.makedirs(out_dir, exist_ok=True)
 
-        # 拷贝 zip
+
         shutil.copy2(zpath, os.path.join(out_dir, 'mod.zip'))
-        # 提取展示图
+
         def extract(wanted, dest_name):
             src = pick_entry(names, wanted)
             if not src:
@@ -173,7 +173,7 @@ def main():
             if extract('screen-%d.png' % i, 'screen-%d.png' % i):
                 screens.append('mods/%s/screen-%d.png' % (slug, i))
 
-    # 更新 mods.json
+
     mpath = os.path.join(args.repo, 'mods.json')
     manifest = {'version': 1, 'mods': []}
     if os.path.isfile(mpath):
@@ -198,7 +198,7 @@ def main():
         'screens': screens,
         'updatedAt': int(__import__('time').time() * 1000)
     }
-    # 同 id 覆盖更新
+
     manifest['mods'] = [m for m in manifest['mods'] if m.get('id') != slug] + [entry]
     with open(mpath, 'w', encoding='utf-8') as f:
         json.dump(manifest, f, ensure_ascii=False, indent=2)

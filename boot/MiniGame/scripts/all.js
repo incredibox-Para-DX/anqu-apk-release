@@ -1,9 +1,9 @@
-﻿/**
- * this file was compiled by jsbuild 0.9.6
- * @date Fri, 20 Jul 2012 16:21:18 UTC
- * @author dron
- * @site http://ucren.com
- */
+﻿
+
+
+
+
+
 
 void function(global){
 	var mapping = {}, cache = {};
@@ -23,18 +23,18 @@ void function(global){
 	};
 }(this);
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\collide.js
- */ 
+
+
+ 
 define("scripts/collide.js", function(exports){
 	var fruit = require("scripts/factory/fruit");
 	var Ucren = require("scripts/lib/ucren");
 	
 	var fruits = fruit.getFruitInView();
 	
-	/**
-	 * 碰撞检测
-	 */
+	
+
+
 	
 	exports.check = function( knife ){
 		var ret = [], index = 0;
@@ -70,9 +70,9 @@ define("scripts/collide.js", function(exports){
 			return [ (-1 * b + Math.sqrt(delta)) / (2 * a),  (-1 * b - Math.sqrt(delta)) / (2 * a) ];
 	}
 	
-	// 返回线段和椭圆的两个交点，如果不相交，返回 null
+	
 	function lineXEllipse( p1, p2, c, r, e ){
-		// 线段：p1, p2    圆心：c    半径：r    离心率：e
+		
 		if (r <= 0) return;
 		e = e === undefined ? 1 : e;
 		var t1 = r, t2 = r * e, k;
@@ -102,7 +102,7 @@ define("scripts/collide.js", function(exports){
 		return result;
 	}
 	
-	// 判断计算线段和椭圆是否相交
+	
 	function lineInEllipse( p1, p2, c, r, e ){
 		var t = lineXEllipse( p1, p2, c, r, e );
 		return t && ( t[0] || t[1] );
@@ -112,9 +112,9 @@ define("scripts/collide.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\control.js
- */ 
+
+
+ 
 define("scripts/control.js", function(exports){
 	var Ucren = require("scripts/lib/ucren");
 	var knife = require("scripts/object/knife");
@@ -170,13 +170,13 @@ define("scripts/control.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\game.js
- */ 
+
+
+ 
 define("scripts/game.js", function(exports){
-	/**
-	 * game logic
-	 */
+	
+
+
 	var timeline = require("scripts/timeline");
 	var Ucren = require("scripts/lib/ucren");
 	var sound = require("scripts/lib/sound");
@@ -187,7 +187,7 @@ define("scripts/game.js", function(exports){
 	var lose = require("scripts/object/lose");
 	var gameOver = require("scripts/object/game-over");
 	var knife = require("scripts/object/knife");
-	// var sence = require("scripts/sence");
+	
 	var background = require("scripts/object/background");
 	var light = require("scripts/object/light");
 	
@@ -202,7 +202,7 @@ define("scripts/game.js", function(exports){
 	var snd;
 	var boomSnd;
 	
-	// fruit barbette
+	
 	var barbette = function(){
 	    if( fruits.length >= volleyNum )
 	        return ;
@@ -216,7 +216,7 @@ define("scripts/game.js", function(exports){
 	    barbette();
 	};
 	
-	// start game
+	
 	exports.start = function(){
 	    snd = sound.create( "sound/throw" );
 	    boomSnd = sound.create( "sound/boom" );
@@ -232,11 +232,11 @@ define("scripts/game.js", function(exports){
 	
 	    gameOver.show();
 	    
-	    // timeline.setTimeout(function(){
-	    //     // sence.switchSence( "home-menu" );
-	    //     // TODO: require 出现互相引用时，造成死循环，这个问题需要跟进，这里暂时用 postMessage 代替
-	    //     message.postMessage( "home-menu", "sence.switchSence" );
-	    // }, 2000);
+	    
+	    
+	    
+	    
+	    
 	
 	    scoreNumber = 0;
 	    volleyNum = 2;
@@ -275,11 +275,11 @@ define("scripts/game.js", function(exports){
 	    fruits.invoke( "pause" );
 	};
 	
-	// message.addEventListener("fruit.fallOff", function( fruit ){
-	// 	var index;
-	// 	if( ( index = fruits.indexOf( fruit ) ) > -1 )
-	// 	    fruits.splice( index, 1 );
-	// });
+	
+	
+	
+	
+	
 	
 	message.addEventListener("fruit.remove", function( fruit ){
 	    var index;
@@ -321,13 +321,13 @@ define("scripts/game.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\layer.js
- */ 
+
+
+ 
 define("scripts/layer.js", function(exports){
-	/**
-	 * layer manager
-	 */
+	
+
+
 	
 	var Raphael = require("scripts/lib/raphael");
 	var Ucren = require("scripts/lib/ucren");
@@ -372,8 +372,8 @@ define("scripts/layer.js", function(exports){
 			layer = Ucren.makeElement( "div", { "class": "layer", "style": "z-index: " + ( zindexs[name] || 0 ) + ";" } );
 			Ucren.Element( "extra" ).add( layer );
 			p = layers[name] = Raphael( layer, 640, 480 );
-			// if( Ucren.isSafari )
-			//     p.safari();
+			
+			
 			return p;
 		}
 	};
@@ -386,9 +386,9 @@ define("scripts/layer.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\main.js
- */ 
+
+
+ 
 define("scripts/main.js", function(exports){
 	var timeline = require("scripts/timeline");
 	var tools = require("scripts/tools");
@@ -475,24 +475,24 @@ define("scripts/main.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\message.js
- */ 
+
+
+ 
 define("scripts/message.js", function(exports){
-	/**
-	 * a simple message manager
-	 * @author dron
-	 * @date 2012-06-27
-	 */
+	
+
+
+
+
 	
 	var Ucren = require("scripts/lib/ucren");
 	
-	/**
-	 * send a message
-	 * @param  {Any} message,message...		message contents
-	 * @param  {String} to 					message address
-	 */
-	exports.postMessage = function( message/*, message, message... */, to ){
+	
+
+
+
+
+	exports.postMessage = function( message, to ){
 		var messages = [].slice.call( arguments, 0 ),
 			splitIndex = messages.length - 1;
 	
@@ -502,20 +502,20 @@ define("scripts/message.js", function(exports){
 		Ucren.dispatch( to, messages );
 	};
 	
-	/**
-	 * bind an message handler
-	 * @param {String}   from 	message address
-	 * @param {Function} fn 	message handler
-	 */
+	
+
+
+
+
 	exports.addEventListener = function( from, fn ){
 		Ucren.dispatch( from, fn );
 	};
 	
-	/**
-	 * remove an message handler
-	 * @param {String}   from 	message address
-	 * @param {Function} fn 	message handler
-	 */
+	
+
+
+
+
 	exports.removeEventListener = function( from, fn ){
 		Ucren.dispatch.remove( from, fn );
 	};;
@@ -524,9 +524,9 @@ define("scripts/message.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\sence.js
- */ 
+
+
+ 
 define("scripts/sence.js", function(exports){
 	var Ucren = require("scripts/lib/ucren");
 	var sound = require("scripts/lib/sound");
@@ -536,11 +536,11 @@ define("scripts/sence.js", function(exports){
 	var state = require("scripts/state");
 	var message = require("scripts/message");
 	
-	// the fixed elements
+	
 	var background = require("scripts/object/background");
 	var fps = require("scripts/object/fps");
 	
-	// the home page elements
+	
 	var homeMask = require("scripts/object/home-mask");
 	var logo = require("scripts/object/logo");
 	var ninja = require("scripts/object/ninja")
@@ -552,18 +552,18 @@ define("scripts/sence.js", function(exports){
 	var newSign = require("scripts/object/new");
 	var peach, sandia, boom;
 	
-	// the elements in game body
+	
 	var score = require("scripts/object/score");
 	var lose = require("scripts/object/lose");
 	
-	// the game logic
+	
 	var game = require("scripts/game");
 	
-	// the elements in 'developing' module
+	
 	var developing = require("scripts/object/developing");
 	var gameOver = require("scripts/object/game-over");
 	
-	// commons
+	
 	var message = require("scripts/message");
 	var timeline = require("scripts/timeline");
 	var setTimeout = timeline.setTimeout.bind( timeline );
@@ -572,15 +572,15 @@ define("scripts/sence.js", function(exports){
 	var menuSnd;
 	var gameStartSnd;
 	
-	// initialize sence
+	
 	exports.init = function(){
 	    menuSnd = sound.create( "sound/menu" );
 	    gameStartSnd = sound.create( "sound/start" );
-		[ background, homeMask, logo, ninja, homeDesc, dojo, newSign, newGame, quit, score, lose, developing, gameOver, flash /*, fps */ ].invoke( "set" );
-	    // setInterval( fps.update.bind( fps ), 500 );
+		[ background, homeMask, logo, ninja, homeDesc, dojo, newSign, newGame, quit, score, lose, developing, gameOver, flash  ].invoke( "set" );
+	    
 	};
 	
-	// switch sence
+	
 	exports.switchSence = function( name ){
 	    var curSence = state( "sence-name" );
 	    var senceState = state( "sence-state" );
@@ -616,16 +616,16 @@ define("scripts/sence.js", function(exports){
 	    else if( curSence.is( "quit-body" ) ) this.hideQuit( onHide );
 	};
     	
-// to enter home page menu
+
 exports.showMenu = function( callback ){
     var callee = arguments.callee;
     var times = callee.times = ++ callee.times || 1;
 
-    // 只创建 sandia（新游戏），删除 peach 和 boom
+    
     sandia = fruit.create( "sandia", 330, 322, true );
 
     [ sandia ].forEach(function( f ){ f.isHomeMenu = 1; });
-    sandia.isNewGameIcon = 1;  // 只保留新游戏功能
+    sandia.isNewGameIcon = 1;  
 
     var group = [
         [ homeMask, 0 ], 
@@ -648,18 +648,18 @@ exports.showMenu = function( callback ){
     setTimeout( callback, 2500 );
 };
 
-// to exit home page menu
+
 exports.hideMenu = function( callback ){
     [ newSign, newGame ].invoke( "hide" );
     [ homeMask, logo, ninja, homeDesc ].invoke( "hide" );
-    [ sandia ].invoke( "fallOff", 150 );  // 只让 sandia 掉落
+    [ sandia ].invoke( "fallOff", 150 );  
 
     menuSnd.stop();
     setTimeout( callback, fruit.getDropTimeSetting() );
 };
 
 	
-	// to enter game body
+	
 	exports.showNewGame = function( callback ){
 	    score.show();
 	    lose.show();
@@ -669,7 +669,7 @@ exports.hideMenu = function( callback ){
 	    setTimeout( callback, 1000 );
 	};
 	
-	// to exit game body
+	
 	exports.hideNewGame = function( callback ){
 	    score.hide();
 	    lose.hide();
@@ -678,27 +678,27 @@ exports.hideMenu = function( callback ){
 	    setTimeout( callback, 1000 );
 	};
 	
-	// to enter dojo mode
+	
 	exports.showDojo = function( callback ){
 	    developing.show( 250 );
 	    setTimeout( callback, 1500 );
 	};
 	
-	// to exit dojo mode
+	
 	exports.hideDojo = function( callback ){
-	    // TODO: 
+	    
 	    setTimeout( callback, 1000 );
 	};
 	
-	// to enter quit page
+	
 	exports.showQuit = function( callback ){
 	    developing.show( 250 );
 	    setTimeout( callback, 1500 );
 	};
 	
-	// to exit quit page
+	
 	exports.hideQuit = function( callback ){
-	    // TODO: 
+	    
 	    setTimeout( callback, 1000 );
 	};
 	
@@ -710,30 +710,30 @@ exports.hideMenu = function( callback ){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\state.js
- */ 
+
+
+ 
 define("scripts/state.js", function(exports){
-	/**
-	 * a simple state manager
-	 * @author 	dron
-	 * @date 	2012-06-28
-	 */
+	
+
+
+
+
 	var Ucren = require("scripts/lib/ucren");
 	var timeline = require("scripts/timeline");
 	
-	/**
-	 * usage:
-	 * state( key ).is( value )		->	determine if the value of key is the given value
-	 * state( key ).isnot( value )	->	determine if the value of key is not given value
-	 * state( key ).ison()			->	determine if the value of key is the boolean value 'true'
-	 * state( key ).isoff()			->	determine if the value of key is the boolean value 'false'
-	 * state( key ).isunset()		->	determine if the value of key is undefined
-	 * state( key ).set( value )	->	set the value of key to a given value
-	 * state( key ).get()			->	get the value of key
-	 * state( key ).on()			->	set the value of key to boolean value 'true'
-	 * state( key ).off()			->	set the value of key to boolean value 'false'
-	 */
+	
+
+
+
+
+
+
+
+
+
+
+
 	
 	var stack = {};
 	var cache = {};
@@ -810,7 +810,7 @@ define("scripts/state.js", function(exports){
 			},
 	
 			unhook: function(){
-			    // TODO: 
+			    
 			}
 		}
 	};;
@@ -819,30 +819,30 @@ define("scripts/state.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\timeline.js
- */ 
+
+
+ 
 define("scripts/timeline.js", function(exports){
-	/**
-	 * a easy timeline manager
-	 * @version 1.0
-	 * @author dron
-	 */
+	
+
+
+
+
 	
 	var Ucren = require("scripts/lib/ucren");
 	var timerCache = {};
 	var timeline = {};
 	
-	// var timer = timeline;
-	// <or>
-	// var timer = timeline.use( name ).init( 10 ); // to use a new timeline instance
-	// 
-	// var t = timer.createTask(...);
-	// t.stop();
-	// 
-	// timer.setTimeout(...);
-	// timer.setInterval(...);
-	// timer.getFPS();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	function ClassTimer(){
 	    this.tasks = [];
@@ -850,9 +850,9 @@ define("scripts/timeline.js", function(exports){
 	    this.adding = 0;
 	}
 	
-	/**
-	 * initialize timeline
-	 */
+	
+
+
 	ClassTimer.prototype.init = function( ms ){
 		var me = this;
 	
@@ -876,17 +876,17 @@ define("scripts/timeline.js", function(exports){
 	};
 	
 	
-	/**
-	 * create a task
-	 * @param  {Object} conf 	the config
-	 * @return {Task} 			a task instance
-	 */
+	
+
+
+
+
 	ClassTimer.prototype.createTask = function( conf ){
-		/* e.g. timer.createTask({
-			start: 500, duration: 2000, data: [a, b, c,..], object: module, 
-			onTimeUpdate: fn(time, a, b, c,..), onTimeStart: fn(a, b, c,..), onTimeEnd: fn(a, b, c,..),
-			recycle: []
-		}); */
+		
+
+
+
+
 		var task = createTask( conf );
 	    this.addingTasks.unshift( task );
 	    this.adding = 1;
@@ -899,12 +899,12 @@ define("scripts/timeline.js", function(exports){
 	    return task;
 	};
 	
-	/**
-	 * use a array to recycle the task
-	 * @param  {Array} queue	be use for recycling task
-	 * @param  {Task} task 		a task instance		
-	 * @return {Array}			this queue
-	 */
+	
+
+
+
+
+
 	ClassTimer.prototype.taskList = function( queue, task ){
 		if( !queue.clear )
 			queue.clear = function(){
@@ -922,23 +922,23 @@ define("scripts/timeline.js", function(exports){
 		return queue;
 	};
 	
-	/**
-	 * create a timer for once callback
-	 * @param {Function} fn 	callback function
-	 * @param {Number}   time 	time, unit: ms
-	 */
+	
+
+
+
+
 	ClassTimer.prototype.setTimeout = function( fn, time ){
-	    // e.g. setTimeout(fn, time);
+	    
 	    return this.createTask({ start: time, duration: 0, onTimeStart: fn });
 	};
 	
-	/**
-	 * create a timer for ongoing callback
-	 * @param {Function} fn 	callback function
-	 * @param {Number}   time 	time, unit: ms
-	 */
+	
+
+
+
+
 	ClassTimer.prototype.setInterval = function( fn, time ){
-	    // e.g. setInterval(fn, time);
+	    
 	    var timer = setInterval( fn, time );
 	    return {
 	    	stop: function(){
@@ -947,10 +947,10 @@ define("scripts/timeline.js", function(exports){
 	    };
 	};
 	
-	/**
-	 * get the current fps
-	 * @return {Number} fps number
-	 */
+	
+
+
+
 	ClassTimer.prototype.getFPS = function(){
 		var t = now(), c = this.count, fps = c / ( t - this.startTime ) * 1e3;
 		if( c > 1e3 )
@@ -959,7 +959,7 @@ define("scripts/timeline.js", function(exports){
 		return fps;
 	};
 	
-	// privates
+	
 	
 	ClassTimer.prototype.start = function(){
 		clearInterval( this.interval );
@@ -1015,9 +1015,9 @@ define("scripts/timeline.js", function(exports){
 		return module;
 	};
 	
-	/**
-	 * @functions
-	 */
+	
+
+
 	
 	var now = function(){
 		return new Date().getTime();
@@ -1054,9 +1054,9 @@ define("scripts/timeline.js", function(exports){
 		    updateTask( task, 0 );
 	};
 	
-	/**
-	 * for compatible the old version
-	 */
+	
+
+
 	exports = timeline.use( "default" ).init( 10 );
 	exports.use = function( name ){
 		if( Ucren.isIe )
@@ -1068,9 +1068,9 @@ define("scripts/timeline.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\tools.js
- */ 
+
+
+ 
 define("scripts/tools.js", function(exports){
 	exports.unsetObject = function( object ){
 		for(var i in object)
@@ -1110,17 +1110,17 @@ define("scripts/tools.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\factory\displacement.js
- */ 
+
+
+ 
 define("scripts/factory/displacement.js", function(exports){
 	var layer = require("scripts/layer");
 	var timeline = require("scripts/timeline");
 	var tween = require("scripts/lib/tween");
 	
-	/**
-	 * 位移类模块模型
-	 */
+	
+
+
 	
 	exports.create = function( imageSrc, width, height, origX, origY, targetX, targetY, animMap, animDur ){
 		var module = {};
@@ -1181,9 +1181,9 @@ define("scripts/factory/displacement.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\factory\fruit.js
- */ 
+
+
+ 
 define("scripts/factory/fruit.js", function(exports){
 	var layer = require("scripts/layer");
 	var Ucren = require("scripts/lib/ucren");
@@ -1198,9 +1198,9 @@ define("scripts/factory/fruit.js", function(exports){
 	var ie = Ucren.isIe;
 	var safari = Ucren.isSafari;
 	
-	/**
-	 * 水果模块模型
-	 */
+	
+
+
 	
 	var zoomAnim = tween.exponential.co;
 	var rotateAnim = tween.circular;
@@ -1215,7 +1215,7 @@ define("scripts/factory/fruit.js", function(exports){
 	var dropTime = 1350, dropXScope = 200, shadowPos = 50;
 	
 var infos = {
-    // type: [ imageSrc, width, height, radius, fixAngle, isReverse, juiceColor ]
+    
     boom:    [ "images/fruit/boom.png",    79,  82,  31, 0, 0, null ],
     peach:   [ "images/fruit/peach.png",    71,  68,  43, -50, 0, null ],
     sandia:  [ "images/fruit/sandia.png",   98,  85, 38, -100, 0, null ],
@@ -1224,9 +1224,9 @@ var infos = {
     basaha:  [ "images/fruit/basaha.png", 102, 108, 48, -135, 0, null ]
 };
 	
-	// TODO: 是否水果全开？
+	
 	var types = [ "peach", "sandia", "apple", "banana", "basaha" ];
-	// var types = [ "sandia", "boom" ];
+	
 	var rotateSpeed = [ 60, 50, 40, -40, -50, -60 ];
 	
 	var fruitCache = [];
@@ -1286,7 +1286,7 @@ var infos = {
 	};
 	
 	ClassFruit.prototype.hide = function( start ){
-		if( this.type !== "boom" ) // if it is not a boom, it can't to be hide.
+		if( this.type !== "boom" ) 
 		    return ;
 	
 		this.anims.clear();
@@ -1331,7 +1331,7 @@ var infos = {
 		    this.flame.remove();
 	};
 	
-	// 分开
+	
 	ClassFruit.prototype.apart = function( angle ){
 		this.anims.clear();
 		this.image.hide();
@@ -1356,7 +1356,7 @@ var infos = {
 		});
 	};
 	
-	// 抛出
+	
 	ClassFruit.prototype.shotOut = function(){
 		var sign = [ -1, 1 ];
 	    return function( start, endX ){
@@ -1380,7 +1380,7 @@ var infos = {
 		};
 	}();
 	
-	// 掉落
+	
 	ClassFruit.prototype.fallOff = function(){
 		var sign = [ -1, 1 ];
 		var signIndex = 0;
@@ -1436,11 +1436,11 @@ var infos = {
 		message.postMessage( this, "fruit.remove" );
 	};
 	
-	// 显示/隐藏 相关
+	
 	
 	ClassFruit.prototype.onShowStart = function(){
 		this.image.show();
-		// this.shadow.show();
+		
 	};
 	
 	ClassFruit.prototype.onScaling = function( time, a, b, z ){
@@ -1452,7 +1452,7 @@ var infos = {
 		this.remove();
 	};
 	
-	// 旋转相关
+	
 	
 	ClassFruit.prototype.onRotateStart = function(){
 		
@@ -1462,7 +1462,7 @@ var infos = {
 		this.image.rotate( ( this.rotateSpeed * time / 1e3 ) % 360, true );
 	};
 	
-	// 裂开相关
+	
 	
 	ClassFruit.prototype.onBrokenDropUpdate = function( time ){
 		var radius = this.radius;
@@ -1495,7 +1495,7 @@ var infos = {
 		this.remove();
 	};
 	
-	// 抛出相关
+	
 	
 	ClassFruit.prototype.onShotOuting = function( time ){
 		this.pos(
@@ -1505,14 +1505,14 @@ var infos = {
 	};
 	
 	ClassFruit.prototype.onShotOutStart = function(){
-		// body...
+		
 	};
 	
 	ClassFruit.prototype.onShotOutEnd = function(){
 		this.fallOff( 0, this.fallOffToX );
 	};
 	
-	// 掉落相关
+	
 	
 	ClassFruit.prototype.onFalling = function( time ){
 		var y;
@@ -1533,7 +1533,7 @@ var infos = {
 		this.remove();
 	};
 	
-	// privates
+	
 	
 	ClassFruit.prototype.checkForFallOutOfViewer = function( y ){
 		if( y > 480 + this.radius )
@@ -1543,7 +1543,7 @@ var infos = {
 	};
 	
 	exports.create = function( type, originX, originY, isHide, flameStart ){
-		if( typeof type == "number" ) // 缺省 type
+		if( typeof type == "number" ) 
 			isHide = originY,
 			originY = originX,
 		    originX = type,
@@ -1574,13 +1574,13 @@ var infos = {
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\factory\juice.js
- */ 
+
+
+ 
 define("scripts/factory/juice.js", function(exports){
-	/**
-	 * 果汁
-	 */
+	
+
+
 	var Ucren = require("scripts/lib/ucren");
 	var layer = require("scripts/layer").getLayer("juice");
 	var timeline = require("scripts/timeline").use( "juice" ).init( 10 );
@@ -1597,11 +1597,11 @@ define("scripts/factory/juice.js", function(exports){
 	var num = 10;
 	var radius = 10;
 	
-	// if( Ucren.isIe6 || Ucren.isSafari )
-	//     switchOn = false;
 	
-	// if( Ucren.isIe || Ucren.isSafari )
-	// 	num = 6;
+	
+	
+	
+	
 	
 	function ClassJuice( x, y, color ){
 		this.originX = x;
@@ -1661,17 +1661,17 @@ define("scripts/factory/juice.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\factory\rotate.js
- */ 
+
+
+ 
 define("scripts/factory/rotate.js", function(exports){
 	var layer = require("scripts/layer");
 	var timeline = require("scripts/timeline");
 	var Ucren = require("scripts/lib/ucren");
 	
-	/**
-	 * 旋转类模块模型
-	 */
+	
+
+
 	
 	exports.create = function( imageSrc, x, y, w, h, z, anim, animDur ){
 		var module = {}, image;
@@ -1742,37 +1742,37 @@ define("scripts/factory/rotate.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\lib\buzz.js
- */ 
+
+
+ 
 define("scripts/lib/buzz.js", function(exports){
-	// ----------------------------------------------------------------------------
-	// Buzz, a Javascript HTML5 Audio library
-	// v 1.0.x beta
-	// Licensed under the MIT license.
-	// http://buzz.jaysalvat.com/
-	// ----------------------------------------------------------------------------
-	// Copyright (C) 2011 Jay Salvat
-	// http://jaysalvat.com/
-	// ----------------------------------------------------------------------------
-	// Permission is hereby granted, free of charge, to any person obtaining a copy
-	// of this software and associated documentation files ( the "Software" ), to deal
-	// in the Software without restriction, including without limitation the rights
-	// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	// copies of the Software, and to permit persons to whom the Software is
-	// furnished to do so, subject to the following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included in
-	// all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-	// THE SOFTWARE.
-	// ----------------------------------------------------------------------------
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	var buzz = {
 	    defaults: {
@@ -1802,7 +1802,7 @@ define("scripts/lib/buzz.js", function(exports){
 	            eventsOnce = {},
 	            supported = buzz.isSupported();
 	
-	        // publics
+	        
 	        this.load = function() {
 	            if ( !supported ) {
 	              return this;
@@ -2181,7 +2181,6 @@ define("scripts/lib/buzz.js", function(exports){
 	                    var namespace = events[ i ].idx.split( '.' );
 	                    if ( events[ i ].idx == idx || ( namespace[ 1 ] && namespace[ 1 ] == idx.replace( '.', '' ) ) ) {
 	                        this.sound.removeEventListener( type, events[ i ].func, true );
-	                        // remove event
 	                        events.splice(i, 1);
 	                    }
 	                }
@@ -2310,7 +2309,7 @@ define("scripts/lib/buzz.js", function(exports){
 	            }
 	        };
 	
-	        // privates
+	        
 	        function timerangeToArray( timeRange ) {
 	            var array = [],
 	                length = timeRange.length - 1;
@@ -2337,7 +2336,7 @@ define("scripts/lib/buzz.js", function(exports){
 	            sound.appendChild( source );
 	        }
 	
-	        // init
+	        
 	        if ( supported && src ) {
 	          
 	            for(var i in buzz.defaults ) {
@@ -2389,7 +2388,7 @@ define("scripts/lib/buzz.js", function(exports){
 	    group: function( sounds ) {
 	        sounds = argsToArray( sounds, arguments );
 	
-	        // publics
+	        
 	        this.getSounds = function() {
 	            return sounds;
 	        };
@@ -2528,7 +2527,7 @@ define("scripts/lib/buzz.js", function(exports){
 	            return this;
 	        };
 	
-	        // privates
+	        
 	        function fn() {
 	            var args = argsToArray( null, arguments ),
 	                func = args.shift();
@@ -2608,16 +2607,16 @@ define("scripts/lib/buzz.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\lib\raphael.js
- */ 
+
+
+ 
 define("scripts/lib/raphael.js", function(exports){
-	/*
-	 * Raphael 1.5.2 - JavaScript Vector Library
-	 *
-	 * Copyright (c) 2010 Dmitry Baranovskiy (http://raphaeljs.com)
-	 * Licensed under the MIT (http://raphaeljs.com/license.html) license.
-	 */
+	
+
+
+
+
+
 	
 	var Raphael;
 	var window = {};
@@ -2628,22 +2627,22 @@ define("scripts/lib/raphael.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\lib\sound.js
- */ 
+
+
+ 
 define("scripts/lib/sound.js", function(exports){
-	/**
-	 * 简易声效控制
-	 */
 	
-	/**
-	 * 使用方法：
-	 * 
-	 * var sound = require("scripts/lib/sound/main");
-	 * 
-	 * var snd = sound.create("sounds/myfile");
-	 * snd.play();
-	 */
+
+
+	
+	
+
+
+
+
+
+
+
 	
 	var buzz = require("scripts/lib/buzz");
 	var supported = buzz.isSupported();
@@ -2681,25 +2680,25 @@ define("scripts/lib/sound.js", function(exports){
 	}
 	
 	function unSupported(){
-		// TODO: 
+		
 	}
 	
 	unSupported.play =
 	unSupported.stop = function(){
-		// TODO: 
+		
 	};;
 
 	return exports;
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\lib\tween.js
- */ 
+
+
+ 
 define("scripts/lib/tween.js", function(exports){
 	exports.exponential = function(){};
 	exports.exponential.co = function(index, offset, target, framesNum){ return (index == framesNum) ? offset + target : target * (-Math.pow(2, -10 * index / framesNum) + 1) + offset; };
-	// exports.exponential.ci = function(index, offset, target, framesNum){ return (index == 0) ? offset : target * Math.pow(2, 10 * (index / framesNum - 1)) + offset; }
+	
 	
 	exports.bounce = function(){};
 	exports.bounce.co = function(index, offset, target, framesNum){ if((index /= framesNum) < (1 / 2.75)) return target * (7.5625 * index * index) + offset; else if(index < (2 / 2.75)) return target * (7.5625 * (index -= (1.5 / 2.75)) * index + .75) + offset; else if(index < (2.5 / 2.75)) return target * (7.5625 * (index -= (2.25 / 2.75)) * index + .9375) + offset; else return target * (7.5625 * (index -= (2.625 / 2.75)) * index + .984375) + offset; };
@@ -2721,18 +2720,18 @@ define("scripts/lib/tween.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\lib\ucren.js
- */ 
+
+
+ 
 define("scripts/lib/ucren.js", function(exports){
-	/**
-	 * ucren-lite
-	 * filename: boot.js
-	 * author: dron
-	 * version: 5.0.2.20120628
-	 * date: 2009-03-15
-	 * contact: ucren.com
-	 */
+	
+
+
+
+
+
+
+
 	
 	var Ucren;
 	
@@ -2740,17 +2739,16 @@ define("scripts/lib/ucren.js", function(exports){
 	var slice = blankArray.slice;
 	var join = blankArray.join;
 	
-	//
-	// [基本数据类型扩展]
-	//
 	
-	// String.prototype.trim
+	
+	
+	
+	
 	if( !String.prototype.trim )
 		String.prototype.trim = function(){
 			return this.replace( /^\s+|\s+$/, "" );
 		};
 	
-	// String.prototype.format
 	String.prototype.format = function( conf ){
 		var rtn = this, blank = {};
 		Ucren.each( conf, function( item, key ){
@@ -2760,7 +2758,7 @@ define("scripts/lib/ucren.js", function(exports){
 		return rtn.toString();
 	};
 	
-	// String.prototype.htmlEncode
+	
 	String.prototype.htmlEncode = function(){
 		var div = document.createElement( "div" );
 		return function(){
@@ -2772,12 +2770,10 @@ define("scripts/lib/ucren.js", function(exports){
 		};
 	}();
 	
-	// String.prototype.byteLength
 	String.prototype.byteLength = function(){
 		return this.replace( /[^\x00-\xff]/g, "  " ).length;
 	};
 	
-	// String.prototype.subByte
 	String.prototype.subByte = function( len, tail ){
 		var s = this;
 		if( s.byteLength() <= len )
@@ -2790,7 +2786,7 @@ define("scripts/lib/ucren.js", function(exports){
 			.replace( /( [^\x00-\xff] ) /g, "$1" ) + tail;
 	}
 	
-	// Function.prototype.defer
+	
 	Function.prototype.defer = function( scope, timeout ){
 		var me = this;
 		var fn = function(){
@@ -2800,7 +2796,7 @@ define("scripts/lib/ucren.js", function(exports){
 	};
 	
 	
-	// Function.prototype.bind
+	
 	if( !Function.prototype.bind )
 		Function.prototype.bind = function( scope ){
 			var me = this;
@@ -2809,16 +2805,16 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		};
 	
-	// Function.prototype.saturate
-	Function.prototype.saturate = function( scope/*, args */ ){
+	
+	Function.prototype.saturate = function( scope ){
 		var fn = this, afters = slice.call( arguments, 1 );
 		return function(){
 			return fn.apply( scope, slice.call( arguments, 0 ).concat( afters ) );
 		}
 	};
 	
-	// Array.prototype.indexOf
-	// if( !Array.prototype.indexOf )
+	
+	
 		Array.prototype.indexOf = function( item, i ){
 			var length = this.length;
 	
@@ -2833,8 +2829,8 @@ define("scripts/lib/ucren.js", function(exports){
 			return -1;
 		};
 	
-	// Array.prototype.every
-	// if( !Array.prototype.every )
+	
+	
 		Array.prototype.every = function( fn, context ) {
 			for ( var i = 0, len = this.length; i < len; i ++ )
 				if ( !fn.call( context, this[i], i, this ) )
@@ -2842,8 +2838,8 @@ define("scripts/lib/ucren.js", function(exports){
 			return true;
 		};
 	
-	// Array.prototype.filter
-	// if( !Array.prototype.filter )
+	
+	
 		Array.prototype.filter = function( fn, context ) {
 			var result = [], val;
 			for ( var i = 0, len = this.length; i < len; i ++ )
@@ -2852,15 +2848,15 @@ define("scripts/lib/ucren.js", function(exports){
 			return result;
 		};
 	
-	// Array.prototype.forEach
-	// if( !Array.prototype.forEach )
+	
+	
 		Array.prototype.forEach = function( fn, context ) {
 			for ( var i = 0, len = this.length; i < len; i ++ )
 				fn.call( context, this[i], i, this );
 		};
 	
-	// Array.prototype.map
-	// if( !Array.prototype.map )
+	
+	
 		Array.prototype.map = function( fn, context ) {
 			var result = [];
 			for ( var i = 0, len = this.length; i < len; i ++ )
@@ -2868,8 +2864,8 @@ define("scripts/lib/ucren.js", function(exports){
 			return result;
 		};
 	
-	// Array.prototype.some
-	// if( !Array.prototype.some )
+	
+	
 		Array.prototype.some = function( fn, context ) {
 			for ( var i = 0, len = this.length; i < len; i ++ )
 				if ( fn.call( context, this[i], i, this ) )
@@ -2877,7 +2873,7 @@ define("scripts/lib/ucren.js", function(exports){
 			return false;
 		};
 	
-		Array.prototype.invoke = function( method /*, args */ ){
+		Array.prototype.invoke = function( method  ){
 		    var args = slice.call( arguments, 1 );
 	    	this.forEach( function( item ){
 		    	if( item instanceof Array )
@@ -2897,39 +2893,39 @@ define("scripts/lib/ucren.js", function(exports){
 	
 	Ucren = {
 	
-		//
-		// [全局属性]
-		//
+		
+		
+		
 	
-		// Ucren.isIe
+		
 		isIe: /msie/i.test( navigator.userAgent ),
 	
-		// Ucren.isIe6
+		
 		isIe6: /msie 6/i.test( navigator.userAgent ),
 	
-		// Ucren.isFirefox
+		
 		isFirefox: /firefox/i.test( navigator.userAgent ),
 	
-		// Ucren.isSafari
+		
 		isSafari: /version\/[\d\.]+\s+safari/i.test( navigator.userAgent ),
 	
-		// Ucren.isOpera
+		
 		isOpera: /opera/i.test( navigator.userAgent ),
 	
-		// Ucren.isChrome
-		isChrome: /chrome/i.test( navigator.userAgent ), //todo isChrome = true, isSafari = true
+		
+		isChrome: /chrome/i.test( navigator.userAgent ), 
 	
-		// Ucren.isStrict
+		
 		isStrict: document.compatMode == "CSS1Compat",
 	
-		// Ucren.tempDom
+		
 		tempDom: document.createElement( "div" ),
 	
-		//
-		// [全局方法]
-		//
+		
+		
+		
 	
-		// Ucren.apply
+		
 		apply: function( form, to, except ){
 			if( !to )to = {};
 			if( except ){
@@ -2946,7 +2942,7 @@ define("scripts/lib/ucren.js", function(exports){
 			return to;
 		},
 	
-		// Ucren.appendStyle
+		
 		appendStyle: function( text ){
 			var style;
 	
@@ -2959,28 +2955,28 @@ define("scripts/lib/ucren.js", function(exports){
 			}else{
 				style = document.createElement( "style" );
 				style.type = "text/css";
-				//style.innerHTML = text; fix Chrome bug
+				
 				style.appendChild( document.createTextNode( text ));
 				document.getElementsByTagName( "head" )[0].appendChild( style );
 			}
 		},
 	
-		// for copy : )
-		//
-		// var addEvent = function( target, name, fn ){
-		// 	var call = function(){
-		// 		fn.apply( target, arguments );
-		// 	};
-		// 	if( window.attachEvent )
-		// 		target.attachEvent( "on" + name, call );
-		// 	else if( window.addEventListener )
-		// 		target.addEventListener( name, call, false );
-		// 	else
-		// 		target["on" + name] = call;
-		// 	return call;
-		// }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
-		// Ucren.addEvent
+		
 		addEvent: function( target, name, fn ){
 			var call = function(){
 				fn.apply( target, arguments );
@@ -2998,7 +2994,7 @@ define("scripts/lib/ucren.js", function(exports){
 			return call;
 		},
 	
-		// Ucren.delEvent
+		
 		delEvent: function( target, name, fn ){
 			if( window.detachEvent ){
 				target.detachEvent( "on" + name, fn );
@@ -3009,7 +3005,7 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		},
 	
-		// Ucren.Class
+		
 		Class: function( initialize, methods, befores, afters ){
 			var fn, prototype, blank;
 			initialize = initialize || function(){};
@@ -3049,7 +3045,7 @@ define("scripts/lib/ucren.js", function(exports){
 			return fn;
 		},
 	
-		//private
+		
 		registerClassEvent: function(){
 			this.on = function( name, fn ){
 				var instanceId = this.instanceId;
@@ -3060,7 +3056,7 @@ define("scripts/lib/ucren.js", function(exports){
 				Ucren.dispatch( instanceId + "before" + name, fn.bind( this ));
 			};
 			this.un = function( name, fn ){
-				//todo
+				
 			};
 			this.fireEvent = function( name, args ){
 				var instanceId = this.instanceId;
@@ -3068,7 +3064,7 @@ define("scripts/lib/ucren.js", function(exports){
 			};
 		},
 	
-		// Ucren.createFuze
+		
 		createFuze: function(){
 			var queue, fn, infire;
 			queue = [];
@@ -3096,23 +3092,23 @@ define("scripts/lib/ucren.js", function(exports){
 			return fn;
 		},
 	
-		// Ucren.createIf
-		// createIf: function( expressionFunction ){
-		// 	return function( callback ){
-		// 		var expression = expressionFunction();
-		// 		var returnValue = {
-		// 			Else: function( callback ){
-		// 				callback = callback || nul;
-		// 				expression || callback();
-		// 			}
-		// 		};
-		// 		callback = callback || nul;
-		// 		expression && callback();
-		// 		return returnValue;
-		// 	};
-		// },
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
-		// Ucren.dispatch
+		
 		dispatch: function(){
 			var map = {}, send, incept, ret;
 	
@@ -3151,19 +3147,19 @@ define("scripts/lib/ucren.js", function(exports){
 			return ret;
 		}(),
 	
-		// Ucren.each ( not recommended )
+		
 		each: function( unknown, fn ){
-			/// unknown 是 array 的，会慢慢退化，建议用 Array.prototype.forEach 替代
-			/// unknown 为其它类似的，短期内将暂时支持
+			
+			
 			if( unknown instanceof Array || ( typeof unknown == "object" &&
 				typeof unknown[0] != "undefined" && unknown.length )){
 				if( typeof unknown == "object" && Ucren.isSafari )
 					unknown = slice.call( unknown );
-	//				for( var i = 0, l = unknown.length; i < l; i ++ ){
-	//					if( fn( unknown[i], i ) === false ){
-	//						break;
-	//					}
-	//				}
+	
+	
+	
+	
+	
 				unknown.forEach( fn );
 			}else if( typeof( unknown ) == "object" ){
 				var blank = {};
@@ -3190,7 +3186,7 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		},
 	
-		// Ucren.Element
+		
 		Element: function( el, returnDom ){
 			var rtn, handleId;
 			if( el && el.isUcrenElement ){
@@ -3215,7 +3211,6 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		},
 	
-		// Ucren.Event
 		Event: function( e ){
 			e = e || window.event;
 	
@@ -3223,7 +3218,7 @@ define("scripts/lib/ucren.js", function(exports){
 				var c = arguments.callee.caller;
 				while( c ){
 					e = c.arguments[0];
-					if( e && typeof( e.altKey ) == "boolean" ){ // duck typing
+					if( e && typeof( e.altKey ) == "boolean" ){ 
 						break;
 					}
 					c = c.caller;
@@ -3234,17 +3229,17 @@ define("scripts/lib/ucren.js", function(exports){
 			return e;
 		},
 	
-		// Ucren.fixNumber
+		
 		fixNumber: function( unknown, defaultValue ){
 			return typeof( unknown ) == "number" ? unknown : defaultValue;
 		},
 	
-		// Ucren.fixString
+		
 		fixString: function( unknown, defaultValue ){
 			return typeof( unknown ) == "string" ? unknown : defaultValue;
 		},
 	
-		// Ucren.fixConfig
+		
 		fixConfig: function( conf ){
 			var defaultConf;
 			defaultConf = {};
@@ -3257,7 +3252,7 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		},
 	
-		// Ucren.handle
+		
 		handle: function( unknown ){
 			var fn, type, number;
 			fn = arguments.callee;
@@ -3277,14 +3272,14 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		},
 	
-		// Ucren.id
+		
 		id: function(){
 			var id = arguments.callee;
 			id.number = ++ id.number || 0;
 			return "_" + id.number;
 		},
 	
-		// Ucren.loadImage
+		
 		loadImage: function( urls, onLoadComplete ){
 			var length = urls.length;
 			var loaded = 0;
@@ -3304,7 +3299,7 @@ define("scripts/lib/ucren.js", function(exports){
 			});
 		},
 	
-		// Ucren.loadScript
+		
 		loadScript: function( src, callback ){
 			Ucren.request( src, function( text ){
 				eval( text );
@@ -3312,7 +3307,7 @@ define("scripts/lib/ucren.js", function(exports){
 			});
 		},
 	
-		// Ucren.makeElement
+		
 		makeElement: function( tagName, attributes ){
 			var el = document.createElement( tagName );
 			var setStyle = function( unknown ){
@@ -3336,26 +3331,26 @@ define("scripts/lib/ucren.js", function(exports){
 			return el;
 		},
 	
-		// Ucren.nul
+		
 		nul: function(){
 			return false;
 		},
 	
-		// Ucren.queryString
-		// queryString: function( name, sourceString ){
-		// 	var source, pattern, result;
-		// 	source = sourceString || location.href;
-		// 	pattern = new RegExp( "( \\?|& )" + name + "=( [^&#]* )( #|&|$ )", "i" );
-		// 	result = source.match( pattern );
-		// 	return result ? result[2] : "";
-		// },
+		
+		
+		
+		
+		
+		
+		
+		
 	
-		// Ucren.randomNumber
+		
 		randomNumber: function( num ){
 			return Math.floor( Math.random() * num );
 		},
 	
-		// Ucren.randomWord
+		
 		randomWord: function(){
 			var cw = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 			return function( length, sourceString ){
@@ -3368,7 +3363,6 @@ define("scripts/lib/ucren.js", function(exports){
 			}
 		}(),
 	
-		// Ucren.request
 		request: function( url, callback ){
 			request = Ucren.request;
 			var xhr = request.xhr;
@@ -3388,44 +3382,44 @@ define("scripts/lib/ucren.js", function(exports){
 			xhr.send( null );
 		}
 	
-		// // Ucren.decodeColor
-		// decodeColor: function(){
-		// 	var r = /^\#?( \w{2})( \w{2})( \w{2})$/;
-		// 	var x = function( x ){
-		// 		return parseInt( x, 16 );
-		// 	};
-		// 	return function( color ){
-		// 		r.test( color );
-		// 		return {
-		// 			red: x( RegExp.$1 ),
-		// 			green: x( RegExp.$2 ),
-		// 			blue: x( RegExp.$3 )
-		// 		};
-		// 	}
-		// }(),
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
-		// // Ucren.encodeColor
-		// encodeColor: function(){
-		// 	var x = function( x ){
-		// 		return x.toString( 16 ).split( "." )[0];
-		// 	};
-		// 	x = x.improve( function( origin, x ){
-		// 		x = origin( x );
-		// 		return x.length == 1 ? "0" + x : x;
-		// 	});
-		// 	return function( data ){
-		// 		return ["#", x( data.red ), x( data.green ), x( data.blue )].join( "" );
-		// 	}
-		// }()
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	};
 	
-	//
-	// [底层操作类]
-	//
 	
-	// Ucren.BasicDrag
+	
+	
+	
+	
 	Ucren.BasicDrag = Ucren.Class( 
-		/* constructor */ function( conf ){
+		 function( conf ){
 			conf = Ucren.fixConfig( conf );
 			this.type = Ucren.fixString( conf.type, "normal" );
 	
@@ -3436,7 +3430,7 @@ define("scripts/lib/ucren.js", function(exports){
 			this.TOUCH_END = isTouch ? "touchend" : "mouseup";
 		},
 	
-		/* methods */ {
+		 {
 			bind: function( el, handle ){
 				el = Ucren.Element( el );
 				handle = Ucren.Element( handle ) || el;
@@ -3455,21 +3449,21 @@ define("scripts/lib/ucren.js", function(exports){
 				this.target = el;
 			},
 	
-			//private
+			
 			getCoors: function( e ){
 				var coors = [];
-				if ( e.targetTouches && e.targetTouches.length ) { 	// iPhone
+				if ( e.targetTouches && e.targetTouches.length ) { 	
 					var thisTouch = e.targetTouches[0];
 					coors[0] = thisTouch.clientX;
 					coors[1] = thisTouch.clientY;
-				}else{ 								// all others
+				}else{ 								
 					coors[0] = e.clientX;
 					coors[1] = e.clientY;
 				}
 				return coors;
 			},
 	
-			//private
+			
 			startDrag: function(){
 				var target, draging, e;
 				target = this.target;
@@ -3488,13 +3482,13 @@ define("scripts/lib/ucren.js", function(exports){
 				this.registerDocumentEvent();
 			},
 	
-			//private
+			
 			endDrag: function(){
 				this.isDraging = false;
 				this.unRegisterDocumentEvent();
 			},
 	
-			//private
+			
 			registerDocumentEvent: function(){
 				var target, draging;
 				target = this.target;
@@ -3549,7 +3543,7 @@ define("scripts/lib/ucren.js", function(exports){
 				}.bind( this ), 10 );
 			},
 	
-			//private
+			
 			unRegisterDocumentEvent: function(){
 				var draging = this.target.draging;
 				Ucren.delEvent( document, this.TOUCH_MOVE, draging.documentMouseMove );
@@ -3558,34 +3552,33 @@ define("scripts/lib/ucren.js", function(exports){
 				clearInterval( draging.timer );
 			},
 	
-			//private
+			
 			returnValue: function( dx, dy, x, y ){
-				//todo something
+				
 			}
 		}
 	 );
 	
-	// Ucren.Template
+	
 	Ucren.Template = Ucren.Class( 
-		/* constructor */ function(){
+		 function(){
 			this.string = join.call( arguments, "" );
 		},
 	
-		/* methods */ {
+		 {
 			apply: function( conf ){
 				return this.string.format( conf );
 			}
 		}
 	 );
 	
-	// Ucren.BasicElement
 	Ucren.BasicElement = Ucren.Class( 
-		/* constructor */ function( el ){
+		 function( el ){
 			this.dom = el;
 		this.countMapping = {};
 		},
 	
-		/* methods */ {
+		 {
 			isUcrenElement: true,
 	
 			attr: function( name, value ){
@@ -3597,7 +3590,7 @@ define("scripts/lib/ucren.js", function(exports){
 				return this;
 			},
 	
-			style: function( /* unknown1, unknown2 */ ){
+			style: function(  ){
 				var getStyle = Ucren.isIe ?
 					function( name ){
 						return this.dom.currentStyle[name];
@@ -3828,7 +3821,7 @@ define("scripts/lib/ucren.js", function(exports){
 							parentNode = parentNode.offsetParent;
 						}
 					}
-					if( Ucren.isSafari && this.style( "position" ) == "absolute" ){ // safari doubles in some cases
+					if( Ucren.isSafari && this.style( "position" ) == "absolute" ){ 
 						pos.x -= document.body.offsetLeft;
 						pos.y -= document.body.offsetTop;
 					}
@@ -3841,7 +3834,7 @@ define("scripts/lib/ucren.js", function(exports){
 				}
 	
 				while( parentNode && parentNode.tagName.toUpperCase() != "BODY" &&
-					parentNode.tagName.toUpperCase() != "HTML" ){ // account for any scrolled ancestors
+					parentNode.tagName.toUpperCase() != "HTML" ){ 
 					pos.x -= parentNode.scrollLeft;
 					pos.y -= parentNode.scrollTop;
 					if( parentNode.parentNode ){
@@ -3902,8 +3895,8 @@ define("scripts/lib/ucren.js", function(exports){
 					dom.style.filter =
 						"progid:DXImageTransform.Microsoft.AlphaImageLoader( src='" +
 						image + "',sizingMethod='scale' );";
-					/// 	_background: none;
-					///  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader( src='images/pic.png',sizingMethod='scale' );
+					
+					
 				}else{
 					dom.style.backgroundImage = "url( " + image + " )";
 				}
@@ -3916,7 +3909,7 @@ define("scripts/lib/ucren.js", function(exports){
 					var element = this.dom, es = element.style;
 					if( !Ucren.isIe ){
 						es.opacity = value / 100;
-					/* }else if( es.filter === "string" ){ */
+					
 					}else{
 						if ( element.currentStyle && !element.currentStyle.hasLayout )
 							es.zoom = 1;
@@ -3975,12 +3968,12 @@ define("scripts/lib/ucren.js", function(exports){
 			},
 	
 			useMouseAction: function( className, actions ){
-				/**
-				 *  调用示例:  el.useMouseAction( "xbutton", "over,out,down,up" );
-				 *  使用效果:  el 会在 "xbutton xbutton-over","xbutton xbutton-out","xbutton xbutton-down","xbutton xbutton-up"
-				 *             等四个 className 中根据相应的鼠标事件来进行切换。
-				 *  特别提示:  useMouseAction 可使用不同参数多次调用。
-				 */
+				
+
+
+
+
+
 				if( !this.MouseAction )
 					this.MouseAction = new Ucren.MouseAction({ element: this });
 				this.MouseAction.use( className, actions );
@@ -4000,9 +3993,9 @@ define("scripts/lib/ucren.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\background.js
- */ 
+
+
+ 
 define("scripts/object/background.js", function(exports){
 	var Ucren = require("scripts/lib/ucren");
 	var layer = require("scripts/layer");
@@ -4035,9 +4028,9 @@ define("scripts/object/background.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\console.js
- */ 
+
+
+ 
 define("scripts/object/console.js", function(exports){
 	var layer = require("scripts/layer");
 	
@@ -4063,9 +4056,9 @@ define("scripts/object/console.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\developing.js
- */ 
+
+
+ 
 define("scripts/object/developing.js", function(exports){
 	var layer = require("scripts/layer");
 	var tween = require("scripts/lib/tween");
@@ -4074,9 +4067,9 @@ define("scripts/object/developing.js", function(exports){
 	
 	var exponential = tween.exponential.co;
 	
-	/**
-	 * "coming soon" 模块
-	 */
+	
+
+
 	
 	exports.anims = [];
 	
@@ -4102,7 +4095,7 @@ define("scripts/object/developing.js", function(exports){
 		});
 	};
 	
-	// 显示/隐藏 相关
+	
 	
 	exports.onZoomStart = function(){
 		this.image.show();
@@ -4121,9 +4114,9 @@ define("scripts/object/developing.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\dojo.js
- */ 
+
+
+ 
 define("scripts/object/dojo.js", function(exports){
 	var rotate = require("scripts/factory/rotate");
 	var tween = require("scripts/lib/tween");
@@ -4134,29 +4127,29 @@ define("scripts/object/dojo.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\flame.js
- */ 
+
+
+ 
 define("scripts/object/flame.js", function(exports){
 	
-	/**
-	 * 火焰模块
-	 * @author zswang, dron
-	 */
+	
+
+
+
 	
 	var layer = require("scripts/layer").getLayer( "fruit" );
 	var timeline = require("scripts/timeline");
 	var Ucren = require("scripts/lib/ucren");
 	
-	/*
-	raphael.path('M 27,122 Q 9,42 27,21 45,42 27,122')
-		.attr({
-			stroke: 'none',
-			fill: '180-#D8D380-#EDED7A-#D8D380'
-		});
-	*/
 	
-	// 缩写
+
+
+
+
+
+
+	
+	
 	var math = Math, cos = math.cos, sin = math.sin,
 		trunc = parseInt,
 		random = math.random,
@@ -4164,13 +4157,13 @@ define("scripts/object/flame.js", function(exports){
 	
 	var guid = 0;
 	
-	/**
-	 * 添加一个火苗
-	 * @param{Array} center 中心位置 单位像素
-	 * @param{Number} angle 运动方向 单位幅度
-	 * @param{Number} length 运动长度 单位像素
-	 * @param{Number} life 存活时间 单位毫秒
-	 */
+	
+
+
+
+
+
+
 	function appendFlame( center, angle, length, life, flames ){
 		return flames[guid] = {
 			id: guid ++,
@@ -4271,13 +4264,13 @@ define("scripts/object/flame.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\flash.js
- */ 
+
+
+ 
 define("scripts/object/flash.js", function(exports){
-	/**
-	 *
-	 */
+	
+
+
 	
 	var layer = require("scripts/layer");
 	var timeline = require("scripts/timeline").use( "flash" ).init( 10 );
@@ -4326,30 +4319,30 @@ define("scripts/object/flash.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\fps.js
- */ 
+
+
+ 
 define("scripts/object/fps.js", function(exports){
-	// var layer = require("scripts/layer");
-	// var timeline =require("scripts/timeline");
 	
-	// var text, fps = "fps: ";
 	
-	// exports.set = function(){
-	// 	text = layer.createText( "default", fps + "0", 4, 470 ).attr( "fill", "#ccc" );
-	// };
 	
-	// exports.update = function(){
-	// 	text.attr( "text", fps + ( timeline.getFPS() >> 0 ) );
-	// };;
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	return exports;
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\game-over.js
- */ 
+
+
+ 
 define("scripts/object/game-over.js", function(exports){
 	var layer = require("scripts/layer");
 	var tween = require("scripts/lib/tween");
@@ -4359,9 +4352,9 @@ define("scripts/object/game-over.js", function(exports){
 	
 	var exponential = tween.exponential.co;
 	
-	/**
-	 * "game-over"模块
-	 */
+	
+
+
 	
 	exports.anims = [];
 	
@@ -4385,7 +4378,7 @@ define("scripts/object/game-over.js", function(exports){
 		});
 	};
 	
-	// 显示/隐藏 相关
+	
 	
 	exports.onZoomStart = function( sz, ez, mode ){
 		if( mode == "show" )
@@ -4407,9 +4400,9 @@ define("scripts/object/game-over.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\home-desc.js
- */ 
+
+
+ 
 define("scripts/object/home-desc.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
@@ -4419,9 +4412,9 @@ exports = displacement.create("images/home-desc.png", 483, 273, -561, 40, 57, 27
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\home-mask.js
- */ 
+
+
+ 
 define("scripts/object/home-mask.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
@@ -4432,17 +4425,17 @@ define("scripts/object/home-mask.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\knife.js
- */ 
+
+
+ 
 define("scripts/object/knife.js", function(exports){
 	var timeline = require("scripts/timeline");
 	var layer = require("scripts/layer").getLayer( "knife" );
 	var Ucren = require("scripts/lib/ucren");
 	
-	/**
-	 * 刀光模块
-	 */
+	
+
+
 	
 	var lastX = null, lastY = null;
 	var abs = Math.abs;
@@ -4544,13 +4537,13 @@ define("scripts/object/knife.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\light.js
- */ 
+
+
+ 
 define("scripts/object/light.js", function(exports){
-	/**
-	 * 炸弹爆炸时的光线
-	 */
+	
+
+
 	
 	var layer = require("scripts/layer");
 	
@@ -4647,9 +4640,9 @@ define("scripts/object/light.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\logo.js
- */ 
+
+
+ 
 define("scripts/object/logo.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
@@ -4660,9 +4653,9 @@ exports = displacement.create("images/logo.png", 288, 135, 17, -182, 17, -218.4,
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\lose.js
- */ 
+
+
+ 
 define("scripts/object/lose.js", function(exports){
 	var layer = require("scripts/layer");
 	var tween = require("scripts/lib/tween");
@@ -4673,9 +4666,9 @@ define("scripts/object/lose.js", function(exports){
 	var anim = tween.exponential.co;
 	var back = tween.back.co;
 	
-	/**
-	 * 
-	 */
+	
+
+
 	
 	var o1, o2, o3, animLength = 500;
 	
@@ -4752,7 +4745,7 @@ define("scripts/object/lose.js", function(exports){
 	    });
 	};
 	
-	// 显示/隐藏 相关
+	
 	
 	exports.onTimeUpdate = function( time, mode, x1s, x1e, x2s, x2e, x3s, x3e ){
 	    o1.attr( "x", anim( time, x1s, x1e - x1s, animLength ) );
@@ -4780,7 +4773,7 @@ define("scripts/object/lose.js", function(exports){
 	            timeline.createTask({
 	                start: start, duration: duration, data: [ tween.back.co, 1e-5, 1 ],
 	                object: this, onTimeUpdate: this.onScaling, onTimeEnd: this.onShowEnd
-	                // recycle: anims
+	                
 	            });
 	        },
 	
@@ -4788,7 +4781,7 @@ define("scripts/object/lose.js", function(exports){
 	            timeline.createTask({
 	                start: start, duration: duration, data: [ tween.back.ci, 1, 1e-5 ],
 	                object: this, onTimeUpdate: this.onScaling, onTimeEnd: this.onHideEnd
-	                // recycle: anims
+	                
 	            });
 	        },
 	
@@ -4812,9 +4805,9 @@ define("scripts/object/lose.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\new-game.js
- */ 
+
+
+ 
 define("scripts/object/new-game.js", function(exports){
 	var rotate = require("scripts/factory/rotate");
 	var tween = require("scripts/lib/tween");
@@ -4825,9 +4818,9 @@ define("scripts/object/new-game.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\new.js
- */ 
+
+
+ 
 define("scripts/object/new.js", function(exports){
 	var layer = require("scripts/layer");
 	var tween = require("scripts/lib/tween");
@@ -4876,7 +4869,7 @@ define("scripts/object/new.js", function(exports){
 	    timeline.createTask({ start: 0, duration: -1, object: this, onTimeUpdate: this.onJumping, recycle: this.anims });
 	};
 	
-	// 显示相关
+	
 	
 	exports.onShowStart = function(){
 	};
@@ -4894,7 +4887,7 @@ define("scripts/object/new.js", function(exports){
 	    this.jump();
 	};
 	
-	// 跳跃相关
+	
 	
 	exports.onJumping = function(time){
 		var t = parseInt(time / cycleTime);
@@ -4909,9 +4902,9 @@ define("scripts/object/new.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\ninja.js
- */ 
+
+
+ 
 define("scripts/object/ninja.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
@@ -4925,9 +4918,9 @@ define("scripts/object/ninja.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\quit.js
- */ 
+
+
+ 
 define("scripts/object/quit.js", function(exports){
 	var rotate = require("scripts/factory/rotate");
 	var tween = require("scripts/lib/tween");
@@ -4938,9 +4931,9 @@ define("scripts/object/quit.js", function(exports){
 });
 
 
-/**
- * @source D:\hosting\demos\fruit-ninja\output\scripts\object\score.js
- */ 
+
+
+ 
 define("scripts/object/score.js", function(exports){
 	var layer = require("scripts/layer");
 	var tween = require("scripts/lib/tween");
@@ -4952,9 +4945,9 @@ define("scripts/object/score.js", function(exports){
 	
 	var message = require("scripts/message");
 	
-	/**
-	 * 分数模块
-	 */
+	
+
+
 	
 	var image, text1, text2, animLength = 500;;
 	
@@ -4992,10 +4985,10 @@ define("scripts/object/score.js", function(exports){
 	    setTimeout(function(){
 	        image.scale( 1, 1 );
 	    }, 60);
-	    // message.postMessage( number, "score.change" );
+	    
 	};
 	
-	// 显示/隐藏 相关
+	
 	
 	exports.onTimeUpdate = function( time, mode, isx, iex, t1sx, t1ex, t2sx, t2ex ){
 	    image.attr( "x", anim( time, isx, iex - isx, animLength ) );

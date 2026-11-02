@@ -1,24 +1,24 @@
-/**
- * anqu-raw —— GitHub raw 反代 Worker（Cloudflare）
- *
- * 目的：国内直连 raw.githubusercontent.com 经常很慢甚至打不开，
- *      由 Cloudflare 边缘节点回源并缓存，客户端只和 CF 边缘通信。
- *
- * 路由：路径透传
- *   格式：/<OWNER>/<REPO>/<ref>/<path>
- *   例：  /incredibox-Para-DX/anqu-bg-resources/main/images/bg1.jpg
- *    ->   https://raw.githubusercontent.com/incredibox-Para-DX/anqu-bg-resources/main/images/bg1.jpg
- *   也支持不带 ref（默认 main）： /incredibox-Para-DX/anqu-bg-resources/images/bg1.jpg
- *
- * 覆盖仓库：anqu-apk-release、anqu-bg-resources、anqu-music-resources、
- *           anqu-title-resources、anqu-minigame-resources
- *
- * 部署：Cloudflare Dashboard -> Workers & Pages -> 创建 Worker -> 粘贴本文件
- *      名称填 anqu-raw，部署后地址为 https://anqu-raw.<你的子域>.workers.dev
- *
- * 缓存策略：manifest.json 30 秒，其余文件 120 秒。
- *          代码文件必须短缓存，否则发版后客户端会拿到旧代码导致版本误判。
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const ALLOWED_REPOS = [
   'incredibox-Para-DX/anqu-apk-release',
@@ -31,7 +31,7 @@ const ALLOWED_REPOS = [
 
 const UPSTREAM_BASE = 'https://raw.githubusercontent.com';
 
-// 允许的 ref：main 与私链灰度分支（p-xxxx）
+
 const REF_RE = /^(main|p-[a-z0-9-]+)$/i;
 
 export default {
@@ -42,7 +42,7 @@ export default {
       return new Response('Method Not Allowed', { status: 405 });
     }
 
-    // 解析路径：<owner>/<repo>/[<ref>/]<path>
+    
     let path = url.pathname.replace(/^\/+|\/+$/g, '');
     if (!path || path.indexOf('..') !== -1) {
       return new Response('Not Found', { status: 404 });

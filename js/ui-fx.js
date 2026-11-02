@@ -1,8 +1,8 @@
-/* UI 动效工具：流式打字 + 复制对勾自熄（铁律 4 / 10） */
+
 (function (w) {
     'use strict';
 
-    // 流式打字：逐字从 blur(6px) 到清晰，单字 90ms，相邻错开 30ms
+    
     function streamText(el, text, opts) {
         if (!el) return;
         opts = opts || {};
@@ -25,7 +25,7 @@
         el.appendChild(frag);
     }
 
-    // 复制反馈：显示对勾 2.5s 后淡出恢复
+    
     function markCopied(btn, originalHTML, ms) {
         if (!btn) return;
         ms = ms || 2500;

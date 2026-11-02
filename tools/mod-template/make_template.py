@@ -7,7 +7,7 @@ OUT = os.path.join(HERE, 'anqu-mod-template-v1.zip')
 if os.path.exists(OUT):
     os.remove(OUT)
 
-json.load(open(os.path.join(HERE, 'mod.json')))  # 校验 JSON 合法
+json.load(open(os.path.join(HERE, 'mod.json')))
 
 count = 0
 with zipfile.ZipFile(OUT, 'w', zipfile.ZIP_DEFLATED) as z:

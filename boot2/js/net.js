@@ -1,6 +1,6 @@
-/* 网络层：统一超时、重试、离线短路与错误归一化。
- * 只做请求封装，不改写全局 fetch；下载类大文件请求（Range 续传）仍走原生 fetch。
- */
+
+
+
 (function (w) {
     'use strict';
 
@@ -34,7 +34,7 @@
         return typeof navigator !== 'undefined' && navigator.onLine === false;
     }
 
-    // 相对路径（xml/、minigame 等）属于本地资源，离线也要能读
+    
     function isRemote(url) {
         return /^(https?:)?\/\//i.test(String(url || ''));
     }
@@ -93,7 +93,7 @@
 
             var pending = new Promise(function (resolve, reject) {
                 if (!controller) {
-                    // 无 AbortController 的旧 WebView：超时只丢弃结果，底层请求仍在后台跑完
+                    
                     timer = setTimeout(function () {
                         timedOut = true;
                         reject(NetError('timeout', '请求超时'));
@@ -172,7 +172,7 @@
         return sendJSON('PUT', url, body, options);
     }
 
-    // 在线状态：统一从一个地方取，避免各模块各自读 navigator.onLine
+    
     var stateListeners = [];
     function notifyState() {
         var online = !isOffline();

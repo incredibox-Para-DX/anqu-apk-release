@@ -12,7 +12,7 @@ def make_wav(path, freq, dur=0.5, rate=22050, vol=0.5):
     n = int(rate * dur)
     samples = []
     for i in range(n):
-        env = 1.0 if i < n * 0.85 else max(0.0, (n - i) / (n * 0.15))  # 尾部淡出防爆音
+        env = 1.0 if i < n * 0.85 else max(0.0, (n - i) / (n * 0.15))
         samples.append(int(vol * 32767 * math.sin(2 * math.pi * freq * i / rate) * env))
     with wave.open(path, 'w') as w:
         w.setnchannels(1)
@@ -25,10 +25,10 @@ def make_png(path, w, h, rgb):
     def chunk(t, d):
         return struct.pack('>I', len(d)) + t + d + struct.pack('>I', zlib.crc32(t + d) & 0xffffffff)
     sig = b'\x89PNG\r\n\x1a\n'
-    ihdr = struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)  # 8-bit RGB, no alpha
+    ihdr = struct.pack('>IIBBBBB', w, h, 8, 2, 0, 0, 0)
     raw = b''
     for y in range(h):
-        # 简单竖向渐变，作为封面占位
+
         r = int(rgb[0] + (120 - rgb[0]) * y / h)
         g = int(rgb[1] + (80 - rgb[1]) * y / h)
         b = int(rgb[2] + (40 - rgb[2]) * y / h)
@@ -44,7 +44,7 @@ def main():
         shutil.rmtree(MUSIC_DIR)
     os.makedirs(os.path.join(MUSIC_DIR, 'content', 'music'))
 
-    # 1) 复用同目录（物品模板）的展示图作为占位（作者可替换）
+
     for img in ('thumb.png', 'avatar.png', 'screen-1.png'):
         src = os.path.join(HERE, img)
         if os.path.exists(src):
@@ -52,13 +52,13 @@ def main():
         else:
             print('WARN 未找到展示图:', img)
 
-    # 2) 生成示例音频 + 封面
+
     make_wav(os.path.join(MUSIC_DIR, 'content/music/track-1.wav'), 523.25)
     make_wav(os.path.join(MUSIC_DIR, 'content/music/track-2.wav'), 783.99)
     make_png(os.path.join(MUSIC_DIR, 'content/music/cover-1.png'), 512, 512, (30, 30, 60))
     make_png(os.path.join(MUSIC_DIR, 'content/music/cover-2.png'), 512, 512, (60, 20, 30))
 
-    # 3) mod.json
+
     mod = {
         "name": "示例音乐模组",
         "author": "官方示例",
@@ -82,14 +82,14 @@ def main():
     }
     with open(os.path.join(MUSIC_DIR, 'mod.json'), 'w', encoding='utf-8') as f:
         json.dump(mod, f, ensure_ascii=False, indent=2)
-    # 校验
+
     json.load(open(os.path.join(MUSIC_DIR, 'mod.json')))
 
-    # 4) 说明.txt
+
     with open(os.path.join(MUSIC_DIR, '说明.txt'), 'w', encoding='utf-8') as f:
         f.write(MUSIC_README)
 
-    # 5) 打包
+
     if os.path.exists(OUT):
         os.remove(OUT)
     count = 0

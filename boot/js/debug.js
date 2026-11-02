@@ -491,7 +491,6 @@
       if (fps) { fpsLast = performance.now(); fpsFrame = 0; loopFps(); } else { cancelAnimationFrame(fpsRAF); var p = Q('#fpsPill'); p.textContent = '--'; p.style.color = ''; }
     });
 
-    // 键盘快捷键: Ctrl+Shift+D / Cmd+Shift+D 或 Ctrl+~ 切换面板
     document.addEventListener('keydown', function (e) {
       var mod = e.ctrlKey || e.metaKey;
       if (mod && e.shiftKey && e.key.toLowerCase() === 'd') { e.preventDefault(); openDev(!panelEl.classList.contains('open')); }
@@ -592,7 +591,7 @@
     Q('#parseUrl').addEventListener('click', function () { var u = new URL(location.href); Q('#urlOut').textContent = '协议:' + u.protocol + '\n域名:' + u.host + '\n路径:' + u.pathname + '\n参数:' + JSON.stringify(Object.fromEntries(u.searchParams)); });
     Q('#copyUrl').addEventListener('click', function () { navigator.clipboard.writeText(location.href).then(function () { toast('已复制'); }); });
     Q('#readClip').addEventListener('click', function () { navigator.clipboard.readText().then(function (t) { Q('#urlOut').textContent = t; }).catch(function (e) { toast('无权限', 'error'); }); });
-    // 快捷入口：直接打开对应页面
+    
     document.querySelectorAll('[data-dt-open]').forEach(function (b) {
       b.addEventListener('click', function () {
         var el = document.getElementById(b.getAttribute('data-dt-open'));
@@ -600,7 +599,7 @@
         openDev(false);
       });
     });
-    // 存储用量（localStorage 各项大小排序）
+    
     if (Q('#storageUsageBtn')) Q('#storageUsageBtn').addEventListener('click', function () {
       try {
         var arr = [], total = 0;
@@ -612,7 +611,7 @@
         Q('#storageUsageOut').textContent = '共 ' + localStorage.length + ' 项，约 ' + (total / 1024).toFixed(1) + ' KB\n' + arr.map(function (x) { return x[0] + '  ' + (x[1] / 1024).toFixed(1) + ' KB'; }).join('\n');
       } catch (e) { Q('#storageUsageOut').textContent = String(e); }
     });
-    // 清缓存并重载
+    
     if (Q('#clearCachesBtn')) Q('#clearCachesBtn').addEventListener('click', function () {
       confirmBox('清空所有 cache 缓存并重载?(不删 localStorage)', function () {
         try { if (window.caches && caches.keys) caches.keys().then(function (ks) { ks.forEach(function (k) { caches.delete(k); }); }); } catch (e) {}
@@ -631,7 +630,6 @@
       toast('片段已保存');
     });
 
-    // 加载持久化片段
     try { snippetList = JSON.parse(localStorage.getItem('__dt_snippets__') || '[]'); } catch (e) { snippetList = []; }
     renderSnippets();
   }
@@ -832,7 +830,7 @@
     Q('#netTest').addEventListener('click', function () { fetch(location.href).then(function (r) { netLogs.push({ method: 'GET', url: location.href, status: r.status, time: 0 }); renderNetwork(); addLog('success', '测试请求完成'); }).catch(function (e) { addLog('error', '测试请求失败:' + e.message); }); });
     Q('#netOffline').addEventListener('click', function () { window.__DT_OFFLINE__ = !window.__DT_OFFLINE__; toast(window.__DT_OFFLINE__ ? '已模拟离线(fetch会被拒绝)' : '恢复'); });
     Q('#netHar').addEventListener('click', exportHAR);
-    // 线路测速：并发测 worker / jsDelivr / raw 延迟
+    
     if (Q('#speedTestBtn')) Q('#speedTestBtn').addEventListener('click', function () {
       var urls = [
         ['worker', 'https://anqu-raw.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/main/manifest.json'],
@@ -974,13 +972,13 @@
     list.querySelectorAll('.del').forEach(function (b) { b.addEventListener('click', function () { mockRules.splice(parseInt(b.getAttribute('data-i'), 10), 1); renderMock(); }); });
   }
 
-  // ===== 暗区游戏调试功能 =====
+  
   var GAME_STORAGE_KEYS = [
     'darkzone_simulator_stats', 'ab_shop_skills_v1', 'ab_collection_room_v1',
     'ab_selected_bg_path', 'ab_owned_backgrounds', 'ab_font_preference'
   ];
   var GAME_SKILL_IDS = ['swift_hands', 'bounty_agreement', 'supply_tide', 'prophet', 'lucky_streak'];
-  // CollectionManager.COLLECT_MAP 的精确 名称→图片 映射（必须与游戏内一致，否则图片404）
+  
   var GAME_COLLECT_MAP = {
     '机密文件': 'collect/img_737bbd84ed.jpg',
     '“理想国”': 'collect/img_271c408224.jpg',
@@ -1011,7 +1009,7 @@
     return typeof window.__addAccumulatedValue === 'function' || !!document.getElementById('open-safe-btn');
   }
 
-  // ===== 精确刷物品：捕获游戏内部 State =====
+  
   var gameState = null;
   var origAssign = null;
 
@@ -1028,7 +1026,7 @@
     };
   }
 
-  // 判断物品能否放在 grid 的 (row, col) 处（复刻 GameCore.canPlaceItem）
+  
   function canPlaceAt(width, height, row, col, grid, rows, cols) {
     if (row + height > rows || col + width > cols) return false;
     for (var r = row; r < row + height; r++) {
@@ -1039,15 +1037,15 @@
     return true;
   }
 
-  // 直接把物品注入 State 并重新渲染保险网格（不调用 openSafe，不会触发开保险/搜索）
+  
   function spawnItem(item) {
     if (!gameState) {
       toast('游戏状态未就绪，请先手动打开一次保险', 'error');
       addLog('warn', '游戏: State 未捕获，请先开一次保险');
       return;
     }
-    // 用 State.isSearching 判断，而不是按钮 disabled（按钮在首次开保险后会一直 disabled）
-    // 兼容游戏搜索状态残留：isSearching=true 但队列/当前搜索都为空时，强制复位
+    
+    
     if (gameState.isSearching && (!gameState.searchQueue || gameState.searchQueue.length === 0) && !gameState.currentSearch) {
       gameState.isSearching = false;
       if (gameState.searchTimer) {
@@ -1068,11 +1066,11 @@
     var cols = (gameState.grid[0] || []).length;
     if (!rows || !cols) { toast('网格未初始化', 'error'); return; }
 
-    // 游戏在生成网格时把「柯恩币」标记为 isCoin:true（见 script.js 生成保险逻辑），
-    // items.xml 中没有 isCoin 字段，这里按名称兜底，确保刷出的柯恩币能显示价值数字。
+    
+    
     var isCoin = item.isCoin === true || item.name === '柯恩币';
 
-    // 扫描整个网格，找第一个能放下的位置（柯恩币可叠在另一枚柯恩币上）
+    
     var placed = null;
     var rotated = false;
     for (var r = 0; r < rows && !placed; r++) {
@@ -1081,7 +1079,7 @@
         else if (canPlaceAt(width, height, r, c, gameState.grid, rows, cols)) { placed = { row: r, col: c }; }
       }
     }
-    // 原方向放不下且非正方形，尝试变向（横↔竖）
+    
     if (!placed && width !== height) {
       for (var r2 = 0; r2 < rows && !placed; r2++) {
         for (var c2 = 0; c2 < cols && !placed; c2++) {
@@ -1101,7 +1099,7 @@
     var finalW = rotated ? height : width;
     var finalH = rotated ? width : height;
 
-    // 柯恩币：若目标格已有柯恩币，合并数值（不新建物品）
+    
     if (isCoin) {
       var existCoin = gameState.items.find(function (it) { return it.isCoin && it.row === placed.row && it.col === placed.col; });
       if (existCoin) {
@@ -1118,7 +1116,7 @@
       }
     }
 
-    // 生成唯一 id（避开游戏内部 1..n 的 id 段）
+    
     var maxId = 0;
     gameState.items.forEach(function (it) { if (it.id > maxId) maxId = it.id; });
     var newId = Math.max(maxId + 1, 900000 + Math.floor(Math.random() * 100000));
@@ -1141,7 +1139,6 @@
       rotated: rotated
     };
 
-    // 标记网格占用
     for (var rr = 0; rr < finalH; rr++) {
       for (var cc = 0; cc < finalW; cc++) {
         gameState.grid[placed.row + rr][placed.col + cc] = newId;
@@ -1149,14 +1146,13 @@
     }
     gameState.items.push(newItem);
 
-    // 记录到合成台 / 收藏室（复刻 completeSearch 中的记录逻辑）
     try {
       if (typeof window.SampleManager !== 'undefined' && window.SampleManager.onItemCollected) {
         window.SampleManager.onItemCollected(newItem.name);
       }
     } catch (e) { addLog('warn', 'SampleManager 记录失败: ' + e.message); }
 
-    // 加入背包清单并更新统计，与正常搜索行为一致
+    
     try {
       var searchTime = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       gameState.inventory = [{ id: newItem.id, name: newItem.name, value: newItem.value, rarity: newItem.rarity, image: newItem.image, searchedAt: searchTime }].concat(gameState.inventory || []);
@@ -1164,10 +1160,10 @@
       if (newItem.value > (gameState.highestValue || 0)) gameState.highestValue = newItem.value;
     } catch (e) { }
 
-    // 重新渲染保险网格
+    
     renderSafeGrid();
 
-    // 启用重置按钮
+    
     var resetBtn = document.getElementById('reset-btn');
     if (resetBtn) {
       resetBtn.disabled = false;
@@ -1180,30 +1176,30 @@
     addLog('success', '游戏: 生成物品 ' + item.name + ' (' + width + '×' + height + ') 于 (' + placed.row + ',' + placed.col + ')');
   }
 
-  // 手动重绘 #safe-grid（复刻 UIManager.renderAllItems 的关键逻辑）
+  
   function renderSafeGrid() {
     var safeGrid = document.getElementById('safe-grid');
     if (!safeGrid || !gameState) return;
 
     var rows = gameState.grid.length;
     var cols = (gameState.grid[0] || []).length;
-    // 与游戏 Config.grid.width/height 保持一致（380×460），避免用 clientWidth 受边框/缩放影响
+    
     var gridW = 380;
     var gridH = 460;
     var cellW = gridW / (cols || 5);
     var cellH = gridH / (rows || 6);
 
-    // 移除旧物品元素
+    
     var oldItems = safeGrid.querySelectorAll('.item');
     for (var i = 0; i < oldItems.length; i++) oldItems[i].remove();
 
-    // 清理单元格状态类
+    
     var cells = safeGrid.querySelectorAll('.grid-cell');
     for (var j = 0; j < cells.length; j++) cells[j].classList.remove('searching', 'searched');
 
-    var spacing = 0; // Config.item.spacing
-    var fontSize = 17; // Config.item.fontSize
-    var imgBase = 52; // Config.item.imgBase
+    var spacing = 0; 
+    var fontSize = 17; 
+    var imgBase = 52; 
 
     gameState.items.forEach(function (item) {
       var w = parseInt(item.width, 10) || 1;
@@ -1214,15 +1210,15 @@
       var iGridH = h * cellH;
       var actualW = Math.max(10, iGridW - spacing * 2);
       var actualH = Math.max(10, iGridH - spacing * 2);
-      // 与游戏 createItemElement 完全一致：居中，无额外偏移
+      
       var itemLeft = left + (iGridW - actualW) / 2;
       var itemTop = top + (iGridH - actualH) / 2;
 
       var el = document.createElement('div');
       el.className = 'item item-' + (item.rarity || 'white') + (item.searched ? ' searched' : '');
       el.setAttribute('data-id', item.id);
-      // 与游戏 createItemElement 保持一致：直接使用浮点像素值（cellHeight=460/6≈76.67）。
-      // 之前用 Math.floor 会让每行最多丢 ~0.67px，累积后造成物品在纵向错位。
+      
+      
       el.style.left = itemLeft + 'px';
       el.style.top = itemTop + 'px';
       el.style.width = actualW + 'px';
@@ -1259,11 +1255,11 @@
         nameEl.style.cssText = 'position:absolute;top:2px;right:2px;font-weight:bold;text-align:right;color:#C0C0C0;padding:1px 3px;font-size:0.7em;text-shadow:0 0 2px black,0 0 2px black,0 0 2px black;z-index:3;max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;';
         container.appendChild(nameEl);
 
-        // 柯恩币显示价值数字（与游戏 createItemContent 中 isCoin 逻辑一致）
+        
         if (item.isCoin) {
           var amountEl = document.createElement('div');
           amountEl.className = 'coin-amount';
-          // 归一化为有限数值，避免字符串/NaN 导致 toLocaleString 报错或显示异常
+          
           var coinValue = Number(item.value);
           if (!isFinite(coinValue)) coinValue = 0;
           amountEl.textContent = coinValue.toLocaleString('en-US');
@@ -1273,7 +1269,7 @@
 
         el.appendChild(container);
 
-        // 标记对应单元格为已搜索
+        
         for (var rr = 0; rr < h; rr++) {
           for (var cc = 0; cc < w; cc++) {
             var cell = safeGrid.querySelector('.grid-cell[data-row="' + ((item.row || 0) + rr) + '"][data-col="' + ((item.col || 0) + cc) + '"]');
@@ -1340,7 +1336,7 @@
       });
     });
 
-    // 技能
+    
     if (Q('#gameUnlockSkills')) Q('#gameUnlockSkills').addEventListener('click', function () {
       try {
         var st = {};
@@ -1364,7 +1360,7 @@
       });
     });
 
-    // 收藏 & 背景
+    
     if (Q('#gameUnlockCollect')) Q('#gameUnlockCollect').addEventListener('click', function () {
       try {
         var list = GAME_COLLECTIBLES.map(function (n) { return { name: n, image: GAME_COLLECT_MAP[n], value: 0, rarity: 'orange', count: 1, firstTime: Date.now() }; });
@@ -1384,7 +1380,7 @@
       }).catch(function () { toast('无法加载 backgrounds.xml', 'error'); });
     });
 
-    // 自动农场
+    
     if (Q('#gameAutoFarm')) Q('#gameAutoFarm').addEventListener('click', function () {
       if (autoFarmTimer) { clearInterval(autoFarmTimer); autoFarmTimer = null; this.textContent = '自动开保险: 关'; toast('自动农场已停止'); return; }
       var btn = document.getElementById('open-safe-btn');
@@ -1406,11 +1402,11 @@
       if (b && !b.disabled) { b.click(); toast('已清空背包'); } else toast('无背包可清', 'error');
     });
 
-    // 精确刷物品
+    
     if (Q('#gameLoadItems')) Q('#gameLoadItems').addEventListener('click', loadGameItems);
     if (Q('#gameItemSearch')) Q('#gameItemSearch').addEventListener('input', renderGameItems);
 
-    // 保持收藏室背景图（游戏在有收藏品时会把背景设为 none）
+    
     if (!document.getElementById('DTCollectBgFix')) {
       var st = document.createElement('style');
       st.id = 'DTCollectBgFix';
@@ -1418,7 +1414,7 @@
       (document.head || document.body).appendChild(st);
     }
 
-    // 存档
+    
     if (Q('#gameExportSave')) Q('#gameExportSave').addEventListener('click', function () {
       var data = {};
       GAME_STORAGE_KEYS.forEach(function (k) { var v = localStorage.getItem(k); if (v !== null) data[k] = v; });
@@ -1449,7 +1445,7 @@
           var g = function (t) { var e = n.getElementsByTagName(t)[0]; return e ? e.textContent : ''; };
           return { id: g('id'), name: g('name'), width: g('width'), height: g('height'), value: parseInt(g('value'), 10) || 0, rarity: g('rarity') || 'white', desc: g('desc'), sound: g('sound'), image: g('image'), weight: g('weight') };
         });
-        // 加入已启用的 Mod 物品（否则调试面板刷不出 Mod 物品）
+        
         try {
           var modItems = (window.ModManager && window.ModManager.getEnabledItems) ? window.ModManager.getEnabledItems() : [];
           if (modItems && modItems.length) {
@@ -1494,7 +1490,7 @@
   function confirmBox(text, cb) {
     var box = Q('#DTConfirm'); var txt = Q('#DTConfirmText'); var ok = Q('#DTConfirmOk'); var cancel = Q('#DTConfirmCancel');
     txt.textContent = text; confirmCb = cb; box.classList.add('open');
-    // 只绑定一次监听器，避免重复累加导致一次确认触发多次回调
+    
     if (!confirmBound) {
       confirmBound = true;
       ok.addEventListener('click', function () {
@@ -1535,7 +1531,7 @@
     export: function () { Q('#exportLog').click(); },
     clear: function () { L.length = 0; renderLog(); updateBadge(); },
     version: '2.0.0',
-    // 暗区游戏调试 API
+    
     game: {
       detected: isGameDetected,
       addValue: function (n) { if (window.__addAccumulatedValue) { window.__addAccumulatedValue(n); return window.__getAccumulatedValue(); } },

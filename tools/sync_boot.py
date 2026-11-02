@@ -17,7 +17,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# 需要从 APK 中移除、改为远程加载的代码文件（相对仓库根目录）
+
 CODE_FILES = [
     "MiniGame/index.html",
     "MiniGame/scripts/all.js",
@@ -73,7 +73,7 @@ CODE_FILES = [
     "xml/video-config.xml",
 ]
 
-# 首次打开只下载代码文件；audio / music-player 均在 APK 内
+
 BULK_DIRS = []
 
 
@@ -88,21 +88,21 @@ def bulk_files():
     return out
 
 
-# index.html 放最后下载：中途失败时内部存储里没有入口页，加载页仍会显示
-# main.html 是启动入口（登录 CG + 下载界面），只留在 APK 里，始终不被覆盖
+
+
 BOOT_ORDER = CODE_FILES + bulk_files() + ["index.html"]
 
 TARGETS = [("boot", ""), ("boot2", ".m")]
 
-# 首次下载要插入的进度标记个数（0 = 不再生成 progress 标记文件）
+
 MARK_COUNT = 0
 
-# 物品图 / 收藏室图：放在 media/ 下（启动加载页下载，路径仍按 www 根目录的 images/、collect/）
+
 MEDIA_ROOT = "media"
 MEDIA_DIRS = ["images", "collect"]
 
-# 真实进度用的标记文件：远程内容写清单版本号，APK 里放同名文件内容 "0"
-# 版本号参与比对，图片/代码版本一变，旧标记自动失效，进度从头开始
+
+
 MEDIA_MARKS = 0
 
 
@@ -133,7 +133,7 @@ def build(dirname, suffix, version):
         shutil.copy2(src, dst)
         files.append({"path": rel, "size": os.path.getsize(src), "sha256": hashlib.sha256(open(src, 'rb').read()).hexdigest()})
 
-        # 可选的进度标记（MARK_COUNT = 0 时不再生成）
+
         if step and (i % step == 0 or i == total):
             mi += 1
             mark = "progress/c%03d.txt" % mi
@@ -169,7 +169,7 @@ def build_media():
             if os.path.isfile(path):
                 real.append({"path": d + "/" + name, "size": os.path.getsize(path)})
 
-    # 按字节把 100 个进度标记插到图片序列里，壳据此算真实下载百分比
+
     progress_dir = os.path.join(out_dir, "progress")
     if os.path.isdir(progress_dir):
         shutil.rmtree(progress_dir)
@@ -205,8 +205,8 @@ def main():
         build(dirname, suffix, version)
     build_media()
 
-    # 应用内「检查更新」读的是根目录 manifest.json，这里与 boot/ 用同一份清单，
-    # 保证玩家手动热更能拿到 xml / css / libs 等全部代码文件
+
+
     src = os.path.join(ROOT, "boot", "manifest.json")
     with open(src, encoding="utf-8") as f:
         data = json.load(f)

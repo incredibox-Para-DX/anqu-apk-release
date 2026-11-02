@@ -1,13 +1,13 @@
-/* 兑换码模块：本地码表已移除，改为服务端校验（Supabase redeem_code）
- * 保留：按 UID 的物品池授权码（本地算法，仅解锁物品池）
- * 已用码持久化在 localStorage.ab_redeem_codes_v1（仅用于提示，服务端为准）
- */
+
+
+
+
 (function (w) {
     'use strict';
 
     var USED_KEY = 'ab_redeem_codes_v1';
 
-    // ===== 按 UID 的物品池授权码（保留）=====
+    
     var IP_SECRET = 'anqu_itempool_2026_v1';
     function fnv(str) {
         var h = 0x811c9dc5;
@@ -65,7 +65,7 @@
                 setFlag('ab_pass_premium', '1');
                 setFlag('ab_pass_card_night', '1');
                 try {
-                    // 与权益同步共用一次性标记，避免重复加经验
+                    
                     if (localStorage.getItem('ab_pass_supreme_granted') !== '1') {
                         var xp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
                         localStorage.setItem('ab_pass_xp', String(Math.min(400000000, xp)));

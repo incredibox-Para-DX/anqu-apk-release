@@ -1,5 +1,5 @@
-/* 壳样式：LoginCG 片头 -> CG 下载界面 -> 进入应用
-   其余 css 全部走热更 */
+
+
 @font-face {
     font-family: 'Arena Breakout';
     src: url('fonts/Arena%20Breakout.ttf') format('truetype');
@@ -43,7 +43,7 @@ html, body {
     display: none;
 }
 
-/* 右下角两行状态文字 */
+
 .dl-status {
     position: fixed;
     right: 24px;
@@ -75,7 +75,7 @@ html, body {
     opacity: 0.82;
 }
 
-/* 底部细进度线 */
+
 .dl-bar {
     position: fixed;
     left: 0;
@@ -104,7 +104,7 @@ html, body {
     opacity: 0.55;
 }
 
-/* 备用加载页（index.html）样式 */
+
 .loading-overlay {
     position: fixed;
     top: 0;

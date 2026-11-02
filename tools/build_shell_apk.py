@@ -18,7 +18,7 @@ SHELL_DIR = os.path.join(HERE, "shell")
 REPO = os.path.dirname(HERE)
 OUT = "/tmp/app-unsigned.apk"
 
-# 包内需要移除的代码文件（相对 APK 根）
+
 CODE_FILES = [
     "assets/www/main.html",
     "assets/www/index.html",
@@ -46,7 +46,7 @@ CODE_FILES = [
     "assets/www/xml/video-config.xml",
 ]
 
-# 写回包内的壳文件：APK 内路径 -> 仓库内源文件
+
 SHELL_FILES = {
     "assets/www/main.html": os.path.join(SHELL_DIR, "main.html"),
     "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
@@ -54,23 +54,23 @@ SHELL_FILES = {
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
 }
 
-# 图片资源保留在包内，但改成 ASCII 文件名（仓库里的引用已同步改写）
+
 RENAME_MAP = json.load(open("/tmp/rename_map.json", encoding="utf-8"))
 
-# audio / music-player 全部保留在包内
+
 REMOVE_PREFIXES = ("assets/www/progress/",)
 
-# 收藏室背景图：以仓库 media/collect 为准覆盖/补充到包内
-# （原包里的同名图会被跳过，改用这里的版本；新增的图直接写进去）
+
+
 COLLECT_DIR = os.path.join(REPO, "media", "collect")
 COLLECT_FILES = {}
 if os.path.isdir(COLLECT_DIR):
     for fn in sorted(os.listdir(COLLECT_DIR)):
         COLLECT_FILES["assets/www/collect/" + fn] = os.path.join(COLLECT_DIR, fn)
-# 同名的旧图（扩展名可能已从 png 换成 jpg）一律丢掉，避免包里留两份
+
 COLLECT_STEMS = {os.path.splitext(os.path.basename(k))[0] for k in COLLECT_FILES}
 
-# 字体文件：同样以仓库 fonts/ 为准覆盖包内版本
+
 FONTS_DIR = os.path.join(REPO, "fonts")
 FONT_FILES = {}
 if os.path.isdir(FONTS_DIR):
@@ -79,7 +79,7 @@ if os.path.isdir(FONTS_DIR):
 
 SKIP = set(CODE_FILES)
 SKIP.update({"assets/www/css/shell.css", "assets/www/js/shell.js"})
-# 已从收藏室下架、仓库 media/collect 里也不存在的旧图，包里一并清掉
+
 SKIP.add("assets/www/collect/img_9aaa9d9296.png")
 
 
@@ -114,7 +114,7 @@ def main():
             if name in COLLECT_FILES or name in FONT_FILES or (
                     name.startswith("assets/www/collect/")
                     and os.path.splitext(os.path.basename(name))[0] in COLLECT_STEMS):
-                # 收藏室背景图 / 字体统一由下面的覆盖清单重写，避免包里出现重复条目
+
                 removed += 1
                 continue
             new_info = zipfile.ZipInfo(name, date_time=info.date_time)
@@ -133,7 +133,7 @@ def main():
             info.external_attr = 0o644 << 16
             dst.writestr(info, data)
 
-        # 收藏室背景图：覆盖 + 补充
+
         for name, path in COLLECT_FILES.items():
             with open(path, "rb") as f:
                 data = f.read()
@@ -142,7 +142,7 @@ def main():
             info.external_attr = 0o644 << 16
             dst.writestr(info, data)
 
-        # 字体：覆盖包内旧版本
+
         for name, path in FONT_FILES.items():
             with open(path, "rb") as f:
                 data = f.read()

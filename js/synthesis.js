@@ -143,7 +143,7 @@
             #synthesis-page .synth-sample-card.placed .synth-smp-tag { color: #22c55e; }
             #synthesis-page .synth-sample-card.placed .synth-smp-icon { cursor: default; }
 
-            /* 数量：左下角纯数字，无背景 */
+            
             #synthesis-page .synth-sample-card .synth-smp-count {
                 position: absolute; left: 0; bottom: 0;
                 color: #e2e8f0; font-size: 11px; font-weight: 700; line-height: 1;
@@ -457,7 +457,7 @@
             var count = getSynthCount() + 1;
             setSynthCount(count);
             setCompleted(true);
-            // 组装完成ELS奖励 2M（仅计入总累计价值，不影响本周排行榜）
+            
             if (window.__addAccumulatedValueNoWeekly) {
                 window.__addAccumulatedValueNoWeekly(2000000);
             }
@@ -477,7 +477,7 @@
             var placed = getPlaced();
             if (placed.indexOf(name) !== -1) return;
             if (!isCollected(name)) return;
-            // 放入保温箱时立即消耗 1 个
+            
             var collected = getCollected();
             if (!collected[name]) return;
             collected[name] -= 1;

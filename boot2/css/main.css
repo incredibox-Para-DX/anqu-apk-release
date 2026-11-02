@@ -677,7 +677,7 @@
     border-radius: 4px;
     width: 50%;
     transition: width 0.2s ease;
-    pointer-events: none; /* 让点击穿透到滑块轨道 */
+    pointer-events: none; 
 }
 .music-volume-label {
     display: flex;
@@ -750,7 +750,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-/* 本地导入曲目的删除按钮：两段式确认，第一次点亮红色，3 秒内再点才删 */
+
 .playlist-item-del {
     flex-shrink: 0;
     margin-left: auto;
@@ -1045,7 +1045,7 @@
     transform: translateY(0) scale(1);
     opacity: 1;
 }
-/* Arena Breakout 字体声明统一放在 index.html 的 <head>（此文件里的旧路径会 404，已移除） */
+
 
 .top-right-meta {
     position: fixed;
@@ -1516,7 +1516,7 @@
     flex-shrink: 0;
 }
 
-/* Profile section styles */
+
 .profile-section {
     display: flex;
     align-items: center;
@@ -1621,12 +1621,12 @@
     color: #94a3b8;
 }
 
-/* Button styles */
+
 .full-width {
     width: 100%;
 }
 
-/* Leaderboard modal styles */
+
 .leaderboard-modal-content {
     max-width: 420px;
     max-height: 80vh;
@@ -1671,7 +1671,7 @@
     font-size: 14px;
 }
 
-/* Nickname modal styles */
+
 .nickname-modal-content {
     max-width: 360px;
 }
@@ -1718,7 +1718,7 @@
     gap: 8px;
 }
 
-/* Password modal styles */
+
 .password-modal-content {
     max-width: 380px;
 }
@@ -1760,7 +1760,7 @@
     gap: 8px;
 }
 
-/* Item control modal styles */
+
 .item-control-modal-content {
     max-width: 560px;
     max-height: 88vh;
@@ -1848,7 +1848,7 @@
     margin-right: 4px;
 }
 
-/* Dot colors for rarity dropdown */
+
 .dot-all {
     background: transparent;
     border: 1px solid #64748b;
@@ -1874,7 +1874,7 @@
     background: #FE806C;
 }
 
-/* Audio elements hide */
+
 audio {
     display: none;
 }
@@ -1883,12 +1883,12 @@ audio {
     display: none;
 }
 
-/* More button badge positioning */
+
 #more-button {
     position: relative;
 }
 
-/* GM Debug section initially hidden */
+
 #gm-debug-section {
     display: none;
 }
@@ -1950,12 +1950,11 @@ audio {
     box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
 
-/* 本地音乐编辑弹窗 */
+
 #custom-music-edit-modal {
     z-index: 10002 !important;
 }
-/* 从 app-full-page 弹窗（背景商店 / 播放列表，z-index 10001）内打开的二级弹窗，
-   必须高于 10001，否则会被父弹窗遮挡 */
+
 #bg-settings-modal,
 #gm-hotupdate-modal,
 #gm-modal-center-modal {
@@ -2058,9 +2057,9 @@ audio {
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
 }
 
-/* 背景设置弹窗 */
+
 #bg-settings-modal .modal-body {
-    /* 内容已简化为静态，无需固定最小高度，避免弹窗过高错位 */
+    
     min-height: 0;
 }
 .bg-setting-row {
@@ -2108,7 +2107,7 @@ audio {
     display: flex;
     gap: 8px;
 }
-/* 原生 radio 隐藏，用 label 当按钮，兼容旧 WebView（不用 :has） */
+
 .bg-setting-options-col input[type="radio"],
 .bg-setting-options-row input[type="radio"] {
     position: absolute;
@@ -2142,7 +2141,7 @@ audio {
     border-color: rgba(59,130,246,0.4);
     color: #93c5fd;
 }
-/* 选中态：input 与 label 是兄弟节点，用 + 选择器，全浏览器兼容 */
+
 .bg-setting-options-col input[type="radio"]:checked + .bg-setting-option,
 .bg-setting-options-row input[type="radio"]:checked + .bg-timer-opt {
     background: rgba(59,130,246,0.18);
@@ -2156,7 +2155,7 @@ audio {
     color: #94a3b8;
     line-height: 1.6;
 }
-/* 喜好背景置顶标记 */
+
 .bg-thumb.favorited::after {
     content: '\f005';
     font-family: 'Font Awesome 5 Free';
@@ -2181,9 +2180,9 @@ audio {
 
 
 
-/* debug-console.css — 万能调试控制台 完整样式 */
 
-/* ===== 基础 / 作用域隔离 ===== */
+
+
 #DTStyle{all:initial}
 #DTRoot *{box-sizing:border-box}
 #DTRoot{
@@ -2193,7 +2192,7 @@ audio {
 }
 #DTRoot>*{pointer-events:auto}
 
-/* ===== 悬浮按钮（纯图片，无边框） ===== */
+
 #DTFab{
   position:fixed;right:80px;bottom:-22px;z-index:2147483646;
   width:60px;height:60px;padding:0;margin:0;border:none;outline:none;
@@ -2212,13 +2211,13 @@ audio {
   box-shadow:0 4px 14px rgba(0,0,0,.4);
 }
 
-/* ===== 遮罩 ===== */
+
 #DTBackdrop{
   position:fixed;inset:0;z-index:2147483645;
   background:rgba(0,0,0,.5);display:none;
 }
 
-/* ===== 主面板 ===== */
+
 #DTPanel{
   position:fixed;top:6vh;left:50%;transform:translateX(-50%);
   z-index:2147483646;
@@ -2229,7 +2228,7 @@ audio {
 }
 #DTPanel.open{display:flex}
 
-/* ===== 头部 ===== */
+
 #DTHead{
   display:flex;align-items:center;justify-content:space-between;
   padding:12px 14px;border-bottom:1px solid #1f2a37;
@@ -2237,7 +2236,7 @@ audio {
 }
 #DTHead h3{margin:0;font-size:16px;color:#38bdf8;font-weight:600}
 
-/* ===== 关闭按钮 ===== */
+
 #DTClose{
   background:transparent;border:1px solid #334155;color:#cbd5e1;
   border-radius:10px;width:34px;height:34px;font-size:18px;
@@ -2245,7 +2244,7 @@ audio {
 }
 #DTClose:active{background:#1e293b}
 
-/* ===== Tab 标签栏 ===== */
+
 #DTTabs{
   display:flex;gap:0;padding:0 6px;
   background:#0b1220;border-bottom:1px solid #1f2a37;
@@ -2262,13 +2261,13 @@ audio {
   background:rgba(56,189,248,.06);
 }
 
-/* ===== 面板主体 ===== */
+
 #DTBody{
   flex:1 1 auto;min-height:0;position:relative;
   overflow:hidden;background:#0e1722;
 }
 
-/* ===== 子面板（分页） ===== */
+
 .dt-panel{
   position:absolute;inset:0;
   display:none;flex-direction:column;
@@ -2276,18 +2275,18 @@ audio {
 }
 .dt-panel.active{display:flex}
 
-/* ===== 滚动容器 ===== */
+
 .dt-scroll{
   overflow:auto;-webkit-overflow-scrolling:touch;
   flex:1 1 auto;min-height:0;
 }
 
-/* ===== 通用行布局 ===== */
+
 .dt-row{
   display:flex;flex-wrap:wrap;gap:8px;align-items:center;
 }
 
-/* ===== 按钮 ===== */
+
 .dt-btn{
   background:#111827;border:1px solid #334155;color:#e5e7eb;
   padding:8px 12px;border-radius:8px;font-size:13px;
@@ -2297,25 +2296,25 @@ audio {
 .dt-btn.ok{background:#14532d;border-color:#166534;color:#bbf7d0}
 .dt-btn.warn{background:#7f1d1d;border-color:#991b1b;color:#fecaca}
 
-/* ===== 卡片 ===== */
+
 .dt-card{
   background:#111827;border:1px solid #1f2a37;
   border-radius:12px;padding:10px;flex:0 0 auto;
 }
 
-/* ===== 标签文本 ===== */
+
 .dt-label{
   font-size:12px;color:#94a3b8;margin-bottom:6px;display:block;
 }
 
-/* ===== 键值信息展示 ===== */
+
 .dt-kv{
   font-size:12.5px;line-height:1.7;
   word-break:break-all;white-space:pre-wrap;
 }
 .dt-kv b{color:#7dd3fc}
 
-/* ===== 输入控件 ===== */
+
 input.dt-in,select.dt-in,textarea.dt-in{
   width:100%;background:#0b1220;border:1px solid #334155;
   color:#e5e7eb;border-radius:8px;padding:8px;font-size:13px;
@@ -2326,17 +2325,17 @@ textarea.dt-in{
   min-height:60px;
 }
 
-/* ===== 胶囊标签 ===== */
+
 .dt-pill{
   display:inline-block;padding:2px 8px;border-radius:999px;
   background:#14532d;color:#bbf7d0;font-size:11px;margin-left:6px;
 }
 
-/* ============================================================
-   日志面板（核心修复区域）
-   ============================================================ */
 
-/* 日志头部工具栏 */
+
+
+
+
 #DTLogHead{
   display:flex;flex-wrap:wrap;gap:8px;align-items:center;
   padding:10px 12px;border-bottom:1px solid #1f2a37;
@@ -2357,7 +2356,7 @@ textarea.dt-in{
   border-radius:6px;
 }
 
-/* 搜索框 */
+
 #DTLogSearch{
   width:calc(100% - 24px);box-sizing:border-box;
   padding:8px 10px;margin:8px 12px;
@@ -2365,13 +2364,13 @@ textarea.dt-in{
   color:#e5e7eb;border-radius:6px;font-size:13px;
 }
 
-/* 日志列表 */
+
 #DTLogList{
   overflow:auto;padding:6px 12px 12px;
   box-sizing:border-box;flex:1 1 auto;
 }
 
-/* 日志行 */
+
 .dt-log-item{
   display:block;position:static;
   padding:6px 8px;margin:4px 0;
@@ -2391,7 +2390,7 @@ textarea.dt-in{
   white-space:pre-wrap;word-break:break-all;
 }
 
-/* 日志级别配色 */
+
 .dt-log-item.error{border-color:#ef4444;color:#fecaca}
 .dt-log-item.error .dt-lv{background:#7f1d1d;color:#fecaca}
 .dt-log-item.warn{border-color:#f59e0b;color:#fde68a}
@@ -2403,9 +2402,9 @@ textarea.dt-in{
 .dt-log-item.debug{border-color:#a78bfa;color:#ddd6fe}
 .dt-log-item.debug .dt-lv{background:#4c1d95;color:#ddd6fe}
 
-/* ============================================================
-   存储面板
-   ============================================================ */
+
+
+
 .dt-storage-item{
   background:#0b1220;border:1px solid #1f2a37;
   border-radius:8px;padding:8px;margin-bottom:6px;
@@ -2423,7 +2422,7 @@ textarea.dt-in{
   max-width:70px;max-height:70px;border-radius:6px;margin-top:4px;
 }
 
-/* 操作按钮组 */
+
 .dt-actions{
   display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;
 }
@@ -2434,15 +2433,15 @@ textarea.dt-in{
 }
 .dt-actions .mini.del{background:#7f1d1d;border-color:#991b1b;color:#fecaca}
 
-/* JSON 格式化展示 */
+
 .dt-json{
   white-space:pre-wrap;background:#0b1220;padding:6px;
   border-radius:6px;font-size:11px;margin-top:4px;word-break:break-all;
 }
 
-/* ============================================================
-   确认弹窗
-   ============================================================ */
+
+
+
 #DTConfirm{
   position:fixed;inset:0;z-index:2147483648;
   background:rgba(0,0,0,.6);
@@ -2456,9 +2455,9 @@ textarea.dt-in{
 }
 #DTConfirm .btns{display:flex;gap:8px;margin-top:12px}
 
-/* ============================================================
-   错误徽标（面板关闭时显示未读错误数）
-   ============================================================ */
+
+
+
 #DTBadge{
   position:fixed;right:12px;bottom:78px;
   z-index:2147483645;
@@ -2468,9 +2467,9 @@ textarea.dt-in{
   display:none;pointer-events:none;
 }
 
-/* ============================================================
-   Mock 面板 - 规则列表
-   ============================================================ */
+
+
+
 .dt-mock-item{
   background:#0b1220;border:1px solid #1f2a37;
   border-radius:8px;padding:8px;margin-bottom:6px;
@@ -2488,9 +2487,9 @@ textarea.dt-in{
 }
 .dt-mock-item .mini.del{background:#7f1d1d;border-color:#991b1b;color:#fecaca}
 
-/* ============================================================
-   性能面板
-   ============================================================ */
+
+
+
 #memChart{
   height:60px;display:flex;align-items:flex-end;gap:2px;
 }
@@ -2499,9 +2498,9 @@ textarea.dt-in{
   transition:height .3s;
 }
 
-/* ============================================================
-   DOM 树
-   ============================================================ */
+
+
+
 #domTree{
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   font-size:12px;line-height:1.6;
@@ -2516,17 +2515,17 @@ textarea.dt-in{
 .dom-node.open>.dom-children{display:block}
 .dom-toggle{color:#64748b;display:inline-block;width:12px;text-align:center}
 
-/* ============================================================
-   工具面板 - 输出区
-   ============================================================ */
+
+
+
 #toolOut,#jsOut,#urlOut,#gpsOut,#devInfo,#perfInfo,#netOut,#domStatOut{
   font-size:12px;line-height:1.7;color:#cbd5e1;
   word-break:break-all;white-space:pre-wrap;
 }
 
-/* ============================================================
-   Toast 提示
-   ============================================================ */
+
+
+
 .dt-toast{
   position:fixed;right:16px;bottom:120px;
   z-index:2147483648;
@@ -2537,18 +2536,18 @@ textarea.dt-in{
 }
 .dt-toast.error{background:#5a1d24}
 
-/* ============================================================
-   高亮覆盖层（测量模式）
-   ============================================================ */
+
+
+
 .dt-measure-overlay{
   position:fixed;pointer-events:none;z-index:2147483644;
   border:2px solid #38bdf8;background:rgba(56,189,248,.1);
   border-radius:2px;
 }
 
-/* ============================================================
-   响应式适配（小屏手机）
-   ============================================================ */
+
+
+
 @media (max-width:420px){
   #DTPanel{top:3vh;height:90vh;width:98vw}
   #DTFab{width:52px;height:52px;right:12px;bottom:12px}
@@ -2559,7 +2558,7 @@ textarea.dt-in{
   .dt-log-item .dt-lv{min-width:44px;font-size:10px}
 }
 
-/* 横屏适配 */
+
 @media (orientation:landscape) and (max-height:500px){
   #DTPanel{top:2vh;height:94vh}
 }
@@ -2580,7 +2579,7 @@ textarea.dt-in{
     letter-spacing: 0.5px;
 }
 
-/* 资源下载弹窗：整体改深灰配色，去掉刺眼的白框与白色进度条 */
+
 #resource-download-modal .modal-content {
     background: linear-gradient(135deg, rgba(40, 43, 48, 0.97) 0%, rgba(26, 29, 33, 0.97) 100%) !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
@@ -2879,12 +2878,12 @@ textarea.dt-in{
     box-shadow: 0 0 0 2px rgba(124, 58, 237, .6), 0 0 10px rgba(6, 182, 212, .5);
     border-radius: 50%;
 }
-/* 榜单行离屏不渲染，减少绘制 */
+
 .leaderboard-item {
     content-visibility: auto;
     contain-intrinsic-size: 72px;
 }
-/* 后台暂停所有动画，减少耗电发热 */
+
 body.app-paused *,
 body.app-paused *::before,
 body.app-paused *::after {

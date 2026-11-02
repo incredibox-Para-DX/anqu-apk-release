@@ -1,14 +1,14 @@
-/* 轻量遥测：错误上报 + 埋点。
- * 设计原则：fire-and-forget、绝不阻塞游戏、限流去重、失败静默。
- * 落库：Supabase ab_error_logs / ab_events（见 tools/supabase-telemetry.sql）。
- */
+
+
+
+
 (function (w) {
     'use strict';
     var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
     var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI';
-    var MAX_UNIQUE_ERR = 20;   // 每会话最多上报的不同错误数
-    var MAX_SAME_ERR = 5;      // 同一错误最多上报次数
-    var MAX_EVT = 60;          // 每会话最多埋点数
+    var MAX_UNIQUE_ERR = 20;   
+    var MAX_SAME_ERR = 5;      
+    var MAX_EVT = 60;          
     var errCount = {};
     var errQueue = [];
     var evtQueue = [];

@@ -1,4 +1,4 @@
-/* 通行证：8周/80级/5M一级/周上限12级/每级10赛季币 */
+
 (function (w) {
     'use strict';
     var S = { id: 'S1', name: '启程', weeks: 8, levels: 80, perLevel: 5000000, capLevels: 12, coinPerLevel: 10, premiumCost: 150000000 };
@@ -113,7 +113,7 @@
         var cur = 0;
         try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) {}
 
-        // 本赛季固定从 2026-11-09 开始，开始前的本周累计不计入
+        
         var startTs = new Date(SEASON_START + 'T00:00:00').getTime();
         if (str(K.start) !== SEASON_START) {
             set(K.start, SEASON_START);
@@ -126,7 +126,7 @@
             return;
         }
         if (Date.now() < startTs) {
-            // 赛季未开始：本周累计不计入
+            
             return;
         }
 
@@ -134,8 +134,8 @@
         var rawLast = null;
         try { rawLast = localStorage.getItem(K.lastW); } catch (e) {}
 
-        // 新周/首次启用：把当前本周累计作为基线，只计算之后的增量，
-        // 不把已经存在的本周累计一次性算进通行证等级。
+        
+        
         if (str(K.week) !== wk) {
             set(K.week, wk);
             set(K.weekXp, 0);
@@ -154,7 +154,7 @@
             if (add > 0) { set(K.weekXp, wx); set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + add)); }
             set(K.lastW, cur);
         } else if (cur < last) {
-            // 累计价值回落（清空/换周边缘）：重置基线，避免后续回升不计入
+            
             set(K.lastW, cur);
         }
 
@@ -200,7 +200,7 @@
         } catch (e) {}
     }
 
-    // 直接接管 toast 元素，不调用全局 showToast，避免旧页面继续播默认 toast 音效
+    
     function showPassToast(msg, showSfx, hideSfx) {
         playPassSfx(showSfx);
         var el = document.getElementById('toast-message');
@@ -222,8 +222,8 @@
         showPassToast(msg, 'audio/pass-toast-show.mp3', 'audio/pass-toast-hide.mp3');
     }
 
-    // UI：统一走通用的全屏页面结构（modal-overlay app-full-page + modal-header/body），
-    // 打开/关闭交给 ModalRegistry，复用通用过渡与音效。
+    
+    
     var root = null, bodyEl = null, view = { t: 'main' }, lastView = 'main';
 
     function el(tag, css, text) { var d = document.createElement(tag); if (css) d.style.cssText = css; if (text != null) d.textContent = text; return d; }
@@ -627,7 +627,7 @@
         content.appendChild(buildHeader());
         bodyEl = el('div', '', '');
         bodyEl.className = 'modal-body';
-        // 只有规则页允许上下滑动；主页面保留奖励轨横向滑动
+        
         var scrollable = view.t === 'rules';
         bodyEl.style.overflowY = scrollable ? 'auto' : 'hidden';
         bodyEl.style.overflowX = 'hidden';
@@ -764,7 +764,7 @@
             [K.xp, K.weekXp, K.week, K.start, K.premium, K.coins, K.claimedCoins, K.claims, K.lastW].forEach(function (k) {
                 try { localStorage.removeItem(k); } catch (e) {}
             });
-            // 典藏/尊享获取状态一并清掉，并阻止权益同步立刻恢复
+            
             ['ab_pass_card_night', 'ab_pass_supreme_granted', 'ab_pass_ability_devil'].forEach(function (k) {
                 try { localStorage.removeItem(k); } catch (e) {}
             });

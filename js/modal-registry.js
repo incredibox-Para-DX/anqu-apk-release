@@ -1,6 +1,6 @@
-/* 弹窗注册表：所有 modal 的开关音效、动画时长、显示方式只在这里定义一次。
- * 旧代码里 EventManager 与 ModalManager 各存了一份映射，这里合并为单一来源。
- */
+
+
+
 (function (w) {
     'use strict';
 
@@ -92,7 +92,7 @@
 
         if (!options.silent && !cfg.silent) play(cfg.openSound);
 
-        // 支持调用方指定层级（如弹窗中心打开的弹窗需要高于自身）
+        
         if (options.zIndex != null) {
             if (node._origZIndex === undefined) node._origZIndex = node.style.zIndex || '';
             node.style.zIndex = options.zIndex;
@@ -121,10 +121,10 @@
 
         node.classList.remove('show');
         setTimeout(function () {
-            // 期间被重新打开就不要隐藏，避免快速开关时闪一下
+            
             if (!node.classList.contains('show')) {
                 node.style.display = 'none';
-                // 恢复弹窗中心临时设置的层级
+                
                 if (node._origZIndex !== undefined) {
                     node.style.zIndex = node._origZIndex;
                     delete node._origZIndex;
@@ -151,8 +151,8 @@
         });
     }
 
-    // 浮层（物品详情等）定位：先量实际尺寸，再按锚点在视口内钳制。
-    // 锚点无效时退回点击坐标，再退回屏幕中心，绝不依赖元素的静态位置。
+    
+    
     function positionPopup(node, anchor, margin) {
         if (!node) return null;
         margin = margin == null ? 8 : margin;

@@ -21,12 +21,12 @@ def vignette(img):
 def make_background(W=1280, H=720):
     img = Image.new('RGB', (W, H))
     d = ImageDraw.Draw(img)
-    # 垂直渐变 深蓝黑
+
     for y in range(H):
         t = y / H
         r = int(8 + 18 * t); g = int(12 + 26 * t); b = int(20 + 40 * t)
         d.line([(0, y), (W, y)], fill=(r, g, b))
-    # 远景轮廓（山地/废墟感）
+
     for layer, (base, col) in enumerate([(0.58, (14, 20, 30)), (0.68, (10, 15, 23)), (0.78, (7, 10, 16))]):
         pts = [(0, H)]
         x = 0
@@ -35,12 +35,12 @@ def make_background(W=1280, H=720):
             pts.append((x, y)); x += 40
         pts.append((W, H))
         d.polygon(pts, fill=col)
-    # 微光点
+
     for _ in range(120):
         x, y = random.randrange(W), random.randrange(int(H * 0.6))
         a = random.randint(40, 140)
         d.point((x, y), fill=(a + 60, a + 70, a + 90))
-    # 中央光晕
+
     glow = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
     gd.ellipse([W * 0.36, H * 0.12, W * 0.64, H * 0.5], fill=(60, 110, 180, 26))
@@ -88,7 +88,7 @@ def write_wav(path, seconds=16, sr=22050):
         t = i / sr
         step = int(t * 3) % len(notes)
         f = notes[step]
-        env = 0.5 + 0.5 * math.sin(2 * math.pi * 0.25 * t)          # 缓慢呼吸
+        env = 0.5 + 0.5 * math.sin(2 * math.pi * 0.25 * t)
         arp = 0.22 * math.sin(2 * math.pi * f * t) * math.exp(-((t * 3) % 1) * 2.2)
         pad = 0.16 * math.sin(2 * math.pi * 110 * t) + 0.10 * math.sin(2 * math.pi * 165 * t)
         v = (arp + pad) * env * 0.9
@@ -110,7 +110,7 @@ def save_png(img, path):
     img.save(path, optimize=True)
 
 
-# ---------- 背景类 ----------
+
 bg_dir = os.path.join(OUT, 'bg_mod')
 os.makedirs(os.path.join(bg_dir, 'content', 'backgrounds'), exist_ok=True)
 bg = make_background()
@@ -126,7 +126,7 @@ json.dump({
 }, open(os.path.join(bg_dir, 'mod.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 zip_mod(bg_dir, os.path.join(OUT, 'official_example_background.zip'))
 
-# ---------- 音乐类 ----------
+
 mu_dir = os.path.join(OUT, 'music_mod')
 os.makedirs(os.path.join(mu_dir, 'content', 'music'), exist_ok=True)
 write_wav(os.path.join(mu_dir, 'content', 'music', 'night_patrol.wav'))

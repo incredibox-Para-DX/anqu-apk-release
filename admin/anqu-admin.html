@@ -331,7 +331,7 @@ details.json pre{
   </section>
 </main>
 
-<!-- 连接设置 -->
+
 <div class="mask" id="settingsMask">
   <div class="modal">
     <div class="modal-head">
@@ -376,7 +376,7 @@ details.json pre{
   </div>
 </div>
 
-<!-- 预览 -->
+
 <div class="mask" id="previewMask">
   <div class="modal">
     <div class="modal-head">
@@ -390,7 +390,7 @@ details.json pre{
   </div>
 </div>
 
-<!-- 确认 -->
+
 <div class="mask" id="confirmMask">
   <div class="modal" style="width:min(440px,100%)">
     <div class="modal-head"><h3 id="confirmTitle">确认</h3></div>
@@ -407,9 +407,9 @@ details.json pre{
 <script>
 'use strict';
 
-/* =========================================================================
- * 常量与配置
- * ========================================================================= */
+
+
+
 const CDN = 'https://cdn.jsdelivr.net/gh/';
 const API = 'https://api.github.com/repos/';
 
@@ -435,7 +435,7 @@ const CFG = {
   }
 };
 
-/* 每个资源包的本地状态 */
+
 const S = {
   tab: 'overview',
   packs: {
@@ -446,9 +446,9 @@ const S = {
   }
 };
 
-/* =========================================================================
- * 工具函数
- * ========================================================================= */
+
+
+
 const $ = (sel, root) => (root || document).querySelector(sel);
 const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
 
@@ -559,9 +559,9 @@ function refreshCfgSummary() {
     ' · Token ' + (CFG.token ? '<span style="color:#7ee787">已配置</span>' : '未配置（只读）');
 }
 
-/* =========================================================================
- * GitHub API
- * ========================================================================= */
+
+
+
 async function ghFetch(url, opts) {
   if (!CFG.token) throw new Error('未配置 GitHub Token');
   const headers = Object.assign({
@@ -617,9 +617,9 @@ async function ghDeleteFile(pack, path, message, sha) {
   });
 }
 
-/* =========================================================================
- * 清单结构定义
- * ========================================================================= */
+
+
+
 function emptyManifest(pack) {
   if (pack === 'bg') return { version: 1, images: [], videos: [], image_total_size: 0, video_total_size: 0 };
   if (pack === 'music') return { version: 1, tracks: [] };
@@ -640,7 +640,7 @@ function validateManifest(pack, data) {
   return null;
 }
 
-/* 表分区：一个资源包可以有多个数组 */
+
 function sectionsOf(pack) {
   if (pack === 'bg') {
     return [
@@ -700,7 +700,7 @@ function sectionsOf(pack) {
   }];
 }
 
-/* 依据路径自动补齐派生字段 */
+
 function deriveRow(pack, secKey, row) {
   if (pack === 'bg') {
     if (!row.url && row.path) row.url = cdnUrl('bg', row.path);
@@ -768,9 +768,9 @@ function packCounts(pack) {
   return { count: count, size: size };
 }
 
-/* =========================================================================
- * 载入 / 保存
- * ========================================================================= */
+
+
+
 async function loadPack(pack, useApi) {
   const st = S.packs[pack];
   setPackHint(pack, '载入中…');
@@ -794,7 +794,7 @@ async function loadPack(pack, useApi) {
     st.dirty = false;
     st.loadedAt = Date.now();
 
-    // 补齐缺省数组，便于编辑
+    
     sectionsOf(pack).forEach(sec => {
       if (!Array.isArray(st.manifest[sec.key])) st.manifest[sec.key] = [];
     });
@@ -846,15 +846,15 @@ async function purgeCdn(pack) {
     if (res.ok) toast(PACKS[pack].label + ' CDN 已刷新，稍等几秒即可生效', 'ok');
     else toast('刷新请求返回 ' + res.status + '，可直接打开链接确认', 'warn');
   } catch (e) {
-    // purge 接口不一定开放 CORS，退化为打开链接
+    
     toast('已打开 CDN 刷新链接（如被拦截请手动访问）', 'warn');
   }
   window.open(url, '_blank', 'noopener');
 }
 
-/* =========================================================================
- * 渲染：总览
- * ========================================================================= */
+
+
+
 function renderOverview() {
   const grid = $('#packGrid');
   grid.innerHTML = Object.keys(PACKS).map(pack => {
@@ -1048,9 +1048,9 @@ function moveRow(pack, secKey, idx, dir) {
   renderPack(pack);
 }
 
-/* =========================================================================
- * 预览
- * ========================================================================= */
+
+
+
 function previewItem(pack, secKey, idx) {
   const row = S.packs[pack].manifest[secKey][idx];
   if (!row) return;
@@ -1108,9 +1108,9 @@ function previewItem(pack, secKey, idx) {
   openMask('previewMask');
 }
 
-/* =========================================================================
- * 健康检查
- * ========================================================================= */
+
+
+
 async function checkOne(pack, path) {
   const url = cdnUrl(pack, path);
   try {
@@ -1179,16 +1179,16 @@ async function healthPack(pack) {
     }, 6);
   }
 
-  st.dirty = st.dirty; // 健康检查不算修改
+  st.dirty = st.dirty; 
   renderPack(pack);
   const msg = '检查完成：共 ' + total + ' 项，失效 ' + bad + ' 项，大小不符 ' + mismatch + ' 项';
   setPackHint(pack, msg, bad ? 'bad' : mismatch ? 'warn' : 'ok');
   toast(msg, bad ? 'bad' : mismatch ? 'warn' : 'ok');
 }
 
-/* =========================================================================
- * 上传资源
- * ========================================================================= */
+
+
+
 function currentUploadPaths() {
   return {
     bg: 'backgrounds/',
@@ -1294,11 +1294,11 @@ function confirmBox(title, html, cb) {
   openMask('confirmMask');
 }
 
-/* =========================================================================
- * 事件绑定
- * ========================================================================= */
+
+
+
 function bindEvents() {
-  // 标签切换
+  
   $('#tabs').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-tab]');
     if (!btn) return;
@@ -1352,7 +1352,7 @@ function bindEvents() {
     renderOverview();
   });
 
-  // 资源包工具栏
+  
   $('#panel-pack').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-act], button[data-addrow], button[data-rowact]');
     if (!btn) return;
@@ -1397,7 +1397,7 @@ function bindEvents() {
     }
   });
 
-  // 表格输入
+  
   $('#panel-pack').addEventListener('input', (e) => {
     const inp = e.target.closest('input[data-k]');
     if (!inp) return;
@@ -1407,7 +1407,7 @@ function bindEvents() {
       inp.getAttribute('data-k'), inp.value);
   });
 
-  // 上传
+  
   $('#btnPickFiles').addEventListener('click', () => $('#uploadInput').click());
   $('#uploadInput').addEventListener('change', (e) => {
     const files = Array.from(e.target.files || []);
@@ -1427,7 +1427,7 @@ function bindEvents() {
     uploadFiles(S.tab, files);
   });
 
-  // 设置
+  
   $('#btnSettings').addEventListener('click', () => {
     $('#cfgOwner').value = CFG.owner;
     $('#cfgBranch').value = CFG.branch;
@@ -1453,7 +1453,7 @@ function bindEvents() {
     refreshCfgSummary();
     closeMask('settingsMask');
     toast('连接设置已保存', 'ok');
-    // 配置变了，清空已载入缓存
+    
     Object.keys(S.packs).forEach(p => {
       S.packs[p].manifest = null;
       S.packs[p].sha = null;
@@ -1464,7 +1464,7 @@ function bindEvents() {
     if (S.tab !== 'overview') renderPack(S.tab);
   });
 
-  // 通用关闭
+  
   $$('[data-close]').forEach(btn => {
     btn.addEventListener('click', () => closeMask(btn.getAttribute('data-close')));
   });
@@ -1484,7 +1484,7 @@ function bindEvents() {
   });
 }
 
-/* 静默健康检查：只写 _health，不弹提示 */
+
 async function healthPackSilent(pack) {
   const st = S.packs[pack];
   if (!st.manifest) return;
@@ -1504,16 +1504,16 @@ async function healthPackSilent(pack) {
   if (S.tab === pack) renderPack(pack);
 }
 
-/* =========================================================================
- * 启动
- * ========================================================================= */
+
+
+
 function boot() {
   loadCfg();
   refreshCfgSummary();
   bindEvents();
   renderOverview();
 
-  // 若哈希指定了资源包，直接进入
+  
   const hash = (location.hash || '').replace('#', '');
   if (PACKS[hash]) {
     $('button[data-tab="' + hash + '"]').click();

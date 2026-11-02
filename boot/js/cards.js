@@ -105,7 +105,7 @@
         layer.classList.toggle('no-shine', !!c && NO_SHINE.indexOf(c.id) >= 0);
         if (!c) { layer.style.backgroundImage = ''; delete layer.dataset.cardUrl; layer.classList.remove('show'); return; }
         resolveImg(c, function (url) {
-            // 重复 apply（启动、可见性变化）不重新设置同一张图，避免闪一下
+            
             if (url && layer.dataset.cardUrl === url) { layer.classList.add('show'); return; }
             if (url) {
                 layer.dataset.cardUrl = url;
@@ -137,8 +137,8 @@
             grid.appendChild(tip);
         }
         CARDS.forEach(function (c) {
-            if (c.id === 'card_000') return; // 默认名片不作为选择项
-            if (c.gmOnly && !isGmUser()) return; // GM 名片仅 GM 权益解锁后显示
+            if (c.id === 'card_000') return; 
+            if (c.gmOnly && !isGmUser()) return; 
             var un = isUnlocked(c.id), sel = selected() === c.id;
             var d = document.createElement('div');
             d.style.cssText = 'border:1px solid ' + (sel ? '#3b82f6' : '#334155') + ';border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);';

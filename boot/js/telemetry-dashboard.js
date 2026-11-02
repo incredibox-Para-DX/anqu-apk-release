@@ -1,4 +1,4 @@
-/* 遥测看板（GM）：读取 Supabase ab_error_logs / ab_events 并展示 */
+
 (function (w) {
     'use strict';
     var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';

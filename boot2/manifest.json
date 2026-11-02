@@ -1,15 +1,15 @@
 {
-  "version": "v2.3.0_hotfix.154.m",
+  "version": "v2.3.0_hotfix.155.m",
   "files": [
     {
       "path": "MiniGame/index.html",
-      "size": 2752,
-      "sha256": "b0a2fa7b758a62105ced86686bb5c4110e26310ee39caf3dd2486a641a6dc99b"
+      "size": 2511,
+      "sha256": "026660a3b13c2468ef0d3967bbcf6976658fb26aa190cb98f2dff37c79dcca16"
     },
     {
       "path": "MiniGame/scripts/all.js",
-      "size": 189889,
-      "sha256": "de3c285be18926a981fcbe2f76a6889b073c857f9ca04f014008f526505b2cf2"
+      "size": 174984,
+      "sha256": "a7d97df99bcec5404acac99757d302bd2e711534e4221a60f39b49c902cf8e46"
     },
     {
       "path": "MiniGame/images/index.css",
@@ -23,103 +23,103 @@
     },
     {
       "path": "css/main.css",
-      "size": 70167,
-      "sha256": "2894ae5c78ca900616b611fa5cad75b7d0111690fcb3424fd7ea690d0a145f48"
+      "size": 66450,
+      "sha256": "7eb55cbfcb1b4769243b67a9b26188b51752be85203c747e51b8b486a68de150"
     },
     {
       "path": "css/styles.css",
-      "size": 115539,
-      "sha256": "66a440b71052c993a0cb7f389847815842db47d5b71f56811ed194694ac90de2"
+      "size": 108026,
+      "sha256": "1ab8c732dc5e73796961e4c0361dc2051802247862a8a2c8a7d0c7948da33414"
     },
     {
       "path": "debug-console.css",
-      "size": 153,
-      "sha256": "87d57e2636d3957888db66fac13cbc46bdce41dc0fc95dc91603ef58cb12e396"
+      "size": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
     },
     {
       "path": "js/debug.js",
-      "size": 91882,
-      "sha256": "8c5ef9545c6b1cee6792a57b6d9dfb15f797b5ad372b509b7ae820ef5a7002ad"
+      "size": 89115,
+      "sha256": "173ad039a42f26cb1d8bf72e95af06f227f4a6998603244c2721a4bb2074fc94"
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 29043,
-      "sha256": "1a004c334eb7003a46cb927b8d69802185a7dfb7ae585188b46f6ac8bb06341d"
+      "size": 28818,
+      "sha256": "22a9e38c0d567fcc226eb1bb9e583ebe064c4d3887bd11d6c49d4b271696a1f1"
     },
     {
       "path": "js/main.js",
-      "size": 25232,
-      "sha256": "78fc3b2572e78597e0b29aa08ef9ef7add50ff1297fcb22541e5aea2a991d8cc"
+      "size": 24321,
+      "sha256": "d4abf979b3121b4777b83b723d848cdb01733de56caa79e522f8fa1339e1b9b3"
     },
     {
       "path": "js/modal-registry.js",
-      "size": 8377,
-      "sha256": "86820fb77c2a1b45de88cba6145acb306926b3a7c696a2a3710031783229c258"
+      "size": 7778,
+      "sha256": "2a634f33a3047f3d1099e2cf2e5d7aa7379cb055ee24458c774d846d82d7befa"
     },
     {
       "path": "js/music.js",
-      "size": 89990,
-      "sha256": "363c933dd17e8bd48a112acf23371ad2d97aea8c058384ec8572833fe69dcc88"
+      "size": 80455,
+      "sha256": "207a5e16836b713abb28a9e7f8f9a6d08730b967a1e58f99b73e753241fa2131"
     },
     {
       "path": "js/net-mirror.js",
-      "size": 2655,
-      "sha256": "d72f522d493b3bd4a14da3d86059bdbc989959fb1d54bb81f3f4c1650390f560"
+      "size": 2416,
+      "sha256": "d62dbbc94e57d5407c914100024a4105125bd2420512f75fa574137a38c03693"
     },
     {
       "path": "js/telemetry.js",
-      "size": 5188,
-      "sha256": "622b59197077b306059249a5612cb8b61ea7572f08b598afc476e0cb9f35cc5f"
+      "size": 4867,
+      "sha256": "a3342a6df0056b185421bea223fcad850c0be33f5ace956ff0bef69193dc5ae6"
     },
     {
       "path": "js/ui-fx.js",
-      "size": 1950,
-      "sha256": "c10fc25fa5397d552a1c794f87a24405642288481150bd2fcfd25dc75fca2de4"
+      "size": 1742,
+      "sha256": "27b194cd13035cf55e6b45b00c6bfa735ddf77dd9465ebe6a6f7d668bd2db143"
     },
     {
       "path": "js/themes.js",
-      "size": 2929,
-      "sha256": "17060b8b573263a27e53688e9058acdf872c627cf563c49ba362438cbf023164"
+      "size": 2823,
+      "sha256": "1af0950537fc2fa070e6c11056675b31cdcd2767b73de0d2c1d943d31c3845f2"
     },
     {
       "path": "js/mod-editor.js",
-      "size": 21716,
-      "sha256": "f66e33b920965e6e3604bbbf096b243753daf61272b3ab268e08d874b252b62e"
+      "size": 21187,
+      "sha256": "c407ef8ce2573fe3f9deab34fc7ad3082480cfbe4df57f0359b83a4387efd47a"
     },
     {
       "path": "js/collect-pack.js",
-      "size": 9071,
-      "sha256": "db8ef69f4ba7872e69a26be51d70967a122353d78e93795b6022b389878a8977"
+      "size": 8955,
+      "sha256": "d681f1485aa925725217598c51ef666678de559220612b4d8d4546b66ae3028c"
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 5667,
-      "sha256": "9c2a30f048a44d83c0bde338a0c88ee2c7b644e99e350815452e4a2d290296b3"
+      "size": 5360,
+      "sha256": "326a8594f70623810e0d29b7ad2ec3f2be97dd0db1bf2b15113e69c2e2ab5208"
     },
     {
       "path": "js/telemetry-dashboard.js",
-      "size": 4537,
-      "sha256": "c52525740f3b6328b10a86369d10ec2cae27a9dc6e62c404b48de178c0e092b5"
+      "size": 4457,
+      "sha256": "dc867e1823e00a0fc8c391249878f132e9852e1a5ffbd83b6d113b745e2d27c9"
     },
     {
       "path": "js/net.js",
-      "size": 7315,
-      "sha256": "2c65014d0c1e6de6a78671101283ddd5abca8f07b8a6a0b5454e8cab0adf61bb"
+      "size": 6870,
+      "sha256": "ea7af9c585edf095173826c5f2a97db792817fed6ed2f5909fe04df5cf5def0c"
     },
     {
       "path": "js/redeem.js",
-      "size": 7063,
-      "sha256": "6c58a02d2b82a884a48786925960a087ff29b541032ea5fb5c592e1b31882649"
+      "size": 6675,
+      "sha256": "4dd48ba0fcd85f234ba39b60f3fc1ddfbecff7b49075ff9b22f66b7761c5c197"
     },
     {
       "path": "js/script_new.js",
-      "size": 383185,
-      "sha256": "c81289dc1f6f21dfc169f5dd8d7793cf7e15e314169c09142603de03873c308f"
+      "size": 352873,
+      "sha256": "06d025cca8d8a926a25947536d891d7cfdca4834ac25ce193780e29919db8c1f"
     },
     {
       "path": "js/synthesis.js",
-      "size": 25837,
-      "sha256": "9d2b33c2960d0ac425b13635321e7d1c89af40cfe895e985cde278849bb62fe4"
+      "size": 25669,
+      "sha256": "552270759c6d2ac90e0e1f6f7ccec9fbd2cbcb9ca82e16747267ac69cea72a71"
     },
     {
       "path": "js/banned-words.js",
@@ -128,8 +128,8 @@
     },
     {
       "path": "js/storage.js",
-      "size": 15826,
-      "sha256": "30ce5bd7afbb5215b8302a4b7fd25b4052409314cb79db1eb5bf0e2c269f0cd3"
+      "size": 14071,
+      "sha256": "d71bb376e68a4038ad1dd9f2bc2e7b774d8804ae1581f987be9bbbec2233ab6e"
     },
     {
       "path": "js/i18next.min.js",
@@ -138,13 +138,13 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 135631,
-      "sha256": "c95e372740943b0f0bad58291164247ca7a207f52db022c51969cd3692fc9bc0"
+      "size": 135538,
+      "sha256": "96e2ac72a61d677fcd5f1846416895425c4507df956efec690ad66b238f6beb1"
     },
     {
       "path": "js/i18n-next.js",
-      "size": 1600,
-      "sha256": "b7ee9c0ff5da9fde371c029fbd26b69b4635eed99541747d99ed3e78f9c7bae2"
+      "size": 1529,
+      "sha256": "a0b56494dcef5076a0df561448299aea312c5151cdf655b2dc3702c99a75c903"
     },
     {
       "path": "js/i18n-rules.js",
@@ -153,23 +153,23 @@
     },
     {
       "path": "js/cards.js",
-      "size": 14863,
-      "sha256": "353a99dba05bca768da692ce842bf09f8a468ae7b384399e5664bd1b3b38c4d2"
+      "size": 14700,
+      "sha256": "872c0eb4f5853828c438fa8463bbf322a3d43568cd36a7cad2ee1e0f018a2ea1"
     },
     {
       "path": "js/pass.js",
-      "size": 51303,
-      "sha256": "81d7f53445c60869b552760b057d59fecf29e70d62901ec800063758a3270d84"
+      "size": 50446,
+      "sha256": "e951cd114af6dcf1606a082a74dcdfb26b6ab2168274f33ffdd58679ce32634e"
     },
     {
       "path": "js/card-pack.js",
-      "size": 9087,
-      "sha256": "345d82aa73982f0e64fdbd0bdf597a5d61061672305744f68f57f7f6b1ac702d"
+      "size": 9008,
+      "sha256": "079f77b53b8da5973db031da90736afd0c18ad54c738603dda239288810158ad"
     },
     {
       "path": "js/entitlements.js",
-      "size": 12267,
-      "sha256": "9ba4d6cdf78777f0b9c2936a7fded89c2c4f0ae628b2dfe3d89de1817c7b3770"
+      "size": 12063,
+      "sha256": "104b7e463e05ecd98d035874454822885e93263345665d923e0554aeb241d4b9"
     },
     {
       "path": "js/bans.js",
@@ -218,23 +218,23 @@
     },
     {
       "path": "js/mods.js",
-      "size": 86634,
-      "sha256": "c31baf1dde48545438667a4ef3f6bd7aa41c99dfd2178d6b776b269ce46a0ec4"
+      "size": 82406,
+      "sha256": "c0cebbbf492274826a06cb74e763f620593008fa43dcecfe43c5dc4e98b9bf42"
     },
     {
       "path": "js/thanks.js",
-      "size": 9105,
-      "sha256": "241ff4a45a4340d582b47d66a21149e2170a1a95c3eee9f2de92281e4aedaf21"
+      "size": 8796,
+      "sha256": "f9f33d782b3e3a9b246958ce0ca6702fcbf770a8aa75eb051caee04e310d45ce"
     },
     {
       "path": "admin/anqu-admin.html",
-      "size": 61264,
-      "sha256": "a8e7db93527841ec89b00e21f10b17eee50dfe41a8a36a5e6c83ac885ab2b37a"
+      "size": 58864,
+      "sha256": "c73af6a2c2fcd304cecde4bd8ba9608d45faf23011815195d145b4e2c1c8d66f"
     },
     {
       "path": "admin/leaderboard-admin.html",
-      "size": 19413,
-      "sha256": "84523c65835b9282644ad3cde586f19cc34c3f452cfa8e52865d03e86efdc613"
+      "size": 19386,
+      "sha256": "5c2b2c7eed9b3213840b1c16c5b16856998ba439fe7da72a93fa3cc96d7ba274"
     },
     {
       "path": "xml/backgrounds.xml",
@@ -263,10 +263,10 @@
     },
     {
       "path": "index.html",
-      "size": 167868,
-      "sha256": "90da3d5597af3bb4a50a91ffb71106adeb97c339ae753fe63157aec1bf050f88"
+      "size": 163150,
+      "sha256": "9c53a03b9156ab4badd779724fea6cf2535ef6592c00d0ad64b2b8cddd6514d2"
     }
   ],
   "fileCount": 53,
-  "totalSize": 2404708
+  "totalSize": 2316020
 }

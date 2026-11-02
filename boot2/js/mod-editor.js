@@ -1,4 +1,4 @@
-/* MOD 编辑器：物品 / 音乐 / 背景 三类，表单填写 + 上传 → 生成 mod.json + 打包 → 安装/导出 */
+
 (function (w) {
     'use strict';
     var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
@@ -46,7 +46,6 @@
         });
     }
     function downloadBlob(blob, filename) {
-        // 0) 原生分享（新版 APK 暴露 window.AndroidUpdate.saveShare）
         try {
             if (window.AndroidUpdate && typeof window.AndroidUpdate.saveShare === 'function') {
                 blobToBase64(blob).then(function (b64) {
@@ -56,7 +55,7 @@
                 return;
             }
         } catch (e) {}
-        // 1) 系统分享（若支持）
+        
         try {
             var file = new File([blob], filename, { type: 'application/zip' });
             if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
@@ -65,7 +64,7 @@
                 return;
             }
         } catch (e) {}
-        // 2) 上传到 Supabase 公开存储 → 给下载链接（最可靠）
+        
         uploadAndLink(blob, filename);
     }
     function uploadAndLink(blob, filename) {
@@ -87,7 +86,7 @@
             try { if (navigator.clipboard) navigator.clipboard.writeText(url); } catch (e) {}
             try { window.open(url, '_blank'); } catch (e) {}
         }).catch(function () {
-            // 3) 回退本地下载
+            
             downloadLink(blob, filename);
         });
     }
@@ -299,7 +298,7 @@
             }
         } catch (e) { return setMsg(T('me_read_fail') + String(e && e.message || e)); }
 
-        // 展示资源（可选）：头像/缩略图/轮播图
+        
         try {
             var _av = $('me-avatar'), _th = $('me-thumb'), _sc = $('me-screens');
             if (_av && _av.files && _av.files[0]) zip.file('avatar.png', await readFile(_av.files[0]));
@@ -347,7 +346,7 @@
         wireSimplePreview('me-avatar', 'me-avatar-preview', false);
         wireSimplePreview('me-thumb', 'me-thumb-preview', false);
         wireSimplePreview('me-screens', 'me-screens-preview', true);
-        // 自定义类型下拉
+        
         var selWrap = $('me-type-select');
         if (selWrap && !selWrap._b) {
             selWrap._b = true;
@@ -370,7 +369,7 @@
         var exp = $('me-export');
         if (exp && !exp._bound) { exp._bound = true; exp.addEventListener('click', function () { build(false); }); }
 
-        // 防滑动误触输入框：拖拽位移后点击输入框不聚焦（避免键盘开/关引起的界面抽搐）
+        
         var bodyEl = document.querySelector('#mod-editor-modal .me-body');
         if (bodyEl && !bodyEl._scrollBound) {
             bodyEl._scrollBound = true;
