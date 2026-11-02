@@ -1966,6 +1966,47 @@ $(function() {
                 holeRing.position.y = 0.06;
                 record.add(holeRing);
 
+                let analyser = null;
+                let freqData = null;
+                let spectrumBars = null;
+                try {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC && player.audio) {
+                        player._audioCtx = player._audioCtx || new AC();
+                        if (player._audioCtx.state === 'suspended') player._audioCtx.resume().catch(() => {});
+                        if (!player._analyser) {
+                            player._analyser = player._audioCtx.createAnalyser();
+                            player._analyser.fftSize = 512;
+                            player._analyser.smoothingTimeConstant = 0.82;
+                            player._audioSrc = player._audioCtx.createMediaElementSource(player.audio);
+                            player._audioSrc.connect(player._analyser);
+                            player._analyser.connect(player._audioCtx.destination);
+                        }
+                        analyser = player._analyser;
+                        freqData = new Uint8Array(analyser.frequencyBinCount);
+                        const count = 96;
+                        const geo = new THREE.BoxGeometry(0.03, 0.02, 0.03);
+                        const group = new THREE.Group();
+                        spectrumBars = [];
+                        for (let i = 0; i < count; i++) {
+                            const mat = new THREE.MeshBasicMaterial({
+                                color: new THREE.Color().setHSL(0.58 + (i / count) * 0.22, 0.85, 0.62),
+                                transparent: true,
+                                opacity: 0.85
+                            });
+                            const bar = new THREE.Mesh(geo, mat);
+                            const ang = (i / count) * Math.PI * 2;
+                            bar.position.set(Math.cos(ang) * 2.35, 0, Math.sin(ang) * 2.35);
+                            group.add(bar);
+                            spectrumBars.push(bar);
+                        }
+                        record.add(group);
+                    }
+                } catch (e) {
+                    analyser = null;
+                    spectrumBars = null;
+                }
+
                 const loader = new THREE.TextureLoader();
                 loader.setCrossOrigin('anonymous');
                 loader.load(coverPath, (tex) => {
@@ -2018,6 +2059,16 @@ $(function() {
                     rotY += (targetY - rotY) * 0.15;
                     record.rotation.x = rotX;
                     record.rotation.y = rotY;
+                    if (analyser && spectrumBars) {
+                        analyser.getByteFrequencyData(freqData);
+                        const n = spectrumBars.length;
+                        for (let i = 0; i < n; i++) {
+                            const v = freqData[Math.floor((i / n) * freqData.length)] / 255;
+                            const h = 0.04 + v * 1.0;
+                            spectrumBars[i].scale.y = h / 0.02;
+                            spectrumBars[i].position.y = h / 2;
+                        }
+                    }
                     renderer.render(scene, camera);
                 };
                 animate();
