@@ -405,15 +405,19 @@
     var start = (have > 0 && have < expected) ? have : 0;
     var opts = { cache: 'no-store' };
     if (start > 0) opts.headers = { 'Range': 'bytes=' + start + '-' };
+    var ctrl = null, to = null;
+    try { ctrl = new AbortController(); } catch (e) {}
+    if (ctrl) { opts.signal = ctrl.signal; to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 30000); }
     fetch(base + '/' + file.path, opts)
       .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
       .then(function (buf) {
+        if (to) clearTimeout(to);
         var b = b64(buf);
         var ok = start > 0 ? AndroidUpdate.writeFileAt('www/' + file.path, b, start) : AndroidUpdate.writeFile('www/' + file.path, b);
         if (!ok) throw new Error('write');
         cb(true, buf.byteLength, false);
       })
-      .catch(function () { cb(false, 0, false); });
+      .catch(function () { if (to) clearTimeout(to); cb(false, 0, false); });
   }
   function jsDownload(base, list, cb) {
     var total = list.length, idx = 0, active = 0, fails = [], conc = 6;
