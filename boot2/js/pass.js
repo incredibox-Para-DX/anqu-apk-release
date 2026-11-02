@@ -268,12 +268,14 @@
         back.onclick = view.t === 'main' ? closePage : function () { view = { t: 'main' }; render(); };
         h.appendChild(back);
 
-        var title = el('div', '', '');
-        title.className = 'modal-title';
-        var icons = { main: 'fa-ticket', upgrade: 'fa-crown', shop: 'fa-store', rules: 'fa-circle-info', preview: 'fa-gift' };
-        var names = { main: t('pass'), upgrade: t('upgrade'), shop: t('season_shop'), rules: t('rules'), preview: t('preview_rewards') };
-        title.innerHTML = '<i class="fas ' + (icons[view.t] || 'fa-ticket') + '"></i> ' + (names[view.t] || t('pass'));
-        h.appendChild(title);
+        if (view.t !== 'main') {
+            var title = el('div', '', '');
+            title.className = 'modal-title';
+            var icons = { upgrade: 'fa-crown', shop: 'fa-store', rules: 'fa-circle-info', preview: 'fa-gift' };
+            var names = { upgrade: t('upgrade'), shop: t('season_shop'), rules: t('rules'), preview: t('preview_rewards') };
+            title.innerHTML = '<i class="fas ' + (icons[view.t] || 'fa-ticket') + '"></i> ' + (names[view.t] || t('pass'));
+            h.appendChild(title);
+        }
 
         var actions = el('div', '', '');
         actions.className = 'app-page-actions';

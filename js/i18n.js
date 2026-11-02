@@ -1121,6 +1121,7 @@
         while (p) {
             var n = p.nodeName ? p.nodeName.toUpperCase() : '';
             if (n === 'SCRIPT' || n === 'STYLE' || n === 'TEXTAREA' || n === 'INPUT' || n === 'NOSCRIPT') return true;
+            if (p.nodeType === 1 && (p.hasAttribute('data-i18n-skip') || (p.classList && p.classList.contains('i18n-skip')))) return true;
             p = p.parentNode;
         }
         return false;

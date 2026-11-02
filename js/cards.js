@@ -22,6 +22,7 @@
             card_equip: ['装备', '裝備', 'Equip', 'Надеть'],
             card_equipped: ['使用中', '使用中', 'In use', 'Используется'],
             card_unlock_hint: ['使用兑换码解锁', '使用兌換碼解鎖', 'Unlock with a redeem code', 'Откройте кодом'],
+            card_pass_hint: ['需在通行证达到对应等级并领取', '需在通行證達到對應等級並領取', 'Claim it at the corresponding Pass level', 'Получите на соответствующем уровне пропуска'],
             card_none: ['未装备', '未裝備', 'None', 'Нет'],
             card_need_download: ['请先到「资源下载」下载名片资源包', '請先到「資源下載」下載名片資源包', 'Download the card pack in Downloads first', 'Сначала скачайте набор визиток в «Загрузках»'],
             card_reset: ['恢复初始名片', '恢復初始名片', 'Reset card', 'Сбросить визитку'],
@@ -133,7 +134,7 @@
             } else {
                 var lock = document.createElement('div');
                 lock.style.cssText = 'font-size:11px;color:#94a3b8;line-height:1.5;';
-                lock.textContent = t('card_locked') + ' · ' + t('card_unlock_hint');
+                lock.textContent = t('card_locked') + ' · ' + (c.passOnly ? t('card_pass_hint') : t('card_unlock_hint'));
                 foot.appendChild(lock);
                 d.style.cursor = 'pointer';
                 d.addEventListener('click', function () {
