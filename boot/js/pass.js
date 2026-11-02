@@ -191,13 +191,6 @@
     }
     function toast(m) { try { if (w.showToast) w.showToast(m); } catch (e) {} }
 
-    function playToastSfx(msg, showSfx, hideSfx) {
-        try {
-            if (w.showToast) { w.showToast(msg, 5000, { show: showSfx, hide: hideSfx }); return; }
-        } catch (e) {}
-        toast(msg);
-    }
-
     function playPassSfx(file) {
         if (!file) return;
         try {
@@ -207,10 +200,26 @@
         } catch (e) {}
     }
 
+    // 直接接管 toast 元素，不调用全局 showToast，避免旧页面继续播默认 toast 音效
+    function showPassToast(msg, showSfx, hideSfx) {
+        playPassSfx(showSfx);
+        var el = document.getElementById('toast-message');
+        if (!el) { toast(msg); return; }
+        try {
+            var txt = (w.I18N && I18N.trFull) ? I18N.trFull(msg) : msg;
+            if (w.streamText) { try { w.streamText(el, txt); } catch (e) { el.textContent = txt; } }
+            else { el.textContent = txt; }
+            el.classList.add('show');
+            clearTimeout(el._hideTimer);
+            el._hideTimer = setTimeout(function () {
+                playPassSfx(hideSfx);
+                el.classList.remove('show');
+            }, 5000);
+        } catch (e) { toast(msg); }
+    }
+
     function passToast(msg) {
-        // 音效直接在通行证侧播放，不依赖 index.html 是否支持 showToast 的第三参数
-        playPassSfx('audio/pass-toast-show.mp3');
-        playToastSfx(msg, null, 'audio/pass-toast-hide.mp3');
+        showPassToast(msg, 'audio/pass-toast-show.mp3', 'audio/pass-toast-hide.mp3');
     }
 
     // UI：统一走通用的全屏页面结构（modal-overlay app-full-page + modal-header/body），
@@ -476,8 +485,7 @@
                 b.onclick = function () {
                     if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) {
                         set(K.premium, '1');
-                        playPassSfx('audio/buy.mp3');
-                        playToastSfx(t('premium_unlocked'), null, 'audio/toastend.mp3');
+                        showPassToast(t('premium_unlocked'), 'audio/buy.mp3', 'audio/toastend.mp3');
                         view = { t: 'main' };
                         render();
                     } else toast(t('not_enough_value'));
