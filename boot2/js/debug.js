@@ -1441,7 +1441,7 @@
   }
 
   function loadGameItems() {
-    fetch('xml/items.xml').then(function (r) { return r.text(); }).then(function (txt) {
+    fetch('xml/items.dat').then(function (r) { return r.text(); }).then(function (txt) {
       try {
         var doc = new DOMParser().parseFromString(txt, 'text/xml');
         var nodes = doc.getElementsByTagName('item');

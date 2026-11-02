@@ -66,7 +66,7 @@ CODE_FILES = [
     "admin/anqu-admin.html",
     "admin/leaderboard-admin.html",
     "xml/backgrounds.xml",
-    "xml/items.xml",
+    "xml/items.dat",
     "xml/loading-tips.xml",
     "xml/music-config.xml",
     "xml/video-config.xml",

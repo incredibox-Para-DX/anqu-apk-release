@@ -2534,9 +2534,9 @@ previewCurrentBackground() {
             try {
                 let text;
                 if (window.Net && Net.getText) {
-                    text = await Net.getText('xml/items.xml', { timeout: 8000, retries: 1 });
+                    text = await Net.getText('xml/items.dat', { timeout: 8000, retries: 1 });
                 } else {
-                    const response = await fetch('xml/items.xml');
+                    const response = await fetch('xml/items.dat');
                     if (!response.ok) {
                         return this.getDefaultItems();
                     }
@@ -6787,7 +6787,7 @@ const EventManager = {
      * 热更新常量（安全增量：只加常量，不改旧代码逻辑）
      * ============================================================ */
     // 热更新源（无 COS）：Cloudflare Worker 反代 → GitHub raw → jsDelivr
-    var HU_DOMAIN_BASE = 'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-apk-release/dev/boot';
+    var HU_DOMAIN_BASE = 'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-apk-release/dev/boot'; 
     var HU_WORKER_BASE = 'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/dev/boot';
     var HU_RAW_BASE = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/dev/boot';
     var HU_BASE_URL = HU_RAW_BASE;
@@ -6797,7 +6797,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.93';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.94';
 
     /* ============================================================
      * 检查更新

@@ -47,7 +47,7 @@
     'css/main.css',
     'js/script_new.js',
     'js/main.js',
-    'xml/items.xml',
+    'xml/items.dat',
     'audio/click.mp3'
   ];
 
