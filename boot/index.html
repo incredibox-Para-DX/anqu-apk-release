@@ -2830,12 +2830,14 @@ if (document.readyState === 'loading') {
         return (value / 1000000).toFixed(2) + 'm';
     }
 
-    function showToast(msg, duration) {
+    function showToast(msg, duration, sfx) {
         duration = duration || 5000;
         const el = document.getElementById('toast-message');
         if (!el) return;
-        try {
-            const toastAudio = new Audio('audio/toast.mp3');
+        const showSfx = (sfx && sfx.show !== undefined) ? sfx.show : 'audio/toast.mp3';
+        const hideSfx = (sfx && sfx.hide !== undefined) ? sfx.hide : 'audio/toastend.mp3';
+        if (showSfx) try {
+            const toastAudio = new Audio(showSfx);
             // 尊重「弹窗提示音量」滑块（__TOAST_VOLUME__，独立于界面音效音量），此前硬编码 0.555 导致调滑块不生效
             toastAudio.volume = 0.555 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
             toastAudio.play().catch(() => {});
@@ -2845,8 +2847,8 @@ if (document.readyState === 'loading') {
         el.classList.add('show');
         clearTimeout(el._hideTimer);
         el._hideTimer = setTimeout(() => {
-            try {
-                const toastEndAudio = new Audio('audio/toastend.mp3');
+            if (hideSfx) try {
+                const toastEndAudio = new Audio(hideSfx);
                 // 与出现音一致，尊重「弹窗提示音量」（__TOAST_VOLUME__）
                 toastEndAudio.volume = 0.565 * ((window.__TOAST_VOLUME__ != null) ? window.__TOAST_VOLUME__ : 1);
                 toastEndAudio.play().catch(() => {});

@@ -80,6 +80,8 @@ CODE_FILES = [
     "pictures/skills/swift_hands.png",
     "pictures/skills/devil_contract.webp",
     "cards/card_000.png",
+    "audio/pass-toast-show.mp3",
+    "audio/pass-toast-hide.mp3",
 ]
 
 # 首次打开只下载代码文件；audio / music-player 均在 APK 内

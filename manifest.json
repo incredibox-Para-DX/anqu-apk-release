@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.131",
+  "version": "v2.3.0_hotfix.132",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 381097,
-      "sha256": "e50fe94dc94167b687c11a0766c113ea7f9ac28c86cb753281bd3a16dbf1c07b"
+      "sha256": "055af41ab3cab222307b2c55dea2f5ff5f1f4399d2956c07759e9fe27d60ff7c"
     },
     {
       "path": "js/synthesis.js",
@@ -158,8 +158,8 @@
     },
     {
       "path": "js/pass.js",
-      "size": 49144,
-      "sha256": "6549a0d7a133a0b9dc631ad0937ec0695db19da782d1eadd9abc5a7a5d4ec88e"
+      "size": 49530,
+      "sha256": "3055153ca06c83bc0c2037e719b12c2e8e9591e2c8858ce102381f9fda809a3b"
     },
     {
       "path": "images/season/coin.webp",
@@ -307,11 +307,21 @@
       "sha256": "4a33fc9b57bc4d991ce9aac5ea4984cc8dbd203349d78c937fddacc554cfa211"
     },
     {
+      "path": "audio/pass-toast-show.mp3",
+      "size": 25858,
+      "sha256": "b9aaaa29fd9786061a275b82daa9d1ac41f93909af3033d0def873ef0804b099"
+    },
+    {
+      "path": "audio/pass-toast-hide.mp3",
+      "size": 15236,
+      "sha256": "7b3b06c5d9580650b28f5855c8872b9155b2b104fafb2a3d7742e8bfb67842b8"
+    },
+    {
       "path": "index.html",
-      "size": 167542,
-      "sha256": "1f220982c034b05d88a944cff72fd38fce0490b302766429dbca87c4e95aca51"
+      "size": 167729,
+      "sha256": "6af965bafba345d54abc613c59d8bffa997a9d1980292479fac2d40eb105637d"
     }
   ],
-  "fileCount": 62,
-  "totalSize": 3148827
+  "fileCount": 64,
+  "totalSize": 3190494
 }

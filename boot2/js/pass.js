@@ -185,11 +185,22 @@
         if (c[id]) return;
         c[id] = 1; try { localStorage.setItem(K.claims, JSON.stringify(c)); } catch (e) {}
         try { localStorage.setItem('ab_pass_' + item.key, '1'); } catch (e) {}
-        toast(t('claimed_toast').replace('%s', item.name));
+        passToast(t('claimed_toast').replace('%s', item.name));
         render();
         updatePassDot();
     }
     function toast(m) { try { if (w.showToast) w.showToast(m); } catch (e) {} }
+
+    function playToastSfx(msg, showSfx, hideSfx) {
+        try {
+            if (w.showToast) { w.showToast(msg, 5000, { show: showSfx, hide: hideSfx }); return; }
+        } catch (e) {}
+        toast(msg);
+    }
+
+    function passToast(msg) {
+        playToastSfx(msg, 'audio/pass-toast-show.mp3', 'audio/pass-toast-hide.mp3');
+    }
 
     // UI：统一走通用的全屏页面结构（modal-overlay app-full-page + modal-header/body），
     // 打开/关闭交给 ModalRegistry，复用通用过渡与音效。
@@ -454,7 +465,7 @@
                 b.onclick = function () {
                     if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) {
                         set(K.premium, '1');
-                        toast(t('premium_unlocked'));
+                        playToastSfx(t('premium_unlocked'), 'audio/buy.mp3', 'audio/toastend.mp3');
                         view = { t: 'main' };
                         render();
                     } else toast(t('not_enough_value'));
