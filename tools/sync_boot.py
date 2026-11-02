@@ -78,6 +78,8 @@ CODE_FILES = [
     "pictures/skills/prophet.png",
     "pictures/skills/supply_tide.png",
     "pictures/skills/swift_hands.png",
+    "pictures/skills/devil_contract.webp",
+    "cards/card_000.png",
 ]
 
 # 首次打开只下载代码文件；audio / music-player 均在 APK 内

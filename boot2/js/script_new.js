@@ -1204,7 +1204,7 @@ previewCurrentBackground() {
                 id: 'devil_contract',
                 name: '恶魔契约',
                 nameKey: 'skill_devil_name',
-                icon: 'pictures/skills/destiny_pity.png',
+                icon: 'pictures/skills/devil_contract.webp',
                 price: 1000000,
                 unlockBy: 'pass',
                 desc: '开启后每次搜索消耗 1 次：50% 概率本次全部为紫色物品；50% 概率必出 2 个红色物品。需通行证 80 级（典藏）解锁购买权，可重复购买。',
@@ -6901,7 +6901,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.117';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.118';
 
     /* ============================================================
      * 检查更新

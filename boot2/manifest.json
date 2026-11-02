@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.117.m",
+  "version": "v2.3.0_hotfix.118.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 381293,
-      "sha256": "24fa9546fd033732dc715c5ec2dbd5458f2fc89de8da3ed6627e300724b60acf"
+      "size": 381296,
+      "sha256": "5728bbb733d02cef630fb404c3d586da5e0f223ef7afdc4ddc302900da670a0d"
     },
     {
       "path": "js/synthesis.js",
@@ -153,8 +153,8 @@
     },
     {
       "path": "js/cards.js",
-      "size": 13225,
-      "sha256": "03576af620c6429d8eba563d0e4d325483e4fd05daa050f27956732eeafc9fee"
+      "size": 13548,
+      "sha256": "86e46a1ea96dcf43829232bdcbb17dd747a8a910b165bd35146a6fa0b35998dd"
     },
     {
       "path": "js/pass.js",
@@ -297,11 +297,21 @@
       "sha256": "5665e08dac1d5b1a869375e6bf7c51efe12aa55bf319aa9bb9bfddc43c9061c4"
     },
     {
+      "path": "pictures/skills/devil_contract.webp",
+      "size": 19140,
+      "sha256": "f1a461da3022b734212bc2778c0a94aa37e88d7d5b5d4a051af8036f9ac22ab4"
+    },
+    {
+      "path": "cards/card_000.png",
+      "size": 17908,
+      "sha256": "4a33fc9b57bc4d991ce9aac5ea4984cc8dbd203349d78c937fddacc554cfa211"
+    },
+    {
       "path": "index.html",
       "size": 167114,
       "sha256": "b92e2a256f26fe3e4af745fab5275986f4991c4832899d87170d04f4cc82101c"
     }
   ],
-  "fileCount": 60,
-  "totalSize": 3105434
+  "fileCount": 62,
+  "totalSize": 3142808
 }

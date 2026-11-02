@@ -1,5 +1,6 @@
 (function () {
     var CARDS = [
+        { id: 'card_000', img: 'cards/card_000.png', nameKey: 'card_000_default', local: true },
         { id: 'card_030', img: 'cards/card_030.png', code: 'CARD030' },
         { id: 'card_052', img: 'cards/card_052.png', code: 'CARD052' },
         { id: 'card_047', img: 'cards/card_047.png', code: 'CARD047' },
@@ -18,6 +19,7 @@
         I18N.addEntries({
             card_label: ['名片', '名片', 'Card', 'Карточка'],
             card_title: ['名片', '名片', 'Profile Card', 'Визитка'],
+            card_000_default: ['默认名片', '預設名片', 'Default Card', 'Визитка по умолчанию'],
             card_locked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
             card_equip: ['装备', '裝備', 'Equip', 'Надеть'],
             card_equipped: ['使用中', '使用中', 'In use', 'Используется'],
@@ -54,6 +56,7 @@
         try { var a = JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
     }
     function isUnlocked(id) {
+        if (id === 'card_000') return true;
         if (getUnlocked().indexOf(id) >= 0) return true;
         try { return localStorage.getItem('ab_pass_' + id) === '1'; } catch (e) { return false; }
     }
@@ -62,11 +65,12 @@
         if (a.indexOf(id) < 0) { a.push(id); try { localStorage.setItem(UNLOCK_KEY, JSON.stringify(a)); } catch (e) {} }
         return true;
     }
-    function selected() { try { return localStorage.getItem(SEL_KEY) || ''; } catch (e) { return ''; } }
+    function selected() { try { return localStorage.getItem(SEL_KEY) || 'card_000'; } catch (e) { return 'card_000'; } }
     function byId(id) { for (var i = 0; i < CARDS.length; i++) if (CARDS[i].id === id) return CARDS[i]; return null; }
 
     function resolveImg(c, cb) {
         if (!c) { cb(''); return; }
+        if (c.local) { cb(c.img); return; }
         var R = window.ResourceDownloadManager;
         if (!R || !R.resolvePath) { cb(''); return; }
         try {
