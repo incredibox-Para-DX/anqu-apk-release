@@ -31,21 +31,36 @@
         return out.join('');
     }
 
+    function fadeAudio(a, to, ms, done) {
+        if (!a) { if (done) done(); return; }
+        var from = Number(a.volume) || 0;
+        var start = Date.now();
+        var timer = setInterval(function () {
+            var p = Math.min(1, (Date.now() - start) / ms);
+            try { a.volume = Math.max(0, Math.min(1, from + (to - from) * p)); } catch (e) {}
+            if (p >= 1) {
+                clearInterval(timer);
+                if (done) done();
+            }
+        }, 40);
+    }
+
     function ThanksPlayer() {
         var overlay = null;
         var video = null;
         var audio = null;
         var closing = false;
 
-        function stopMedia() {
-            try { if (audio) { audio.onended = null; audio.pause(); audio.src = ''; } } catch (e) {}
-            try { if (video) { video.pause(); video.removeAttribute('src'); video.load(); } } catch (e) {}
-        }
-
         function close() {
             if (!overlay || closing) return;
             closing = true;
-            stopMedia();
+            if (audio) {
+                var a = audio;
+                audio = null;
+                a.onended = null;
+                fadeAudio(a, 0, 800, function () { try { a.pause(); } catch (e) {} });
+            }
+            try { if (video) video.pause(); } catch (e) {}
             overlay.classList.remove('show');
             setTimeout(function () {
                 if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
@@ -62,14 +77,21 @@
                 video.play().catch(function () {});
             } catch (e) {}
             try {
-                if (audio) { audio.onended = null; audio.pause(); }
+                if (audio) {
+                    var old = audio;
+                    old.onended = null;
+                    fadeAudio(old, 0, 800, function () { try { old.pause(); } catch (e) {} });
+                }
+                var targetVol = 0.9 * ((window.__UI_SOUND_VOLUME__ != null) ? window.__UI_SOUND_VOLUME__ : 1);
                 audio = new Audio(srcAudio);
-                audio.volume = 0.9 * ((window.__UI_SOUND_VOLUME__ != null) ? window.__UI_SOUND_VOLUME__ : 1);
+                audio.volume = 0;
                 audio.onended = function () {
                     if (next) playSegment(next, null);
                     else close();
                 };
-                audio.play().catch(function () {
+                audio.play().then(function () {
+                    fadeAudio(audio, targetVol, 1200);
+                }).catch(function () {
                     // 音频被拦截时按视频时长兜底推进
                     setTimeout(function () {
                         if (OPENED && !closing) {
