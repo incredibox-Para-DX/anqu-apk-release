@@ -2,7 +2,8 @@
 (function (w) {
     'use strict';
     var S = { id: 'S1', name: '启程', weeks: 8, levels: 80, perLevel: 5000000, capLevels: 12, coinPerLevel: 10, premiumCost: 150000000 };
-    var K = { xp: 'ab_pass_xp', week: 'ab_pass_week', weekXp: 'ab_pass_week_xp', start: 'ab_pass_start', premium: 'ab_pass_premium', coins: 'ab_pass_coins', claimedCoins: 'ab_pass_coins_claimed', claims: 'ab_pass_claims', lastW: 'ab_pass_last_weekly', seasonWait: 'ab_pass_season_wait' };
+    var SEASON_START = '2026-11-09';
+    var K = { xp: 'ab_pass_xp', week: 'ab_pass_week', weekXp: 'ab_pass_week_xp', start: 'ab_pass_start', premium: 'ab_pass_premium', coins: 'ab_pass_coins', claimedCoins: 'ab_pass_coins_claimed', claims: 'ab_pass_claims', lastW: 'ab_pass_last_weekly' };
     function num(k) { try { return Number(localStorage.getItem(k) || 0) || 0; } catch (e) { return 0; } }
     function str(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
     var I18N_KEYS = {
@@ -101,7 +102,6 @@
     function t(k) { try { return (window.I18N && I18N.t) ? I18N.t(k) : k; } catch (e) { return k; } }
     function set(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
     function monday() { var x = new Date(); var d = (x.getDay() + 6) % 7; x.setDate(x.getDate() - d); x.setHours(0, 0, 0, 0); return x.toISOString().slice(0, 10); }
-    function nextMonday() { var x = new Date(); var d = (x.getDay() + 6) % 7; x.setDate(x.getDate() + (7 - d)); x.setHours(0, 0, 0, 0); return x.toISOString().slice(0, 10); }
     function level() { return Math.min(S.levels, Math.floor(num(K.xp) / S.perLevel)); }
     function isPremium() { return str(K.premium) === '1'; }
     function fmt(n) { return Math.floor(n).toLocaleString('en-US'); }
@@ -110,23 +110,18 @@
         var cur = 0;
         try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) {}
 
-        // 本赛季从下周一开始，本周不计算；首次迁移时把进度清零
-        var today = new Date(); today.setHours(0, 0, 0, 0);
-        var start = str(K.start);
-        var startTs = start ? new Date(start + 'T00:00:00').getTime() : 0;
-        if (str(K.seasonWait) !== '1' && (!start || !startTs || startTs <= today.getTime())) {
-            set(K.start, nextMonday());
+        // 本赛季固定从 2026-11-09 开始，开始前的本周累计不计入
+        var startTs = new Date(SEASON_START + 'T00:00:00').getTime();
+        if (str(K.start) !== SEASON_START) {
+            set(K.start, SEASON_START);
             set(K.xp, 0);
             set(K.weekXp, 0);
             set(K.coins, 0);
             set(K.claimedCoins, 0);
             set(K.claims, '{}');
             set(K.lastW, cur);
-            set(K.seasonWait, '1');
             return;
         }
-        start = str(K.start) || nextMonday();
-        startTs = new Date(start + 'T00:00:00').getTime();
         if (Date.now() < startTs) {
             // 赛季未开始：本周累计不计入
             return;
@@ -292,9 +287,7 @@
     }
 
     function seasonInfo() {
-        var start = str(K.start) || nextMonday();
-        var startTs = new Date(start + 'T00:00:00').getTime();
-        if (isNaN(startTs)) { startTs = new Date(nextMonday() + 'T00:00:00').getTime(); }
+        var startTs = new Date(SEASON_START + 'T00:00:00').getTime();
         var now = Date.now();
         if (now < startTs) {
             return { pending: true, week: 0, leftDays: Math.max(0, Math.ceil((startTs - now) / 86400000)), ended: false };
