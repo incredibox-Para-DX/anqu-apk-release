@@ -1251,6 +1251,17 @@ previewCurrentBackground() {
                 if (!ok) return { success: false, message: __i18n('skill_devil_pass_locked', '需通行证 80 级（典藏）解锁购买权') };
             }
 
+            if (skill.id === 'devil_contract') {
+                const month = new Date().toISOString().slice(0, 7);
+                let mCount = 0;
+                try {
+                    if (localStorage.getItem('ab_devil_month') === month) {
+                        mCount = Number(localStorage.getItem('ab_devil_month_count') || 0) || 0;
+                    }
+                } catch (e) {}
+                if (mCount >= 100) return { success: false, message: __i18n('skill_devil_month_limit', '恶魔契约本月购买次数已达上限（100）') };
+            }
+
             if (skill.type === 'permanent' && st.owned) {
                 return { success: false, message: '已拥有此技能' };
             }
@@ -1275,6 +1286,19 @@ previewCurrentBackground() {
             st.enabled = true;
             if (skill.type === 'limited') {
                 st.remaining = (st.remaining || 0) + skill.uses;
+            }
+            if (skill.id === 'devil_contract') {
+                const month = new Date().toISOString().slice(0, 7);
+                let mCount = 0;
+                try {
+                    if (localStorage.getItem('ab_devil_month') === month) {
+                        mCount = Number(localStorage.getItem('ab_devil_month_count') || 0) || 0;
+                    }
+                } catch (e) {}
+                try {
+                    localStorage.setItem('ab_devil_month', month);
+                    localStorage.setItem('ab_devil_month_count', String(mCount + 1));
+                } catch (e) {}
             }
             this.save();
             this.applyAllEffects();
@@ -3218,9 +3242,12 @@ _runOpenSafe() {
                     luckyPlaced = true;
                 }
             } else if (devilMode === 2) {
+                // 第一件必红，第二件红/橙各半，避免整次只出红而没有橙色。
                 // 必须深拷贝：直接改配置对象会污染 allItemsConfig（id/遮罩等字段）
-                var __devilPick = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange');
-                hqItem = __devilPick ? _.cloneDeep(__devilPick) : GameCore.getRandomItem();
+                var __pick = idx === 0
+                    ? (GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange'))
+                    : (Math.random() < 0.5 ? GameCore.getRandomItemByRarity('red') : GameCore.getRandomItemByRarity('orange'));
+                hqItem = __pick ? _.cloneDeep(__pick) : GameCore.getRandomItem();
             } else {
                 hqItem = GameCore.getRandomItem();
             }
@@ -6837,7 +6864,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.110';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.111';
 
     /* ============================================================
      * 检查更新

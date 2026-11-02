@@ -53,11 +53,12 @@
         ],
         skill_devil_name: ['恶魔契约', '惡魔契約', 'Demon Contract', 'Демонический контракт'],
         skill_devil_desc: [
-            '开启后每次搜索消耗 1 次：50% 概率本次全部为紫色物品；50% 概率必出 2 个红色物品。需通行证 80 级（典藏）解锁购买权，可重复购买。',
-            '開啟後每次搜尋消耗 1 次：50% 機率本次全部為紫色物品；50% 機率必出 2 個紅色物品。需通行證 80 級（典藏）解鎖購買權，可重複購買。',
-            'When enabled, each search consumes 1 use: 50% chance all items are purple; 50% chance exactly 2 red items. Requires Pass level 80 (Premium) purchase right; can be purchased repeatedly.',
-            'При включении каждый поиск расходует 1 заряд: 50% — все предметы фиолетовые; 50% — ровно 2 красных предмета. Требуется право покупки на 80 уровне пропуска (Премиум); можно покупать повторно.'
+            '开启后每次搜索消耗 1 次：50% 概率本次全部为紫色物品；50% 概率必出 1 个红色物品，并额外生成 1 个橙色或红色物品。需通行证 80 级（典藏）解锁购买权，可重复购买，每月限购 100 次。',
+            '開啟後每次搜尋消耗 1 次：50% 機率本次全部為紫色物品；50% 機率必出 1 個紅色物品，並額外生成 1 個橙色或紅色物品。需通行證 80 級（典藏）解鎖購買權，可重複購買，每月限購 100 次。',
+            'When enabled, each search consumes 1 use: 50% chance all items are purple; 50% chance at least 1 red item plus 1 extra orange or red item. Requires Pass level 80 (Premium) purchase right; repeatable, limited to 100 purchases per month.',
+            'При включении каждый поиск расходует 1 заряд: 50% — все предметы фиолетовые; 50% — минимум 1 красный предмет плюс 1 дополнительный оранжевый или красный. Требуется право покупки на 80 уровне пропуска (Премиум); можно покупать повторно, до 100 раз в месяц.'
         ],
+        skill_devil_month_limit: ['恶魔契约本月购买次数已达上限（100）', '惡魔契約本月購買次數已達上限（100）', 'Demon Contract monthly purchase limit reached (100)', 'Достигнут месячный лимит покупок Демонического контракта (100)'],
         skill_devil_pass_locked: ['需通行证 80 级（典藏）解锁购买权', '需通行證 80 級（典藏）解鎖購買權', 'Requires the Pass level 80 (Premium) purchase right', 'Требуется право покупки на 80 уровне пропуска (Премиум)'],
         skill_buy_success: ['成功购买：%s', '成功購買：%s', 'Purchased: %s', 'Куплено: %s'],
         skill_unlocked: ['已解锁技能「%s」', '已解鎖技能「%s」', 'Skill unlocked: %s', 'Навык открыт: %s'],

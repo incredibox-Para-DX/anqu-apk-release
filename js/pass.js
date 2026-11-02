@@ -2,7 +2,7 @@
 (function (w) {
     'use strict';
     var S = { id: 'S1', name: '启程', weeks: 8, levels: 80, perLevel: 5000000, capLevels: 12, coinPerLevel: 10, premiumCost: 150000000 };
-    var K = { xp: 'ab_pass_xp', week: 'ab_pass_week', weekXp: 'ab_pass_week_xp', start: 'ab_pass_start', premium: 'ab_pass_premium', coins: 'ab_pass_coins', claimedCoins: 'ab_pass_coins_claimed', claims: 'ab_pass_claims', lastW: 'ab_pass_last_weekly' };
+    var K = { xp: 'ab_pass_xp', week: 'ab_pass_week', weekXp: 'ab_pass_week_xp', start: 'ab_pass_start', premium: 'ab_pass_premium', coins: 'ab_pass_coins', claimedCoins: 'ab_pass_coins_claimed', claims: 'ab_pass_claims', lastW: 'ab_pass_last_weekly', seasonWait: 'ab_pass_season_wait' };
     function num(k) { try { return Number(localStorage.getItem(k) || 0) || 0; } catch (e) { return 0; } }
     function str(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
     var I18N_KEYS = {
@@ -78,6 +78,7 @@
         preview_rewards: ['预览奖励', '預覽獎勵', 'Preview Rewards', 'Просмотр наград'],
         pass_season_name: ['启程', '啟程', 'Departure', 'Начало'],
         pass_week_of: ['第 %s 周 / 共 %s 周', '第 %s 週 / 共 %s 週', 'Week %s of %s', 'Неделя %s из %s'],
+        pass_season_starts_in: ['赛季将于 %s 天后开始', '賽季將於 %s 天後開始', 'Season starts in %s days', 'Сезон начнётся через %s дн.'],
         pass_season_left: ['剩余 %s 天', '剩餘 %s 天', '%s days left', 'Осталось дней: %s'],
         pass_season_ended: ['赛季已结束', '賽季已結束', 'Season ended', 'Сезон завершён'],
         pass_bg_pulse: ['脉冲极客', '脈衝極客', 'Pulse Geek', 'Пульс-гик'],
@@ -100,14 +101,37 @@
     function t(k) { try { return (window.I18N && I18N.t) ? I18N.t(k) : k; } catch (e) { return k; } }
     function set(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
     function monday() { var x = new Date(); var d = (x.getDay() + 6) % 7; x.setDate(x.getDate() - d); x.setHours(0, 0, 0, 0); return x.toISOString().slice(0, 10); }
+    function nextMonday() { var x = new Date(); var d = (x.getDay() + 6) % 7; x.setDate(x.getDate() + (7 - d)); x.setHours(0, 0, 0, 0); return x.toISOString().slice(0, 10); }
     function level() { return Math.min(S.levels, Math.floor(num(K.xp) / S.perLevel)); }
     function isPremium() { return str(K.premium) === '1'; }
     function fmt(n) { return Math.floor(n).toLocaleString('en-US'); }
 
     function tick() {
-        if (!str(K.start)) set(K.start, monday());
         var cur = 0;
         try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) {}
+
+        // 本赛季从下周一开始，本周不计算；首次迁移时把进度清零
+        var today = new Date(); today.setHours(0, 0, 0, 0);
+        var start = str(K.start);
+        var startTs = start ? new Date(start + 'T00:00:00').getTime() : 0;
+        if (str(K.seasonWait) !== '1' && (!start || !startTs || startTs <= today.getTime())) {
+            set(K.start, nextMonday());
+            set(K.xp, 0);
+            set(K.weekXp, 0);
+            set(K.coins, 0);
+            set(K.claimedCoins, 0);
+            set(K.claims, '{}');
+            set(K.lastW, cur);
+            set(K.seasonWait, '1');
+            return;
+        }
+        start = str(K.start) || nextMonday();
+        startTs = new Date(start + 'T00:00:00').getTime();
+        if (Date.now() < startTs) {
+            // 赛季未开始：本周累计不计入
+            return;
+        }
+
         var wk = monday();
         var rawLast = null;
         try { rawLast = localStorage.getItem(K.lastW); } catch (e) {}
@@ -268,15 +292,18 @@
     }
 
     function seasonInfo() {
-        var start = str(K.start) || monday();
+        var start = str(K.start) || nextMonday();
         var startTs = new Date(start + 'T00:00:00').getTime();
-        if (isNaN(startTs)) { startTs = new Date(monday() + 'T00:00:00').getTime(); }
+        if (isNaN(startTs)) { startTs = new Date(nextMonday() + 'T00:00:00').getTime(); }
         var now = Date.now();
+        if (now < startTs) {
+            return { pending: true, week: 0, leftDays: Math.max(0, Math.ceil((startTs - now) / 86400000)), ended: false };
+        }
         var week = Math.floor((now - startTs) / (7 * 86400000)) + 1;
         week = Math.max(1, Math.min(S.weeks, week));
         var endTs = startTs + S.weeks * 7 * 86400000;
         var leftMs = endTs - now;
-        return { week: week, leftDays: Math.max(0, Math.ceil(leftMs / 86400000)), ended: leftMs <= 0 };
+        return { pending: false, week: week, leftDays: Math.max(0, Math.ceil(leftMs / 86400000)), ended: leftMs <= 0 };
     }
 
     function itemName(item) {
@@ -379,9 +406,11 @@
         top.appendChild(line1);
 
         var si = seasonInfo();
-        var metaText = si.ended
-            ? t('pass_season_ended')
-            : t('pass_week_of').replace('%s', si.week).replace('%s', S.weeks) + ' · ' + t('pass_season_left').replace('%s', si.leftDays);
+        var metaText = si.pending
+            ? t('pass_season_starts_in').replace('%s', si.leftDays)
+            : (si.ended
+                ? t('pass_season_ended')
+                : t('pass_week_of').replace('%s', si.week).replace('%s', S.weeks) + ' · ' + t('pass_season_left').replace('%s', si.leftDays));
         top.appendChild(el('div', 'font-size:11px;color:var(--text-light);margin-top:4px;', metaText));
 
         var barWrap = el('div', 'display:flex;align-items:center;gap:8px;margin-top:8px;');
