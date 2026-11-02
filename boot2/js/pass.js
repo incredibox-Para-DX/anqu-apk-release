@@ -23,7 +23,57 @@
         not_reached: ['未达成', '未達成', 'Locked', 'Недоступно'],
         shop_locked: ['需先解锁典藏通行证才能开启赛季商店', '需先解鎖典藏通行證才能開啟賽季商店', 'Unlock Premium Pass to open the Season Shop', 'Сначала откройте премиум-пропуск'],
         reissue_locked: ['返厂商店暂未开放', '返廠商店暫未開放', 'Reissue shop is not open yet', 'Магазин возвратов пока закрыт'],
-        premium_unlocked: ['典藏已解锁', '典藏已解鎖', 'Premium unlocked', 'Премиум открыт']
+        premium_unlocked: ['典藏已解锁', '典藏已解鎖', 'Premium unlocked', 'Премиум открыт'],
+        rule_progress_title: ['赛季进度', '賽季進度', 'Season Progress', 'Прогресс сезона'],
+        rule_progress_text: [
+            '· 赛季持续 8 周，共 80 级；每级需要 5M 本周累计价值。<br>· 本周累计价值按自然周统计，每周一 00:00 重置。<br>· 每周最多提升 12 级，超出部分不计入本周进度。<br>· 赛季进度永久累积，未领取的奖励不会过期。',
+            '· 賽季持續 8 週，共 80 級；每級需要 5M 本週累計價值。<br>· 本週累計價值按自然週統計，每週一 00:00 重置。<br>· 每週最多提升 12 級，超出部分不計入本週進度。<br>· 賽季進度永久累積，未領取的獎勵不會過期。',
+            '· The season lasts 8 weeks with 80 levels; each level needs 5M weekly accumulated value.<br>· Weekly value is counted by calendar week and resets every Monday at 00:00.<br>· Up to 12 levels can be gained each week; excess does not count.<br>· Season progress is permanent; unclaimed rewards do not expire.',
+            '· Сезон длится 8 недель, 80 уровней; каждый уровень требует 5M недельной накопленной стоимости.<br>· Недельная стоимость считается по календарной неделе и сбрасывается в понедельник в 00:00.<br>· За неделю можно получить не более 12 уровней; излишек не учитывается.<br>· Прогресс сезона сохраняется; неполученные награды не сгорают.'
+        ],
+        rule_claim_title: ['奖励领取', '獎勵領取', 'Rewards', 'Награды'],
+        rule_claim_text: [
+            '· 达到对应等级后，直接点击奖励卡片领取。<br>· 每个等级的普通轨、典藏轨各只能领取一次。<br>· 普通轨所有玩家可领取；典藏轨需要先解锁典藏通行证。<br>· 每提升 1 级获得 10 赛季币。',
+            '· 達到對應等級後，直接點擊獎勵卡片領取。<br>· 每個等級的普通軌、典藏軌各只能領取一次。<br>· 普通軌所有玩家可領取；典藏軌需要先解鎖典藏通行證。<br>· 每提升 1 級獲得 10 賽季幣。',
+            '· Reach the required level, then tap the reward card to claim it.<br>· Each level can be claimed once on the free track and once on the premium track.<br>· The free track is available to everyone; the premium track requires the Premium Pass.<br>· Each level grants 10 Season Coins.',
+            '· Достигните нужного уровня и нажмите на карточку награды, чтобы получить её.<br>· На каждом уровне награду можно получить один раз в бесплатном и один раз в премиум-треке.<br>· Бесплатный трек доступен всем; премиум-трек требует Премиум-пропуск.<br>· За каждый уровень даётся 10 монет сезона.'
+        ],
+        rule_tier_title: ['典藏与尊享', '典藏與尊享', 'Premium & Supreme', 'Премиум и Люкс'],
+        rule_tier_text: [
+            '· 典藏通行证：消耗 150M 累计价值解锁，开放典藏轨。<br>· 尊享通行证：通过赞助兑换码解锁，包含典藏全部内容。<br>· 尊享额外内容：名片「长夜终烬」、立即提升 10 级，赛季限一次。<br>· 80 级典藏奖励为「恶魔契约」购买权。',
+            '· 典藏通行證：消耗 150M 累計價值解鎖，開放典藏軌。<br>· 尊享通行證：透過贊助兌換碼解鎖，包含典藏全部內容。<br>· 尊享額外內容：名片「長夜終燼」、立即提升 10 級，賽季限一次。<br>· 80 級典藏獎勵為「惡魔契約」購買權。',
+            '· Premium Pass: unlock with 150M accumulated value to open the premium track.<br>· Supreme Pass: unlock with a sponsor code; includes all Premium content.<br>· Supreme extras: "Endless Night" name card and +10 levels instantly, once per season.<br>· The level 80 premium reward is the "Demon Contract" purchase right.',
+            '· Премиум-пропуск: открывается за 150M накопленной стоимости и даёт премиум-трек.<br>· Люкс-пропуск: открывается кодом спонсора и включает весь контент Премиум.<br>· Бонусы Люкс: визитка «Вечная ночь» и +10 уровней сразу, один раз за сезон.<br>· Премиум-награда 80 уровня — право покупки «Демонического контракта».'
+        ],
+        tier_free: ['普通版', '普通版', 'Free', 'Бесплатный'],
+        tier_premium: ['典藏版', '典藏版', 'Premium', 'Премиум'],
+        tier_supreme: ['尊享版', '尊享版', 'Supreme', 'Люкс'],
+        tier_free_status: ['已解锁', '已解鎖', 'Unlocked', 'Открыто'],
+        tier_premium_price: ['150M', '150M', '150M', '150M'],
+        tier_supreme_price: ['赞助兑换码', '贊助兌換碼', 'Sponsor code', 'Код спонсора'],
+        tier_free_desc: [
+            '· 每级 10 赛季币<br>· 普通轨 10–80 级里程碑<br>· 赛季进度永久累积<br>· 不含典藏外观',
+            '· 每級 10 賽季幣<br>· 普通軌 10–80 級里程碑<br>· 賽季進度永久累積<br>· 不含典藏外觀',
+            '· 10 Season Coins per level<br>· Free track milestones 10–80<br>· Permanent season progress<br>· No premium cosmetics',
+            '· 10 монет сезона за уровень<br>· Вехи бесплатного трека 10–80<br>· Постоянный прогресс сезона<br>· Без премиум-косметики'
+        ],
+        tier_premium_desc: [
+            '· 普通版全部内容<br>· 典藏轨 10–80 级里程碑<br>· 典藏外观与奖励<br>· 80 级解锁恶魔契约购买权',
+            '· 普通版全部內容<br>· 典藏軌 10–80 級里程碑<br>· 典藏外觀與獎勵<br>· 80 級解鎖惡魔契約購買權',
+            '· Everything in Free<br>· Premium track milestones 10–80<br>· Premium cosmetics and rewards<br>· Level 80 unlocks the Demon Contract purchase right',
+            '· Всё из Бесплатного<br>· Вехи премиум-трека 10–80<br>· Премиум-косметика и награды<br>· 80 уровень открывает право покупки Демонического контракта'
+        ],
+        tier_supreme_desc: [
+            '· 典藏版全部内容<br>· 名片「长夜终烬」<br>· 立即提升 10 级<br>· 赛季限一次',
+            '· 典藏版全部內容<br>· 名片「長夜終燼」<br>· 立即提升 10 級<br>· 賽季限一次',
+            '· Everything in Premium<br>· "Endless Night" name card<br>· +10 levels instantly<br>· Once per season',
+            '· Всё из Премиума<br>· Визитка «Вечная ночь»<br>· +10 уровней сразу<br>· Один раз за сезон'
+        ],
+        unlock_btn: ['150M 解锁', '150M 解鎖', 'Unlock for 150M', 'Открыть за 150M'],
+        not_enough_value: ['累计价值不足 150M', '累計價值不足 150M', 'Not enough accumulated value (150M)', 'Недостаточно накопленной стоимости (150M)'],
+        shop_locked_toast: ['赛季商店暂未开放', '賽季商店暫未開放', 'Season Shop is not open yet', 'Магазин сезона пока закрыт'],
+        claimed_toast: ['已领取：%s', '已領取：%s', 'Claimed: %s', 'Получено: %s'],
+        need_level: ['未达到 Lv.%s', '未達到 Lv.%s', 'Level %s not reached', 'Уровень %s не достигнут']
     };
     if (window.I18N && I18N.addEntries) I18N.addEntries(I18N_KEYS);
     function t(k) { try { return (window.I18N && I18N.t) ? I18N.t(k) : k; } catch (e) { return k; } }
@@ -72,7 +122,7 @@
         if (c[id]) return;
         c[id] = 1; try { localStorage.setItem(K.claims, JSON.stringify(c)); } catch (e) {}
         try { localStorage.setItem('ab_pass_' + item.key, '1'); } catch (e) {}
-        toast('已领取：' + item.name);
+        toast(t('claimed_toast').replace('%s', item.name));
         render();
     }
     function toast(m) { try { if (w.showToast) w.showToast(m); } catch (e) {} }
@@ -91,10 +141,10 @@
             '#pass-page .pass-pad{padding:0;}' +
             '#pass-page .pass-track{overflow-x:auto;padding:4px 0 0;}' +
             '#pass-page .pass-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}' +
-            '#pass-page .pass-cell{min-width:92px;border-radius:10px;border:1px solid var(--panel-border);background:var(--panel-inner-bg);padding:8px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s ease,transform .12s ease;animation:uiRise .26s ease backwards;}' +
+            '#pass-page .pass-cell{min-width:128px;width:128px;height:72px;border-radius:10px;border:1px solid var(--panel-border);background:var(--panel-inner-bg);padding:8px 10px;display:flex;flex-direction:row;align-items:center;gap:8px;opacity:.55;transition:border-color .2s ease,opacity .2s ease,transform .12s ease,box-shadow .2s ease;animation:uiRise .26s ease backwards;}' +
             '#pass-page .pass-cell:active{transform:scale(.97);}' +
-            '#pass-page .pass-cell-ready{border-color:rgba(209,162,74,.55);box-shadow:inset 0 0 0 1px rgba(209,162,74,.12);cursor:pointer;}' +
-            '#pass-page .pass-cell-state{font-size:11px;text-align:center;}' +
+            '#pass-page .pass-cell-ready{opacity:1;border-color:rgba(209,162,74,.65);background:linear-gradient(135deg,rgba(209,162,74,.2),rgba(209,162,74,.05));box-shadow:0 0 10px rgba(209,162,74,.16);cursor:pointer;}' +
+            '#pass-page .pass-cell-got{opacity:.3;filter:grayscale(.6);}' +
             '#pass-page .pass-rules{display:flex;flex-direction:column;gap:10px;}' +
             '#pass-page .pass-rule-box{border:1px solid var(--panel-border);border-radius:12px;padding:12px;background:var(--panel-bg);}' +
             '#pass-page .pass-bar{flex:1;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;}' +
@@ -167,7 +217,7 @@
         var actions = el('div', '', '');
         actions.className = 'app-page-actions';
         if (view.t === 'main') {
-            actions.appendChild(appAction('fa-lock', t('season_shop'), function () { toast('赛季商店暂未开放'); }));
+            actions.appendChild(appAction('fa-lock', t('season_shop'), function () { toast(t('shop_locked_toast')); }));
             actions.appendChild(appAction('fa-circle-info', t('rules'), function () { view = { t: 'rules' }; render(); }));
             actions.appendChild(coinTag(num(K.coins)));
         }
@@ -180,23 +230,19 @@
         var reached = level() >= st.lv;
         var c = claims(), got = !!c[st.lv + ':' + kind];
         var locked = kind === 'prem' && !isPremium();
-        var cell = el('div', '', '');
-        cell.className = 'pass-cell';
-        cell.style.animationDelay = Math.min(8, Math.round((st.lv - 10) / 10)) * 35 + 'ms';
-        cell.style.borderColor = reached ? 'rgba(209,162,74,.45)' : 'var(--panel-border)';
-        cell.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv));
-        cell.appendChild(el('div', 'height:52px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-light);', (item && item.type) || ''));
-        cell.appendChild(el('div', 'font-size:12px;color:var(--text-color);', item ? item.name : ''));
         var clickable = reached && !got && !locked;
-        var state = el('div', '', got ? t('claimed') : (locked ? t('locked') : (reached ? t('claim') : t('not_reached'))));
-        state.className = 'pass-cell-state';
-        state.style.color = clickable ? '#d1a24a' : 'var(--text-light)';
-        cell.appendChild(state);
-        if (clickable) cell.className += ' pass-cell-ready';
+        var cell = el('div', '', '');
+        cell.className = 'pass-cell' + (got ? ' pass-cell-got' : (clickable ? ' pass-cell-ready' : ''));
+        cell.style.animationDelay = Math.min(8, Math.round((st.lv - 10) / 10)) * 35 + 'ms';
+        cell.appendChild(el('div', 'width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-light);flex:0 0 auto;', (item && item.type) || ''));
+        var info = el('div', 'min-width:0;display:flex;flex-direction:column;gap:2px;');
+        info.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv));
+        info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', item ? item.name : ''));
+        cell.appendChild(info);
         cell.onclick = function () {
             if (got) return;
             if (locked) { toast(t('locked')); return; }
-            if (!reached) { toast(t('not_reached') + ' Lv.' + st.lv); return; }
+            if (!reached) { toast(t('need_level').replace('%s', st.lv)); return; }
             grant(st, kind);
         };
         return cell;
@@ -256,38 +302,38 @@
     function renderUpgrade() {
         var wrap = el('div', 'display:flex;gap:8px;padding:0;align-items:stretch;height:100%;box-sizing:border-box;');
         var tiers = [
-            ['普通版', '已解锁', 'var(--text-light)', ['每级 10 赛季币', '普通轨 10–80 级里程碑', '赛季进度永久累积', '不含典藏外观与商店']],
-            ['典藏版', '150M', '#d1a24a', ['普通版全部内容', '典藏轨 10–80 级里程碑', '开放赛季商店', '80 级解锁恶魔契约购买权']],
-            ['尊享版', '赞助兑换码', '#b9a7ff', ['典藏版全部内容', '名片·长夜终烬', '立即提升 10 级', '赛季限一次']]
+            { name: t('tier_free'), price: t('tier_free_status'), color: 'var(--text-light)', desc: t('tier_free_desc') },
+            { name: t('tier_premium'), price: t('tier_premium_price'), color: '#d1a24a', desc: t('tier_premium_desc'), unlock: true },
+            { name: t('tier_supreme'), price: t('tier_supreme_price'), color: '#b9a7ff', desc: t('tier_supreme_desc') }
         ];
-        tiers.forEach(function (x, i) {
+        tiers.forEach(function (x) {
             var col = el('div', '', '');
             col.className = 'pass-tier';
-            col.appendChild(el('div', 'font-size:14px;font-weight:700;color:var(--title-color);', x[0]));
+            col.appendChild(el('div', 'font-size:14px;font-weight:700;color:var(--title-color);', x.name));
             var ul = el('div', '', '');
             ul.className = 'pass-muted';
             ul.style.flex = '1';
             ul.style.display = 'flex';
             ul.style.flexDirection = 'column';
             ul.style.justifyContent = 'center';
-            ul.innerHTML = x[3].map(function (s) { return '· ' + s; }).join('<br>');
+            ul.innerHTML = x.desc;
             col.appendChild(ul);
-            var foot = el('div', 'margin-top:auto;font-size:12px;color:' + x[2] + ';');
-            if (i === 1) {
-                var b = el('button', '', isPremium() ? '已解锁' : '150M 解锁');
+            var foot = el('div', 'margin-top:auto;font-size:12px;color:' + x.color + ';');
+            if (x.unlock) {
+                var b = el('button', '', isPremium() ? t('premium_unlocked') : t('unlock_btn'));
                 b.className = 'modal-btn primary full-width';
                 b.disabled = isPremium();
                 b.onclick = function () {
                     if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) {
                         set(K.premium, '1');
-                        toast('典藏已解锁');
+                        toast(t('premium_unlocked'));
                         view = { t: 'main' };
                         render();
-                    } else toast('累计价值不足 150M');
+                    } else toast(t('not_enough_value'));
                 };
                 foot.appendChild(b);
             } else {
-                foot.textContent = x[1];
+                foot.textContent = x.price;
             }
             col.appendChild(foot);
             wrap.appendChild(col);
@@ -320,7 +366,7 @@
     function renderRules() {
         var wrap = el('div', '', '');
         wrap.className = 'pass-rules';
-        function section(title, items) {
+        function section(title, html) {
             var box = el('div', '', '');
             box.className = 'pass-rule-box';
             box.appendChild(el('div', 'font-size:14px;font-weight:700;color:var(--title-color);margin-bottom:6px;', title));
@@ -328,32 +374,13 @@
             ul.className = 'pass-muted';
             ul.style.fontSize = '12px';
             ul.style.lineHeight = '1.9';
-            ul.innerHTML = items.map(function (s) { return '· ' + s; }).join('<br>');
+            ul.innerHTML = html;
             box.appendChild(ul);
             wrap.appendChild(box);
         }
-        section('赛季进度', [
-            '赛季持续 8 周，共 80 级；每级需要 5M 本周累计价值。',
-            '本周累计价值按自然周统计，每周一 00:00 重置。',
-            '每周最多提升 12 级，超出部分不计入本周进度。',
-            '赛季进度永久累积，未领取的奖励不会过期。'
-        ]);
-        section('奖励领取', [
-            '达到对应等级后，直接点击奖励卡片领取。',
-            '每个等级的普通轨、典藏轨各只能领取一次。',
-            '普通轨所有玩家可领取；典藏轨需要先解锁典藏通行证。',
-            '每提升 1 级获得 10 赛季币，可在赛季商店使用。'
-        ]);
-        section('典藏与尊享', [
-            '典藏通行证：消耗 150M 累计价值解锁，开放典藏轨与赛季商店。',
-            '尊享通行证：通过赞助兑换码解锁，包含典藏全部内容。',
-            '尊享额外内容：名片「长夜终烬」、立即提升 10 级，赛季限一次。',
-            '80 级典藏奖励为「恶魔契约」购买权。'
-        ]);
-        section('赛季商店', [
-            '赛季商店暂未开放，开放后可使用赛季币兑换道具。',
-            '返厂商店暂未开放。'
-        ]);
+        section(t('rule_progress_title'), t('rule_progress_text'));
+        section(t('rule_claim_title'), t('rule_claim_text'));
+        section(t('rule_tier_title'), t('rule_tier_text'));
         bodyEl.appendChild(wrap);
     }
 
