@@ -595,6 +595,11 @@
         content.appendChild(buildHeader());
         bodyEl = el('div', '', '');
         bodyEl.className = 'modal-body';
+        // 只有规则页允许上下滑动；主页面保留奖励轨横向滑动
+        var scrollable = view.t === 'rules';
+        bodyEl.style.overflowY = scrollable ? 'auto' : 'hidden';
+        bodyEl.style.overflowX = 'hidden';
+        bodyEl.style.touchAction = scrollable ? 'pan-y' : (view.t === 'main' ? 'pan-x' : 'none');
         if (view.t !== lastView) {
             bodyEl.className += ' pass-view-in';
             lastView = view.t;
