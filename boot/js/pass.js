@@ -11,7 +11,6 @@
         rules: ['规则', '規則', 'Rules', 'Правила'],
         back: ['返回', '返回', 'Back', 'Назад'],
         upgrade: ['升级典藏', '升級典藏', 'Upgrade', 'Улучшить'],
-        claim_all: ['一键领取', '一鍵領取', 'Claim All', 'Забрать всё'],
         coin: ['赛季币', '賽季幣', 'Season Coins', 'Монеты сезона'],
         weekly: ['本周', '本週', 'This week', 'На этой неделе'],
         cap: ['已达上限', '已達上限', 'Cap reached', 'Лимит достигнут'],
@@ -76,11 +75,6 @@
         toast('已领取：' + item.name);
         render();
     }
-    function claimAll() {
-        STEPS.forEach(function (st) {
-            if (level() >= st.lv) { grant(st, 'free'); if (isPremium()) grant(st, 'prem'); }
-        });
-    }
     function toast(m) { try { if (w.showToast) w.showToast(m); } catch (e) {} }
 
     // UI：统一走通用的全屏页面结构（modal-overlay app-full-page + modal-header/body），
@@ -99,6 +93,10 @@
             '#pass-page .pass-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}' +
             '#pass-page .pass-cell{min-width:92px;border-radius:10px;border:1px solid var(--panel-border);background:var(--panel-inner-bg);padding:8px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s ease,transform .12s ease;animation:uiRise .26s ease backwards;}' +
             '#pass-page .pass-cell:active{transform:scale(.97);}' +
+            '#pass-page .pass-cell-ready{border-color:rgba(209,162,74,.55);box-shadow:inset 0 0 0 1px rgba(209,162,74,.12);cursor:pointer;}' +
+            '#pass-page .pass-cell-state{font-size:11px;text-align:center;}' +
+            '#pass-page .pass-rules{display:flex;flex-direction:column;gap:10px;}' +
+            '#pass-page .pass-rule-box{border:1px solid var(--panel-border);border-radius:12px;padding:12px;background:var(--panel-bg);}' +
             '#pass-page .pass-bar{flex:1;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;}' +
             '#pass-page .pass-bar-fill{height:100%;background:var(--accent-color);transition:width .6s cubic-bezier(.22,.61,.36,1);}' +
             '#pass-page .pass-coin{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-color);}' +
@@ -169,7 +167,7 @@
         var actions = el('div', '', '');
         actions.className = 'app-page-actions';
         if (view.t === 'main') {
-            actions.appendChild(appAction('fa-store', t('season_shop'), function () { view = { t: 'shop' }; render(); }));
+            actions.appendChild(appAction('fa-lock', t('season_shop'), function () { toast('赛季商店暂未开放'); }));
             actions.appendChild(appAction('fa-circle-info', t('rules'), function () { view = { t: 'rules' }; render(); }));
             actions.appendChild(coinTag(num(K.coins)));
         }
@@ -189,15 +187,18 @@
         cell.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv));
         cell.appendChild(el('div', 'height:52px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-light);', (item && item.type) || ''));
         cell.appendChild(el('div', 'font-size:12px;color:var(--text-color);', item ? item.name : ''));
-        var b = el('button', '', got ? t('claimed') : (locked ? t('locked') : (reached ? t('claim') : t('not_reached'))));
-        b.className = 'modal-btn';
-        b.style.fontSize = '11px';
-        b.style.padding = '5px 0';
-        b.style.minHeight = '0';
-        b.style.flex = '0 0 auto';
-        b.disabled = got || locked || !reached;
-        b.onclick = function () { grant(st, kind); };
-        cell.appendChild(b);
+        var clickable = reached && !got && !locked;
+        var state = el('div', '', got ? t('claimed') : (locked ? t('locked') : (reached ? t('claim') : t('not_reached'))));
+        state.className = 'pass-cell-state';
+        state.style.color = clickable ? '#d1a24a' : 'var(--text-light)';
+        cell.appendChild(state);
+        if (clickable) cell.className += ' pass-cell-ready';
+        cell.onclick = function () {
+            if (got) return;
+            if (locked) { toast(t('locked')); return; }
+            if (!reached) { toast(t('not_reached') + ' Lv.' + st.lv); return; }
+            grant(st, kind);
+        };
         return cell;
     }
 
@@ -242,13 +243,9 @@
 
         var actions = el('div', '', '');
         actions.className = 'pass-actions';
-        var all = el('button', '', t('claim_all'));
-        all.className = 'modal-btn';
-        all.onclick = claimAll;
         var up = el('button', '', isPremium() ? t('premium_unlocked') : t('upgrade'));
         up.className = 'modal-btn primary';
         up.onclick = function () { view = { t: 'upgrade' }; render(); };
-        actions.appendChild(all);
         actions.appendChild(up);
         top.appendChild(actions);
 
@@ -257,7 +254,7 @@
     }
 
     function renderUpgrade() {
-        var wrap = el('div', 'display:flex;gap:8px;padding:0;align-items:stretch;');
+        var wrap = el('div', 'display:flex;gap:8px;padding:0;align-items:stretch;height:100%;box-sizing:border-box;');
         var tiers = [
             ['普通版', '已解锁', 'var(--text-light)', ['每级 10 赛季币', '普通轨 10–80 级里程碑', '赛季进度永久累积', '不含典藏外观与商店']],
             ['典藏版', '150M', '#d1a24a', ['普通版全部内容', '典藏轨 10–80 级里程碑', '开放赛季商店', '80 级解锁恶魔契约购买权']],
@@ -269,6 +266,10 @@
             col.appendChild(el('div', 'font-size:14px;font-weight:700;color:var(--title-color);', x[0]));
             var ul = el('div', '', '');
             ul.className = 'pass-muted';
+            ul.style.flex = '1';
+            ul.style.display = 'flex';
+            ul.style.flexDirection = 'column';
+            ul.style.justifyContent = 'center';
             ul.innerHTML = x[3].map(function (s) { return '· ' + s; }).join('<br>');
             col.appendChild(ul);
             var foot = el('div', 'margin-top:auto;font-size:12px;color:' + x[2] + ';');
@@ -317,13 +318,43 @@
     }
 
     function renderRules() {
-        var box = el('div', '', '');
-        box.className = 'pass-pad pass-muted';
-        box.style.fontSize = '12px';
-        box.style.lineHeight = '1.9';
-        box.style.color = 'var(--text-color)';
-        box.innerHTML = '1. 赛季 8 周，80 级，每级 5M 本周累计价值。<br>2. 每周最多升 12 级，周一重置当周经验。<br>3. 每级获得 10 赛季币，资料页显示余额。<br>4. 典藏：消耗 150M 累计价值解锁；尊享：赞助兑换码解锁（额外名片 + 直升 10 级）。<br>5. 赛季商店需典藏；返厂商店暂未开放。';
-        bodyEl.appendChild(box);
+        var wrap = el('div', '', '');
+        wrap.className = 'pass-rules';
+        function section(title, items) {
+            var box = el('div', '', '');
+            box.className = 'pass-rule-box';
+            box.appendChild(el('div', 'font-size:14px;font-weight:700;color:var(--title-color);margin-bottom:6px;', title));
+            var ul = el('div', '', '');
+            ul.className = 'pass-muted';
+            ul.style.fontSize = '12px';
+            ul.style.lineHeight = '1.9';
+            ul.innerHTML = items.map(function (s) { return '· ' + s; }).join('<br>');
+            box.appendChild(ul);
+            wrap.appendChild(box);
+        }
+        section('赛季进度', [
+            '赛季持续 8 周，共 80 级；每级需要 5M 本周累计价值。',
+            '本周累计价值按自然周统计，每周一 00:00 重置。',
+            '每周最多提升 12 级，超出部分不计入本周进度。',
+            '赛季进度永久累积，未领取的奖励不会过期。'
+        ]);
+        section('奖励领取', [
+            '达到对应等级后，直接点击奖励卡片领取。',
+            '每个等级的普通轨、典藏轨各只能领取一次。',
+            '普通轨所有玩家可领取；典藏轨需要先解锁典藏通行证。',
+            '每提升 1 级获得 10 赛季币，可在赛季商店使用。'
+        ]);
+        section('典藏与尊享', [
+            '典藏通行证：消耗 150M 累计价值解锁，开放典藏轨与赛季商店。',
+            '尊享通行证：通过赞助兑换码解锁，包含典藏全部内容。',
+            '尊享额外内容：名片「长夜终烬」、立即提升 10 级，赛季限一次。',
+            '80 级典藏奖励为「恶魔契约」购买权。'
+        ]);
+        section('赛季商店', [
+            '赛季商店暂未开放，开放后可使用赛季币兑换道具。',
+            '返厂商店暂未开放。'
+        ]);
+        bodyEl.appendChild(wrap);
     }
 
     function render() {

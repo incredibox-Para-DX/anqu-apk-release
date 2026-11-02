@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.99",
+  "version": "v2.3.0_hotfix.100",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 374517,
-      "sha256": "f5e5c90d9dab2a3c150b2f9fef02091d107324c332892aba19e821bcd9225e14"
+      "size": 374518,
+      "sha256": "437e273c03cd06e7a9e6e9acc378b57a5285f609fbaa5c078aeec14fb7e5d612"
     },
     {
       "path": "js/synthesis.js",
@@ -158,8 +158,8 @@
     },
     {
       "path": "js/pass.js",
-      "size": 25105,
-      "sha256": "55d928500e82b29041b3cf1a05639c23a6725a83517cf0251009f58d17d87294"
+      "size": 26926,
+      "sha256": "0fb41c265ee4e34cfdd385d3a74c4def0a4df003df2e8b7c491cd385d945c441"
     },
     {
       "path": "images/season/coin.webp",
@@ -303,5 +303,5 @@
     }
   ],
   "fileCount": 60,
-  "totalSize": 3067936
+  "totalSize": 3069758
 }
