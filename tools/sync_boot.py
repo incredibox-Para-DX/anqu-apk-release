@@ -58,6 +58,7 @@ CODE_FILES = [
     "js/bg-i18n.js",
     "js/gm-i18n.js",
     "js/toast-catalog.js",
+    "libs/three.min.js",
     "libs/GSAP.js",
     "libs/jquery.js",
     "libs/lodash.js",

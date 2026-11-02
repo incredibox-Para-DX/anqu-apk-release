@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.155",
+  "version": "v2.3.0_hotfix.156",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -58,8 +58,8 @@
     },
     {
       "path": "js/music.js",
-      "size": 80455,
-      "sha256": "207a5e16836b713abb28a9e7f8f9a6d08730b967a1e58f99b73e753241fa2131"
+      "size": 84226,
+      "sha256": "5adc450b95e15dfaf7fd8417ba34ee2f2a44076cc12ec4cb85e8c432c41d23a5"
     },
     {
       "path": "js/net-mirror.js",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 352873,
-      "sha256": "06d025cca8d8a926a25947536d891d7cfdca4834ac25ce193780e29919db8c1f"
+      "sha256": "dff4fdb61a2362e4975dc30a38408b834b7aba2dabecd52d87e28e899bab99b7"
     },
     {
       "path": "js/synthesis.js",
@@ -197,6 +197,11 @@
       "sha256": "ff59d60b5457c6ca02043dbe65c7dda244ee873d77feef473148813d2896f30a"
     },
     {
+      "path": "libs/three.min.js",
+      "size": 669884,
+      "sha256": "170c6789f43217c96b3170f4b42fafe135de7f7cd48497a4218f9757ee1d49fa"
+    },
+    {
       "path": "libs/GSAP.js",
       "size": 72213,
       "sha256": "53c3a2be6f0df881861adce7bcc3da341a64f5fefe244634f9a37197d0f58fb7"
@@ -263,10 +268,10 @@
     },
     {
       "path": "index.html",
-      "size": 163150,
-      "sha256": "9c53a03b9156ab4badd779724fea6cf2535ef6592c00d0ad64b2b8cddd6514d2"
+      "size": 163192,
+      "sha256": "1b21551d6ab367dc0053766f7702c1027ae0276f8b3d46540108acd743b8047d"
     }
   ],
-  "fileCount": 53,
-  "totalSize": 2316020
+  "fileCount": 54,
+  "totalSize": 2989717
 }

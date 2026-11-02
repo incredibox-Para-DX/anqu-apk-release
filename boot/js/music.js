@@ -1786,57 +1786,149 @@ $(function() {
         } catch (e) {}
     };
 
-    const openCoverModal = () => {
+    let coverPreviewState = null;
+
+    const closeCoverPreview = () => {
+        if (!coverPreviewState) return;
+        const st = coverPreviewState;
+        coverPreviewState = null;
+        st.overlay.style.opacity = '0';
+        setTimeout(() => {
+            st.cleanup();
+            try { st.overlay.remove(); } catch (e) {}
+        }, 800);
+    };
+
+    const openCoverPreview = () => {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized)) return;
         const track = _.get(player, `playlist[${player.currentTrackIndex}]`);
         if (!(track && track.cover && track.cover.trim())) return;
-
         const coverPath = player.getFullPath(track.cover);
-        if (!$('#cover-modal').length) {
-            $('body').append(`
-                <div class="modal-overlay" id="cover-modal">
-                    <div class="modal-content cover-modal-content">
-                        <div class="modal-header">
-                            <div class="modal-title"><i class="fas fa-image"></i> ${track.title}</div>
-                            <button class="modal-close" id="cover-modal-close">&times;</button>
-                        </div>
-                        <div class="modal-body cover-modal-body">
-                            <img id="cover-modal-img" src="${coverPath}" alt="${track.title}">
-                        </div>
-                    </div>
-                </div>
-            `);
 
-            $('#cover-modal-close').on('click', () => closeCoverModal());
-            $('#cover-modal').on('click', e => {
-                if (e.target === $('#cover-modal')[0]) closeCoverModal();
-            });
-        } else {
-            $('#cover-modal-img').attr('src', coverPath);
-            $('#cover-modal .modal-title').html(`<i class="fas fa-image"></i> ${track.title}`);
+        if (coverPreviewState) closeCoverPreview();
+
+        const overlay = document.createElement('div');
+        overlay.id = 'cover-preview';
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:12000;background:#000;opacity:0;transition:opacity .8s ease;overflow:hidden;';
+        const holder = document.createElement('div');
+        holder.style.cssText = 'position:absolute;inset:0;';
+        const title = document.createElement('div');
+        title.textContent = track.title || '';
+        title.style.cssText = 'position:absolute;left:0;right:0;top:24px;text-align:center;color:#fff;font-size:16px;letter-spacing:.1em;text-shadow:0 2px 10px #000;z-index:2;';
+        overlay.appendChild(holder);
+        overlay.appendChild(title);
+        document.body.appendChild(overlay);
+        requestAnimationFrame(() => { overlay.style.opacity = '1'; });
+
+        let raf = null;
+        let renderer = null;
+        let texture = null;
+
+        const cleanup = () => {
+            if (raf) cancelAnimationFrame(raf);
+            raf = null;
+            if (texture) {
+                try { texture.dispose(); } catch (e) {}
+                texture = null;
+            }
+            if (renderer) {
+                try { renderer.dispose(); } catch (e) {}
+                try { renderer.domElement.remove(); } catch (e) {}
+                renderer = null;
+            }
+        };
+
+        coverPreviewState = { overlay: overlay, cleanup: cleanup };
+        overlay.addEventListener('click', closeCoverPreview);
+
+        if (window.THREE) {
+            try {
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;';
+                holder.appendChild(renderer.domElement);
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+                camera.position.set(0, 0.8, 6.4);
+                camera.lookAt(0, 0, 0);
+
+                scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+                const light = new THREE.DirectionalLight(0xffffff, 1.5);
+                light.position.set(3, 4, 6);
+                scene.add(light);
+
+                const record = new THREE.Group();
+                record.rotation.x = 0.3;
+                scene.add(record);
+
+                const vinyl = new THREE.Mesh(
+                    new THREE.CylinderGeometry(2.0, 2.0, 0.09, 96),
+                    new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.35, metalness: 0.15 })
+                );
+                record.add(vinyl);
+
+                const rim = new THREE.Mesh(
+                    new THREE.TorusGeometry(2.0, 0.035, 12, 120),
+                    new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.4, metalness: 0.5 })
+                );
+                rim.rotation.x = Math.PI / 2;
+                rim.position.y = 0.052;
+                record.add(rim);
+
+                const coverMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+                const cover = new THREE.Mesh(new THREE.CircleGeometry(1.28, 96), coverMat);
+                cover.rotation.x = -Math.PI / 2;
+                cover.position.y = 0.052;
+                record.add(cover);
+
+                const center = new THREE.Mesh(
+                    new THREE.CircleGeometry(0.09, 48),
+                    new THREE.MeshStandardMaterial({ color: 0x777777, roughness: 0.3, metalness: 0.8 })
+                );
+                center.rotation.x = -Math.PI / 2;
+                center.position.y = 0.056;
+                record.add(center);
+
+                const loader = new THREE.TextureLoader();
+                loader.setCrossOrigin('anonymous');
+                loader.load(coverPath, (tex) => {
+                    texture = tex;
+                    tex.colorSpace = THREE.SRGBColorSpace;
+                    coverMat.map = tex;
+                    coverMat.color.setHex(0xffffff);
+                    coverMat.needsUpdate = true;
+                });
+
+                const clock = new THREE.Clock();
+                const animate = () => {
+                    raf = requestAnimationFrame(animate);
+                    record.rotation.y = clock.getElapsedTime() * 0.35;
+                    renderer.render(scene, camera);
+                };
+                animate();
+            } catch (e) {
+                if (renderer) {
+                    try { renderer.domElement.remove(); } catch (x) {}
+                    renderer = null;
+                }
+            }
         }
 
-        $('#cover-modal').css('display', 'flex');
-        setTimeout(() => $('#cover-modal').addClass('show'), 10);
-        try {
-            const coverOpenAudio = new Audio('audio/open-cover.mp3');
-            coverOpenAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-            coverOpenAudio.play().catch(() => {});
-        } catch (e) {}
-    };
+        if (!renderer) {
+            const img = document.createElement('img');
+            img.src = coverPath;
+            img.alt = track.title || '';
+            img.style.cssText = 'max-width:86vw;max-height:70vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8);object-fit:contain;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;';
+            holder.appendChild(img);
+        }
 
-    const closeCoverModal = () => {
-        $('#cover-modal').removeClass('show');
-        setTimeout(() => {
-            if (!$('#cover-modal').hasClass('show')) {
-                $('#cover-modal').hide();
-            }
-        }, 200);
         try {
-            const coverCloseAudio = new Audio('audio/sidebar-close.mp3');
-            coverCloseAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-            coverCloseAudio.play().catch(() => {});
+            const a = new Audio('audio/open-cover.mp3');
+            a.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+            a.play().catch(() => {});
         } catch (e) {}
     };
 
@@ -2018,13 +2110,13 @@ $(function() {
     $els.cover.on('dblclick', e => {
         e.stopPropagation();
         playClickSound();
-        openCoverModal();
+        openCoverPreview();
     });
 
     $els.recordDisc.on('dblclick', e => {
         e.stopPropagation();
         playClickSound();
-        openCoverModal();
+        openCoverPreview();
     });
 
     let controlsRafId = null;
