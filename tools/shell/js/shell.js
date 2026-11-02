@@ -139,6 +139,7 @@
   function enter(msg) {
     if (done) return;
     done = true;
+    window.__forceRedownload = false;
     clearTimeout(timer);
     stopPoll();
     if (!needDl) {
@@ -276,6 +277,7 @@
     stopPoll();
     verifyCode(function (ok) {
       if (ok) { enter(); return; }
+      tryCode();
     });
   }
 
@@ -293,10 +295,10 @@
       if (i >= VERIFY_CODE.length) { cb(true); return; }
       var rel = VERIFY_CODE[i++];
       get(rel, function (ok, text) {
-        if (!ok) { cb(false); return; }
-        if (rel === 'index.html' && text.indexOf(SHELL_MARK) >= 0) { cb(false); return; }
+        if (!ok) { window.__forceRedownload = true; cb(false); return; }
+        if (rel === 'index.html' && text.indexOf(SHELL_MARK) >= 0) { window.__forceRedownload = true; cb(false); return; }
         // 版本兼容：接受 vX.Y.Z 与 vX.Y.Z_hotfix.N 两种格式
-        if (rel === 'js/script_new.js' && !/v\d+\.\d+\.\d+/.test(text)) { cb(false); return; }
+        if (rel === 'js/script_new.js' && !/v\d+\.\d+\.\d+/.test(text)) { window.__forceRedownload = true; cb(false); return; }
         next();
       }, PROBE_TIMEOUT);
     }
@@ -364,8 +366,9 @@
       var start = Date.now();
       var ctrl = null, to = null;
       try { ctrl = new AbortController(); } catch (e) {}
-      if (ctrl) to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 7000);
-      var url = b + '/js/script_new.js?t=' + Date.now();
+      if (ctrl) to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 5000);
+      // 用清单测速：文件只有几 KB，弱网下不会因为大文件 7s 超时而整批失败
+      var url = b + '/manifest.json?t=' + Date.now();
       var req = ctrl ? fetch(url, { cache: 'no-store', signal: ctrl.signal }) : fetch(url, { cache: 'no-store' });
       req
         .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
@@ -437,20 +440,26 @@
     return out;
   }
 
-  function fetchOne(base, file, cb) {
+  function fetchOne(base, file, cb, force) {
     var expected = file.size || 0, have = 0;
     try { have = Number(window.AndroidUpdate && AndroidUpdate.fileSize ? AndroidUpdate.fileSize('www/' + file.path) : 0) || 0; } catch (e) { have = 0; }
-    if (expected && have === expected) { cb(true, expected, true); return; }
-    var start = (have > 0 && have < expected) ? have : 0;
+    if (!force && expected && have === expected) { cb(true, expected, true); return; }
+    var start = (!force && have > 0 && have < expected) ? have : 0;
     var opts = { cache: 'no-store' };
     if (start > 0) opts.headers = { 'Range': 'bytes=' + start + '-' };
     var ctrl = null, to = null;
     try { ctrl = new AbortController(); } catch (e) {}
     if (ctrl) { opts.signal = ctrl.signal; to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 30000); }
     fetch(base + '/' + file.path, opts)
-      .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
+      .then(function (r) {
+        if (!r.ok) throw new Error('http');
+        // 服务器忽略 Range 回了 200 时，必须从头写，否则会把完整文件写到半截位置
+        if (start > 0 && r.status !== 206) start = 0;
+        return r.arrayBuffer();
+      })
       .then(function (buf) {
         if (to) clearTimeout(to);
+        if (file.size && start + buf.byteLength !== file.size) throw new Error('size');
         if (file.sha256 && start === 0) {
           var hex = sha256hex(buf);
           if (hex !== String(file.sha256).toLowerCase()) { window.__jsHashBad = true; cb(false, 0, false); return; }
@@ -462,7 +471,7 @@
       })
       .catch(function () { if (to) clearTimeout(to); cb(false, 0, false); });
   }
-  function jsDownload(base, list, cb) {
+  function jsDownload(base, list, cb, force) {
     var total = list.length, idx = 0, active = 0, fails = [], conc = 6;
     if (jsRetry) { jsTotal = jsTotal || total; } else { jsTotal = list.length; jsDone = 0; jsBytesDone = 0; jsBytesTotal = 0; list.forEach(function (f) { jsBytesTotal += (f.size || 0); }); }
     if (!total) { cb([]); return; }
@@ -484,7 +493,7 @@
               }
               if (tries < 3) { setTimeout(attempt, 400 * tries); return; }
               fails.push(file); active--; pump();
-            });
+            }, force);
           }
           attempt();
         })(f);
@@ -543,7 +552,7 @@
             setMsg('运行文件不完整，正在重新获取…', false);
             tryCode();
           });
-        });
+        }, window.__forceRedownload);
         return;
       }
       startPoll();

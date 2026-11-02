@@ -5228,48 +5228,57 @@ const EventManager = {
                         resumed = false;
                     }
 
-                    const reader = resp.body.getReader();
+                    const reader = resp.body && typeof resp.body.getReader === 'function' ? resp.body.getReader() : null;
                     // 起始 received 来自 pending（续传）或 0（全量）
                     let received = (pending && Number(pending.received)) || 0;
                     let currentFlush = 0;
                     let partialBlob = pending ? pending.partialBlob : null;
                     const chunks = [];
 
-                    while (true) {
-                        await this.waitWhilePaused(isPaused);
-                        let readResult;
-                        try {
-                            readResult = await reader.read();
-                        } catch (e) {
-                            // 中途 abort/断网 —— pending 保留用于下次续传
-                            streamAborted = true;
-                            throw e;
-                        }
-                        const { done, value } = readResult;
-                        if (done) break;
-                        chunks.push(value);
-                        received += value.length;
-                        currentFlush += value.length;
-                        if (onProgress) onProgress(received, total, name);
-
-                        // 每 512KB 刷一次 pending，避免内存里 chunks 累积过多
-                        if (currentFlush >= this._DB_PENDING_FLUSH_BYTES) {
+                    if (reader) {
+                        while (true) {
+                            await this.waitWhilePaused(isPaused);
+                            let readResult;
                             try {
-                                const merged = partialBlob
-                                    ? new Blob([partialBlob].concat(chunks), { type: this.getMime(storagePath) })
-                                    : new Blob(chunks, { type: this.getMime(storagePath) });
-                                await this._putPending({
-                                    path: storagePath,
-                                    partialBlob: merged,
-                                    received: received,
-                                    expected: Number(size) || 0,
-                                    lastUpdated: Date.now()
-                                });
-                                partialBlob = merged;
-                                chunks.length = 0;
-                                currentFlush = 0;
-                            } catch (e) {}
+                                readResult = await reader.read();
+                            } catch (e) {
+                                // 中途 abort/断网 —— pending 保留用于下次续传
+                                streamAborted = true;
+                                throw e;
+                            }
+                            const { done, value } = readResult;
+                            if (done) break;
+                            chunks.push(value);
+                            received += value.length;
+                            currentFlush += value.length;
+                            if (onProgress) onProgress(received, total, name);
+
+                            // 每 512KB 刷一次 pending，避免内存里 chunks 累积过多
+                            if (currentFlush >= this._DB_PENDING_FLUSH_BYTES) {
+                                try {
+                                    const merged = partialBlob
+                                        ? new Blob([partialBlob].concat(chunks), { type: this.getMime(storagePath) })
+                                        : new Blob(chunks, { type: this.getMime(storagePath) });
+                                    await this._putPending({
+                                        path: storagePath,
+                                        partialBlob: merged,
+                                        received: received,
+                                        expected: Number(size) || 0,
+                                        lastUpdated: Date.now()
+                                    });
+                                    partialBlob = merged;
+                                    chunks.length = 0;
+                                    currentFlush = 0;
+                                } catch (e) {}
+                            }
                         }
+                    } else {
+                        // 旧 WebView 没有 ReadableStream：整包读取，放弃分片进度与断点续传
+                        const ab = await resp.arrayBuffer();
+                        const all = new Uint8Array(ab);
+                        chunks.push(all);
+                        received += all.length;
+                        if (onProgress) onProgress(received, total, name);
                     }
 
                     if (abortTimer) clearTimeout(abortTimer);
@@ -5570,9 +5579,12 @@ const EventManager = {
                 // 允许清单加载失败后重新拉取
                 this.bgManifest = null;
             }
+            $('#rd-bg-progress-wrap').show();
+            $('#rd-bg-progress-text').text('正在获取资源列表…');
             await this.loadBgManifest();
             const items = this.getBgItems();
             if (items.length === 0) {
+                $('#rd-bg-progress-wrap').hide();
                 if (window.showToast) window.showToast('背景资源列表加载失败，请检查网络');
                 this.refreshUI();
                 return;
@@ -5606,6 +5618,7 @@ const EventManager = {
                 $('#rd-bg-progress-text').text('已完成 ' + done + '/' + total);
             }, function(e) {
                 failed++;
+                $('#rd-bg-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
                 console.warn('[RDM] bg download failed', e);
             }, 6);
             this.bgDownloading = false;
@@ -5637,9 +5650,12 @@ const EventManager = {
                 // 允许清单加载失败后重新拉取
                 this.musicManifest = null;
             }
+            $('#rd-music-progress-wrap').show();
+            $('#rd-music-progress-text').text('正在获取资源列表…');
             await this.loadMusicManifest();
             const tracks = (this.musicManifest && this.musicManifest.tracks) || [];
             if (tracks.length === 0) {
+                $('#rd-music-progress-wrap').hide();
                 if (window.showToast) window.showToast('音乐资源列表加载失败，请检查网络');
                 this.refreshUI();
                 return;
@@ -5682,6 +5698,7 @@ const EventManager = {
                 $('#rd-music-progress-text').text('已完成 ' + done + '/' + total);
             }, function(e) {
                 failed++;
+                $('#rd-music-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
                 console.warn('[RDM] music download failed', e);
             }, 4);
             this.musicDownloading = false;
@@ -5715,9 +5732,12 @@ const EventManager = {
             if (!this.titleManifest || this.getTitleItems().length === 0) {
                 this.titleManifest = null;
             }
+            $('#rd-title-progress-wrap').show();
+            $('#rd-title-progress-text').text('正在获取资源列表…');
             await this.loadTitleManifest();
             const items = this.getTitleItems();
             if (items.length === 0) {
+                $('#rd-title-progress-wrap').hide();
                 if (window.showToast) window.showToast('段位图标清单加载失败，请检查网络');
                 this.refreshUI();
                 return;
@@ -5751,6 +5771,7 @@ const EventManager = {
                 $('#rd-title-progress-text').text('已完成 ' + done + '/' + total);
             }, function(e) {
                 failed++;
+                $('#rd-title-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
                 console.warn('[RDM] title icon download failed', e);
             }, 6);
             this.titleDownloading = false;
@@ -5788,9 +5809,14 @@ const EventManager = {
             if (!this.minigameManifest || this.getMiniGameItems().length === 0) {
                 this.minigameManifest = null;
             }
+            if ($('#rd-minigame-progress-wrap').length) {
+                $('#rd-minigame-progress-wrap').show();
+                $('#rd-minigame-progress-text').text('正在获取资源列表…');
+            }
             await this.loadMiniGameManifest();
             const items = this.getMiniGameItems();
             if (items.length === 0) {
+                if ($('#rd-minigame-progress-wrap').length) $('#rd-minigame-progress-wrap').hide();
                 if (window.showToast) window.showToast('小游戏资源清单加载失败，请检查网络');
                 this.refreshUI();
                 return;
@@ -5824,6 +5850,7 @@ const EventManager = {
                 $('#rd-minigame-progress-text').text('已完成 ' + done + '/' + total);
             }, function(e) {
                 failed++;
+                if ($('#rd-minigame-progress-text').length) $('#rd-minigame-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
                 console.warn('[RDM] minigame asset download failed', e);
             }, 6);
             this.minigameDownloading = false;
@@ -6797,7 +6824,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.97';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.98';
 
     /* ============================================================
      * 检查更新
@@ -6841,28 +6868,8 @@ const EventManager = {
                         $('#update-check-close').hide();
                         $('#update-check-progress').show();
                         $('#update-check-status').html('正在下载更新包，请稍候…<br><span style="color:#64748b;font-size:11px;">更新过程中请勿退出</span>');
-                        window.__huStartProgress();
-                        if (!window.AndroidUpdate || typeof window.AndroidUpdate.check !== 'function') {
-                            window.__huBusy = false;
-                            window.__huStopProgress();
-                            $('#update-check-progress').hide();
-                            $('#update-check-close').show();
-                            $('#update-check-cancel').show();
-                            $('#update-check-status').html('<span style="color:#f87171;">当前版本不支持热更新，请安装最新版 APP</span>');
-                            return;
-                        }
-                        try {
-                            // 用刚才 manifest 竞速选中的 base（可能是 Worker 反代），保证下载与版本一致
-                            window.__huLastBase = window.__huActiveBase || HU_BASE_URL;
-                            window.AndroidUpdate.check(window.__huLastBase);
-                        } catch (e) {
-                            window.__huBusy = false;
-                            window.__huStopProgress();
-                            $('#update-check-progress').hide();
-                            $('#update-check-close').show();
-                            $('#update-check-cancel').show();
-                            $('#update-check-status').html('<span style="color:#f87171;">更新启动失败：' + e + '</span>');
-                        }
+                        // 用刚才 manifest 竞速选中的 base（可能是 Worker 反代），保证下载与版本一致
+                        window.__huStartUpdate(window.__huActiveBase || HU_BASE_URL);
                     });
                 } else {
                     $('#update-check-status').html(
@@ -6907,16 +6914,7 @@ const EventManager = {
             if (wasTrying) {
                 $('#update-check-cancel').show().text('关闭');
                 $('#update-check-confirm').show().text('重试更新').off('click').on('click', function () {
-                    window.__huBusy = true;
-                    window.__huAttempting = true;
-                    $('#update-check-confirm').hide();
-                    $('#update-check-cancel').hide();
-                    $('#update-check-close').hide();
-                    $('#update-check-progress').show();
-                    $('#update-check-status').html('正在重新下载，请稍候…');
-                    window.__huStartProgress();
-                    try { window.AndroidUpdate.check(window.__huLastBase || window.__huActiveBase || HU_BASE_URL); }
-                    catch (e) { window.__huBusy = false; window.__huAttempting = false; window.__huStopProgress(); $('#update-check-progress').hide(); $('#update-check-confirm').show(); $('#update-check-cancel').show(); $('#update-check-status').html('<span style="color:#f87171;">重试失败：' + e + '</span>'); }
+                    window.__huStartUpdate(window.__huLastBase || window.__huActiveBase || HU_BASE_URL);
                 });
                 $('#update-check-status').html('<span style="color:#f87171;">更新失败（弱网或线路不通）</span><br>可重试，或到 GM 切换线路后再试');
             } else {
@@ -6983,13 +6981,16 @@ const EventManager = {
             // 开始更新后清空输入框，避免链接残留
             $input.val('').blur();
             showStatus('正在拉取：<br><span style="color:#60a5fa;">' + url + '/manifest.json</span><br>下载完成后自动刷新，请勿退出', '#fbbf24');
-            try {
-                window.AndroidUpdate.check(url);
-            } catch (e) {
+            window.__huDownloadJs(url, function (ok, msg) {
                 window.__gmHuBusy = false;
                 $btn.prop('disabled', false);
-                showStatus('启动失败：' + e, '#f87171');
-            }
+                if (ok) {
+                    showStatus('更新已应用，正在刷新…', '#10b981');
+                    setTimeout(function () { location.reload(); }, 800);
+                } else {
+                    showStatus('更新失败：' + (msg || '地址不可达 / 下载失败'), '#f87171');
+                }
+            });
         });
     })();
 
@@ -7407,6 +7408,97 @@ const EventManager = {
         getOnce(HU_DOMAIN_BASE, gotOne);
         // 兜底：最长等 12s，超时直接结算（用已收到的最高版本）
         setTimeout(settle, 12000);
+    };
+    // 热更下载：逐文件校验大小后通过 writeFile 落盘，全部成功才算更新完成。
+    // 不使用原生 check：它在单个文件下载失败时会跳过，却仍把版本号写成最新。
+    window.__huB64 = function (buf) {
+        var bytes = new Uint8Array(buf), bin = '', chunk = 0x8000;
+        for (var i = 0; i < bytes.length; i += chunk) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+        }
+        return btoa(bin);
+    };
+    window.__huDownloadJs = function (base, onDone) {
+        var finish = typeof onDone === 'function' ? onDone : function () {};
+        var bt = window.AndroidUpdate;
+        if (!bt || typeof bt.writeFile !== 'function') { finish(false, '当前安装包不支持写入更新文件'); return; }
+        if (window.__huProgressTimer) { clearInterval(window.__huProgressTimer); window.__huProgressTimer = null; }
+        var manifestUrl = base + '/manifest.json?t=' + Date.now();
+        var req = (window.Net && Net.getJSON)
+            ? Net.getJSON(manifestUrl, { timeout: 12000, retries: 1, cache: 'no-store' })
+            : fetch(manifestUrl, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+        req.then(function (m) {
+            var list = (m && m.files ? m.files : []).filter(function (f) { return f && f.path; });
+            if (!list.length) { finish(false, '更新清单无效'); return; }
+            var idx = 0, active = 0, fails = [], doneCount = 0, conc = 4;
+            function pump() {
+                if (idx >= list.length && active === 0) {
+                    if (fails.length) { finish(false, '有 ' + fails.length + ' 个文件下载失败'); return; }
+                    finish(true, '');
+                    return;
+                }
+                while (active < conc && idx < list.length) {
+                    var file = list[idx++];
+                    active++;
+                    (function (f) {
+                        var tries = 0;
+                        function attempt() {
+                            tries++;
+                            var have = 0;
+                            try { have = bt.fileSize ? (Number(bt.fileSize('www/' + f.path)) || 0) : 0; } catch (e) { have = 0; }
+                            if (f.size && have === f.size) { doneCount++; active--; pump(); return; }
+                            fetch(base + '/' + f.path + '?t=' + Date.now(), { cache: 'no-store' })
+                                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+                                .then(function (buf) {
+                                    if (f.size && buf.byteLength !== f.size) throw new Error('大小不符');
+                                    if (!bt.writeFile('www/' + f.path, window.__huB64(buf))) throw new Error('写入失败');
+                                    doneCount++;
+                                    $('#update-check-progress-bar').css('width', Math.round(doneCount / list.length * 100) + '%');
+                                    $('#update-check-progress-text').text('已完成 ' + doneCount + '/' + list.length);
+                                    active--; pump();
+                                })
+                                .catch(function () {
+                                    if (tries < 3) { setTimeout(attempt, 600 * tries); return; }
+                                    fails.push(f.path); active--; pump();
+                                });
+                        }
+                        attempt();
+                    })(file);
+                }
+            }
+            pump();
+        }).catch(function () { finish(false, '无法读取更新清单'); });
+    };
+    window.__huStartUpdate = function (base) {
+        window.__huBusy = true;
+        window.__huAttempting = true;
+        window.__huLastBase = base;
+        $('#update-check-later').hide();
+        $('#update-check-confirm').hide();
+        $('#update-check-cancel').hide();
+        $('#update-check-close').hide();
+        $('#update-check-progress').show();
+        $('#update-check-progress-bar').css('width', '0%');
+        $('#update-check-progress-text').text('0%');
+        $('#update-check-status').html('正在下载更新包，请稍候…<br><span style="color:#64748b;font-size:11px;">更新过程中请勿退出</span>');
+        window.__huDownloadJs(base, function (ok, msg) {
+            if (ok) {
+                window.__huStopProgress();
+                $('#update-check-status').html('<span style="color:#10b981;">更新完成，正在刷新…</span>');
+                setTimeout(function () { location.reload(); }, 800);
+                return;
+            }
+            window.__huBusy = false;
+            window.__huAttempting = false;
+            window.__huStopProgress();
+            $('#update-check-progress').hide();
+            $('#update-check-close').show();
+            $('#update-check-cancel').show().text('关闭');
+            $('#update-check-confirm').show().text('重试更新').off('click').on('click', function () {
+                window.__huStartUpdate(window.__huLastBase || window.__huActiveBase || HU_BASE_URL);
+            });
+            $('#update-check-status').html('<span style="color:#f87171;">更新失败：' + (msg || '线路不通') + '</span>');
+        });
     };
     window.__huStartProgress = function() {
         window.__huStopProgress();
