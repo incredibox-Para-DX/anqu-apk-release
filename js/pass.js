@@ -82,6 +82,7 @@
         pass_season_starts_in: ['赛季将于 %s 天后开始', '賽季將於 %s 天後開始', 'Season starts in %s days', 'Сезон начнётся через %s дн.'],
         pass_reward: ['通行证奖励', '通行證獎勵', 'Pass reward', 'Награда пропуска'],
         pass_unlock: ['通行证解锁', '通行證解鎖', 'Pass unlock', 'Открыть пропуском'],
+        pass_need_packs: ['请先在「资源下载」下载背景和名片资源包', '請先在「資源下載」下載背景和名片資源包', 'Download the background and card packs in Downloads first', 'Сначала скачайте наборы фонов и визиток в «Загрузках»'],
         pass_season_left: ['剩余 %s 天', '剩餘 %s 天', '%s days left', 'Осталось дней: %s'],
         pass_season_ended: ['赛季已结束', '賽季已結束', 'Season ended', 'Сезон завершён'],
         pass_bg_pulse: ['脉冲极客', '脈衝極客', 'Pulse Geek', 'Пульс-гик'],
@@ -159,6 +160,7 @@
 
         var total = level() * S.coinPerLevel, claimed = num(K.claimedCoins);
         if (total > claimed) { set(K.coins, num(K.coins) + (total - claimed)); set(K.claimedCoins, total); }
+        updatePassDot();
     }
     setInterval(tick, 3000);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(tick, 1200); });
@@ -185,6 +187,7 @@
         try { localStorage.setItem('ab_pass_' + item.key, '1'); } catch (e) {}
         toast(t('claimed_toast').replace('%s', item.name));
         render();
+        updatePassDot();
     }
     function toast(m) { try { if (w.showToast) w.showToast(m); } catch (e) {} }
 
@@ -217,6 +220,7 @@
             '#pass-page .pass-thumb{width:56px;height:56px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;background-size:cover;background-position:center;}' +
             '#pass-page .pass-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(156px,1fr));gap:8px;}' +
             '#pass-page .pass-preview-card{display:flex;align-items:center;gap:8px;border:1px solid var(--panel-border);border-radius:10px;padding:8px;background:var(--panel-bg);}' +
+            '#sidebar-pass-btn .pass-dot{position:absolute;top:6px;right:8px;width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 2px rgba(0,0,0,.35);display:none;}' +
             '@keyframes passViewIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}' +
             '#pass-page .pass-view-in{animation:passViewIn .24s ease both;}' +            '#pass-debug-modal .modal-body .modal-btn{margin-top:8px;}';
         document.head.appendChild(s);
@@ -622,6 +626,14 @@
     }
 
     function open() {
+        var R = w.ResourceDownloadManager;
+        var bgOk = !!(R && R.isBackgroundsDownloaded && R.isBackgroundsDownloaded());
+        var cardOk = !!(w.CardPack && w.CardPack.isDone && w.CardPack.isDone());
+        if (!bgOk || !cardOk) {
+            toast(t('pass_need_packs'));
+            try { if (R && R.openModal) R.openModal(); } catch (e) {}
+            return;
+        }
         ensurePage();
         view = { t: 'main' };
         lastView = 'main';
@@ -633,6 +645,24 @@
         }
     }
 
+    function hasClaimable() {
+        var lv = level(), c = claims(), prem = isPremium();
+        for (var i = 0; i < STEPS.length; i++) {
+            var st = STEPS[i];
+            if (lv < st.lv) continue;
+            if (!c[st.lv + ':free']) return true;
+            if (prem && !c[st.lv + ':prem']) return true;
+        }
+        return false;
+    }
+
+    function updatePassDot() {
+        var btn = document.getElementById('sidebar-pass-btn');
+        if (!btn) return;
+        var dot = btn.querySelector('.pass-dot');
+        if (dot) dot.style.display = hasClaimable() ? 'block' : 'none';
+    }
+
     function bind() {
         var sec = document.getElementById('section-other');
         if (sec && !document.getElementById('sidebar-pass-btn')) {
@@ -640,9 +670,11 @@
             b.className = 'sidebar-btn full-width';
             b.id = 'sidebar-pass-btn';
             b.style.marginTop = '6px';
-            b.innerHTML = '<i class="fas fa-ticket"></i> 通行证';
+            b.style.position = 'relative';
+            b.innerHTML = '<i class="fas fa-ticket"></i> 通行证<span class="pass-dot"></span>';
             b.onclick = open;
             sec.insertBefore(b, sec.firstChild);
+            updatePassDot();
         }
         function syncGmBtn() {
             var gm = document.getElementById('section-gm') || document.getElementById('gm-debug-section');

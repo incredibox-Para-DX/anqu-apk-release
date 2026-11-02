@@ -10,7 +10,9 @@
         { id: 'card_gjzb', img: 'cards/card_gjzb.png', nameKey: 'pass_card_gjzb', passOnly: true },
         { id: 'card_qxys', img: 'cards/card_qxys.png', nameKey: 'pass_card_qxys', passOnly: true },
         { id: 'card_yinghe', img: 'cards/card_yinghe.png', nameKey: 'pass_card_yinghe', passOnly: true },
-        { id: 'card_zsxf', img: 'cards/card_zsxf.png', nameKey: 'pass_card_zsxf', passOnly: true }
+        { id: 'card_zsxf', img: 'cards/card_zsxf.png', nameKey: 'pass_card_zsxf', passOnly: true },
+        { id: 'card_night', img: 'cards/card_night.png', nameKey: 'card_night_name', passOnly: true },
+        { id: 'card_gm', img: 'cards/card_gm.png', nameKey: 'card_gm_name', gmOnly: true }
     ];
     var UNLOCK_KEY = 'ab_cards_unlocked';
     var SEL_KEY = 'ab_card_selected';
@@ -20,6 +22,8 @@
             card_label: ['名片', '名片', 'Card', 'Карточка'],
             card_title: ['名片', '名片', 'Profile Card', 'Визитка'],
             card_000_default: ['默认名片', '預設名片', 'Default Card', 'Визитка по умолчанию'],
+            card_night_name: ['长夜终烬', '長夜終燼', 'Endless Night', 'Вечная ночь'],
+            card_gm_name: ['GM 名片', 'GM 名片', 'GM Card', 'Визитка GM'],
             card_locked: ['未解锁', '未解鎖', 'Locked', 'Закрыто'],
             card_equip: ['装备', '裝備', 'Equip', 'Надеть'],
             card_equipped: ['使用中', '使用中', 'In use', 'Используется'],
@@ -55,8 +59,15 @@
     function getUnlocked() {
         try { var a = JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
     }
+    function isGmUser() {
+        try {
+            var v = localStorage.getItem('ab_gm_unlocked');
+            return v === 'true' || v === '1';
+        } catch (e) { return false; }
+    }
     function isUnlocked(id) {
         if (id === 'card_000') return true;
+        if (id === 'card_gm') return isGmUser();
         if (getUnlocked().indexOf(id) >= 0) return true;
         try { return localStorage.getItem('ab_pass_' + id) === '1'; } catch (e) { return false; }
     }
@@ -126,6 +137,7 @@
         }
         CARDS.forEach(function (c) {
             if (c.id === 'card_000') return; // 默认名片不作为选择项
+            if (c.gmOnly && !isGmUser()) return; // GM 名片仅 GM 权益解锁后显示
             var un = isUnlocked(c.id), sel = selected() === c.id;
             var d = document.createElement('div');
             d.style.cssText = 'border:1px solid ' + (sel ? '#3b82f6' : '#334155') + ';border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03);';
