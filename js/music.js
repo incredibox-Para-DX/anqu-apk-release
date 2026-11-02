@@ -2182,8 +2182,6 @@ $(function() {
         openCoverPreview();
     });
 
-    $('#music-cover-btn').on('click', e => { e.stopPropagation(); playClickSound(); openCoverPreview(); });
-
     $els.recordDisc.on('dblclick', e => {
         e.stopPropagation();
         playClickSound();
