@@ -390,33 +390,42 @@
     }
     return btoa(bin);
   }
-  function jsProgress(done, total) {
-    var pct = total ? Math.round(done / total * 100) : 0;
+  var jsTotal = 0, jsDone = 0, jsBytesTotal = 0, jsBytesDone = 0, jsRetry = null;
+  function fmtMB(n) { return (n / 1048576).toFixed(2) + 'MB'; }
+  function jsProgress() {
+    var pct = jsTotal ? Math.round(jsDone / jsTotal * 100) : 0;
     var f = $('dl-fill'); if (f) f.style.width = pct + '%';
     var p = $('dl-pct'); if (p) p.textContent = pct;
-    var m = $('dl-msg'); if (m) m.textContent = '正在下载资源 ' + done + '/' + total;
+    var m = $('dl-msg'); if (m) m.textContent = fmtMB(jsBytesDone) + ' / ' + fmtMB(jsBytesTotal) + ' · ' + jsDone + '/' + jsTotal;
   }
   function jsDownload(base, list, cb) {
-    var total = list.length, done = 0, idx = 0, active = 0, fails = [], conc = 6;
+    var total = list.length, idx = 0, active = 0, fails = [], conc = 6;
+    if (jsRetry) { jsTotal = jsTotal || total; } else { jsTotal = list.length; jsDone = 0; jsBytesDone = 0; jsBytesTotal = 0; list.forEach(function (f) { jsBytesTotal += (f.size || 0); }); }
     if (!total) { cb([]); return; }
-    jsProgress(0, total);
+    jsProgress();
     function pump() {
       if (idx >= total && active === 0) { cb(fails); return; }
       while (active < conc && idx < total) {
         var f = list[idx++];
         active++;
         (function (file) {
-          var url = base + '/' + file.path;
-          fetch(url, { cache: 'no-store' })
-            .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
-            .then(function (buf) {
-              var ok = window.AndroidUpdate && AndroidUpdate.writeFile(file.path, b64(buf));
-              if (!ok) throw new Error('write');
-              done++;
-              jsProgress(done, total);
-            })
-            .catch(function () { fails.push(file); })
-            .then(function () { active--; pump(); });
+          var tries = 0;
+          function attempt() {
+            tries++;
+            fetch(base + '/' + file.path, { cache: 'no-store' })
+              .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
+              .then(function (buf) {
+                var ok = window.AndroidUpdate && AndroidUpdate.writeFile(file.path, b64(buf));
+                if (!ok) throw new Error('write');
+                jsDone++; jsBytesDone += (buf.byteLength || 0); jsProgress();
+                active--; pump();
+              })
+              .catch(function () {
+                if (tries < 3) { setTimeout(attempt, 400 * tries); return; }
+                fails.push(file); active--; pump();
+              });
+          }
+          attempt();
         })(f);
       }
     }
@@ -439,14 +448,28 @@
     resetProgress(ci > 1);
     var startDownload = function () {
       if (done) return;
-      if (window.AndroidUpdate && typeof AndroidUpdate.writeFile === 'function' && files.length) {
-        jsDownload(base, files, function (fails) {
+      var list = jsRetry || files;
+      if (window.AndroidUpdate && typeof AndroidUpdate.writeFile === 'function' && list.length) {
+        var isRetry = !!jsRetry;
+        if (isRetry) {
+          jsDone = Math.max(0, jsTotal - list.length);
+          var rb = 0; list.forEach(function (f) { rb += (f.size || 0); });
+          jsBytesDone = Math.max(0, jsBytesTotal - rb);
+        }
+        jsDownload(base, list, function (fails) {
           if (done) return;
           if (fails && fails.length) {
-            setMsg('部分资源下载失败，尝试其他线路…', false);
-            tryCode();
+            jsRetry = fails;
+            if (ci < CODE_BASES.length) {
+              setMsg('部分文件失败，切换线路补传…', false);
+              tryCode();
+              return;
+            }
+            jsRetry = null;
+            setMsg('部分资源下载失败，点击屏幕重试', false);
             return;
           }
+          jsRetry = null;
           setMsg('正在校验运行文件…', false);
           verifyCode(function (ok) {
             if (ok) { enter(); return; }
