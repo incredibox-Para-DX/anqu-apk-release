@@ -12,9 +12,9 @@
         s.textContent = [
             '#thanks-overlay{position:fixed;inset:0;z-index:12000;background:#000;opacity:0;transition:opacity 1.2s ease-in-out;overflow:hidden}',
             '#thanks-overlay.show{opacity:1}',
-            '#thanks-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(3px) brightness(.6);transform:scale(1.08)}',
+            '#thanks-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(1px) brightness(.6);transform:scale(1.03)}',
             '#thanks-scroll{position:absolute;inset:0;display:flex;justify-content:center;overflow:hidden;pointer-events:none}',
-            '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;animation:thanksScroll 43.6s linear forwards;white-space:pre-line}',
+            '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;animation:thanksScroll 29.1s linear forwards;white-space:pre-line}',
             '#thanks-names .thanks-title{font-size:26px;font-weight:700;letter-spacing:.3em;margin-bottom:36px}',
             '#thanks-names .thanks-name{opacity:.92}',
             '@keyframes thanksScroll{from{transform:translateY(0)}to{transform:translateY(-100%)}}'
