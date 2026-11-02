@@ -13,11 +13,11 @@
             '#thanks-overlay{position:fixed;inset:0;z-index:12000;background:#000;opacity:0;transition:opacity 1.2s ease-in-out;overflow:hidden}',
             '#thanks-overlay.show{opacity:1}',
             '#thanks-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(1px) brightness(.6);transform:scale(1.03)}',
-            '#thanks-scroll{position:absolute;inset:0;display:flex;justify-content:center;overflow:hidden;pointer-events:none}',
-            '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;animation:thanksScroll 29.1s linear forwards;white-space:pre-line}',
+            '#thanks-scroll{position:absolute;inset:0;display:flex;justify-content:center;overflow-y:auto;overflow-x:hidden;pointer-events:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;scrollbar-width:none}',
+            '#thanks-scroll::-webkit-scrollbar{display:none}',
+            '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;white-space:pre-line}',
             '#thanks-names .thanks-title{font-size:26px;font-weight:700;letter-spacing:.3em;margin-bottom:36px}',
-            '#thanks-names .thanks-name{opacity:.92}',
-            '@keyframes thanksScroll{from{transform:translateY(0)}to{transform:translateY(-100%)}}'
+            '#thanks-names .thanks-name{opacity:.92}'
         ].join('\n');
         document.head.appendChild(s);
     }
@@ -50,10 +50,44 @@
         var video = null;
         var audio = null;
         var closing = false;
+        var scrollEl = null;
+        var raf = null;
+        var userPaused = false;
+        var resumeTimer = null;
+        var autoBase = 0;
+        var autoMax = 0;
+        var autoRemain = 0;
+        var autoStart = 0;
+        var AUTO_MS = 24250;
+
+        function stopScroll() {
+            if (raf) cancelAnimationFrame(raf);
+            raf = null;
+            if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+        }
+
+        function scrollStep(now) {
+            if (!overlay || closing) return;
+            if (userPaused) { raf = requestAnimationFrame(scrollStep); return; }
+            var p = autoRemain > 0 ? Math.min(1, (now - autoStart) / autoRemain) : 1;
+            if (scrollEl) scrollEl.scrollTop = autoBase + (autoMax - autoBase) * p;
+            if (p < 1) raf = requestAnimationFrame(scrollStep);
+        }
+
+        function startScroll() {
+            if (!scrollEl) return;
+            if (raf) cancelAnimationFrame(raf);
+            autoMax = Math.max(0, scrollEl.scrollHeight - scrollEl.clientHeight);
+            autoBase = scrollEl.scrollTop;
+            autoRemain = autoMax > 0 ? (1 - autoBase / autoMax) * AUTO_MS : 0;
+            autoStart = performance.now();
+            raf = requestAnimationFrame(scrollStep);
+        }
 
         function close() {
             if (!overlay || closing) return;
             closing = true;
+            stopScroll();
             if (audio) {
                 var a = audio;
                 audio = null;
@@ -114,8 +148,26 @@
                     '<div id="thanks-scroll"><div id="thanks-names">' + placeholderNames() + '</div></div>';
                 document.body.appendChild(overlay);
                 video = overlay.querySelector('video');
+                scrollEl = overlay.querySelector('#thanks-scroll');
                 overlay.addEventListener('click', close);
-                requestAnimationFrame(function () { overlay.classList.add('show'); });
+                // 手动滑动时暂停自动滚动，松手 2.5 秒后按剩余距离继续
+                scrollEl.addEventListener('touchstart', function () {
+                    userPaused = true;
+                    if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+                }, { passive: true });
+                var resumeSoon = function () {
+                    if (resumeTimer) clearTimeout(resumeTimer);
+                    resumeTimer = setTimeout(function () {
+                        userPaused = false;
+                        startScroll();
+                    }, 2500);
+                };
+                scrollEl.addEventListener('touchend', resumeSoon, { passive: true });
+                scrollEl.addEventListener('wheel', resumeSoon, { passive: true });
+                requestAnimationFrame(function () {
+                    overlay.classList.add('show');
+                    startScroll();
+                });
                 // 每次打开随机从 037 或 038 开始，播完再切另一个
                 var first = Math.random() < 0.5 ? 1 : 2;
                 playSegment(first, first === 1 ? 2 : 1);
