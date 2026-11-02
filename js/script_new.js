@@ -228,8 +228,8 @@ previewCurrentBackground() {
             { id: 'bg_pulse', name: bgName('pass_bg_pulse', '脉冲极客'), path: 'backgrounds/bg_pulse.png', price: 0, passOnly: true },
             { id: 'bg_jiuke', name: bgName('pass_bg_jiuke', '九课特工'), path: 'backgrounds/bg_jiuke.png', price: 0, passOnly: true },
             { id: 'bg_laizhan', name: bgName('pass_bg_laizhan', '来战'), path: 'backgrounds/bg_laizhan.png', price: 0, passOnly: true },
-            { id: 'bg_jixi', name: bgName('pass_bg_jixi', '急袭·近身战'), path: 'backgrounds/bg_jixi.png', price: 0, passOnly: true },
-            { id: 'bg_jinshen', name: bgName('pass_bg_jinshen', '近身战'), path: 'backgrounds/bg_jinshen.png', price: 0, passOnly: true }
+            { id: 'bg_jixi', name: bgName('pass_bg_jixi', '急袭·危情响应'), path: 'backgrounds/bg_jixi.png', price: 0, passOnly: true },
+            { id: 'bg_jinshen', name: bgName('pass_bg_jinshen', '危情响应'), path: 'backgrounds/bg_jinshen.png', price: 0, passOnly: true }
         ];
         var self = this;
         PASS_BGS.forEach(function (b) {
@@ -6905,7 +6905,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.120';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.121';
 
     /* ============================================================
      * 检查更新

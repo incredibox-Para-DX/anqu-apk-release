@@ -87,8 +87,8 @@
         pass_bg_pulse: ['脉冲极客', '脈衝極客', 'Pulse Geek', 'Пульс-гик'],
         pass_bg_jiuke: ['九课特工', '九課特工', 'Section 9 Agent', 'Агент Девятого отдела'],
         pass_bg_laizhan: ['来战', '來戰', 'Bring It On', 'В бой'],
-        pass_bg_jixi: ['急袭·近身战', '急襲·近身戰', 'Raid · Close Combat', 'Рейд · Ближний бой'],
-        pass_bg_jinshen: ['近身战', '近身戰', 'Close Combat', 'Ближний бой'],
+        pass_bg_jixi: ['急袭·危情响应', '急襲·危情響應', 'Raid · Crisis Response', 'Рейд · Кризисный отклик'],
+        pass_bg_jinshen: ['危情响应', '危情響應', 'Crisis Response', 'Кризисный отклик'],
         pass_card_wolf: ['白狼连队', '白狼連隊', 'White Wolf Squad', 'Отряд «Белый волк»'],
         pass_card_bhj: ['黑金国际', '黑金國際', 'Black Gold International', '«Чёрное золото» Интернэшнл'],
         pass_card_gjzb: ['国际装备', '國際裝備', 'International Gear', 'Международное снаряжение'],
@@ -169,10 +169,10 @@
         { lv: 20, free: { key: 'vpurple', name: '紫罗兰', nameKey: 'nick_style_vpurple', type: '名称色', typeKey: 'pass_type_name' }, prem: { key: 'vaurora', name: '极光', nameKey: 'nick_style_vaurora', type: '名称色', typeKey: 'pass_type_name' } },
         { lv: 30, free: { key: 'bg_pulse', name: '脉冲极客', nameKey: 'pass_bg_pulse', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'bg_jiuke', name: '九课特工', nameKey: 'pass_bg_jiuke', type: '背景', typeKey: 'pass_type_bg' } },
         { lv: 40, free: { key: 'card_wolf', name: '白狼连队', nameKey: 'pass_card_wolf', type: '名片', typeKey: 'pass_type_card' }, prem: { key: 'card_bhj', name: '黑金国际', nameKey: 'pass_card_bhj', type: '名片', typeKey: 'pass_type_card' } },
-        { lv: 50, free: { key: 'bg_laizhan', name: '来战', nameKey: 'pass_bg_laizhan', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'bg_jixi', name: '急袭·近身战', nameKey: 'pass_bg_jixi', type: '背景', typeKey: 'pass_type_bg' } },
+        { lv: 50, free: { key: 'bg_laizhan', name: '来战', nameKey: 'pass_bg_laizhan', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'bg_jixi', name: '急袭·危情响应', nameKey: 'pass_bg_jixi', type: '背景', typeKey: 'pass_type_bg' } },
         { lv: 60, free: { key: 'card_gjzb', name: '国际装备', nameKey: 'pass_card_gjzb', type: '名片', typeKey: 'pass_type_card' }, prem: { key: 'card_qxys', name: '前线要塞', nameKey: 'pass_card_qxys', type: '名片', typeKey: 'pass_type_card' } },
         { lv: 70, free: { key: 'card_yinghe', name: '硬核行旅', nameKey: 'pass_card_yinghe', type: '名片', typeKey: 'pass_type_card' }, prem: { key: 'card_zsxf', name: '战术先锋', nameKey: 'pass_card_zsxf', type: '名片', typeKey: 'pass_type_card' } },
-        { lv: 80, free: { key: 'bg_jinshen', name: '近身战', nameKey: 'pass_bg_jinshen', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'ability_devil', name: '恶魔契约', nameKey: 'skill_devil_name', type: '购买权', typeKey: 'pass_type_pass' } }
+        { lv: 80, free: { key: 'bg_jinshen', name: '危情响应', nameKey: 'pass_bg_jinshen', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'ability_devil', name: '恶魔契约', nameKey: 'skill_devil_name', type: '购买权', typeKey: 'pass_type_pass' } }
     ];
     function claims() { try { return JSON.parse(localStorage.getItem(K.claims) || '{}') || {}; } catch (e) { return {}; } }
     function grant(st, kind) {
