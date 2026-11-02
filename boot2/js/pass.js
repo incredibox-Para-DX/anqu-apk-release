@@ -24,6 +24,7 @@
         shop_locked: ['需先解锁典藏通行证才能开启赛季商店', '需先解鎖典藏通行證才能開啟賽季商店', 'Unlock Premium Pass to open the Season Shop', 'Сначала откройте премиум-пропуск'],
         reissue_locked: ['返厂商店暂未开放', '返廠商店暫未開放', 'Reissue shop is not open yet', 'Магазин возвратов пока закрыт'],
         premium_unlocked: ['典藏已解锁', '典藏已解鎖', 'Premium unlocked', 'Премиум открыт'],
+        premium_locked: ['典藏未解锁', '典藏未解鎖', 'Premium locked', 'Премиум закрыт'],
         rule_progress_title: ['赛季进度', '賽季進度', 'Season Progress', 'Прогресс сезона'],
         rule_progress_text: [
             '· 赛季持续 8 周，共 80 级；每级需要 5M 本周累计价值。<br>· 本周累计价值按自然周统计，每周一 00:00 重置。<br>· 每周最多提升 12 级，超出部分不计入本周进度。<br>· 赛季进度永久累积，未领取的奖励不会过期。',
@@ -153,8 +154,6 @@
             '#pass-page .pass-coin img{width:18px;height:18px;}' +
             '#pass-page .pass-tier{flex:1;border:1px solid var(--panel-border);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:10px;background:var(--panel-bg);}' +
             '#pass-page .pass-muted{font-size:11px;color:var(--text-light);line-height:1.7;}' +
-            '#pass-page .pass-actions{display:flex;gap:8px;margin-top:10px;}' +
-            '#pass-page .pass-actions .modal-btn{flex:1;}' +
             '#pass-page .modal-body{animation:uiRise .26s ease both;}' +
             '#pass-debug-modal .modal-body .modal-btn{margin-top:8px;}';
         document.head.appendChild(s);
@@ -283,17 +282,12 @@
         top.appendChild(barWrap);
 
         var row2 = el('div', 'display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text-light);');
-        row2.appendChild(el('div', '', t('weekly') + ' ' + fmt(num(K.weekXp)) + ' / ' + fmt(S.capLevels * S.perLevel)));
-        row2.appendChild(el('div', '', num(K.weekXp) >= S.capLevels * S.perLevel ? t('cap') : ''));
+        row2.appendChild(el('div', '', t('weekly') + ' ' + fmt(num(K.weekXp)) + ' / ' + fmt(S.capLevels * S.perLevel) + (num(K.weekXp) >= S.capLevels * S.perLevel ? ' · ' + t('cap') : '')));
+        var tier = el('div', 'color:' + (isPremium() ? 'var(--text-light)' : '#d1a24a') + ';', isPremium() ? t('premium') + ' · ' + t('premium_unlocked') : t('premium') + ' · ' + t('premium_locked'));
+        tier.style.cursor = 'pointer';
+        tier.onclick = function () { view = { t: 'upgrade' }; render(); };
+        row2.appendChild(tier);
         top.appendChild(row2);
-
-        var actions = el('div', '', '');
-        actions.className = 'pass-actions';
-        var up = el('button', '', isPremium() ? t('premium_unlocked') : t('upgrade'));
-        up.className = 'modal-btn primary';
-        up.onclick = function () { view = { t: 'upgrade' }; render(); };
-        actions.appendChild(up);
-        top.appendChild(actions);
 
         bodyEl.appendChild(top);
         bodyEl.appendChild(track());
