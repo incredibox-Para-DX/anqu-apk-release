@@ -340,28 +340,46 @@
       return;
     }
 
+    var candidates = CODE_BASES.slice(0, 5);
     var best = null;
-    var pending = CODE_BASES.length;
-    CODE_BASES.forEach(function (b) {
-      var start = Date.now();
-      get(b + '/manifest.json', function (ok, text) {
-        if (ok && parseText(text)) {
-          var ms = Date.now() - start;
-          if (!best || ms < best.ms) best = { base: b, ms: ms, manifest: parseText(text) };
+    var pending = candidates.length;
+    if (!candidates.length) { cb(CODE_BASES[0]); return; }
+
+    function finishPick() {
+      if (!best) { cb(CODE_BASES[0]); return; }
+      CODE_BASES = [best.base].concat(CODE_BASES.filter(function (x) { return x !== best.base; }));
+      try {
+        localStorage.setItem(BASE_PICK_KEY, JSON.stringify({ base: best.base, ts: Date.now() }));
+      } catch (e) {}
+      get(best.base + '/manifest.json?t=' + Date.now(), function (ok, text) {
+        if (ok) {
+          var m = parseText(text);
+          if (m) setupFiles(m);
         }
-        if (--pending > 0) return;
-        if (best) {
-          CODE_BASES = [best.base].concat(CODE_BASES.filter(function (x) {
-            return x !== best.base;
-          }));
-          setupFiles(best.manifest);
-          try {
-            localStorage.setItem(BASE_PICK_KEY,
-              JSON.stringify({ base: best.base, ts: Date.now() }));
-          } catch (e) {}
-        }
-        cb(best ? best.base : CODE_BASES[0]);
+        cb(best.base);
       }, 6000);
+    }
+
+    candidates.forEach(function (b) {
+      var start = Date.now();
+      var ctrl = null, to = null;
+      try { ctrl = new AbortController(); } catch (e) {}
+      if (ctrl) to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 7000);
+      var url = b + '/js/script_new.js?t=' + Date.now();
+      var req = ctrl ? fetch(url, { cache: 'no-store', signal: ctrl.signal }) : fetch(url, { cache: 'no-store' });
+      req
+        .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
+        .then(function (buf) {
+          var ms = Math.max(1, Date.now() - start);
+          var kbps = (buf.byteLength || 0) / 1024 / (ms / 1000);
+          if (!best || kbps > best.kbps) best = { base: b, kbps: kbps };
+        })
+        .catch(function () {})
+        .then(function () {
+          if (to) clearTimeout(to);
+          if (--pending > 0) return;
+          finishPick();
+        });
     });
   }
 
