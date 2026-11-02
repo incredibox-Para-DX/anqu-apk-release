@@ -383,6 +383,46 @@
     });
   }
 
+  function b64(buf) {
+    var bytes = new Uint8Array(buf), bin = '', chunk = 0x8000;
+    for (var i = 0; i < bytes.length; i += chunk) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    }
+    return btoa(bin);
+  }
+  function jsProgress(done, total) {
+    var pct = total ? Math.round(done / total * 100) : 0;
+    var f = $('dl-fill'); if (f) f.style.width = pct + '%';
+    var p = $('dl-pct'); if (p) p.textContent = pct;
+    var m = $('dl-msg'); if (m) m.textContent = '正在下载资源 ' + done + '/' + total;
+  }
+  function jsDownload(base, list, cb) {
+    var total = list.length, done = 0, idx = 0, active = 0, fails = [], conc = 6;
+    if (!total) { cb([]); return; }
+    jsProgress(0, total);
+    function pump() {
+      if (idx >= total && active === 0) { cb(fails); return; }
+      while (active < conc && idx < total) {
+        var f = list[idx++];
+        active++;
+        (function (file) {
+          var url = base + '/' + file.path;
+          fetch(url, { cache: 'no-store' })
+            .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
+            .then(function (buf) {
+              var ok = window.AndroidUpdate && AndroidUpdate.writeFile(file.path, b64(buf));
+              if (!ok) throw new Error('write');
+              done++;
+              jsProgress(done, total);
+            })
+            .catch(function () { fails.push(file); })
+            .then(function () { active--; pump(); });
+        })(f);
+      }
+    }
+    pump();
+  }
+
   function tryCode() {
     if (done) return;
     needDl = true;
@@ -399,6 +439,23 @@
     resetProgress(ci > 1);
     var startDownload = function () {
       if (done) return;
+      if (window.AndroidUpdate && typeof AndroidUpdate.writeFile === 'function' && files.length) {
+        jsDownload(base, files, function (fails) {
+          if (done) return;
+          if (fails && fails.length) {
+            setMsg('部分资源下载失败，尝试其他线路…', false);
+            tryCode();
+            return;
+          }
+          setMsg('正在校验运行文件…', false);
+          verifyCode(function (ok) {
+            if (ok) { enter(); return; }
+            setMsg('运行文件不完整，正在重新获取…', false);
+            tryCode();
+          });
+        });
+        return;
+      }
       startPoll();
       call(base, CODE_TIMEOUT, function () {
         stopPoll();
