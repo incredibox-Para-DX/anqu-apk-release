@@ -6907,7 +6907,9 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.149';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.150';
+    // 版本文件始终覆盖，避免与旧版同大小时被跳过
+    var __HU_SIZE_BUMP_150 = 1;
 
     /* ============================================================
      * 检查更新
@@ -7540,7 +7542,9 @@ const EventManager = {
                             tries++;
                             var have = 0;
                             try { have = bt.fileSize ? (Number(bt.fileSize('www/' + f.path)) || 0) : 0; } catch (e) { have = 0; }
-                            if (f.size && have === f.size) { doneCount++; active--; pump(); return; }
+                            // 版本文件即使大小相同也必须覆盖，否则只改版本号时会被误判为已存在
+                            var forceVer = (f.path === 'js/script_new.js' || f.path === 'index.html');
+                            if (!forceVer && f.size && have === f.size) { doneCount++; active--; pump(); return; }
                             var line = bases[(tries - 1) % bases.length];
                             fetch(line + '/' + f.path + '?t=' + Date.now(), { cache: 'no-store' })
                                 .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
