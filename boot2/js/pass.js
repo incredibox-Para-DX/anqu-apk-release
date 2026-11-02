@@ -77,6 +77,9 @@
         need_level: ['未达到 Lv.%s', '未達到 Lv.%s', 'Level %s not reached', 'Уровень %s не достигнут'],
         preview_rewards: ['预览奖励', '預覽獎勵', 'Preview Rewards', 'Просмотр наград'],
         pass_season_name: ['启程', '啟程', 'Departure', 'Начало'],
+        pass_week_of: ['第 %s 周 / 共 %s 周', '第 %s 週 / 共 %s 週', 'Week %s of %s', 'Неделя %s из %s'],
+        pass_season_left: ['剩余 %s 天', '剩餘 %s 天', '%s days left', 'Осталось дней: %s'],
+        pass_season_ended: ['赛季已结束', '賽季已結束', 'Season ended', 'Сезон завершён'],
         pass_bg_pulse: ['脉冲极客', '脈衝極客', 'Pulse Geek', 'Пульс-гик'],
         pass_bg_jiuke: ['九课特工', '九課特工', 'Section 9 Agent', 'Агент Девятого отдела'],
         pass_bg_laizhan: ['来战', '來戰', 'Bring It On', 'В бой'],
@@ -102,6 +105,7 @@
     function fmt(n) { return Math.floor(n).toLocaleString('en-US'); }
 
     function tick() {
+        if (!str(K.start)) set(K.start, monday());
         var cur = 0;
         try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) {}
         var wk = monday();
@@ -263,6 +267,18 @@
         return h;
     }
 
+    function seasonInfo() {
+        var start = str(K.start) || monday();
+        var startTs = new Date(start + 'T00:00:00').getTime();
+        if (isNaN(startTs)) { startTs = new Date(monday() + 'T00:00:00').getTime(); }
+        var now = Date.now();
+        var week = Math.floor((now - startTs) / (7 * 86400000)) + 1;
+        week = Math.max(1, Math.min(S.weeks, week));
+        var endTs = startTs + S.weeks * 7 * 86400000;
+        var leftMs = endTs - now;
+        return { week: week, leftDays: Math.max(0, Math.ceil(leftMs / 86400000)), ended: leftMs <= 0 };
+    }
+
     function itemName(item) {
         return (item && item.nameKey) ? t(item.nameKey) : (item ? item.name : '');
     }
@@ -361,6 +377,12 @@
         line1.appendChild(el('div', 'font-size:17px;font-weight:700;color:var(--title-color);letter-spacing:.5px;', S.id + '·' + t('pass_season_name')));
         line1.appendChild(coinTag(num(K.coins)));
         top.appendChild(line1);
+
+        var si = seasonInfo();
+        var metaText = si.ended
+            ? t('pass_season_ended')
+            : t('pass_week_of').replace('%s', si.week).replace('%s', S.weeks) + ' · ' + t('pass_season_left').replace('%s', si.leftDays);
+        top.appendChild(el('div', 'font-size:11px;color:var(--text-light);margin-top:4px;', metaText));
 
         var barWrap = el('div', 'display:flex;align-items:center;gap:8px;margin-top:8px;');
         var bar = el('div', '', '');
