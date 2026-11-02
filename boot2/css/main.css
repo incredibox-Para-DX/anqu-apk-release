@@ -2952,16 +2952,4 @@ body.app-paused *::after {
     margin-left: 6px;
     font-size: 12px;
     font-weight: 700;
-    animation: none !important;
-}
-/* 榜单可能同时显示多名玩家，昵称渐变保持静态，避免多个无限动画拖低帧率 */
-.leaderboard-nickname {
-    animation: none !important;
-}
-/* 通行证奖励缩略图里的名称色示例也保持静态 */
-#pass-page .pass-thumb .name-cyberorange,
-#pass-page .pass-thumb .name-cyberblue,
-#pass-page .pass-thumb .name-vpurple,
-#pass-page .pass-thumb .name-vaurora {
-    animation: none !important;
 }
