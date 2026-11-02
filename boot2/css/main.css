@@ -2952,3 +2952,6 @@ body.app-paused *::after {
     font-size: 12px;
     font-weight: 700;
 }
+
+.music-controls-mini { justify-content: center; }
+.music-controls-mini .music-control-btn { flex: 0 0 44px; width: 44px; padding-left: 0; padding-right: 0; }

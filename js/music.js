@@ -1810,12 +1810,12 @@ $(function() {
 
         const overlay = document.createElement('div');
         overlay.id = 'cover-preview';
-        overlay.style.cssText = 'position:fixed;inset:0;z-index:12000;background:#000;opacity:0;transition:opacity .8s ease;overflow:hidden;';
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:12000;background:rgba(0,0,0,.22);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;transition:opacity .8s ease;overflow:hidden;touch-action:none;';
         const holder = document.createElement('div');
         holder.style.cssText = 'position:absolute;inset:0;';
         const title = document.createElement('div');
         title.textContent = track.title || '';
-        title.style.cssText = 'position:absolute;left:0;right:0;top:24px;text-align:center;color:#fff;font-size:16px;letter-spacing:.1em;text-shadow:0 2px 10px #000;z-index:2;';
+        title.style.cssText = 'position:absolute;left:0;right:0;top:24px;text-align:center;color:#fff;font-size:16px;letter-spacing:.1em;text-shadow:0 2px 10px #000;z-index:2;pointer-events:none;';
         overlay.appendChild(holder);
         overlay.appendChild(title);
         document.body.appendChild(overlay);
@@ -1824,10 +1824,29 @@ $(function() {
         let raf = null;
         let renderer = null;
         let texture = null;
+        let onPointerMove = null;
+        let onPointerUp = null;
+        let idleTimer = null;
+        let dragging = false;
+        let lastX = 0;
+        let lastY = 0;
+        let rotX = 0.3;
+        let rotY = 0;
+        let targetX = 0.3;
+        let targetY = 0;
 
         const cleanup = () => {
             if (raf) cancelAnimationFrame(raf);
             raf = null;
+            if (idleTimer) clearTimeout(idleTimer);
+            idleTimer = null;
+            if (onPointerMove) window.removeEventListener('pointermove', onPointerMove);
+            if (onPointerUp) {
+                window.removeEventListener('pointerup', onPointerUp);
+                window.removeEventListener('pointercancel', onPointerUp);
+            }
+            onPointerMove = null;
+            onPointerUp = null;
             if (texture) {
                 try { texture.dispose(); } catch (e) {}
                 texture = null;
@@ -1845,7 +1864,7 @@ $(function() {
         if (window.THREE) {
             try {
                 renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 3));
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.domElement.style.cssText = 'width:100%;height:100%;display:block;';
                 holder.appendChild(renderer.domElement);
@@ -1861,7 +1880,7 @@ $(function() {
                 scene.add(light);
 
                 const record = new THREE.Group();
-                record.rotation.x = 0.3;
+                record.rotation.x = rotX;
                 scene.add(record);
 
                 const vinyl = new THREE.Mesh(
@@ -1879,7 +1898,7 @@ $(function() {
                 record.add(rim);
 
                 const coverMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-                const cover = new THREE.Mesh(new THREE.CircleGeometry(1.28, 96), coverMat);
+                const cover = new THREE.Mesh(new THREE.CircleGeometry(1.28, 128), coverMat);
                 cover.rotation.x = -Math.PI / 2;
                 cover.position.y = 0.052;
                 record.add(cover);
@@ -1897,15 +1916,53 @@ $(function() {
                 loader.load(coverPath, (tex) => {
                     texture = tex;
                     tex.colorSpace = THREE.SRGBColorSpace;
+                    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    tex.minFilter = THREE.LinearFilter;
+                    tex.magFilter = THREE.LinearFilter;
+                    tex.generateMipmaps = false;
                     coverMat.map = tex;
                     coverMat.color.setHex(0xffffff);
                     coverMat.needsUpdate = true;
                 });
 
+                const resetIdle = () => {
+                    if (idleTimer) clearTimeout(idleTimer);
+                    idleTimer = setTimeout(() => { targetX = 0.3; }, 2500);
+                };
+
+                overlay.addEventListener('pointerdown', (e) => {
+                    dragging = true;
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    if (idleTimer) clearTimeout(idleTimer);
+                });
+
+                onPointerMove = (e) => {
+                    if (!dragging) return;
+                    targetY += (e.clientX - lastX) * 0.008;
+                    targetX = Math.max(-0.5, Math.min(1.2, targetX + (e.clientY - lastY) * 0.006));
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                    resetIdle();
+                };
+                onPointerUp = () => {
+                    if (!dragging) return;
+                    dragging = false;
+                    resetIdle();
+                };
+                window.addEventListener('pointermove', onPointerMove);
+                window.addEventListener('pointerup', onPointerUp);
+                window.addEventListener('pointercancel', onPointerUp);
+
                 const clock = new THREE.Clock();
                 const animate = () => {
                     raf = requestAnimationFrame(animate);
-                    record.rotation.y = clock.getElapsedTime() * 0.35;
+                    const dt = Math.min(0.05, clock.getDelta());
+                    if (!dragging) targetY += dt * 0.35;
+                    rotX += (targetX - rotX) * 0.12;
+                    rotY += (targetY - rotY) * 0.15;
+                    record.rotation.x = rotX;
+                    record.rotation.y = rotY;
                     renderer.render(scene, camera);
                 };
                 animate();
@@ -2112,6 +2169,8 @@ $(function() {
         playClickSound();
         openCoverPreview();
     });
+
+    $('#music-cover-btn').on('click', e => { e.stopPropagation(); playClickSound(); openCoverPreview(); });
 
     $els.recordDisc.on('dblclick', e => {
         e.stopPropagation();
