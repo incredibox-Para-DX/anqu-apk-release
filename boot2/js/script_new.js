@@ -6824,7 +6824,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.100';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.101';
 
     /* ============================================================
      * 检查更新
@@ -7423,6 +7423,11 @@ const EventManager = {
         var bt = window.AndroidUpdate;
         if (!bt || typeof bt.writeFile !== 'function') { finish(false, '当前安装包不支持写入更新文件'); return; }
         if (window.__huProgressTimer) { clearInterval(window.__huProgressTimer); window.__huProgressTimer = null; }
+        var bases = [];
+        [base, HU_PROXY_BASE, HU_BASE_URL, HU_JD_BASE, HU_DOMAIN_BASE, HU_WORKER_BASE].forEach(function (b) {
+            if (b && bases.indexOf(b) === -1) bases.push(b);
+        });
+        var maxTries = Math.min(4, bases.length);
         var manifestUrl = base + '/manifest.json?t=' + Date.now();
         var req = (window.Net && Net.getJSON)
             ? Net.getJSON(manifestUrl, { timeout: 12000, retries: 1, cache: 'no-store' })
@@ -7433,7 +7438,7 @@ const EventManager = {
             var idx = 0, active = 0, fails = [], doneCount = 0, conc = 4;
             function pump() {
                 if (idx >= list.length && active === 0) {
-                    if (fails.length) { finish(false, '有 ' + fails.length + ' 个文件下载失败'); return; }
+                    if (fails.length) { finish(false, '有 ' + fails.length + ' 个文件下载失败：' + fails.slice(0, 3).join('、')); return; }
                     finish(true, '');
                     return;
                 }
@@ -7447,7 +7452,8 @@ const EventManager = {
                             var have = 0;
                             try { have = bt.fileSize ? (Number(bt.fileSize('www/' + f.path)) || 0) : 0; } catch (e) { have = 0; }
                             if (f.size && have === f.size) { doneCount++; active--; pump(); return; }
-                            fetch(base + '/' + f.path + '?t=' + Date.now(), { cache: 'no-store' })
+                            var line = bases[(tries - 1) % bases.length];
+                            fetch(line + '/' + f.path + '?t=' + Date.now(), { cache: 'no-store' })
                                 .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
                                 .then(function (buf) {
                                     if (f.size && buf.byteLength !== f.size) throw new Error('大小不符');
@@ -7458,7 +7464,7 @@ const EventManager = {
                                     active--; pump();
                                 })
                                 .catch(function () {
-                                    if (tries < 3) { setTimeout(attempt, 600 * tries); return; }
+                                    if (tries < maxTries) { setTimeout(attempt, 400 * tries); return; }
                                     fails.push(f.path); active--; pump();
                                 });
                         }
