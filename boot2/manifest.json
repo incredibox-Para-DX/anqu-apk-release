@@ -1,245 +1,305 @@
 {
-  "version": "v2.3.0_hotfix.94.m",
+  "version": "v2.3.0_hotfix.95.m",
   "files": [
     {
       "path": "MiniGame/index.html",
-      "size": 2752
+      "size": 2752,
+      "sha256": "b0a2fa7b758a62105ced86686bb5c4110e26310ee39caf3dd2486a641a6dc99b"
     },
     {
       "path": "MiniGame/scripts/all.js",
-      "size": 189889
+      "size": 189889,
+      "sha256": "de3c285be18926a981fcbe2f76a6889b073c857f9ca04f014008f526505b2cf2"
     },
     {
       "path": "MiniGame/images/index.css",
-      "size": 2053
+      "size": 2053,
+      "sha256": "7a50da1be5701e7fef239600a51b4f84910cde00ae2a2a54a892d5e820bd8242"
     },
     {
       "path": "css/icon.css",
-      "size": 75487
+      "size": 75487,
+      "sha256": "f664e52b62f867adeec8725bd378881351d37c6ddce50508cf79b11ef4cf1e69"
     },
     {
       "path": "css/main.css",
-      "size": 69950
+      "size": 69950,
+      "sha256": "3ecac3d42c5455fb8c2d292e26d6ac98084c96a8e8f8e25060992140c1986ce9"
     },
     {
       "path": "css/styles.css",
-      "size": 115539
+      "size": 115539,
+      "sha256": "66a440b71052c993a0cb7f389847815842db47d5b71f56811ed194694ac90de2"
     },
     {
       "path": "debug-console.css",
-      "size": 153
+      "size": 153,
+      "sha256": "87d57e2636d3957888db66fac13cbc46bdce41dc0fc95dc91603ef58cb12e396"
     },
     {
       "path": "js/debug.js",
-      "size": 91882
+      "size": 91882,
+      "sha256": "8c5ef9545c6b1cee6792a57b6d9dfb15f797b5ad372b509b7ae820ef5a7002ad"
     },
     {
       "path": "js/inline-scripts.js",
-      "size": 29043
+      "size": 29043,
+      "sha256": "1a004c334eb7003a46cb927b8d69802185a7dfb7ae585188b46f6ac8bb06341d"
     },
     {
       "path": "js/main.js",
-      "size": 25232
+      "size": 25232,
+      "sha256": "78fc3b2572e78597e0b29aa08ef9ef7add50ff1297fcb22541e5aea2a991d8cc"
     },
     {
       "path": "js/modal-registry.js",
-      "size": 8119
+      "size": 8119,
+      "sha256": "c12b49a640383e3fc7b092d9cb9b8b1293e89aef02f5a0f389b45bff68c7f2d8"
     },
     {
       "path": "js/music.js",
-      "size": 89990
+      "size": 89990,
+      "sha256": "363c933dd17e8bd48a112acf23371ad2d97aea8c058384ec8572833fe69dcc88"
     },
     {
       "path": "js/net-mirror.js",
-      "size": 2655
+      "size": 2655,
+      "sha256": "d72f522d493b3bd4a14da3d86059bdbc989959fb1d54bb81f3f4c1650390f560"
     },
     {
       "path": "js/telemetry.js",
-      "size": 5188
+      "size": 5188,
+      "sha256": "622b59197077b306059249a5612cb8b61ea7572f08b598afc476e0cb9f35cc5f"
     },
     {
       "path": "js/ui-fx.js",
-      "size": 1950
+      "size": 1950,
+      "sha256": "c10fc25fa5397d552a1c794f87a24405642288481150bd2fcfd25dc75fca2de4"
     },
     {
       "path": "js/themes.js",
-      "size": 2929
+      "size": 2929,
+      "sha256": "17060b8b573263a27e53688e9058acdf872c627cf563c49ba362438cbf023164"
     },
     {
       "path": "js/mod-editor.js",
-      "size": 21716
+      "size": 21716,
+      "sha256": "f66e33b920965e6e3604bbbf096b243753daf61272b3ab268e08d874b252b62e"
     },
     {
       "path": "js/collect-pack.js",
-      "size": 7701
+      "size": 7701,
+      "sha256": "07c25f48f200138f9841232babcd4764ed82bc8ac141a31a4e7c55f15fc080be"
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 2882
+      "size": 2882,
+      "sha256": "5333fc61fdfbf3899ff7b15a67de5e7ac4a84cfe6b12606af669bfbd20fdbefd"
     },
     {
       "path": "js/telemetry-dashboard.js",
-      "size": 4537
+      "size": 4537,
+      "sha256": "c52525740f3b6328b10a86369d10ec2cae27a9dc6e62c404b48de178c0e092b5"
     },
     {
       "path": "js/net.js",
-      "size": 7315
+      "size": 7315,
+      "sha256": "2c65014d0c1e6de6a78671101283ddd5abca8f07b8a6a0b5454e8cab0adf61bb"
     },
     {
       "path": "js/redeem.js",
-      "size": 6706
+      "size": 6706,
+      "sha256": "0c632dc929ddd9601c953d8a2fce1152f7e9769cb26c560680582aa3208c25f6"
     },
     {
       "path": "js/script_new.js",
-      "size": 368821
+      "size": 368821,
+      "sha256": "d70268632a41d1fc8d1d457a0076f53d4ae01648048da7a2a2c33663fc31e6ae"
     },
     {
       "path": "js/synthesis.js",
-      "size": 25837
+      "size": 25837,
+      "sha256": "9d2b33c2960d0ac425b13635321e7d1c89af40cfe895e985cde278849bb62fe4"
     },
     {
       "path": "js/banned-words.js",
-      "size": 6585
+      "size": 6585,
+      "sha256": "ca5a0644990bfd997462065e40b0af8fa25006f8c98100f073ecf3fad302d2f2"
     },
     {
       "path": "js/storage.js",
-      "size": 15826
+      "size": 15826,
+      "sha256": "30ce5bd7afbb5215b8302a4b7fd25b4052409314cb79db1eb5bf0e2c269f0cd3"
     },
     {
       "path": "js/i18next.min.js",
-      "size": 48727
+      "size": 48727,
+      "sha256": "f2e7de67e383d73a5dec769e0829ce3406e3e9eaaf61d269178788afd7a06120"
     },
     {
       "path": "js/i18n.js",
-      "size": 135492
+      "size": 135492,
+      "sha256": "e5ffcd6bf2b712ca08208e9565fa998b24be28b4cd8c449014f6f434dbd3e0ae"
     },
     {
       "path": "js/i18n-next.js",
-      "size": 1600
+      "size": 1600,
+      "sha256": "b7ee9c0ff5da9fde371c029fbd26b69b4635eed99541747d99ed3e78f9c7bae2"
     },
     {
       "path": "js/i18n-rules.js",
-      "size": 3883
+      "size": 3883,
+      "sha256": "d8efa1400e56037b593f40f08d26eafda1ae7335d7b7dc45e9f0a878ba51f404"
     },
     {
       "path": "js/cards.js",
-      "size": 10779
+      "size": 10779,
+      "sha256": "e95c3d7129eac69dd8c7cc9455a82215020ddfc6fe7c0f865d061527665f4e9b"
     },
     {
       "path": "js/pass.js",
-      "size": 22693
+      "size": 22693,
+      "sha256": "45322f4675f3f4918ec7b0101f73f94afba33e172294543ad7e698d9af7559a0"
     },
     {
       "path": "images/season/coin.webp",
-      "size": 19870
+      "size": 19870,
+      "sha256": "42be7bd476e7c2f7bc48098f64e4a92d0fcf889acc3a684796e62f563daacd62"
     },
     {
       "path": "js/card-pack.js",
-      "size": 7755
+      "size": 7755,
+      "sha256": "6074134f706c7fe1abdfec5af3c3327db27916ab8fd1cb5dcda3aab5f3df3408"
     },
     {
       "path": "js/entitlements.js",
-      "size": 11830
+      "size": 11830,
+      "sha256": "ed8919664aac0880f89225e3611befe336147ba49c309002d8a6c7a542237417"
     },
     {
       "path": "js/bans.js",
-      "size": 4062
+      "size": 4062,
+      "sha256": "2370388a5dcfcaff9058f40414fff3f120ad55170b455e99f8df2ace8f586927"
     },
     {
       "path": "js/item-i18n.js",
-      "size": 109785
+      "size": 109785,
+      "sha256": "a825f670b828c7e9ef6bfbc7f27531ba013b773def8cc10029fc4b7d09ffcb68"
     },
     {
       "path": "js/bg-i18n.js",
-      "size": 4762
+      "size": 4762,
+      "sha256": "26af64a9e2826f561391c55cc6cbe358a21f59d375691de432f944ac854b06a2"
     },
     {
       "path": "js/gm-i18n.js",
-      "size": 25596
+      "size": 25596,
+      "sha256": "62ea96384c7ced129b3cf4aab68cb4249b9b555dd14ddea28dbb82cde4a886ea"
     },
     {
       "path": "js/toast-catalog.js",
-      "size": 3806
+      "size": 3806,
+      "sha256": "ff59d60b5457c6ca02043dbe65c7dda244ee873d77feef473148813d2896f30a"
     },
     {
       "path": "libs/GSAP.js",
-      "size": 72213
+      "size": 72213,
+      "sha256": "53c3a2be6f0df881861adce7bcc3da341a64f5fefe244634f9a37197d0f58fb7"
     },
     {
       "path": "libs/jquery.js",
-      "size": 78748
+      "size": 78748,
+      "sha256": "39a546ea9ad97f8bfaf5d3e0e8f8556adb415e470e59007ada9759dce472adaa"
     },
     {
       "path": "libs/lodash.js",
-      "size": 73154
+      "size": 73154,
+      "sha256": "095adb100506cd3ef102efb3e5c2393751939f471c95233542e3de5c4259185f"
     },
     {
       "path": "libs/jszip.min.js",
-      "size": 97630
+      "size": 97630,
+      "sha256": "acc7e41455a80765b5fd9c7ee1b8078a6d160bbbca455aeae854de65c947d59e"
     },
     {
       "path": "js/mods.js",
-      "size": 86634
+      "size": 86634,
+      "sha256": "c31baf1dde48545438667a4ef3f6bd7aa41c99dfd2178d6b776b269ce46a0ec4"
     },
     {
       "path": "admin/anqu-admin.html",
-      "size": 61264
+      "size": 61264,
+      "sha256": "a8e7db93527841ec89b00e21f10b17eee50dfe41a8a36a5e6c83ac885ab2b37a"
     },
     {
       "path": "admin/leaderboard-admin.html",
-      "size": 19413
+      "size": 19413,
+      "sha256": "84523c65835b9282644ad3cde586f19cc34c3f452cfa8e52865d03e86efdc613"
     },
     {
       "path": "xml/backgrounds.xml",
-      "size": 8149
+      "size": 8149,
+      "sha256": "90842b515682eab3c2b925f8d91d7e06424bbb8fb9b7de0d216e440bc25b31c4"
     },
     {
       "path": "xml/items.dat",
-      "size": 93710
+      "size": 93710,
+      "sha256": "41c5cc07cee330daa8e32abac42254dead1e3976f68ad9ab4fae6f172dfa6826"
     },
     {
       "path": "xml/loading-tips.xml",
-      "size": 463
+      "size": 463,
+      "sha256": "06e0710b37105922cc36940226a961e11d71a328b5cd0b67629b262bfe2cd7f4"
     },
     {
       "path": "xml/music-config.xml",
-      "size": 4111
+      "size": 4111,
+      "sha256": "dd8434f7662a357e7fecae206c8e858cf542e7bc7c9cc218874e760e97dfff66"
     },
     {
       "path": "xml/video-config.xml",
-      "size": 101
+      "size": 101,
+      "sha256": "005d46a8ee466889d53a5f7ab28f0b040e0ec83cff77e166dcdc2e5163e2addb"
     },
     {
       "path": "music-player/covers/custom-music-default.png",
-      "size": 482218
+      "size": 482218,
+      "sha256": "2b3b3824c4fe74a948e4d3f7ba0d7b5f32f4d27c22d5daf3e85ef6e4908574e4"
     },
     {
       "path": "pictures/skills/bounty_agreement.png",
-      "size": 34510
+      "size": 34510,
+      "sha256": "8d6ab81c67782c65349bd10b9eb5ccf433caeca5937f0d5e9893aa158e092b2d"
     },
     {
       "path": "pictures/skills/destiny_pity.png",
-      "size": 37870
+      "size": 37870,
+      "sha256": "eb1b8fc42e3be0046fb9a39f96274a113323df15fffb294d9320530405ca6605"
     },
     {
       "path": "pictures/skills/lucky_streak.png",
-      "size": 35518
+      "size": 35518,
+      "sha256": "24f5f02e3e24b811d5cbf3919d806b8880808dc0523deb43ab5ec4f8af07135f"
     },
     {
       "path": "pictures/skills/prophet.png",
-      "size": 45880
+      "size": 45880,
+      "sha256": "4f1fd22a670fafa1bedd4e54bff4d64890a218fd7ed5969f21d0519797c28d8a"
     },
     {
       "path": "pictures/skills/supply_tide.png",
-      "size": 35836
+      "size": 35836,
+      "sha256": "b37960bdf30a1e38da72cf30baf483f5b01c12607d0a30cf3b060dc73d8022f3"
     },
     {
       "path": "pictures/skills/swift_hands.png",
-      "size": 34310
+      "size": 34310,
+      "sha256": "5665e08dac1d5b1a869375e6bf7c51efe12aa55bf319aa9bb9bfddc43c9061c4"
     },
     {
       "path": "index.html",
-      "size": 166719
+      "size": 166719,
+      "sha256": "f6679237bf88d86e266304fd0ee627c10863fc45a208ec9a01ccbf3f7350fa21"
     }
   ],
   "fileCount": 60,

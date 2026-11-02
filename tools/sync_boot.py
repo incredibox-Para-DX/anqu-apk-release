@@ -10,6 +10,7 @@ boot2/ 是 boot/ 的镜像，manifest 版本号多一个 .m 后缀：
 发版流程：修改根目录代码后执行本脚本，再推送仓库。
 """
 import json
+import hashlib
 import os
 import shutil
 import sys
@@ -137,7 +138,7 @@ def build(dirname, suffix, version):
         dst = os.path.join(out_dir, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(src, dst)
-        files.append({"path": rel, "size": os.path.getsize(src)})
+        files.append({"path": rel, "size": os.path.getsize(src), "sha256": hashlib.sha256(open(src, 'rb').read()).hexdigest()})
 
         # 可选的进度标记（MARK_COUNT = 0 时不再生成）
         if step and (i % step == 0 or i == total):
