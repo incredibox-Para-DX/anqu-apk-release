@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.139.m",
+  "version": "v2.3.0_hotfix.140.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 381381,
-      "sha256": "1179d625050df03f86872e9ad0f98589fe2c47631b0d89ac7c6aec6b6add9f03"
+      "sha256": "3d0488da6b03359e5b83b9b95dbc2e8e436bde5e148cf848183da36c8f203264"
     },
     {
       "path": "js/synthesis.js",
@@ -160,11 +160,6 @@
       "path": "js/pass.js",
       "size": 51303,
       "sha256": "81d7f53445c60869b552760b057d59fecf29e70d62901ec800063758a3270d84"
-    },
-    {
-      "path": "images/season/coin.webp",
-      "size": 19870,
-      "sha256": "42be7bd476e7c2f7bc48098f64e4a92d0fcf889acc3a684796e62f563daacd62"
     },
     {
       "path": "js/card-pack.js",
@@ -262,56 +257,11 @@
       "sha256": "005d46a8ee466889d53a5f7ab28f0b040e0ec83cff77e166dcdc2e5163e2addb"
     },
     {
-      "path": "music-player/covers/custom-music-default.png",
-      "size": 482218,
-      "sha256": "2b3b3824c4fe74a948e4d3f7ba0d7b5f32f4d27c22d5daf3e85ef6e4908574e4"
-    },
-    {
-      "path": "pictures/skills/bounty_agreement.png",
-      "size": 34510,
-      "sha256": "8d6ab81c67782c65349bd10b9eb5ccf433caeca5937f0d5e9893aa158e092b2d"
-    },
-    {
-      "path": "pictures/skills/destiny_pity.png",
-      "size": 37870,
-      "sha256": "eb1b8fc42e3be0046fb9a39f96274a113323df15fffb294d9320530405ca6605"
-    },
-    {
-      "path": "pictures/skills/lucky_streak.png",
-      "size": 35518,
-      "sha256": "24f5f02e3e24b811d5cbf3919d806b8880808dc0523deb43ab5ec4f8af07135f"
-    },
-    {
-      "path": "pictures/skills/prophet.png",
-      "size": 45880,
-      "sha256": "4f1fd22a670fafa1bedd4e54bff4d64890a218fd7ed5969f21d0519797c28d8a"
-    },
-    {
-      "path": "pictures/skills/supply_tide.png",
-      "size": 35836,
-      "sha256": "b37960bdf30a1e38da72cf30baf483f5b01c12607d0a30cf3b060dc73d8022f3"
-    },
-    {
-      "path": "pictures/skills/swift_hands.png",
-      "size": 34310,
-      "sha256": "5665e08dac1d5b1a869375e6bf7c51efe12aa55bf319aa9bb9bfddc43c9061c4"
-    },
-    {
-      "path": "pictures/skills/devil_contract.webp",
-      "size": 19140,
-      "sha256": "f1a461da3022b734212bc2778c0a94aa37e88d7d5b5d4a051af8036f9ac22ab4"
-    },
-    {
-      "path": "cards/card_000.png",
-      "size": 17908,
-      "sha256": "4a33fc9b57bc4d991ce9aac5ea4984cc8dbd203349d78c937fddacc554cfa211"
-    },
-    {
       "path": "index.html",
       "size": 167729,
       "sha256": "6af965bafba345d54abc613c59d8bffa997a9d1980292479fac2d40eb105637d"
     }
   ],
-  "fileCount": 62,
-  "totalSize": 3152460
+  "fileCount": 52,
+  "totalSize": 2389400
 }

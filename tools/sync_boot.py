@@ -51,7 +51,6 @@ CODE_FILES = [
     "js/i18n-rules.js",
     "js/cards.js",
     "js/pass.js",
-    "images/season/coin.webp",
     "js/card-pack.js",
     "js/entitlements.js",
     "js/bans.js",
@@ -71,15 +70,6 @@ CODE_FILES = [
     "xml/loading-tips.xml",
     "xml/music-config.xml",
     "xml/video-config.xml",
-    "music-player/covers/custom-music-default.png",
-    "pictures/skills/bounty_agreement.png",
-    "pictures/skills/destiny_pity.png",
-    "pictures/skills/lucky_streak.png",
-    "pictures/skills/prophet.png",
-    "pictures/skills/supply_tide.png",
-    "pictures/skills/swift_hands.png",
-    "pictures/skills/devil_contract.webp",
-    "cards/card_000.png",
 ]
 
 # 首次打开只下载代码文件；audio / music-player 均在 APK 内
