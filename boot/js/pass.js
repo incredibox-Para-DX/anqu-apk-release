@@ -350,7 +350,13 @@
                 }
             } catch (e) {}
         } else if (item.typeKey === 'pass_type_pass') {
-            box.innerHTML = '<i class="fas fa-crown" style="color:#fbbf24;font-size:20px;"></i>';
+            if (item.key === 'ability_devil') {
+                var ic = el('img', 'width:100%;height:100%;object-fit:cover;');
+                ic.src = 'pictures/skills/devil_contract.webp';
+                box.appendChild(ic);
+            } else {
+                box.innerHTML = '<i class="fas fa-crown" style="color:#fbbf24;font-size:20px;"></i>';
+            }
         }
         return box;
     }
