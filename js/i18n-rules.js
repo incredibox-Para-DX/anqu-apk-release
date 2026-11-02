@@ -60,6 +60,25 @@
         ],
         skill_devil_pass_locked: ['需通行证 80 级（典藏）解锁购买权', '需通行證 80 級（典藏）解鎖購買權', 'Requires the Pass level 80 (Premium) purchase right', 'Требуется право покупки на 80 уровне пропуска (Премиум)'],
         skill_buy_success: ['成功购买：%s', '成功購買：%s', 'Purchased: %s', 'Куплено: %s'],
-        skill_unlocked: ['已解锁技能「%s」', '已解鎖技能「%s」', 'Skill unlocked: %s', 'Навык открыт: %s']
+        skill_unlocked: ['已解锁技能「%s」', '已解鎖技能「%s」', 'Skill unlocked: %s', 'Навык открыт: %s'],
+        hu_checking: ['正在检查更新…', '正在檢查更新…', 'Checking for updates…', 'Проверка обновлений…'],
+        hu_check_failed_net: ['检查失败：无法连接更新服务器', '檢查失敗：無法連接更新伺服器', 'Check failed: cannot reach update server', 'Ошибка проверки: сервер обновлений недоступен'],
+        hu_new_version: ['发现新版本', '發現新版本', 'New version found', 'Найдена новая версия'],
+        hu_current_latest: ['当前已是最新版本', '目前為最新版本', 'You are up to date', 'У вас последняя версия'],
+        hu_update_done: ['更新完成，正在刷新…', '更新完成，正在重新整理…', 'Update complete, reloading…', 'Обновление завершено, перезагрузка…'],
+        hu_update_failed: ['更新失败（弱网或线路不通）', '更新失敗（弱網或線路不通）', 'Update failed (weak network or blocked route)', 'Обновление не удалось (слабая сеть или маршрут недоступен)'],
+        hu_retry_hint: ['可重试，或到 GM 切换线路后再试', '可重試，或到 GM 切換線路後再試', 'Retry, or switch routes in GM and try again', 'Повторите или смените маршрут в GM'],
+        hu_retry: ['重试更新', '重試更新', 'Retry update', 'Повторить обновление'],
+        hu_downloading: ['正在下载更新包，请稍候…', '正在下載更新包，請稍候…', 'Downloading update…', 'Загрузка обновления…'],
+        hu_keep_open: ['更新过程中请勿退出', '更新過程中請勿退出', 'Do not exit during the update', 'Не закрывайте приложение во время обновления'],
+        hu_check_failed: ['检查失败：', '檢查失敗：', 'Check failed: ', 'Ошибка проверки: '],
+        hu_close: ['关闭', '關閉', 'Close', 'Закрыть'],
+        hu_later: ['稍后再说', '稍後再說', 'Later', 'Позже'],
+        hu_update_now: ['立即更新', '立即更新', 'Update now', 'Обновить'],
+        hu_current_version: ['当前版本：', '目前版本：', 'Current: ', 'Текущая: '],
+        hu_latest_version: ['最新版本：', '最新版本：', 'Latest: ', 'Последняя: '],
+        hu_update_failed_reason: ['更新失败：', '更新失敗：', 'Update failed: ', 'Обновление не удалось: '],
+        hu_bg_preview_unavailable: ['背景预览不可用', '背景預覽不可用', 'Background preview unavailable', 'Предпросмотр фона недоступен'],
+        hu_card_preview_unavailable: ['名片预览不可用', '名片預覽不可用', 'Card preview unavailable', 'Предпросмотр визитки недоступен']
     });
 })();

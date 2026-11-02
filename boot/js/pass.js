@@ -293,6 +293,21 @@
             } catch (e) {}
         } else if (item.typeKey === 'pass_type_card') {
             box.innerHTML = '<i class="fas fa-id-card" style="color:#a78bfa;font-size:20px;"></i>';
+            // 名片资源包已下载时加载真实缩略图
+            try {
+                var C = (window.Cards && window.Cards.list) ? window.Cards.list() : [];
+                var R2 = window.ResourceDownloadManager;
+                for (var j = 0; j < C.length; j++) {
+                    if (C[j].id === item.key) {
+                        if (R2 && R2.resolvePath) {
+                            R2.resolvePath(C[j].img).then(function (u) {
+                                if (u) { box.style.backgroundImage = 'url("' + u + '")'; box.innerHTML = ''; }
+                            }).catch(function () {});
+                        }
+                        break;
+                    }
+                }
+            } catch (e) {}
         } else if (item.typeKey === 'pass_type_pass') {
             box.innerHTML = '<i class="fas fa-crown" style="color:#fbbf24;font-size:20px;"></i>';
         }
@@ -432,6 +447,56 @@
         bodyEl.appendChild(wrap);
     }
 
+    function showImagePreview(url, title) {
+        var ov = el('div', 'position:fixed;inset:0;z-index:100050;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;padding:20px;', '');
+        var img = el('img', 'max-width:100%;max-height:90%;border-radius:12px;object-fit:contain;');
+        img.src = url;
+        ov.appendChild(img);
+        ov.appendChild(el('div', 'position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:12px;color:#e2e8f0;background:rgba(0,0,0,.5);padding:6px 14px;border-radius:999px;', title || ''));
+        ov.onclick = function () { ov.remove(); };
+        document.body.appendChild(ov);
+    }
+
+    function previewReward(item) {
+        if (!item) return;
+        if (item.typeKey === 'pass_type_bg') {
+            try {
+                var B = window.BackgroundManager;
+                if (B && B.backgrounds && B.previewCurrentBackground) {
+                    var nm = itemName(item), idx = -1;
+                    for (var i = 0; i < B.backgrounds.length; i++) {
+                        if (B.backgrounds[i].name === nm) { idx = i; break; }
+                    }
+                    if (idx >= 0) {
+                        var old = B.currentIndex;
+                        B.currentIndex = idx;
+                        B.previewCurrentBackground();
+                        B.currentIndex = old;
+                        return;
+                    }
+                }
+            } catch (e) {}
+            toast(t('hu_bg_preview_unavailable'));
+            return;
+        }
+        if (item.typeKey === 'pass_type_card') {
+            try {
+                var C = (window.Cards && window.Cards.list) ? window.Cards.list() : [];
+                var card = null;
+                for (var j = 0; j < C.length; j++) if (C[j].id === item.key) { card = C[j]; break; }
+                var R = window.ResourceDownloadManager;
+                if (card && R && R.resolvePath) {
+                    R.resolvePath(card.img).then(function (u) {
+                        if (u) showImagePreview(u, itemName(item));
+                        else toast(t('hu_card_preview_unavailable'));
+                    }).catch(function () { toast(t('hu_card_preview_unavailable')); });
+                    return;
+                }
+            } catch (e) {}
+            toast(t('hu_card_preview_unavailable'));
+        }
+    }
+
     function renderPreview() {
         var wrap = el('div', '', '');
         wrap.className = 'pass-preview';
@@ -445,6 +510,10 @@
                 info.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv + ' · ' + pair[1]));
                 info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', itemName(item)));
                 card.appendChild(info);
+                if (item.typeKey === 'pass_type_bg' || item.typeKey === 'pass_type_card') {
+                    card.style.cursor = 'pointer';
+                    card.onclick = function () { previewReward(item); };
+                }
                 wrap.appendChild(card);
             });
         });

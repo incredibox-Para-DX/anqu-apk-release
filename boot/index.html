@@ -977,8 +977,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="modal-body" style="padding:14px;">
 <div style="font-size:12px;color:#94a3b8;margin-bottom:8px;line-height:1.6;">仅可授予自己（本机），不对外发放。</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-<button class="modal-btn gm-devname-grant" data-style="violet" style="padding:8px 0;"><span class="name-violet">紫罗兰</span></button>
-<button class="modal-btn gm-devname-grant" data-style="aurora" style="padding:8px 0;"><span class="name-aurora">极光</span></button>
 <button class="modal-btn gm-devname-grant" data-style="rainbow" style="padding:8px 0;"><span class="name-rainbow">彩虹</span></button>
 </div>
 <div id="gm-devname-status" style="font-size:12px;color:#94a3b8;margin-top:8px;"></div>
@@ -1004,8 +1002,6 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="gold"> <span class="name-gold" data-i18n="nick_style_gold">尊贵金</span> <span class="style-lock" data-lock="gold">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="red"> <span class="name-red" data-i18n="nick_style_red">质感红</span> <span class="style-lock" data-lock="red">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="blue"> <span class="name-blue" data-i18n="nick_style_blue">蓝宝石</span> <span class="style-lock" data-lock="blue">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="violet"> <span class="name-violet" data-i18n="nick_style_violet">紫罗兰</span> <span class="style-lock" data-lock="violet">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="aurora"> <span class="name-aurora" data-i18n="nick_style_aurora">极光</span> <span class="style-lock" data-lock="aurora">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="rainbow"> <span class="name-rainbow" data-i18n="nick_style_rainbow">彩虹</span> <span class="style-lock" data-lock="rainbow">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberorange"> <span class="name-cyberorange" data-i18n="nick_style_cyberorange">赛博橙</span> <span class="style-lock" data-lock="cyberorange">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberblue"> <span class="name-cyberblue" data-i18n="nick_style_cyberblue">赛博蓝</span> <span class="style-lock" data-lock="cyberblue">🔒</span></label>
@@ -3401,7 +3397,7 @@ if (document.readyState === 'loading') {
         if (!isStyleUnlocked(st)) st = 'normal';
         el.classList.remove('name-gold', 'name-red', 'name-blue', 'name-violet', 'name-aurora', 'name-rainbow', 'name-cyberorange', 'name-cyberblue', 'name-vpurple', 'name-vaurora');
         if (st !== 'normal') el.classList.add('name-' + st);
-        const isDev = (st === 'violet' || st === 'aurora' || st === 'rainbow');
+        const isDev = (st === 'rainbow');
         const badge = document.getElementById('profile-dev-badge');
         if (badge) badge.style.display = isDev ? 'inline-block' : 'none';
         const wrap = document.getElementById('profile-avatar-wrapper');
@@ -3470,7 +3466,7 @@ if (document.readyState === 'loading') {
             for (let i = 0; i < radios.length; i++) {
                 const v = radios[i].value;
                 const ok = isStyleUnlocked(v);
-                const isDev = (v === 'violet' || v === 'aurora' || v === 'rainbow');
+                const isDev = (v === 'rainbow');
                 const label = radios[i].closest('label');
                 if (isDev) {
                     if (label) label.style.display = ok ? '' : 'none';

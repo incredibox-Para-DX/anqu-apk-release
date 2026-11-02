@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.107",
+  "version": "v2.3.0_hotfix.108",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 375712,
-      "sha256": "a8a15f3bd1d4d1de81a11b9db4261ec8f8f3eaaba66b7e7f516d0c799c047af4"
+      "size": 376486,
+      "sha256": "991162d1ed1d96f0e2eedf8cdbb3e104672d14ee92a4c10e9e0dfbd525ef74a4"
     },
     {
       "path": "js/synthesis.js",
@@ -148,18 +148,18 @@
     },
     {
       "path": "js/i18n-rules.js",
-      "size": 5525,
-      "sha256": "9a0ce399a1c9a4a1ec8c757511354c9a4602edb3258b097a597fa2903265c9f2"
+      "size": 8456,
+      "sha256": "982448b65b9375859621212cd6155ae246bdc4658b37f190a2b70d5ba5005cc3"
     },
     {
       "path": "js/cards.js",
-      "size": 12334,
-      "sha256": "3f8800b9182d9f526d8e297307a449fb23b167fc255331c5762941cab3182988"
+      "size": 13032,
+      "sha256": "16ac75475005f725ade5322f2cf435369e9829fc14cd5573bd25848ad878e471"
     },
     {
       "path": "js/pass.js",
-      "size": 40514,
-      "sha256": "af900ff8e2792fde1a63b96ad7ee4c745126ba87975296e957b62665a1088395"
+      "size": 43875,
+      "sha256": "73622165ca7b5c8d8b8f56a08f714bd00a7fec3af0c245dbcd4e7ca3adcf0f0c"
     },
     {
       "path": "images/season/coin.webp",
@@ -298,10 +298,10 @@
     },
     {
       "path": "index.html",
-      "size": 167874,
-      "sha256": "28cf1f7eb20cf29d856e93d86c48367378f794be71faf8c03f67b71792f540c2"
+      "size": 167078,
+      "sha256": "36dd088e3a655120f00201f2617cd80224887fda44002b5867f8741c41c57bd4"
     }
   ],
   "fileCount": 60,
-  "totalSize": 3088991
+  "totalSize": 3095959
 }

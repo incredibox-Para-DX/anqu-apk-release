@@ -6837,7 +6837,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.107';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.108';
 
     /* ============================================================
      * 检查更新
@@ -6849,29 +6849,29 @@ const EventManager = {
         $('#update-check-progress-text').text('0%');
         $('#update-check-confirm').hide();
         $('#update-check-later').hide();
-        $('#update-check-cancel').show().text('关闭');
+        $('#update-check-cancel').show().text(__i18n('hu_close', '关闭'));
         $('#update-check-close').show();
-        $('#update-check-status').html('<span style="color:#94a3b8;">正在检查更新…</span>');
+        $('#update-check-status').html('<span style="color:#94a3b8;">' + __i18n('hu_checking', '正在检查更新…') + '</span>');
         EventManager.openModal('update-check-modal');
         try {
             window.__huFetchAndCompare(function(m, hasUpdate) {
                 if (!m) {
-                    $('#update-check-status').html('<span style="color:#f87171;">检查失败：无法连接更新服务器</span>');
+                    $('#update-check-status').html('<span style="color:#f87171;">' + __i18n('hu_check_failed_net', '检查失败：无法连接更新服务器') + '</span>');
                     return;
                 }
                 var curVer = window.HU_BUILD_VERSION;
                 if (hasUpdate) {
                     // 第一步：确认是否更新（此时还没有下载任何东西）
                     $('#update-check-status').html(
-                        '<span style="color:#fbbf24;">发现新版本</span>' +
-                        '<br>当前版本：' + curVer +
-                        '<br>最新版本：' + m.version
+                        '<span style="color:#fbbf24;">' + __i18n('hu_new_version', '发现新版本') + '</span>' +
+                        '<br>' + __i18n('hu_current_version', '当前版本：') + curVer +
+                        '<br>' + __i18n('hu_latest_version', '最新版本：') + m.version
                     );
                     $('#update-check-cancel').hide();
-                    $('#update-check-later').show().text('稍后再说').off('click').on('click', function() {
+                    $('#update-check-later').show().text(__i18n('hu_later', '稍后再说')).off('click').on('click', function() {
                         EventManager.closeModal('update-check-modal');
                     });
-                    $('#update-check-confirm').show().text('立即更新').off('click').on('click', function() {
+                    $('#update-check-confirm').show().text(__i18n('hu_update_now', '立即更新')).off('click').on('click', function() {
                         // 第二步：用户确认后才开始下载
                         window.__huBusy = true;
                         window.__huAttempting = true;
@@ -6880,20 +6880,20 @@ const EventManager = {
                         $('#update-check-cancel').hide();
                         $('#update-check-close').hide();
                         $('#update-check-progress').show();
-                        $('#update-check-status').html('正在下载更新包，请稍候…<br><span style="color:#64748b;font-size:11px;">更新过程中请勿退出</span>');
+                        $('#update-check-status').html(__i18n('hu_downloading', '正在下载更新包，请稍候…') + '<br><span style="color:#64748b;font-size:11px;">' + __i18n('hu_keep_open', '更新过程中请勿退出') + '</span>');
                         // 用刚才 manifest 竞速选中的 base（可能是 Worker 反代），保证下载与版本一致
                         window.__huStartUpdate(window.__huActiveBase || HU_BASE_URL);
                     });
                 } else {
                     $('#update-check-status').html(
-                        '<span style="color:#10b981;">当前已是最新版本</span>' +
-                        '<br>当前版本：' + curVer +
-                        '<br>最新版本：' + m.version
+                        '<span style="color:#10b981;">' + __i18n('hu_current_latest', '当前已是最新版本') + '</span>' +
+                        '<br>' + __i18n('hu_current_version', '当前版本：') + curVer +
+                        '<br>' + __i18n('hu_latest_version', '最新版本：') + m.version
                     );
                 }
             });
         } catch (e) {
-            $('#update-check-status').html('<span style="color:#f87171;">检查失败：' + e + '</span>');
+            $('#update-check-status').html('<span style="color:#f87171;">' + __i18n('hu_check_failed', '检查失败：') + e + '</span>');
         }
     });
     $('#update-check-close, #update-check-cancel').on('click', function() {
@@ -6912,7 +6912,7 @@ const EventManager = {
             $('#update-check-progress').show();
             $('#update-check-progress-bar').css('width', '100%');
             $('#update-check-progress-text').text('100%');
-            $('#update-check-status').html('<span style="color:#10b981;">更新完成，正在刷新…</span>');
+            $('#update-check-status').html('<span style="color:#10b981;">' + __i18n('hu_update_done', '更新完成，正在刷新…') + '</span>');
             $('#update-check-later').hide();
             $('#update-check-confirm').hide();
             $('#update-check-cancel').hide();
@@ -6929,10 +6929,10 @@ const EventManager = {
                 $('#update-check-confirm').show().text('重试更新').off('click').on('click', function () {
                     window.__huStartUpdate(window.__huLastBase || window.__huActiveBase || HU_BASE_URL);
                 });
-                $('#update-check-status').html('<span style="color:#f87171;">更新失败（弱网或线路不通）</span><br>可重试，或到 GM 切换线路后再试');
+                $('#update-check-status').html('<span style="color:#f87171;">' + __i18n('hu_update_failed', '更新失败（弱网或线路不通）') + '</span><br>' + __i18n('hu_retry_hint', '可重试，或到 GM 切换线路后再试'));
             } else {
                 $('#update-check-cancel').show().text('关闭');
-                $('#update-check-status').html('<span style="color:#64748b;">当前已是最新版本</span>');
+                $('#update-check-status').html('<span style="color:#64748b;">' + __i18n('hu_current_latest', '当前已是最新版本') + '</span>');
             }
         }
     };
@@ -7001,7 +7001,7 @@ const EventManager = {
                     showStatus('更新已应用，正在刷新…', '#10b981');
                     setTimeout(function () { location.reload(); }, 800);
                 } else {
-                    showStatus('更新失败：' + (msg || '地址不可达 / 下载失败'), '#f87171');
+                    showStatus(__i18n('hu_update_failed_reason', '更新失败：') + (msg || __i18n('hu_check_failed_net', '检查失败：无法连接更新服务器')), '#f87171');
                 }
             });
         });
@@ -7503,7 +7503,7 @@ const EventManager = {
         window.__huDownloadJs(base, function (ok, msg) {
             if (ok) {
                 window.__huStopProgress();
-                $('#update-check-status').html('<span style="color:#10b981;">更新完成，正在刷新…</span>');
+                $('#update-check-status').html('<span style="color:#10b981;">' + __i18n('hu_update_done', '更新完成，正在刷新…') + '</span>');
                 setTimeout(function () { location.reload(); }, 800);
                 return;
             }
@@ -7516,7 +7516,7 @@ const EventManager = {
             $('#update-check-confirm').show().text('重试更新').off('click').on('click', function () {
                 window.__huStartUpdate(window.__huLastBase || window.__huActiveBase || HU_BASE_URL);
             });
-            $('#update-check-status').html('<span style="color:#f87171;">更新失败：' + (msg || '线路不通') + '</span>');
+            $('#update-check-status').html('<span style="color:#f87171;">' + __i18n('hu_update_failed_reason', '更新失败：') + (msg || __i18n('hu_update_failed', '更新失败')) + '</span>');
         });
     };
     window.__huStartProgress = function() {

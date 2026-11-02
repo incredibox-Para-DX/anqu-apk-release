@@ -3,7 +3,13 @@
         { id: 'card_030', img: 'cards/card_030.png', code: 'CARD030' },
         { id: 'card_052', img: 'cards/card_052.png', code: 'CARD052' },
         { id: 'card_047', img: 'cards/card_047.png', code: 'CARD047' },
-        { id: 'card_017', img: 'cards/card_017.png', code: 'CARD017' }
+        { id: 'card_017', img: 'cards/card_017.png', code: 'CARD017' },
+        { id: 'card_wolf', img: 'cards/card_wolf.png', nameKey: 'pass_card_wolf', passOnly: true },
+        { id: 'card_bhj', img: 'cards/card_bhj.png', nameKey: 'pass_card_bhj', passOnly: true },
+        { id: 'card_gjzb', img: 'cards/card_gjzb.png', nameKey: 'pass_card_gjzb', passOnly: true },
+        { id: 'card_qxys', img: 'cards/card_qxys.png', nameKey: 'pass_card_qxys', passOnly: true },
+        { id: 'card_yinghe', img: 'cards/card_yinghe.png', nameKey: 'pass_card_yinghe', passOnly: true },
+        { id: 'card_zsxf', img: 'cards/card_zsxf.png', nameKey: 'pass_card_zsxf', passOnly: true }
     ];
     var UNLOCK_KEY = 'ab_cards_unlocked';
     var SEL_KEY = 'ab_card_selected';
@@ -46,7 +52,10 @@
     function getUnlocked() {
         try { var a = JSON.parse(localStorage.getItem(UNLOCK_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
     }
-    function isUnlocked(id) { return getUnlocked().indexOf(id) >= 0; }
+    function isUnlocked(id) {
+        if (getUnlocked().indexOf(id) >= 0) return true;
+        try { return localStorage.getItem('ab_pass_' + id) === '1'; } catch (e) { return false; }
+    }
     function unlock(id) {
         var a = getUnlocked();
         if (a.indexOf(id) < 0) { a.push(id); try { localStorage.setItem(UNLOCK_KEY, JSON.stringify(a)); } catch (e) {} }
@@ -70,7 +79,7 @@
         var c = byId(selected());
         var layer = document.getElementById('profile-card-layer');
         var nameEl = document.getElementById('profile-card-name');
-        var k = c ? c.id : 'card_none';
+        var k = c ? (c.nameKey || c.id) : 'card_none';
         if (nameEl) {
             nameEl.setAttribute('data-i18n', k);
             nameEl.textContent = t(k);
@@ -110,7 +119,7 @@
             resolveImg(c, function (u) { if (u) thumb.style.backgroundImage = 'url("' + u + '")'; });
             var name = document.createElement('div');
             name.style.cssText = 'padding:8px 10px;font-size:12px;color:#e2e8f0;font-weight:600;';
-            name.textContent = t(c.id);
+            name.textContent = t(c.nameKey || c.id);
             var foot = document.createElement('div');
             foot.style.cssText = 'padding:0 10px 10px;';
             if (un) {
@@ -128,7 +137,7 @@
                 foot.appendChild(lock);
                 d.style.cursor = 'pointer';
                 d.addEventListener('click', function () {
-                    if (window.showToast) showToast('此功能为赞赏专属，需要输入兑换码解锁');
+                    if (window.showToast) showToast(c.passOnly ? t('nick_style_pass_locked') : '此功能为赞赏专属，需要输入兑换码解锁');
                 });
             }
             d.appendChild(thumb); d.appendChild(name); d.appendChild(foot);
@@ -137,7 +146,6 @@
     }
 
     function open() {
-        if (!packReady()) { if (window.showToast) showToast(t('card_need_download')); return; }
         var m = document.getElementById('card-modal');
         if (!m) return;
         render();
