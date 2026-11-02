@@ -89,18 +89,36 @@
     function fmt(n) { return Math.floor(n).toLocaleString('en-US'); }
 
     function tick() {
-        var wk = monday();
-        if (str(K.week) !== wk) { set(K.week, wk); set(K.weekXp, 0); set(K.lastW, 0); }
         var cur = 0;
         try { cur = Number(w.__getWeeklyAccumulatedValue && w.__getWeeklyAccumulatedValue()) || 0; } catch (e) {}
-        var last = num(K.lastW);
+        var wk = monday();
+        var rawLast = null;
+        try { rawLast = localStorage.getItem(K.lastW); } catch (e) {}
+
+        // 新周/首次启用：把当前本周累计作为基线，只计算之后的增量，
+        // 不把已经存在的本周累计一次性算进通行证等级。
+        if (str(K.week) !== wk) {
+            set(K.week, wk);
+            set(K.weekXp, 0);
+            set(K.lastW, cur);
+            rawLast = String(cur);
+        } else if (rawLast === null) {
+            set(K.lastW, cur);
+            rawLast = String(cur);
+        }
+
+        var last = Number(rawLast) || 0;
         if (cur > last) {
             var cap = S.capLevels * S.perLevel;
             var wx = Math.min(cap, num(K.weekXp) + (cur - last));
             var add = wx - num(K.weekXp);
             if (add > 0) { set(K.weekXp, wx); set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + add)); }
             set(K.lastW, cur);
+        } else if (cur < last) {
+            // 累计价值回落（清空/换周边缘）：重置基线，避免后续回升不计入
+            set(K.lastW, cur);
         }
+
         var total = level() * S.coinPerLevel, claimed = num(K.claimedCoins);
         if (total > claimed) { set(K.coins, num(K.coins) + (total - claimed)); set(K.claimedCoins, total); }
     }
@@ -421,7 +439,7 @@
             sec.insertBefore(b, sec.firstChild);
         }
         function syncGmBtn() {
-            var gm = document.getElementById('gm-debug-section');
+            var gm = document.getElementById('section-gm') || document.getElementById('gm-debug-section');
             if (!gm) return;
             var unlocked = false;
             try { unlocked = document.body.getAttribute('data-gm') === '1' || localStorage.getItem('ab_gm_unlocked') === '1'; } catch (e) {}

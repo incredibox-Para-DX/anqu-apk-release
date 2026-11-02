@@ -3218,7 +3218,9 @@ _runOpenSafe() {
                     luckyPlaced = true;
                 }
             } else if (devilMode === 2) {
-                hqItem = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItem();
+                // 必须深拷贝：直接改配置对象会污染 allItemsConfig（id/遮罩等字段）
+                var __devilPick = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange');
+                hqItem = __devilPick ? _.cloneDeep(__devilPick) : GameCore.getRandomItem();
             } else {
                 hqItem = GameCore.getRandomItem();
             }
@@ -6835,7 +6837,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.104';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.105';
 
     /* ============================================================
      * 检查更新
