@@ -198,8 +198,19 @@
         toast(msg);
     }
 
+    function playPassSfx(file) {
+        if (!file) return;
+        try {
+            var a = new Audio(file);
+            a.volume = 0.7 * ((w.__TOAST_VOLUME__ != null) ? w.__TOAST_VOLUME__ : 1);
+            a.play().catch(function () {});
+        } catch (e) {}
+    }
+
     function passToast(msg) {
-        playToastSfx(msg, 'audio/pass-toast-show.mp3', 'audio/pass-toast-hide.mp3');
+        // 音效直接在通行证侧播放，不依赖 index.html 是否支持 showToast 的第三参数
+        playPassSfx('audio/pass-toast-show.mp3');
+        playToastSfx(msg, null, 'audio/pass-toast-hide.mp3');
     }
 
     // UI：统一走通用的全屏页面结构（modal-overlay app-full-page + modal-header/body），
@@ -465,7 +476,8 @@
                 b.onclick = function () {
                     if (w.__spendTotalValue && w.__spendTotalValue(S.premiumCost)) {
                         set(K.premium, '1');
-                        playToastSfx(t('premium_unlocked'), 'audio/buy.mp3', 'audio/toastend.mp3');
+                        playPassSfx('audio/buy.mp3');
+                        playToastSfx(t('premium_unlocked'), null, 'audio/toastend.mp3');
                         view = { t: 'main' };
                         render();
                     } else toast(t('not_enough_value'));
