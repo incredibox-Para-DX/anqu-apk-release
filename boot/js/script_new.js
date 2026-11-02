@@ -5968,13 +5968,26 @@ const EventManager = {
             const musicAll = tracks.length > 0 && musicDone >= tracks.length;
             const titleAll = titleItems.length > 0 && titleDone >= titleItems.length;
 
+            // 已下载过但远端清单版本变化时提醒补充更新（同一版本只提示一次）
+            const verNotice = (savedKey, curVer, doneCount, flagKey) => {
+                if (!curVer || !doneCount) return;
+                let saved = null;
+                try { saved = localStorage.getItem(savedKey); } catch (e) {}
+                if (!saved || saved === curVer || this[flagKey] === curVer) return;
+                this[flagKey] = curVer;
+                if (window.showToast) window.showToast(__i18n('rd_pack_updated', '资源包有更新，请补充下载'));
+            };
+            verNotice('ab_rd_bg_ver', this.bgManifest && this.bgManifest.version, bgDone, '_bgVerNotified');
+            verNotice('ab_rd_music_ver', this.musicManifest && this.musicManifest.version, musicDone, '_musicVerNotified');
+            verNotice('ab_rd_title_ver', this.titleManifest && this.titleManifest.version, titleDone, '_titleVerNotified');
+
             // 下载完成后隐藏下载按钮，改为「已下载」提示，避免重复下载
             if (bgAll) {
                 $('#rd-download-bg-btn').hide();
                 $('#rd-delete-bg-btn').show();
                 $('#rd-bg-done').show();
-                $('#rd-bg-progress-wrap').show();
-                $('#rd-bg-progress-bar').css('width', '100%');
+                $('#rd-bg-progress-wrap').hide();
+                try { if (this.bgManifest && this.bgManifest.version) localStorage.setItem('ab_rd_bg_ver', this.bgManifest.version); } catch (e) {}
                 $('#rd-bg-progress-text').text(`全部下载完成 (${bgDone}/${bgItems.length})`);
             } else {
                 $('#rd-delete-bg-btn').hide();
@@ -5999,8 +6012,8 @@ const EventManager = {
                 $('#rd-download-music-btn').hide();
                 $('#rd-delete-music-btn').show();
                 $('#rd-music-done').show();
-                $('#rd-music-progress-wrap').show();
-                $('#rd-music-progress-bar').css('width', '100%');
+                $('#rd-music-progress-wrap').hide();
+                try { if (this.musicManifest && this.musicManifest.version) localStorage.setItem('ab_rd_music_ver', this.musicManifest.version); } catch (e) {}
                 $('#rd-music-progress-text').text(`全部下载完成 (${musicDone}/${tracks.length})`);
             } else {
                 $('#rd-delete-music-btn').hide();
@@ -6024,8 +6037,8 @@ const EventManager = {
                 $('#rd-download-title-btn').hide();
                 $('#rd-delete-title-btn').show();
                 $('#rd-title-done').show();
-                $('#rd-title-progress-wrap').show();
-                $('#rd-title-progress-bar').css('width', '100%');
+                $('#rd-title-progress-wrap').hide();
+                try { if (this.titleManifest && this.titleManifest.version) localStorage.setItem('ab_rd_title_ver', this.titleManifest.version); } catch (e) {}
                 $('#rd-title-progress-text').text(`全部下载完成 (${titleDone}/${titleItems.length})`);
             } else {
                 $('#rd-delete-title-btn').hide();
@@ -6907,7 +6920,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.152';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.153';
     // 版本文件始终覆盖，避免与旧版同大小时被跳过
     var __HU_SIZE_BUMP_150 = 1;
 

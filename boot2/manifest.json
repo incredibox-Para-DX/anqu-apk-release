@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.152.m",
+  "version": "v2.3.0_hotfix.153.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -88,8 +88,8 @@
     },
     {
       "path": "js/collect-pack.js",
-      "size": 7701,
-      "sha256": "07c25f48f200138f9841232babcd4764ed82bc8ac141a31a4e7c55f15fc080be"
+      "size": 8639,
+      "sha256": "ebf72684232db55722cd9290d63054315523b66a8d2e0fd1d05b6e91f01051e0"
     },
     {
       "path": "js/cloud-profile.js",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 381868,
-      "sha256": "5e691ffd5d637270036180268ac3f13646c21e72f691cceb7d063b0d0c11c3f3"
+      "size": 383106,
+      "sha256": "766c481abe446dd4d3fb5ecc5a94a610af08b18e43ac0b2f617a3e158d3918b3"
     },
     {
       "path": "js/synthesis.js",
@@ -148,8 +148,8 @@
     },
     {
       "path": "js/i18n-rules.js",
-      "size": 10315,
-      "sha256": "d03044b2aca61792b7c1e7ebe9ed19d48c347d17df9b9029b25d115100cbaaef"
+      "size": 10568,
+      "sha256": "8fc4426efdd32221e4058f3f5bd1c35e81d7145ae65eedf711bdc7556112f1f6"
     },
     {
       "path": "js/cards.js",
@@ -163,8 +163,8 @@
     },
     {
       "path": "js/card-pack.js",
-      "size": 7755,
-      "sha256": "6074134f706c7fe1abdfec5af3c3327db27916ab8fd1cb5dcda3aab5f3df3408"
+      "size": 8655,
+      "sha256": "1bcf6321b3382a01b19dd02da377d91bb5e0cdae424308f3d35b27c2d87040b3"
     },
     {
       "path": "js/entitlements.js",
@@ -268,5 +268,5 @@
     }
   ],
   "fileCount": 53,
-  "totalSize": 2400436
+  "totalSize": 2403765
 }

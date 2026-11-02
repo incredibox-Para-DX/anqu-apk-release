@@ -57,10 +57,28 @@
 
     function refreshUI() {
         var done = isDone();
-        showDone(done);
-        var btn = $('rd-download-card-btn'); if (btn) btn.style.display = done ? 'none' : '';
-        var del = $('rd-delete-card-btn'); if (del) del.style.display = done ? '' : 'none';
-        loadManifest().then(function (m) { var t = totalOf(m); setCount(done ? t : 0, t); }).catch(function () {});
+        loadManifest().then(function (m) {
+            var t = totalOf(m);
+            var ver = m.version || '1';
+            var saved = null;
+            try { saved = localStorage.getItem(DONE_KEY); } catch (e) {}
+            if (done && saved && saved !== ver) {
+                try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+                done = false;
+                if (refreshUI._notified !== ver) {
+                    refreshUI._notified = ver;
+                    if (w.showToast) w.showToast((w.I18N && I18N.t) ? I18N.t('rd_pack_updated', '资源包有更新，请补充下载') : '资源包有更新，请补充下载');
+                }
+            }
+            showDone(done);
+            var btn = $('rd-download-card-btn'); if (btn) btn.style.display = done ? 'none' : '';
+            var del = $('rd-delete-card-btn'); if (del) del.style.display = done ? '' : 'none';
+            setCount(done ? t : 0, t);
+        }).catch(function () {
+            showDone(done);
+            var btn = $('rd-download-card-btn'); if (btn) btn.style.display = done ? 'none' : '';
+            var del = $('rd-delete-card-btn'); if (del) del.style.display = done ? '' : 'none';
+        });
     }
 
     function deletePack() {
@@ -103,7 +121,7 @@
                 if (btn) btn.innerHTML = '<i class="fas fa-download"></i> 下载名片资源包';
                 if (failed === 0) {
                     try { localStorage.setItem(DONE_KEY, m.version || '1'); } catch (e) {}
-                    setBar(100, '全部完成'); showDone(true);
+                    setBar(100, '全部完成'); showDone(true); showProgress(false);
                     var b2 = $('rd-download-card-btn'); if (b2) b2.style.display = 'none';
                     toast('名片资源包已下载完成');
                     if (w.Cards && w.Cards.refreshImages) w.Cards.refreshImages();
