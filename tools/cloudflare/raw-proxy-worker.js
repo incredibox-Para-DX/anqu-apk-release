@@ -19,7 +19,7 @@ const AVATAR_REPO = 'anqu-collect-resources';
 const AVATAR_DIR = 'avatars';
 const AVATAR_MAX = 2 * 1024 * 1024;
 
-const REF_RE = /^(main|p-[a-z0-9-]+)$/i;
+const REF_RE = /^(main|dev|p-[a-z0-9-]+)$/i;
 const AVATAR_RE = /^\/avatar\/([A-Za-z0-9_-]{1,64})$/;
 
 function json(obj, status) {
@@ -118,7 +118,11 @@ export default {
 
     const segs = path.split('/');
     let ref = 'main';
-    if (REF_RE.test(segs[0])) {
+    // 兼容 /<owner>/<repo>/<ref>/<path>（壳的 PROXY_ROOT 使用这种完整路径）
+    if (segs.length >= 4 && segs[0] === OWNER && segs[1] === REPO && REF_RE.test(segs[2])) {
+      ref = segs[2];
+      path = segs.slice(3).join('/');
+    } else if (REF_RE.test(segs[0])) {
       ref = segs[0];
       path = segs.slice(1).join('/');
       if (!path) return new Response('Not Found', { status: 404 });

@@ -3432,7 +3432,7 @@ if (document.readyState === 'loading') {
             let gmUser = false;
             try { const v = localStorage.getItem('ab_gm_unlocked'); gmUser = v === 'true' || v === '1'; } catch (err) {}
             if (isGif && !gmUser) {
-                if (window.showToast) showToast('仅 GM 可上传 GIF 头像');
+                if (window.showToast) showToast('无法上传 GIF 头像');
                 e.target.value = '';
                 return;
             }
