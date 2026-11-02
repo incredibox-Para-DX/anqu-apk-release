@@ -3483,6 +3483,15 @@ if (document.readyState === 'loading') {
                 const lock = document.querySelector('.style-lock[data-lock="' + v + '"]');
                 if (lock) lock.style.display = ok ? 'none' : '';
             }
+            document.querySelectorAll('input[name="nickname-style"]').forEach(function (radio) {
+                var label = radio.closest('label');
+                if (!label || label.querySelector('.nick-style-demo')) return;
+                if (radio.value === 'normal') return;
+                var demo = document.createElement('span');
+                demo.className = 'nick-style-demo name-' + radio.value;
+                demo.textContent = 'Aa';
+                label.appendChild(demo);
+            });
             if (nicknameModal) {
                 nicknameModal.style.display = 'flex';
                 requestAnimationFrame(function () {

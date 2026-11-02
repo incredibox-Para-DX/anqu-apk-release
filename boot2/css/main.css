@@ -2948,3 +2948,8 @@ body.app-paused *::after {
     position: relative;
     z-index: 1;
 }
+.nick-style-demo {
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}

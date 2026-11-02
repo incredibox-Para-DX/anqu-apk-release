@@ -75,6 +75,7 @@
         shop_locked_toast: ['赛季商店暂未开放', '賽季商店暫未開放', 'Season Shop is not open yet', 'Магазин сезона пока закрыт'],
         claimed_toast: ['已领取：%s', '已領取：%s', 'Claimed: %s', 'Получено: %s'],
         need_level: ['未达到 Lv.%s', '未達到 Lv.%s', 'Level %s not reached', 'Уровень %s не достигнут'],
+        preview_rewards: ['预览奖励', '預覽獎勵', 'Preview Rewards', 'Просмотр наград'],
         pass_type_name: ['名称色', '名稱色', 'Name Color', 'Цвет ника'],
         pass_type_bg: ['背景', '背景', 'Background', 'Фон'],
         pass_type_card: ['名片', '名片', 'Name Card', 'Визитка'],
@@ -164,7 +165,7 @@
             '#pass-page .pass-pad{padding:0;}' +
             '#pass-page .pass-track{overflow-x:auto;padding:4px 0 0;}' +
             '#pass-page .pass-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}' +
-            '#pass-page .pass-cell{min-width:128px;width:128px;height:72px;border-radius:10px;border:1px solid var(--panel-border);background:var(--panel-inner-bg);padding:8px 10px;display:flex;flex-direction:row;align-items:center;gap:8px;opacity:.55;transition:border-color .2s ease,opacity .2s ease,transform .12s ease,box-shadow .2s ease;animation:uiRise .26s ease backwards;}' +
+            '#pass-page .pass-cell{min-width:176px;width:176px;height:84px;border-radius:10px;border:1px solid var(--panel-border);background:var(--panel-inner-bg);padding:8px 10px;display:flex;flex-direction:row;align-items:center;gap:8px;opacity:.55;transition:border-color .2s ease,opacity .2s ease,transform .12s ease,box-shadow .2s ease;}' +
             '#pass-page .pass-cell:active{transform:scale(.97);}' +
             '#pass-page .pass-cell-ready{opacity:1;border-color:rgba(209,162,74,.65);background:linear-gradient(135deg,rgba(209,162,74,.2),rgba(209,162,74,.05));box-shadow:0 0 10px rgba(209,162,74,.16);cursor:pointer;}' +
             '#pass-page .pass-cell-got{opacity:.3;filter:grayscale(.6);}' +
@@ -176,8 +177,9 @@
             '#pass-page .pass-coin img{width:18px;height:18px;}' +
             '#pass-page .pass-tier{flex:1;border:1px solid var(--panel-border);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:10px;background:var(--panel-bg);}' +
             '#pass-page .pass-muted{font-size:11px;color:var(--text-light);line-height:1.7;}' +
-            '#pass-page .modal-body{animation:uiRise .26s ease both;}' +
-            '#pass-debug-modal .modal-body .modal-btn{margin-top:8px;}';
+            '#pass-page .pass-thumb{width:56px;height:56px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;background-size:cover;background-position:center;}' +
+            '#pass-page .pass-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(156px,1fr));gap:8px;}' +
+            '#pass-page .pass-preview-card{display:flex;align-items:center;gap:8px;border:1px solid var(--panel-border);border-radius:10px;padding:8px;background:var(--panel-bg);}' +            '#pass-debug-modal .modal-body .modal-btn{margin-top:8px;}';
         document.head.appendChild(s);
     }
 
@@ -230,20 +232,59 @@
 
         var title = el('div', '', '');
         title.className = 'modal-title';
-        var icons = { main: 'fa-ticket', upgrade: 'fa-crown', shop: 'fa-store', rules: 'fa-circle-info' };
-        var names = { main: t('pass'), upgrade: t('upgrade'), shop: t('season_shop'), rules: t('rules') };
+        var icons = { main: 'fa-ticket', upgrade: 'fa-crown', shop: 'fa-store', rules: 'fa-circle-info', preview: 'fa-gift' };
+        var names = { main: t('pass'), upgrade: t('upgrade'), shop: t('season_shop'), rules: t('rules'), preview: t('preview_rewards') };
         title.innerHTML = '<i class="fas ' + (icons[view.t] || 'fa-ticket') + '"></i> ' + (names[view.t] || t('pass'));
         h.appendChild(title);
 
         var actions = el('div', '', '');
         actions.className = 'app-page-actions';
         if (view.t === 'main') {
+            actions.appendChild(appAction('fa-gift', t('preview_rewards'), function () { view = { t: 'preview' }; render(); }));
             actions.appendChild(appAction('fa-lock', t('season_shop'), function () { toast(t('shop_locked_toast')); }));
             actions.appendChild(appAction('fa-circle-info', t('rules'), function () { view = { t: 'rules' }; render(); }));
             actions.appendChild(coinTag(num(K.coins)));
         }
         h.appendChild(actions);
         return h;
+    }
+
+    function itemName(item) {
+        return (item && item.nameKey) ? t(item.nameKey) : (item ? item.name : '');
+    }
+
+    function thumbEl(item, size) {
+        var box = el('div', '', '');
+        box.className = 'pass-thumb';
+        if (size) { box.style.width = size + 'px'; box.style.height = size + 'px'; }
+        if (!item) return box;
+        if (item.typeKey === 'pass_type_name') {
+            var demo = el('span', 'font-size:18px;font-weight:700;', 'Aa');
+            demo.className = 'name-' + item.key;
+            box.appendChild(demo);
+        } else if (item.typeKey === 'pass_type_bg') {
+            box.innerHTML = '<i class="fas fa-image" style="color:#60a5fa;font-size:20px;"></i>';
+            // 背景资源包已下载时尝试取真实缩略图；没有映射就保留图标
+            try {
+                var R = window.ResourceDownloadManager;
+                var list = (R && R.getBgItems) ? R.getBgItems() : [];
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].name === itemName(item)) {
+                        (function (hit) {
+                            R.resolvePath(hit.path).then(function (u) {
+                                if (u) { box.style.backgroundImage = 'url("' + u + '")'; box.innerHTML = ''; }
+                            }).catch(function () {});
+                        })(list[i]);
+                        break;
+                    }
+                }
+            } catch (e) {}
+        } else if (item.typeKey === 'pass_type_card') {
+            box.innerHTML = '<i class="fas fa-id-card" style="color:#a78bfa;font-size:20px;"></i>';
+        } else if (item.typeKey === 'pass_type_pass') {
+            box.innerHTML = '<i class="fas fa-crown" style="color:#fbbf24;font-size:20px;"></i>';
+        }
+        return box;
     }
 
     function rewardCell(st, kind) {
@@ -255,12 +296,10 @@
         var cell = el('div', '', '');
         cell.className = 'pass-cell' + (got ? ' pass-cell-got' : (clickable ? ' pass-cell-ready' : ''));
         cell.style.animationDelay = Math.min(8, Math.round((st.lv - 10) / 10)) * 35 + 'ms';
-        var typeText = (item && item.typeKey) ? t(item.typeKey) : ((item && item.type) || '');
-        var nameText = (item && item.nameKey) ? t(item.nameKey) : (item ? item.name : '');
-        cell.appendChild(el('div', 'width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-light);flex:0 0 auto;', typeText));
+        cell.appendChild(thumbEl(item, 56));
         var info = el('div', 'min-width:0;display:flex;flex-direction:column;gap:2px;');
         info.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv));
-        info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', nameText));
+        info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', itemName(item)));
         cell.appendChild(info);
         cell.onclick = function () {
             if (got) return;
@@ -307,8 +346,8 @@
 
         var row2 = el('div', 'display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text-light);');
         row2.appendChild(el('div', '', t('weekly') + ' ' + fmt(num(K.weekXp)) + ' / ' + fmt(S.capLevels * S.perLevel) + (num(K.weekXp) >= S.capLevels * S.perLevel ? ' · ' + t('cap') : '')));
-        var tier = el('div', 'color:' + (isPremium() ? 'var(--text-light)' : '#d1a24a') + ';', isPremium() ? t('premium') + ' · ' + t('premium_unlocked') : t('premium') + ' · ' + t('premium_locked'));
-        tier.style.cursor = 'pointer';
+        var tier = el('button', 'border:1px solid ' + (isPremium() ? 'var(--panel-border)' : 'rgba(209,162,74,.65)') + ';background:' + (isPremium() ? 'rgba(255,255,255,.05)' : 'rgba(209,162,74,.16)') + ';color:' + (isPremium() ? 'var(--text-light)' : '#f1d38b') + ';font-size:11px;padding:4px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;', '');
+        tier.innerHTML = '<i class="fas fa-crown"></i> ' + (isPremium() ? t('premium_unlocked') : t('upgrade'));
         tier.onclick = function () { view = { t: 'upgrade' }; render(); };
         row2.appendChild(tier);
         top.appendChild(row2);
@@ -381,6 +420,25 @@
         bodyEl.appendChild(wrap);
     }
 
+    function renderPreview() {
+        var wrap = el('div', '', '');
+        wrap.className = 'pass-preview';
+        STEPS.forEach(function (st) {
+            [['free', t('normal')], ['prem', t('premium')]].forEach(function (pair) {
+                var item = pair[0] === 'prem' ? st.prem : st.free;
+                var card = el('div', '', '');
+                card.className = 'pass-preview-card';
+                card.appendChild(thumbEl(item, 48));
+                var info = el('div', 'min-width:0;display:flex;flex-direction:column;gap:2px;');
+                info.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv + ' · ' + pair[1]));
+                info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', itemName(item)));
+                card.appendChild(info);
+                wrap.appendChild(card);
+            });
+        });
+        bodyEl.appendChild(wrap);
+    }
+
     function renderRules() {
         var wrap = el('div', '', '');
         wrap.className = 'pass-rules';
@@ -413,6 +471,7 @@
         if (view.t === 'main') renderMain();
         else if (view.t === 'upgrade') renderUpgrade();
         else if (view.t === 'shop') renderShop();
+        else if (view.t === 'preview') renderPreview();
         else renderRules();
     }
 
