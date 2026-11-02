@@ -66,11 +66,20 @@
             var saved = null;
             try { saved = localStorage.getItem(DONE_KEY); } catch (e) {}
             if (done && saved && saved !== ver) {
-                try { localStorage.removeItem(DONE_KEY); } catch (e) {}
-                done = false;
-                if (refreshUI._notified !== ver) {
-                    refreshUI._notified = ver;
-                    if (w.showToast) w.showToast((w.I18N && I18N.t) ? I18N.t('rd_pack_updated', '资源包有更新，请补充下载') : '资源包有更新，请补充下载');
+                var R = w.ResourceDownloadManager;
+                var allLocal = true;
+                (m.files || []).forEach(function (f) {
+                    if (!R || !R.isDownloaded || !R.isDownloaded(f.path)) allLocal = false;
+                });
+                if (allLocal) {
+                    try { localStorage.setItem(DONE_KEY, ver); } catch (e) {}
+                } else {
+                    try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+                    done = false;
+                    if (refreshUI._notified !== ver) {
+                        refreshUI._notified = ver;
+                        if (w.showToast) w.showToast((w.I18N && I18N.t) ? I18N.t('rd_pack_updated', '资源包有更新，请补充下载') : '资源包有更新，请补充下载');
+                    }
                 }
             }
             showDone(done);
