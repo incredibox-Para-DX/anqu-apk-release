@@ -23,14 +23,19 @@
         document.head.appendChild(s);
     }
 
+    function tr(key, fallback) {
+        try { if (window.I18N && I18N.t) return I18N.t(key, fallback); } catch (e) {}
+        return fallback;
+    }
+
     function placeholderNames() {
-        var out = ['<div class="thanks-title">感谢名单</div>'];
+        var out = ['<div class="thanks-title">' + tr('thanks_title', '感谢名单') + '</div>'];
         for (var i = 1; i <= 30; i++) {
             out.push('<div class="thanks-name">姓名占位 ' + (i < 10 ? '0' + i : i) + '</div>');
         }
-        out.push('<div class="thanks-credit" style="margin-top:40px">游戏为同人二创 · 非官方 · 非商用</div>');
-        out.push('<div class="thanks-credit">《暗区突围》版权归腾讯/魔方工作室群</div>');
-        out.push('<div class="thanks-credit">空值工作室Null Studio出品 · HeFun 开发 · 暗区保险模拟</div>');
+        out.push('<div class="thanks-credit" style="margin-top:40px">' + tr('thanks_credit_1', '游戏为同人二创 · 非官方 · 非商用') + '</div>');
+        out.push('<div class="thanks-credit">' + tr('thanks_credit_2', '《暗区突围》版权归腾讯/魔方工作室群') + '</div>');
+        out.push('<div class="thanks-credit">' + tr('thanks_credit_3', '空值工作室Null Studio出品 · HeFun 开发 · 暗区保险模拟') + '</div>');
         return out.join('');
     }
 

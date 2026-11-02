@@ -81,6 +81,10 @@
         hu_version_mismatch: ['下载内容版本不匹配，请重试', '下載內容版本不匹配，請重試', 'Downloaded content version mismatch; please retry', 'Версия загруженного содержимого не совпадает; повторите'],
         hu_update_failed_reason: ['更新失败：', '更新失敗：', 'Update failed: ', 'Обновление не удалось: '],
         hu_bg_preview_unavailable: ['背景预览不可用', '背景預覽不可用', 'Background preview unavailable', 'Предпросмотр фона недоступен'],
-        hu_card_preview_unavailable: ['名片预览不可用', '名片預覽不可用', 'Card preview unavailable', 'Предпросмотр визитки недоступен']
+        hu_card_preview_unavailable: ['名片预览不可用', '名片預覽不可用', 'Card preview unavailable', 'Предпросмотр визитки недоступен'],
+        thanks_title: ['感谢名单', '感謝名單', 'Special Thanks', 'Благодарности'],
+        thanks_credit_1: ['游戏为同人二创 · 非官方 · 非商用', '遊戲為同人二創 · 非官方 · 非商業', 'Fan-made project · Unofficial · Non-commercial', 'Фанатский проект · Неофициальный · Некоммерческий'],
+        thanks_credit_2: ['《暗区突围》版权归腾讯/魔方工作室群', '《暗區突圍》版權歸騰訊/魔方工作室群', '“Arena Breakout” copyright belongs to Tencent / MoreFun Studios', 'Права на «Arena Breakout» принадлежат Tencent / MoreFun Studios'],
+        thanks_credit_3: ['空值工作室Null Studio出品 · HeFun 开发 · 暗区保险模拟', '空值工作室Null Studio出品 · HeFun 開發 · 暗區保險模擬', 'Produced by Null Studio · Developed by HeFun · Arena Breakout Safebox Simulator', 'Производство Null Studio · Разработка HeFun · Arena Breakout Safebox Simulator']
     });
 })();
