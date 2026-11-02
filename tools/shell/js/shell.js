@@ -398,6 +398,23 @@
     var p = $('dl-pct'); if (p) p.textContent = pct;
     var m = $('dl-msg'); if (m) m.textContent = fmtMB(jsBytesDone) + ' / ' + fmtMB(jsBytesTotal) + ' · ' + jsDone + '/' + jsTotal;
   }
+  function fetchOne(base, file, cb) {
+    var expected = file.size || 0, have = 0;
+    try { have = Number(window.AndroidUpdate && AndroidUpdate.fileSize ? AndroidUpdate.fileSize(file.path) : 0) || 0; } catch (e) { have = 0; }
+    if (expected && have === expected) { cb(true, expected, true); return; }
+    var start = (have > 0 && have < expected) ? have : 0;
+    var opts = { cache: 'no-store' };
+    if (start > 0) opts.headers = { 'Range': 'bytes=' + start + '-' };
+    fetch(base + '/' + file.path, opts)
+      .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
+      .then(function (buf) {
+        var b = b64(buf);
+        var ok = start > 0 ? AndroidUpdate.writeFileAt(file.path, b, start) : AndroidUpdate.writeFile(file.path, b);
+        if (!ok) throw new Error('write');
+        cb(true, buf.byteLength, false);
+      })
+      .catch(function () { cb(false, 0, false); });
+  }
   function jsDownload(base, list, cb) {
     var total = list.length, idx = 0, active = 0, fails = [], conc = 6;
     if (jsRetry) { jsTotal = jsTotal || total; } else { jsTotal = list.length; jsDone = 0; jsBytesDone = 0; jsBytesTotal = 0; list.forEach(function (f) { jsBytesTotal += (f.size || 0); }); }
@@ -412,18 +429,15 @@
           var tries = 0;
           function attempt() {
             tries++;
-            fetch(base + '/' + file.path, { cache: 'no-store' })
-              .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
-              .then(function (buf) {
-                var ok = window.AndroidUpdate && AndroidUpdate.writeFile(file.path, b64(buf));
-                if (!ok) throw new Error('write');
-                jsDone++; jsBytesDone += (buf.byteLength || 0); jsProgress();
+            fetchOne(base, file, function (ok, bytes, skipped) {
+              if (ok) {
+                jsDone++; jsBytesDone += bytes; jsProgress();
                 active--; pump();
-              })
-              .catch(function () {
-                if (tries < 3) { setTimeout(attempt, 400 * tries); return; }
-                fails.push(file); active--; pump();
-              });
+                return;
+              }
+              if (tries < 3) { setTimeout(attempt, 400 * tries); return; }
+              fails.push(file); active--; pump();
+            });
           }
           attempt();
         })(f);
