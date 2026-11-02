@@ -1004,13 +1004,13 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="gold"> <span class="name-gold" data-i18n="nick_style_gold">尊贵金</span> <span class="style-lock" data-lock="gold">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="red"> <span class="name-red" data-i18n="nick_style_red">质感红</span> <span class="style-lock" data-lock="red">🔒</span></label>
 <label style="cursor:pointer;"><input type="radio" name="nickname-style" value="blue"> <span class="name-blue" data-i18n="nick_style_blue">蓝宝石</span> <span class="style-lock" data-lock="blue">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="violet"> <span class="name-violet">紫罗兰</span> <span class="style-lock" data-lock="violet">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="aurora"> <span class="name-aurora">极光</span> <span class="style-lock" data-lock="aurora">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="rainbow"> <span class="name-rainbow">彩虹</span> <span class="style-lock" data-lock="rainbow">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberorange"> <span class="name-cyberorange">赛博橙</span> <span class="style-lock" data-lock="cyberorange">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberblue"> <span class="name-cyberblue">赛博蓝</span> <span class="style-lock" data-lock="cyberblue">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="vpurple"> <span class="name-vpurple">紫罗兰</span> <span class="style-lock" data-lock="vpurple">🔒</span></label>
-<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="vaurora"> <span class="name-vaurora">极光</span> <span class="style-lock" data-lock="vaurora">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="violet"> <span class="name-violet" data-i18n="nick_style_violet">紫罗兰</span> <span class="style-lock" data-lock="violet">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="aurora"> <span class="name-aurora" data-i18n="nick_style_aurora">极光</span> <span class="style-lock" data-lock="aurora">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="rainbow"> <span class="name-rainbow" data-i18n="nick_style_rainbow">彩虹</span> <span class="style-lock" data-lock="rainbow">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberorange"> <span class="name-cyberorange" data-i18n="nick_style_cyberorange">赛博橙</span> <span class="style-lock" data-lock="cyberorange">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="cyberblue"> <span class="name-cyberblue" data-i18n="nick_style_cyberblue">赛博蓝</span> <span class="style-lock" data-lock="cyberblue">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="vpurple"> <span class="name-vpurple" data-i18n="nick_style_vpurple">紫罗兰</span> <span class="style-lock" data-lock="vpurple">🔒</span></label>
+<label style="cursor:pointer;"><input type="radio" name="nickname-style" value="vaurora"> <span class="name-vaurora" data-i18n="nick_style_vaurora">极光</span> <span class="style-lock" data-lock="vaurora">🔒</span></label>
 </div>
 </div>
 </div>
@@ -3540,12 +3540,16 @@ if (document.readyState === 'loading') {
                 if (e.target === nicknameModal) closeNicknameModal();
             });
         }
+        var PASS_NICK_STYLES = { cyberorange: 1, cyberblue: 1, vpurple: 1, vaurora: 1 };
         document.querySelectorAll('#nickname-style-row label').forEach(function (label) {
             label.addEventListener('click', function (e) {
                 var input = label.querySelector('input');
                 if (input && input.disabled) {
                     e.preventDefault();
-                    if (window.showToast) showToast('此功能为赞赏专属，需要输入兑换码解锁');
+                    var isPassStyle = !!PASS_NICK_STYLES[input.value];
+                    var key = isPassStyle ? 'nick_style_pass_locked' : 'nick_style_dev_locked';
+                    var fallback = isPassStyle ? '该名称色需在通行证达到对应等级并领取后使用' : '此功能为赞赏专属，需要输入兑换码解锁';
+                    if (window.showToast) showToast((window.I18N && I18N.t) ? I18N.t(key) : fallback);
                 }
             });
         });

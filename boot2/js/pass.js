@@ -74,7 +74,11 @@
         not_enough_value: ['累计价值不足 150M', '累計價值不足 150M', 'Not enough accumulated value (150M)', 'Недостаточно накопленной стоимости (150M)'],
         shop_locked_toast: ['赛季商店暂未开放', '賽季商店暫未開放', 'Season Shop is not open yet', 'Магазин сезона пока закрыт'],
         claimed_toast: ['已领取：%s', '已領取：%s', 'Claimed: %s', 'Получено: %s'],
-        need_level: ['未达到 Lv.%s', '未達到 Lv.%s', 'Level %s not reached', 'Уровень %s не достигнут']
+        need_level: ['未达到 Lv.%s', '未達到 Lv.%s', 'Level %s not reached', 'Уровень %s не достигнут'],
+        pass_type_name: ['名称色', '名稱色', 'Name Color', 'Цвет ника'],
+        pass_type_bg: ['背景', '背景', 'Background', 'Фон'],
+        pass_type_card: ['名片', '名片', 'Name Card', 'Визитка'],
+        pass_type_pass: ['购买权', '購買權', 'Purchase Right', 'Право покупки']
     };
     if (window.I18N && I18N.addEntries) I18N.addEntries(I18N_KEYS);
     function t(k) { try { return (window.I18N && I18N.t) ? I18N.t(k) : k; } catch (e) { return k; } }
@@ -105,14 +109,14 @@
     else setTimeout(tick, 1200);
 
     var STEPS = [
-        { lv: 10, free: { key: 'cyberorange', name: '赛博橙', type: '名称色' }, prem: { key: 'cyberblue', name: '赛博蓝', type: '名称色' } },
-        { lv: 20, free: { key: 'vpurple', name: '紫罗兰', type: '名称色' }, prem: { key: 'vaurora', name: '极光', type: '名称色' } },
-        { lv: 30, free: { key: 'bg_pulse', name: '脉冲极客', type: '背景' }, prem: { key: 'bg_jiuke', name: '九课特工', type: '背景' } },
-        { lv: 40, free: { key: 'card_wolf', name: '白狼连队', type: '名片' }, prem: { key: 'card_bhj', name: '黑金国际', type: '名片' } },
-        { lv: 50, free: { key: 'bg_laizhan', name: '来战', type: '背景' }, prem: { key: 'bg_jixi', name: '急袭·近身战', type: '背景' } },
-        { lv: 60, free: { key: 'card_gjzb', name: '国际装备', type: '名片' }, prem: { key: 'card_qxys', name: '前线要塞', type: '名片' } },
-        { lv: 70, free: { key: 'card_yinghe', name: '硬核行旅', type: '名片' }, prem: { key: 'card_zsxf', name: '战术先锋', type: '名片' } },
-        { lv: 80, free: { key: 'bg_jinshen', name: '近身战', type: '背景' }, prem: { key: 'ability_devil', name: '恶魔契约', type: '购买权' } }
+        { lv: 10, free: { key: 'cyberorange', name: '赛博橙', nameKey: 'nick_style_cyberorange', type: '名称色', typeKey: 'pass_type_name' }, prem: { key: 'cyberblue', name: '赛博蓝', nameKey: 'nick_style_cyberblue', type: '名称色', typeKey: 'pass_type_name' } },
+        { lv: 20, free: { key: 'vpurple', name: '紫罗兰', nameKey: 'nick_style_vpurple', type: '名称色', typeKey: 'pass_type_name' }, prem: { key: 'vaurora', name: '极光', nameKey: 'nick_style_vaurora', type: '名称色', typeKey: 'pass_type_name' } },
+        { lv: 30, free: { key: 'bg_pulse', name: '脉冲极客', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'bg_jiuke', name: '九课特工', type: '背景', typeKey: 'pass_type_bg' } },
+        { lv: 40, free: { key: 'card_wolf', name: '白狼连队', type: '名片', typeKey: 'pass_type_card' }, prem: { key: 'card_bhj', name: '黑金国际', type: '名片', typeKey: 'pass_type_card' } },
+        { lv: 50, free: { key: 'bg_laizhan', name: '来战', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'bg_jixi', name: '急袭·近身战', type: '背景', typeKey: 'pass_type_bg' } },
+        { lv: 60, free: { key: 'card_gjzb', name: '国际装备', type: '名片', typeKey: 'pass_type_card' }, prem: { key: 'card_qxys', name: '前线要塞', type: '名片', typeKey: 'pass_type_card' } },
+        { lv: 70, free: { key: 'card_yinghe', name: '硬核行旅', type: '名片', typeKey: 'pass_type_card' }, prem: { key: 'card_zsxf', name: '战术先锋', type: '名片', typeKey: 'pass_type_card' } },
+        { lv: 80, free: { key: 'bg_jinshen', name: '近身战', type: '背景', typeKey: 'pass_type_bg' }, prem: { key: 'ability_devil', name: '恶魔契约', nameKey: 'skill_devil_name', type: '购买权', typeKey: 'pass_type_pass' } }
     ];
     function claims() { try { return JSON.parse(localStorage.getItem(K.claims) || '{}') || {}; } catch (e) { return {}; } }
     function grant(st, kind) {
@@ -233,10 +237,12 @@
         var cell = el('div', '', '');
         cell.className = 'pass-cell' + (got ? ' pass-cell-got' : (clickable ? ' pass-cell-ready' : ''));
         cell.style.animationDelay = Math.min(8, Math.round((st.lv - 10) / 10)) * 35 + 'ms';
-        cell.appendChild(el('div', 'width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-light);flex:0 0 auto;', (item && item.type) || ''));
+        var typeText = (item && item.typeKey) ? t(item.typeKey) : ((item && item.type) || '');
+        var nameText = (item && item.nameKey) ? t(item.nameKey) : (item ? item.name : '');
+        cell.appendChild(el('div', 'width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-light);flex:0 0 auto;', typeText));
         var info = el('div', 'min-width:0;display:flex;flex-direction:column;gap:2px;');
         info.appendChild(el('div', 'font-size:11px;color:var(--text-light);', 'Lv.' + st.lv));
-        info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', item ? item.name : ''));
+        info.appendChild(el('div', 'font-size:12px;color:var(--text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;', nameText));
         cell.appendChild(info);
         cell.onclick = function () {
             if (got) return;

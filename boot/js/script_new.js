@@ -1119,6 +1119,16 @@ previewCurrentBackground() {
         }
     };
 
+    function __i18n(key, fallback) {
+        try { return (window.I18N && I18N.t) ? I18N.t(key) : fallback; } catch (e) { return fallback; }
+    }
+    function __skillText(skill) {
+        return (skill && skill.nameKey) ? __i18n(skill.nameKey, skill.name) : (skill ? skill.name : '');
+    }
+    function __skillDesc(skill) {
+        return (skill && skill.descKey) ? __i18n(skill.descKey, skill.desc) : (skill ? skill.desc : '');
+    }
+
     const ShopManager = {
         STORAGE_KEY: 'ab_shop_skills_v1',
         skills: [
@@ -1176,10 +1186,12 @@ previewCurrentBackground() {
             {
                 id: 'devil_contract',
                 name: '恶魔契约',
+                nameKey: 'skill_devil_name',
                 icon: 'pictures/skills/destiny_pity.png',
                 price: 1000000,
                 unlockBy: 'pass',
                 desc: '开启后每次搜索消耗 1 次：50% 概率本次全部为紫色物品；50% 概率必出 2 个红色物品。需通行证 80 级（典藏）解锁购买权，可重复购买。',
+                descKey: 'skill_devil_desc',
                 type: 'limited',
                 uses: 1
             }
@@ -1236,7 +1248,7 @@ previewCurrentBackground() {
             if (skill.unlockBy === 'pass') {
                 let ok = false;
                 try { ok = localStorage.getItem('ab_pass_ability_devil') === '1'; } catch (e) {}
-                if (!ok) return { success: false, message: '需通行证 80 级（典藏）解锁购买权' };
+                if (!ok) return { success: false, message: __i18n('skill_devil_pass_locked', '需通行证 80 级（典藏）解锁购买权') };
             }
 
             if (skill.type === 'permanent' && st.owned) {
@@ -1267,7 +1279,7 @@ previewCurrentBackground() {
             this.save();
             this.applyAllEffects();
 
-            return { success: true, message: `成功购买: ${skill.name}` };
+            return { success: true, message: __i18n('skill_buy_success', '成功购买：%s').replace('%s', __skillText(skill)) };
         },
 
         toggle(id) {
@@ -1425,8 +1437,8 @@ previewCurrentBackground() {
                 const $card = $(`
                     <div class="shop-skill-card" data-id="${skill.id}">
                         ${ownedBadge}
-                        <img src="${skill.icon}" alt="${skill.name}" class="shop-skill-icon" onerror="this.style.display='none';">
-                        <div class="shop-skill-name">${skill.name}</div>
+                        <img src="${skill.icon}" alt="${__skillText(skill)}" class="shop-skill-icon" onerror="this.style.display='none';">
+                        <div class="shop-skill-name">${__skillText(skill)}</div>
                         ${limitedInfo}
                         ${permanentInfo}
                         ${priceInfo}
@@ -1483,11 +1495,11 @@ previewCurrentBackground() {
 
             $detail.html(`
                 <button id="shop-back-btn" class="shop-back-detail-btn"><i class="fas fa-arrow-left"></i> 返回</button>
-                <img src="${skill.icon}" alt="${skill.name}" class="shop-detail-icon" onerror="this.style.display='none';">
-                <h3 class="shop-detail-name">${skill.name}</h3>
+                <img src="${skill.icon}" alt="${__skillText(skill)}" class="shop-detail-icon" onerror="this.style.display='none';">
+                <h3 class="shop-detail-name">${__skillText(skill)}</h3>
                 ${limitedInfo}
                 ${permanentInfo}
-                <div class="shop-detail-desc">${skill.desc}</div>
+                <div class="shop-detail-desc">${__skillDesc(skill)}</div>
                 ${canBuy ? `<div class="shop-detail-price">购买需要: ${Utils.formatCurrency(skill.price)}</div>` : ''}
                 <div class="shop-action-area">${toggleHtml}${actionHtml}</div>
             `);
@@ -3206,8 +3218,7 @@ _runOpenSafe() {
                     luckyPlaced = true;
                 }
             } else if (devilMode === 2) {
-                var __r = Math.random() < 0.2 ? 'red' : 'orange';
-                hqItem = GameCore.getRandomItemByRarity(__r) || GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItem();
+                hqItem = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItem();
             } else {
                 hqItem = GameCore.getRandomItem();
             }
@@ -6824,7 +6835,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.103';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.104';
 
     /* ============================================================
      * 检查更新
@@ -7935,7 +7946,7 @@ const EventManager = {
         st.enabled = true;
         ShopManager.save();
         ShopManager.applyAllEffects();
-        return { success: true, message: `已解锁技能「${skill.name}」` };
+        return { success: true, message: __i18n('skill_unlocked', '已解锁技能「%s」').replace('%s', __skillText(skill)) };
     };
 
 });

@@ -50,6 +50,16 @@
             '錢袋：累計總價值',
             'Money bag: total value',
             'Мешок: общая ценность'
-        ]
+        ],
+        skill_devil_name: ['恶魔契约', '惡魔契約', 'Demon Contract', 'Демонический контракт'],
+        skill_devil_desc: [
+            '开启后每次搜索消耗 1 次：50% 概率本次全部为紫色物品；50% 概率必出 2 个红色物品。需通行证 80 级（典藏）解锁购买权，可重复购买。',
+            '開啟後每次搜尋消耗 1 次：50% 機率本次全部為紫色物品；50% 機率必出 2 個紅色物品。需通行證 80 級（典藏）解鎖購買權，可重複購買。',
+            'When enabled, each search consumes 1 use: 50% chance all items are purple; 50% chance exactly 2 red items. Requires Pass level 80 (Premium) purchase right; can be purchased repeatedly.',
+            'При включении каждый поиск расходует 1 заряд: 50% — все предметы фиолетовые; 50% — ровно 2 красных предмета. Требуется право покупки на 80 уровне пропуска (Премиум); можно покупать повторно.'
+        ],
+        skill_devil_pass_locked: ['需通行证 80 级（典藏）解锁购买权', '需通行證 80 級（典藏）解鎖購買權', 'Requires the Pass level 80 (Premium) purchase right', 'Требуется право покупки на 80 уровне пропуска (Премиум)'],
+        skill_buy_success: ['成功购买：%s', '成功購買：%s', 'Purchased: %s', 'Куплено: %s'],
+        skill_unlocked: ['已解锁技能「%s」', '已解鎖技能「%s」', 'Skill unlocked: %s', 'Навык открыт: %s']
     });
 })();
