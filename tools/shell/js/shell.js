@@ -642,10 +642,16 @@
         sel.className = 'route-sel';
         sel.textContent = '选择';
         sel.onclick = function () {
-          try { localStorage.setItem('ab_fast_base', JSON.stringify({ base: base, ts: Date.now() })); } catch (e) {}
-          CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
-          panel.style.display = 'none';
-          setTimeout(function () { location.reload(); }, 150);
+          try {
+            localStorage.setItem('ab_fast_base', JSON.stringify({ base: base, ts: Date.now() }));
+            CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
+            panel.style.display = 'none';
+            if (!done) {
+              ci = 0;
+              picked = false;
+              setTimeout(function () { try { tryCode(); } catch (e) {} }, 60);
+            }
+          } catch (e) {}
         };
         row.appendChild(name); row.appendChild(sp); row.appendChild(sel);
         list.appendChild(row);
