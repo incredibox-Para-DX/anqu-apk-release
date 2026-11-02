@@ -3128,12 +3128,21 @@ _runOpenSafe() {
     ShopManager.consumeLimitedUse('lucky_streak');
     const luckyActive = ShopManager.isEnabled('lucky_streak');
 
-    let devilMode = 0;
+    let devilMode = 0, devilMix = '';
     try {
         const devil = ShopManager.getSkillState('devil_contract');
         if (devil && devil.owned && devil.enabled && devil.remaining > 0) {
             ShopManager.consumeLimitedUse('devil_contract');
-            devilMode = Math.random() < 0.5 ? 1 : 2;
+            if (Math.random() < 0.5) {
+                devilMode = 1;
+            } else {
+                devilMode = 2;
+                // 高价值组合：45% 两橙，5% 两红 / 一红一橙各半
+                var __mix = Math.random();
+                if (__mix < 0.45) devilMix = 'orange';
+                else if (__mix < 0.475) devilMix = 'redred';
+                else devilMix = 'redorange';
+            }
         }
     } catch (e) {}
 
@@ -3242,11 +3251,17 @@ _runOpenSafe() {
                     luckyPlaced = true;
                 }
             } else if (devilMode === 2) {
-                // 第一件必红，第二件红/橙各半，避免整次只出红而没有橙色。
                 // 必须深拷贝：直接改配置对象会污染 allItemsConfig（id/遮罩等字段）
-                var __pick = idx === 0
-                    ? (GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange'))
-                    : (Math.random() < 0.5 ? GameCore.getRandomItemByRarity('red') : GameCore.getRandomItemByRarity('orange'));
+                var __pick;
+                if (devilMix === 'orange') {
+                    __pick = GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItemByRarity('red');
+                } else if (devilMix === 'redred') {
+                    __pick = GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange');
+                } else {
+                    __pick = idx === 0
+                        ? (GameCore.getRandomItemByRarity('red') || GameCore.getRandomItemByRarity('orange'))
+                        : (GameCore.getRandomItemByRarity('orange') || GameCore.getRandomItemByRarity('red'));
+                }
                 hqItem = __pick ? _.cloneDeep(__pick) : GameCore.getRandomItem();
             } else {
                 hqItem = GameCore.getRandomItem();
@@ -6864,7 +6879,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.112';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.113';
 
     /* ============================================================
      * 检查更新
