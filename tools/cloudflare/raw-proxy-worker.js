@@ -1,43 +1,119 @@
 /**
- * anqu-raw —— GitHub raw 反代 Worker（Cloudflare）
+ * anqu-raw —— GitHub raw 反代 + 头像 CDN 上传（Cloudflare Worker）
  *
- * 目的：国内直连 raw.githubusercontent.com 经常很慢甚至打不开，
- *      由 Cloudflare 边缘节点回源并缓存，客户端只和 CF 边缘通信。
+ * GET/HEAD：反代 GitHub raw（main / p-xxxx 分支）
+ * POST /avatar/<uid>：把头像写入 anqu-collect-resources 的 avatars/ 目录，
+ *   返回 jsDelivr CDN 地址。需要 Worker Secret：
+ *     GH_TOKEN  GitHub token（对 anqu-collect-resources 有 contents 写权限）
+ *     AVATAR_KEY 可选，客户端需带 x-avatar-key 才能上传
  *
- * 路由：路径透传，首段是 ref（main 或 p-xxxx），其余是仓库内路径
- *   例：  /main/boot/js/script_new.js
- *    ->   https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main/boot/js/script_new.js
- *   也支持不带 ref： /boot/js/script_new.js   -> 默认 main
- *
- * 部署：Cloudflare Dashboard -> Workers & Pages -> 创建 Worker -> 粘贴本文件
- *      名称填 anqu-raw，部署后地址为 https://anqu-raw.<你的子域>.workers.dev
- *
- * 缓存策略：manifest.json 30 秒，其余文件 120 秒。
- *          代码文件必须短缓存，否则发版后客户端会拿到旧代码导致版本误判。
+ * 部署：Cloudflare Dashboard -> Workers & Pages -> anqu-raw -> 编辑代码粘贴本文件
+ *       设置 -> 变量 -> 添加 GH_TOKEN（加密），可选 AVATAR_KEY
  */
 
 const OWNER = 'incredibox-Para-DX';
 const REPO = 'anqu-apk-release';
 const UPSTREAM = 'https://raw.githubusercontent.com';
+const AVATAR_OWNER = 'incredibox-Para-DX';
+const AVATAR_REPO = 'anqu-collect-resources';
+const AVATAR_DIR = 'avatars';
+const AVATAR_MAX = 512 * 1024;
 
-// 允许的 ref：main 与私链灰度分支（p-xxxx）
 const REF_RE = /^(main|p-[a-z0-9-]+)$/i;
+const AVATAR_RE = /^\/avatar\/([A-Za-z0-9_-]{1,64})$/;
+
+function json(obj, status) {
+  return new Response(JSON.stringify(obj), {
+    status: status || 200,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, x-avatar-key',
+      'Cache-Control': 'no-store'
+    }
+  });
+}
+
+function base64(bytes) {
+  let bin = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(bin);
+}
+
+async function uploadAvatar(request, uid, env) {
+  if (!env || !env.GH_TOKEN) return json({ error: 'GH_TOKEN not configured' }, 503);
+  if (env.AVATAR_KEY && request.headers.get('x-avatar-key') !== env.AVATAR_KEY) {
+    return json({ error: 'forbidden' }, 403);
+  }
+  const buf = new Uint8Array(await request.arrayBuffer());
+  if (!buf.length || buf.length > AVATAR_MAX) return json({ error: 'bad size' }, 413);
+  const sig = String.fromCharCode(buf[0], buf[1], buf[2], buf[3]);
+  const isPng = buf[0] === 0x89 && sig.slice(1) === 'PNG';
+  const isJpg = buf[0] === 0xff && buf[1] === 0xd8;
+  const isWebp = sig === 'RIFF' && String.fromCharCode(buf[8], buf[9], buf[10], buf[11]) === 'WEBP';
+  if (!isPng && !isJpg && !isWebp) return json({ error: 'not an image' }, 415);
+
+  const api = `https://api.github.com/repos/${AVATAR_OWNER}/${AVATAR_REPO}/contents/${AVATAR_DIR}/${uid}.png`;
+  const headers = {
+    'Authorization': 'token ' + env.GH_TOKEN,
+    'Accept': 'application/vnd.github+json',
+    'User-Agent': 'anqu-avatar'
+  };
+  let sha = null;
+  const get = await fetch(api, { headers });
+  if (get.ok) {
+    try { sha = (await get.json()).sha; } catch (e) {}
+  }
+  const put = await fetch(api, {
+    method: 'PUT',
+    headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
+    body: JSON.stringify({
+      message: 'avatar ' + uid,
+      content: base64(buf),
+      ...(sha ? { sha } : {})
+    })
+  });
+  if (!put.ok) {
+    return json({ error: 'github upload failed', status: put.status }, 502);
+  }
+  return json({
+    url: `https://cdn.jsdelivr.net/gh/${AVATAR_OWNER}/${AVATAR_REPO}@main/${AVATAR_DIR}/${uid}.png?v=${Date.now()}`
+  });
+}
 
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
+
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, x-avatar-key'
+        }
+      });
+    }
+
+    const avatarMatch = AVATAR_RE.exec(url.pathname);
+    if (request.method === 'POST' && avatarMatch) {
+      return uploadAvatar(request, avatarMatch[1], env);
+    }
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', { status: 405 });
     }
 
-    // 去掉首尾斜杠并阻断目录穿越
     let path = url.pathname.replace(/^\/+|\/+$/g, '');
     if (!path || path.indexOf('..') !== -1) {
       return new Response('Not Found', { status: 404 });
     }
 
-    // 首段若是合法 ref 就用它，否则整体当作 main 下的路径
     const segs = path.split('/');
     let ref = 'main';
     if (REF_RE.test(segs[0])) {
@@ -55,7 +131,6 @@ export default {
         method: request.method,
         headers: {
           'User-Agent': 'anqu-raw-proxy',
-          // 透传条件请求，让上游回 304 以节省流量
           ...(request.headers.get('If-None-Match')
             ? { 'If-None-Match': request.headers.get('If-None-Match') }
             : {}),
@@ -76,7 +151,6 @@ export default {
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
     headers.set('Cache-Control', isManifest ? 'public, max-age=30' : 'public, max-age=120');
-    // 避免暴露 GitHub 的身份/限流信息
     headers.delete('set-cookie');
 
     return new Response(upstream.body, {

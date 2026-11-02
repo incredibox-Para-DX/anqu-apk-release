@@ -1,8 +1,11 @@
-/* 玩家头像上云：Supabase Storage(avatars) + ab_profiles 表；榜单据此显示头像 */
+/* 玩家头像：优先上传到 Worker -> GitHub(anqu-collect-resources/avatars) -> jsDelivr CDN；
+ * Worker 不可用时回退 Supabase Storage。ab_profiles 只保存头像 URL。 */
 (function (w) {
     'use strict';
     var SUPA_URL = 'https://fgkfgyudwbhmmrqvtfup.supabase.co';
     var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZna2ZneXVkd2JobW1ycXZ0ZnVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MTkyODAsImV4cCI6MjA5NzI5NTI4MH0.zcnusHgHSUK3AogYAXaR-9Q2KWuGK6_V7wwhgj1D1PI';
+    var AVATAR_WORKER = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
+    var AVATAR_KEY = '';
 
     function dataUrlToBlob(dataUrl) {
         var arr = String(dataUrl).split(',');
@@ -13,34 +16,83 @@
         return new Blob([u8], { type: mime });
     }
 
+    // 头像压到 128px 再上传，减少 CDN 与数据库负担
+    function compressAvatar(dataUrl) {
+        return new Promise(function (resolve) {
+            try {
+                var img = new Image();
+                img.onload = function () {
+                    try {
+                        var max = 128;
+                        var scale = Math.min(max / img.width, max / img.height, 1);
+                        var c = document.createElement('canvas');
+                        c.width = Math.max(1, Math.round(img.width * scale));
+                        c.height = Math.max(1, Math.round(img.height * scale));
+                        var ctx = c.getContext('2d');
+                        ctx.drawImage(img, 0, 0, c.width, c.height);
+                        resolve(c.toDataURL('image/png'));
+                    } catch (e) { resolve(dataUrl); }
+                };
+                img.onerror = function () { resolve(dataUrl); };
+                img.src = dataUrl;
+            } catch (e) { resolve(dataUrl); }
+        });
+    }
+
+    function saveProfileUrl(uid, url) {
+        return fetch(SUPA_URL + '/rest/v1/ab_profiles?on_conflict=uid', {
+            method: 'POST',
+            headers: {
+                'apikey': SUPA_KEY,
+                'Authorization': 'Bearer ' + SUPA_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'resolution=merge-duplicates,return=minimal'
+            },
+            body: JSON.stringify([{ uid: String(uid), avatar_url: url, updated_at: new Date().toISOString() }])
+        }).then(function () { return url; }).catch(function () { return url; });
+    }
+
+    function uploadToWorker(uid, dataUrl) {
+        var blob = dataUrlToBlob(dataUrl);
+        var headers = { 'Content-Type': 'image/png' };
+        if (AVATAR_KEY) headers['x-avatar-key'] = AVATAR_KEY;
+        return fetch(AVATAR_WORKER + '/avatar/' + encodeURIComponent(uid), {
+            method: 'POST',
+            headers: headers,
+            body: blob
+        }).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+        }).then(function (j) {
+            if (!j || !j.url) throw new Error('bad response');
+            return saveProfileUrl(uid, j.url);
+        });
+    }
+
+    function uploadToSupabase(uid, dataUrl) {
+        var blob = dataUrlToBlob(dataUrl);
+        var path = encodeURIComponent(String(uid)) + '.png';
+        return fetch(SUPA_URL + '/storage/v1/object/avatars/' + path, {
+            method: 'POST',
+            headers: {
+                'apikey': SUPA_KEY,
+                'Authorization': 'Bearer ' + SUPA_KEY,
+                'Content-Type': 'image/png',
+                'x-upsert': 'true'
+            },
+            body: blob
+        }).then(function (up) {
+            if (!up.ok) return false;
+            var pub = SUPA_URL + '/storage/v1/object/public/avatars/' + path;
+            return saveProfileUrl(uid, pub);
+        });
+    }
+
     function uploadAvatar(uid, dataUrl) {
         if (!uid || !dataUrl) return Promise.resolve(false);
-        return Promise.resolve().then(function () {
-            return dataUrlToBlob(dataUrl);
-        }).then(function (blob) {
-            var path = encodeURIComponent(String(uid)) + '.png';
-            return fetch(SUPA_URL + '/storage/v1/object/avatars/' + path, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPA_KEY,
-                    'Authorization': 'Bearer ' + SUPA_KEY,
-                    'Content-Type': 'image/png',
-                    'x-upsert': 'true'
-                },
-                body: blob
-            }).then(function (up) {
-                if (!up.ok) return false;
-                var pub = SUPA_URL + '/storage/v1/object/public/avatars/' + path;
-                return fetch(SUPA_URL + '/rest/v1/ab_profiles?on_conflict=uid', {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPA_KEY,
-                        'Authorization': 'Bearer ' + SUPA_KEY,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'resolution=merge-duplicates,return=minimal'
-                    },
-                    body: JSON.stringify([{ uid: String(uid), avatar_url: pub, updated_at: new Date().toISOString() }])
-                }).then(function () { return pub; }).catch(function () { return pub; });
+        return compressAvatar(dataUrl).then(function (compressed) {
+            return uploadToWorker(uid, compressed).catch(function () {
+                return uploadToSupabase(uid, compressed);
             });
         }).catch(function () { return false; });
     }
