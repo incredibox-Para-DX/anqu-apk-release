@@ -5693,7 +5693,7 @@ const EventManager = {
                 done++;
                 $('#rd-bg-progress-bar').css('width', Math.round(done / total * 100) + '%');
                 $('#rd-bg-count').text(done + ' / ' + total);
-                $('#rd-bg-progress-text').text('已完成 ' + done + '/' + total);
+                $('#rd-bg-progress-text').text(__i18n('hu_progress_done', '已完成 ') + done + '/' + total);
             }, function(e) {
                 failed++;
                 $('#rd-bg-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
@@ -5773,7 +5773,7 @@ const EventManager = {
                 done++;
                 $('#rd-music-progress-bar').css('width', Math.round(done / total * 100) + '%');
                 $('#rd-music-count').text(done + ' / ' + total);
-                $('#rd-music-progress-text').text('已完成 ' + done + '/' + total);
+                $('#rd-music-progress-text').text(__i18n('hu_progress_done', '已完成 ') + done + '/' + total);
             }, function(e) {
                 failed++;
                 $('#rd-music-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
@@ -5846,7 +5846,7 @@ const EventManager = {
                 done++;
                 $('#rd-title-progress-bar').css('width', Math.round(done / total * 100) + '%');
                 $('#rd-title-count').text(done + ' / ' + total);
-                $('#rd-title-progress-text').text('已完成 ' + done + '/' + total);
+                $('#rd-title-progress-text').text(__i18n('hu_progress_done', '已完成 ') + done + '/' + total);
             }, function(e) {
                 failed++;
                 $('#rd-title-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
@@ -5925,7 +5925,7 @@ const EventManager = {
                 done++;
                 $('#rd-minigame-progress-bar').css('width', Math.round(done / total * 100) + '%');
                 $('#rd-minigame-count').text(done + ' / ' + total);
-                $('#rd-minigame-progress-text').text('已完成 ' + done + '/' + total);
+                $('#rd-minigame-progress-text').text(__i18n('hu_progress_done', '已完成 ') + done + '/' + total);
             }, function(e) {
                 failed++;
                 if ($('#rd-minigame-progress-text').length) $('#rd-minigame-progress-text').text('下载失败：' + ((e && e.message) || e) + '（可再次点击重试）');
@@ -6907,7 +6907,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.150';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.151';
     // 版本文件始终覆盖，避免与旧版同大小时被跳过
     var __HU_SIZE_BUMP_150 = 1;
 
@@ -7553,7 +7553,7 @@ const EventManager = {
                                     if (!bt.writeFile('www/' + f.path, window.__huB64(buf))) throw new Error('写入失败');
                                     doneCount++;
                                     $('#update-check-progress-bar').css('width', Math.round(doneCount / list.length * 100) + '%');
-                                    $('#update-check-progress-text').text('已完成 ' + doneCount + '/' + list.length);
+                                    $('#update-check-progress-text').text(__i18n('hu_progress_done', '已完成 ') + doneCount + '/' + list.length);
                                     active--; pump();
                                 })
                                 .catch(function () {
