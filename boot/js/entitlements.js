@@ -48,6 +48,8 @@
                 try { localStorage.setItem('ab_blue_name', '1'); } catch (x) {}
             } else if (k === 'pass_supreme') {
                 try {
+                    // GM 重置后暂时不自动恢复通行证权益
+                    if (localStorage.getItem('ab_pass_gm_reset') === '1') return;
                     localStorage.setItem('ab_pass_premium', '1');
                     localStorage.setItem('ab_pass_card_night', '1');
                     // 权益同步每次启动都会执行，+50M 经验只能发放一次

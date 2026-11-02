@@ -61,6 +61,7 @@
             if (kind === 'bundle') { (p.items || []).forEach(one); }
             else if (kind === 'card') { if (p.card_id && w.Cards) w.Cards.unlock(p.card_id); }
             else if (kind === 'pass_supreme') {
+                try { localStorage.removeItem('ab_pass_gm_reset'); } catch (e) {}
                 setFlag('ab_pass_premium', '1');
                 setFlag('ab_pass_card_night', '1');
                 try {

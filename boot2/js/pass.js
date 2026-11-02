@@ -739,8 +739,19 @@
         }
         add('+10 级（+50M 经验）', function () { set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + S.perLevel * 10)); });
         add('+1000 赛季币', function () { set(K.coins, num(K.coins) + 1000); });
-        add('解锁典藏', function () { set(K.premium, '1'); });
-        add('解锁尊享（典藏+10级+长夜终烬）', function () { set(K.premium, '1'); set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + S.perLevel * 10)); try { localStorage.setItem('ab_pass_card_night', '1'); } catch (e) {} });
+        add('解锁典藏', function () {
+            try { localStorage.removeItem('ab_pass_gm_reset'); } catch (e) {}
+            set(K.premium, '1');
+        });
+        add('解锁尊享（典藏+10级+长夜终烬）', function () {
+            try {
+                localStorage.removeItem('ab_pass_gm_reset');
+                localStorage.setItem('ab_pass_supreme_granted', '1');
+                localStorage.setItem('ab_pass_card_night', '1');
+            } catch (e) {}
+            set(K.premium, '1');
+            set(K.xp, Math.min(S.levels * S.perLevel, num(K.xp) + S.perLevel * 10));
+        });
         add('解锁恶魔契约购买权', function () { try { localStorage.setItem('ab_pass_ability_devil', '1'); } catch (e) {} });
         add('清除获得的奖励', function () {
             try { localStorage.removeItem(K.claims); } catch (e) {}
@@ -749,7 +760,16 @@
             });
             toast('已清除通行证奖励');
         });
-        add('重置赛季进度', function () { [K.xp, K.weekXp, K.week, K.start, K.premium, K.coins, K.claimedCoins, K.claims, K.lastW].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} }); });
+        add('重置赛季进度', function () {
+            [K.xp, K.weekXp, K.week, K.start, K.premium, K.coins, K.claimedCoins, K.claims, K.lastW].forEach(function (k) {
+                try { localStorage.removeItem(k); } catch (e) {}
+            });
+            // 典藏/尊享获取状态一并清掉，并阻止权益同步立刻恢复
+            ['ab_pass_card_night', 'ab_pass_supreme_granted', 'ab_pass_ability_devil'].forEach(function (k) {
+                try { localStorage.removeItem(k); } catch (e) {}
+            });
+            try { localStorage.setItem('ab_pass_gm_reset', '1'); } catch (e) {}
+        });
     }
 
     function openDebug() {
