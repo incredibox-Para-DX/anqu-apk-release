@@ -1,22 +1,22 @@
-/* 感谢名单：全屏滚动字幕 + 模糊循环视频，按音频长度自动切换 037/038 */
+/* 感谢名单：全屏滚动字幕 + 模糊循环视频，随机从 037/038 开始，按音频长度自动切换 */
 (function () {
     'use strict';
 
     var OPENED = false;
+    var TRANSPARENT_POSTER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
     function injectStyle() {
         if (document.getElementById('thanks-style')) return;
         var s = document.createElement('style');
         s.id = 'thanks-style';
         s.textContent = [
-            '#thanks-overlay{position:fixed;inset:0;z-index:12000;background:#000;opacity:0;transition:opacity .8s ease;overflow:hidden}',
+            '#thanks-overlay{position:fixed;inset:0;z-index:12000;background:#000;opacity:0;transition:opacity 1.2s ease-in-out;overflow:hidden}',
             '#thanks-overlay.show{opacity:1}',
-            '#thanks-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(10px) brightness(.5);transform:scale(1.1)}',
+            '#thanks-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(3px) brightness(.6);transform:scale(1.08)}',
             '#thanks-scroll{position:absolute;inset:0;display:flex;justify-content:center;overflow:hidden;pointer-events:none}',
-            '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;animation:thanksScroll 72s linear forwards;white-space:pre-line}',
+            '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;animation:thanksScroll 43.6s linear forwards;white-space:pre-line}',
             '#thanks-names .thanks-title{font-size:26px;font-weight:700;letter-spacing:.3em;margin-bottom:36px}',
             '#thanks-names .thanks-name{opacity:.92}',
-            '#thanks-hint{position:absolute;left:0;right:0;bottom:22px;text-align:center;color:rgba(255,255,255,.55);font-size:12px;letter-spacing:.2em;pointer-events:none}',
             '@keyframes thanksScroll{from{transform:translateY(0)}to{transform:translateY(-100%)}}'
         ].join('\n');
         document.head.appendChild(s);
@@ -51,10 +51,10 @@
                 if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
                 overlay = null; video = null; audio = null;
                 closing = false; OPENED = false;
-            }, 800);
+            }, 1200);
         }
 
-        function playSegment(idx) {
+        function playSegment(idx, next) {
             var srcVideo = idx === 1 ? 'thanks/037.mp4' : 'thanks/038.mp4';
             var srcAudio = idx === 1 ? 'thanks/night.mp3' : 'thanks/xia.mp3';
             try {
@@ -66,12 +66,17 @@
                 audio = new Audio(srcAudio);
                 audio.volume = 0.9 * ((window.__UI_SOUND_VOLUME__ != null) ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.onended = function () {
-                    if (idx === 1) playSegment(2);
+                    if (next) playSegment(next, null);
                     else close();
                 };
                 audio.play().catch(function () {
                     // 音频被拦截时按视频时长兜底推进
-                    setTimeout(function () { if (OPENED && !closing) { if (idx === 1) playSegment(2); else close(); } }, idx === 1 ? 37000 : 36000);
+                    setTimeout(function () {
+                        if (OPENED && !closing) {
+                            if (next) playSegment(next, null);
+                            else close();
+                        }
+                    }, next ? (idx === 1 ? 37000 : 36000) : 36000);
                 });
             } catch (e) {}
         }
@@ -83,15 +88,15 @@
                 injectStyle();
                 overlay = document.createElement('div');
                 overlay.id = 'thanks-overlay';
-                overlay.innerHTML = '<video muted loop playsinline webkit-playsinline preload="auto"></video>' +
-                    '<div id="thanks-scroll"><div id="thanks-names">' + placeholderNames() + '</div></div>' +
-                    '<div id="thanks-hint">点击任意位置退出</div>';
+                overlay.innerHTML = '<video muted loop playsinline webkit-playsinline preload="auto" poster="' + TRANSPARENT_POSTER + '"></video>' +
+                    '<div id="thanks-scroll"><div id="thanks-names">' + placeholderNames() + '</div></div>';
                 document.body.appendChild(overlay);
                 video = overlay.querySelector('video');
-                // 点击任意地方退出
                 overlay.addEventListener('click', close);
                 requestAnimationFrame(function () { overlay.classList.add('show'); });
-                playSegment(1);
+                // 每次打开随机从 037 或 038 开始，播完再切另一个
+                var first = Math.random() < 0.5 ? 1 : 2;
+                playSegment(first, first === 1 ? 2 : 1);
             },
             close: close
         };
