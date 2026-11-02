@@ -90,8 +90,12 @@ const BackgroundManager = {
     isBackgroundUnlocked(bgId) {
         // Mod 背景（字符串 id 带 mod_ 前缀）：始终解锁
         if (typeof bgId === 'string' && bgId.indexOf('mod_') === 0) return true;
+        // 通行证背景：读取通行证领取标记
+        if (typeof bgId === 'string' && bgId.indexOf('bg_') === 0) {
+            try { return localStorage.getItem('ab_pass_' + bgId) === '1'; } catch (e) { return false; }
+        }
         const owned = this.getOwnedBackgrounds();
-        return owned.includes(Number(bgId));
+        return owned.includes(Number(bgId)) || owned.indexOf(bgId) >= 0;
     },
 
     purchaseBackground(bgId) {
@@ -189,10 +193,7 @@ previewCurrentBackground() {
                 text = await Net.getText(this.configPath, { timeout: 8000, retries: 1 });
             } else {
                 const response = await fetch(this.configPath);
-                if (!response.ok) {
-                    this.backgrounds = [{ id: 1, name: '默认背景', path: 'pictures/background.mp4', price: 0 }];
-                    return;
-                }
+                if (!response.ok) throw new Error('http');
                 text = await response.text();
             }
             const parser = new DOMParser();
@@ -217,6 +218,22 @@ previewCurrentBackground() {
         } catch (e) {
             this.backgrounds = [{ id: 1, name: '默认背景', path: 'pictures/background.mp4', price: 0 }];
         }
+
+        // 通行证新增背景：参与商城展示与解锁（资源就位后缩略图自动加载）
+        var bgName = function (key, fallback) {
+            try { return (window.I18N && I18N.t) ? I18N.t(key) : fallback; } catch (e) { return fallback; }
+        };
+        var PASS_BGS = [
+            { id: 'bg_pulse', name: bgName('pass_bg_pulse', '脉冲极客'), path: 'backgrounds/bg_pulse.png', price: 0, passOnly: true },
+            { id: 'bg_jiuke', name: bgName('pass_bg_jiuke', '九课特工'), path: 'backgrounds/bg_jiuke.png', price: 0, passOnly: true },
+            { id: 'bg_laizhan', name: bgName('pass_bg_laizhan', '来战'), path: 'backgrounds/bg_laizhan.png', price: 0, passOnly: true },
+            { id: 'bg_jixi', name: bgName('pass_bg_jixi', '急袭·近身战'), path: 'backgrounds/bg_jixi.png', price: 0, passOnly: true },
+            { id: 'bg_jinshen', name: bgName('pass_bg_jinshen', '近身战'), path: 'backgrounds/bg_jinshen.png', price: 0, passOnly: true }
+        ];
+        var self = this;
+        PASS_BGS.forEach(function (b) {
+            if (!self.backgrounds.some(function (x) { return x.id === b.id; })) self.backgrounds.push(b);
+        });
     },
 
     applyBackground(path, isVideoHint, fallbackPath, skipSave) {
@@ -6699,7 +6716,7 @@ const EventManager = {
                 return bf - af;
             });
             sorted.forEach((bg) => {
-                const available = bg.path === 'pictures/background.mp4' || bg.path === 'backgrounds/background.mp4' ||
+                const available = bg.passOnly || bg.path === 'pictures/background.mp4' || bg.path === 'backgrounds/background.mp4' ||
                     (window.ResourceDownloadManager && window.ResourceDownloadManager.isDownloaded && window.ResourceDownloadManager.isDownloaded(bg.path));
                 if (!available) return;
                 const index = self.backgrounds.indexOf(bg);
@@ -6720,7 +6737,7 @@ const EventManager = {
                 el.querySelector('.bg-thumb-name').textContent = bg.name;
                 el.querySelector('.bg-thumb-price').innerHTML = unlocked
                     ? '<span style="color:#4ade80;">已解锁</span>'
-                    : Utils.formatCurrency(bg.price);
+                    : (bg.passOnly ? '<span style="color:#d1a24a;">' + ((window.I18N && I18N.t) ? I18N.t('pass_reward') : '通行证奖励') + '</span>' : Utils.formatCurrency(bg.price));
                 frag.appendChild(el);
             });
             if (!frag.childElementCount) {
@@ -6767,6 +6784,11 @@ const EventManager = {
                     img.src = src;
                 };
 
+                if (bg.passOnly) {
+                    // 通行证背景：资源未就位时保持空白占位，不请求 404 远程图
+                    RDM.resolvePath(bg.path).then(function (u) { if (u) img.src = u; }).catch(function () {});
+                    return;
+                }
                 if (!isVideo) {
                     RDM.resolvePath(bg.path).then(applyImage).catch(() => applyImage(remote));
                     return;
@@ -6879,7 +6901,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.113';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.114';
 
     /* ============================================================
      * 检查更新
