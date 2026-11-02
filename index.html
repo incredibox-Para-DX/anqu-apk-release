@@ -3428,6 +3428,14 @@ if (document.readyState === 'loading') {
         input.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
+            const isGif = file.type === 'image/gif' || /\.gif$/i.test(file.name || '');
+            let gmUser = false;
+            try { const v = localStorage.getItem('ab_gm_unlocked'); gmUser = v === 'true' || v === '1'; } catch (err) {}
+            if (isGif && !gmUser) {
+                if (window.showToast) showToast('仅 GM 可上传 GIF 头像');
+                e.target.value = '';
+                return;
+            }
             const reader = new FileReader();
             reader.onload = function (ev) {
                 const dataUrl = ev.target.result;

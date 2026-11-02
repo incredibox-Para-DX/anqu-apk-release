@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.129",
+  "version": "v2.3.0_hotfix.130",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -93,8 +93,8 @@
     },
     {
       "path": "js/cloud-profile.js",
-      "size": 4892,
-      "sha256": "c1fe6a1f9388316183cb968c815306920339cbd4ddb2a142f0413e7647c7b4d8"
+      "size": 5667,
+      "sha256": "9c2a30f048a44d83c0bde338a0c88ee2c7b644e99e350815452e4a2d290296b3"
     },
     {
       "path": "js/telemetry-dashboard.js",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 381097,
-      "sha256": "54e88c67d56dcce0090ba6a5f15cac63ff93e4752360f30c1fca5840c7936478"
+      "sha256": "cf10ad019a16480db2ae84d31a1b2905b1836f7531b4163d6dd1adb8086b9dbb"
     },
     {
       "path": "js/synthesis.js",
@@ -308,10 +308,10 @@
     },
     {
       "path": "index.html",
-      "size": 167114,
-      "sha256": "b92e2a256f26fe3e4af745fab5275986f4991c4832899d87170d04f4cc82101c"
+      "size": 167546,
+      "sha256": "9a666a42029cda882018616920ae0c0c691eab65ea2037a7d25b45ee1681b235"
     }
   ],
   "fileCount": 62,
-  "totalSize": 3147624
+  "totalSize": 3148831
 }

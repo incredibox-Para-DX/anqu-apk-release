@@ -7,6 +7,18 @@
     var AVATAR_WORKER = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
     var AVATAR_KEY = '';
 
+    function dataUrlMime(dataUrl) {
+        var m = String(dataUrl || '').match(/^data:([^;,]+)[;,]/);
+        return m ? m[1] : 'image/png';
+    }
+
+    function isGmUser() {
+        try {
+            var v = localStorage.getItem('ab_gm_unlocked');
+            return v === 'true' || v === '1';
+        } catch (e) { return false; }
+    }
+
     function dataUrlToBlob(dataUrl) {
         var arr = String(dataUrl).split(',');
         var mime = (arr[0].match(/:(.*?);/) || [])[1] || 'image/png';
@@ -52,9 +64,9 @@
         }).then(function () { return url; }).catch(function () { return url; });
     }
 
-    function uploadToWorker(uid, dataUrl) {
+    function uploadToWorker(uid, dataUrl, mime) {
         var blob = dataUrlToBlob(dataUrl);
-        var headers = { 'Content-Type': 'image/png' };
+        var headers = { 'Content-Type': mime || dataUrlMime(dataUrl) };
         if (AVATAR_KEY) headers['x-avatar-key'] = AVATAR_KEY;
         return fetch(AVATAR_WORKER + '/avatar/' + encodeURIComponent(uid), {
             method: 'POST',
@@ -69,15 +81,16 @@
         });
     }
 
-    function uploadToSupabase(uid, dataUrl) {
+    function uploadToSupabase(uid, dataUrl, mime) {
         var blob = dataUrlToBlob(dataUrl);
-        var path = encodeURIComponent(String(uid)) + '.png';
+        var ext = (mime === 'image/gif') ? 'gif' : 'png';
+        var path = encodeURIComponent(String(uid)) + '.' + ext;
         return fetch(SUPA_URL + '/storage/v1/object/avatars/' + path, {
             method: 'POST',
             headers: {
                 'apikey': SUPA_KEY,
                 'Authorization': 'Bearer ' + SUPA_KEY,
-                'Content-Type': 'image/png',
+                'Content-Type': mime || 'image/png',
                 'x-upsert': 'true'
             },
             body: blob
@@ -90,9 +103,15 @@
 
     function uploadAvatar(uid, dataUrl) {
         if (!uid || !dataUrl) return Promise.resolve(false);
-        return compressAvatar(dataUrl).then(function (compressed) {
-            return uploadToWorker(uid, compressed).catch(function () {
-                return uploadToSupabase(uid, compressed);
+        var mime = dataUrlMime(dataUrl);
+        var isGif = mime === 'image/gif';
+        // GIF 头像仅 GM 可用；普通用户直接拒绝
+        if (isGif && !isGmUser()) return Promise.resolve(false);
+        var prepare = isGif ? Promise.resolve(dataUrl) : compressAvatar(dataUrl);
+        return prepare.then(function (payload) {
+            var type = isGif ? 'image/gif' : 'image/png';
+            return uploadToWorker(uid, payload, type).catch(function () {
+                return uploadToSupabase(uid, payload, type);
             });
         }).catch(function () { return false; });
     }

@@ -17,7 +17,7 @@ const UPSTREAM = 'https://raw.githubusercontent.com';
 const AVATAR_OWNER = 'incredibox-Para-DX';
 const AVATAR_REPO = 'anqu-collect-resources';
 const AVATAR_DIR = 'avatars';
-const AVATAR_MAX = 512 * 1024;
+const AVATAR_MAX = 2 * 1024 * 1024;
 
 const REF_RE = /^(main|p-[a-z0-9-]+)$/i;
 const AVATAR_RE = /^\/avatar\/([A-Za-z0-9_-]{1,64})$/;
@@ -55,9 +55,11 @@ async function uploadAvatar(request, uid, env) {
   const isPng = buf[0] === 0x89 && sig.slice(1) === 'PNG';
   const isJpg = buf[0] === 0xff && buf[1] === 0xd8;
   const isWebp = sig === 'RIFF' && String.fromCharCode(buf[8], buf[9], buf[10], buf[11]) === 'WEBP';
-  if (!isPng && !isJpg && !isWebp) return json({ error: 'not an image' }, 415);
+  const isGif = sig === 'GIF8';
+  if (!isPng && !isJpg && !isWebp && !isGif) return json({ error: 'not an image' }, 415);
+  const ext = isGif ? 'gif' : (isJpg ? 'jpg' : (isWebp ? 'webp' : 'png'));
 
-  const api = `https://api.github.com/repos/${AVATAR_OWNER}/${AVATAR_REPO}/contents/${AVATAR_DIR}/${uid}.png`;
+  const api = `https://api.github.com/repos/${AVATAR_OWNER}/${AVATAR_REPO}/contents/${AVATAR_DIR}/${uid}.${ext}`;
   const headers = {
     'Authorization': 'token ' + env.GH_TOKEN,
     'Accept': 'application/vnd.github+json',
@@ -81,7 +83,7 @@ async function uploadAvatar(request, uid, env) {
     return json({ error: 'github upload failed', status: put.status }, 502);
   }
   return json({
-    url: `https://cdn.jsdelivr.net/gh/${AVATAR_OWNER}/${AVATAR_REPO}@main/${AVATAR_DIR}/${uid}.png?v=${Date.now()}`
+    url: `https://cdn.jsdelivr.net/gh/${AVATAR_OWNER}/${AVATAR_REPO}@main/${AVATAR_DIR}/${uid}.${ext}?v=${Date.now()}`
   });
 }
 
