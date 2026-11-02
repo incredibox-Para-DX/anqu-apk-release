@@ -27,7 +27,8 @@
         'redeem-code-modal': 'audio/buy.mp3',
         'mod-editor-modal': 'audio/open-synthesis.mp3',
         'mod-guide-page': 'audio/open-leaderboard.mp3',
-        'mod-library-page': 'audio/open-mods.mp3'
+        'mod-library-page': 'audio/open-mods.mp3',
+        'theme-modal': 'audio/open-credits.mp3'
     };
 
     var DEFAULT_OPEN_SOUND = 'audio/sidebar-open.mp3';
