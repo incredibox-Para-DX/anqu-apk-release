@@ -587,6 +587,7 @@
       try {
         var h = new URL(u).host;
         if (h.indexOf('workers.dev') >= 0) return 'Cloudflare Worker';
+        if (h === 'raw.hefunovo.xyz') return '自建线路';
         if (h.indexOf('raw.githubusercontent.com') >= 0) return 'GitHub 直链';
         if (h.indexOf('fastly.jsdelivr') >= 0) return 'jsDelivr fastly';
         if (h.indexOf('gcore.jsdelivr') >= 0) return 'jsDelivr gcore';
@@ -610,15 +611,20 @@
     }
 
     function bench(base, cb) {
-      var n = 0, bytes = 0, t0 = Date.now();
-      function one() {
-        if (n >= 3 || Date.now() - t0 > 7000) { cb(bytes, Date.now() - t0); return; }
-        fetch(base + '/manifest.json?t=' + Date.now(), { cache: 'no-store' })
-          .then(function (r) { return r.arrayBuffer(); })
-          .then(function (b) { bytes += (b && b.byteLength) || 0; n++; one(); })
-          .catch(function () { cb(bytes, Date.now() - t0); });
-      }
-      one();
+      var t0 = Date.now(), ctrl = null, to = null;
+      try { ctrl = new AbortController(); } catch (e) {}
+      if (ctrl) to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 6000);
+      var url = base + '/js/script_new.js?t=' + Date.now();
+      var req = ctrl ? fetch(url, { cache: 'no-store', signal: ctrl.signal }) : fetch(url, { cache: 'no-store' });
+      req.then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
+        .then(function (b) {
+          if (to) clearTimeout(to);
+          cb((b && b.byteLength) || 0, Date.now() - t0);
+        })
+        .catch(function () {
+          if (to) clearTimeout(to);
+          cb(0, 0);
+        });
     }
 
     function render() {
