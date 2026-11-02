@@ -1543,7 +1543,7 @@ $(function() {
                     <div class="playlist-selected-price" id="pl-sel-price"></div>
                 </div>
                 <button class="playlist-action-btn" id="pl-action-btn" disabled>播放</button>
-                <button class="playlist-action-btn cover" id="pl-cover-btn"><i class="fas fa-image"></i> 封面</button>
+                <button class="playlist-action-btn cover" id="pl-cover-btn"><i class="fas fa-image"></i> 查看歌曲封面</button>
                 <button class="playlist-action-btn del" id="pl-del-btn" style="display:none;"><i class="fas fa-trash-alt"></i> 删除</button>
             </div>
         `);
@@ -1883,7 +1883,7 @@ $(function() {
 
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
-                camera.position.set(0, 0.8, 6.4);
+                camera.position.set(0, 0.8, 5.8);
                 camera.lookAt(0, 0, 0);
 
                 scene.add(new THREE.AmbientLight(0xffffff, 1.2));
@@ -1891,37 +1891,80 @@ $(function() {
                 light.position.set(3, 4, 6);
                 scene.add(light);
 
+                const makeVinylTexture = () => {
+                    const size = 1024;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#060606';
+                    ctx.fillRect(0, 0, size, size);
+                    const cx = size / 2;
+                    const cy = size / 2;
+                    for (let r = 92; r < size / 2 - 2; r += 2) {
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                        ctx.strokeStyle = r % 8 === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.55)';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    for (let i = 0; i < 9000; i++) {
+                        ctx.fillStyle = 'rgba(255,255,255,' + (Math.random() * 0.05) + ')';
+                        ctx.fillRect(Math.random() * size, Math.random() * size, 1, 1);
+                    }
+                    const tex = new THREE.CanvasTexture(canvas);
+                    tex.colorSpace = THREE.SRGBColorSpace;
+                    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    return tex;
+                };
+
                 const record = new THREE.Group();
                 record.rotation.x = rotX;
                 scene.add(record);
 
+                const vinylTex = makeVinylTexture();
                 const vinyl = new THREE.Mesh(
                     new THREE.CylinderGeometry(2.0, 2.0, 0.09, 96),
-                    new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.35, metalness: 0.15 })
+                    new THREE.MeshStandardMaterial({ map: vinylTex, color: 0xffffff, roughness: 0.82, metalness: 0.05 })
                 );
                 record.add(vinyl);
 
+                const vinylTop = new THREE.Mesh(
+                    new THREE.CircleGeometry(2.0, 128),
+                    new THREE.MeshStandardMaterial({ map: vinylTex, color: 0xffffff, roughness: 0.82, metalness: 0.05 })
+                );
+                vinylTop.rotation.x = -Math.PI / 2;
+                vinylTop.position.y = 0.046;
+                record.add(vinylTop);
+
                 const rim = new THREE.Mesh(
                     new THREE.TorusGeometry(2.0, 0.035, 12, 120),
-                    new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.4, metalness: 0.5 })
+                    new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.45, metalness: 0.4 })
                 );
                 rim.rotation.x = Math.PI / 2;
                 rim.position.y = 0.052;
                 record.add(rim);
 
                 const coverMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-                const cover = new THREE.Mesh(new THREE.CircleGeometry(1.28, 128), coverMat);
+                const cover = new THREE.Mesh(new THREE.CircleGeometry(1.45, 160), coverMat);
                 cover.rotation.x = -Math.PI / 2;
                 cover.position.y = 0.052;
                 record.add(cover);
 
-                const center = new THREE.Mesh(
-                    new THREE.CircleGeometry(0.09, 48),
-                    new THREE.MeshStandardMaterial({ color: 0x777777, roughness: 0.3, metalness: 0.8 })
+                const hole = new THREE.Mesh(
+                    new THREE.CircleGeometry(0.05, 48),
+                    new THREE.MeshBasicMaterial({ color: 0x000000 })
                 );
-                center.rotation.x = -Math.PI / 2;
-                center.position.y = 0.056;
-                record.add(center);
+                hole.rotation.x = -Math.PI / 2;
+                hole.position.y = 0.058;
+                record.add(hole);
+
+                const holeRing = new THREE.Mesh(
+                    new THREE.TorusGeometry(0.065, 0.012, 8, 48),
+                    new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.3, metalness: 0.9 })
+                );
+                holeRing.rotation.x = Math.PI / 2;
+                holeRing.position.y = 0.06;
+                record.add(holeRing);
 
                 const loader = new THREE.TextureLoader();
                 loader.setCrossOrigin('anonymous');
