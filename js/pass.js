@@ -165,7 +165,7 @@
 
     // UI：统一走通用的全屏页面结构（modal-overlay app-full-page + modal-header/body），
     // 打开/关闭交给 ModalRegistry，复用通用过渡与音效。
-    var root = null, bodyEl = null, view = { t: 'main' };
+    var root = null, bodyEl = null, view = { t: 'main' }, lastView = 'main';
 
     function el(tag, css, text) { var d = document.createElement(tag); if (css) d.style.cssText = css; if (text != null) d.textContent = text; return d; }
 
@@ -191,7 +191,9 @@
             '#pass-page .pass-muted{font-size:11px;color:var(--text-light);line-height:1.7;}' +
             '#pass-page .pass-thumb{width:56px;height:56px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;background-size:cover;background-position:center;}' +
             '#pass-page .pass-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(156px,1fr));gap:8px;}' +
-            '#pass-page .pass-preview-card{display:flex;align-items:center;gap:8px;border:1px solid var(--panel-border);border-radius:10px;padding:8px;background:var(--panel-bg);}' +            '#pass-debug-modal .modal-body .modal-btn{margin-top:8px;}';
+            '#pass-page .pass-preview-card{display:flex;align-items:center;gap:8px;border:1px solid var(--panel-border);border-radius:10px;padding:8px;background:var(--panel-bg);}' +
+            '@keyframes passViewIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}' +
+            '#pass-page .pass-view-in{animation:passViewIn .24s ease both;}' +            '#pass-debug-modal .modal-body .modal-btn{margin-top:8px;}';
         document.head.appendChild(s);
     }
 
@@ -548,6 +550,10 @@
         content.appendChild(buildHeader());
         bodyEl = el('div', '', '');
         bodyEl.className = 'modal-body';
+        if (view.t !== lastView) {
+            bodyEl.className += ' pass-view-in';
+            lastView = view.t;
+        }
         content.appendChild(bodyEl);
         if (view.t === 'main') renderMain();
         else if (view.t === 'upgrade') renderUpgrade();
@@ -559,6 +565,7 @@
     function open() {
         ensurePage();
         view = { t: 'main' };
+        lastView = 'main';
         render();
         if (w.ModalRegistry) ModalRegistry.open('pass-page');
         else {

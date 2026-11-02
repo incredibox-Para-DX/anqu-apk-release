@@ -77,6 +77,7 @@
         hu_update_now: ['立即更新', '立即更新', 'Update now', 'Обновить'],
         hu_current_version: ['当前版本：', '目前版本：', 'Current: ', 'Текущая: '],
         hu_latest_version: ['最新版本：', '最新版本：', 'Latest: ', 'Последняя: '],
+        hu_version_mismatch: ['下载内容版本不匹配，请重试', '下載內容版本不匹配，請重試', 'Downloaded content version mismatch; please retry', 'Версия загруженного содержимого не совпадает; повторите'],
         hu_update_failed_reason: ['更新失败：', '更新失敗：', 'Update failed: ', 'Обновление не удалось: '],
         hu_bg_preview_unavailable: ['背景预览不可用', '背景預覽不可用', 'Background preview unavailable', 'Предпросмотр фона недоступен'],
         hu_card_preview_unavailable: ['名片预览不可用', '名片預覽不可用', 'Card preview unavailable', 'Предпросмотр визитки недоступен']
