@@ -3803,3 +3803,6 @@ html[lang="ru"] .lang-opt { font-size: 0.9em; line-height: 1.25; }
 
 .music-controls-mini { justify-content: center; }
 .music-controls-mini .music-control-btn { flex: 0 0 44px; width: 44px; padding-left: 0; padding-right: 0; }
+
+#music-playlist-modal > .modal-content { background: rgba(11,14,19,.55); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+.playlist-action-btn { flex: 0 0 auto; min-width: 88px; padding: 10px 20px; }

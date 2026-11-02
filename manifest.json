@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.158",
+  "version": "v2.3.0_hotfix.159",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -28,8 +28,8 @@
     },
     {
       "path": "css/styles.css",
-      "size": 108185,
-      "sha256": "1f611491328fbee9be87a7b95470d8e465c1663097074d0536803b72f65e258f"
+      "size": 108405,
+      "sha256": "d6edfc52cebb8e2d4443dae73b947eb6312e77356989c86cbbca87d65150e86e"
     },
     {
       "path": "debug-console.css",
@@ -58,8 +58,8 @@
     },
     {
       "path": "js/music.js",
-      "size": 86845,
-      "sha256": "c4d5f042614a270c0d1a5b814dc06d48363ea6bfff13e6a3d8f777f8d96db5bd"
+      "size": 87385,
+      "sha256": "a2ae9d44294175e4d8b7fd7c6142584c7d1f396fa4d81b9e797c257cbc4e2e76"
     },
     {
       "path": "js/net-mirror.js",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 352873,
-      "sha256": "c57394c21917d2e8d3b1f985fff7796db0f1b27e224aca39337f248a37c81398"
+      "sha256": "d6b651d6018fff8bf9c9a189124aef28a27f748888e31acb373a6edf095ca957"
     },
     {
       "path": "js/synthesis.js",
@@ -268,5 +268,5 @@
     }
   ],
   "fileCount": 53,
-  "totalSize": 2322876
+  "totalSize": 2323636
 }

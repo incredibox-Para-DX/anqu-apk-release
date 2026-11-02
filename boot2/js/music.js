@@ -1506,6 +1506,11 @@ $(function() {
                     $(this).addClass('active');
                     updateActionBar();
                 });
+            $item.find('.playlist-item-cover').on('dblclick', function (e) {
+                e.stopPropagation();
+                playClickSound();
+                openCoverPreview(index);
+            });
             
             if (track.isCustom) {
                 (function() {
@@ -1538,6 +1543,7 @@ $(function() {
                     <div class="playlist-selected-price" id="pl-sel-price"></div>
                 </div>
                 <button class="playlist-action-btn" id="pl-action-btn" disabled>播放</button>
+                <button class="playlist-action-btn cover" id="pl-cover-btn"><i class="fas fa-image"></i> 封面</button>
                 <button class="playlist-action-btn del" id="pl-del-btn" style="display:none;"><i class="fas fa-trash-alt"></i> 删除</button>
             </div>
         `);
@@ -1599,6 +1605,11 @@ $(function() {
         });
 
         
+        $('#pl-cover-btn').on('click', function () {
+            playItemClickSound();
+            openCoverPreview(selectedIndex);
+        });
+
         $('#pl-del-btn').on('click', () => {
             const track = player.playlist[selectedIndex];
             if (!track || !track.isCustom) return;
@@ -1799,10 +1810,11 @@ $(function() {
         }, 800);
     };
 
-    const openCoverPreview = () => {
+    const openCoverPreview = (trackIndex) => {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized)) return;
-        const track = _.get(player, `playlist[${player.currentTrackIndex}]`);
+        const idx = trackIndex != null ? trackIndex : player.currentTrackIndex;
+        const track = _.get(player, `playlist[${idx}]`);
         if (!(track && track.cover && track.cover.trim())) return;
         const coverPath = player.getFullPath(track.cover);
 
