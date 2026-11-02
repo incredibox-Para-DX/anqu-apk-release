@@ -64,8 +64,12 @@
                 setFlag('ab_pass_premium', '1');
                 setFlag('ab_pass_card_night', '1');
                 try {
-                    var xp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
-                    localStorage.setItem('ab_pass_xp', String(Math.min(400000000, xp)));
+                    // 与权益同步共用一次性标记，避免重复加经验
+                    if (localStorage.getItem('ab_pass_supreme_granted') !== '1') {
+                        var xp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
+                        localStorage.setItem('ab_pass_xp', String(Math.min(400000000, xp)));
+                        localStorage.setItem('ab_pass_supreme_granted', '1');
+                    }
                 } catch (e) {}
             }
             else if (kind === 'value') { if (typeof w.__addAccumulatedValue === 'function') w.__addAccumulatedValue(p.amount || 0); }

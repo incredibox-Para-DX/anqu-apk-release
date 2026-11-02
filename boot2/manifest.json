@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.136.m",
+  "version": "v2.3.0_hotfix.137.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -108,13 +108,13 @@
     },
     {
       "path": "js/redeem.js",
-      "size": 6706,
-      "sha256": "0c632dc929ddd9601c953d8a2fce1152f7e9769cb26c560680582aa3208c25f6"
+      "size": 6981,
+      "sha256": "376e0e18334f941b52dd77c3f1c2d295d1f3755654b5a98140360a8daa3f7a75"
     },
     {
       "path": "js/script_new.js",
       "size": 381381,
-      "sha256": "2195b50476a8f85adbf23f16d372085af2cecdb5de96208108f8da7220f452a3"
+      "sha256": "8b2c888a891b2ece9ce2e94258856f9425f07cc1496e301d2ab7b864e05c95ab"
     },
     {
       "path": "js/synthesis.js",
@@ -173,8 +173,8 @@
     },
     {
       "path": "js/entitlements.js",
-      "size": 11830,
-      "sha256": "ed8919664aac0880f89225e3611befe336147ba49c309002d8a6c7a542237417"
+      "size": 12113,
+      "sha256": "f69d26b32f0796ba45d703b8e88fdd70b1ec695a8202c214ebfbcaf28d76e3eb"
     },
     {
       "path": "js/bans.js",
@@ -323,5 +323,5 @@
     }
   ],
   "fileCount": 64,
-  "totalSize": 3191845
+  "totalSize": 3192403
 }

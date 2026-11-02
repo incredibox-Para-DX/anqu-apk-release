@@ -50,8 +50,12 @@
                 try {
                     localStorage.setItem('ab_pass_premium', '1');
                     localStorage.setItem('ab_pass_card_night', '1');
-                    var pxp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
-                    localStorage.setItem('ab_pass_xp', String(Math.min(400000000, pxp)));
+                    // 权益同步每次启动都会执行，+50M 经验只能发放一次
+                    if (localStorage.getItem('ab_pass_supreme_granted') !== '1') {
+                        var pxp = Number(localStorage.getItem('ab_pass_xp') || 0) + 50000000;
+                        localStorage.setItem('ab_pass_xp', String(Math.min(400000000, pxp)));
+                        localStorage.setItem('ab_pass_supreme_granted', '1');
+                    }
                 } catch (x) {}
             } else if (k === 'value') {
                 try {
