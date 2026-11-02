@@ -162,7 +162,7 @@
         if (total > claimed) { set(K.coins, num(K.coins) + (total - claimed)); set(K.claimedCoins, total); }
         updatePassDot();
     }
-    setInterval(tick, 3000);
+    setInterval(tick, 5000);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(tick, 1200); });
     else setTimeout(tick, 1200);
 
@@ -684,7 +684,7 @@
             }
         }
         syncGmBtn();
-        setInterval(syncGmBtn, 3000);
+        setInterval(syncGmBtn, 10000);
     }
 
     function dbgState() {
