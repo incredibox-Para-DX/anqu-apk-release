@@ -17,7 +17,8 @@
             '#thanks-scroll::-webkit-scrollbar{display:none}',
             '#thanks-names{color:#fff;text-align:center;font-size:19px;line-height:2.1;letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.8);padding-top:100vh;white-space:pre-line}',
             '#thanks-names .thanks-title{font-size:26px;font-weight:700;letter-spacing:.3em;margin-bottom:36px}',
-            '#thanks-names .thanks-name{opacity:.92}'
+            '#thanks-names .thanks-name{opacity:.92}',
+            '#thanks-names .thanks-credit{font-size:14px;line-height:1.9;opacity:.75;letter-spacing:.05em}'
         ].join('\n');
         document.head.appendChild(s);
     }
@@ -27,7 +28,9 @@
         for (var i = 1; i <= 30; i++) {
             out.push('<div class="thanks-name">姓名占位 ' + (i < 10 ? '0' + i : i) + '</div>');
         }
-        out.push('<div class="thanks-title" style="margin-top:40px">感谢观看</div>');
+        out.push('<div class="thanks-credit" style="margin-top:40px">游戏为同人二创 · 非官方 · 非商用</div>');
+        out.push('<div class="thanks-credit">《暗区突围》版权归腾讯/魔方工作室群</div>');
+        out.push('<div class="thanks-credit">空值工作室Null Studio出品 · HeFun 开发 · 暗区保险模拟</div>');
         return out.join('');
     }
 
