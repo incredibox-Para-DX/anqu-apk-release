@@ -307,31 +307,11 @@
       "sha256": "4a33fc9b57bc4d991ce9aac5ea4984cc8dbd203349d78c937fddacc554cfa211"
     },
     {
-      "path": "audio/pass-toast-show.mp3",
-      "size": 25858,
-      "sha256": "b9aaaa29fd9786061a275b82daa9d1ac41f93909af3033d0def873ef0804b099"
-    },
-    {
-      "path": "audio/pass-toast-hide.mp3",
-      "size": 15236,
-      "sha256": "7b3b06c5d9580650b28f5855c8872b9155b2b104fafb2a3d7742e8bfb67842b8"
-    },
-    {
-      "path": "audio/open-mods.mp3",
-      "size": 22409,
-      "sha256": "0829eb9849af4a82fc42f30b38e9bcaac4041938356dc25f711d26c76a72c9ed"
-    },
-    {
-      "path": "audio/open-pass.mp3",
-      "size": 33376,
-      "sha256": "262c9aeffbdd81c9c1d699e05c92978c2b8de321c6648b0f982ae60d4762416e"
-    },
-    {
       "path": "index.html",
       "size": 167729,
       "sha256": "6af965bafba345d54abc613c59d8bffa997a9d1980292479fac2d40eb105637d"
     }
   ],
-  "fileCount": 66,
-  "totalSize": 3249339
+  "fileCount": 62,
+  "totalSize": 3152460
 }
