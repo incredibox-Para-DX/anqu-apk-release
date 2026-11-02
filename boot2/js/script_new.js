@@ -6905,7 +6905,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     // 当前运行的构建版本（写死在脚本里 = 真实生效版本，不依赖 localStorage）。
     // ⚠ 必须与 manifest.json 的 version 同步升，否则自动检查会一直误判「有新版」（远程 manifest > 本地 HU_BUILD_VERSION）。
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.125';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.126';
 
     /* ============================================================
      * 检查更新
@@ -7505,14 +7505,6 @@ const EventManager = {
             location.replace(u + '?r=' + Date.now());
         } catch (e) { location.reload(); }
     };
-    // 下载后确认新写入的 script_new.js 确实包含清单版本，避免缓存/旧文件导致版本号不变。
-    window.__huVerifyVersion = function (version, cb) {
-        if (!version) { cb(true); return; }
-        fetch('js/script_new.js?t=' + Date.now(), { cache: 'no-store' })
-            .then(function (r) { return r.ok ? r.text() : ''; })
-            .then(function (txt) { cb(txt.indexOf(version) >= 0); })
-            .catch(function () { cb(true); });
-    };
     window.__huDownloadJs = function (base, onDone) {
         var finish = typeof onDone === 'function' ? onDone : function () {};
         var bt = window.AndroidUpdate;
@@ -7534,10 +7526,7 @@ const EventManager = {
             function pump() {
                 if (idx >= list.length && active === 0) {
                     if (fails.length) { finish(false, '有 ' + fails.length + ' 个文件下载失败：' + fails.slice(0, 3).join('、')); return; }
-                    window.__huVerifyVersion(m.version, function (ok) {
-                        if (!ok) { finish(false, __i18n('hu_version_mismatch', '下载内容版本不匹配，请重试')); return; }
-                        finish(true, '');
-                    });
+                    finish(true, '');
                     return;
                 }
                 while (active < conc && idx < list.length) {
