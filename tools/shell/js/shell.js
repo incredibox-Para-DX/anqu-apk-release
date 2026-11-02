@@ -324,8 +324,23 @@
     timer = setTimeout(next, timeout);
   }
 
-  // 并发测速：四个线路同时请求清单，谁先回谁最快，直接放到第一位下载
-  // （国内直连 raw 常常比镜像慢一个数量级，固定顺序会白白浪费时间）
+  function verValue(v) {
+    var s = String(v || '');
+    var hm = s.match(/[._]hotfix\.(\d+)/);
+    var hot = hm ? parseInt(hm[1], 10) : 0;
+    var main = s.replace(/[._]hotfix\.\d+/, '').replace(/[^0-9.]/g, '').split('.');
+    return [parseInt(main[0], 10) || 0, parseInt(main[1], 10) || 0, parseInt(main[2], 10) || 0, hot];
+  }
+
+  function verGt(a, b) {
+    var pa = verValue(a), pb = verValue(b);
+    for (var i = 0; i < 4; i++) {
+      if (pa[i] !== pb[i]) return pa[i] > pb[i];
+    }
+    return false;
+  }
+
+  // 并发请求清单：先比版本号（避免 CDN 缓存旧版），同版本再比速度
   function pickBase(cb) {
     var cached = null;
     try {
@@ -338,11 +353,9 @@
     } catch (e) {}
     if (cached) {
       CODE_BASES = [cached].concat(CODE_BASES.filter(function (x) { return x !== cached; }));
-      cb(cached);
-      return;
     }
 
-    var candidates = CODE_BASES.slice(0, 5);
+    var candidates = CODE_BASES.filter(function (b) { return b.indexOf('/boot2') < 0; }).slice(0, cached ? 6 : 5);
     var best = null;
     var pending = candidates.length;
     if (!candidates.length) { cb(CODE_BASES[0]); return; }
@@ -353,13 +366,8 @@
       try {
         localStorage.setItem(BASE_PICK_KEY, JSON.stringify({ base: best.base, ts: Date.now() }));
       } catch (e) {}
-      get(best.base + '/manifest.json?t=' + Date.now(), function (ok, text) {
-        if (ok) {
-          var m = parseText(text);
-          if (m) setupFiles(m);
-        }
-        cb(best.base);
-      }, 6000);
+      if (best.manifest) setupFiles(best.manifest);
+      cb(best.base);
     }
 
     candidates.forEach(function (b) {
@@ -367,15 +375,20 @@
       var ctrl = null, to = null;
       try { ctrl = new AbortController(); } catch (e) {}
       if (ctrl) to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 5000);
-      // 用清单测速：文件只有几 KB，弱网下不会因为大文件 7s 超时而整批失败
+      // 用清单测速并比较版本：jsDelivr 等 CDN 可能长期缓存旧版本
       var url = b + '/manifest.json?t=' + Date.now();
       var req = ctrl ? fetch(url, { cache: 'no-store', signal: ctrl.signal }) : fetch(url, { cache: 'no-store' });
       req
-        .then(function (r) { if (!r.ok) throw new Error('http'); return r.arrayBuffer(); })
-        .then(function (buf) {
+        .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
+        .then(function (text) {
+          var m = parseText(text);
+          if (!m) throw new Error('bad manifest');
           var ms = Math.max(1, Date.now() - start);
-          var kbps = (buf.byteLength || 0) / 1024 / (ms / 1000);
-          if (!best || kbps > best.kbps) best = { base: b, kbps: kbps };
+          var kbps = (text.length || 0) / 1024 / (ms / 1000);
+          if (!best || verGt(m.version, best.version) ||
+              (m.version === best.version && kbps > best.kbps)) {
+            best = { base: b, kbps: kbps, version: m.version, manifest: m };
+          }
         })
         .catch(function () {})
         .then(function () {
