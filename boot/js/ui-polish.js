@@ -5,10 +5,14 @@
     var curY = 0;
     var raf = null;
 
+    function enabled() {
+        try { return localStorage.getItem('ab_parallax_enabled') !== '0'; } catch (e) { return true; }
+    }
+
     function apply() {
         curX += (targetX - curX) * 0.12;
         curY += (targetY - curY) * 0.12;
-        var transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0) scale(1.14)';
+        var transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0) scale(1.2)';
         var video = document.getElementById('bg-video');
         var image = document.getElementById('bg-image');
         if (video) video.style.transform = transform;
@@ -21,6 +25,7 @@
     }
 
     function setTarget(x, y) {
+        if (!enabled()) return;
         targetX = Math.max(-40, Math.min(40, x));
         targetY = Math.max(-32, Math.min(32, y));
         if (!raf) raf = requestAnimationFrame(apply);
@@ -51,6 +56,7 @@
         if (orientationBound) return;
         orientationBound = true;
         window.addEventListener('deviceorientation', function (e) {
+            if (!enabled()) return;
             if (e.beta == null || e.gamma == null) return;
             if (baseBeta == null) {
                 baseBeta = e.beta;
@@ -83,7 +89,21 @@
         }
     }
 
+    function bindToggle() {
+        var toggle = document.getElementById('parallax-toggle');
+        if (!toggle) return;
+        try { toggle.checked = enabled(); } catch (e) {}
+        toggle.addEventListener('change', function () {
+            try { localStorage.setItem('ab_parallax_enabled', toggle.checked ? '1' : '0'); } catch (e) {}
+            targetX = 0;
+            targetY = 0;
+            if (!raf) raf = requestAnimationFrame(apply);
+        });
+    }
+
     document.addEventListener('touchstart', requestOrientation, { once: true, passive: true });
     document.addEventListener('click', requestOrientation, { once: true });
     bindOrientation();
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindToggle);
+    else bindToggle();
 })();
