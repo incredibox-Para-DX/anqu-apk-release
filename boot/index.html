@@ -2866,7 +2866,7 @@ if (document.readyState === 'loading') {
             toastAudio.play().catch(() => {});
         } catch (e) {}
         var _toastTxt = (window.I18N && I18N.trFull) ? I18N.trFull(msg) : msg;
-        if (window.__decodeTextTo) { window.__decodeTextTo(el, _toastTxt, 520); } else if (window.streamText) { try { window.streamText(el, _toastTxt); } catch (e) { el.textContent = _toastTxt; } } else { el.textContent = _toastTxt; }
+        if (window.streamText) { try { window.streamText(el, _toastTxt); } catch (e) { el.textContent = _toastTxt; } } else { el.textContent = _toastTxt; }
         el.classList.add('show');
         clearTimeout(el._hideTimer);
         el._hideTimer = setTimeout(() => {
