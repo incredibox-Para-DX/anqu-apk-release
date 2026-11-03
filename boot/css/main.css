@@ -3031,3 +3031,6 @@ body.app-paused *::after {
 .catalog-card.unowned { opacity: .72; }
 .catalog-card.unowned .catalog-thumb { filter: grayscale(1); opacity: .5; }
 .catalog-card.unowned .catalog-desc { color: #475569; }
+
+.catalog-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 300px)); justify-content: start; align-items: start; align-content: start; }
+.catalog-card { min-height: 80px; align-self: start; }
