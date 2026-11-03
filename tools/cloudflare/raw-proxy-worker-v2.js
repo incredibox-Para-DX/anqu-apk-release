@@ -91,8 +91,8 @@ export default {
             : {})
         },
         cf: {
-          cacheEverything: true,
-          cacheTtl: isManifest ? 30 : 120
+          cacheEverything: !isManifest,
+          cacheTtl: isManifest ? 0 : 120
         }
       });
     } catch (e) {
@@ -102,7 +102,7 @@ export default {
     const headers = new Headers(upstream.headers);
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
-    headers.set('Cache-Control', isManifest ? 'public, max-age=30' : 'public, max-age=120');
+    headers.set('Cache-Control', isManifest ? 'no-store, max-age=0' : 'public, max-age=120');
     headers.delete('set-cookie');
 
     return new Response(upstream.body, {
