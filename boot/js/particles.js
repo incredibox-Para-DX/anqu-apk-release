@@ -63,12 +63,33 @@
         }
     }
 
+    function hasModal() {
+        var modals = document.querySelectorAll('.modal-overlay');
+        for (var i = 0; i < modals.length; i++) {
+            var m = modals[i];
+            if (m.classList.contains('show')) return true;
+            try {
+                if (window.getComputedStyle(m).display === 'flex') return true;
+            } catch (e) {}
+        }
+        return false;
+    }
+
+    function sync() {
+        if (!enabled()) {
+            stop();
+            return;
+        }
+        if (hasModal()) start();
+        else stop();
+    }
+
     function start() {
         if (!enabled()) return;
         if (!canvas) {
             canvas = document.createElement('canvas');
             canvas.id = 'bg-particles';
-            canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:1;';
+            canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:2147483000;';
             document.body.appendChild(canvas);
             ctx = canvas.getContext('2d');
             resize();
@@ -93,7 +114,7 @@
 
     window.__setParticlesEnabled = function (on) {
         try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
-        if (on) start();
+        if (on) sync();
         else stop();
     };
 
@@ -106,11 +127,12 @@
         });
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bind);
-        document.addEventListener('DOMContentLoaded', start);
-    } else {
+    function boot() {
         bind();
-        start();
+        sync();
+        setInterval(sync, 300);
     }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
 })();
