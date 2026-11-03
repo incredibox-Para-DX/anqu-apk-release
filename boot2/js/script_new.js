@@ -4116,9 +4116,11 @@ const EventManager = {
                 audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.play().catch(function() {});
             } catch (err) {}
-            $('#lion-inspect-frame').attr('src', 'lion-inspect.html');
+            if ($('#lion-inspect-frame').attr('src') !== 'lion-inspect.html') {
+                $('#lion-inspect-frame').attr('src', 'lion-inspect.html');
+            }
             TooltipManager.hide();
-            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal');
+            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
                 $('#lion-inspect-modal').css('display', 'flex');
                 setTimeout(() => $('#lion-inspect-modal').addClass('show'), 10);
@@ -4140,7 +4142,6 @@ const EventManager = {
             $('#lion-inspect-modal').removeClass('show');
             setTimeout(() => {
                 $('#lion-inspect-modal').css('display', 'none');
-                $('#lion-inspect-frame').attr('src', 'about:blank');
             }, 300);
         });
 
@@ -4149,7 +4150,6 @@ const EventManager = {
             $('#lion-inspect-modal').removeClass('show');
             setTimeout(function () {
                 $('#lion-inspect-modal').css('display', 'none');
-                $('#lion-inspect-frame').attr('src', 'about:blank');
             }, 300);
         };
     },

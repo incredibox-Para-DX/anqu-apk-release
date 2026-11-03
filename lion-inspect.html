@@ -112,9 +112,11 @@ function setupCharacter(gltf) {
     action.setLoop(THREE.LoopOnce, 1);
     action.clampWhenFinished = true;
     action.play();
-    mixer.addEventListener('finished', function () {
-      try { parent.closeLionInspect(); } catch (e) {}
-    });
+    if (clip.name.indexOf('.002') < 0) {
+      mixer.addEventListener('finished', function () {
+        try { parent.closeLionInspect(); } catch (e) {}
+      });
+    }
     mixers.push(mixer);
   });
   document.getElementById('status').textContent = '';
