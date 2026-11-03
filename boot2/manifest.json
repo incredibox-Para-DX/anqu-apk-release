@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.200.m",
+  "version": "v2.3.0_hotfix.201.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -278,8 +278,8 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 6983,
-      "sha256": "ab320a84293401f257777d98bb5ed953ec1f7fcf59f98fd4a0498f72107e74ac"
+      "size": 7114,
+      "sha256": "a31f3e5c08c67ae294c5cc0b31d8b45d19a9e1ee6a6ecc0b6712e5862f5a7bfd"
     },
     {
       "path": "audio/items/lion_inspect.wav",
@@ -383,5 +383,5 @@
     }
   ],
   "fileCount": 76,
-  "totalSize": 10625949
+  "totalSize": 10626080
 }

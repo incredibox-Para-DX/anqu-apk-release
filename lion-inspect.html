@@ -6,7 +6,7 @@
 <title>金狮检视</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#0b0e13;overflow:hidden}
+html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 #app{position:fixed;inset:0}
 #status{position:fixed;left:12px;bottom:10px;font:11px -apple-system,sans-serif;color:#64748b;z-index:5}
 </style>
@@ -109,8 +109,8 @@ function setupCharacter(gltf) {
   clips.forEach((clip) => {
     const mixer = new THREE.AnimationMixer(model);
     const action = mixer.clipAction(clip);
-    action.setLoop(THREE.LoopRepeat, Infinity);
-    action.clampWhenFinished = false;
+    action.setLoop(THREE.LoopOnce, 1);
+    action.clampWhenFinished = true;
     action.play();
     mixers.push(mixer);
   });
@@ -189,6 +189,12 @@ animate();
 document.addEventListener('click', function () {
   try { parent.closeLionInspect(); } catch (e) {}
 });
+
+if (mixers.length) {
+  mixers[0].addEventListener('finished', function () {
+    try { parent.closeLionInspect(); } catch (e) {}
+  });
+}
 </script>
 </body>
 </html>
