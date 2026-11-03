@@ -112,6 +112,8 @@ function setupCharacter(gltf) {
     action.setLoop(THREE.LoopOnce, 1);
     action.clampWhenFinished = true;
     action.play();
+    window.__lionActions = window.__lionActions || [];
+    window.__lionActions.push({ mixer: mixer, action: action });
     if (clip.name.indexOf('.002') < 0) {
       mixer.addEventListener('finished', function () {
         try { parent.closeLionInspect(); } catch (e) {}
@@ -193,6 +195,16 @@ animate();
 
 document.addEventListener('click', function () {
   try { parent.closeLionInspect(); } catch (e) {}
+});
+
+window.addEventListener('message', function (e) {
+  if (e.data !== 'lion-replay') return;
+  (window.__lionActions || []).forEach(function (item) {
+    try {
+      item.action.reset();
+      item.action.play();
+    } catch (err) {}
+  });
 });
 
 </script>

@@ -2018,8 +2018,6 @@ input:checked + .slider:before {
 }
 #lion-inspect-modal {
     background: rgba(0,0,0,.22) !important;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
 }
 
 @keyframes flashout {

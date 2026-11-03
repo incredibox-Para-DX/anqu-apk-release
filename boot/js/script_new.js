@@ -4118,6 +4118,10 @@ const EventManager = {
             } catch (err) {}
             if ($('#lion-inspect-frame').attr('src') !== 'lion-inspect.html') {
                 $('#lion-inspect-frame').attr('src', 'lion-inspect.html');
+            } else {
+                try {
+                    document.getElementById('lion-inspect-frame').contentWindow.postMessage('lion-replay', '*');
+                } catch (err) {}
             }
             TooltipManager.hide();
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
