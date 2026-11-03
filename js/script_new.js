@@ -352,7 +352,8 @@ previewCurrentBackground() {
         }
     },
 
-    openSelector() {
+    async openSelector() {
+        try { await this.loadBackgrounds(); } catch (e) {}
         if (this.backgrounds.length === 0) {
             if (window.showToast) {
                 window.showToast('背景列表为空，请检查配置文件');
@@ -3379,6 +3380,14 @@ _runOpenSafe() {
     try {
         if (window.CatalogManager) {
             for (var _ci = 0; _ci < items.length; _ci++) window.CatalogManager.record(items[_ci]);
+        } else {
+            var _ck = 'ab_catalog_counts';
+            var _cc = JSON.parse(localStorage.getItem(_ck) || '{}') || {};
+            for (var _cj = 0; _cj < items.length; _cj++) {
+                var _it = items[_cj];
+                if (_it && _it.id != null) _cc[_it.id] = (_cc[_it.id] || 0) + 1;
+            }
+            localStorage.setItem(_ck, JSON.stringify(_cc));
         }
     } catch (e) {}
     GameCore.createSearchQueue();
@@ -6927,7 +6936,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.188';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.189';
     
     var __HU_SIZE_BUMP_150 = 1;
 

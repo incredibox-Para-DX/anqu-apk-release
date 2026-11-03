@@ -3016,3 +3016,7 @@ body.app-paused *::after {
 .catalog-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .catalog-filter-btn { padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(148,163,184,.22); background: rgba(255,255,255,.03); color: #94a3b8; font-size: 12px; cursor: pointer; }
 .catalog-filter-btn.active { background: rgba(96,165,250,.18); border-color: rgba(96,165,250,.55); color: #bfdbfe; }
+
+.catalog-grid { align-items: start; }
+.catalog-card { animation: catalogIn .32s cubic-bezier(.22,1,.36,1) both; }
+@keyframes catalogIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }

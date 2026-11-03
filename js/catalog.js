@@ -1,15 +1,28 @@
 (function () {
     var KEY = 'ab_catalog_counts';
     var filterState = 'all';
-    var counts = {};
-    try { counts = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { counts = {}; }
+    function loadCounts() {
+        try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+    }
+    var counts = loadCounts();
 
     function save() {
         try { localStorage.setItem(KEY, JSON.stringify(counts)); } catch (e) {}
     }
 
     function items() {
-        return Array.isArray(window.__ALL_ITEMS__) ? window.__ALL_ITEMS__ : [];
+        var base = Array.isArray(window.__ALL_ITEMS__) ? window.__ALL_ITEMS__.slice() : [];
+        try {
+            if (window.ModManager && typeof ModManager.getEnabledItems === 'function') {
+                var mods = ModManager.getEnabledItems() || [];
+                var seen = {};
+                for (var i = 0; i < base.length; i++) seen[base[i].id] = true;
+                for (var j = 0; j < mods.length; j++) {
+                    if (mods[j] && !seen[mods[j].id]) base.push(mods[j]);
+                }
+            }
+        } catch (e) {}
+        return base;
     }
 
     var RARITY = {
@@ -65,6 +78,7 @@
     function render(filter) {
         var grid = document.getElementById('catalog-grid');
         if (!grid) return;
+        counts = loadCounts();
         var term = (filter || '').trim().toLowerCase();
         var list = items().slice();
         if (filterState === 'owned') list = list.filter(function (it) { return (counts[it.id] || 0) > 0; });
@@ -77,6 +91,7 @@
             return (b.value || 0) - (a.value || 0);
         });
         var html = '';
+        var cardIndex = 0;
         for (var i = 0; i < list.length; i++) {
             var it = list[i];
             var name = it.fullName || it.name || '';
@@ -87,22 +102,25 @@
             var obtained = t('catalog_obtained', '摸到 {n} 次').replace('{n}', String(count));
             var priceLabel = t('catalog_price', '参考价');
             var noDesc = t('catalog_no_desc', '暂无简介');
-            html += '<div class="catalog-card" data-id="' + esc(it.id) + '">' +
+            html += '<div class="catalog-card" data-id="' + esc(it.id) + '" style="animation-delay:' + Math.min(cardIndex * 18, 260) + 'ms">' +
                 '<div class="catalog-thumb">' + (img ? '<img src="' + esc(img) + '" loading="lazy" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
                 '<div class="catalog-info">' +
                 '<div class="catalog-name" style="color:' + color + '">' + esc(name) + '</div>' +
                 '<div class="catalog-meta"><span>' + esc(obtained) + '</span><span>' + esc(priceLabel) + ' ' + esc(fmt(it.value || 0)) + '</span></div>' +
                 '<div class="catalog-desc">' + esc(it.desc || noDesc) + '</div>' +
                 '</div></div>';
+            cardIndex++;
         }
         grid.innerHTML = html || '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:30px;">' + esc(t('catalog_empty', '没有找到物品')) + '</div>';
     }
 
     function open() {
         if (window.EventManager && EventManager.openModal) EventManager.openModal('catalog-modal');
-        else {
-            var m = document.getElementById('catalog-modal');
-            if (m) { m.style.display = 'flex'; setTimeout(function () { m.classList.add('show'); }, 10); }
+        var modal = document.getElementById('catalog-modal');
+        if (modal && !modal.classList.contains('show')) {
+            modal.style.display = 'flex';
+            void modal.offsetWidth;
+            requestAnimationFrame(function () { modal.classList.add('show'); });
         }
         var search = document.getElementById('catalog-search');
         render(search ? search.value : '');

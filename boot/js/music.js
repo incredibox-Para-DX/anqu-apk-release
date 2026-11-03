@@ -1455,6 +1455,16 @@ $(function() {
     const openPlaylist = (silent) => {
         const player = window.musicPlayer;
         if (!(player && player.isInitialized)) return;
+        if (player.loadCustomTracks) {
+            player.loadCustomTracks().then(function () { openPlaylistNow(silent); }).catch(function () { openPlaylistNow(silent); });
+            return;
+        }
+        openPlaylistNow(silent);
+    };
+
+    const openPlaylistNow = (silent) => {
+        const player = window.musicPlayer;
+        if (!(player && player.isInitialized)) return;
 
         
         if (!silent) {
