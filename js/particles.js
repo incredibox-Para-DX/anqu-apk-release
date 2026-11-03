@@ -68,7 +68,6 @@
         var modals = document.querySelectorAll('.modal-overlay');
         for (var i = 0; i < modals.length; i++) {
             var m = modals[i];
-            if (m.classList.contains('app-full-page')) continue;
             if (m.classList.contains('show')) return true;
             try {
                 if (window.getComputedStyle(m).display === 'flex') return true;

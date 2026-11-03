@@ -29,6 +29,37 @@
         try { return (window.I18N && I18N.t) ? I18N.t(key, fallback) : fallback; } catch (e) { return fallback; }
     }
 
+    function showDetail(it) {
+        var overlay = document.getElementById('catalog-detail');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'catalog-detail';
+            overlay.className = 'catalog-detail-overlay';
+            document.body.appendChild(overlay);
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) overlay.classList.remove('show');
+            });
+        }
+        var count = counts[it.id] || 0;
+        var name = it.fullName || it.name || '';
+        var color = RARITY[it.rarity] || '#cbd5e1';
+        var obtained = t('catalog_obtained', '摸到 {n} 次').replace('{n}', String(count));
+        var priceLabel = t('catalog_price', '参考价');
+        var noDesc = t('catalog_no_desc', '暂无简介');
+        overlay.innerHTML = '<div class="catalog-detail-card">' +
+            '<button class="catalog-detail-close" type="button">&times;</button>' +
+            '<div class="catalog-detail-head">' +
+            '<div class="catalog-detail-img">' + (it.image ? '<img src="' + esc(it.image) + '" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
+            '<div><div class="catalog-detail-name" style="color:' + color + '">' + esc(name) + '</div>' +
+            '<div class="catalog-detail-meta">' + esc(obtained) + ' · ' + esc(priceLabel) + ' ' + esc(fmt(it.value || 0)) + '</div></div>' +
+            '</div>' +
+            '<div class="catalog-detail-desc">' + esc(it.desc || noDesc) + '</div>' +
+            '</div>';
+        overlay.classList.add('show');
+        var btn = overlay.querySelector('.catalog-detail-close');
+        if (btn) btn.onclick = function () { overlay.classList.remove('show'); };
+    }
+
     function render(filter) {
         var grid = document.getElementById('catalog-grid');
         if (!grid) return;
@@ -50,7 +81,7 @@
             var obtained = t('catalog_obtained', '摸到 {n} 次').replace('{n}', String(count));
             var priceLabel = t('catalog_price', '参考价');
             var noDesc = t('catalog_no_desc', '暂无简介');
-            html += '<div class="catalog-card">' +
+            html += '<div class="catalog-card" data-id="' + esc(it.id) + '">' +
                 '<div class="catalog-thumb">' + (img ? '<img src="' + esc(img) + '" loading="lazy" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
                 '<div class="catalog-info">' +
                 '<div class="catalog-name" style="color:' + color + '">' + esc(name) + '</div>' +
@@ -89,6 +120,18 @@
         if (search) {
             search.placeholder = t('catalog_search', '搜索物品名称或简介');
             search.addEventListener('input', function () { render(search.value); });
+        }
+        var grid = document.getElementById('catalog-grid');
+        if (grid) {
+            grid.addEventListener('click', function (e) {
+                var card = e.target && e.target.closest ? e.target.closest('.catalog-card') : null;
+                if (!card) return;
+                var id = Number(card.getAttribute('data-id'));
+                var list = items();
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].id === id) { showDetail(list[i]); return; }
+                }
+            });
         }
     }
 
