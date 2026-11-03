@@ -89,9 +89,77 @@
         });
     }
 
+    var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+/<>[]{}=?_~';
+
+    function decodeTextNode(node, duration) {
+        if (!node || node.nodeType !== 3) return;
+        var text = node.nodeValue;
+        if (!text || !text.trim()) return;
+        var start = performance.now();
+        var len = text.length;
+        var tick = function (now) {
+            var p = Math.min(1, (now - start) / duration);
+            var reveal = Math.floor(p * len);
+            var out = '';
+            for (var i = 0; i < len; i++) {
+                if (i < reveal || text[i] === ' ') out += text[i];
+                else out += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            }
+            node.nodeValue = out;
+            if (p < 1) requestAnimationFrame(tick);
+            else node.nodeValue = text;
+        };
+        requestAnimationFrame(tick);
+    }
+
+    function decodeElement(el, duration) {
+        if (!el) return;
+        for (var i = 0; i < el.childNodes.length; i++) {
+            var n = el.childNodes[i];
+            if (n.nodeType === 3 && n.nodeValue.trim()) decodeTextNode(n, duration);
+        }
+    }
+
+    function decodeTitles() {
+        decodeElement(document.querySelector('.game-title h1'), 1100);
+        var loadings = document.querySelectorAll('.loading-text');
+        for (var i = 0; i < loadings.length; i++) decodeElement(loadings[i], 900);
+    }
+
+    function watch() {
+        var observer = new MutationObserver(function (mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                var el = mutations[i].target;
+                if (!el || !el.classList) continue;
+                if (el.classList.contains('modal-overlay') && el.classList.contains('show')) {
+                    var now = Date.now();
+                    if (el._decodeAt && now - el._decodeAt < 1200) continue;
+                    el._decodeAt = now;
+                    decodeElement(el.querySelector('.modal-title'), 900);
+                }
+                if (el.id === 'game-container' && !el.classList.contains('hidden')) {
+                    var t = Date.now();
+                    if (el._decodeAt && t - el._decodeAt < 1200) continue;
+                    el._decodeAt = t;
+                    decodeElement(el.querySelector('.game-title h1'), 1100);
+                }
+            }
+        });
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'], subtree: true });
+    }
+
     document.addEventListener('touchstart', requestOrientation, { once: true, passive: true });
     document.addEventListener('click', requestOrientation, { once: true });
     bindOrientation();
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindToggle);
-    else bindToggle();
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            bindToggle();
+            decodeTitles();
+            watch();
+        });
+    } else {
+        bindToggle();
+        decodeTitles();
+        watch();
+    }
 })();
