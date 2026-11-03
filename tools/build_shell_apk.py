@@ -52,6 +52,12 @@ SHELL_FILES = {
     "assets/www/index.html": os.path.join(SHELL_DIR, "index.html"),
     "assets/www/css/shell.css": os.path.join(SHELL_DIR, "css", "shell.css"),
     "assets/www/js/shell.js": os.path.join(SHELL_DIR, "js", "shell.js"),
+    "assets/www/lion-inspect.html": os.path.join(SHELL_DIR, "lion-inspect.html"),
+    "assets/www/vendor/three/three.module.js": os.path.join(SHELL_DIR, "vendor", "three", "three.module.js"),
+    "assets/www/vendor/three/addons/loaders/GLTFLoader.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "loaders", "GLTFLoader.js"),
+    "assets/www/vendor/three/addons/controls/OrbitControls.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "controls", "OrbitControls.js"),
+    "assets/www/vendor/three/addons/environments/RoomEnvironment.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "environments", "RoomEnvironment.js"),
+    "assets/www/vendor/three/addons/utils/BufferGeometryUtils.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "utils", "BufferGeometryUtils.js"),
 }
 
 

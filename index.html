@@ -1723,6 +1723,21 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <span id="tooltip-price"></span>
 </div>
 <div class="tooltip-desc" id="tooltip-desc"></div>
+<div class="tooltip-inspect-row" id="tooltip-inspect-row" style="display:none;">
+<button class="tooltip-inspect-btn" id="tooltip-inspect-btn"><i class="fas fa-eye"></i> 检视</button>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="lion-inspect-modal">
+<div class="modal-content" style="width:min(92vw,760px);height:min(78vh,900px);max-width:92vw;max-height:78vh;">
+<div class="modal-header mod-page-header">
+<div class="mod-header-side"></div>
+<div class="modal-title"><i class="fas fa-eye"></i> 金狮检视</div>
+<div class="app-page-actions">
+<button class="app-page-back-btn" id="lion-inspect-close"><i class="fas fa-arrow-left"></i> 返回</button>
+</div>
+</div>
+<iframe id="lion-inspect-frame" src="about:blank" style="flex:1 1 auto;min-height:0;width:100%;border:0;display:block;background:#0b0e13;"></iframe>
 </div>
 </div>
 <script>

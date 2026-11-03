@@ -767,6 +767,8 @@ previewCurrentBackground() {
             $('#tooltip-img').attr('src', item.image || '');
             $('#tooltip-name').text(window.I18N ? I18N.tr(item.fullName || item.name || '') : (item.fullName || item.name || ''));
             $('#tooltip-desc').text(window.I18N ? I18N.tr(item.desc || '世界观内容待补充。') : (item.desc || '世界观内容待补充。'));
+            const lionName = item.fullName || item.name || '';
+            $('#tooltip-inspect-row').toggle(/金狮|金獅|Golden Lion|золотого льва/i.test(lionName));
             
             
             const rarityBgColors = {
@@ -4104,6 +4106,32 @@ const EventManager = {
         });
         
         TooltipManager.enableDrag();
+
+        $('#tooltip-inspect-btn').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            try {
+                const audio = new Audio('audio/items/lion_inspect.wav');
+                audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                audio.play().catch(function() {});
+            } catch (err) {}
+            $('#lion-inspect-frame').attr('src', 'lion-inspect.html');
+            TooltipManager.hide();
+            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal');
+            else {
+                $('#lion-inspect-modal').css('display', 'flex');
+                setTimeout(() => $('#lion-inspect-modal').addClass('show'), 10);
+            }
+        });
+
+        $('#lion-inspect-close').on('click', function(e) {
+            e.preventDefault();
+            $('#lion-inspect-modal').removeClass('show');
+            setTimeout(() => {
+                $('#lion-inspect-modal').css('display', 'none');
+                $('#lion-inspect-frame').attr('src', 'about:blank');
+            }, 300);
+        });
     },
     
     bindModalEvents() {
