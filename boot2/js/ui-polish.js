@@ -8,7 +8,7 @@
     function apply() {
         curX += (targetX - curX) * 0.12;
         curY += (targetY - curY) * 0.12;
-        var transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0) scale(1.12)';
+        var transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0) scale(1.14)';
         var video = document.getElementById('bg-video');
         var image = document.getElementById('bg-image');
         if (video) video.style.transform = transform;
@@ -21,18 +21,13 @@
     }
 
     function setTarget(x, y) {
-        targetX = Math.max(-36, Math.min(36, x));
-        targetY = Math.max(-22, Math.min(22, y));
+        targetX = Math.max(-40, Math.min(40, x));
+        targetY = Math.max(-32, Math.min(32, y));
         if (!raf) raf = requestAnimationFrame(apply);
     }
 
     window.addEventListener('mousemove', function (e) {
-        setTarget((e.clientX / window.innerWidth - 0.5) * 64, (e.clientY / window.innerHeight - 0.5) * 36);
-    }, { passive: true });
-
-    window.addEventListener('touchmove', function (e) {
-        if (!e.touches || !e.touches.length) return;
-        setTarget((e.touches[0].clientX / window.innerWidth - 0.5) * 64, (e.touches[0].clientY / window.innerHeight - 0.5) * 36);
+        setTarget((e.clientX / window.innerWidth - 0.5) * 72, (e.clientY / window.innerHeight - 0.5) * 56);
     }, { passive: true });
 
     var baseBeta = null;
@@ -70,7 +65,7 @@
             if (angle === 90) { x = dB; y = -dG; }
             else if (angle === -90 || angle === 270) { x = -dB; y = dG; }
             else if (angle === 180) { x = -dG; y = -dB; }
-            setTarget(x * 2.4, y * 2.0);
+            setTarget(x * 3.0, y * 3.4);
         }, { passive: true });
         window.addEventListener('orientationchange', resetBase);
         try {
