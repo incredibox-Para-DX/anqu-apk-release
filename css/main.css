@@ -3020,3 +3020,10 @@ body.app-paused *::after {
 .catalog-grid { align-items: start; }
 .catalog-card { animation: catalogIn .32s cubic-bezier(.22,1,.36,1) both; }
 @keyframes catalogIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.catalog-grid { align-items: stretch; }
+.catalog-card { min-height: 80px; }
+.catalog-detail-overlay { display: flex !important; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .22s ease, visibility .22s ease; }
+.catalog-detail-overlay.show { opacity: 1; visibility: visible; pointer-events: auto; }
+.catalog-detail-card { transform: translateY(12px) scale(.97); transition: transform .24s cubic-bezier(.22,1,.36,1); }
+.catalog-detail-overlay.show .catalog-detail-card { transform: translateY(0) scale(1); }
