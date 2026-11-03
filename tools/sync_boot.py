@@ -65,6 +65,7 @@ CODE_FILES = [
     "js/mods.js",
     "js/thanks.js",
     "js/particles.js",
+    "js/ui-polish.js",
     "admin/anqu-admin.html",
     "admin/leaderboard-admin.html",
     "xml/backgrounds.xml",

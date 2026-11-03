@@ -1807,10 +1807,15 @@ previewCurrentBackground() {
             (function () {
                 var p = entry.image || '';
                 var img = $('#collect-img');
+                img.addClass('collect-switching');
+                var apply = function (u) {
+                    img.attr('src', u || '');
+                    requestAnimationFrame(function () { img.removeClass('collect-switching'); });
+                };
                 if (p && window.ResourceDownloadManager && window.ResourceDownloadManager.resolvePath) {
-                    window.ResourceDownloadManager.resolvePath(p).then(function (u) { img.attr('src', u || ''); }).catch(function () { img.attr('src', p); });
+                    window.ResourceDownloadManager.resolvePath(p).then(function (u) { apply(u); }).catch(function () { apply(p); });
                 } else {
-                    img.attr('src', p);
+                    apply(p);
                 }
             })();
             $('#collect-name').text(entry.name);
@@ -2963,14 +2968,24 @@ previewCurrentBackground() {
         },
         
         updateStats() {
-            const updates = {
-                '#total-value': `<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.totalValue)}`,
-                '#highest-value': `<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">${Utils.formatCurrency(State.highestValue)}`
+            const animate = (selector, to) => {
+                const dom = document.querySelector(selector);
+                if (!dom) return;
+                const prev = Number(dom.dataset.animValue || 0);
+                if (prev === to) return;
+                dom.dataset.animValue = String(to);
+                const icon = '<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">';
+                const start = performance.now();
+                const tick = (now) => {
+                    const p = Math.min(1, (now - start) / 380);
+                    const v = prev + (to - prev) * (1 - Math.pow(1 - p, 3));
+                    dom.innerHTML = icon + Utils.formatCurrency(v);
+                    if (p < 1) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
             };
-
-            _.each(updates, (value, selector) => {
-                $(selector).html(value);
-            });
+            animate('#total-value', State.totalValue);
+            animate('#highest-value', State.highestValue);
 
             this.updateResetButtonState();
         },
@@ -6896,7 +6911,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.169';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.170';
     
     var __HU_SIZE_BUMP_150 = 1;
 

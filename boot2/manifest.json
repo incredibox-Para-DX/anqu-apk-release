@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.169.m",
+  "version": "v2.3.0_hotfix.170.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,13 +23,13 @@
     },
     {
       "path": "css/main.css",
-      "size": 66451,
-      "sha256": "1a5bbfe8cd9c4382bed3a86f7b7bc049a181701674ff30aac7031b6ea240aa6f"
+      "size": 68391,
+      "sha256": "b2f21db30dbe8051f93271dc57fa469a3c8b5b1e146573d215a27725b4bdf063"
     },
     {
       "path": "css/styles.css",
-      "size": 108482,
-      "sha256": "307ee709d79bae6b625f0f222678682861aa42c6f343f8b37af2ff5c921cc53f"
+      "size": 109943,
+      "sha256": "b2e59d8296ce928a6248e1b1539d9eba51abe657bd5d657391ca88048064b731"
     },
     {
       "path": "debug-console.css",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 352147,
-      "sha256": "f07df3d11799a91277802aad0aba9d176a3ac922c9b1f4a1cf4281548ccb9575"
+      "size": 352788,
+      "sha256": "a80915de0b6e98b7bff56cbb1be9a6d3d67da51d002f855566f8febd8191b2c0"
     },
     {
       "path": "js/synthesis.js",
@@ -232,6 +232,11 @@
       "sha256": "ca5321d043d6e0ca8291b0cbf44873779a84205a982933278418ad373ab50912"
     },
     {
+      "path": "js/ui-polish.js",
+      "size": 1885,
+      "sha256": "ed0fdc2dcca6d1c1398767986d8e61a4dddd3f9804f6147f1f5812f26021e212"
+    },
+    {
       "path": "admin/anqu-admin.html",
       "size": 58864,
       "sha256": "c73af6a2c2fcd304cecde4bd8ba9608d45faf23011815195d145b4e2c1c8d66f"
@@ -268,10 +273,10 @@
     },
     {
       "path": "index.html",
-      "size": 163647,
-      "sha256": "f0b87b0b024aa2c05c997949ee10735934f56628b40078e754efbaa79f355a0f"
+      "size": 163687,
+      "sha256": "c97c60d0249f1dce005c7e3cf576f8214201f7c91d097972d78d8289b800dc81"
     }
   ],
-  "fileCount": 54,
-  "totalSize": 2335303
+  "fileCount": 55,
+  "totalSize": 2341270
 }
