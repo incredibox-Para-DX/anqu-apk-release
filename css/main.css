@@ -2973,3 +2973,13 @@ body.app-paused *::after {
 @keyframes panelIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 #collect-img { transition: opacity .28s ease, transform .28s ease; }
 #collect-img.collect-switching { opacity: 0; transform: translateX(8px); }
+
+#collect-img.collect-page-next { animation: collectPageNext .34s cubic-bezier(.22,1,.36,1); }
+#collect-img.collect-page-prev { animation: collectPagePrev .34s cubic-bezier(.22,1,.36,1); }
+@keyframes collectPageNext { from { opacity: 0; transform: translateX(42px) scale(.97); } to { opacity: 1; transform: translateX(0) scale(1); } }
+@keyframes collectPagePrev { from { opacity: 0; transform: translateX(-42px) scale(.97); } to { opacity: 1; transform: translateX(0) scale(1); } }
+#synthesis-page .synth-sample-card { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+#synthesis-page .synth-sample-card:active { transform: scale(.96); }
+#synthesis-page.show .synth-left-zone { animation: synthPanelIn .45s cubic-bezier(.22,1,.36,1) both; }
+#synthesis-page.show .synth-right-zone { animation: synthPanelIn .45s cubic-bezier(.22,1,.36,1) .08s both; }
+@keyframes synthPanelIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }

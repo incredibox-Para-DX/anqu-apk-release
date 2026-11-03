@@ -163,6 +163,25 @@
         observer.observe(document.body, { attributes: true, attributeFilter: ['class'], subtree: true });
     }
 
+    window.__decodeTextTo = function (el, text, duration) {
+        if (!el) return;
+        var start = performance.now();
+        var len = text.length;
+        var tick = function (now) {
+            var p = Math.min(1, (now - start) / duration);
+            var reveal = Math.floor(p * len);
+            var out = '';
+            for (var i = 0; i < len; i++) {
+                if (i < reveal || text[i] === ' ') out += text[i];
+                else out += similarChar(text[i]);
+            }
+            el.textContent = out;
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = text;
+        };
+        requestAnimationFrame(tick);
+    };
+
     document.addEventListener('touchstart', requestOrientation, { once: true, passive: true });
     document.addEventListener('click', requestOrientation, { once: true });
     bindOrientation();

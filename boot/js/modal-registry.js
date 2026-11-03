@@ -99,6 +99,7 @@
         }
 
         node.style.display = 'flex';
+        void node.offsetWidth;
         if (cfg.kind === 'modal') {
             setTimeout(function () { node.classList.add('show'); }, cfg.showDelay);
         } else {
