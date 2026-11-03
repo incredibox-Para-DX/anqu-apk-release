@@ -2326,14 +2326,6 @@ $(function() {
     window.__openMusicPlaylist = openPlaylist;
     window.__openCustomMusicEdit = openCustomMusicEdit;
 
-    const particleToggle = document.getElementById('particle-toggle');
-    if (particleToggle) {
-        try { particleToggle.checked = localStorage.getItem('ab_particles_enabled') !== '0'; } catch (e) {}
-        particleToggle.addEventListener('change', () => {
-            try { localStorage.setItem('ab_particles_enabled', particleToggle.checked ? '1' : '0'); } catch (e) {}
-        });
-    }
-
     const audioMonitorToggle = document.getElementById('audio-monitor-toggle');
     if (audioMonitorToggle) {
         try { audioMonitorToggle.checked = localStorage.getItem('ab_audio_monitor') !== '0'; } catch (e) {}

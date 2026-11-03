@@ -64,6 +64,7 @@ CODE_FILES = [
     "libs/jszip.min.js",
     "js/mods.js",
     "js/thanks.js",
+    "js/particles.js",
     "admin/anqu-admin.html",
     "admin/leaderboard-admin.html",
     "xml/backgrounds.xml",
