@@ -2012,9 +2012,14 @@ input:checked + .slider:before {
     max-height: none !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background: #0b0e13 !important;
+    background: transparent !important;
     display: flex;
     flex-direction: column;
+}
+#lion-inspect-modal {
+    background: rgba(0,0,0,.22) !important;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
 }
 
 @keyframes flashout {

@@ -4111,7 +4111,7 @@ const EventManager = {
             e.preventDefault();
             e.stopPropagation();
             try {
-                const audio = new Audio('audio/items/lion_inspect.wav');
+                const audio = new Audio('lion/inspect.wav');
                 audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.play().catch(function() {});
             } catch (err) {}
@@ -4132,6 +4132,14 @@ const EventManager = {
                 $('#lion-inspect-frame').attr('src', 'about:blank');
             }, 300);
         });
+
+        window.closeLionInspect = function() {
+            $('#lion-inspect-modal').removeClass('show');
+            setTimeout(function () {
+                $('#lion-inspect-modal').css('display', 'none');
+                $('#lion-inspect-frame').attr('src', 'about:blank');
+            }, 300);
+        };
     },
     
     bindModalEvents() {

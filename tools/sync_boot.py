@@ -74,11 +74,12 @@ CODE_FILES = [
     "xml/loading-tips.xml",
     "xml/music-config.xml",
     "xml/video-config.xml",
+    "lion-inspect.html",
     "audio/items/lion_inspect.wav",
 ]
 
 
-BULK_DIRS = []
+BULK_DIRS = ["lion", "vendor/three"]
 
 
 def bulk_files():
