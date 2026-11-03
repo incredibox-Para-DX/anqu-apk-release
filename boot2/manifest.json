@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.183.m",
+  "version": "v2.3.0_hotfix.184.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,13 +23,13 @@
     },
     {
       "path": "css/main.css",
-      "size": 70444,
-      "sha256": "8e1333c471fa56770b41805d8d1842f59c8c383cdc40e5bcde52af7363e0b925"
+      "size": 70582,
+      "sha256": "3be7d5702c0d18817f521c7a09f42da6b38cac3adb1e9a3f6d21ced8ea2a52eb"
     },
     {
       "path": "css/styles.css",
-      "size": 111996,
-      "sha256": "03f975f585e3999812c0f39505e14bb331fc6910d61946cc64c3c0d1c1db6c8b"
+      "size": 112134,
+      "sha256": "466cd05e2ccf33f5ec3e8175f4090e99074dd94a929443f36094979afa0e8433"
     },
     {
       "path": "debug-console.css",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 353741,
-      "sha256": "23505493024d80bcd506cc7fc6d87cec5cedb5350f7ec788943e7e91ea232adb"
+      "sha256": "3f59eaa3a61921eb687a2ee411608eac840014705b9d81f25a6e0d18c36e3440"
     },
     {
       "path": "js/synthesis.js",
@@ -138,8 +138,8 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 135538,
-      "sha256": "96e2ac72a61d677fcd5f1846416895425c4507df956efec690ad66b238f6beb1"
+      "size": 136278,
+      "sha256": "acc2c35b6b52357a012c0cdcc2d2328a86981957fe891d4d18d22b72940b69cf"
     },
     {
       "path": "js/i18n-next.js",
@@ -238,8 +238,8 @@
     },
     {
       "path": "js/catalog.js",
-      "size": 4121,
-      "sha256": "649c4d90c14c259241718a721eb3693f7fc20f23594303c98d4cf9c0c8b1026f"
+      "size": 4644,
+      "sha256": "9fb91079afa8149bc967233daeb6d88ac989e6704bba021c1f7a2d877b826ec6"
     },
     {
       "path": "admin/anqu-admin.html",
@@ -278,10 +278,10 @@
     },
     {
       "path": "index.html",
-      "size": 164737,
-      "sha256": "72d64fe9717777a355670fc3cc3fbc81464338fc44613d4de4a6c77d04304920"
+      "size": 164844,
+      "sha256": "0555f8a862f3d4e86e01b8e01f0c15f1a49c468c8b161c82f8b5c6ea7168fe8a"
     }
   ],
   "fileCount": 56,
-  "totalSize": 2353106
+  "totalSize": 2354752
 }

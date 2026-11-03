@@ -25,6 +25,10 @@
         try { return window.Utils && Utils.formatCurrency ? Utils.formatCurrency(n) : String(n); } catch (e) { return String(n); }
     }
 
+    function t(key, fallback) {
+        try { return (window.I18N && I18N.t) ? I18N.t(key, fallback) : fallback; } catch (e) { return fallback; }
+    }
+
     function render(filter) {
         var grid = document.getElementById('catalog-grid');
         if (!grid) return;
@@ -43,15 +47,18 @@
             var count = counts[it.id] || 0;
             var color = RARITY[it.rarity] || '#cbd5e1';
             var img = it.image || '';
+            var obtained = t('catalog_obtained', '摸到 {n} 次').replace('{n}', String(count));
+            var priceLabel = t('catalog_price', '参考价');
+            var noDesc = t('catalog_no_desc', '暂无简介');
             html += '<div class="catalog-card">' +
                 '<div class="catalog-thumb">' + (img ? '<img src="' + esc(img) + '" loading="lazy" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
                 '<div class="catalog-info">' +
                 '<div class="catalog-name" style="color:' + color + '">' + esc(name) + '</div>' +
-                '<div class="catalog-meta"><span>摸到 ' + count + ' 次</span><span>参考价 ' + esc(fmt(it.value || 0)) + '</span></div>' +
-                '<div class="catalog-desc">' + esc(it.desc || '暂无简介') + '</div>' +
+                '<div class="catalog-meta"><span>' + esc(obtained) + '</span><span>' + esc(priceLabel) + ' ' + esc(fmt(it.value || 0)) + '</span></div>' +
+                '<div class="catalog-desc">' + esc(it.desc || noDesc) + '</div>' +
                 '</div></div>';
         }
-        grid.innerHTML = html || '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:30px;">没有找到物品</div>';
+        grid.innerHTML = html || '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:30px;">' + esc(t('catalog_empty', '没有找到物品')) + '</div>';
     }
 
     function open() {
@@ -79,7 +86,10 @@
             }
         });
         var search = document.getElementById('catalog-search');
-        if (search) search.addEventListener('input', function () { render(search.value); });
+        if (search) {
+            search.placeholder = t('catalog_search', '搜索物品名称或简介');
+            search.addEventListener('input', function () { render(search.value); });
+        }
     }
 
     window.CatalogManager = {
