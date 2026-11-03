@@ -2995,3 +2995,7 @@ body.app-paused *::after {
 
 #catalog-modal .modal-body { display: flex; flex-direction: column; }
 #catalog-modal .catalog-grid { flex: 1 1 auto; max-height: none; }
+
+#catalog-modal { background: #0b0e13 !important; z-index: 100200 !important; }
+#catalog-modal > .modal-content { background: #0b0e13 !important; }
+#catalog-modal .modal-body { padding-bottom: 24px; }
