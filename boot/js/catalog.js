@@ -180,7 +180,17 @@
                 var list = items();
                 for (var i = 0; i < list.length; i++) {
                     if (String(list[i].id) === String(raw)) {
-                        if ((counts[list[i].id] || 0) > 0) showDetail(list[i]);
+                        if ((counts[list[i].id] || 0) > 0) {
+                            showDetail(list[i]);
+                        } else {
+                            try {
+                                if (list[i].sound) {
+                                    var a = new Audio(list[i].sound);
+                                    a.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                                    a.play().catch(function () {});
+                                }
+                            } catch (e) {}
+                        }
                         return;
                     }
                 }
