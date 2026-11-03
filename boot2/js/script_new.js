@@ -1808,10 +1808,16 @@ previewCurrentBackground() {
                 var p = entry.image || '';
                 var img = $('#collect-img');
                 img.removeClass('collect-switching collect-page-next collect-page-prev');
-                img.addClass(pageDir === 'prev' ? 'collect-page-prev' : 'collect-page-next');
                 var apply = function (u) {
                     img.attr('src', u || '');
-                    setTimeout(function () { img.removeClass('collect-page-next collect-page-prev'); }, 380);
+                    var el = img[0];
+                    if (el && el.animate) {
+                        var fromX = pageDir === 'prev' ? '-42px' : '42px';
+                        el.animate([
+                            { opacity: 0, transform: 'translateX(' + fromX + ') scale(.97)' },
+                            { opacity: 1, transform: 'translateX(0) scale(1)' }
+                        ], { duration: 340, easing: 'cubic-bezier(.22,1,.36,1)' });
+                    }
                 };
                 if (p && window.ResourceDownloadManager && window.ResourceDownloadManager.resolvePath) {
                     window.ResourceDownloadManager.resolvePath(p).then(function (u) { apply(u); }).catch(function () { apply(p); });
@@ -6914,7 +6920,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.181';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.182';
     
     var __HU_SIZE_BUMP_150 = 1;
 
