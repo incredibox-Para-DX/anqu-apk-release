@@ -128,60 +128,60 @@ previewCurrentBackground() {
         if (window.showToast) window.showToast('请选择一个背景');
         return;
     }
-    
     const isVideo = (bg._origPath || bg.path).endsWith('.mp4');
-    
+    document.body.classList.add('bg-view');
+
+    const finish = (extra) => {
+        document.body.classList.remove('bg-view');
+        if (typeof extra === 'function') extra();
+    };
+
     if (isVideo) {
         const existingPreview = document.getElementById('bg-preview-overlay');
         if (existingPreview) existingPreview.remove();
-        
+
         const $overlay = $(`
             <div id="bg-preview-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;">
                 <video id="bg-preview-video" muted style="width:100%;height:100%;object-fit:cover;" playsinline poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
                     <source src="${bg.path}" type="video/mp4">
                 </video>
-                <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.6);font-size:14px;background:rgba(0,0,0,0.5);padding:8px 20px;border-radius:20px;pointer-events:none;">
-                    <i class="fas fa-eye"></i> ${window.I18N ? I18N.tr('预览') : '预览'}: ${window.I18N ? I18N.tr(bg.name) : bg.name} — ${window.I18N ? I18N.tr('播放结束后自动关闭') : '播放结束后自动关闭'}
-                </div>
             </div>
         `);
-        
+
         $('body').append($overlay);
-        
+
         const video = document.getElementById('bg-preview-video');
         video.volume = 0;
         video.play().catch(() => {});
-        
-        video.addEventListener('ended', function() {
-            $('#bg-preview-overlay').fadeOut(500, function() {
+
+        const closePreview = () => {
+            const el = document.getElementById('bg-preview-overlay');
+            if (!el) return;
+            $('#bg-preview-overlay').fadeOut(300, function () {
                 $(this).remove();
-            });
-        });
-        
-        $overlay.on('click', function() {
-            $(this).fadeOut(300, function() {
-                $(this).remove();
-                if (video) {
+                finish();
+                try {
                     video.pause();
                     video.src = '';
-                }
+                } catch (e) {}
             });
-        });
+        };
+
+        video.addEventListener('ended', closePreview);
+        $overlay.on('click', closePreview);
     } else {
         const $overlay = $(`
             <div id="bg-preview-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;">
                 <img src="${bg.path}" style="width:100%;height:100%;object-fit:cover;" alt="${bg.name}">
-                <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.6);font-size:14px;background:rgba(0,0,0,0.5);padding:8px 20px;border-radius:20px;pointer-events:none;">
-                    <i class="fas fa-eye"></i> ${window.I18N ? I18N.tr('预览') : '预览'}: ${window.I18N ? I18N.tr(bg.name) : bg.name} — ${window.I18N ? I18N.tr('点击任意处关闭') : '点击任意处关闭'}
-                </div>
             </div>
         `);
-        
+
         $('body').append($overlay);
-        
-        $overlay.on('click', function() {
-            $(this).fadeOut(300, function() {
+
+        $overlay.on('click', function () {
+            $(this).fadeOut(300, function () {
                 $(this).remove();
+                finish();
             });
         });
     }
@@ -6896,7 +6896,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.167';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.168';
     
     var __HU_SIZE_BUMP_150 = 1;
 

@@ -3806,3 +3806,5 @@ html[lang="ru"] .lang-opt { font-size: 0.9em; line-height: 1.25; }
 .playlist-action-btn { flex: 0 0 auto; min-width: 88px; padding: 10px 20px; }
 
 .playlist-action-btn.cover { background: linear-gradient(135deg,#3b82f6,#2563eb); color:#fff; }
+
+body.bg-view .sidebar, body.bg-view .game-container, body.bg-view .more-button, body.bg-view #bg-particles { display: none !important; }
