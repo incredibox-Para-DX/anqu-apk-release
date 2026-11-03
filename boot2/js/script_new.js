@@ -260,7 +260,7 @@ previewCurrentBackground() {
             video.preload = 'auto';
             video.volume = 0;
             
-            video.style.cssText = 'width:100vw;height:100vh;object-fit:cover;background:#000;position:fixed;top:0;left:0;z-index:-1;';
+            video.style.cssText = 'width:112vw;height:112vh;object-fit:cover;background:#000;position:fixed;top:-6vh;left:-6vw;z-index:-1;';
             video.src = path;
             video.poster = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
@@ -324,7 +324,7 @@ previewCurrentBackground() {
         } else {
             const image = document.createElement('div');
             image.id = 'bg-image';
-            image.style.cssText = 'position:fixed;inset:0;background-image:url("' + path + '");background-size:cover;background-position:center;background-repeat:no-repeat;z-index:-1;transform:translate3d(0,0,0) scale(1.2);transform-origin:center center;will-change:transform;';
+            image.style.cssText = 'position:fixed;top:-6vh;left:-6vw;width:112vw;height:112vh;background-image:url("' + path + '");background-size:cover;background-position:center;background-repeat:no-repeat;z-index:-1;transform:translate3d(0,0,0);transform-origin:center center;will-change:transform;';
             document.body.prepend(image);
         }
 
@@ -6909,7 +6909,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.176';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.177';
     
     var __HU_SIZE_BUMP_150 = 1;
 
