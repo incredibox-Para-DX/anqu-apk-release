@@ -95,10 +95,10 @@
         else if (filterState === 'unowned') list = list.filter(function (it) { return !(counts[it.id] || 0); });
         else if (filterState !== 'all') list = list.filter(function (it) { return it.rarity === filterState; });
         list.sort(function (a, b) {
-            var ca = counts[a.id] || 0;
-            var cb = counts[b.id] || 0;
-            if (ca !== cb) return cb - ca;
-            return (b.value || 0) - (a.value || 0);
+            var ia = Number(a.id);
+            var ib = Number(b.id);
+            if (!isNaN(ia) && !isNaN(ib) && ia !== ib) return ia - ib;
+            return String(a.id).localeCompare(String(b.id));
         });
         var html = '';
         var cardIndex = 0;
@@ -107,12 +107,13 @@
             var name = it.fullName || it.name || '';
             if (term && String(name).toLowerCase().indexOf(term) < 0 && String(it.desc || '').toLowerCase().indexOf(term) < 0) continue;
             var count = counts[it.id] || 0;
-            var color = RARITY[it.rarity] || '#cbd5e1';
+            var owned = count > 0;
+            var color = owned ? (RARITY[it.rarity] || '#cbd5e1') : '#64748b';
             var img = it.image || '';
             var obtained = t('catalog_obtained', '摸到 {n} 次').replace('{n}', String(count));
             var priceLabel = t('catalog_price', '参考价');
             var noDesc = t('catalog_no_desc', '暂无简介');
-            html += '<div class="catalog-card" data-id="' + esc(it.id) + '" style="animation-delay:' + Math.min(cardIndex * 18, 260) + 'ms">' +
+            html += '<div class="catalog-card' + (owned ? '' : ' unowned') + '" data-id="' + esc(it.id) + '" style="animation-delay:' + Math.min(cardIndex * 18, 260) + 'ms">' +
                 '<div class="catalog-thumb">' + (img ? '<img src="' + esc(img) + '" loading="lazy" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
                 '<div class="catalog-info">' +
                 '<div class="catalog-name" style="color:' + color + '">' + esc(name) + '</div>' +

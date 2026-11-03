@@ -3027,3 +3027,7 @@ body.app-paused *::after {
 .catalog-detail-overlay.show { opacity: 1; visibility: visible; pointer-events: auto; }
 .catalog-detail-card { transform: translateY(12px) scale(.97); transition: transform .24s cubic-bezier(.22,1,.36,1); }
 .catalog-detail-overlay.show .catalog-detail-card { transform: translateY(0) scale(1); }
+
+.catalog-card.unowned { opacity: .72; }
+.catalog-card.unowned .catalog-thumb { filter: grayscale(1); opacity: .5; }
+.catalog-card.unowned .catalog-desc { color: #475569; }
