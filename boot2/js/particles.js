@@ -5,6 +5,7 @@
     var raf = null;
     var parts = [];
     var running = false;
+    var fadeTimer = null;
     var w = 0;
     var h = 0;
 
@@ -89,7 +90,7 @@
         if (!canvas) {
             canvas = document.createElement('canvas');
             canvas.id = 'bg-particles';
-            canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:2147483000;';
+            canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:2147483000;opacity:0;transition:opacity .45s ease;';
             document.body.appendChild(canvas);
             ctx = canvas.getContext('2d');
             resize();
@@ -99,17 +100,38 @@
                 spawn();
             });
         }
-        if (running) return;
+        if (fadeTimer) {
+            clearTimeout(fadeTimer);
+            fadeTimer = null;
+        }
         canvas.style.display = 'block';
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                if (canvas) canvas.style.opacity = '1';
+            });
+        });
+        if (running) return;
         running = true;
         tick();
     }
 
     function stop() {
-        running = false;
-        if (raf) cancelAnimationFrame(raf);
-        raf = null;
-        if (canvas) canvas.style.display = 'none';
+        if (!canvas) {
+            running = false;
+            if (raf) cancelAnimationFrame(raf);
+            raf = null;
+            return;
+        }
+        canvas.style.opacity = '0';
+        if (fadeTimer) clearTimeout(fadeTimer);
+        fadeTimer = setTimeout(function () {
+            fadeTimer = null;
+            if (enabled() && hasModal()) return;
+            running = false;
+            if (raf) cancelAnimationFrame(raf);
+            raf = null;
+            if (canvas) canvas.style.display = 'none';
+        }, 450);
     }
 
     window.__setParticlesEnabled = function (on) {
