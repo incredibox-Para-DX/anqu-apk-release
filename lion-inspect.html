@@ -67,6 +67,8 @@ const texShoe = loadColor('./lion/shoes_D.png');
 const texHead = loadColor('./lion/head_D.png');
 const texHeadN = loadNormal('./lion/head_N.png');
 const texLion = loadColor('./lion/lion_D.png');
+const texGloveTit = loadColor('./lion/gloves_tit_D.png');
+const texGloveTitN = loadNormal('./lion/gloves_tit_N.png');
 
 const loader = new GLTFLoader();
 const tmp = new THREE.Vector3();
@@ -98,6 +100,12 @@ function setupCharacter(gltf) {
   window.__model = model;
   window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01');
   window.__socket = model.getObjectByName('item_r') || model.getObjectByName('item_l') || model.getObjectByName('hand_r');
+  window.__charBones = {};
+  window.__rolfGloves = [];
+  model.traverse(function (o) {
+    if (o.isBone) window.__charBones[o.name] = o;
+    if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) window.__rolfGloves.push(o);
+  });
 
   const fps = 30;
   const clips = [];
@@ -122,6 +130,7 @@ function setupCharacter(gltf) {
     mixers.push(mixer);
   });
   document.getElementById('status').textContent = '';
+  applyGloves();
 }
 
 function setupLion(gltf) {
@@ -161,6 +170,38 @@ loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
   console.error(e);
 });
 loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
+loader.load('./lion/gloves_tit.glb', function (gltf) {
+  const tit = gltf.scene;
+  tit.scale.setScalar(0.01);
+  tit.traverse(function (o) {
+    if (o.isSkinnedMesh) {
+      o.frustumCulled = false;
+      o.material = new THREE.MeshStandardMaterial({ map: texGloveTit, normalMap: texGloveTitN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+      (o.skeleton.bones || []).forEach(function (b) { b.matrixAutoUpdate = false; });
+    }
+  });
+  scene.add(tit);
+  window.__titGloves = tit;
+  applyGloves();
+}, undefined, function (e) { console.error(e); });
+
+function applyGloves() {
+  const kind = new URLSearchParams(location.search).get('gloves') || 'rolf';
+  const showTit = kind === 'tit';
+  (window.__rolfGloves || []).forEach(function (m) { m.visible = !showTit; });
+  if (window.__titGloves) window.__titGloves.visible = showTit;
+}
+
+function syncTitBones() {
+  if (!window.__titGloves || !window.__charBones) return;
+  window.__titGloves.traverse(function (o) {
+    if (!o.isSkinnedMesh || !o.skeleton) return;
+    o.skeleton.bones.forEach(function (b) {
+      const src = window.__charBones[b.name];
+      if (src) b.matrixWorld.copy(src.matrixWorld);
+    });
+  });
+}
 
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
@@ -173,6 +214,7 @@ function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.05);
   mixers.forEach((m) => m.update(dt));
+  syncTitBones();
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
     camera.position.copy(tmp);

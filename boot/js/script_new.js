@@ -4116,8 +4116,10 @@ const EventManager = {
                 audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.play().catch(function() {});
             } catch (err) {}
-            if ($('#lion-inspect-frame').attr('src') !== 'lion-inspect.html') {
-                $('#lion-inspect-frame').attr('src', 'lion-inspect.html');
+            const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
+            const inspectUrl = 'lion-inspect.html?gloves=' + gloveKind;
+            if ($('#lion-inspect-frame').attr('src') !== inspectUrl) {
+                $('#lion-inspect-frame').attr('src', inspectUrl);
             } else {
                 try {
                     document.getElementById('lion-inspect-frame').contentWindow.postMessage('lion-replay', '*');
@@ -4129,6 +4131,13 @@ const EventManager = {
                 $('#lion-inspect-modal').css('display', 'flex');
                 setTimeout(() => $('#lion-inspect-modal').addClass('show'), 10);
             }
+        });
+
+        $('#sidebar-glove-btn').on('click', function () {
+            const cur = localStorage.getItem('ab_lion_gloves') || 'rolf';
+            const next = cur === 'tit' ? 'rolf' : 'tit';
+            try { localStorage.setItem('ab_lion_gloves', next); } catch (e) {}
+            if (window.showToast) window.showToast(next === 'tit' ? '已切换为 TIT 手套' : '已切换为 Rolf 手套');
         });
 
         function stopLionAudio() {
