@@ -70,7 +70,17 @@
             '</div>' +
             '<div class="catalog-detail-desc">' + esc(it.desc || noDesc) + '</div>' +
             '</div>';
-        overlay.classList.add('show');
+        try {
+            if (it.sound) {
+                var audio = new Audio(it.sound);
+                audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                audio.play().catch(function () {});
+            }
+        } catch (e) {}
+        overlay.classList.remove('show');
+        overlay.style.display = 'flex';
+        void overlay.offsetWidth;
+        requestAnimationFrame(function () { overlay.classList.add('show'); });
         var btn = overlay.querySelector('.catalog-detail-close');
         if (btn) btn.onclick = function () { overlay.classList.remove('show'); };
     }

@@ -3384,12 +3384,18 @@ _runOpenSafe() {
         var _ck = 'ab_catalog_counts';
         var _cc = null;
         if (window.CatalogManager) {
-            for (var _ci = 0; _ci < items.length; _ci++) window.CatalogManager.record(items[_ci]);
+            for (var _ci = 0; _ci < items.length; _ci++) {
+                var _it0 = items[_ci];
+                if (!_it0 || _it0.__catalogRecorded) continue;
+                _it0.__catalogRecorded = true;
+                window.CatalogManager.record(_it0);
+            }
         } else {
             _cc = JSON.parse(localStorage.getItem(_ck) || '{}') || {};
             for (var _cj = 0; _cj < items.length; _cj++) {
                 var _it = items[_cj];
-                if (!_it) continue;
+                if (!_it || _it.__catalogRecorded) continue;
+                _it.__catalogRecorded = true;
                 var _id = _it.catalogId != null ? _it.catalogId : _it.id;
                 if (_id != null) _cc[_id] = (_cc[_id] || 0) + 1;
             }
@@ -6942,7 +6948,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.191';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.192';
     
     var __HU_SIZE_BUMP_150 = 1;
 
