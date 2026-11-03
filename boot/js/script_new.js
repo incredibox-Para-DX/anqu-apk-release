@@ -3236,6 +3236,7 @@ _runOpenSafe() {
         if (devilMode === 1) purpleItemCount = 40;
         _.times(purpleItemCount, () => {
             const purpleItem = _.cloneDeep(_.sample(purpleItems));
+            purpleItem.catalogId = purpleItem.catalogId || purpleItem.id;
             purpleItem.id = itemId++;
             const placedItem = GameCore.tryPlaceItemWithRotation(purpleItem, State.grid);
             if (placedItem) {
@@ -3311,6 +3312,7 @@ _runOpenSafe() {
                 hqItem = GameCore.getRandomItem();
             }
             if (hqItem) {
+                hqItem.catalogId = hqItem.catalogId || hqItem.id;
                 hqItem.id = itemId++;
                 const placedItem = GameCore.tryPlaceItemWithRotation(hqItem, State.grid);
                 if (placedItem) {
@@ -3340,6 +3342,7 @@ _runOpenSafe() {
         if (destinyForceOrange) {
             const orangeItem = GameCore.getRandomItemByRarity('orange');
             if (orangeItem) {
+                orangeItem.catalogId = orangeItem.catalogId || orangeItem.id;
                 orangeItem.id = itemId++;
                 const placed = GameCore.tryPlaceItemWithRotation(_.cloneDeep(orangeItem), State.grid);
                 if (placed) items.push(placed);
@@ -3378,14 +3381,17 @@ _runOpenSafe() {
 
     State.items = items;
     try {
+        var _ck = 'ab_catalog_counts';
+        var _cc = null;
         if (window.CatalogManager) {
             for (var _ci = 0; _ci < items.length; _ci++) window.CatalogManager.record(items[_ci]);
         } else {
-            var _ck = 'ab_catalog_counts';
-            var _cc = JSON.parse(localStorage.getItem(_ck) || '{}') || {};
+            _cc = JSON.parse(localStorage.getItem(_ck) || '{}') || {};
             for (var _cj = 0; _cj < items.length; _cj++) {
                 var _it = items[_cj];
-                if (_it && _it.id != null) _cc[_it.id] = (_cc[_it.id] || 0) + 1;
+                if (!_it) continue;
+                var _id = _it.catalogId != null ? _it.catalogId : _it.id;
+                if (_id != null) _cc[_id] = (_cc[_id] || 0) + 1;
             }
             localStorage.setItem(_ck, JSON.stringify(_cc));
         }
@@ -6936,7 +6942,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.190';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.191';
     
     var __HU_SIZE_BUMP_150 = 1;
 

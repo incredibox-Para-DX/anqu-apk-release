@@ -162,10 +162,10 @@
             grid.addEventListener('click', function (e) {
                 var card = e.target && e.target.closest ? e.target.closest('.catalog-card') : null;
                 if (!card) return;
-                var id = Number(card.getAttribute('data-id'));
+                var raw = card.getAttribute('data-id');
                 var list = items();
                 for (var i = 0; i < list.length; i++) {
-                    if (list[i].id === id) { showDetail(list[i]); return; }
+                    if (String(list[i].id) === String(raw)) { showDetail(list[i]); return; }
                 }
             });
         }
@@ -173,8 +173,10 @@
 
     window.CatalogManager = {
         record: function (item) {
-            if (!item || item.id == null) return;
-            counts[item.id] = (counts[item.id] || 0) + 1;
+            if (!item) return;
+            var id = item.catalogId != null ? item.catalogId : item.id;
+            if (id == null) return;
+            counts[id] = (counts[id] || 0) + 1;
             save();
         },
         open: open
