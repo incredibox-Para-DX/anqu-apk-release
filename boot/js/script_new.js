@@ -241,6 +241,7 @@ previewCurrentBackground() {
         const isVideo = isVideoHint !== undefined ? isVideoHint : /\.(mp4|webm)(\?|$)/i.test(path);
 
         $('#bg-video').remove();
+        $('#bg-image').remove();
         $('body').css({
             'background-image': 'none',
             'background-color': '#000'
@@ -321,13 +322,10 @@ previewCurrentBackground() {
                 document.addEventListener('touchstart', resumeBgVideo, { passive: true });
             }
         } else {
-            const bgUrl = `url('${path}')`;
-            $('body').css({
-                'background-image': bgUrl,
-                'background-size': 'cover',
-                'background-position': 'center',
-                'background-repeat': 'no-repeat'
-            });
+            const image = document.createElement('div');
+            image.id = 'bg-image';
+            image.style.cssText = 'position:fixed;inset:0;background-image:url("' + path + '");background-size:cover;background-position:center;background-repeat:no-repeat;z-index:-1;transform:translate3d(0,0,0) scale(1.12);will-change:transform;';
+            document.body.prepend(image);
         }
 
         
@@ -6911,7 +6909,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.171';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.172';
     
     var __HU_SIZE_BUMP_150 = 1;
 
