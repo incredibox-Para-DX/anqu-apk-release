@@ -74,6 +74,7 @@ CODE_FILES = [
     "xml/loading-tips.xml",
     "xml/music-config.xml",
     "xml/video-config.xml",
+    "audio/items/lion_inspect.wav",
 ]
 
 

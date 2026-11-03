@@ -24,8 +24,15 @@
         }
     }
 
+    function fullscreenOpen() {
+        try {
+            return !!(document.querySelector('#catalog-modal.show, #lion-inspect-modal.show'));
+        } catch (e) { return false; }
+    }
+
     function setTarget(x, y) {
         if (!enabled()) return;
+        if (fullscreenOpen()) { x = 0; y = 0; }
         targetX = Math.max(-40, Math.min(40, x));
         targetY = Math.max(-32, Math.min(32, y));
         if (!raf) raf = requestAnimationFrame(apply);

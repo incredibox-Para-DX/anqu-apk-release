@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.198",
+  "version": "v2.3.0_hotfix.199",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -28,8 +28,8 @@
     },
     {
       "path": "css/styles.css",
-      "size": 115894,
-      "sha256": "2977cf4b1c3b86549a89be803da97f5d54955c503d275b22434b99736bace538"
+      "size": 116203,
+      "sha256": "895bd8199e71cf9c03e3731bb76fd2ce2fb4fbfad5280e0290143f0d90d743f2"
     },
     {
       "path": "debug-console.css",
@@ -233,8 +233,8 @@
     },
     {
       "path": "js/ui-polish.js",
-      "size": 3460,
-      "sha256": "7f56422f583e174cc59f235f370b7cecced80fe79cf41053c7c6af19fa66c697"
+      "size": 3695,
+      "sha256": "d2571d22200d6bbc54b5d3c01041d57c7bd4c915aec91e9527d0714443f0b893"
     },
     {
       "path": "js/catalog.js",
@@ -277,11 +277,16 @@
       "sha256": "005d46a8ee466889d53a5f7ab28f0b040e0ec83cff77e166dcdc2e5163e2addb"
     },
     {
+      "path": "audio/items/lion_inspect.wav",
+      "size": 819576,
+      "sha256": "cb6ff490e10027a60ca661e3b7a56238143cb198dfb96cae40583fbf9818c793"
+    },
+    {
       "path": "index.html",
-      "size": 166364,
-      "sha256": "75e6d72c8f65da0b2dfde186aa6f631d26c95a5cb569e50ec4fca0fac031aff2"
+      "size": 166311,
+      "sha256": "da4491fa9fa4f56a3d83de944e125b150df97abc61b8cd2faa457aa9e05520f9"
     }
   ],
-  "fileCount": 56,
-  "totalSize": 2372429
+  "fileCount": 57,
+  "totalSize": 3192496
 }

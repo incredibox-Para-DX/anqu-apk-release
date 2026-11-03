@@ -2005,6 +2005,17 @@ input:checked + .slider:before {
 #item-tooltip .tooltip-inspect-btn:hover {
     background: rgba(245, 158, 11, 0.24);
 }
+#lion-inspect-modal > .lion-inspect-page {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #0b0e13 !important;
+    display: flex;
+    flex-direction: column;
+}
 
 @keyframes flashout {
     from { opacity: 1; }
