@@ -102,8 +102,10 @@ function setupCharacter(gltf) {
   window.__socket = model.getObjectByName('item_r') || model.getObjectByName('item_l') || model.getObjectByName('hand_r');
   window.__charBones = {};
   window.__rolfGloves = [];
+  window.__charSkeleton = null;
   model.traverse(function (o) {
     if (o.isBone) window.__charBones[o.name] = o;
+    if (o.isSkinnedMesh && !window.__charSkeleton) window.__charSkeleton = o.skeleton;
     if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) window.__rolfGloves.push(o);
   });
 
@@ -170,16 +172,17 @@ loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
   console.error(e);
 });
 loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
-loader.load('./lion/gloves_tit.glb', function (gltf) {
+loader.load('./lion/gloves_tit_retarget.glb', function (gltf) {
   const tit = gltf.scene;
-  tit.scale.setScalar(1);
   tit.traverse(function (o) {
     if (o.isSkinnedMesh) {
       o.frustumCulled = false;
+      o.geometry.scale(0.01, 0.01, 0.01);
       o.material = new THREE.MeshStandardMaterial({ map: texGloveTit, normalMap: texGloveTitN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-      (o.skeleton.bones || []).forEach(function (b) { b.matrixAutoUpdate = false; });
-      o.bindMatrix.identity();
-      o.bindMatrixInverse.identity();
+      if (window.__charSkeleton) {
+        o.skeleton = window.__charSkeleton;
+        o.bind(window.__charSkeleton, new THREE.Matrix4());
+      }
     }
   });
   scene.add(tit);
@@ -224,7 +227,6 @@ function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.05);
   mixers.forEach((m) => m.update(dt));
-  syncTitBones();
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
     camera.position.copy(tmp);
