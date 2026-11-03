@@ -31,10 +31,6 @@
         if (!raf) raf = requestAnimationFrame(apply);
     }
 
-    window.addEventListener('mousemove', function (e) {
-        setTarget((e.clientX / window.innerWidth - 0.5) * 72, (e.clientY / window.innerHeight - 0.5) * 56);
-    }, { passive: true });
-
     var baseBeta = null;
     var baseGamma = null;
     var orientationBound = false;
