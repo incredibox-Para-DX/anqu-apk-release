@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.201",
+  "version": "v2.3.0_hotfix.202",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -228,13 +228,13 @@
     },
     {
       "path": "js/particles.js",
-      "size": 4802,
-      "sha256": "ca5321d043d6e0ca8291b0cbf44873779a84205a982933278418ad373ab50912"
+      "size": 4739,
+      "sha256": "5514604d30a435122a5a04828a5152ab0e4cffa0f8ead879fe8964db085a61e8"
     },
     {
       "path": "js/ui-polish.js",
-      "size": 3695,
-      "sha256": "d2571d22200d6bbc54b5d3c01041d57c7bd4c915aec91e9527d0714443f0b893"
+      "size": 3460,
+      "sha256": "7f56422f583e174cc59f235f370b7cecced80fe79cf41053c7c6af19fa66c697"
     },
     {
       "path": "js/catalog.js",
@@ -277,111 +277,11 @@
       "sha256": "005d46a8ee466889d53a5f7ab28f0b040e0ec83cff77e166dcdc2e5163e2addb"
     },
     {
-      "path": "lion-inspect.html",
-      "size": 7114,
-      "sha256": "a31f3e5c08c67ae294c5cc0b31d8b45d19a9e1ee6a6ecc0b6712e5862f5a7bfd"
-    },
-    {
-      "path": "audio/items/lion_inspect.wav",
-      "size": 819576,
-      "sha256": "cb6ff490e10027a60ca661e3b7a56238143cb198dfb96cae40583fbf9818c793"
-    },
-    {
-      "path": "lion/character.glb",
-      "size": 2350600,
-      "sha256": "dddbe36ee5937ec86b8ec778a570f9f1e749d8c29e47dbbf2e3fd85541061c00"
-    },
-    {
-      "path": "lion/gloves_D.png",
-      "size": 91651,
-      "sha256": "55d0d4ca6632a2b4ab508f780969b5b6f915183e54a2722f548c4a57800c88ff"
-    },
-    {
-      "path": "lion/gloves_N.png",
-      "size": 116697,
-      "sha256": "d6221843c84ca2b924bd0ca7ba88600f33e99e29b4aa1a1207acbf6eb7c8c6fa"
-    },
-    {
-      "path": "lion/head_D.png",
-      "size": 357177,
-      "sha256": "af722d9fe25d3b75d5186e146f5ac4b277e322d9223e488b3520136a2b2c9028"
-    },
-    {
-      "path": "lion/head_N.png",
-      "size": 406663,
-      "sha256": "d3a608280413afcfc0db423c98c78f1844eacfe4767663a9b0e787540f25b955"
-    },
-    {
-      "path": "lion/inspect.wav",
-      "size": 819576,
-      "sha256": "cb6ff490e10027a60ca661e3b7a56238143cb198dfb96cae40583fbf9818c793"
-    },
-    {
-      "path": "lion/leg_D.png",
-      "size": 80819,
-      "sha256": "dd56be37f07af24267705db42448228bd110202e1e4582019dbc1f64492450aa"
-    },
-    {
-      "path": "lion/leg_N.png",
-      "size": 113349,
-      "sha256": "ec1ac4f2085ce02a7cbd59630dc8283b9283524d04c596f16bd6c01c0675aa52"
-    },
-    {
-      "path": "lion/lion.glb",
-      "size": 353016,
-      "sha256": "1e1ac80bb3974050a091fee2bbd0cc8385002f19304b3bc4b865c9252935c857"
-    },
-    {
-      "path": "lion/lion_D.png",
-      "size": 391768,
-      "sha256": "297a8174de98b22893c5e1a866160ea5be4850d8c4ec7a7cb4c5619404467e7f"
-    },
-    {
-      "path": "lion/shoes_D.png",
-      "size": 25198,
-      "sha256": "679473b83afe01ab0951522ee8f15ac19923baed84b090ab0dae3229baac6706"
-    },
-    {
-      "path": "lion/torso_D.png",
-      "size": 387454,
-      "sha256": "5a697d196b3abdddc916bd7e940e17d0bb07b19b710e0e17712a2fd051b7854a"
-    },
-    {
-      "path": "lion/torso_N.png",
-      "size": 485293,
-      "sha256": "1bd04c4fa395d622b61d10efa41e455278c845d22bb1b72745f676a83992dfe8"
-    },
-    {
-      "path": "vendor/three/three.module.js",
-      "size": 1272972,
-      "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495"
-    },
-    {
-      "path": "vendor/three/addons/loaders/GLTFLoader.js",
-      "size": 108538,
-      "sha256": "4ca7dd12b6be001ecbd52091e6f21503dca3944d4e389af7b57da16275d31827"
-    },
-    {
-      "path": "vendor/three/addons/controls/OrbitControls.js",
-      "size": 29884,
-      "sha256": "fbbc9eb6f89ffe466f1a3e047fe0ac5457a78e50df1d8b01cbb4e9941bef2999"
-    },
-    {
-      "path": "vendor/three/addons/environments/RoomEnvironment.js",
-      "size": 3751,
-      "sha256": "efcb7a5f0e51ecdad1e531450ed3ea2b3c4b9be4c66f0faa5199ac328db76e50"
-    },
-    {
-      "path": "vendor/three/addons/utils/BufferGeometryUtils.js",
-      "size": 31922,
-      "sha256": "5e330ce5bc7f2f46c07c67646e18ed2472e9f4479546a253b5ab3dfc5ab0244b"
-    },
-    {
       "path": "index.html",
       "size": 166012,
       "sha256": "6e868e63c340e02820c8ba7f671fcfa4775193a5df6cd724e2d4f5da6373b3fd"
     }
   ],
-  "fileCount": 76,
-  "totalSize": 10626080
+  "fileCount": 56,
+  "totalSize": 2372764
 }

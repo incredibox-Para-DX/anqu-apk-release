@@ -10,7 +10,7 @@
     var h = 0;
 
     function enabled() {
-        try { return localStorage.getItem(KEY) !== '0'; } catch (e) { return true; }
+        return false;
     }
 
     function resize() {
