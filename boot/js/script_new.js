@@ -3376,6 +3376,11 @@ _runOpenSafe() {
     }
 
     State.items = items;
+    try {
+        if (window.CatalogManager) {
+            for (var _ci = 0; _ci < items.length; _ci++) window.CatalogManager.record(items[_ci]);
+        }
+    } catch (e) {}
     GameCore.createSearchQueue();
     UIManager.renderAllItems();
     UIManager.updateStats();
@@ -3644,7 +3649,6 @@ _runOpenSafe() {
                 searchedAt: searchTime 
             }], State.inventory);
             
-            try { if (window.CatalogManager) window.CatalogManager.record(State.currentSearch); } catch (e) {}
             
             try {
                 if (typeof window.SampleManager !== 'undefined' && State.currentSearch.name) {
@@ -6923,7 +6927,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.186';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.187';
     
     var __HU_SIZE_BUMP_150 = 1;
 

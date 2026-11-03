@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.186.m",
+  "version": "v2.3.0_hotfix.187.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -23,13 +23,13 @@
     },
     {
       "path": "css/main.css",
-      "size": 72255,
-      "sha256": "d306477e42c7cd6e660c841f161b231c2b48970310ce0a79fb2d43f805d3a0d6"
+      "size": 72648,
+      "sha256": "d0d384abda452c7dc3c385a5861f26465748e126109006e0a78fcd74a484afb6"
     },
     {
       "path": "css/styles.css",
-      "size": 113807,
-      "sha256": "d9c44a7f2fa07fb5d6f0b09b665ca43bd9866b77ae42ba3e8c88fadd7ee7f7ae"
+      "size": 114200,
+      "sha256": "a249b6dd0fc9dfca8ba30970327edfc737a260cd3dfae611e598c4c7f41c3315"
     },
     {
       "path": "debug-console.css",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 353741,
-      "sha256": "b7f585589d1b005ac1a8291c23651f50ae281cab4efcb0e27597c657e6342949"
+      "size": 353805,
+      "sha256": "00c8ec69a735ddcfec887903b314eb3d7d71b29f0b253a78a3af81c9d171aecc"
     },
     {
       "path": "js/synthesis.js",
@@ -138,8 +138,8 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 136278,
-      "sha256": "acc2c35b6b52357a012c0cdcc2d2328a86981957fe891d4d18d22b72940b69cf"
+      "size": 136868,
+      "sha256": "ac617a7171fa9de16d5fecea9d0804567c8eead1d1ee1babc089fed10a523e95"
     },
     {
       "path": "js/i18n-next.js",
@@ -238,8 +238,8 @@
     },
     {
       "path": "js/catalog.js",
-      "size": 6979,
-      "sha256": "dcb5f0a7868d6c28aa499d697a7194535525b935912052e45db4fb2679b37bf9"
+      "size": 8046,
+      "sha256": "f03f09ef4b4c08fff7beb6aebbbaae0e0938029ab7852340be94b8371c787ffd"
     },
     {
       "path": "admin/anqu-admin.html",
@@ -278,10 +278,10 @@
     },
     {
       "path": "index.html",
-      "size": 164797,
-      "sha256": "6cf6795164868271a6cfef7380a4dc42a7e0228164630f30a8e81c54098cc2d1"
+      "size": 165637,
+      "sha256": "90f360c60c2a3c1e857ed56c85b1834bde1f18aeaef25711045c84c57c87c446"
     }
   ],
   "fileCount": 56,
-  "totalSize": 2360386
+  "totalSize": 2363733
 }

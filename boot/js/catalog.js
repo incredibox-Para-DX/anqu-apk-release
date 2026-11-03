@@ -1,5 +1,6 @@
 (function () {
     var KEY = 'ab_catalog_counts';
+    var filterState = 'all';
     var counts = {};
     try { counts = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { counts = {}; }
 
@@ -12,7 +13,7 @@
     }
 
     var RARITY = {
-        white: '#cbd5e1', gray: '#94a3b8', blue: '#60a5fa', purple: '#c084fc', gold: '#fbbf24', red: '#ef4444'
+        white: '#cbd5e1', gray: '#94a3b8', blue: '#60a5fa', purple: '#c084fc', gold: '#fbbf24', orange: '#fb923c', red: '#ef4444'
     };
 
     function esc(s) {
@@ -22,7 +23,8 @@
     }
 
     function fmt(n) {
-        try { return window.Utils && Utils.formatCurrency ? Utils.formatCurrency(n) : String(n); } catch (e) { return String(n); }
+        var v = Math.round(Number(n) || 0);
+        try { return v.toLocaleString('zh-CN'); } catch (e) { return String(v); }
     }
 
     function t(key, fallback) {
@@ -64,7 +66,11 @@
         var grid = document.getElementById('catalog-grid');
         if (!grid) return;
         var term = (filter || '').trim().toLowerCase();
-        var list = items().slice().sort(function (a, b) {
+        var list = items().slice();
+        if (filterState === 'owned') list = list.filter(function (it) { return (counts[it.id] || 0) > 0; });
+        else if (filterState === 'unowned') list = list.filter(function (it) { return !(counts[it.id] || 0); });
+        else if (filterState !== 'all') list = list.filter(function (it) { return it.rarity === filterState; });
+        list.sort(function (a, b) {
             var ca = counts[a.id] || 0;
             var cb = counts[b.id] || 0;
             if (ca !== cb) return cb - ca;
@@ -120,6 +126,18 @@
         if (search) {
             search.placeholder = t('catalog_search', '搜索物品名称或简介');
             search.addEventListener('input', function () { render(search.value); });
+        }
+        var filters = document.getElementById('catalog-filters');
+        if (filters) {
+            filters.addEventListener('click', function (e) {
+                var btn = e.target && e.target.closest ? e.target.closest('.catalog-filter-btn') : null;
+                if (!btn) return;
+                filterState = btn.getAttribute('data-filter') || 'all';
+                var all = filters.querySelectorAll('.catalog-filter-btn');
+                for (var i = 0; i < all.length; i++) all[i].classList.toggle('active', all[i] === btn);
+                var s = document.getElementById('catalog-search');
+                render(s ? s.value : '');
+            });
         }
         var grid = document.getElementById('catalog-grid');
         if (grid) {

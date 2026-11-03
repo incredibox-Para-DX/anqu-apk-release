@@ -1490,6 +1490,16 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 </div>
 <div class="modal-body">
 <div style="margin-bottom:10px;"><input id="catalog-search" data-i18n-ph="catalog_search" placeholder="搜索物品名称或简介" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(148,163,184,.25);background:rgba(0,0,0,.25);color:#e2e8f0;font-size:13px;outline:none;"></div>
+<div class="catalog-filters" id="catalog-filters">
+<button class="catalog-filter-btn active" data-filter="all" data-i18n="catalog_all">全部</button>
+<button class="catalog-filter-btn" data-filter="red" data-i18n="rarity_red">红色</button>
+<button class="catalog-filter-btn" data-filter="orange" data-i18n="rarity_orange">橙色</button>
+<button class="catalog-filter-btn" data-filter="gold" data-i18n="rarity_gold">金色</button>
+<button class="catalog-filter-btn" data-filter="purple" data-i18n="rarity_purple">紫色</button>
+<button class="catalog-filter-btn" data-filter="white" data-i18n="rarity_white">白色</button>
+<button class="catalog-filter-btn" data-filter="owned" data-i18n="catalog_owned">已获得</button>
+<button class="catalog-filter-btn" data-filter="unowned" data-i18n="catalog_unowned">未获得</button>
+</div>
 <div class="catalog-grid" id="catalog-grid"></div>
 </div>
 </div>
