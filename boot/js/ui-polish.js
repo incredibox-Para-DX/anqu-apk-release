@@ -21,30 +21,61 @@
     }
 
     function setTarget(x, y) {
-        targetX = Math.max(-40, Math.min(40, x));
-        targetY = Math.max(-24, Math.min(24, y));
+        targetX = Math.max(-36, Math.min(36, x));
+        targetY = Math.max(-22, Math.min(22, y));
         if (!raf) raf = requestAnimationFrame(apply);
     }
 
     window.addEventListener('mousemove', function (e) {
-        setTarget((e.clientX / window.innerWidth - 0.5) * 70, (e.clientY / window.innerHeight - 0.5) * 40);
+        setTarget((e.clientX / window.innerWidth - 0.5) * 64, (e.clientY / window.innerHeight - 0.5) * 36);
     }, { passive: true });
 
     window.addEventListener('touchmove', function (e) {
         if (!e.touches || !e.touches.length) return;
-        setTarget((e.touches[0].clientX / window.innerWidth - 0.5) * 70, (e.touches[0].clientY / window.innerHeight - 0.5) * 40);
+        setTarget((e.touches[0].clientX / window.innerWidth - 0.5) * 64, (e.touches[0].clientY / window.innerHeight - 0.5) * 36);
     }, { passive: true });
 
+    var baseBeta = null;
+    var baseGamma = null;
     var orientationBound = false;
+
+    function screenAngle() {
+        try {
+            if (window.screen && screen.orientation && typeof screen.orientation.angle === 'number') return screen.orientation.angle;
+            if (typeof window.orientation === 'number') return window.orientation;
+        } catch (e) {}
+        return 0;
+    }
+
+    function resetBase() {
+        baseBeta = null;
+        baseGamma = null;
+    }
+
     function bindOrientation() {
         if (orientationBound) return;
         orientationBound = true;
         window.addEventListener('deviceorientation', function (e) {
-            if (e.gamma == null || e.beta == null) return;
-            var x = Math.max(-1, Math.min(1, e.gamma / 25)) * 36;
-            var y = Math.max(-1, Math.min(1, (e.beta - 45) / 30)) * 22;
-            setTarget(x, y);
+            if (e.beta == null || e.gamma == null) return;
+            if (baseBeta == null) {
+                baseBeta = e.beta;
+                baseGamma = e.gamma;
+                return;
+            }
+            var dB = e.beta - baseBeta;
+            var dG = e.gamma - baseGamma;
+            var angle = screenAngle();
+            var x = dG;
+            var y = dB;
+            if (angle === 90) { x = dB; y = -dG; }
+            else if (angle === -90 || angle === 270) { x = -dB; y = dG; }
+            else if (angle === 180) { x = -dG; y = -dB; }
+            setTarget(x * 2.4, y * 2.0);
         }, { passive: true });
+        window.addEventListener('orientationchange', resetBase);
+        try {
+            if (window.screen && screen.orientation) screen.orientation.addEventListener('change', resetBase);
+        } catch (e) {}
     }
 
     function requestOrientation() {

@@ -324,7 +324,7 @@ previewCurrentBackground() {
         } else {
             const image = document.createElement('div');
             image.id = 'bg-image';
-            image.style.cssText = 'position:fixed;inset:0;background-image:url("' + path + '");background-size:cover;background-position:center;background-repeat:no-repeat;z-index:-1;transform:translate3d(0,0,0) scale(1.12);will-change:transform;';
+            image.style.cssText = 'position:fixed;inset:0;background-image:url("' + path + '");background-size:cover;background-position:center;background-repeat:no-repeat;z-index:-1;transform:translate3d(0,0,0) scale(1.12);transform-origin:center center;will-change:transform;';
             document.body.prepend(image);
         }
 
@@ -6909,7 +6909,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.172';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.173';
     
     var __HU_SIZE_BUMP_150 = 1;
 
