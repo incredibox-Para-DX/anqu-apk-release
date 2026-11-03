@@ -3919,5 +3919,6 @@ body.bg-view .sidebar, body.bg-view .game-container, body.bg-view .more-button, 
 .catalog-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 300px)); justify-content: start; align-items: start; align-content: start; }
 .catalog-card { min-height: 80px; align-self: start; }
 
-.catalog-grid { grid-auto-rows: min-content; }
-.catalog-card { align-self: start; height: auto; }
+.catalog-grid { grid-auto-rows: 96px; }
+.catalog-card { align-self: stretch; height: 96px; min-height: 96px; overflow: hidden; }
+.catalog-card .catalog-info { overflow: hidden; }

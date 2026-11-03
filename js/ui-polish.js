@@ -12,7 +12,7 @@
     function apply() {
         curX += (targetX - curX) * 0.12;
         curY += (targetY - curY) * 0.12;
-        var transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0)';
+        var transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0) scale(1.08)';
         var video = document.getElementById('bg-video');
         var image = document.getElementById('bg-image');
         if (video) video.style.transform = transform;

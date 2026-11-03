@@ -10,7 +10,7 @@
     var h = 0;
 
     function enabled() {
-        return false;
+        try { return localStorage.getItem(KEY) !== '0'; } catch (e) { return true; }
     }
 
     function resize() {
@@ -68,9 +68,10 @@
         var modals = document.querySelectorAll('.modal-overlay');
         for (var i = 0; i < modals.length; i++) {
             var m = modals[i];
-            if (m.classList.contains('show')) return true;
+            if (!m.classList.contains('show')) continue;
             try {
-                if (window.getComputedStyle(m).display === 'flex') return true;
+                var cs = window.getComputedStyle(m);
+                if (cs.display === 'flex' && cs.visibility !== 'hidden' && cs.opacity !== '0') return true;
             } catch (e) {}
         }
         return false;

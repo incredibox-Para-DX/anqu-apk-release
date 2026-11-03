@@ -4111,7 +4111,8 @@ const EventManager = {
             e.preventDefault();
             e.stopPropagation();
             try {
-                const audio = new Audio('lion/inspect.wav');
+                window.__lionAudio = new Audio('lion/inspect.wav');
+                const audio = window.__lionAudio;
                 audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.play().catch(function() {});
             } catch (err) {}
@@ -4124,8 +4125,18 @@ const EventManager = {
             }
         });
 
+        function stopLionAudio() {
+            try {
+                if (window.__lionAudio) {
+                    window.__lionAudio.pause();
+                    window.__lionAudio.currentTime = 0;
+                }
+            } catch (e) {}
+        }
+
         $('#lion-inspect-close').on('click', function(e) {
             e.preventDefault();
+            stopLionAudio();
             $('#lion-inspect-modal').removeClass('show');
             setTimeout(() => {
                 $('#lion-inspect-modal').css('display', 'none');
@@ -4134,6 +4145,7 @@ const EventManager = {
         });
 
         window.closeLionInspect = function() {
+            stopLionAudio();
             $('#lion-inspect-modal').removeClass('show');
             setTimeout(function () {
                 $('#lion-inspect-modal').css('display', 'none');
