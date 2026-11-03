@@ -66,6 +66,7 @@ CODE_FILES = [
     "js/thanks.js",
     "js/particles.js",
     "js/ui-polish.js",
+    "js/catalog.js",
     "admin/anqu-admin.html",
     "admin/leaderboard-admin.html",
     "xml/backgrounds.xml",

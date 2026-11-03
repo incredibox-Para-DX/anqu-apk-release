@@ -3644,6 +3644,8 @@ _runOpenSafe() {
                 searchedAt: searchTime 
             }], State.inventory);
             
+            try { if (window.CatalogManager) window.CatalogManager.record(State.currentSearch); } catch (e) {}
+            
             try {
                 if (typeof window.SampleManager !== 'undefined' && State.currentSearch.name) {
                     window.SampleManager.onItemCollected(State.currentSearch.name);
@@ -3871,6 +3873,7 @@ _runOpenSafe() {
                     if (modItems && modItems.length) allItemsConfig = allItemsConfig.concat(modItems);
                 } catch (e) {}
             }
+            window.__ALL_ITEMS__ = allItemsConfig;
         }
     };
 
@@ -6920,7 +6923,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.182';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.183';
     
     var __HU_SIZE_BUMP_150 = 1;
 
