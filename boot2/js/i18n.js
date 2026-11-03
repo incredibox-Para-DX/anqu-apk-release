@@ -56,6 +56,7 @@
         catalog_obtained: ['摸到 {n} 次', '摸到 {n} 次', 'Obtained {n} times', 'Получено {n} раз'],
         catalog_price: ['参考价', '參考價', 'Reference price', 'Ориентировочная цена'],
         catalog_no_desc: ['暂无简介', '暫無簡介', 'No description', 'Нет описания'],
+        catalog_unsearched: ['该道具还未搜索到', '該道具還未搜尋到', 'This item has not been found yet', 'Предмет ещё не найден'],
         catalog_empty: ['没有找到物品', '沒有找到物品', 'No items found', 'Ничего не найдено'],
         catalog_all: ['全部', '全部', 'All', 'Все'],
         catalog_owned: ['已获得', '已獲得', 'Owned', 'Получено'],

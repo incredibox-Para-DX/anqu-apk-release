@@ -113,12 +113,15 @@
             var obtained = t('catalog_obtained', '摸到 {n} 次').replace('{n}', String(count));
             var priceLabel = t('catalog_price', '参考价');
             var noDesc = t('catalog_no_desc', '暂无简介');
+            var shownName = owned ? name : '???';
+            var shownPrice = owned ? fmt(it.value || 0) : '???';
+            var shownDesc = owned ? (it.desc || noDesc) : t('catalog_unsearched', '该道具还未搜索到');
             html += '<div class="catalog-card' + (owned ? '' : ' unowned') + '" data-id="' + esc(it.id) + '" style="animation-delay:' + Math.min(cardIndex * 18, 260) + 'ms">' +
                 '<div class="catalog-thumb">' + (img ? '<img src="' + esc(img) + '" loading="lazy" alt="">' : '<i class="fas fa-box"></i>') + '</div>' +
                 '<div class="catalog-info">' +
-                '<div class="catalog-name" style="color:' + color + '">' + esc(name) + '</div>' +
-                '<div class="catalog-meta"><span>' + esc(obtained) + '</span><span>' + esc(priceLabel) + ' ' + esc(fmt(it.value || 0)) + '</span></div>' +
-                '<div class="catalog-desc">' + esc(it.desc || noDesc) + '</div>' +
+                '<div class="catalog-name" style="color:' + color + '">' + esc(shownName) + '</div>' +
+                '<div class="catalog-meta"><span>' + esc(obtained) + '</span><span>' + esc(priceLabel) + ' ' + esc(shownPrice) + '</span></div>' +
+                '<div class="catalog-desc">' + esc(shownDesc) + '</div>' +
                 '</div></div>';
             cardIndex++;
         }
@@ -176,7 +179,10 @@
                 var raw = card.getAttribute('data-id');
                 var list = items();
                 for (var i = 0; i < list.length; i++) {
-                    if (String(list[i].id) === String(raw)) { showDetail(list[i]); return; }
+                    if (String(list[i].id) === String(raw)) {
+                        if ((counts[list[i].id] || 0) > 0) showDetail(list[i]);
+                        return;
+                    }
                 }
             });
         }
