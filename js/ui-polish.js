@@ -89,7 +89,22 @@
         });
     }
 
-    var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+/<>[]{}=?_~';
+    var SIMILAR = {
+        'A': '4Λ', 'B': '8ß', 'C': '(G', 'D': 'OÐ', 'E': 'F3', 'F': 'E7', 'G': '6C', 'H': 'N#',
+        'I': '1l', 'J': 'J)', 'K': '|<', 'L': '|_', 'M': 'N', 'N': 'MИ', 'O': '0Q', 'P': 'R9',
+        'Q': 'O9', 'R': 'P8', 'S': '5$', 'T': '7+', 'U': 'V∪', 'V': 'U∨', 'W': 'V', 'X': '×X',
+        'Y': 'V¥', 'Z': '2Z',
+        '0': 'OQ', '1': 'lI', '2': 'Z2', '3': '8E', '4': 'A4', '5': 'S5', '6': 'G6', '7': 'T7',
+        '8': 'B8', '9': 'g9'
+    };
+    var CN_SIMILAR = '田日目口回国固图因困甲申由电白百自且旦旧早旮旯黯匹空究堡检摸膜似';
+
+    function similarChar(ch) {
+        var pool = SIMILAR[ch] || SIMILAR[ch.toUpperCase()];
+        if (pool) return pool[Math.floor(Math.random() * pool.length)];
+        if (/[\u4e00-\u9fa5]/.test(ch)) return CN_SIMILAR[Math.floor(Math.random() * CN_SIMILAR.length)];
+        return ch;
+    }
 
     function decodeTextNode(node, duration) {
         if (!node || node.nodeType !== 3) return;
@@ -103,7 +118,7 @@
             var out = '';
             for (var i = 0; i < len; i++) {
                 if (i < reveal || text[i] === ' ') out += text[i];
-                else out += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+                else out += similarChar(text[i]);
             }
             node.nodeValue = out;
             if (p < 1) requestAnimationFrame(tick);
