@@ -13,7 +13,7 @@
     }
 
     var RARITY = {
-        white: '#cbd5e1', gray: '#94a3b8', blue: '#60a5fa', purple: '#c084fc', gold: '#fbbf24', orange: '#fb923c', red: '#ef4444'
+        white: '#cbd5e1', gray: '#94a3b8', blue: '#60a5fa', purple: '#c084fc', gold: '#fbbf24', orange: '#ef4444', red: '#ef4444'
     };
 
     function esc(s) {
