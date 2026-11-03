@@ -1836,6 +1836,7 @@ $(function() {
         let raf = null;
         let renderer = null;
         let texture = null;
+        let dust = null;
         let onPointerMove = null;
         let onPointerUp = null;
         let idleTimer = null;
@@ -1862,6 +1863,11 @@ $(function() {
             if (texture) {
                 try { texture.dispose(); } catch (e) {}
                 texture = null;
+            }
+            if (dust) {
+                try { dust.geometry.dispose(); } catch (e) {}
+                try { dust.material.dispose(); } catch (e) {}
+                dust = null;
             }
             if (renderer) {
                 try { renderer.dispose(); } catch (e) {}
@@ -1966,12 +1972,34 @@ $(function() {
                 holeRing.position.y = 0.06;
                 record.add(holeRing);
 
+                dust = null;
+                if (localStorage.getItem('ab_particles_enabled') !== '0') {
+                    const count = 420;
+                    const positions = new Float32Array(count * 3);
+                    for (let i = 0; i < count; i++) {
+                        const radius = 2.6 + Math.random() * 2.4;
+                        const theta = Math.random() * Math.PI * 2;
+                        const phi = Math.acos(2 * Math.random() - 1);
+                        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+                        positions[i * 3 + 1] = (Math.random() - 0.5) * 3.2;
+                        positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
+                    }
+                    const dustGeo = new THREE.BufferGeometry();
+                    dustGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                    const dustMat = new THREE.PointsMaterial({ color: 0x8ab4ff, size: 0.035, transparent: true, opacity: 0.65, depthWrite: false });
+                    dust = new THREE.Points(dustGeo, dustMat);
+                    scene.add(dust);
+                }
+
                 let analyser = null;
                 let freqData = null;
                 let spectrumBars = null;
                 try {
                     const AC = window.AudioContext || window.webkitAudioContext;
-                    if (AC && player.audio) {
+                    const monitorEnabled = (() => {
+                        try { return localStorage.getItem('ab_audio_monitor') !== '0'; } catch (e) { return true; }
+                    })();
+                    if (monitorEnabled && AC && player.audio) {
                         player._audioCtx = player._audioCtx || new AC();
                         if (player._audioCtx.state === 'suspended') player._audioCtx.resume().catch(() => {});
                         if (!player._analyser) {
@@ -2059,6 +2087,10 @@ $(function() {
                     rotY += (targetY - rotY) * 0.15;
                     record.rotation.x = rotX;
                     record.rotation.y = rotY;
+                    if (dust) {
+                        dust.rotation.y = rotY * 0.35;
+                        dust.rotation.x = rotX * 0.2;
+                    }
                     if (analyser && spectrumBars) {
                         analyser.getByteFrequencyData(freqData);
                         const n = spectrumBars.length;
@@ -2293,4 +2325,26 @@ $(function() {
     
     window.__openMusicPlaylist = openPlaylist;
     window.__openCustomMusicEdit = openCustomMusicEdit;
+
+    const particleToggle = document.getElementById('particle-toggle');
+    if (particleToggle) {
+        try { particleToggle.checked = localStorage.getItem('ab_particles_enabled') !== '0'; } catch (e) {}
+        particleToggle.addEventListener('change', () => {
+            try { localStorage.setItem('ab_particles_enabled', particleToggle.checked ? '1' : '0'); } catch (e) {}
+        });
+    }
+
+    const audioMonitorToggle = document.getElementById('audio-monitor-toggle');
+    if (audioMonitorToggle) {
+        try { audioMonitorToggle.checked = localStorage.getItem('ab_audio_monitor') !== '0'; } catch (e) {}
+        audioMonitorToggle.addEventListener('change', () => {
+            try { localStorage.setItem('ab_audio_monitor', audioMonitorToggle.checked ? '1' : '0'); } catch (e) {}
+            const p = window.musicPlayer;
+            if (p && p._audioSrc && p._audioCtx) {
+                try { p._audioSrc.disconnect(); } catch (e) {}
+                if (audioMonitorToggle.checked && p._analyser) p._audioSrc.connect(p._analyser);
+                else p._audioSrc.connect(p._audioCtx.destination);
+            }
+        });
+    }
 });
