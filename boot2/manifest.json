@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.304.m",
+  "version": "v2.3.0_hotfix.305.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 360405,
-      "sha256": "7bdbc39414b537fa33e96fe328c96ee4ff2015841cb38e448f5e7eaf70335110"
+      "sha256": "0c4f50869e57fa752b1d321499573f0672b9da5faddc2caf76904abcf7cf7a54"
     },
     {
       "path": "js/synthesis.js",
@@ -304,7 +304,7 @@
     {
       "path": "lion/gloves_rolf_uit.glb",
       "size": 184372,
-      "sha256": "ffb5daeafa4346d3a31348743a4fbfbb57db1a561f4ed3b9fe36bc386c7d8595"
+      "sha256": "d75088614bdd4288814834a2e482718280c765829b0d429e628730b37d3b9676"
     },
     {
       "path": "lion/gloves_snow_retarget.glb",
@@ -314,7 +314,7 @@
     {
       "path": "lion/gloves_xmas_uit.glb",
       "size": 231580,
-      "sha256": "a771aa0b074a5ac92f4b65154d9924a138e971e44b96f936ec0b7a0965f3116f"
+      "sha256": "26a0e779c7986970e76d2aaa07d96b5da72333384e39b5aadf615f9fad3ff3bd"
     },
     {
       "path": "lion/head_D.png",
