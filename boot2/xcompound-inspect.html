@@ -204,8 +204,8 @@ function applyGloves(kindOverride) {
     return;
   }
   loader.load(ASSET + GLOVE_URLS[kind], function (gltf) {
-    var geo = null;
-    gltf.scene.traverse(function (o) { if (o.isMesh && !geo) geo = o.geometry; });
+    var geo = null, gname = '';
+    gltf.scene.traverse(function (o) { if (o.isMesh && !geo) { geo = o.geometry; gname = o.name || ''; } });
     if (!geo) {
       mesh.geometry = window.__gloveGeoBackup;
       mesh.material = window.__gloveMatBackup;
@@ -218,7 +218,7 @@ function applyGloves(kindOverride) {
     mesh.geometry = geo;
     mesh.material = gloveMaterial(kind);
     var st = document.getElementById('status');
-    if (st) st.textContent = 'glove=' + kind + ' verts=' + geo.attributes.position.count + ' skin=' + (!!geo.attributes.skinIndex);
+    if (st) st.textContent = 'glove=' + kind + ' ' + gname + ' verts=' + geo.attributes.position.count + ' skin=' + (!!geo.attributes.skinIndex);
   }, undefined, function (e) {
     mesh.geometry = window.__gloveGeoBackup;
     mesh.material = window.__gloveMatBackup;
