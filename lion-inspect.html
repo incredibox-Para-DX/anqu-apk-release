@@ -176,18 +176,34 @@ function setupLion(gltf) {
   attach();
 }
 
-loader.load(useSnow ? './lion/secretfile_character.glb' : './lion/character.glb', setupCharacter, undefined, (e) => {
+loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
   document.getElementById('status').textContent = '角色加载失败';
   console.error(e);
 });
 loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
+loader.load('./lion/gloves_snow_retarget.glb', function (gltf) {
+  gltf.scene.traverse(function (o) {
+    if (o.isMesh && !window.__snowGeo) window.__snowGeo = o.geometry;
+  });
+  applyGloves();
+}, undefined, function (e) { console.error(e); });
 
 function applyGloves() {
   const kind = new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'rolf';
-  if (useSnow) return;
   const showXmas = kind === 'xmas';
   (window.__rolfGloves || []).forEach((m) => { m.visible = !showXmas; });
   (window.__xmasGloves || []).forEach((m) => { m.visible = showXmas; });
+  const rolf = (window.__rolfGloves || [])[0];
+  if (!rolf) return;
+  if (!window.__rolfGeoBackup) window.__rolfGeoBackup = rolf.geometry;
+  if (!window.__rolfMatBackup) window.__rolfMatBackup = rolf.material;
+  if (kind === 'snow' && window.__snowGeo) {
+    rolf.geometry = window.__snowGeo;
+    rolf.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+  } else {
+    if (window.__rolfGeoBackup) rolf.geometry = window.__rolfGeoBackup;
+    if (window.__rolfMatBackup) rolf.material = window.__rolfMatBackup;
+  }
 }
 
 function replay() {
