@@ -4125,14 +4125,7 @@ const EventManager = {
             const inspectBase = '';
             const inspectUrl = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
             const frame = document.getElementById('lion-inspect-frame');
-            if (frame.getAttribute('src') !== inspectUrl) {
-                frame.setAttribute('src', inspectUrl);
-            }
-            [350].forEach(function (t) {
-                setTimeout(function () {
-                    try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (err) {}
-                }, t);
-            });
+            frame.setAttribute('src', inspectUrl + (inspectUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
             TooltipManager.hide();
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
@@ -4209,15 +4202,13 @@ const EventManager = {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const inspectBase = '';
             const url = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
+            try {
+                window.__lionAudio = new Audio('lion/inspect.wav');
+                window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                window.__lionAudio.play().catch(function () {});
+            } catch (e) {}
             const frame = document.getElementById('lion-inspect-frame');
-            if (frame.getAttribute('src') !== url) {
-                frame.setAttribute('src', url);
-            }
-            [350].forEach(function (t) {
-                setTimeout(function () {
-                    try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (e) {}
-                }, t);
-            });
+            frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
                 $('#lion-inspect-modal').css('display', 'flex');
@@ -7068,7 +7059,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.310';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.311';
     
     var __HU_SIZE_BUMP_150 = 1;
 
