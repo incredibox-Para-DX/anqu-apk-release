@@ -113,8 +113,18 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   });
   scene.add(model);
   model.updateMatrixWorld(true);
-  head = model.getObjectByName('head') || model.getObjectByName('neck_01');
-  socket = model.getObjectByName('hand_r') || model.getObjectByName('item_r');
+  let animBones = null;
+  model.traverse((o) => {
+    if (o.isSkinnedMesh && o.skeleton && o.skeleton.bones && o.skeleton.bones.length === 97 && !animBones) {
+      animBones = o.skeleton.bones;
+    }
+  });
+  if (animBones) {
+    animBones.forEach((b) => { if (b.name.indexOf('fp_') !== 0) b.name = 'fp_' + b.name; });
+    window.__animBones = animBones.length;
+  }
+  head = model.getObjectByName('fp_head') || model.getObjectByName('head') || model.getObjectByName('neck_01');
+  socket = model.getObjectByName('fp_hand_r') || model.getObjectByName('hand_r') || model.getObjectByName('item_r');
 
   const gloveMeshes = [];
   model.traverse((o) => { if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) gloveMeshes.push(o); });
@@ -142,6 +152,13 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       for (const c of ag.animations) { if (c.name === want) { clip = c; break; } }
     }
     if (clip) {
+      clip.tracks.forEach((t) => {
+        const dot = t.name.indexOf('.');
+        if (dot > 0) {
+          const n = t.name.slice(0, dot);
+          if (n.indexOf('fp_') !== 0) t.name = 'fp_' + n + t.name.slice(dot);
+        }
+      });
       const fps = 30;
       const start = Math.floor(0.3 * fps);
       const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
