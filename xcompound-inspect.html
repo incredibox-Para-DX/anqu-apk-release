@@ -34,12 +34,12 @@ const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.01, 1
 
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-scene.environmentIntensity = 1.2;
-scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 2.2));
-const key = new THREE.DirectionalLight(0xffffff, 3.2);
+scene.environmentIntensity = 0.45;
+scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.1));
+const key = new THREE.DirectionalLight(0xffffff, 1.7);
 key.position.set(3, 5, 4);
 scene.add(key);
-const rim = new THREE.DirectionalLight(0x6ea8ff, 1.6);
+const rim = new THREE.DirectionalLight(0x6ea8ff, 0.7);
 rim.position.set(-3, 3, -3);
 scene.add(rim);
 
@@ -178,7 +178,7 @@ function remapGloveSkin(geo, map) {
 }
 function gloveMaterial(kind) {
   if (/^g\d\d$/.test(kind)) {
-    var gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.6, metalness: 0.02, envMapIntensity: 1.3 });
+    var gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
     gm.map = loadColor(ASSET + 'lion/' + kind + '_D.png');
     gm.normalMap = loadData(ASSET + 'lion/' + kind + '_N.png');
     gm.roughnessMap = loadData(ASSET + 'lion/' + kind + '_MAR.png');
@@ -237,7 +237,7 @@ function setupProp(gltf) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
     var __glass = (o.material && (o.material.name || '').indexOf('Glass') >= 0);
-      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: __glass ? 0.12 : 0.55, metalness: __glass ? 0.0 : 0.12, transparent: __glass, opacity: __glass ? 0.25 : 1.0, depthWrite: !__glass, envMapIntensity: __glass ? 1.2 : 0.6 });
+      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: __glass ? 0.12 : 0.75, metalness: __glass ? 0.0 : 0.05, transparent: __glass, opacity: __glass ? 0.25 : 1.0, depthWrite: !__glass, envMapIntensity: __glass ? 1.0 : 0.25 });
       if (__glass) o.renderOrder = 1;
   });
   window.__prop = prop;
