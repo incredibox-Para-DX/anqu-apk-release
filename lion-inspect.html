@@ -15,6 +15,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 <div id="app"></div>
 <div id="status">加载中…</div>
 <script type="module">
+const ASSET = /Android/i.test(navigator.userAgent) ? 'file:///android_asset/www/' : './';
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
@@ -61,22 +62,22 @@ function loadData(url) {
   return t;
 }
 
-const texGlove = loadColor('./lion/gloves_D.png');
-const texGloveN = loadData('./lion/gloves_N.png');
-const texXmas = loadColor('./lion/xmas_D.png');
-const texSnow = loadColor('./lion/snow_D.png');
-const texSnowN = loadData('./lion/snow_N.png');
-const texSnowMAR = loadData('./lion/snow_MAR.png');
-const texXmasN = loadData('./lion/xmas_N.png');
-const texXmasMAR = loadData('./lion/xmas_MAR.png');
-const texTorso = loadColor('./lion/torso_D.png');
-const texTorsoN = loadData('./lion/torso_N.png');
-const texLeg = loadColor('./lion/leg_D.png');
-const texLegN = loadData('./lion/leg_N.png');
-const texShoe = loadColor('./lion/shoes_D.png');
-const texHead = loadColor('./lion/head_D.png');
-const texHeadN = loadData('./lion/head_N.png');
-const texLion = loadColor('./lion/lion_D.png');
+const texGlove = loadColor(ASSET + 'lion/gloves_D.png');
+const texGloveN = loadData(ASSET + 'lion/gloves_N.png');
+const texXmas = loadColor(ASSET + 'lion/xmas_D.png');
+const texSnow = loadColor(ASSET + 'lion/snow_D.png');
+const texSnowN = loadData(ASSET + 'lion/snow_N.png');
+const texSnowMAR = loadData(ASSET + 'lion/snow_MAR.png');
+const texXmasN = loadData(ASSET + 'lion/xmas_N.png');
+const texXmasMAR = loadData(ASSET + 'lion/xmas_MAR.png');
+const texTorso = loadColor(ASSET + 'lion/torso_D.png');
+const texTorsoN = loadData(ASSET + 'lion/torso_N.png');
+const texLeg = loadColor(ASSET + 'lion/leg_D.png');
+const texLegN = loadData(ASSET + 'lion/leg_N.png');
+const texShoe = loadColor(ASSET + 'lion/shoes_D.png');
+const texHead = loadColor(ASSET + 'lion/head_D.png');
+const texHeadN = loadData(ASSET + 'lion/head_N.png');
+const texLion = loadColor(ASSET + 'lion/lion_D.png');
 
 const useSnow = new URLSearchParams(location.search).get('gloves') === 'snow';
 const loader = new GLTFLoader();
@@ -173,12 +174,12 @@ function setupLion(gltf) {
   attach();
 }
 
-loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
+loader.load(ASSET + 'lion/character.glb', setupCharacter, undefined, (e) => {
   document.getElementById('status').textContent = '角色加载失败';
   console.error(e);
 });
-loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
-loader.load('./lion/gloves_snow_retarget.glb', function (gltf) {
+loader.load(ASSET + 'lion/lion.glb', setupLion, undefined, (e) => console.error(e));
+loader.load(ASSET + 'lion/gloves_snow_retarget.glb', function (gltf) {
   gltf.scene.traverse(function (o) {
     if (o.isMesh && !window.__snowGeo) window.__snowGeo = o.geometry;
   });

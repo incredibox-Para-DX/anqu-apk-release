@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.234.m",
+  "version": "v2.3.0_hotfix.235.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 360171,
-      "sha256": "ad8a795e92aab94e2713befeb4797af44cc34c836b7ca6e8a08f069985d66ca1"
+      "size": 360031,
+      "sha256": "d1789bb9300ad3aa8396b569f735acbe8ef78c6d28b6fccbd66d71da65b215d5"
     },
     {
       "path": "js/synthesis.js",
@@ -277,11 +277,36 @@
       "sha256": "005d46a8ee466889d53a5f7ab28f0b040e0ec83cff77e166dcdc2e5163e2addb"
     },
     {
+      "path": "vendor/three/three.module.js",
+      "size": 1272972,
+      "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495"
+    },
+    {
+      "path": "vendor/three/addons/loaders/GLTFLoader.js",
+      "size": 108538,
+      "sha256": "4ca7dd12b6be001ecbd52091e6f21503dca3944d4e389af7b57da16275d31827"
+    },
+    {
+      "path": "vendor/three/addons/controls/OrbitControls.js",
+      "size": 29884,
+      "sha256": "fbbc9eb6f89ffe466f1a3e047fe0ac5457a78e50df1d8b01cbb4e9941bef2999"
+    },
+    {
+      "path": "vendor/three/addons/environments/RoomEnvironment.js",
+      "size": 3751,
+      "sha256": "efcb7a5f0e51ecdad1e531450ed3ea2b3c4b9be4c66f0faa5199ac328db76e50"
+    },
+    {
+      "path": "vendor/three/addons/utils/BufferGeometryUtils.js",
+      "size": 31922,
+      "sha256": "5e330ce5bc7f2f46c07c67646e18ed2472e9f4479546a253b5ab3dfc5ab0244b"
+    },
+    {
       "path": "index.html",
       "size": 166685,
       "sha256": "378d49fd1adfd2372b3e71050f5a0cc92719a12877127db60db6ceaf7133c4ea"
     }
   ],
-  "fileCount": 56,
-  "totalSize": 2379068
+  "fileCount": 61,
+  "totalSize": 3825995
 }
