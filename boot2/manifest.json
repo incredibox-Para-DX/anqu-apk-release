@@ -292,6 +292,11 @@
       "sha256": "30b80d319b10883eb5d5cea6cb5ef6604879e9661333d379d846b39a83525ce6"
     },
     {
+      "path": "item-inspect.html",
+      "size": 5995,
+      "sha256": "5d68c657cf741c75ef3a2b217c779a294cb8dde2ddff7691efa359094d53088d"
+    },
+    {
       "path": "lion/character.glb",
       "size": 2976152,
       "sha256": "8f55247f21b659147026eb9bd790ff472a5d17af55b495ca44484ce86208fe7d"
@@ -887,6 +892,6 @@
       "sha256": "09b7ea6d932d0775648c2ef05ee394c391b9f00dc3ae7360af1c9621ac6591a5"
     }
   ],
-  "fileCount": 177,
-  "totalSize": 53317478
+  "fileCount": 178,
+  "totalSize": 53323473
 }

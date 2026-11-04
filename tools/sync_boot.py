@@ -78,6 +78,7 @@ CODE_FILES = [
     "lion-inspect.html",
     "secretfile-inspect.html",
     "xcompound-inspect.html",
+    "item-inspect.html",
 ]
 
 
