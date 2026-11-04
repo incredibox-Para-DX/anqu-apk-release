@@ -4245,11 +4245,13 @@ const EventManager = {
                 if (window.ModManager && typeof ModManager.getEnabledItems === 'function') list = list.concat(ModManager.getEnabledItems() || []);
             } catch (e) {}
             list.forEach(function (it) {
-                const n = it && (it.fullName || it.name);
-                if (n) counts[n] = Math.max(counts[n] || 0, 1);
+                if (!it) return;
+                const id = it.catalogId != null ? it.catalogId : it.id;
+                if (id != null) counts[id] = Math.max(counts[id] || 0, 1);
             });
             try { localStorage.setItem('ab_catalog_counts', JSON.stringify(counts)); } catch (e) {}
             if (window.showToast) window.showToast('图鉴已全部解锁');
+            setTimeout(function () { try { location.reload(); } catch (e) {} }, 400);
         });
 
         window.openItemInspect = function (key) {
@@ -7166,7 +7168,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.408';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.409';
     
     var __HU_SIZE_BUMP_150 = 1;
 
