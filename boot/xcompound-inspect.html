@@ -97,7 +97,7 @@ function setupCharacter(gltf) {
     o.frustumCulled = false;
     const nm = (o.name || '').toLowerCase();
     if (nm.indexOf('glove') >= 0) {
-      o.material = new THREE.MeshStandardMaterial({ map: texSniper, normalMap: texSniperN, roughnessMap: texSniperMAR, metalnessMap: texSniperMAR, side: THREE.DoubleSide, roughness: 0.45, metalness: 0.3, envMapIntensity: 1.6 });
+      o.material = new THREE.MeshStandardMaterial({ map: texSniper, normalMap: texSniperN, roughnessMap: texSniperMAR, metalnessMap: texSniperMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
     } else if (nm.indexOf('leg') >= 0) {
       o.material = new THREE.MeshStandardMaterial({ map: texLeg, normalMap: texLegN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
     } else if (nm.indexOf('shoe') >= 0) {
@@ -169,7 +169,7 @@ function setupProp(gltf) {
 
 try {
   loader.parse(b64ToBuf(KURT_B64), '', setupCharacter, function (e) {
-    document.getElementById('status').textContent = 'role fail';
+    document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
   });
 } catch (e) {
