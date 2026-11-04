@@ -131,24 +131,23 @@ function setupCharacter(gltf) {
     if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) { window.__gloveMeshes.push(o); o.visible = false; }
   });
 
-  var want = new URLSearchParams(location.search).get('anim') || 'FP_XCompoundKit_Check';
-  var clip = null;
-  for (var ci = 0; ci < gltf.animations.length; ci++) {
-    if (gltf.animations[ci].name === want) { clip = gltf.animations[ci]; break; }
-  }
-  if (!clip && gltf.animations.length) clip = gltf.animations[0];
-  if (clip) {
-    var fps = 30;
-    var start = Math.floor(0.3 * fps);
-    var end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
-    var trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
-    var mixer = new THREE.AnimationMixer(model);
-    var action = mixer.clipAction(trimmed);
-    action.setLoop(THREE.LoopRepeat, Infinity);
+  gltf.animations.forEach(function (clip) {
+    const fps = 30;
+    const start = Math.floor(0.3 * fps);
+    const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
+    const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
+    const mixer = new THREE.AnimationMixer(model);
+    const action = mixer.clipAction(trimmed);
+    action.setLoop(THREE.LoopOnce, 1);
+    action.clampWhenFinished = true;
     action.play();
+    if (clip.name.indexOf('.002') < 0) {
+      mixer.addEventListener('finished', function () {
+        try { parent.closeLionInspect(); } catch (e) {}
+      });
+    }
     mixers.push(mixer);
-    document.getElementById('status').textContent = 'anim=' + clip.name + ' ' + trimmed.duration.toFixed(2) + 's';
-  }
+  });
   document.getElementById('status').textContent = 'anim=' + gltf.animations.length + ' socket=' + (window.__socket ? window.__socket.name : 'none');
   applyGloves();
 }
