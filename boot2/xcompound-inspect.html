@@ -125,7 +125,7 @@ function setupCharacter(gltf) {
   window.__model = model;
   window.__fpMode = false;
   window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01') || model.getObjectByName('camera_animated');
-  window.__socket = model.getObjectByName('hand_r') || model.getObjectByName('item_r');
+  window.__socket = model.getObjectByName('item_r') || model.getObjectByName('hand_r');
   window.__gloveMeshes = [];
   model.traverse(function (o) {
     if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) { window.__gloveMeshes.push(o); o.visible = false; }
@@ -264,7 +264,7 @@ function setupProp(gltf) {
 
 
 try {
-loader.load(ASSET + 'lion/kurt_character.glb', setupCharacter, undefined, function (e) {
+loader.parse(b64ToBuf(KURT_B64), '', setupCharacter, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
   });
