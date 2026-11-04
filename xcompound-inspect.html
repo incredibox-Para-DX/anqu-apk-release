@@ -158,7 +158,7 @@ function setupProp(gltf) {
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
-      prop.position.set(-center.x + 0.05, -center.y - 0.15, -center.z + 0.08);
+      prop.position.set(-center.x + 0.15, -center.y - 0.15, -center.z + 0.08);
       prop.rotation.set(0, 0, 0);
       document.getElementById('status').textContent = 'attached to ' + window.__socket.name;
     } else {
