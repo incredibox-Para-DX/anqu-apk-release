@@ -84,7 +84,20 @@ const texLion = loadColor(ASSET + 'lion/lion_D.png');
 
 const useSnow = new URLSearchParams(location.search).get('gloves') === 'snow';
 const PREVIEW = new URLSearchParams(location.search).get('preview') === '1';
-if (PREVIEW) scene.background = new THREE.Color(0x1e242c);
+if (PREVIEW) {
+  const cv = document.createElement('canvas');
+  cv.width = 4; cv.height = 256;
+  const cx = cv.getContext('2d');
+  const gr = cx.createLinearGradient(0, 0, 0, 256);
+  gr.addColorStop(0, '#39424f');
+  gr.addColorStop(0.55, '#222933');
+  gr.addColorStop(1, '#0c0f13');
+  cx.fillStyle = gr;
+  cx.fillRect(0, 0, 4, 256);
+  const bgTex = new THREE.CanvasTexture(cv);
+  bgTex.colorSpace = THREE.SRGBColorSpace;
+  scene.background = bgTex;
+}
 const loader = new GLTFLoader();
 const tmp = new THREE.Vector3();
 const qtmp = new THREE.Quaternion();

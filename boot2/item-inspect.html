@@ -112,6 +112,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     }
   });
   scene.add(model);
+  model.visible = false;
   model.updateMatrixWorld(true);
   let animBones = null;
   model.traverse((o) => {
@@ -132,19 +133,40 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
 
   const gloveMeshes = [];
   model.traverse((o) => { if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) gloveMeshes.push(o); });
-  if (/^g\d\d$/.test(gloveKind) && gloveMeshes.length) {
+  let torsoMesh = null;
+  model.traverse((o) => { if (o.isSkinnedMesh && o.skeleton && o.skeleton.bones.length === 97 && !torsoMesh) torsoMesh = o; });
+  const MAP8797 = [0, -1, -1, -1, -1, -1, -1, -1, 9, 11, -1, 12, 13, -1, 14, 15, -1, -1, -1, -1, 25, 26, 27, -1, 28, 29, -1, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, -1, 50, 51, -1, -1, 57, 58, 59, 60, -1, -1, 61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 81, 82, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+  if (/^g\d\d$/.test(gloveKind) && torsoMesh) {
+    gloveMeshes.forEach((m) => { m.visible = false; });
     loader.load('./lion/' + gloveKind + '.glb', (gg) => {
       let geo = null;
       gg.scene.traverse((o) => { if (o.isMesh && !geo) geo = o.geometry; });
       if (!geo) { gloveMeshes.forEach((m) => { m.visible = true; }); return; }
+      const g = geo.clone();
+      const si = g.attributes.skinIndex, sw = g.attributes.skinWeight;
+      if (si && sw) {
+        const n = si.count, out = new Uint16Array(n * 4);
+        for (let v = 0; v < n; v++) {
+          for (let k = 0; k < 4; k++) {
+            const idx = si.getComponent(v, k);
+            const w = sw.getComponent(v, k);
+            const m2 = (w > 0 && idx < MAP8797.length) ? MAP8797[idx] : -1;
+            out[v * 4 + k] = m2 >= 0 ? m2 : 0;
+          }
+        }
+        g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
+      }
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
       mat.map = loadColor('./lion/' + gloveKind + '_D.png');
       mat.normalMap = loadData('./lion/' + gloveKind + '_N.png');
       mat.normalScale = new THREE.Vector2(1.25, 1.25);
       mat.roughnessMap = loadData('./lion/' + gloveKind + '_MAR.png');
       mat.metalnessMap = mat.roughnessMap;
-      gloveMeshes.forEach((m) => { m.geometry = geo; m.material = mat; m.visible = true; m.frustumCulled = false; });
-      window.__gloveMesh = gloveMeshes[0];
+      const sm = new THREE.SkinnedMesh(g, mat);
+      sm.frustumCulled = false;
+      sm.bind(torsoMesh.skeleton, torsoMesh.bindMatrix);
+      model.add(sm);
+      window.__gloveMesh = sm;
     }, undefined, (e) => {
       gloveMeshes.forEach((m) => { m.visible = true; });
       console.error(e);
@@ -179,6 +201,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     } else {
       statusEl.textContent = item.name + ' · 未找到 ' + want;
     }
+    model.visible = true;
     window.__item = { key: key, name: item.name, anim: clip ? clip.name : null };
   }, undefined, (e) => { statusEl.textContent = item.name + ' · 动画加载失败'; console.error(e); });
 

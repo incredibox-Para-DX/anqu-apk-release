@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.405",
+  "version": "v2.3.0_hotfix.406",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 366201,
-      "sha256": "680ae4cee712000a6b1a01edff24c8defa374ce6190be551115319649bcb5ec5"
+      "size": 365926,
+      "sha256": "e613c0b7d78c47b4bb4bdd90013138a277c0078a1fdd397d2a8227662ca3fb61"
     },
     {
       "path": "js/synthesis.js",
@@ -278,8 +278,8 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 14417,
-      "sha256": "d9e6f20afed6fc4d3386779b34ff1269ccb1c7137d4a35f37784aec5a14f442e"
+      "size": 14809,
+      "sha256": "e5f341991bc584ebf096dbb0df1ef4a681fdcdc926c4645356a33b65881283e2"
     },
     {
       "path": "secretfile-inspect.html",
@@ -293,8 +293,8 @@
     },
     {
       "path": "item-inspect.html",
-      "size": 9703,
-      "sha256": "c540bae302df98025643a8f34d06de38503a4ac2db87ff218335e2e3bd352631"
+      "size": 10928,
+      "sha256": "b250f10857110939e10fa20a1fb48ed7f3b29c0f9167d70fca72c3ba3ea01974"
     },
     {
       "path": "lion/character.glb",
@@ -893,5 +893,5 @@
     }
   ],
   "fileCount": 178,
-  "totalSize": 51013853
+  "totalSize": 51015195
 }
