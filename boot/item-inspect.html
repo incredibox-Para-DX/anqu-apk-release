@@ -120,7 +120,11 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     }
   });
   if (animBones) {
-    animBones.forEach((b) => { if (b.name.indexOf('fp_') !== 0) b.name = 'fp_' + b.name; });
+    animBones.forEach((b) => {
+      if (b.name.indexOf('fp_') === 0) return;
+      const orig = b.name.replace(/_\d+$/, '');
+      b.name = 'fp_' + orig;
+    });
     window.__animBones = animBones.length;
   }
   head = model.getObjectByName('fp_head') || model.getObjectByName('head') || model.getObjectByName('neck_01');
