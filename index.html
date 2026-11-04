@@ -1749,6 +1749,15 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="glove-option" data-kind="g12">阿贾克斯·手套</button>
 <button class="glove-option" data-kind="g17">蝮蛇·手套</button>
 <button class="glove-option" data-kind="g13">脉冲·马克西姆手套</button>
+<button class="glove-preview-btn" id="glove-preview-open" style="margin-top:10px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#e6edf3;">预览当前手套</button>
+</div>
+</div>
+</div>
+<div class="modal-overlay" id="glove-preview-modal">
+<div class="modal-content" style="max-width:440px;width:90vw;height:68vh;display:flex;flex-direction:column;">
+<div class="modal-header"><div class="modal-title">手套预览</div><button class="modal-close" id="glove-preview-close">&times;</button></div>
+<div class="modal-body" style="flex:1 1 auto;min-height:0;padding:0;">
+<iframe id="glove-preview-frame" src="about:blank" style="width:100%;height:100%;border:0;display:block;background:transparent;"></iframe>
 </div>
 </div>
 </div>

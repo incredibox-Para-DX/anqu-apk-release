@@ -4158,6 +4158,27 @@ const EventManager = {
             }
         });
 
+        $('#glove-preview-open').on('click', function () {
+            const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
+            const frame = document.getElementById('glove-preview-frame');
+            if (frame) frame.setAttribute('src', 'lion-inspect.html?gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
+            if (window.ModalRegistry) ModalRegistry.open('glove-preview-modal', { silent: true });
+            else {
+                $('#glove-preview-modal').css('display', 'flex');
+                setTimeout(function () { $('#glove-preview-modal').addClass('show'); }, 10);
+            }
+        });
+
+        $('#glove-preview-close').on('click', function () {
+            const frame = document.getElementById('glove-preview-frame');
+            if (frame) frame.setAttribute('src', 'about:blank');
+            if (window.ModalRegistry) ModalRegistry.close('glove-preview-modal');
+            else {
+                $('#glove-preview-modal').removeClass('show');
+                setTimeout(function () { $('#glove-preview-modal').css('display', 'none'); }, 300);
+            }
+        });
+
         $(document).on('click', '.glove-option', function () {
             const kind = $(this).data('kind');
             try { localStorage.setItem('ab_lion_gloves', kind); } catch (e) {}
@@ -7105,7 +7126,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.387';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.388';
     
     var __HU_SIZE_BUMP_150 = 1;
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+html,body{margin:0;height:100%;background:radial-gradient(circle at 50% 40%,#2a313a,#12161b);overflow:hidden}
+#tip{position:fixed;left:12px;bottom:10px;font:11px -apple-system,sans-serif;color:#7c8794;z-index:5}
+</style>
+</head>
+<body>
+<div id="tip">加载中…</div>
+<script type="module">
+import * as THREE from './vendor/three/three.module.js';
+import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
+
+const kind = new URLSearchParams(location.search).get('kind') || 'g05';
+const tip = document.getElementById('tip');
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(2);
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1e242c);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.7;
+scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.3));
+const key = new THREE.DirectionalLight(0xffffff, 2.0);
+key.position.set(3, 5, 4);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0x6ea8ff, 0.8);
+rim.position.set(-3, 3, -3);
+scene.add(rim);
+
+const camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 20000);
+const loader = new GLTFLoader();
+
+function loadColor(url) {
+  const t = new THREE.TextureLoader().load(url);
+  t.flipY = false;
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
+function loadData(url) {
+  const t = new THREE.TextureLoader().load(url);
+  t.flipY = false;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
+
+const URLS = {
+  rolf: 'lion/gloves_rolf_uit.glb',
+  kurt: 'lion/gloves_kurt_uit.glb',
+  xmas: 'lion/gloves_xmas_uit.glb',
+};
+const url = URLS[kind] || ('lion/' + kind + '.glb');
+
+let target = new THREE.Vector3();
+let dist = 60;
+let yaw = 0;
+
+function placeCamera() {
+  camera.position.set(target.x + Math.sin(yaw) * dist, target.y + dist * 0.2, target.z + Math.cos(yaw) * dist);
+  camera.lookAt(target);
+}
+function animate() {
+  requestAnimationFrame(animate);
+  yaw += 0.012;
+  placeCamera();
+  renderer.render(scene, camera);
+}
+
+function matFor(kind) {
+  const m = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
+  if (/^g\d\d$/.test(kind)) {
+    m.map = loadColor('./lion/' + kind + '_D.png');
+    m.normalMap = loadData('./lion/' + kind + '_N.png');
+    m.normalScale = new THREE.Vector2(1.25, 1.25);
+    m.roughnessMap = loadData('./lion/' + kind + '_MAR.png');
+    m.metalnessMap = m.roughnessMap;
+  }
+  return m;
+}
+
+loader.load('./' + url, (gltf) => {
+  let geo = null;
+  gltf.scene.traverse((o) => { if (o.isMesh && !geo) geo = o.geometry; });
+  if (!geo) { tip.textContent = '加载失败'; return; }
+  const g = geo.clone();
+  g.deleteAttribute('skinIndex');
+  g.deleteAttribute('skinWeight');
+  g.computeVertexNormals();
+  const mesh = new THREE.Mesh(g, matFor(kind));
+  scene.add(mesh);
+  mesh.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(mesh);
+  const center = box.getCenter(new THREE.Vector3());
+  mesh.position.sub(center);
+  const size = box.getSize(new THREE.Vector3()).length() || 10;
+  target = new THREE.Vector3(0, 0, 0);
+  dist = size * 1.25;
+  tip.textContent = kind + ' · 旋转展示';
+  placeCamera();
+  renderer.render(scene, camera);
+  window.__ready = true;
+  window.__dbg = { dist: dist, target: target.toArray(), cam: camera.position.toArray(), size: size };
+  setTimeout(function(){ window.__dbg.cam2 = camera.position.toArray(); }, 500);
+  animate();
+}, undefined, () => { tip.textContent = '加载失败'; });
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>
