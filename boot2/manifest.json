@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.409.m",
+  "version": "v2.3.0_hotfix.410.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 367211,
-      "sha256": "5ffbe8780ab1842544d844c2e5295dca6aa5e12f37cc0569de4e98e1eb95dae1"
+      "sha256": "50f598005f3e2ca78ac0b1535a23d1d9ee72905df388424b28fd75095e0ff2df"
     },
     {
       "path": "js/synthesis.js",
@@ -293,8 +293,8 @@
     },
     {
       "path": "item-inspect.html",
-      "size": 10924,
-      "sha256": "ae1125b5741aa9d64996fd105f325095dab940f86ef8498b8657d76736da676b"
+      "size": 12300,
+      "sha256": "974d7aee81d6a2654e74023fdf43c0a03809e662fdd904ef23ea512ae8d9c763"
     },
     {
       "path": "lion/character.glb",
@@ -862,6 +862,281 @@
       "sha256": "d35df683733a098f3096da7f945b8993ff16ae942208dc8c2544106d8902a1f6"
     },
     {
+      "path": "lion/items/atomic_clock.glb",
+      "size": 378900,
+      "sha256": "4b5fb1fceadd878160150764ff8c956bddb7a5c9978826edd4f951b375a1f73d"
+    },
+    {
+      "path": "lion/items/atomic_clock_D.png",
+      "size": 351569,
+      "sha256": "ea6ab76b1e7178f7fc085ed143cadd33c20711bb8a3b4ac1be29b4b77c72be36"
+    },
+    {
+      "path": "lion/items/atomic_clock_MAR.png",
+      "size": 6575,
+      "sha256": "e4714dae5751697601655dd758d9869275f33f039267b8f5cfde58c26820d8a5"
+    },
+    {
+      "path": "lion/items/atomic_clock_N.png",
+      "size": 302274,
+      "sha256": "f3f4f65a25b3876969faa0c003609c3a565f3c800582631c54aba27c521716f1"
+    },
+    {
+      "path": "lion/items/catapult_part.glb",
+      "size": 258940,
+      "sha256": "897a17766b585d63ec6c89aa0515267e316c4957ca55d83564087abf6bb402e1"
+    },
+    {
+      "path": "lion/items/compute_module.glb",
+      "size": 374972,
+      "sha256": "b44d557d5be7004e52efe0ccfa436dc6398e9dc48aa80a3b355c0b940d092835"
+    },
+    {
+      "path": "lion/items/compute_module_D.png",
+      "size": 333980,
+      "sha256": "53388f4b3991add4f75c220a3ed51a2f9f677f888273d1b1336a5275279f1c10"
+    },
+    {
+      "path": "lion/items/compute_module_MAR.png",
+      "size": 2570,
+      "sha256": "c91d351ae720f0373c059a8b4110e597251e104b772f8745c4618c2f5a8502fa"
+    },
+    {
+      "path": "lion/items/compute_module_N.png",
+      "size": 324948,
+      "sha256": "495321767e100a219d02eeb0f454f954a49bc1292a3890ccba5d32e2b368a82f"
+    },
+    {
+      "path": "lion/items/dawn.glb",
+      "size": 244004,
+      "sha256": "68778dd0cfe905aff7ba6d3beb553399f6f1a4fd3f7690119487c31c614b9da0"
+    },
+    {
+      "path": "lion/items/dawn_D.png",
+      "size": 349627,
+      "sha256": "360be48f84d065d755fc39e5bf66583e092f22fd736569493f06b9e9aee03a80"
+    },
+    {
+      "path": "lion/items/dawn_MAR.png",
+      "size": 4984,
+      "sha256": "2aa6a6928144c7eba4d8c1a2d78a18344c46035636b08c4ed8ca8181e95e1d26"
+    },
+    {
+      "path": "lion/items/dawn_N.png",
+      "size": 375555,
+      "sha256": "78ce096f00bce3f5eedac01b1cb640bf8702a9f52ae51399cd1e0b604a0a6389"
+    },
+    {
+      "path": "lion/items/erision.glb",
+      "size": 352876,
+      "sha256": "7238ae161eae1ca7bd3b9cf0aeeafab916e42845f98770aef5c97887b3e80b8d"
+    },
+    {
+      "path": "lion/items/erision_D.png",
+      "size": 99003,
+      "sha256": "309186a33496cc97bd8abfd221d23727c325f97c02be2761f5436ed794ea2c8d"
+    },
+    {
+      "path": "lion/items/erision_MAR.png",
+      "size": 6256,
+      "sha256": "a811a2ce0e15f06a13968a5320d30fb908a8e68a26e337b2697f051b6a34c9ec"
+    },
+    {
+      "path": "lion/items/erision_N.png",
+      "size": 93453,
+      "sha256": "2e1f11445b41a03a05413b4bcc1288320185e0cd4713d37f3db9a980cc693ce6"
+    },
+    {
+      "path": "lion/items/feast_statue.glb",
+      "size": 137140,
+      "sha256": "ec6703a9c6db13a1e6262c4e42f9bc64c640daba60a743b3089951f336b36c49"
+    },
+    {
+      "path": "lion/items/feast_statue_D.png",
+      "size": 8177,
+      "sha256": "ec07ef272b394bde34846bcc76ff7fb84d9a8d782f77557568a1748a12bf1197"
+    },
+    {
+      "path": "lion/items/feast_statue_MAR.png",
+      "size": 447,
+      "sha256": "67b946521411d37180b0d545ce6915cb5b8a23b96d6a7b8393f75666fa06a1d4"
+    },
+    {
+      "path": "lion/items/feast_statue_N.png",
+      "size": 7929,
+      "sha256": "b15a1a3c3a00fec28c8f45a716170682a9b4a2a165bf06ee7e2af9c671cb25c0"
+    },
+    {
+      "path": "lion/items/gem_necklace.glb",
+      "size": 129560,
+      "sha256": "ada16350dd160fa47bfcc0630e9138676563fcaa9294dae43e92989f5e55ae0d"
+    },
+    {
+      "path": "lion/items/gem_necklace_D.png",
+      "size": 461606,
+      "sha256": "3467000e6e4b1d67afe8bcc5f8d3f42540c90d7534228832f801870b1b58b379"
+    },
+    {
+      "path": "lion/items/gem_necklace_MAR.png",
+      "size": 6749,
+      "sha256": "d7957b1abc75b2dd6cca1955f65fe01c6cf29ff1a638b84a1f8cb7414a3fbd0a"
+    },
+    {
+      "path": "lion/items/gem_necklace_N.png",
+      "size": 498439,
+      "sha256": "6270d4f4e83bdcba3a20ac3ab42b1750fc6288ae6e8ce5f384a1ffaef25cd360"
+    },
+    {
+      "path": "lion/items/golden_palace.glb",
+      "size": 416568,
+      "sha256": "76faba9ef53eecda322f4d9132c61e6f61c0521391eea99ea4250841c7b88d0c"
+    },
+    {
+      "path": "lion/items/golden_palace_D.png",
+      "size": 333489,
+      "sha256": "1a0740f07e6d1c778bba52612760cf148affa498a17dc5f34087c454264e2812"
+    },
+    {
+      "path": "lion/items/golden_palace_MAR.png",
+      "size": 5205,
+      "sha256": "03720064d98f3581f74171e1b1d5f51cc4bc151a9314aaaec550403df7c81e9a"
+    },
+    {
+      "path": "lion/items/golden_palace_N.png",
+      "size": 382584,
+      "sha256": "3dfa5c8ffaf219921a64dcd8e61b3ced7095cba3faff9a724a03f23c6003a561"
+    },
+    {
+      "path": "lion/items/golden_steed.glb",
+      "size": 198444,
+      "sha256": "576d8c0c71678f43b5a8653ea52e591bb191df97fdd38276534e8d61d2dabc46"
+    },
+    {
+      "path": "lion/items/gyro_ball.glb",
+      "size": 151532,
+      "sha256": "e6cc5d2889c6b0846129083fb49cade4ec42093de7e0c58f13d76e38eb352d62"
+    },
+    {
+      "path": "lion/items/gyro_ball_D.png",
+      "size": 343026,
+      "sha256": "91f77af14343fae47b9fb76223ac84d05483d15b19c99f980e2f5f7535800580"
+    },
+    {
+      "path": "lion/items/gyro_ball_MAR.png",
+      "size": 5882,
+      "sha256": "9e59ea32aea08f4e9a9ab94fd3adf8943840c7235e1115ee8f461dbeefc5e1fa"
+    },
+    {
+      "path": "lion/items/gyro_ball_N.png",
+      "size": 360041,
+      "sha256": "108134608439a4d0d34bd69b60fbb8b9838761cf7576132aa6a100792c85254c"
+    },
+    {
+      "path": "lion/items/mech_arm.glb",
+      "size": 332484,
+      "sha256": "04f48afe616b4d4e5b625b0ea99b562d9dae3858b8dc5fbcfa72a31cc9d4e24c"
+    },
+    {
+      "path": "lion/items/mech_arm_D.png",
+      "size": 327516,
+      "sha256": "97f070f1e1ef479698ed4a0c40ea0c8b70c78211c2720908dc1b024fbe94bc4b"
+    },
+    {
+      "path": "lion/items/mech_arm_MAR.png",
+      "size": 4675,
+      "sha256": "13a57369d24df2deda4ef468ed31fd4acdd2550f00d1353f76e3a69ffcca30f0"
+    },
+    {
+      "path": "lion/items/mech_arm_N.png",
+      "size": 341792,
+      "sha256": "6a575e9b0fcafa7b927a3e0fd245fee712abe8c583f35c55e50b65661392a608"
+    },
+    {
+      "path": "lion/items/new_frontier.glb",
+      "size": 229336,
+      "sha256": "6e618342d95e4a1099fe1e0013d468dde6f72a5cffacb6258d076e8e2648c0d7"
+    },
+    {
+      "path": "lion/items/new_frontier_D.png",
+      "size": 353151,
+      "sha256": "0427c1adece5e89d05df36758b8096316bc1da5680cee76e094423b0c3f04698"
+    },
+    {
+      "path": "lion/items/new_frontier_MAR.png",
+      "size": 5117,
+      "sha256": "9ab7a78c4f695b2905e0fd16a7796ae4861fc6c9b25510288694e0373b902128"
+    },
+    {
+      "path": "lion/items/new_frontier_N.png",
+      "size": 366080,
+      "sha256": "1934e79c0cd23c99c5bb25036db70c09630527f12bfd349e2dbf0fe04d74d9e2"
+    },
+    {
+      "path": "lion/items/space_nav.glb",
+      "size": 474728,
+      "sha256": "a6c5aa059df837c067c7821241b5961b92fd386b06272bb20b29054fdf09b287"
+    },
+    {
+      "path": "lion/items/target_module.glb",
+      "size": 453592,
+      "sha256": "a66694d55f21cd72b9304409a65c8da8fa248771e0f57837a2334f2995a582fc"
+    },
+    {
+      "path": "lion/items/target_module_D.png",
+      "size": 334887,
+      "sha256": "894a126e35d7b752b5d601ece733a297b81ff78e6b4d8599e7249e17819fd5a7"
+    },
+    {
+      "path": "lion/items/target_module_MAR.png",
+      "size": 3657,
+      "sha256": "b2b66ac6ee3f941dcd16d828aabbd3d7c41a557b993596dda4b7a7ebdedcd583"
+    },
+    {
+      "path": "lion/items/target_module_N.png",
+      "size": 384162,
+      "sha256": "8a32b21bab414c6972a7ecce9f066bf3a4476976411dc8332a78951de7c985eb"
+    },
+    {
+      "path": "lion/items/teapot.glb",
+      "size": 36056,
+      "sha256": "dc5cdd0b611b637849c52ca9052a0b9bb673376b7e44ec65b491a5b9b3351f29"
+    },
+    {
+      "path": "lion/items/teapot_D.png",
+      "size": 100922,
+      "sha256": "7f41ee3093dc10ca35817b81c552fe9323513de6b6cda53714cf27f8f5fed273"
+    },
+    {
+      "path": "lion/items/teapot_MAR.png",
+      "size": 4238,
+      "sha256": "8e50b6be7b03b21cf84c11efd371ce02d6d6ac2de3f2dd6efcffe61d8f83b853"
+    },
+    {
+      "path": "lion/items/teapot_N.png",
+      "size": 89395,
+      "sha256": "d6e1ba17ee39f521d008cb05d9c705f6e90095229b658cbf492fa42b60ce1903"
+    },
+    {
+      "path": "lion/items/vase.glb",
+      "size": 111696,
+      "sha256": "03c8df0f542a9cf1f21f15dc2b592f65a4d9ffce1cd317fe4c386fa66fc33bc6"
+    },
+    {
+      "path": "lion/items/vase_D.png",
+      "size": 293345,
+      "sha256": "1d026c2fd6d28f4f998266b2f175bba0c071090b0c7b2eea076464f6540f90aa"
+    },
+    {
+      "path": "lion/items/vase_MAR.png",
+      "size": 6363,
+      "sha256": "10cb3e117b326b5562a70114f221e6cbdc9b792e37b3d5a579b84df59303339b"
+    },
+    {
+      "path": "lion/items/vase_N.png",
+      "size": 360812,
+      "sha256": "a35d41f2e26cb1b45d87731e6f00c0064493c32a9c7a566258bb567c741fc4c5"
+    },
+    {
       "path": "vendor/three/three.module.js",
       "size": 1272972,
       "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495"
@@ -892,6 +1167,6 @@
       "sha256": "57ba39bcb183cdea311860b099877fecb372364460d8b1b9e094ebe1d672360d"
     }
   ],
-  "fileCount": 178,
-  "totalSize": 51017324
+  "fileCount": 233,
+  "totalSize": 62940008
 }

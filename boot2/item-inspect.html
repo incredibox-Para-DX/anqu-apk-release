@@ -114,6 +114,34 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   scene.add(model);
   model.visible = false;
   model.updateMatrixWorld(true);
+  let propMesh = null;
+  if (item.model !== undefined) {
+    const base = './lion/items/' + key;
+    loader.load(base + '.glb', (pg) => {
+      let pgeo = null;
+      pg.scene.traverse((o) => { if (o.isMesh && !pgeo) pgeo = o.geometry; });
+      if (!pgeo) return;
+      const g = pgeo.clone();
+      g.computeBoundingBox();
+      const c = g.boundingBox.getCenter(new THREE.Vector3());
+      g.translate(-c.x, -c.y, -c.z);
+      g.computeVertexNormals();
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.55, metalness: 0.15, envMapIntensity: 0.7 });
+      const dtex = './lion/items/' + key + '_D.png';
+      const ntex = './lion/items/' + key + '_N.png';
+      const mtex = './lion/items/' + key + '_MAR.png';
+      mat.map = loadColor(dtex);
+      mat.normalMap = loadData(ntex);
+      mat.normalScale = new THREE.Vector2(1.25, 1.25);
+      mat.roughnessMap = loadData(mtex);
+      mat.metalnessMap = mat.roughnessMap;
+      propMesh = new THREE.Mesh(g, mat);
+      propMesh.frustumCulled = false;
+      model.add(propMesh);
+      window.__propMesh = propMesh;
+    }, undefined, (e) => console.error('prop load', e));
+  }
+
   let animBones = null;
   model.traverse((o) => {
     if (o.isSkinnedMesh && o.skeleton && o.skeleton.bones && o.skeleton.bones.length === 97 && !animBones) {
@@ -211,6 +239,11 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     requestAnimationFrame(loop);
     const dt = Math.min(clock.getDelta(), 0.05);
     if (mixer) mixer.update(dt);
+    if (propMesh && socket) {
+      socket.getWorldPosition(camera.__hp || (camera.__hp = new THREE.Vector3()));
+      const lp = model.worldToLocal(camera.__hp.clone());
+      propMesh.position.copy(lp);
+    }
     if (head) {
       head.getWorldPosition(tmp);
       camera.position.copy(tmp);
