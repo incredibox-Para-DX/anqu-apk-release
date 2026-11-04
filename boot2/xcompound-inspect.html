@@ -148,13 +148,13 @@ function setupProp(gltf) {
   prop.traverse(function (o) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
-    o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, alphaTest: 0.02, envMapIntensity: 1.0 });
+    o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, opacity: 0.8, depthWrite: false, envMapIntensity: 1.0 });
   });
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
       window.__socket.add(prop);
-      prop.scale.setScalar(1.0);
+      prop.scale.setScalar(0.98);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
