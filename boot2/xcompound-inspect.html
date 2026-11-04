@@ -178,7 +178,7 @@ function remapGloveSkin(geo, map) {
 }
 function gloveMaterial(kind) {
   if (/^g\d\d$/.test(kind)) {
-    var gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+    var gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.6, metalness: 0.02, envMapIntensity: 1.3 });
     gm.map = loadColor(ASSET + 'lion/' + kind + '_D.png');
     gm.normalMap = loadData(ASSET + 'lion/' + kind + '_N.png');
     gm.roughnessMap = loadData(ASSET + 'lion/' + kind + '_MAR.png');
@@ -237,7 +237,7 @@ function setupProp(gltf) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
     var __glass = (o.material && (o.material.name || '').indexOf('Glass') >= 0);
-      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: __glass ? 0.12 : 0.42, metalness: __glass ? 0.0 : 0.78, transparent: __glass, opacity: __glass ? 0.25 : 1.0, depthWrite: !__glass, envMapIntensity: __glass ? 1.6 : 1.5 });
+      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: __glass ? 0.12 : 0.55, metalness: __glass ? 0.0 : 0.12, transparent: __glass, opacity: __glass ? 0.25 : 1.0, depthWrite: !__glass, envMapIntensity: __glass ? 1.2 : 0.6 });
       if (__glass) o.renderOrder = 1;
   });
   window.__prop = prop;
