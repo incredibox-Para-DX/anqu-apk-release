@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.316",
+  "version": "v2.3.0_hotfix.317",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 362274,
-      "sha256": "0bd2e385c4af2bdd49f76ef4f4ea33976b7f91375c2dd932933e497574af43ee"
+      "sha256": "7c4b39bc6ac8e87dd630a6824d7a4ae6936ee7759846262b25a5ce8f046876ea"
     },
     {
       "path": "js/synthesis.js",
@@ -288,8 +288,8 @@
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 150711,
-      "sha256": "27a17f77ae06dcb76eaefb4421d509fd795a69f387846cc154df158692168285"
+      "size": 150712,
+      "sha256": "f8918402fb661dbfe72897c424807cbc477fcdcd9093196b227d2ec707cab6e2"
     },
     {
       "path": "lion/character.glb",
@@ -403,13 +403,13 @@
     },
     {
       "path": "lion/sniper_D.png",
-      "size": 322077,
-      "sha256": "1b08574cc39d83e3c29fd46a434962d396335c643485695ef33eb08f222290a4"
+      "size": 293994,
+      "sha256": "3b0f70727deea0dc193ed1ca932d2b3e821af77d117660b1ee1d6ae749422b0c"
     },
     {
       "path": "lion/sniper_MA.png",
-      "size": 293994,
-      "sha256": "3b0f70727deea0dc193ed1ca932d2b3e821af77d117660b1ee1d6ae749422b0c"
+      "size": 322077,
+      "sha256": "1b08574cc39d83e3c29fd46a434962d396335c643485695ef33eb08f222290a4"
     },
     {
       "path": "lion/sniper_MAR.png",
@@ -508,5 +508,5 @@
     }
   ],
   "fileCount": 101,
-  "totalSize": 20084429
+  "totalSize": 20084430
 }
