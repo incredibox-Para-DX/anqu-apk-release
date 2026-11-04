@@ -71,6 +71,10 @@ const texHeadN = loadData(ASSET + 'lion/head_N.png');
 const texFile = loadColor(ASSET + 'lion/xcompound_D.png');
 const texFileMA = loadData(ASSET + 'lion/xcompound_MA.png');
 const texFileN = loadData(ASSET + 'lion/xcompound_N.png');
+[texFile, texFileMA, texFileN].forEach(function (t) {
+  t.generateMipmaps = false;
+  t.minFilter = THREE.LinearFilter;
+});
 const texGlove = loadColor(ASSET + 'lion/gloves_D.png');
 const texGloveN = loadData(ASSET + 'lion/gloves_N.png');
 const texXmas = loadColor(ASSET + 'lion/xmas_D.png');
@@ -149,7 +153,8 @@ function setupProp(gltf) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
     var __glass = (o.material && (o.material.name || '').indexOf('Glass') >= 0);
-      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: __glass, opacity: __glass ? 0.45 : 1.0, depthWrite: !__glass, envMapIntensity: 1.0 });
+      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: __glass, opacity: __glass ? 0.35 : 1.0, depthWrite: !__glass, envMapIntensity: 1.0 });
+      if (__glass) o.renderOrder = 1;
   });
   window.__prop = prop;
   const attach = function () {
