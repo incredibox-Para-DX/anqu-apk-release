@@ -77,6 +77,7 @@ CODE_FILES = [
     "xml/video-config.xml",
     "lion-inspect.html",
     "secretfile-inspect.html",
+    "xcompound-inspect.html",
 ]
 
 

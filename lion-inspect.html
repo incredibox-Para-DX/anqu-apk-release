@@ -70,6 +70,9 @@ const texSnowN = loadData(ASSET + 'lion/snow_N.png');
 const texSnowMAR = loadData(ASSET + 'lion/snow_MAR.png');
 const texXmasN = loadData(ASSET + 'lion/xmas_N.png');
 const texXmasMAR = loadData(ASSET + 'lion/xmas_MAR.png');
+const texKurt = loadColor(ASSET + 'lion/sniper_D.png');
+const texKurtN = loadData(ASSET + 'lion/sniper_N.png');
+const texKurtMAR = loadData(ASSET + 'lion/sniper_MAR.png');
 const texTorso = loadColor(ASSET + 'lion/torso_D.png');
 const texTorsoN = loadData(ASSET + 'lion/torso_N.png');
 const texLeg = loadColor(ASSET + 'lion/leg_D.png');
@@ -179,6 +182,10 @@ loader.load(ASSET + 'lion/character.glb', setupCharacter, undefined, (e) => {
   console.error(e);
 });
 loader.load(ASSET + 'lion/lion.glb', setupLion, undefined, (e) => console.error(e));
+loader.load(ASSET + 'lion/gloves_kurt_quit.glb', function (gltf) {
+  gltf.scene.traverse(function (o) { if (o.isMesh && !window.__kurtGeo) window.__kurtGeo = o.geometry; });
+  applyGloves();
+}, undefined, function (e) { console.error(e); });
 loader.load(ASSET + 'lion/gloves_snow_retarget.glb', function (gltf) {
   gltf.scene.traverse(function (o) {
     if (o.isMesh && !window.__snowGeo) window.__snowGeo = o.geometry;
@@ -195,7 +202,11 @@ function applyGloves(kindOverride) {
   if (!rolf) return;
   if (!window.__rolfGeoBackup) window.__rolfGeoBackup = rolf.geometry;
   if (!window.__rolfMatBackup) window.__rolfMatBackup = rolf.material;
-  if (kind === 'snow' && window.__snowGeo) {
+  if (kind === 'kurt' && window.__kurtGeo) {
+    rolf.geometry = window.__kurtGeo;
+    rolf.geometry.computeBoundingSphere();
+    rolf.material = new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.2, envMapIntensity: 1.0 });
+  } else if (kind === 'snow' && window.__snowGeo) {
     rolf.geometry = window.__snowGeo;
     rolf.geometry.computeBoundingSphere();
     rolf.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });

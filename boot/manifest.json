@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.314",
+  "version": "v2.3.0_hotfix.315",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 361871,
-      "sha256": "d11dca401e3097ce295e50731ba3d198bc9ae7e82270fcd2e31db5018d118658"
+      "size": 362274,
+      "sha256": "97528e99378f314fb29809d7dd3a682074f62ca6c9ee729bb62b47005ca0be1f"
     },
     {
       "path": "js/synthesis.js",
@@ -238,8 +238,8 @@
     },
     {
       "path": "js/catalog.js",
-      "size": 11012,
-      "sha256": "4d0f6aff9928c341b10d63603689afc03b34aaae9f929e8c4a3b472c8eea4195"
+      "size": 11124,
+      "sha256": "7f78c3a9c34468771ae167742e343ad21026abab10fd0b2fe279a124f5ada735"
     },
     {
       "path": "admin/anqu-admin.html",
@@ -278,13 +278,18 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 10380,
-      "sha256": "2d1e3212a2a4283a2980acf2a6d0e991c9c6aa25af244baa6cfeb21b6e40860f"
+      "size": 11148,
+      "sha256": "2dc30fd7b51893dcfc6f97931ffe7decc3d6093de364c812ef20a4f12907307c"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 115490,
-      "sha256": "a1b33cb877a65806dd8e7b0003c09c53545d2a7f01e2fa15f3f20b0fc013b7a0"
+      "size": 116214,
+      "sha256": "537fc7473e7b03f4229184181f0ba0848aaafd62d32d7c08a53acae2614d84f6"
+    },
+    {
+      "path": "xcompound-inspect.html",
+      "size": 149988,
+      "sha256": "e18a77331ff16186f9a0fb3bdae89b494849794519b56c337b64b3d7245ce854"
     },
     {
       "path": "lion/character.glb",
@@ -300,6 +305,16 @@
       "path": "lion/gloves_N.png",
       "size": 116697,
       "sha256": "d6221843c84ca2b924bd0ca7ba88600f33e99e29b4aa1a1207acbf6eb7c8c6fa"
+    },
+    {
+      "path": "lion/gloves_kurt_quit.glb",
+      "size": 134652,
+      "sha256": "a2b12e78b72038afed5fcaf34d0ccacf321f61e00c62f62283aaf08da0833af6"
+    },
+    {
+      "path": "lion/gloves_kurt_uit.glb",
+      "size": 134652,
+      "sha256": "ab15ece0f03bebbe84d3e7253941c8ccd89db2e63f834cd7d8a3614b570af072"
     },
     {
       "path": "lion/gloves_rolf_uit.glb",
@@ -330,6 +345,11 @@
       "path": "lion/inspect.wav",
       "size": 819576,
       "sha256": "cb6ff490e10027a60ca661e3b7a56238143cb198dfb96cae40583fbf9818c793"
+    },
+    {
+      "path": "lion/kurt_character.glb",
+      "size": 1735968,
+      "sha256": "1ad7cddb711aa66266c31c2193833cf88e700cf944e8eb53baaec4274ad15abb"
     },
     {
       "path": "lion/leg_D.png",
@@ -382,6 +402,26 @@
       "sha256": "679473b83afe01ab0951522ee8f15ac19923baed84b090ab0dae3229baac6706"
     },
     {
+      "path": "lion/sniper_D.png",
+      "size": 322077,
+      "sha256": "1b08574cc39d83e3c29fd46a434962d396335c643485695ef33eb08f222290a4"
+    },
+    {
+      "path": "lion/sniper_MA.png",
+      "size": 293994,
+      "sha256": "3b0f70727deea0dc193ed1ca932d2b3e821af77d117660b1ee1d6ae749422b0c"
+    },
+    {
+      "path": "lion/sniper_MAR.png",
+      "size": 81278,
+      "sha256": "91da272cb72560755901358a1044d67236727ec85b2c5313e200c7cad2624feb"
+    },
+    {
+      "path": "lion/sniper_N.png",
+      "size": 482127,
+      "sha256": "a5dcac2d4299786d82d9f004fb569de0410980f6c5140e49614cdbc37af11ad8"
+    },
+    {
       "path": "lion/snow_D.png",
       "size": 366063,
       "sha256": "3806001b5f406e823c954223af5366a53516699d7c2ec513581219c5909145a6"
@@ -405,6 +445,21 @@
       "path": "lion/torso_N.png",
       "size": 485293,
       "sha256": "1bd04c4fa395d622b61d10efa41e455278c845d22bb1b72745f676a83992dfe8"
+    },
+    {
+      "path": "lion/xcompound.glb",
+      "size": 104648,
+      "sha256": "cb50f40829162594edfc5229096ff048668f26740b0bafdd6e0aa8bbcf0fe1de"
+    },
+    {
+      "path": "lion/xcompound_D.png",
+      "size": 286978,
+      "sha256": "08ad8219ddc226f4047cc49d9b3b78301b32868649b4d0c2097e32693317491e"
+    },
+    {
+      "path": "lion/xcompound_MA.png",
+      "size": 4929,
+      "sha256": "7bcffc0f3295b8059cd678bc3ea4338cf76c78bc505848447a56df9ec22d474f"
     },
     {
       "path": "lion/xmas_D.png",
@@ -448,10 +503,10 @@
     },
     {
       "path": "index.html",
-      "size": 166704,
-      "sha256": "2e445dc35135972ceaf971ad90e1b224a65f90eb0e8a99a11f637e8f2c862c4f"
+      "size": 166774,
+      "sha256": "cd0fae8d37f0b7aef23d52b837a3bcbfb5fbf55792f9e000bcfc83ddd1112df0"
     }
   ],
-  "fileCount": 90,
-  "totalSize": 16350338
+  "fileCount": 101,
+  "totalSize": 20083706
 }

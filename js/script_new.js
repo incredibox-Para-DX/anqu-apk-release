@@ -771,8 +771,9 @@ previewCurrentBackground() {
             const lionName = window.I18N ? I18N.tr(rawName) : rawName;
             const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(lionName);
             const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(lionName);
-            $('#tooltip-inspect-row').toggle(isLion || isSecretFile);
-            $('#tooltip-inspect-btn').data('kind', isSecretFile ? 'secretfile' : 'lion');
+            const isXCompound = /理想国|理想國|XCompoundKit|XCompound/i.test(lionName);
+            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound);
+            $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion'));
             
             
             const rarityBgColors = {
@@ -4124,7 +4125,9 @@ const EventManager = {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
             const inspectBase = '';
-            const inspectUrl = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
+            const inspectUrl = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
+                : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
+                : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             const frame = document.getElementById('lion-inspect-frame');
             frame.setAttribute('src', inspectUrl + (inspectUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
             TooltipManager.hide();
@@ -4165,7 +4168,7 @@ const EventManager = {
                 $('#glove-select-modal').removeClass('show');
                 setTimeout(function () { $('#glove-select-modal').css('display', 'none'); }, 300);
             }
-            const names = { rolf: '罗尔夫·手套', xmas: '冬日·特种手套', snow: '蝮蛇·手套' };
+            const names = { rolf: '罗尔夫·手套', xmas: '冬日·特种手套', snow: '蝮蛇·手套', kurt: '科特·手套' };
             if (window.showToast) window.showToast('已切换为' + (names[kind] || kind));
             try {
                 const frame = document.getElementById('lion-inspect-frame');
@@ -4202,7 +4205,9 @@ const EventManager = {
         window.openInspectFromCatalog = function (kind) {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const inspectBase = '';
-            const url = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
+            const url = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
+                : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
+                : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             try {
                 window.__lionAudio = new Audio('lion/inspect.wav');
                 window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
@@ -7090,7 +7095,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.314';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.315';
     
     var __HU_SIZE_BUMP_150 = 1;
 
