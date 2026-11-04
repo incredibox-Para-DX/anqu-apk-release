@@ -123,30 +123,28 @@ function setupCharacter(gltf) {
   scene.add(model);
   model.updateMatrixWorld(true);
   window.__model = model;
-  window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01');
-  window.__socket = model.getObjectByName('item_r') || model.getObjectByName('hand_r');
+  window.__fpMode = __useFP;
+  window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01') || model.getObjectByName('camera_animated');
+  window.__socket = model.getObjectByName('hand_r') || model.getObjectByName('item_r');
   window.__gloveMeshes = [];
   model.traverse(function (o) {
     if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) { window.__gloveMeshes.push(o); o.visible = false; }
   });
 
-  gltf.animations.forEach(function (clip) {
-    const fps = 30;
-    const start = Math.floor(0.3 * fps);
-    const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
-    const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
-    const mixer = new THREE.AnimationMixer(model);
-    const action = mixer.clipAction(trimmed);
-    action.setLoop(THREE.LoopOnce, 1);
-    action.clampWhenFinished = true;
+  var want = new URLSearchParams(location.search).get('anim') || 'FP_XCompoundKit_Check';
+  var clip = null;
+  for (var ci = 0; ci < gltf.animations.length; ci++) {
+    if (gltf.animations[ci].name === want) { clip = gltf.animations[ci]; break; }
+  }
+  if (!clip && gltf.animations.length) clip = gltf.animations[0];
+  if (clip) {
+    var mixer = new THREE.AnimationMixer(model);
+    var action = mixer.clipAction(clip);
+    action.setLoop(THREE.LoopRepeat, Infinity);
     action.play();
-    if (clip.name.indexOf('.002') < 0) {
-      mixer.addEventListener('finished', function () {
-        try { parent.closeLionInspect(); } catch (e) {}
-      });
-    }
     mixers.push(mixer);
-  });
+    document.getElementById('status').textContent = 'anim=' + clip.name;
+  }
   document.getElementById('status').textContent = 'anim=' + gltf.animations.length + ' socket=' + (window.__socket ? window.__socket.name : 'none');
   applyGloves();
 }
@@ -263,7 +261,8 @@ function setupProp(gltf) {
 
 
 try {
-  loader.load(ASSET + 'lion/kurt_character.glb', setupCharacter, undefined, function (e) {
+  var __useFP = new URLSearchParams(location.search).get('fp') === '1';
+loader.load(ASSET + 'lion/' + (__useFP ? 'fp_character.glb' : 'kurt_character.glb'), setupCharacter, undefined, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
   });
@@ -320,6 +319,16 @@ function animate() {
   }
   const dt = Math.min(clock.getDelta(), 0.05);
   mixers.forEach(function (m) { m.update(dt); });
+  if (window.__fpMode && window.__socket) {
+    window.__socket.getWorldPosition(camera.__target || (camera.__target = new THREE.Vector3()));
+    const t = camera.__target;
+    camera.position.set(t.x, t.y + 0.3, t.z + 0.95);
+    camera.lookAt(t);
+    if (camera.fov !== 55) { camera.fov = 55; camera.updateProjectionMatrix(); }
+    renderer.render(scene, camera);
+    if (IS_PRELOAD && clock.elapsedTime > 2) return;
+    return;
+  }
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
     camera.position.copy(tmp);
