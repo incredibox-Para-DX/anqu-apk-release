@@ -151,10 +151,12 @@ function setupCharacter(gltf) {
   applyGloves();
 }
 
-var GLOVE_URLS = { rolf: 'lion/gloves_rolf_uit.glb', kurt: 'lion/gloves_kurt_uit.glb', xmas: 'lion/gloves_xmas_uit.glb' };
+var GLOVE_URLS = { snow: 'lion/gloves_snow_retarget.glb', rolf: 'lion/gloves_rolf_uit.glb', kurt: 'lion/gloves_kurt_uit.glb', xmas: 'lion/gloves_xmas_uit.glb' };
 var GLOVE_BONE_MAP = [0, 8, 12, 14, 15, -1, -1, -1, -1, 20, 21, 22, 24, 25, 27, 28, 29, 30, 31, -1, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, -1, -1, 45, 46, -1, -1, -1, -1, 49, 50, 51, 52, 55, 56, 57, 58, 59, -1, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, -1, -1, 72, 73, -1, -1, -1, -1];
+var SNOW_BONE_MAP = [0, 1, 2, 3, 4, 5, 6, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, 8, -1, 9, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 16, 17, 18, 19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 52, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 25, 25, 25, 25, 25, 25, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, -1, -1, 45, 46, 47, -1, -1, 22, -1, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 52, 52, 52, 52, 52, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, -1, -1, 72, 73, 74, -1, -1, -1, -1, 75, 76, 77, 78, 79, 80, 81, 82, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 83, 84, 85, 86];
+var GLOVE_MAPS = { snow: SNOW_BONE_MAP, rolf: GLOVE_BONE_MAP, kurt: GLOVE_BONE_MAP, xmas: GLOVE_BONE_MAP };
 var gloveGeo = {};
-function remapGloveSkin(geo) {
+function remapGloveSkin(geo, map) {
   var si = geo.attributes.skinIndex, sw = geo.attributes.skinWeight;
   if (!si || !sw) return geo;
   var n = si.count, out = new Uint16Array(n * 4);
@@ -162,7 +164,7 @@ function remapGloveSkin(geo) {
     for (var k = 0; k < 4; k++) {
       var idx = si.getComponent(v, k);
       var w = sw.getComponent(v, k);
-      var m = (w > 0 && idx < GLOVE_BONE_MAP.length) ? GLOVE_BONE_MAP[idx] : 0;
+      var m = (w > 0 && idx < map.length) ? map[idx] : 0;
       out[v * 4 + k] = m >= 0 ? m : 0;
     }
   }
@@ -182,11 +184,6 @@ function applyGloves(kindOverride) {
   if (!mesh) return;
   if (!window.__gloveGeoBackup) window.__gloveGeoBackup = mesh.geometry;
   if (!window.__gloveMatBackup) window.__gloveMatBackup = mesh.material;
-  if (kind === 'snow') {
-    mesh.geometry = window.__gloveGeoBackup;
-    mesh.material = gloveMaterial('snow');
-    return;
-  }
   if (!GLOVE_URLS[kind]) kind = 'rolf';
   if (gloveGeo[kind]) {
     mesh.geometry = gloveGeo[kind];
@@ -197,7 +194,7 @@ function applyGloves(kindOverride) {
     var geo = null;
     gltf.scene.traverse(function (o) { if (o.isMesh && !geo) geo = o.geometry; });
     if (!geo) return;
-    geo = remapGloveSkin(geo);
+    geo = remapGloveSkin(geo, GLOVE_MAPS[kind]);
     gloveGeo[kind] = geo;
     mesh.geometry = geo;
     mesh.material = gloveMaterial(kind);
