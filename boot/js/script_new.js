@@ -772,8 +772,9 @@ previewCurrentBackground() {
             const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(lionName);
             const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(lionName);
             const isXCompound = /理想国|理想國|XCompoundKit|XCompound/i.test(lionName);
-            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound);
-            $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion'));
+            const itemKey = (window.__ITEM_INSPECT || {})[lionName] || '';
+            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound || !!itemKey);
+            $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion')).data('item', itemKey);
             
             
             const rarityBgColors = {
@@ -4124,8 +4125,10 @@ const EventManager = {
             } catch (err) {}
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
             const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
+            const itemKey = $('#tooltip-inspect-btn').data('item') || '';
             const inspectBase = '';
-            const inspectUrl = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
+            const inspectUrl = itemKey ? (inspectBase + 'item-inspect.html?item=' + encodeURIComponent(itemKey))
+                : kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
                 : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
                 : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             const frame = document.getElementById('lion-inspect-frame');
@@ -4225,6 +4228,29 @@ const EventManager = {
             setTimeout(function () {
                 $('#lion-inspect-modal').css('display', 'none');
             }, 300);
+        };
+
+        window.__ITEM_INSPECT = {
+            '厄律西翁': 'erision', '阵列镜片': 'array_lens', '盛宴雕塑': 'feast_statue', '茶壶': 'teapot',
+            '花瓶': 'vase', '宝石项链': 'gem_necklace', '赤红暗星': 'crimson_star', '航天导航仪': 'space_nav',
+            '鎏金羽宫': 'golden_palace', '黎明': 'dawn', '计算机验算模块': 'compute_module', '惯性球': 'gyro_ball',
+            '法厄同': 'phaethon', '哑铃': 'dumbbell', '目标定位模块': 'target_module', '机械手臂': 'mech_arm',
+            '热成像模块': 'thermal_module', '新边疆模型': 'new_frontier', '原子钟': 'atomic_clock',
+            '电磁弹射组件': 'catapult_part', '金驹越岭': 'golden_steed'
+        };
+        window.openItemInspect = function (key) {
+            const frame = document.getElementById('lion-inspect-frame');
+            if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
+            try {
+                window.__lionAudio = new Audio(window.__pickInspectSound('lion'));
+                window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                window.__lionAudio.play().catch(function () {});
+            } catch (e) {}
+            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
+            else {
+                $('#lion-inspect-modal').css('display', 'flex');
+                setTimeout(function () { $('#lion-inspect-modal').addClass('show'); }, 10);
+            }
         };
 
         window.__pickInspectSound = function (kind) {
@@ -7126,7 +7152,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.396';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.397';
     
     var __HU_SIZE_BUMP_150 = 1;
 

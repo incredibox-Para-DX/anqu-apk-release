@@ -44,6 +44,7 @@ const ITEMS = {
 
 const params = new URLSearchParams(location.search);
 const key = params.get('item') || 'teapot';
+const gloveKind = params.get('gloves') || localStorage.getItem('ab_lion_gloves') || 'g05';
 const item = ITEMS[key] || { name: key, anim: params.get('anim') || '', model: '' };
 const statusEl = document.getElementById('status');
 
@@ -66,6 +67,19 @@ scene.add(rim);
 
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.01, 100);
 const loader = new GLTFLoader();
+function loadColor(url) {
+  const t = new THREE.TextureLoader().load(url);
+  t.flipY = false;
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
+function loadData(url) {
+  const t = new THREE.TextureLoader().load(url);
+  t.flipY = false;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
 let mixer = null;
 let head = null;
 let socket = null;
@@ -90,6 +104,32 @@ loader.load('./lion/fp_character.glb', (gltf) => {
   if (!clip && params.get('anim')) {
     for (const c of gltf.animations) { if (c.name === params.get('anim')) { clip = c; break; } }
   }
+  let gloveMesh = null;
+  if (/^g\d\d$/.test(gloveKind) && socket) {
+    loader.load('./lion/' + gloveKind + '.glb', (gg) => {
+      let geo = null;
+      gg.scene.traverse((o) => { if (o.isMesh && !geo) geo = o.geometry; });
+      if (!geo) return;
+      const g = geo.clone();
+      g.deleteAttribute('skinIndex');
+      g.deleteAttribute('skinWeight');
+      g.computeVertexNormals();
+      g.computeBoundingBox();
+      const c = g.boundingBox.getCenter(new THREE.Vector3());
+      g.translate(-c.x, -c.y, -c.z);
+      const m = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
+      m.map = loadColor('./lion/' + gloveKind + '_D.png');
+      m.normalMap = loadData('./lion/' + gloveKind + '_N.png');
+      m.normalScale = new THREE.Vector2(1.25, 1.25);
+      m.roughnessMap = loadData('./lion/' + gloveKind + '_MAR.png');
+      m.metalnessMap = m.roughnessMap;
+      gloveMesh = new THREE.Mesh(g, m);
+      gloveMesh.frustumCulled = false;
+      model.add(gloveMesh);
+      window.__gloveMesh = gloveMesh;
+    }, undefined, (e) => console.error(e));
+  }
+
   if (clip) {
     const fps = 30;
     const start = Math.floor(0.3 * fps);
@@ -113,6 +153,11 @@ loader.load('./lion/fp_character.glb', (gltf) => {
     requestAnimationFrame(loop);
     const dt = Math.min(clock.getDelta(), 0.05);
     if (mixer) mixer.update(dt);
+    if (gloveMesh && socket) {
+      socket.getWorldPosition(camera.__hw || (camera.__hw = new THREE.Vector3()));
+      const local = model.worldToLocal(camera.__hw.clone());
+      gloveMesh.position.copy(local);
+    }
     if (head) {
       head.getWorldPosition(tmp);
       camera.position.copy(tmp);

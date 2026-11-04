@@ -71,10 +71,11 @@
             '<div class="catalog-detail-desc">' + esc(it.desc || noDesc) + '</div>' +
             (function () {
                 var n = String(name);
-                var kind = /金狮|金獅|Golden Lion/i.test(n) ? 'lion'
+                var itemKey = (window.__ITEM_INSPECT || {})[n] || '';
+                var kind = itemKey ? 'item' : (/金狮|金獅|Golden Lion/i.test(n) ? 'lion'
                     : (/理想国|理想國|XCompoundKit|XCompound/i.test(n) ? 'xcompound'
-                    : (/机密文件|機密文件|Secret\s*File/i.test(n) ? 'secretfile' : ''));
-                return kind ? '<div class="catalog-detail-actions"><button class="modal-btn primary catalog-inspect-btn" data-kind="' + kind + '"><i class="fas fa-eye"></i> 检视</button></div>' : '';
+                    : (/机密文件|機密文件|Secret\s*File/i.test(n) ? 'secretfile' : '')));
+                return kind ? '<div class="catalog-detail-actions"><button class="modal-btn primary catalog-inspect-btn" data-kind="' + kind + '" data-item="' + itemKey + '"><i class="fas fa-eye"></i> 检视</button></div>' : '';
             })() +
             '</div>';
         try {
@@ -93,7 +94,9 @@
         var ibtn = overlay.querySelector('.catalog-inspect-btn');
         if (ibtn) ibtn.onclick = function () {
             overlay.classList.remove('show');
-            if (window.openInspectFromCatalog) window.openInspectFromCatalog(ibtn.getAttribute('data-kind'));
+            var ik = ibtn.getAttribute('data-item');
+            if (ik && window.openItemInspect) window.openItemInspect(ik);
+            else if (window.openInspectFromCatalog) window.openInspectFromCatalog(ibtn.getAttribute('data-kind'));
         };
     }
 
