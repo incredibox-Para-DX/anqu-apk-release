@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.229.m",
+  "version": "v2.3.0_hotfix.230.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 359859,
-      "sha256": "293f456cb131602e1c1a361c8d9f4e7e2a1006a135db3baa851dc39ee71808ba"
+      "sha256": "b5b4fd9bb2ab5dced9e1f8a90a5ba269e7cdaffea505c6c8dd138aae04fe8b54"
     },
     {
       "path": "js/synthesis.js",
@@ -138,8 +138,8 @@
     },
     {
       "path": "js/i18n.js",
-      "size": 137033,
-      "sha256": "65e13aab112e3f71f97f7b34d3fbd09c32e25d42d2cc79e9f683e1cf6716363d"
+      "size": 137621,
+      "sha256": "5a43cf115f17373d35a6d5f56824d51e2448ed0dd464ffff767cf4107471e355"
     },
     {
       "path": "js/i18n-next.js",
@@ -283,8 +283,8 @@
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 7928,
-      "sha256": "cee1bbb681333c6ba8b1f366ff3455edbb445c8e40ae6bf31fc56518debd98e7"
+      "size": 7788,
+      "sha256": "2d04fcd74fd16aa16d61197dff2bf5ab8949d541837a4e251b48b790cd6f549e"
     },
     {
       "path": "index.html",
@@ -293,5 +293,5 @@
     }
   ],
   "fileCount": 58,
-  "totalSize": 2395768
+  "totalSize": 2396216
 }
