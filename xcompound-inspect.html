@@ -159,13 +159,13 @@ function setupProp(gltf) {
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
-      prop.scale.setScalar(0.6);
+      prop.scale.setScalar(0.55);
       prop.rotation.set(Math.PI / 2, 0, 0);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
       window.__socket.add(prop);
-      prop.position.set(-center.x + 0.3, -center.y - 0.15, -center.z + 0.08);
+      prop.position.set(-center.x, -center.y - 9.0, -center.z + 6.0);
       document.getElementById('status').textContent = 'attached to ' + window.__socket.name;
     } else {
       setTimeout(attach, 100);
@@ -220,8 +220,18 @@ addEventListener('resize', () => {
 const IS_PRELOAD = new URLSearchParams(location.search).get('preload') === '1';
 window.onerror = function (m) { var st = document.getElementById('status'); if (st) { st.style.display = 'block'; st.textContent = 'ERR: ' + m; } };
 const clock = new THREE.Clock();
+let __ready = false;
+function allTexturesReady() {
+  return [texSniper, texSniperN, texSniperMAR, texTorso, texTorsoN, texLeg, texLegN, texShoe,
+    texHead, texHeadN, texFile, texFileN, texFileMA].every(function (t) { return t.image && t.image.width; });
+}
 function animate() {
   requestAnimationFrame(animate);
+  if (!__ready) {
+    if (!allTexturesReady()) return;
+    __ready = true;
+    renderer.compile(scene, camera);
+  }
   const dt = Math.min(clock.getDelta(), 0.05);
   mixers.forEach(function (m) { m.update(dt); });
   if (window.__head) {
