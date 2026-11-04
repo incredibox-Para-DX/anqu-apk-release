@@ -159,13 +159,13 @@ function setupProp(gltf) {
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
-      prop.scale.setScalar(0.55);
+      prop.scale.setScalar(0.6);
       prop.rotation.set(Math.PI / 2, 0, 0);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
       window.__socket.add(prop);
-      prop.position.set(-center.x, -center.y - 9.0, -center.z + 6.0);
+      prop.position.set(-center.x, -center.y, -center.z);
       document.getElementById('status').textContent = 'attached to ' + window.__socket.name;
     } else {
       setTimeout(attach, 100);
