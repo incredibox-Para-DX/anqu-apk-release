@@ -22,7 +22,7 @@ const ASSET = './';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 3));
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 4));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.getElementById('app').appendChild(renderer.domElement);
 
@@ -72,8 +72,9 @@ const texFile = loadColor(ASSET + 'lion/xcompound_D.png');
 const texFileMA = loadData(ASSET + 'lion/xcompound_MA.png');
 const texFileN = loadData(ASSET + 'lion/xcompound_N.png');
 [texFile, texFileMA, texFileN].forEach(function (t) {
-  t.generateMipmaps = false;
-  t.minFilter = THREE.LinearFilter;
+  t.generateMipmaps = true;
+  t.minFilter = THREE.LinearMipmapLinearFilter;
+  t.magFilter = THREE.LinearFilter;
 });
 const texGlove = loadColor(ASSET + 'lion/gloves_D.png');
 const texGloveN = loadData(ASSET + 'lion/gloves_N.png');
@@ -165,7 +166,7 @@ function setupProp(gltf) {
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
       window.__socket.add(prop);
-      prop.position.set(-center.x - 16, -center.y, -center.z);
+      prop.position.set(-center.x - 16, -center.y, -center.z - 6);
       document.getElementById('status').textContent = 'attached to ' + window.__socket.name;
     } else {
       setTimeout(attach, 100);
