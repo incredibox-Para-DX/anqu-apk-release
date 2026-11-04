@@ -2019,6 +2019,21 @@ input:checked + .slider:before {
 #lion-inspect-modal {
     background: rgba(0,0,0,.22) !important;
 }
+.glove-select-list .glove-option {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(148,163,184,.22);
+    background: rgba(255,255,255,.03);
+    color: #cbd5e1;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+.glove-select-list .glove-option.active {
+    border-color: rgba(96,165,250,.6);
+    background: rgba(96,165,250,.16);
+    color: #bfdbfe;
+}
 
 @keyframes flashout {
     from { opacity: 1; }

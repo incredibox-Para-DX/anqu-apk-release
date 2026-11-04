@@ -768,7 +768,10 @@ previewCurrentBackground() {
             $('#tooltip-name').text(window.I18N ? I18N.tr(item.fullName || item.name || '') : (item.fullName || item.name || ''));
             $('#tooltip-desc').text(window.I18N ? I18N.tr(item.desc || '世界观内容待补充。') : (item.desc || '世界观内容待补充。'));
             const lionName = item.fullName || item.name || '';
-            $('#tooltip-inspect-row').toggle(/金狮|金獅|Golden Lion|золотого льва/i.test(lionName));
+            const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(lionName);
+            const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(lionName);
+            $('#tooltip-inspect-row').toggle(isLion || isSecretFile);
+            $('#tooltip-inspect-btn').data('kind', isSecretFile ? 'secretfile' : 'lion');
             
             
             const rarityBgColors = {
@@ -4117,7 +4120,8 @@ const EventManager = {
                 audio.play().catch(function() {});
             } catch (err) {}
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
-            const inspectUrl = 'lion-inspect.html?gloves=' + gloveKind;
+            const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
+            const inspectUrl = kind === 'secretfile' ? 'secretfile-inspect.html' : ('lion-inspect.html?gloves=' + gloveKind);
             if ($('#lion-inspect-frame').attr('src') !== inspectUrl) {
                 $('#lion-inspect-frame').attr('src', inspectUrl);
             } else {
@@ -4135,9 +4139,36 @@ const EventManager = {
 
         $('#sidebar-glove-btn').on('click', function () {
             const cur = localStorage.getItem('ab_lion_gloves') || 'rolf';
-            const next = cur === 'xmas' ? 'rolf' : 'xmas';
-            try { localStorage.setItem('ab_lion_gloves', next); } catch (e) {}
-            if (window.showToast) window.showToast(next === 'xmas' ? '已切换为冬日手套' : '已切换为 Rolf 手套');
+            $('.glove-option').removeClass('active').each(function () {
+                if ($(this).data('kind') === cur) $(this).addClass('active');
+            });
+            if (window.ModalRegistry) ModalRegistry.open('glove-select-modal', { silent: true });
+            else {
+                $('#glove-select-modal').css('display', 'flex');
+                setTimeout(function () { $('#glove-select-modal').addClass('show'); }, 10);
+            }
+        });
+
+        $('#glove-select-close').on('click', function () {
+            if (window.ModalRegistry) ModalRegistry.close('glove-select-modal');
+            else {
+                $('#glove-select-modal').removeClass('show');
+                setTimeout(function () { $('#glove-select-modal').css('display', 'none'); }, 300);
+            }
+        });
+
+        $(document).on('click', '.glove-option', function () {
+            const kind = $(this).data('kind');
+            try { localStorage.setItem('ab_lion_gloves', kind); } catch (e) {}
+            $('.glove-option').removeClass('active');
+            $(this).addClass('active');
+            if (window.ModalRegistry) ModalRegistry.close('glove-select-modal');
+            else {
+                $('#glove-select-modal').removeClass('show');
+                setTimeout(function () { $('#glove-select-modal').css('display', 'none'); }, 300);
+            }
+            const names = { rolf: 'Rolf 手套', xmas: '冬日手套', snow: '雪手套' };
+            if (window.showToast) window.showToast('已切换为' + (names[kind] || kind));
         });
 
         function stopLionAudio() {

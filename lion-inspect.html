@@ -64,6 +64,9 @@ function loadData(url) {
 const texGlove = loadColor('./lion/gloves_D.png');
 const texGloveN = loadData('./lion/gloves_N.png');
 const texXmas = loadColor('./lion/xmas_D.png');
+const texSnow = loadColor('./lion/snow_D.png');
+const texSnowN = loadData('./lion/snow_N.png');
+const texSnowMAR = loadData('./lion/snow_MAR.png');
 const texXmasN = loadData('./lion/xmas_N.png');
 const texXmasMAR = loadData('./lion/xmas_MAR.png');
 const texTorso = loadColor('./lion/torso_D.png');
@@ -75,6 +78,7 @@ const texHead = loadColor('./lion/head_D.png');
 const texHeadN = loadData('./lion/head_N.png');
 const texLion = loadColor('./lion/lion_D.png');
 
+const useSnow = new URLSearchParams(location.search).get('gloves') === 'snow';
 const loader = new GLTFLoader();
 const tmp = new THREE.Vector3();
 const qtmp = new THREE.Quaternion();
@@ -92,7 +96,10 @@ function setupCharacter(gltf) {
     if (!o.isMesh) return;
     o.frustumCulled = false;
     const nm = (o.name || '').toLowerCase();
-    if (nm.includes('glove') && nm.includes('xmas')) {
+    if (nm.includes('glove') && useSnow) {
+      o.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+      window.__xmasGloves.push(o);
+    } else if (nm.includes('glove') && nm.includes('xmas')) {
       o.material = new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
       window.__xmasGloves.push(o);
     } else if (nm.includes('glove')) {
@@ -169,7 +176,7 @@ function setupLion(gltf) {
   attach();
 }
 
-loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
+loader.load(useSnow ? './lion/secretfile_character.glb' : './lion/character.glb', setupCharacter, undefined, (e) => {
   document.getElementById('status').textContent = '角色加载失败';
   console.error(e);
 });
@@ -177,6 +184,7 @@ loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
 
 function applyGloves() {
   const kind = new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'rolf';
+  if (useSnow) return;
   const showXmas = kind === 'xmas';
   (window.__rolfGloves || []).forEach((m) => { m.visible = !showXmas; });
   (window.__xmasGloves || []).forEach((m) => { m.visible = showXmas; });

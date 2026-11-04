@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>金狮检视</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:transparent;overflow:hidden}
+#app{position:fixed;inset:0}
+#status{position:fixed;left:12px;bottom:10px;font:11px -apple-system,sans-serif;color:#64748b;z-index:5}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="status">加载中…</div>
+<script type="module">
+import * as THREE from './vendor/three/three.module.js';
+import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
+import * as BufferGeometryUtils from './vendor/three/addons/utils/BufferGeometryUtils.js';
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 3));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.getElementById('app').appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = null;
+const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 100);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.7;
+scene.add(new THREE.HemisphereLight(0xbfd4ff, 0x141a22, 1.6));
+const key = new THREE.DirectionalLight(0xffffff, 2.4);
+key.position.set(3, 5, 4);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0x6ea8ff, 1.6);
+rim.position.set(-3, 3, -3);
+scene.add(rim);
+
+function loadColor(url) {
+  const t = new THREE.TextureLoader().load(url);
+  t.flipY = false;
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  t.minFilter = THREE.LinearMipmapLinearFilter;
+  t.magFilter = THREE.LinearFilter;
+  t.generateMipmaps = true;
+  return t;
+}
+function loadData(url) {
+  const t = new THREE.TextureLoader().load(url);
+  t.flipY = false;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  t.minFilter = THREE.LinearMipmapLinearFilter;
+  t.magFilter = THREE.LinearFilter;
+  t.generateMipmaps = true;
+  return t;
+}
+
+const texGlove = loadColor('./lion/gloves_D.png');
+const texGloveN = loadData('./lion/gloves_N.png');
+const texXmas = loadColor('./lion/xmas_D.png');
+const texSnow = loadColor('./lion/snow_D.png');
+const texSnowN = loadData('./lion/snow_N.png');
+const texSnowMAR = loadData('./lion/snow_MAR.png');
+const texXmasN = loadData('./lion/xmas_N.png');
+const texXmasMAR = loadData('./lion/xmas_MAR.png');
+const texTorso = loadColor('./lion/torso_D.png');
+const texTorsoN = loadData('./lion/torso_N.png');
+const texLeg = loadColor('./lion/leg_D.png');
+const texLegN = loadData('./lion/leg_N.png');
+const texShoe = loadColor('./lion/shoes_D.png');
+const texHead = loadColor('./lion/head_D.png');
+const texHeadN = loadData('./lion/head_N.png');
+const texLion = loadColor('./lion/lion_D.png');
+
+const useSnow = new URLSearchParams(location.search).get('gloves') === 'snow';
+const loader = new GLTFLoader();
+const tmp = new THREE.Vector3();
+const qtmp = new THREE.Quaternion();
+let mixers = [];
+let actions = [];
+
+function setupCharacter(gltf) {
+  const model = gltf.scene;
+  model.scale.setScalar(0.01);
+  window.__rolfGloves = [];
+  window.__xmasGloves = [];
+  window.__charBones = {};
+  model.traverse((o) => {
+    if (o.isBone) window.__charBones[o.name] = o;
+    if (!o.isMesh) return;
+    o.frustumCulled = false;
+    const nm = (o.name || '').toLowerCase();
+    if (nm.includes('glove') && useSnow) {
+      o.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+      window.__xmasGloves.push(o);
+    } else if (nm.includes('glove') && nm.includes('xmas')) {
+      o.material = new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+      window.__xmasGloves.push(o);
+    } else if (nm.includes('glove')) {
+      o.material = new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+      window.__rolfGloves.push(o);
+    } else if (nm.includes('leg')) {
+      o.material = new THREE.MeshStandardMaterial({ map: texLeg, normalMap: texLegN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+    } else if (nm.includes('shoe')) {
+      o.material = new THREE.MeshStandardMaterial({ map: texShoe, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+    } else if (nm.includes('head')) {
+      o.material = new THREE.MeshStandardMaterial({ map: texHead, normalMap: texHeadN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+      o.visible = false;
+    } else if (nm.includes('torso')) {
+      o.material = new THREE.MeshStandardMaterial({ map: texTorso, normalMap: texTorsoN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+    }
+  });
+  scene.add(model);
+  model.updateMatrixWorld(true);
+  window.__model = model;
+  window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01');
+  window.__socket = model.getObjectByName('item_r') || model.getObjectByName('item_l') || model.getObjectByName('hand_r');
+
+  const fps = 30;
+  gltf.animations.forEach((clip) => {
+    const start = Math.floor(0.2 * fps);
+    const end = Math.max(start + 1, Math.floor((clip.duration - 0.8) * fps));
+    const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
+    const mixer = new THREE.AnimationMixer(model);
+    const action = mixer.clipAction(trimmed);
+    action.setLoop(THREE.LoopOnce, 1);
+    action.clampWhenFinished = true;
+    action.play();
+    if (clip.name.indexOf('.002') < 0) {
+      mixer.addEventListener('finished', function () {
+        try { parent.closeLionInspect(); } catch (e) {}
+      });
+    }
+    mixers.push(mixer);
+    actions.push(action);
+  });
+  document.getElementById('status').textContent = '';
+  applyGloves();
+}
+
+function setupLion(gltf) {
+  const lion = gltf.scene;
+  lion.traverse((o) => {
+    if (!o.isMesh) return;
+    o.frustumCulled = false;
+    try {
+      const geo = BufferGeometryUtils.mergeVertices(o.geometry, 1e-4);
+      geo.computeVertexNormals();
+      o.geometry = geo;
+    } catch (e) {}
+    o.material = new THREE.MeshStandardMaterial({
+      map: texLion,
+      color: 0xffffff,
+      side: THREE.DoubleSide,
+      metalness: 0.85,
+      roughness: 0.32,
+      envMapIntensity: 0.65
+    });
+  });
+  const attach = () => {
+    if (window.__socket) {
+      window.__socket.add(lion);
+      lion.scale.setScalar(100);
+      lion.position.set(0, 0, 0);
+      lion.rotation.set(1.5, 0, 0);
+    } else {
+      setTimeout(attach, 200);
+    }
+  };
+  attach();
+}
+
+loader.load(useSnow ? './lion/secretfile_character.glb' : './lion/character.glb', setupCharacter, undefined, (e) => {
+  document.getElementById('status').textContent = '角色加载失败';
+  console.error(e);
+});
+loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
+
+function applyGloves() {
+  const kind = new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'rolf';
+  if (useSnow) return;
+  const showXmas = kind === 'xmas';
+  (window.__rolfGloves || []).forEach((m) => { m.visible = !showXmas; });
+  (window.__xmasGloves || []).forEach((m) => { m.visible = showXmas; });
+}
+
+function replay() {
+  actions.forEach((a) => {
+    try { a.reset(); a.play(); } catch (e) {}
+  });
+}
+
+window.addEventListener('message', (e) => {
+  if (e.data === 'lion-replay') replay();
+});
+
+document.addEventListener('click', function () {
+  try { parent.closeLionInspect(); } catch (e) {}
+});
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  mixers.forEach((m) => m.update(dt));
+  if (window.__head) {
+    window.__head.getWorldPosition(tmp);
+    camera.position.copy(tmp);
+    camera.position.y += 0.1;
+    if (window.__socket) {
+      window.__socket.getWorldPosition(camera.__target || (camera.__target = new THREE.Vector3()));
+      const target = camera.__target;
+      const dir = target.clone().sub(camera.position).normalize();
+      const right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize();
+      camera.position.addScaledVector(right, -0.05);
+      const look = target.clone();
+      look.y += 0.1 * 1.5;
+      camera.lookAt(look);
+    }
+  }
+  if (camera.fov !== 80) { camera.fov = 80; camera.updateProjectionMatrix(); }
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>
