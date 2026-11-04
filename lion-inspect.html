@@ -173,48 +173,31 @@ loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
 });
 loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
 loader.load('./lion/gloves_tit_retarget.glb', function (gltf) {
-  const tit = gltf.scene;
-  tit.traverse(function (o) {
-    if (o.isSkinnedMesh) {
-      o.frustumCulled = false;
-      o.geometry.scale(0.01, 0.01, 0.01);
-      o.material = new THREE.MeshStandardMaterial({ map: texGloveTit, normalMap: texGloveTitN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-      if (window.__charSkeleton) {
-        o.skeleton = window.__charSkeleton;
-        o.bind(window.__charSkeleton, new THREE.Matrix4());
-      }
+  gltf.scene.traverse(function (o) {
+    if (o.isMesh && !window.__titGeo) {
+      window.__titGeo = o.geometry;
     }
   });
-  scene.add(tit);
-  window.__titGloves = tit;
   applyGloves();
 }, undefined, function (e) { console.error(e); });
 
 function applyGloves() {
   const kind = new URLSearchParams(location.search).get('gloves') || 'rolf';
   const showTit = kind === 'tit';
-  (window.__rolfGloves || []).forEach(function (m) { m.visible = !showTit; });
-  if (window.__titGloves) window.__titGloves.visible = showTit;
+  const rolf = (window.__rolfGloves || [])[0];
+  if (!rolf) return;
+  if (!window.__rolfGeoBackup) window.__rolfGeoBackup = rolf.geometry;
+  if (!window.__rolfMatBackup) window.__rolfMatBackup = rolf.material;
+  if (showTit && window.__titGeo) {
+    rolf.geometry = window.__titGeo;
+    rolf.material = new THREE.MeshStandardMaterial({ map: texGloveTit, normalMap: texGloveTitN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+  } else {
+    if (window.__rolfGeoBackup) rolf.geometry = window.__rolfGeoBackup;
+    if (window.__rolfMatBackup) rolf.material = window.__rolfMatBackup;
+  }
 }
 
-const titPos = new THREE.Vector3();
-const titQuat = new THREE.Quaternion();
-const titScale = new THREE.Vector3();
 
-function syncTitBones() {
-  if (!window.__titGloves || !window.__charBones) return;
-  window.__titGloves.traverse(function (o) {
-    if (!o.isSkinnedMesh || !o.skeleton) return;
-    o.skeleton.bones.forEach(function (b) {
-      const src = window.__charBones[b.name];
-      if (!src) return;
-      src.matrixWorld.decompose(titPos, titQuat, titScale);
-      titPos.multiplyScalar(100);
-      b.matrix.compose(titPos, titQuat, titScale);
-      b.matrixWorld.copy(b.matrix);
-    });
-  });
-}
 
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
