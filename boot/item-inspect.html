@@ -133,11 +133,10 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   const gloveMeshes = [];
   model.traverse((o) => { if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) gloveMeshes.push(o); });
   if (/^g\d\d$/.test(gloveKind) && gloveMeshes.length) {
-    gloveMeshes.forEach((m) => { m.visible = false; });
     loader.load('./lion/' + gloveKind + '.glb', (gg) => {
       let geo = null;
       gg.scene.traverse((o) => { if (o.isMesh && !geo) geo = o.geometry; });
-      if (!geo) return;
+      if (!geo) { gloveMeshes.forEach((m) => { m.visible = true; }); return; }
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
       mat.map = loadColor('./lion/' + gloveKind + '_D.png');
       mat.normalMap = loadData('./lion/' + gloveKind + '_N.png');
@@ -146,7 +145,10 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       mat.metalnessMap = mat.roughnessMap;
       gloveMeshes.forEach((m) => { m.geometry = geo; m.material = mat; m.visible = true; m.frustumCulled = false; });
       window.__gloveMesh = gloveMeshes[0];
-    }, undefined, (e) => console.error(e));
+    }, undefined, (e) => {
+      gloveMeshes.forEach((m) => { m.visible = true; });
+      console.error(e);
+    });
   }
 
   loader.load('./lion/fp_character.glb', (ag) => {
