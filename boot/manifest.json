@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.219",
+  "version": "v2.3.0_hotfix.220",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -283,8 +283,8 @@
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 10110,
-      "sha256": "fafc64539b2b528ff02f9e3b316740b10948149f28087091b24052614d10728f"
+      "size": 10155,
+      "sha256": "86b51726c808aaaa7799caf7272d8e6d2bd62f924019d9580ae23eeeb7a1503d"
     },
     {
       "path": "index.html",
@@ -293,5 +293,5 @@
     }
   ],
   "fileCount": 58,
-  "totalSize": 2397094
+  "totalSize": 2397139
 }
