@@ -4110,6 +4110,7 @@ const EventManager = {
         });
         
         TooltipManager.enableDrag();
+        try { this.preloadInspectAssets(); } catch (e) {}
 
         $('#tooltip-inspect-btn').on('click', function(e) {
             e.preventDefault();
@@ -4217,6 +4218,36 @@ const EventManager = {
         };
     },
     
+    preloadInspectAssets() {
+        var files = [
+            'lion/character.glb',
+            'lion/secretfile_character.glb',
+            'lion/lion.glb',
+            'lion/secretfile.glb',
+            'lion/gloves_rolf_uit.glb',
+            'lion/gloves_xmas_uit.glb',
+            'lion/gloves_snow_retarget.glb',
+            'lion/torso_D.png', 'lion/torso_N.png',
+            'lion/leg_D.png', 'lion/leg_N.png',
+            'lion/shoes_D.png',
+            'lion/head_D.png', 'lion/head_N.png',
+            'lion/gloves_D.png', 'lion/gloves_N.png',
+            'lion/xmas_D.png', 'lion/xmas_N.png', 'lion/xmas_MAR.png',
+            'lion/snow_D.png', 'lion/snow_N.png', 'lion/snow_MAR.png',
+            'lion/lion_D.png',
+            'lion/secretfile_D.png', 'lion/secretfile_N.png',
+            'lion/inspect.wav',
+            'vendor/three/three.module.js',
+            'vendor/three/addons/loaders/GLTFLoader.js',
+            'vendor/three/addons/controls/OrbitControls.js',
+            'vendor/three/addons/environments/RoomEnvironment.js',
+            'vendor/three/addons/utils/BufferGeometryUtils.js'
+        ];
+        files.forEach(function (f) {
+            try { fetch(f, { cache: 'force-cache' }).catch(function () {}); } catch (e) {}
+        });
+    },
+
     bindModalEvents() {
         $('#sidebar-close, #sidebar-overlay').on('click', () => this.closeSidebar());
         this.bindSidebarEvents();
@@ -7059,7 +7090,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.311';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.312';
     
     var __HU_SIZE_BUMP_150 = 1;
 
