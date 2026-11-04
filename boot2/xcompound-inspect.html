@@ -159,7 +159,7 @@ function setupProp(gltf) {
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
-      prop.scale.setScalar(0.6);
+      prop.scale.setScalar(0.98);
       prop.rotation.set(Math.PI / 2, 0, 0);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
