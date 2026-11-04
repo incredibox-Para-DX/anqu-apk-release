@@ -108,16 +108,16 @@ function setupCharacter(gltf) {
     o.frustumCulled = false;
     const nm = (o.name || '').toLowerCase();
     if (nm.indexOf('glove') >= 0) {
-      o.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
+      o.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, normalScale: new THREE.Vector2(2.0, 2.0), roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
     } else if (nm.indexOf('leg') >= 0) {
-      o.material = new THREE.MeshStandardMaterial({ map: texLeg, normalMap: texLegN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+      o.material = new THREE.MeshStandardMaterial({ map: texLeg, normalMap: texLegN, normalScale: new THREE.Vector2(2.0, 2.0), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
     } else if (nm.indexOf('shoe') >= 0) {
       o.material = new THREE.MeshStandardMaterial({ map: texShoe, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
     } else if (nm.indexOf('head') >= 0) {
-      o.material = new THREE.MeshStandardMaterial({ map: texHead, normalMap: texHeadN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+      o.material = new THREE.MeshStandardMaterial({ map: texHead, normalMap: texHeadN, normalScale: new THREE.Vector2(2.0, 2.0), side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
       o.visible = false;
     } else if (nm.indexOf('torso') >= 0) {
-      o.material = new THREE.MeshStandardMaterial({ map: texTorso, normalMap: texTorsoN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+      o.material = new THREE.MeshStandardMaterial({ map: texTorso, normalMap: texTorsoN, normalScale: new THREE.Vector2(2.0, 2.0), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
     }
   });
   scene.add(model);
@@ -181,14 +181,15 @@ function gloveMaterial(kind) {
     var gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
     gm.map = loadColor(ASSET + 'lion/' + kind + '_D.png');
     gm.normalMap = loadData(ASSET + 'lion/' + kind + '_N.png');
+    gm.normalScale = new THREE.Vector2(2.0, 2.0);
     gm.roughnessMap = loadData(ASSET + 'lion/' + kind + '_MAR.png');
     gm.metalnessMap = gm.roughnessMap;
     return gm;
   }
-  if (kind === 'rolf') return new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-  if (kind === 'kurt') return new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
-  if (kind === 'xmas') return new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
-  return new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
+  if (kind === 'rolf') return new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, normalScale: new THREE.Vector2(2.0, 2.0), side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+  if (kind === 'kurt') return new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, normalScale: new THREE.Vector2(2.0, 2.0), roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
+  if (kind === 'xmas') return new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, normalScale: new THREE.Vector2(2.0, 2.0), roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+  return new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, normalScale: new THREE.Vector2(2.0, 2.0), roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
 }
 function applyGloves(kindOverride) {
   var kind = kindOverride || new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'g05';
