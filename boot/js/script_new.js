@@ -4169,14 +4169,11 @@ const EventManager = {
                 $('#glove-select-modal').removeClass('show');
                 setTimeout(function () { $('#glove-select-modal').css('display', 'none'); }, 300);
             }
-            const names = { rolf: 'Rolf 手套', xmas: '冬日手套', snow: '雪手套' };
+            const names = { rolf: '罗尔夫·手套', xmas: '冬日·特种手套', snow: '蝮蛇·手套' };
             if (window.showToast) window.showToast('已切换为' + (names[kind] || kind));
             try {
                 const frame = document.getElementById('lion-inspect-frame');
-                const cur = frame && frame.getAttribute('src');
-                if (cur && cur.indexOf('inspect.html') >= 0) {
-                    frame.setAttribute('src', cur.split('?')[0] + '?gloves=' + kind + '&t=' + Date.now());
-                }
+                if (frame && frame.contentWindow) frame.contentWindow.postMessage('gloves:' + kind, '*');
             } catch (e) {}
         });
 
@@ -4210,7 +4207,14 @@ const EventManager = {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const inspectBase = '';
             const url = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
-            $('#lion-inspect-frame').attr('src', url);
+            const cur = $('#lion-inspect-frame').attr('src');
+            if (cur !== url) {
+                $('#lion-inspect-frame').attr('src', url);
+            } else {
+                try {
+                    document.getElementById('lion-inspect-frame').contentWindow.postMessage('lion-replay', '*');
+                } catch (e) {}
+            }
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
                 $('#lion-inspect-modal').css('display', 'flex');
@@ -7061,7 +7065,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.306';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.307';
     
     var __HU_SIZE_BUMP_150 = 1;
 

@@ -186,8 +186,8 @@ loader.load(ASSET + 'lion/gloves_snow_retarget.glb', function (gltf) {
   applyGloves();
 }, undefined, function (e) { console.error(e); });
 
-function applyGloves() {
-  const kind = new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'rolf';
+function applyGloves(kindOverride) {
+  const kind = kindOverride || new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'rolf';
   const showXmas = kind === 'xmas';
   (window.__rolfGloves || []).forEach((m) => { m.visible = !showXmas; });
   (window.__xmasGloves || []).forEach((m) => { m.visible = showXmas; });
@@ -213,7 +213,10 @@ function replay() {
 }
 
 window.addEventListener('message', (e) => {
-  if (e.data === 'lion-replay') replay();
+  if (e.data === 'lion-replay') { replay(); return; }
+  if (typeof e.data === 'string' && e.data.indexOf('gloves:') === 0) {
+    applyGloves(e.data.slice(7));
+  }
 });
 
 document.addEventListener('click', function () {
