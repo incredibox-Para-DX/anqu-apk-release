@@ -202,8 +202,7 @@ function applyGloves() {
     if (window.__rolfGeoBackup) rolf.geometry = window.__rolfGeoBackup;
     if (window.__rolfMatBackup) rolf.material = window.__rolfMatBackup;
   }
-  const st = document.getElementById('status');
-  if (st) st.textContent = 'kind=' + kind + ' rolf=' + (window.__rolfGloves || []).length + ' snow=' + !!window.__snowGeo;
+
 }
 
 function replay() {

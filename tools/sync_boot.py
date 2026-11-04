@@ -11,6 +11,7 @@ boot2/ 是 boot/ 的镜像，manifest 版本号多一个 .m 后缀：
 """
 import json
 import hashlib
+import re
 import os
 import shutil
 import sys
@@ -205,6 +206,12 @@ def main():
     if os.path.exists(manifest_path):
         with open(manifest_path, encoding="utf-8") as f:
             version = json.load(f).get("version", "unknown")
+
+    sc = os.path.join(ROOT, 'js', 'script_new.js')
+    if os.path.isfile(sc):
+        txt = open(sc, encoding='utf-8').read()
+        txt = re.sub(r"HU_BUILD_VERSION = 'v[^']+'", "HU_BUILD_VERSION = '" + version + "'", txt)
+        open(sc, 'w', encoding='utf-8').write(txt)
 
     for dirname, suffix in TARGETS:
         build(dirname, suffix, version)
