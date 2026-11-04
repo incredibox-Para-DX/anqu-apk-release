@@ -70,6 +70,7 @@ const texHead = loadColor(ASSET + 'lion/head_D.png');
 const texHeadN = loadData(ASSET + 'lion/head_N.png');
 const texFile = loadColor(ASSET + 'lion/xcompound_D.png');
 const texFileMA = loadData(ASSET + 'lion/xcompound_MA.png');
+const texFileN = loadData(ASSET + 'lion/xcompound_N.png');
 const texGlove = loadColor(ASSET + 'lion/gloves_D.png');
 const texGloveN = loadData(ASSET + 'lion/gloves_N.png');
 const texXmas = loadColor(ASSET + 'lion/xmas_D.png');
@@ -147,17 +148,17 @@ function setupProp(gltf) {
   prop.traverse(function (o) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
-    o.material = new THREE.MeshStandardMaterial({ map: texFile, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, alphaTest: 0.02, envMapIntensity: 1.0 });
+    o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, alphaTest: 0.02, envMapIntensity: 1.0 });
   });
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
       window.__socket.add(prop);
-      prop.scale.setScalar(1.5);
+      prop.scale.setScalar(1.0);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
-      prop.position.set(-center.x - 0.17, -center.y - 0.15, -center.z + 0.08);
+      prop.position.set(-center.x - 0.03, -center.y - 0.15, -center.z + 0.08);
       prop.rotation.set(0, 0, 0);
       document.getElementById('status').textContent = 'attached to ' + window.__socket.name;
     } else {
