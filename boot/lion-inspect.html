@@ -126,7 +126,7 @@ function setupCharacter(gltf) {
   window.__socket = model.getObjectByName('item_r') || model.getObjectByName('item_l') || model.getObjectByName('hand_r');
 
   const fps = 30;
-  gltf.animations.forEach((clip) => {
+  if (!PREVIEW) gltf.animations.forEach((clip) => {
     const start = Math.floor(0.2 * fps);
     const end = Math.max(start + 1, Math.floor((clip.duration - 0.8) * fps));
     const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
@@ -143,6 +143,9 @@ function setupCharacter(gltf) {
     mixers.push(mixer);
     actions.push(action);
   });
+  if (PREVIEW) {
+    model.traverse(function (o) { if (o.isSkinnedMesh) o.pose(); });
+  }
   document.getElementById('status').textContent = '';
   applyGloves();
 }
@@ -301,7 +304,7 @@ function animate() {
   requestAnimationFrame(animate);
   let dt = Math.min(clock.getDelta(), 0.05);
   if (firstFrame) { dt = 0; firstFrame = false; }
-  mixers.forEach((m) => m.update(dt));
+  if (!PREVIEW) mixers.forEach((m) => m.update(dt));
   if (PREVIEW) {
     if (window.__socket) {
       const t = camera.__pt || (camera.__pt = new THREE.Vector3());
