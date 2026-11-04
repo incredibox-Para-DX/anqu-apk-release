@@ -4171,6 +4171,13 @@ const EventManager = {
             }
             const names = { rolf: 'Rolf 手套', xmas: '冬日手套', snow: '雪手套' };
             if (window.showToast) window.showToast('已切换为' + (names[kind] || kind));
+            try {
+                const frame = document.getElementById('lion-inspect-frame');
+                const cur = frame && frame.getAttribute('src');
+                if (cur && cur.indexOf('inspect.html') >= 0) {
+                    frame.setAttribute('src', cur.split('?')[0] + '?gloves=' + kind + '&t=' + Date.now());
+                }
+            } catch (e) {}
         });
 
         function stopLionAudio() {
@@ -7054,7 +7061,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.303';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.304';
     
     var __HU_SIZE_BUMP_150 = 1;
 
