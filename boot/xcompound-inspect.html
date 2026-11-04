@@ -69,7 +69,7 @@ const texShoe = loadColor(ASSET + 'lion/shoes_D.png');
 const texHead = loadColor(ASSET + 'lion/head_D.png');
 const texHeadN = loadData(ASSET + 'lion/head_N.png');
 const texFile = loadColor(ASSET + 'lion/xcompound_D.png');
-const texFileN = loadData(ASSET + 'lion/xcompound_MA.png');
+const texFileMA = loadData(ASSET + 'lion/xcompound_MA.png');
 const texGlove = loadColor(ASSET + 'lion/gloves_D.png');
 const texGloveN = loadData(ASSET + 'lion/gloves_N.png');
 const texXmas = loadColor(ASSET + 'lion/xmas_D.png');
@@ -147,13 +147,13 @@ function setupProp(gltf) {
   prop.traverse(function (o) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
-    o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, side: THREE.DoubleSide, roughness: 0.55, metalness: 0.0, transparent: true, alphaTest: 0.02, envMapIntensity: 1.2 });
+    o.material = new THREE.MeshStandardMaterial({ map: texFile, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, alphaTest: 0.02, envMapIntensity: 1.0 });
   });
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
       window.__socket.add(prop);
-      prop.scale.setScalar(0.8);
+      prop.scale.setScalar(1.5);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
