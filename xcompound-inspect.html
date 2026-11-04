@@ -25,6 +25,8 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 4));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.getElementById('app').appendChild(renderer.domElement);
+renderer.domElement.addEventListener('webglcontextlost', function (e) { e.preventDefault(); });
+window.addEventListener('pagehide', function () { try { renderer.dispose(); } catch (e) {} });
 
 const scene = new THREE.Scene();
 scene.background = null;
@@ -146,6 +148,40 @@ function setupCharacter(gltf) {
     mixers.push(mixer);
   });
   document.getElementById('status').textContent = 'anim=' + gltf.animations.length + ' socket=' + (window.__socket ? window.__socket.name : 'none');
+  applyGloves();
+}
+
+var GLOVE_URLS = { rolf: 'lion/gloves_rolf_uit.glb', kurt: 'lion/gloves_kurt_uit.glb', xmas: 'lion/gloves_xmas_uit.glb' };
+var gloveCache = {};
+function gloveMaterial(kind) {
+  if (kind === 'rolf') return new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+  if (kind === 'kurt') return new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
+  return new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+}
+function applyGloves(kindOverride) {
+  var kind = kindOverride || new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'snow';
+  var mesh = (window.__gloveMeshes || [])[0];
+  if (!mesh) return;
+  if (!window.__gloveGeoBackup) window.__gloveGeoBackup = mesh.geometry;
+  if (!window.__gloveMatBackup) window.__gloveMatBackup = mesh.material;
+  if (kind === 'snow' || !GLOVE_URLS[kind]) {
+    mesh.geometry = window.__gloveGeoBackup;
+    mesh.material = window.__gloveMatBackup;
+    return;
+  }
+  if (gloveCache[kind]) {
+    mesh.geometry = gloveCache[kind];
+    mesh.material = gloveMaterial(kind);
+    return;
+  }
+  loader.load(ASSET + GLOVE_URLS[kind], function (gltf) {
+    var geo = null;
+    gltf.scene.traverse(function (o) { if (o.isMesh && !geo) geo = o.geometry; });
+    if (!geo) return;
+    gloveCache[kind] = geo;
+    mesh.geometry = geo;
+    mesh.material = gloveMaterial(kind);
+  }, undefined, function (e) { console.error(e); });
 }
 
 function setupProp(gltf) {
@@ -160,7 +196,7 @@ function setupProp(gltf) {
   window.__prop = prop;
   const attach = function () {
     if (window.__socket) {
-      prop.scale.setScalar(0.98);
+      prop.scale.setScalar(1.0);
       prop.rotation.set(Math.PI / 2, 0, 0);
       prop.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(prop);
@@ -208,7 +244,7 @@ function replayAnim() {
 window.addEventListener('message', function (e) {
   if (e.data === 'lion-replay') { replayAnim(); return; }
   if (typeof e.data === 'string' && e.data.indexOf('gloves:') === 0) {
-    return;
+    applyGloves(e.data.slice(7));
   }
 });
 
@@ -222,6 +258,7 @@ const IS_PRELOAD = new URLSearchParams(location.search).get('preload') === '1';
 window.onerror = function (m) { var st = document.getElementById('status'); if (st) { st.style.display = 'block'; st.textContent = 'ERR: ' + m; } };
 const clock = new THREE.Clock();
 let __ready = false;
+const __readyAt = Date.now();
 function allTexturesReady() {
   return [texSniper, texSniperN, texSniperMAR, texTorso, texTorsoN, texLeg, texLegN, texShoe,
     texHead, texHeadN, texFile, texFileN, texFileMA].every(function (t) { return t.image && t.image.width; });
@@ -229,7 +266,7 @@ function allTexturesReady() {
 function animate() {
   requestAnimationFrame(animate);
   if (!__ready) {
-    if (!allTexturesReady()) return;
+    if (!allTexturesReady() && Date.now() - __readyAt < 3000) return;
     __ready = true;
     renderer.compile(scene, camera);
   }

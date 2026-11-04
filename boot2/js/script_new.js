@@ -4189,6 +4189,8 @@ const EventManager = {
             e.preventDefault();
             stopLionAudio();
             $('#lion-inspect-modal').removeClass('show');
+            var f = document.getElementById('lion-inspect-frame');
+            if (f) f.setAttribute('src', 'about:blank');
             setTimeout(() => {
                 $('#lion-inspect-modal').css('display', 'none');
             }, 300);
@@ -4197,6 +4199,8 @@ const EventManager = {
         window.closeLionInspect = function() {
             stopLionAudio();
             $('#lion-inspect-modal').removeClass('show');
+            var f = document.getElementById('lion-inspect-frame');
+            if (f) f.setAttribute('src', 'about:blank');
             setTimeout(function () {
                 $('#lion-inspect-modal').css('display', 'none');
             }, 300);
@@ -7095,7 +7099,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.360';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.361';
     
     var __HU_SIZE_BUMP_150 = 1;
 
