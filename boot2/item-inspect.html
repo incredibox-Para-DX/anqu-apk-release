@@ -124,7 +124,11 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const g = pgeo.clone();
       g.computeBoundingBox();
       const c = g.boundingBox.getCenter(new THREE.Vector3());
+      const size = g.boundingBox.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z) || 1;
+      const norm = 18 / maxDim;
       g.translate(-c.x, -c.y, -c.z);
+      g.scale(norm, norm, norm);
       g.computeVertexNormals();
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.55, metalness: 0.15, envMapIntensity: 0.7 });
       const dtex = './lion/items/' + key + '_D.png';
