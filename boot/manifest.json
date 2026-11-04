@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.377",
+  "version": "v2.3.0_hotfix.378",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 362839,
-      "sha256": "7b32666ab9998ff8c7e723798c9abf21b12c928cbc505100a9c5fe3402ac7992"
+      "sha256": "ce27642469c3b99f6ca5835584538054e49b4c35bc6b2603c4655e4ec53d0160"
     },
     {
       "path": "js/synthesis.js",
@@ -299,7 +299,7 @@
     {
       "path": "lion/g01.glb",
       "size": 120036,
-      "sha256": "075527d89549db0b78aca66516f07ef6d9d69eb5e93c9380d3794a35afd2aa0c"
+      "sha256": "cedd911cdfa437125be29e09e7afe490d2f2546063355dccebccbb502ec02db8"
     },
     {
       "path": "lion/g01_D.png",
@@ -319,7 +319,7 @@
     {
       "path": "lion/g02.glb",
       "size": 131448,
-      "sha256": "52002d6428f1e7dbb6029b8c9caa12705fb7b76f9d282d5bb3e5a0a43370d255"
+      "sha256": "912b4fd7566840d5877a7d745817ec494721d2c9fdd560914d1f97aef23aa2cc"
     },
     {
       "path": "lion/g02_D.png",
@@ -339,7 +339,7 @@
     {
       "path": "lion/g03.glb",
       "size": 122152,
-      "sha256": "9a74f3d91851d98d25e2e17b342fd1f19cb896cf55f2cb4ba306c8367f82449f"
+      "sha256": "7d964dd00a15a25810cc6efe787076e33fe74bd5c5a5dde192ffeb6d6d6fc909"
     },
     {
       "path": "lion/g03_D.png",
@@ -359,7 +359,7 @@
     {
       "path": "lion/g04.glb",
       "size": 159876,
-      "sha256": "f495d98aa5a12ddfdfcda87031e71dba37fe62449316f825ba414b04778c9964"
+      "sha256": "2b1c9c4c3c645d5b511aa82760ff7a3c311903c88f9b4423142c4e4cb90a23d8"
     },
     {
       "path": "lion/g04_D.png",
@@ -379,7 +379,7 @@
     {
       "path": "lion/g05.glb",
       "size": 217160,
-      "sha256": "0813a29ed41a5f3608c2183fd7805e86f24118458ac4fc424a1aedf221ab1342"
+      "sha256": "2a1ddf8f1fc50afa0a6082489abd9bcf9213901ef8da0a9a323269656bf4ec26"
     },
     {
       "path": "lion/g05_D.png",
@@ -399,7 +399,7 @@
     {
       "path": "lion/g06.glb",
       "size": 209352,
-      "sha256": "4dfd9c1cf52681452ef0e6c0c9eb3a0eedc456d9c949640ed515dae40215182a"
+      "sha256": "dfefd219042dd3fdeb9ebe23983e23d17a3c46d8b5b1eb4fdc049ca277873f8e"
     },
     {
       "path": "lion/g06_D.png",
@@ -419,7 +419,7 @@
     {
       "path": "lion/g07.glb",
       "size": 255392,
-      "sha256": "ef73d29202e1431c99f6a7ba23c7a014dac92a57bd85e5df80e1ed8459dfa986"
+      "sha256": "e192838b3926e4a09b5cae312ffd5a0d780d7bb4560e84f35b76cd029a7663e5"
     },
     {
       "path": "lion/g07_D.png",
@@ -439,7 +439,7 @@
     {
       "path": "lion/g08.glb",
       "size": 264772,
-      "sha256": "0f3899b6ee57a332b3d50f7f8651a3cd7f8c0c0dbff3328a8c8403a04f6978fb"
+      "sha256": "0be466ccb56720a037f6ea014911185b8663c1a70d37028157edb6f159e39f5b"
     },
     {
       "path": "lion/g08_D.png",
@@ -459,7 +459,7 @@
     {
       "path": "lion/g09.glb",
       "size": 512352,
-      "sha256": "f636680fce1c445f7d3ca259de35ce15550b1ebd2682886ba865dddfe8c08212"
+      "sha256": "52f4691359841912d7954454d7d9dddac0babe3a469b0dbb87d91b6f16f830b2"
     },
     {
       "path": "lion/g09_D.png",
@@ -479,7 +479,7 @@
     {
       "path": "lion/g10.glb",
       "size": 198788,
-      "sha256": "b3cb98b1aad9f7d60761061880be548a0c28cb5cd4612ffe414088bc8770a1fe"
+      "sha256": "a4ca48d685715931d8524643094586651534f04f50b5fd306c4e1c08220344af"
     },
     {
       "path": "lion/g10_D.png",
@@ -499,7 +499,7 @@
     {
       "path": "lion/g11.glb",
       "size": 226392,
-      "sha256": "1cf8896ca9e2ed41c8f238cdadfbdd3a82e69c0724b2dcaaa3f23a24059d747c"
+      "sha256": "6e9052ae91e5fa564b794667f5e93583eb376520f7ff85b68a73d577dfc5a1fe"
     },
     {
       "path": "lion/g11_D.png",
@@ -519,7 +519,7 @@
     {
       "path": "lion/g12.glb",
       "size": 180104,
-      "sha256": "01989bc6168055380d96781d4916accc423e91cdbe1e8ebfff950faa8aeb4f52"
+      "sha256": "10410868259d92ade80f3bc2dc905566891577a1442964c9af2d6d1fb6c3899f"
     },
     {
       "path": "lion/g12_D.png",
@@ -539,7 +539,7 @@
     {
       "path": "lion/g13.glb",
       "size": 495724,
-      "sha256": "d580d5727d40b20b7472cb06345dd0cc64a848503e156096f637cc72b6d92710"
+      "sha256": "114670bf77d697618864b3f2d2361b1dfcbb83abbd5942f1c1f1164c07693414"
     },
     {
       "path": "lion/g13_D.png",
@@ -559,7 +559,7 @@
     {
       "path": "lion/g14.glb",
       "size": 231188,
-      "sha256": "4ad98680507a08d597649e0d254ca5af4cae335a911601c68b782e1333a89c57"
+      "sha256": "7a07f634f06f9da75906f41d30c2fe660933887709f81a976019293873fdbf9b"
     },
     {
       "path": "lion/g14_D.png",
@@ -579,7 +579,7 @@
     {
       "path": "lion/g15.glb",
       "size": 226392,
-      "sha256": "910891e3faf14e317017ee8ac728e241496c345829ca29acb106eca3c8005ee8"
+      "sha256": "22c47d4df44de5f20cd8bd7c51b45e7caa7f87cabbb2568d44439b2303ec5b82"
     },
     {
       "path": "lion/g15_D.png",
@@ -599,7 +599,7 @@
     {
       "path": "lion/g16.glb",
       "size": 238968,
-      "sha256": "42b8045cbcf9a385bad072747a3fa9d2fc99f20a151c9749276c9126d4a67ce6"
+      "sha256": "54bd89e62b9cd101918761b2ef3851fb5cf31c24ae3671825e347a416ea1c1ac"
     },
     {
       "path": "lion/g16_D.png",
@@ -619,7 +619,7 @@
     {
       "path": "lion/g17.glb",
       "size": 460204,
-      "sha256": "57b58cbc492dbf60b03aac10b667eea93af54def7963cba042c662d986351e1d"
+      "sha256": "b22ac8d6ef7013d2bcac3bd4b746ce8747d37dc9d2675e8bf9f68b97313f39c2"
     },
     {
       "path": "lion/g17_D.png",
@@ -639,7 +639,7 @@
     {
       "path": "lion/g18.glb",
       "size": 177236,
-      "sha256": "aa6fbcda57fd95b29ce23a6ca41d14bda0acdaf290a8ac61bf6f2f74c339c2b6"
+      "sha256": "6fddca56429f8753d0ec530968bbe370b081f5da78f04e9231f1331df9a33618"
     },
     {
       "path": "lion/g18_D.png",
