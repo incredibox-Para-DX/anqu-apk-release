@@ -86,6 +86,7 @@ function b64ToBuf(b64) {
 }
 const tmp = new THREE.Vector3();
 let mixers = [];
+let actions = [];
 
 function setupCharacter(gltf) {
   const model = gltf.scene;
@@ -201,6 +202,7 @@ addEventListener('resize', () => {
 });
 
 const IS_PRELOAD = new URLSearchParams(location.search).get('preload') === '1';
+window.onerror = function (m) { var st = document.getElementById('status'); if (st) { st.style.display = 'block'; st.textContent = 'ERR: ' + m; } };
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
