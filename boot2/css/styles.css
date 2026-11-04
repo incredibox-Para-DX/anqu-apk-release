@@ -2018,6 +2018,7 @@ input:checked + .slider:before {
 }
 #lion-inspect-modal {
     background: rgba(0,0,0,.22) !important;
+    z-index: 100500 !important;
 }
 .glove-select-list .glove-option {
     padding: 12px 14px;
