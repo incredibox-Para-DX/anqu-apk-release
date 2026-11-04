@@ -4117,7 +4117,7 @@ const EventManager = {
             e.preventDefault();
             e.stopPropagation();
             try {
-                window.__lionAudio = new Audio('lion/inspect.wav');
+                window.__lionAudio = new Audio(window.__pickInspectSound($('#tooltip-inspect-btn').data('kind')));
                 const audio = window.__lionAudio;
                 audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.play().catch(function() {});
@@ -4206,6 +4206,12 @@ const EventManager = {
             }, 300);
         };
 
+        window.__pickInspectSound = function (kind) {
+            if (kind === 'xcompound') return 'lion/inspect_xcompound.wav';
+            if (kind === 'secretfile') return 'lion/inspect_secretfile.wav';
+            return 'lion/inspect.wav';
+        };
+
         window.openInspectFromCatalog = function (kind) {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const inspectBase = '';
@@ -4213,7 +4219,7 @@ const EventManager = {
                 : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
                 : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             try {
-                window.__lionAudio = new Audio('lion/inspect.wav');
+                window.__lionAudio = new Audio(window.__pickInspectSound(kind));
                 window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 window.__lionAudio.play().catch(function () {});
             } catch (e) {}
@@ -7099,7 +7105,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.366';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.367';
     
     var __HU_SIZE_BUMP_150 = 1;
 
