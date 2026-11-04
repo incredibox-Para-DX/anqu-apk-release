@@ -250,7 +250,7 @@ function applyGloves(kindOverride) {
   if (kind === 'kurt' && window.__kurtGeo) {
     rolf.geometry = window.__kurtGeo;
     rolf.geometry.computeBoundingSphere();
-    rolf.material = new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
+    rolf.material = new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, normalScale: new THREE.Vector2(2.5, 2.5), roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
   } else if (kind === 'snow' && window.__snowGeo) {
     rolf.geometry = window.__snowGeo;
     rolf.geometry.computeBoundingSphere();

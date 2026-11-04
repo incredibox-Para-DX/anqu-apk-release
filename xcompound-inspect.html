@@ -187,7 +187,7 @@ function gloveMaterial(kind) {
     return gm;
   }
   if (kind === 'rolf') return new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, normalScale: new THREE.Vector2(1.5, 1.5), side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-  if (kind === 'kurt') return new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
+  if (kind === 'kurt') return new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, normalScale: new THREE.Vector2(2.5, 2.5), roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
   if (kind === 'xmas') return new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, normalScale: new THREE.Vector2(1.5, 1.5), roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
   return new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, normalScale: new THREE.Vector2(1.5, 1.5), roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
 }
