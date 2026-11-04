@@ -196,11 +196,7 @@ function applyGloves(kindOverride) {
   if (!mesh) return;
   if (!window.__gloveGeoBackup) window.__gloveGeoBackup = mesh.geometry;
   if (!window.__gloveMatBackup) window.__gloveMatBackup = mesh.material;
-  if (kind === 'snow' || /^g\d\d$/.test(kind)) {
-    mesh.geometry = window.__gloveGeoBackup;
-    mesh.material = window.__gloveMatBackup;
-    return;
-  }
+  if (kind === 'snow') kind = 'g17';
   if (!GLOVE_URLS[kind]) kind = 'rolf';
   if (gloveGeo[kind]) {
     mesh.geometry = gloveGeo[kind];
