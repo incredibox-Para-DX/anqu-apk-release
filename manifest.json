@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.235",
+  "version": "v2.3.0_hotfix.236",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 360031,
-      "sha256": "d1789bb9300ad3aa8396b569f735acbe8ef78c6d28b6fccbd66d71da65b215d5"
+      "sha256": "6bcc0733920de08e72cd5e62e386598b71e1263158172396ece4bcf16d724fa9"
     },
     {
       "path": "js/synthesis.js",
@@ -277,6 +277,141 @@
       "sha256": "005d46a8ee466889d53a5f7ab28f0b040e0ec83cff77e166dcdc2e5163e2addb"
     },
     {
+      "path": "lion/character.glb",
+      "size": 2976152,
+      "sha256": "8f55247f21b659147026eb9bd790ff472a5d17af55b495ca44484ce86208fe7d"
+    },
+    {
+      "path": "lion/gloves_D.png",
+      "size": 91651,
+      "sha256": "55d0d4ca6632a2b4ab508f780969b5b6f915183e54a2722f548c4a57800c88ff"
+    },
+    {
+      "path": "lion/gloves_N.png",
+      "size": 116697,
+      "sha256": "d6221843c84ca2b924bd0ca7ba88600f33e99e29b4aa1a1207acbf6eb7c8c6fa"
+    },
+    {
+      "path": "lion/gloves_rolf_uit.glb",
+      "size": 184372,
+      "sha256": "ffb5daeafa4346d3a31348743a4fbfbb57db1a561f4ed3b9fe36bc386c7d8595"
+    },
+    {
+      "path": "lion/gloves_snow_retarget.glb",
+      "size": 435800,
+      "sha256": "58bee71d60e8ec493cecc6882f112debcbc12d172c4565d51ccd091027e77be5"
+    },
+    {
+      "path": "lion/gloves_xmas_uit.glb",
+      "size": 231580,
+      "sha256": "a771aa0b074a5ac92f4b65154d9924a138e971e44b96f936ec0b7a0965f3116f"
+    },
+    {
+      "path": "lion/head_D.png",
+      "size": 357177,
+      "sha256": "af722d9fe25d3b75d5186e146f5ac4b277e322d9223e488b3520136a2b2c9028"
+    },
+    {
+      "path": "lion/head_N.png",
+      "size": 406663,
+      "sha256": "d3a608280413afcfc0db423c98c78f1844eacfe4767663a9b0e787540f25b955"
+    },
+    {
+      "path": "lion/inspect.wav",
+      "size": 819576,
+      "sha256": "cb6ff490e10027a60ca661e3b7a56238143cb198dfb96cae40583fbf9818c793"
+    },
+    {
+      "path": "lion/leg_D.png",
+      "size": 80819,
+      "sha256": "dd56be37f07af24267705db42448228bd110202e1e4582019dbc1f64492450aa"
+    },
+    {
+      "path": "lion/leg_N.png",
+      "size": 113349,
+      "sha256": "ec1ac4f2085ce02a7cbd59630dc8283b9283524d04c596f16bd6c01c0675aa52"
+    },
+    {
+      "path": "lion/lion.glb",
+      "size": 353016,
+      "sha256": "1e1ac80bb3974050a091fee2bbd0cc8385002f19304b3bc4b865c9252935c857"
+    },
+    {
+      "path": "lion/lion_D.png",
+      "size": 391768,
+      "sha256": "297a8174de98b22893c5e1a866160ea5be4850d8c4ec7a7cb4c5619404467e7f"
+    },
+    {
+      "path": "lion/secretfile.glb",
+      "size": 78768,
+      "sha256": "36fac752b3de5cb1ece2826e37b051db2d2f05f10be901d00aa89a590ec98cfa"
+    },
+    {
+      "path": "lion/secretfile_D.png",
+      "size": 360757,
+      "sha256": "c40a332cb061080cc8697bca19fddfd4c8682fbba901a09428d661221c4315cd"
+    },
+    {
+      "path": "lion/secretfile_MA.png",
+      "size": 4280,
+      "sha256": "dd550f645bf79005c2b25d650bb3c70c7234339641f976f13484f704c037e205"
+    },
+    {
+      "path": "lion/secretfile_N.png",
+      "size": 356726,
+      "sha256": "bf42167648a5aef0bc16dae213dafbf6cc41298797d7a9bdc400201e51143edb"
+    },
+    {
+      "path": "lion/secretfile_character.glb",
+      "size": 2202672,
+      "sha256": "3410ddb140ceef2c44b8b60d79aa35adc5835b1406e5d40ce01729f1c414d0fe"
+    },
+    {
+      "path": "lion/shoes_D.png",
+      "size": 25198,
+      "sha256": "679473b83afe01ab0951522ee8f15ac19923baed84b090ab0dae3229baac6706"
+    },
+    {
+      "path": "lion/snow_D.png",
+      "size": 366063,
+      "sha256": "3806001b5f406e823c954223af5366a53516699d7c2ec513581219c5909145a6"
+    },
+    {
+      "path": "lion/snow_MAR.png",
+      "size": 92807,
+      "sha256": "33fbee3879cb98ec32d7e0441412e263baa272185dac5116479d97eb9cb4ef11"
+    },
+    {
+      "path": "lion/snow_N.png",
+      "size": 485805,
+      "sha256": "d78cf2647c444c6b3836871e1f6117e27f2822fe6c795f6c416cd13cfb9790bf"
+    },
+    {
+      "path": "lion/torso_D.png",
+      "size": 387454,
+      "sha256": "5a697d196b3abdddc916bd7e940e17d0bb07b19b710e0e17712a2fd051b7854a"
+    },
+    {
+      "path": "lion/torso_N.png",
+      "size": 485293,
+      "sha256": "1bd04c4fa395d622b61d10efa41e455278c845d22bb1b72745f676a83992dfe8"
+    },
+    {
+      "path": "lion/xmas_D.png",
+      "size": 377756,
+      "sha256": "a94f3f83a184934e922d8aea9748904a886e365bc1b9d08aedecc475cb624983"
+    },
+    {
+      "path": "lion/xmas_MAR.png",
+      "size": 81667,
+      "sha256": "fed50c93a50d3cffd03e6be31512fd32b3c9859cfb4cfb4c3ab710f437c4f365"
+    },
+    {
+      "path": "lion/xmas_N.png",
+      "size": 532752,
+      "sha256": "d35df683733a098f3096da7f945b8993ff16ae942208dc8c2544106d8902a1f6"
+    },
+    {
       "path": "vendor/three/three.module.js",
       "size": 1272972,
       "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495"
@@ -307,6 +442,6 @@
       "sha256": "378d49fd1adfd2372b3e71050f5a0cc92719a12877127db60db6ceaf7133c4ea"
     }
   ],
-  "fileCount": 61,
-  "totalSize": 3825995
+  "fileCount": 88,
+  "totalSize": 16222613
 }
