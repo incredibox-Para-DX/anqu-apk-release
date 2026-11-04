@@ -4135,9 +4135,9 @@ const EventManager = {
 
         $('#sidebar-glove-btn').on('click', function () {
             const cur = localStorage.getItem('ab_lion_gloves') || 'rolf';
-            const next = cur === 'tit' ? 'rolf' : 'tit';
+            const next = cur === 'xmas' ? 'rolf' : 'xmas';
             try { localStorage.setItem('ab_lion_gloves', next); } catch (e) {}
-            if (window.showToast) window.showToast(next === 'tit' ? '已切换为 TIT 手套' : '已切换为 Rolf 手套');
+            if (window.showToast) window.showToast(next === 'xmas' ? '已切换为冬日手套' : '已切换为 Rolf 手套');
         });
 
         function stopLionAudio() {
