@@ -72,6 +72,11 @@
             (function () {
                 var n = String(name);
                 var itemKey = (window.__ITEM_INSPECT || {})[n] || '';
+                if (!itemKey && window.__ITEM_INSPECT) {
+                    for (var kk in window.__ITEM_INSPECT) {
+                        if (n.indexOf(kk) >= 0 || kk.indexOf(n) >= 0) { itemKey = window.__ITEM_INSPECT[kk]; break; }
+                    }
+                }
                 var kind = itemKey ? 'item' : (/金狮|金獅|Golden Lion/i.test(n) ? 'lion'
                     : (/理想国|理想國|XCompoundKit|XCompound/i.test(n) ? 'xcompound'
                     : (/机密文件|機密文件|Secret\s*File/i.test(n) ? 'secretfile' : '')));

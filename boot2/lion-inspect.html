@@ -97,6 +97,17 @@ if (PREVIEW) {
   const bgTex = new THREE.CanvasTexture(cv);
   bgTex.colorSpace = THREE.SRGBColorSpace;
   scene.background = bgTex;
+  const ground = new THREE.Mesh(
+    new THREE.CircleGeometry(1.1, 64),
+    new THREE.MeshStandardMaterial({ color: 0x161b22, roughness: 0.9, metalness: 0.08 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.35;
+  scene.add(ground);
+  const grid = new THREE.GridHelper(2.2, 24, 0x2a3442, 0x1d242d);
+  grid.position.y = -0.348;
+  scene.add(grid);
+  window.__previewGround = ground;
 }
 const loader = new GLTFLoader();
 const tmp = new THREE.Vector3();

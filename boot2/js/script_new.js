@@ -772,7 +772,12 @@ previewCurrentBackground() {
             const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(lionName);
             const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(lionName);
             const isXCompound = /理想国|理想國|XCompoundKit|XCompound/i.test(lionName);
-            const itemKey = (window.__ITEM_INSPECT || {})[lionName] || '';
+            let itemKey = (window.__ITEM_INSPECT || {})[lionName] || '';
+            if (!itemKey && window.__ITEM_INSPECT) {
+                for (const k in window.__ITEM_INSPECT) {
+                    if (lionName.indexOf(k) >= 0 || k.indexOf(lionName) >= 0) { itemKey = window.__ITEM_INSPECT[k]; break; }
+                }
+            }
             $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound || !!itemKey);
             $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion')).data('item', itemKey);
             
@@ -4233,6 +4238,20 @@ const EventManager = {
             '热成像模块': 'thermal_module', '新边疆模型': 'new_frontier', '原子钟': 'atomic_clock',
             '电磁弹射组件': 'catapult_part', '金驹越岭': 'golden_steed'
         };
+        $('#gm-catalog-unlock-btn').on('click', function () {
+            const counts = (function () { try { return JSON.parse(localStorage.getItem('ab_catalog_counts') || '{}') || {}; } catch (e) { return {}; } })();
+            let list = Array.isArray(window.__ALL_ITEMS__) ? window.__ALL_ITEMS__.slice() : [];
+            try {
+                if (window.ModManager && typeof ModManager.getEnabledItems === 'function') list = list.concat(ModManager.getEnabledItems() || []);
+            } catch (e) {}
+            list.forEach(function (it) {
+                const n = it && (it.fullName || it.name);
+                if (n) counts[n] = Math.max(counts[n] || 0, 1);
+            });
+            try { localStorage.setItem('ab_catalog_counts', JSON.stringify(counts)); } catch (e) {}
+            if (window.showToast) window.showToast('图鉴已全部解锁');
+        });
+
         window.openItemInspect = function (key) {
             const frame = document.getElementById('lion-inspect-frame');
             if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
@@ -7147,7 +7166,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.406';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.407';
     
     var __HU_SIZE_BUMP_150 = 1;
 
