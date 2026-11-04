@@ -206,7 +206,11 @@ function applyGloves(kindOverride) {
 
 }
 
+var __lastReplay = 0;
 function replay() {
+  var now = Date.now();
+  if (now - __lastReplay < 1200) return;
+  __lastReplay = now;
   if (!actions.length) { setTimeout(replay, 120); return; }
   mixers.forEach(function (m) { try { m.time = 0; } catch (e) {} });
   actions.forEach((a) => {

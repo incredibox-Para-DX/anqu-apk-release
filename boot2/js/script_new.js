@@ -4128,7 +4128,7 @@ const EventManager = {
             if (frame.getAttribute('src') !== inspectUrl) {
                 frame.setAttribute('src', inspectUrl);
             }
-            [60, 300, 800, 1400].forEach(function (t) {
+            [350].forEach(function (t) {
                 setTimeout(function () {
                     try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (err) {}
                 }, t);
@@ -4213,7 +4213,7 @@ const EventManager = {
             if (frame.getAttribute('src') !== url) {
                 frame.setAttribute('src', url);
             }
-            [60, 300, 800, 1400].forEach(function (t) {
+            [350].forEach(function (t) {
                 setTimeout(function () {
                     try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (e) {}
                 }, t);
@@ -7068,7 +7068,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.309';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.310';
     
     var __HU_SIZE_BUMP_150 = 1;
 
