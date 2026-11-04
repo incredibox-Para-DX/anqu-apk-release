@@ -7065,7 +7065,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.307';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.308';
     
     var __HU_SIZE_BUMP_150 = 1;
 

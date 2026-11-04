@@ -207,9 +207,12 @@ function applyGloves(kindOverride) {
 }
 
 function replay() {
+  if (!actions.length) { setTimeout(replay, 120); return; }
+  mixers.forEach(function (m) { try { m.time = 0; } catch (e) {} });
   actions.forEach((a) => {
-    try { a.reset(); a.play(); } catch (e) {}
+    try { a.stop(); a.reset(); a.play(); } catch (e) {}
   });
+  mixers.forEach(function (m) { try { m.update(0); } catch (e) {} });
 }
 
 window.addEventListener('message', (e) => {
