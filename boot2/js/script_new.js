@@ -767,7 +767,8 @@ previewCurrentBackground() {
             $('#tooltip-img').attr('src', item.image || '');
             $('#tooltip-name').text(window.I18N ? I18N.tr(item.fullName || item.name || '') : (item.fullName || item.name || ''));
             $('#tooltip-desc').text(window.I18N ? I18N.tr(item.desc || '世界观内容待补充。') : (item.desc || '世界观内容待补充。'));
-            const lionName = item.fullName || item.name || '';
+            const rawName = item.fullName || item.name || '';
+            const lionName = window.I18N ? I18N.tr(rawName) : rawName;
             const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(lionName);
             const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(lionName);
             $('#tooltip-inspect-row').toggle(isLion || isSecretFile);
