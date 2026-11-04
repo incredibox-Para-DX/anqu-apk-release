@@ -4168,7 +4168,7 @@ const EventManager = {
                 $('#glove-select-modal').removeClass('show');
                 setTimeout(function () { $('#glove-select-modal').css('display', 'none'); }, 300);
             }
-            const names = { g05: '暗区作训服手套', kurt: '科特·手套', g04: '伯纳德·手套', rolf: '罗尔夫·手套', g06: '空勤特遣队·手套', g11: '黑金·战术手套', g16: '山地作战手套', g15: '急袭·战术手套', g18: '深蓝作战手套', xmas: '冬日·特种手套', g17: '裁决·仪式手套', g08: '机车·狂野手套', g14: '林中人手套' };
+            const names = { g05: '暗区作训服手套', kurt: '科特·手套', g04: '伯纳德·手套', rolf: '罗尔夫·手套', g06: '空勤特遣队·手套', g11: '黑金·战术手套', g16: '山地作战手套', g15: '急袭·战术手套', g18: '深蓝作战手套', xmas: '冬日·特种手套', g07: '裁决·仪式手套', g08: '机车·狂野手套', g14: '林中人手套', g12: '阿贾克斯·手套', g17: '蝮蛇·手套', g13: '脉冲·马克西姆手套' };
             if (window.showToast) window.showToast('已切换为' + (names[kind] || kind));
             try {
                 const frame = document.getElementById('lion-inspect-frame');
@@ -7105,7 +7105,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.380';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.381';
     
     var __HU_SIZE_BUMP_150 = 1;
 
