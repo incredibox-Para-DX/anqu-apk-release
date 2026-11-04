@@ -75,8 +75,6 @@ CODE_FILES = [
     "xml/loading-tips.xml",
     "xml/music-config.xml",
     "xml/video-config.xml",
-    "lion-inspect.html",
-    "secretfile-inspect.html",
 ]
 
 

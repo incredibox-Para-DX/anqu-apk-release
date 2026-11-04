@@ -4122,7 +4122,8 @@ const EventManager = {
             } catch (err) {}
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
-            const inspectUrl = kind === 'secretfile' ? 'secretfile-inspect.html' : ('lion-inspect.html?gloves=' + gloveKind);
+            const inspectBase = /Android/i.test(navigator.userAgent) ? 'file:///android_asset/www/' : '';
+            const inspectUrl = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
             if ($('#lion-inspect-frame').attr('src') !== inspectUrl) {
                 $('#lion-inspect-frame').attr('src', inspectUrl);
             } else {
@@ -4200,7 +4201,8 @@ const EventManager = {
 
         window.openInspectFromCatalog = function (kind) {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
-            const url = kind === 'secretfile' ? 'secretfile-inspect.html' : ('lion-inspect.html?gloves=' + gloveKind);
+            const inspectBase = /Android/i.test(navigator.userAgent) ? 'file:///android_asset/www/' : '';
+            const url = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
             $('#lion-inspect-frame').attr('src', url);
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
@@ -7052,7 +7054,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.233';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.234';
     
     var __HU_SIZE_BUMP_150 = 1;
 

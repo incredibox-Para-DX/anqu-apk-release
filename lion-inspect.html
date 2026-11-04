@@ -226,9 +226,11 @@ addEventListener('resize', () => {
 });
 
 const clock = new THREE.Clock();
+let firstFrame = true;
 function animate() {
   requestAnimationFrame(animate);
-  const dt = Math.min(clock.getDelta(), 0.05);
+  let dt = Math.min(clock.getDelta(), 0.05);
+  if (firstFrame) { dt = 0; firstFrame = false; }
   mixers.forEach((m) => m.update(dt));
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
