@@ -4246,15 +4246,6 @@ const EventManager = {
         files.forEach(function (f) {
             try { fetch(f, { cache: 'force-cache' }).catch(function () {}); } catch (e) {}
         });
-        try {
-            if (!window.__inspectPreloadFrame) {
-                var pre = document.createElement('iframe');
-                pre.style.cssText = 'position:fixed;left:-9999px;top:0;width:360px;height:640px;opacity:0;pointer-events:none;border:0;';
-                pre.src = 'secretfile-inspect.html?preload=1';
-                document.body.appendChild(pre);
-                window.__inspectPreloadFrame = pre;
-            }
-        } catch (e) {}
     },
 
     bindModalEvents() {
@@ -7099,7 +7090,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.313';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.314';
     
     var __HU_SIZE_BUMP_150 = 1;
 
