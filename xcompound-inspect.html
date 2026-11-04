@@ -153,7 +153,7 @@ function setupProp(gltf) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
     var __glass = (o.material && (o.material.name || '').indexOf('Glass') >= 0);
-      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: __glass, opacity: __glass ? 0.35 : 1.0, depthWrite: !__glass, envMapIntensity: 1.0 });
+      o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: __glass ? 0.15 : 0.8, metalness: __glass ? 0.0 : 0.1, transparent: __glass, opacity: __glass ? 0.25 : 1.0, depthWrite: !__glass, envMapIntensity: __glass ? 1.5 : 1.0 });
       if (__glass) o.renderOrder = 1;
   });
   window.__prop = prop;
