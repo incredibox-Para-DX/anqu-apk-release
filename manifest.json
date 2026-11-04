@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.275",
+  "version": "v2.3.0_hotfix.276",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 360031,
-      "sha256": "644f6788176cfa0b1c17ea8922f6aaa452278c6e6f95e94d0d065d079b554a28"
+      "sha256": "115bd902e417a4ccca1111cdbb882b80ed94ab87284171330a42d44b6e753165"
     },
     {
       "path": "js/synthesis.js",
@@ -283,8 +283,8 @@
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 10432,
-      "sha256": "438474a350e43fb5cbb7c5138b135d9b148889c3eb80557d942f12cacc2ac88a"
+      "size": 10426,
+      "sha256": "ac9dea777bc0a75c8a47d6d4acb12f857c52c792e48ccc4c71558a8197a27237"
     },
     {
       "path": "lion/character.glb",
@@ -453,5 +453,5 @@
     }
   ],
   "fileCount": 90,
-  "totalSize": 16242954
+  "totalSize": 16242948
 }
