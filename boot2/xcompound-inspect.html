@@ -108,7 +108,7 @@ function setupCharacter(gltf) {
     o.frustumCulled = false;
     const nm = (o.name || '').toLowerCase();
     if (nm.indexOf('glove') >= 0) {
-      o.material = new THREE.MeshStandardMaterial({ map: texSniper, normalMap: texSniperN, roughnessMap: texSniperMAR, metalnessMap: texSniperMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
+      o.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
     } else if (nm.indexOf('leg') >= 0) {
       o.material = new THREE.MeshStandardMaterial({ map: texLeg, normalMap: texLegN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
     } else if (nm.indexOf('shoe') >= 0) {
@@ -152,11 +152,12 @@ function setupCharacter(gltf) {
 }
 
 var GLOVE_URLS = { rolf: 'lion/gloves_rolf_uit.glb', kurt: 'lion/gloves_kurt_uit.glb', xmas: 'lion/gloves_xmas_uit.glb' };
-var gloveCache = {};
+var gloveGeo = {};
 function gloveMaterial(kind) {
   if (kind === 'rolf') return new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
   if (kind === 'kurt') return new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.78, metalness: 0.05, envMapIntensity: 0.6 });
-  return new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+  if (kind === 'xmas') return new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
+  return new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.1, envMapIntensity: 0.5 });
 }
 function applyGloves(kindOverride) {
   var kind = kindOverride || new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'snow';
@@ -169,8 +170,8 @@ function applyGloves(kindOverride) {
     mesh.material = window.__gloveMatBackup;
     return;
   }
-  if (gloveCache[kind]) {
-    mesh.geometry = gloveCache[kind];
+  if (gloveGeo[kind]) {
+    mesh.geometry = gloveGeo[kind];
     mesh.material = gloveMaterial(kind);
     return;
   }
@@ -178,7 +179,7 @@ function applyGloves(kindOverride) {
     var geo = null;
     gltf.scene.traverse(function (o) { if (o.isMesh && !geo) geo = o.geometry; });
     if (!geo) return;
-    gloveCache[kind] = geo;
+    gloveGeo[kind] = geo;
     mesh.geometry = geo;
     mesh.material = gloveMaterial(kind);
   }, undefined, function (e) { console.error(e); });
@@ -215,7 +216,7 @@ function setupProp(gltf) {
 
 
 try {
-  loader.parse(b64ToBuf(KURT_B64), '', setupCharacter, function (e) {
+  loader.load(ASSET + 'lion/secretfile_character.glb', setupCharacter, undefined, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
   });
