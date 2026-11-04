@@ -134,7 +134,6 @@ function setupCharacter(gltf) {
     }
     mixers.push(mixer);
   });
-  applyGloves();
   document.getElementById('status').textContent = 'anim=' + gltf.animations.length + ' socket=' + (window.__socket ? window.__socket.name : 'none');
 }
 
@@ -164,41 +163,7 @@ function setupProp(gltf) {
   document.getElementById('status').textContent += ' prop=ok';
 }
 
-loader.load(ASSET + 'lion/gloves_rolf_uit.glb', function (gltf) {
-  gltf.scene.traverse(function (o) { if (o.isMesh && !window.__rolfGeo) window.__rolfGeo = o.geometry; });
-  applyGloves();
-}, undefined, function (e) { console.error(e); });
-loader.load(ASSET + 'lion/gloves_kurt_uit.glb', function (gltf) {
-  gltf.scene.traverse(function (o) { if (o.isMesh && !window.__kurtGeo) window.__kurtGeo = o.geometry; });
-  applyGloves();
-}, undefined, function (e) { console.error(e); });
-loader.load(ASSET + 'lion/gloves_xmas_uit.glb', function (gltf) {
-  gltf.scene.traverse(function (o) { if (o.isMesh && !window.__xmasGeo) window.__xmasGeo = o.geometry; });
-  applyGloves();
-}, undefined, function (e) { console.error(e); });
 
-function applyGloves(kindOverride) {
-  var kind = kindOverride || new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'rolf';
-  var mesh = (window.__gloveMeshes || [])[0];
-  var dbg = document.getElementById('status');
-  if (dbg) dbg.textContent = 'gloves=' + (window.__gloveMeshes || []).length + ' rolfGeo=' + !!window.__rolfGeo + ' xmasGeo=' + !!window.__xmasGeo + ' kind=' + kind;
-  if (!mesh) return;
-  if (!window.__snowGeoBackup) window.__snowGeoBackup = mesh.geometry;
-  if (!window.__snowMatBackup) window.__snowMatBackup = mesh.material;
-  if (kind === 'rolf' && window.__rolfGeo) {
-    mesh.geometry = window.__rolfGeo;
-    mesh.material = new THREE.MeshStandardMaterial({ map: texGlove, normalMap: texGloveN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-  } else if (kind === 'kurt' && window.__kurtGeo) {
-    mesh.geometry = window.__kurtGeo;
-    mesh.material = new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.2, envMapIntensity: 1.0 });
-  } else if (kind === 'xmas' && window.__xmasGeo) {
-    mesh.geometry = window.__xmasGeo;
-    mesh.material = new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
-  } else {
-    mesh.geometry = window.__snowGeoBackup;
-    mesh.material = window.__snowMatBackup;
-  }
-}
 
 loader.load(ASSET + 'lion/kurt_character.glb', setupCharacter, undefined, function (e) {
   document.getElementById('status').textContent = 'role fail';
@@ -225,7 +190,7 @@ function replayAnim() {
 window.addEventListener('message', function (e) {
   if (e.data === 'lion-replay') { replayAnim(); return; }
   if (typeof e.data === 'string' && e.data.indexOf('gloves:') === 0) {
-    applyGloves(e.data.slice(7));
+    return;
   }
 });
 
