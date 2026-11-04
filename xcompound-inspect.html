@@ -196,6 +196,7 @@ function applyGloves(kindOverride) {
   if (!mesh) return;
   if (!window.__gloveGeoBackup) window.__gloveGeoBackup = mesh.geometry;
   if (!window.__gloveMatBackup) window.__gloveMatBackup = mesh.material;
+  if (kind === 'snow') kind = 'g06';
   if (!GLOVE_URLS[kind]) kind = 'rolf';
   if (gloveGeo[kind]) {
     mesh.geometry = gloveGeo[kind];
@@ -244,7 +245,7 @@ function setupProp(gltf) {
 
 
 try {
-  loader.parse(b64ToBuf(KURT_B64), '', setupCharacter, function (e) {
+  loader.load(ASSET + 'lion/kurt_character.glb', setupCharacter, undefined, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
   });

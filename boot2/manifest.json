@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.367.m",
+  "version": "v2.3.0_hotfix.368.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 362839,
-      "sha256": "2bee6d7f1a0a2acddcebdcc6c5d3fe4cff186341ca2eb8f1b11f48889c9d290b"
+      "sha256": "7d333a3f83327088ceb3b47c3ab7fbc3ec22d9c205f8f6780b1bf3d0957fabdd"
     },
     {
       "path": "js/synthesis.js",
@@ -284,12 +284,12 @@
     {
       "path": "secretfile-inspect.html",
       "size": 118334,
-      "sha256": "485c47b2da6a086ddee4fa3d6ebb6e1b6e99520b07953663f9a31602d412c65d"
+      "sha256": "d3db2cf4b6ae4bf8ef9d4e8df8a55d8faaeaa4a8ede4cf5f7c8c8795daccb126"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 2527341,
-      "sha256": "a17865d702de4714d16ddf378e2b85767b40108700662d7c65327436f0797ac8"
+      "size": 2527399,
+      "sha256": "4159bf28eb44de12e07d9ec4590d5dc3da40f7f01c1f3892b1e06098e6d515b1"
     },
     {
       "path": "lion/character.glb",
@@ -298,8 +298,8 @@
     },
     {
       "path": "lion/g01.glb",
-      "size": 100660,
-      "sha256": "d91c37372c5705c3adcdd26fe96a2588cdc2096a2fdb6cb3bdceec3ce9b34e03"
+      "size": 100656,
+      "sha256": "eefb1bb5e626deae2bc306ad71f6671b094a2e09de73d2c2c78a18e3f9dd5d19"
     },
     {
       "path": "lion/g01_D.png",
@@ -319,7 +319,7 @@
     {
       "path": "lion/g02.glb",
       "size": 109472,
-      "sha256": "192a0a67a908831c01c02d795956a09137151357d5e07843a039cfcc8559db26"
+      "sha256": "aa39ce7bd7bd92f193e49fe9aaaad242a93a5b45a22776620768d580c4054eeb"
     },
     {
       "path": "lion/g02_D.png",
@@ -339,7 +339,7 @@
     {
       "path": "lion/g03.glb",
       "size": 102872,
-      "sha256": "14d42b9e42ae630fef5f0191749b85941bac9fdacc5ccbc85d434fc81b1be28a"
+      "sha256": "c7818f0f17c73e5ad2fd37f8ee823d7d5ce56cd15e882aff7555e5004406dacf"
     },
     {
       "path": "lion/g03_D.png",
@@ -358,8 +358,8 @@
     },
     {
       "path": "lion/g04.glb",
-      "size": 133876,
-      "sha256": "7ef7fcc83af4ef8e4935331ecacd1d2ab9cf392e433505d64a653d51cff5aea3"
+      "size": 133872,
+      "sha256": "9b0ded1ca7587b691b7bd789bdf3085f6c377f8a9279a7bcc79d2061b8d3fc47"
     },
     {
       "path": "lion/g04_D.png",
@@ -379,7 +379,7 @@
     {
       "path": "lion/g05.glb",
       "size": 180020,
-      "sha256": "333f24e515acf3b96aae99400d2e830da88980bc52e9b27c2051d6f819ec1cc5"
+      "sha256": "9149b195d39386ba970066023a52f3025b6b0a29d156399e98357d1653c8d489"
     },
     {
       "path": "lion/g05_D.png",
@@ -398,8 +398,8 @@
     },
     {
       "path": "lion/g06.glb",
-      "size": 175696,
-      "sha256": "2b2fae28230cc644f93a4642c4a28dfc7922eb8e0866ae35857a67112c687c83"
+      "size": 175692,
+      "sha256": "8059922ca7efbb90af329b443df3750acd8d969b5369c1f0923d96dc341a9b7d"
     },
     {
       "path": "lion/g06_D.png",
@@ -418,8 +418,8 @@
     },
     {
       "path": "lion/g07.glb",
-      "size": 212760,
-      "sha256": "5b059b75e78ccdfab6c52750af24e0493e25f7ef602eac89cf52b9a74754bc76"
+      "size": 212756,
+      "sha256": "748480aaa3352371044d24d67f846a38153cc3747f5f2bbc8067f7995c3248b7"
     },
     {
       "path": "lion/g07_D.png",
@@ -439,7 +439,7 @@
     {
       "path": "lion/g08.glb",
       "size": 219400,
-      "sha256": "191ac1e47a5f608cc2a94c3b96cd53a557f545c079cad44f4d0750f2353c47df"
+      "sha256": "be18db79c6615f79b2819fecb1e45ededc281f6c1c647fef4786a09b515bac70"
     },
     {
       "path": "lion/g08_D.png",
@@ -459,7 +459,7 @@
     {
       "path": "lion/g09.glb",
       "size": 428216,
-      "sha256": "e5eeb1bdd33ca5c38bd9b15f8b4a0956bcec2011235a8c266b0166471645b0a7"
+      "sha256": "02e279f22aa0ab7c4fb0b0d0789aabd2d5caf7c82dab402b53c03a9a5f435500"
     },
     {
       "path": "lion/g09_D.png",
@@ -479,7 +479,7 @@
     {
       "path": "lion/g10.glb",
       "size": 164392,
-      "sha256": "41d5e2ca5d002999cbbc4728bc2dadc14e31ba2dc80a32ead04d5dca3bc87266"
+      "sha256": "4c748fd049a0390e63a56fa3d547e58ce92e4bd1c1d2ec8a2642c184c9c9c739"
     },
     {
       "path": "lion/g10_D.png",
@@ -499,7 +499,7 @@
     {
       "path": "lion/g11.glb",
       "size": 189468,
-      "sha256": "5ea955649a5870bc873ecbe6b9091112080bb192372a754802660cc30b43a190"
+      "sha256": "b4f68924488fff9ae620119383f56c15497f47944dcd038310a5572d280a4710"
     },
     {
       "path": "lion/g11_D.png",
@@ -518,8 +518,8 @@
     },
     {
       "path": "lion/g12.glb",
-      "size": 150840,
-      "sha256": "547ce0da4f7d8ebff0e9bdc9394747732ddda3959b24c7149c88e1910a59bdeb"
+      "size": 150836,
+      "sha256": "4a3d3d1b58a59b95d9cbff455376630401e148c5b2332dca178ac14d383b9fc6"
     },
     {
       "path": "lion/g12_D.png",
@@ -539,7 +539,7 @@
     {
       "path": "lion/g13.glb",
       "size": 414912,
-      "sha256": "d5417fd82408e5a3549cebfef0457f08fa9c892ba88accb0d163e79a360bbeb4"
+      "sha256": "a765bcef7b95a3a1919097e14b31e292fc7ebee324ff5585dcd6b69a18e7f740"
     },
     {
       "path": "lion/g13_D.png",
@@ -559,7 +559,7 @@
     {
       "path": "lion/g14.glb",
       "size": 192912,
-      "sha256": "2125c3d8592e2605cdaef4199c4d70311eeefa4786adf7f2111c65176b07b364"
+      "sha256": "0c779564424f5b83113da06aa66bcff6f46cda8e31140acd9f7b05acbcc2c0da"
     },
     {
       "path": "lion/g14_D.png",
@@ -579,7 +579,7 @@
     {
       "path": "lion/g15.glb",
       "size": 189468,
-      "sha256": "afbacd1130bfde76b9224772ab9d67f49c8b868533fb584a632a7fd857ac4d6d"
+      "sha256": "31ba0c33bfb89b98d7b52ea29e3c86733a374156fc86ea5ad8887b9bbc3e36aa"
     },
     {
       "path": "lion/g15_D.png",
@@ -598,8 +598,8 @@
     },
     {
       "path": "lion/g16.glb",
-      "size": 198500,
-      "sha256": "c76f60f6de851b2cb250d498a9eed836e5ae5844e3d1b73f9b9fed1884a46392"
+      "size": 198496,
+      "sha256": "b9e931cc99a8d96899e51eae3e4a51ef361650570607846f157519f01a711a82"
     },
     {
       "path": "lion/g16_D.png",
@@ -618,8 +618,8 @@
     },
     {
       "path": "lion/g17.glb",
-      "size": 148596,
-      "sha256": "242ccaf80d9d4a465701932ba43e24ca96a69158ddc91c57764d5297729915a1"
+      "size": 148592,
+      "sha256": "2959edfc86d03e447bc121f740f4ddd15f299a52d14918c4b15e5eae61705e3f"
     },
     {
       "path": "lion/g17_D.png",
@@ -863,5 +863,5 @@
     }
   ],
   "fileCount": 172,
-  "totalSize": 40756185
+  "totalSize": 40756215
 }
