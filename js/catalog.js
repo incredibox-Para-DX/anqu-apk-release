@@ -69,6 +69,11 @@
             '<div class="catalog-detail-meta">' + esc(obtained) + ' · ' + esc(priceLabel) + ' ' + esc(fmt(it.value || 0)) + '</div></div>' +
             '</div>' +
             '<div class="catalog-detail-desc">' + esc(it.desc || noDesc) + '</div>' +
+            (function () {
+                var n = String(name);
+                var kind = /金狮|金獅|Golden Lion/i.test(n) ? 'lion' : (/机密文件|機密文件|Secret\s*File/i.test(n) ? 'secretfile' : '');
+                return kind ? '<div class="catalog-detail-actions"><button class="modal-btn primary catalog-inspect-btn" data-kind="' + kind + '"><i class="fas fa-eye"></i> 检视</button></div>' : '';
+            })() +
             '</div>';
         try {
             if (it.sound) {
@@ -83,6 +88,11 @@
         requestAnimationFrame(function () { overlay.classList.add('show'); });
         var btn = overlay.querySelector('.catalog-detail-close');
         if (btn) btn.onclick = function () { overlay.classList.remove('show'); };
+        var ibtn = overlay.querySelector('.catalog-inspect-btn');
+        if (ibtn) ibtn.onclick = function () {
+            overlay.classList.remove('show');
+            if (window.openInspectFromCatalog) window.openInspectFromCatalog(ibtn.getAttribute('data-kind'));
+        };
     }
 
     function render(filter) {

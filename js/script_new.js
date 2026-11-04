@@ -4197,6 +4197,17 @@ const EventManager = {
                 $('#lion-inspect-modal').css('display', 'none');
             }, 300);
         };
+
+        window.openInspectFromCatalog = function (kind) {
+            const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
+            const url = kind === 'secretfile' ? 'secretfile-inspect.html' : ('lion-inspect.html?gloves=' + gloveKind);
+            $('#lion-inspect-frame').attr('src', url);
+            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
+            else {
+                $('#lion-inspect-modal').css('display', 'flex');
+                setTimeout(function () { $('#lion-inspect-modal').addClass('show'); }, 10);
+            }
+        };
     },
     
     bindModalEvents() {
@@ -7041,7 +7052,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.226';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.227';
     
     var __HU_SIZE_BUMP_150 = 1;
 
