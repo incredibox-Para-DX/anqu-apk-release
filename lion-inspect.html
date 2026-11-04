@@ -83,6 +83,8 @@ const texHeadN = loadData(ASSET + 'lion/head_N.png');
 const texLion = loadColor(ASSET + 'lion/lion_D.png');
 
 const useSnow = new URLSearchParams(location.search).get('gloves') === 'snow';
+const PREVIEW = new URLSearchParams(location.search).get('preview') === '1';
+if (PREVIEW) scene.background = new THREE.Color(0x1e242c);
 const loader = new GLTFLoader();
 const tmp = new THREE.Vector3();
 const qtmp = new THREE.Quaternion();
@@ -167,6 +169,7 @@ function setupLion(gltf) {
   const attach = () => {
     if (window.__socket) {
       window.__socket.add(lion);
+      if (PREVIEW) lion.visible = false;
       lion.scale.setScalar(100);
       lion.position.set(0, 0, 0);
       lion.rotation.set(1.5, 0, 0);
@@ -299,6 +302,18 @@ function animate() {
   let dt = Math.min(clock.getDelta(), 0.05);
   if (firstFrame) { dt = 0; firstFrame = false; }
   mixers.forEach((m) => m.update(dt));
+  if (PREVIEW) {
+    if (window.__socket) {
+      const t = camera.__pt || (camera.__pt = new THREE.Vector3());
+      window.__socket.getWorldPosition(t);
+      window.__ang = (window.__ang || 0) + dt * 0.8;
+      camera.position.set(t.x + Math.sin(window.__ang) * 0.38, t.y + 0.12, t.z + Math.cos(window.__ang) * 0.38);
+      camera.lookAt(t);
+      if (camera.fov !== 50) { camera.fov = 50; camera.updateProjectionMatrix(); }
+    }
+    renderer.render(scene, camera);
+    return;
+  }
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
     camera.position.copy(tmp);
