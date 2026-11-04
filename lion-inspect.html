@@ -96,10 +96,7 @@ function setupCharacter(gltf) {
     if (!o.isMesh) return;
     o.frustumCulled = false;
     const nm = (o.name || '').toLowerCase();
-    if (nm.includes('glove') && useSnow) {
-      o.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
-      window.__xmasGloves.push(o);
-    } else if (nm.includes('glove') && nm.includes('xmas')) {
+    if (nm.includes('glove') && nm.includes('xmas')) {
       o.material = new THREE.MeshStandardMaterial({ map: texXmas, normalMap: texXmasN, roughnessMap: texXmasMAR, metalnessMap: texXmasMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
       window.__xmasGloves.push(o);
     } else if (nm.includes('glove')) {
