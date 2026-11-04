@@ -172,29 +172,25 @@ loader.load('./lion/character.glb', setupCharacter, undefined, (e) => {
   console.error(e);
 });
 loader.load('./lion/lion.glb', setupLion, undefined, (e) => console.error(e));
-loader.load('./lion/gloves_tit_retarget.glb', function (gltf) {
-  gltf.scene.traverse(function (o) {
-    if (o.isMesh && !window.__titGeo) {
-      window.__titGeo = o.geometry;
+loader.load('./lion/gloves_tit.glb', function (gltf) {
+  const tit = gltf.scene;
+  tit.traverse(function (o) {
+    if (o.isSkinnedMesh) {
+      o.frustumCulled = false;
+      o.material = new THREE.MeshStandardMaterial({ map: texGloveTit, normalMap: texGloveTitN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
     }
   });
+  tit.matrixAutoUpdate = false;
+  scene.add(tit);
+  window.__titGloves = tit;
   applyGloves();
 }, undefined, function (e) { console.error(e); });
 
 function applyGloves() {
   const kind = new URLSearchParams(location.search).get('gloves') || 'rolf';
   const showTit = kind === 'tit';
-  const rolf = (window.__rolfGloves || [])[0];
-  if (!rolf) return;
-  if (!window.__rolfGeoBackup) window.__rolfGeoBackup = rolf.geometry;
-  if (!window.__rolfMatBackup) window.__rolfMatBackup = rolf.material;
-  if (showTit && window.__titGeo) {
-    rolf.geometry = window.__titGeo;
-    rolf.material = new THREE.MeshStandardMaterial({ map: texGloveTit, normalMap: texGloveTitN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-  } else {
-    if (window.__rolfGeoBackup) rolf.geometry = window.__rolfGeoBackup;
-    if (window.__rolfMatBackup) rolf.material = window.__rolfMatBackup;
-  }
+  (window.__rolfGloves || []).forEach(function (m) { m.visible = !showTit; });
+  if (window.__titGloves) window.__titGloves.visible = showTit;
 }
 
 
@@ -210,6 +206,19 @@ function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.05);
   mixers.forEach((m) => m.update(dt));
+  if (window.__titGloves && window.__model && window.__titGloves.visible) {
+    window.__titGloves.matrix.copy(window.__model.matrixWorld);
+    window.__titGloves.matrixWorld.copy(window.__model.matrixWorld);
+    window.__titGloves.traverse(function (o) {
+      if (!o.isSkinnedMesh || !o.skeleton) return;
+      o.skeleton.bones.forEach(function (b) {
+        const src = window.__charBones && window.__charBones[b.name];
+        if (!src) return;
+        b.matrix.copy(src.matrix);
+        b.matrixWorldNeedsUpdate = true;
+      });
+    });
+  }
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
     camera.position.copy(tmp);
