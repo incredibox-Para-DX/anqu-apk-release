@@ -123,7 +123,7 @@ function setupCharacter(gltf) {
   scene.add(model);
   model.updateMatrixWorld(true);
   window.__model = model;
-  window.__fpMode = __useFP;
+  window.__fpMode = false;
   window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01') || model.getObjectByName('camera_animated');
   window.__socket = model.getObjectByName('hand_r') || model.getObjectByName('item_r');
   window.__gloveMeshes = [];
@@ -138,12 +138,16 @@ function setupCharacter(gltf) {
   }
   if (!clip && gltf.animations.length) clip = gltf.animations[0];
   if (clip) {
+    var fps = 30;
+    var start = Math.floor(0.3 * fps);
+    var end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
+    var trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
     var mixer = new THREE.AnimationMixer(model);
-    var action = mixer.clipAction(clip);
+    var action = mixer.clipAction(trimmed);
     action.setLoop(THREE.LoopRepeat, Infinity);
     action.play();
     mixers.push(mixer);
-    document.getElementById('status').textContent = 'anim=' + clip.name;
+    document.getElementById('status').textContent = 'anim=' + clip.name + ' ' + trimmed.duration.toFixed(2) + 's';
   }
   document.getElementById('status').textContent = 'anim=' + gltf.animations.length + ' socket=' + (window.__socket ? window.__socket.name : 'none');
   applyGloves();
@@ -261,7 +265,7 @@ function setupProp(gltf) {
 
 
 try {
-  var __useFP = new URLSearchParams(location.search).get('fp') === '1';
+  var __useFP = new URLSearchParams(location.search).get('fp') !== '0';
 loader.load(ASSET + 'lion/' + (__useFP ? 'fp_character.glb' : 'kurt_character.glb'), setupCharacter, undefined, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
