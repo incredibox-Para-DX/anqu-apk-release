@@ -265,7 +265,7 @@ function setupProp(gltf) {
 
 
 try {
-  var __useFP = new URLSearchParams(location.search).get('fp') !== '0';
+  var __useFP = new URLSearchParams(location.search).get('fp') === '1';
 loader.load(ASSET + 'lion/' + (__useFP ? 'fp_character.glb' : 'kurt_character.glb'), setupCharacter, undefined, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
