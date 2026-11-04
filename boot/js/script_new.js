@@ -4124,13 +4124,15 @@ const EventManager = {
             const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
             const inspectBase = '';
             const inspectUrl = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
-            if ($('#lion-inspect-frame').attr('src') !== inspectUrl) {
-                $('#lion-inspect-frame').attr('src', inspectUrl);
-            } else {
-                try {
-                    document.getElementById('lion-inspect-frame').contentWindow.postMessage('lion-replay', '*');
-                } catch (err) {}
+            const frame = document.getElementById('lion-inspect-frame');
+            if (frame.getAttribute('src') !== inspectUrl) {
+                frame.setAttribute('src', inspectUrl);
             }
+            [60, 300, 800, 1400].forEach(function (t) {
+                setTimeout(function () {
+                    try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (err) {}
+                }, t);
+            });
             TooltipManager.hide();
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
@@ -4207,14 +4209,15 @@ const EventManager = {
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
             const inspectBase = '';
             const url = kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind) : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind);
-            const cur = $('#lion-inspect-frame').attr('src');
-            if (cur !== url) {
-                $('#lion-inspect-frame').attr('src', url);
-            } else {
-                try {
-                    document.getElementById('lion-inspect-frame').contentWindow.postMessage('lion-replay', '*');
-                } catch (e) {}
+            const frame = document.getElementById('lion-inspect-frame');
+            if (frame.getAttribute('src') !== url) {
+                frame.setAttribute('src', url);
             }
+            [60, 300, 800, 1400].forEach(function (t) {
+                setTimeout(function () {
+                    try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (e) {}
+                }, t);
+            });
             if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
             else {
                 $('#lion-inspect-modal').css('display', 'flex');
@@ -7065,7 +7068,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.308';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.309';
     
     var __HU_SIZE_BUMP_150 = 1;
 
