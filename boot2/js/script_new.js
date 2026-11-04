@@ -4122,7 +4122,7 @@ const EventManager = {
                 audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
                 audio.play().catch(function() {});
             } catch (err) {}
-            const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
+            const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
             const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
             const inspectBase = '';
             const inspectUrl = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
@@ -4139,7 +4139,7 @@ const EventManager = {
         });
 
         $('#sidebar-glove-btn').on('click', function () {
-            const cur = localStorage.getItem('ab_lion_gloves') || 'rolf';
+            const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             $('.glove-option').removeClass('active').each(function () {
                 if ($(this).data('kind') === cur) $(this).addClass('active');
             });
@@ -4213,7 +4213,7 @@ const EventManager = {
         };
 
         window.openInspectFromCatalog = function (kind) {
-            const gloveKind = localStorage.getItem('ab_lion_gloves') || 'rolf';
+            const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
             const inspectBase = '';
             const url = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
                 : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
@@ -7105,7 +7105,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.378';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.379';
     
     var __HU_SIZE_BUMP_150 = 1;
 
