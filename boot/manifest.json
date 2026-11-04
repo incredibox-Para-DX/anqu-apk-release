@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.373",
+  "version": "v2.3.0_hotfix.374",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 362839,
-      "sha256": "0f2fd94ad4713df52974195fcca814f7f3f3df382436eaff547b5067eb76e26d"
+      "sha256": "5afa9ad51ac0a0d519b8ab40dab5f40ed9ea53a29bfdeabb686a1dac9c400725"
     },
     {
       "path": "js/synthesis.js",
@@ -289,7 +289,7 @@
     {
       "path": "xcompound-inspect.html",
       "size": 2528046,
-      "sha256": "db2c90d0e34cc607c89ca4fdc7136d7e63eb1bf6ab16408fb057b966841378d3"
+      "sha256": "c1f6adc07c1ca87b320210ce173081702d2d43726f1007e4015aab510b742d96"
     },
     {
       "path": "lion/character.glb",
@@ -637,6 +637,26 @@
       "sha256": "b8e18d32aeea54b97d48a7ebdde7fbc0970ce3b05ec85ab3e6a1d3df36e201b8"
     },
     {
+      "path": "lion/g18.glb",
+      "size": 53988,
+      "sha256": "b61f83189770fc0e54785aacdf6eac64bb1c1dec81d994e886d91353831277ac"
+    },
+    {
+      "path": "lion/g18_D.png",
+      "size": 322077,
+      "sha256": "1b08574cc39d83e3c29fd46a434962d396335c643485695ef33eb08f222290a4"
+    },
+    {
+      "path": "lion/g18_MAR.png",
+      "size": 81278,
+      "sha256": "91da272cb72560755901358a1044d67236727ec85b2c5313e200c7cad2624feb"
+    },
+    {
+      "path": "lion/g18_N.png",
+      "size": 482127,
+      "sha256": "a5dcac2d4299786d82d9f004fb569de0410980f6c5140e49614cdbc37af11ad8"
+    },
+    {
       "path": "lion/gloves_D.png",
       "size": 91651,
       "sha256": "55d0d4ca6632a2b4ab508f780969b5b6f915183e54a2722f548c4a57800c88ff"
@@ -858,10 +878,10 @@
     },
     {
       "path": "index.html",
-      "size": 167761,
-      "sha256": "63a4b7501552b63f0f271425b5b72965281f7bd361a17dbff85f3796ffabae0e"
+      "size": 167819,
+      "sha256": "d2ba105f25806afa415c85abdb8e09f9505c5f03b9c884da138244de3ebb215f"
     }
   ],
-  "fileCount": 172,
-  "totalSize": 40756958
+  "fileCount": 176,
+  "totalSize": 41696486
 }

@@ -152,7 +152,7 @@ function setupCharacter(gltf) {
 }
 
 var GLOVE_URLS = { snow: 'lion/gloves_snow_retarget.glb', rolf: 'lion/gloves_rolf_uit.glb', kurt: 'lion/gloves_kurt_uit.glb', xmas: 'lion/gloves_xmas_uit.glb' };
-for (var gi = 1; gi <= 17; gi++) {
+for (var gi = 1; gi <= 18; gi++) {
   var gcode = 'g' + (gi < 10 ? '0' + gi : gi);
   GLOVE_URLS[gcode] = 'lion/' + gcode + '.glb';
 }
@@ -196,7 +196,7 @@ function applyGloves(kindOverride) {
   if (!mesh) return;
   if (!window.__gloveGeoBackup) window.__gloveGeoBackup = mesh.geometry;
   if (!window.__gloveMatBackup) window.__gloveMatBackup = mesh.material;
-  if (kind === 'snow') kind = 'g06';
+  if (kind === 'snow') kind = 'g18';
   if (!GLOVE_URLS[kind]) kind = 'rolf';
   if (gloveGeo[kind]) {
     mesh.geometry = gloveGeo[kind];
