@@ -166,7 +166,7 @@ function setupProp(gltf) {
       const box = new THREE.Box3().setFromObject(prop);
       const center = box.getCenter(new THREE.Vector3());
       window.__socket.add(prop);
-      prop.position.set(-center.x - 16, -center.y, -center.z - 6);
+      prop.position.set(-center.x - 16, -center.y, -center.z - 1);
       document.getElementById('status').textContent = 'attached to ' + window.__socket.name;
     } else {
       setTimeout(attach, 100);
