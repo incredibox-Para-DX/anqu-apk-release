@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>道具检视</title>
+<style>
+html,body{margin:0;height:100%;background:transparent;overflow:hidden}
+#app{position:fixed;inset:0}
+#status{position:fixed;left:12px;bottom:10px;font:11px -apple-system,sans-serif;color:#64748b;z-index:5}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="status">加载中…</div>
+<script type="module">
+import * as THREE from './vendor/three/three.module.js';
+import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
+
+const ITEMS = {
+  erision:        { name: '厄律西翁', anim: 'FP_Confidential_Potion_Check', model: '' },
+  array_lens:     { name: '阵列镜片', anim: '', model: '' },
+  feast_statue:   { name: '盛宴雕塑', anim: 'FP_Figurines_Check', model: '' },
+  teapot:         { name: '茶壶', anim: 'FP_TeaPot_Check', model: '' },
+  vase:           { name: '花瓶', anim: 'FP_Vase_Check', model: '' },
+  gem_necklace:   { name: '宝石项链', anim: 'FP_GenstoneNeckless_Check', model: '' },
+  crimson_star:   { name: '赤红暗星', anim: 'FP_Aircraft_Check', model: '' },
+  space_nav:      { name: '航天导航仪', anim: 'FP_SpaceNavigator_Check', model: '' },
+  golden_palace:  { name: '鎏金羽宫', anim: 'FP_BirdsongCage_Check', model: '' },
+  dawn:           { name: '黎明', anim: 'FP_OilPainting_Check', model: '' },
+  compute_module: { name: '计算机验算模块', anim: '', model: '' },
+  gyro_ball:      { name: '惯性球', anim: 'FP_Ball_Check', model: '' },
+  phaethon:       { name: '法厄同', anim: 'FP_DoomsdayClock_Check', model: '' },
+  dumbbell:       { name: '哑铃', anim: 'FP_Barbell_Check', model: '' },
+  target_module:  { name: '目标定位模块', anim: 'FP_LTM_Check', model: '' },
+  mech_arm:       { name: '机械手臂', anim: 'FP_MechanicalArm_Check', model: '' },
+  thermal_module: { name: '热成像模块', anim: '', model: '' },
+  new_frontier:   { name: '新边疆模型', anim: 'FP_SpaceColony_Check', model: '' },
+  atomic_clock:   { name: '原子钟', anim: 'FP_Atomic_Clock_Check', model: '' },
+  catapult_part:  { name: '电磁弹射组件', anim: 'FP_Catapultspart_Check', model: '' },
+  golden_steed:   { name: '金驹越岭', anim: 'FP_Horse_Check', model: '' },
+};
+
+const params = new URLSearchParams(location.search);
+const key = params.get('item') || 'teapot';
+const item = ITEMS[key] || { name: key, anim: params.get('anim') || '', model: '' };
+const statusEl = document.getElementById('status');
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 4));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.getElementById('app').appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.5;
+scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.2));
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+keyLight.position.set(3, 5, 4);
+scene.add(keyLight);
+const rim = new THREE.DirectionalLight(0x6ea8ff, 0.7);
+rim.position.set(-3, 3, -3);
+scene.add(rim);
+
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.01, 100);
+const loader = new GLTFLoader();
+let mixer = null;
+let head = null;
+let socket = null;
+
+loader.load('./lion/fp_character.glb', (gltf) => {
+  const model = gltf.scene;
+  model.scale.setScalar(0.01);
+  model.traverse((o) => {
+    if (!o.isMesh && !o.isSkinnedMesh) return;
+    o.frustumCulled = false;
+    o.material = new THREE.MeshStandardMaterial({ color: 0x8d949c, roughness: 0.85, metalness: 0.05, side: THREE.DoubleSide });
+  });
+  scene.add(model);
+  model.updateMatrixWorld(true);
+  head = model.getObjectByName('head') || model.getObjectByName('neck_01');
+  socket = model.getObjectByName('hand_r') || model.getObjectByName('item_r');
+
+  let clip = null;
+  if (item.anim) {
+    for (const c of gltf.animations) { if (c.name === item.anim) { clip = c; break; } }
+  }
+  if (!clip && params.get('anim')) {
+    for (const c of gltf.animations) { if (c.name === params.get('anim')) { clip = c; break; } }
+  }
+  if (clip) {
+    const fps = 30;
+    const start = Math.floor(0.3 * fps);
+    const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
+    const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
+    mixer = new THREE.AnimationMixer(model);
+    const action = mixer.clipAction(trimmed);
+    action.setLoop(THREE.LoopRepeat, Infinity);
+    action.play();
+    statusEl.textContent = item.name + ' · ' + clip.name + ' ' + trimmed.duration.toFixed(2) + 's';
+  } else if (item.anim === '') {
+    statusEl.textContent = item.name + ' · 动画待定';
+  } else {
+    statusEl.textContent = item.name + ' · 未找到 ' + item.anim;
+  }
+  window.__item = { key: key, name: item.name, anim: clip ? clip.name : null };
+
+  const clock = new THREE.Clock();
+  const tmp = new THREE.Vector3();
+  (function loop() {
+    requestAnimationFrame(loop);
+    const dt = Math.min(clock.getDelta(), 0.05);
+    if (mixer) mixer.update(dt);
+    if (head) {
+      head.getWorldPosition(tmp);
+      camera.position.copy(tmp);
+      camera.position.y += 0.1;
+      if (socket) {
+        socket.getWorldPosition(camera.__target || (camera.__target = new THREE.Vector3()));
+        camera.lookAt(camera.__target);
+      }
+    }
+    renderer.render(scene, camera);
+  })();
+}, undefined, (e) => { statusEl.textContent = '角色加载失败'; console.error(e); });
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>
