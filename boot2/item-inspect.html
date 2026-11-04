@@ -13,6 +13,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 <body>
 <div id="app"></div>
 <div id="status">加载中…</div>
+<button id="close" style="position:fixed;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#e6edf3;font-size:20px;line-height:36px;z-index:9;">&times;</button>
 <script type="module">
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
@@ -67,6 +68,13 @@ scene.add(rim);
 
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.01, 100);
 const loader = new GLTFLoader();
+const texTorso = loadColor('./lion/torso_D.png');
+const texTorsoN = loadData('./lion/torso_N.png');
+const texLeg = loadColor('./lion/leg_D.png');
+const texLegN = loadData('./lion/leg_N.png');
+const texShoe = loadColor('./lion/shoes_D.png');
+const texHead = loadColor('./lion/head_D.png');
+const texHeadN = loadData('./lion/head_N.png');
 function loadColor(url) {
   const t = new THREE.TextureLoader().load(url);
   t.flipY = false;
@@ -90,7 +98,18 @@ loader.load('./lion/fp_character.glb', (gltf) => {
   model.traverse((o) => {
     if (!o.isMesh && !o.isSkinnedMesh) return;
     o.frustumCulled = false;
-    o.material = new THREE.MeshStandardMaterial({ color: 0x8d949c, roughness: 0.85, metalness: 0.05, side: THREE.DoubleSide });
+    const nm = (o.name || '').toLowerCase();
+    if (nm.indexOf('torso') >= 0) {
+      o.material = new THREE.MeshStandardMaterial({ map: texTorso, normalMap: texTorsoN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+    } else if (nm.indexOf('leg') >= 0) {
+      o.material = new THREE.MeshStandardMaterial({ map: texLeg, normalMap: texLegN, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+    } else if (nm.indexOf('shoe') >= 0) {
+      o.material = new THREE.MeshStandardMaterial({ map: texShoe, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+    } else if (nm.indexOf('head') >= 0) {
+      o.material = new THREE.MeshStandardMaterial({ map: texHead, normalMap: texHeadN, side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+    } else {
+      o.material = new THREE.MeshStandardMaterial({ color: 0x8d949c, roughness: 0.85, metalness: 0.05, side: THREE.DoubleSide });
+    }
   });
   scene.add(model);
   model.updateMatrixWorld(true);
@@ -170,6 +189,11 @@ loader.load('./lion/fp_character.glb', (gltf) => {
     renderer.render(scene, camera);
   })();
 }, undefined, (e) => { statusEl.textContent = '角色加载失败'; console.error(e); });
+
+document.getElementById('close').addEventListener('click', function (e) {
+  e.stopPropagation();
+  try { parent.closeLionInspect(); } catch (err) {}
+});
 
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;

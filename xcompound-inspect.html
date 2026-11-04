@@ -265,8 +265,7 @@ function setupProp(gltf) {
 
 
 try {
-  var __useFP = new URLSearchParams(location.search).get('fp') === '1';
-loader.load(ASSET + 'lion/' + (__useFP ? 'fp_character.glb' : 'kurt_character.glb'), setupCharacter, undefined, function (e) {
+loader.load(ASSET + 'lion/kurt_character.glb', setupCharacter, undefined, function (e) {
     document.getElementById('status').textContent = 'role fail: ' + (e && e.message ? e.message : e);
     console.error(e);
   });
@@ -323,16 +322,6 @@ function animate() {
   }
   const dt = Math.min(clock.getDelta(), 0.05);
   mixers.forEach(function (m) { m.update(dt); });
-  if (window.__fpMode && window.__socket) {
-    window.__socket.getWorldPosition(camera.__target || (camera.__target = new THREE.Vector3()));
-    const t = camera.__target;
-    camera.position.set(t.x, t.y + 0.3, t.z + 0.95);
-    camera.lookAt(t);
-    if (camera.fov !== 55) { camera.fov = 55; camera.updateProjectionMatrix(); }
-    renderer.render(scene, camera);
-    if (IS_PRELOAD && clock.elapsedTime > 2) return;
-    return;
-  }
   if (window.__head) {
     window.__head.getWorldPosition(tmp);
     camera.position.copy(tmp);
