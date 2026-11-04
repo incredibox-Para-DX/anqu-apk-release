@@ -157,7 +157,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     window.__animBones = animBones.length;
   }
   head = model.getObjectByName('fp_head') || model.getObjectByName('head') || model.getObjectByName('neck_01');
-  socket = model.getObjectByName('fp_hand_r') || model.getObjectByName('hand_r') || model.getObjectByName('item_r');
+  socket = model.getObjectByName('fp_item_r') || model.getObjectByName('item_r') || model.getObjectByName('fp_hand_r') || model.getObjectByName('hand_r');
 
   const gloveMeshes = [];
   model.traverse((o) => { if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) gloveMeshes.push(o); });
@@ -243,6 +243,10 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       socket.getWorldPosition(camera.__hp || (camera.__hp = new THREE.Vector3()));
       const lp = model.worldToLocal(camera.__hp.clone());
       propMesh.position.copy(lp);
+      socket.getWorldQuaternion(camera.__hq || (camera.__hq = new THREE.Quaternion()));
+      const mq = new THREE.Quaternion();
+      model.getWorldQuaternion(mq);
+      propMesh.quaternion.copy(mq.invert().multiply(camera.__hq));
     }
     if (head) {
       head.getWorldPosition(tmp);
