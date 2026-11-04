@@ -199,6 +199,7 @@ function applyGloves() {
   if (!window.__rolfMatBackup) window.__rolfMatBackup = rolf.material;
   if (kind === 'snow' && window.__snowGeo) {
     rolf.geometry = window.__snowGeo;
+    rolf.geometry.computeBoundingSphere();
     rolf.material = new THREE.MeshStandardMaterial({ map: texSnow, normalMap: texSnowN, roughnessMap: texSnowMAR, metalnessMap: texSnowMAR, side: THREE.DoubleSide, roughness: 1, metalness: 1, envMapIntensity: 1.2 });
   } else {
     if (window.__rolfGeoBackup) rolf.geometry = window.__rolfGeoBackup;
