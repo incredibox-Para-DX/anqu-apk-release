@@ -202,7 +202,7 @@ function applyGloves(kindOverride) {
   if (!rolf) return;
   if (!window.__rolfGeoBackup) window.__rolfGeoBackup = rolf.geometry;
   if (!window.__rolfMatBackup) window.__rolfMatBackup = rolf.material;
-  if (kind === 'kurt' && window.__kurtGeo) {
+  if (false && window.__kurtGeo) {
     rolf.geometry = window.__kurtGeo;
     rolf.geometry.computeBoundingSphere();
     rolf.material = new THREE.MeshStandardMaterial({ map: texKurt, normalMap: texKurtN, roughnessMap: texKurtMAR, metalnessMap: texKurtMAR, side: THREE.DoubleSide, roughness: 0.7, metalness: 0.2, envMapIntensity: 1.0 });
