@@ -148,7 +148,7 @@ function setupProp(gltf) {
   prop.traverse(function (o) {
     if (!o.isMesh) return;
     if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
-    o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, opacity: 0.8, depthWrite: false, envMapIntensity: 1.0 });
+    o.material = new THREE.MeshStandardMaterial({ map: texFile, normalMap: texFileN, roughnessMap: texFileMA, metalnessMap: texFileMA, side: THREE.DoubleSide, roughness: 0.8, metalness: 0.1, transparent: true, alphaTest: 0.3, envMapIntensity: 1.0 });
   });
   window.__prop = prop;
   const attach = function () {
