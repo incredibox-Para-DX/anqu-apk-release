@@ -143,7 +143,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.45, metalness: 0.04, envMapIntensity: 1.2 });
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.62, metalness: 0.05, envMapIntensity: 0.9 });
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
@@ -151,7 +151,6 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       mat.normalMap = loadData(ntex);
       mat.normalScale = new THREE.Vector2(1.25, 1.25);
       mat.roughnessMap = loadData(mtex);
-      mat.metalnessMap = mat.roughnessMap;
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
       scene.add(propMesh);
