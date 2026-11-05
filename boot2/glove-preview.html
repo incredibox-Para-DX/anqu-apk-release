@@ -25,18 +25,18 @@ const KIND = P0.get('gloves') || localStorage.getItem('ab_lion_gloves') || 'g05'
 const SPECIAL = {
     kurt: ['gloves_kurt_quit', 'sniper'],
     snow: ['gloves_snow_retarget', 'snow'],
-    xmas: ['gloves_xmas_uit', 'xmas'],
-    rolf: ['gloves_rolf_uit', 'gloves']
+    xmas: ['', 'xmas'],
+    rolf: ['', 'gloves']
 };
 const spec = KIND === 'g04' ? ['g04', 'g04'] : (SPECIAL[KIND] || [KIND, KIND]);
 const NEED = [
-    'lion/bernard1.glb', 'lion/bernard2.glb', 'lion/bernard3.glb',
+    'lion/character.glb',
     'lion/' + spec[1] + '_D.png', 'lion/' + spec[1] + '_N.png', 'lion/' + spec[1] + '_MAR.png',
-    'lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png',
-    'lion/bernard_torso_D.png', 'lion/bernard_torso_N.png', 'lion/bernard_torso_MAR.png',
-    'lion/bernard_leg_D.png', 'lion/bernard_leg_N.png', 'lion/bernard_leg_MAR.png',
-    'lion/bernard_shoes_D.png', 'lion/bernard_shoes_N.png', 'lion/bernard_shoes_MAR.png'
+    'lion/head_D.png', 'lion/head_N.png', 'lion/torso_D.png', 'lion/torso_N.png',
+    'lion/leg_D.png', 'lion/leg_N.png', 'lion/shoes_D.png'
 ];
+if (spec[0] && spec[0] !== KIND) NEED.push('lion/' + spec[0] + '.glb');
+else if (KIND !== 'xmas' && KIND !== 'rolf') NEED.push('lion/' + KIND + '.glb');
 
 const IDB_MAP = await (async function () {
     try {
@@ -112,9 +112,9 @@ function remap164(geo) {
 
 const loader = new GLTFLoader();
 let model = null;
-let glove = null;
-let gloveBaseGeo = null;
-let gloveBaseMat = null;
+let rolfGlove = null;
+let xmasGlove = null;
+let rolfBaseGeo = null;
 let mixer = null;
 let clips = [];
 let current = 0;
@@ -158,11 +158,37 @@ function gloveMaterial(base) {
     });
 }
 
+function setRolfGlove(geo, base) {
+    if (!rolfGlove) return;
+    rolfGlove.geometry = geo;
+    rolfGlove.material = gloveMaterial(base);
+    rolfGlove.visible = true;
+}
+
 function applyGlove() {
-    if (!glove) return;
-    glove.geometry = gloveBaseGeo;
-    glove.material = gloveMaterial(KIND === 'g04' ? 'g04' : spec[1]);
-    glove.visible = true;
+    if (!rolfGlove) return;
+    if (KIND === 'xmas') {
+        rolfGlove.visible = false;
+        if (xmasGlove) {
+            xmasGlove.visible = true;
+            xmasGlove.material = gloveMaterial('xmas');
+        }
+        return;
+    }
+    if (xmasGlove) xmasGlove.visible = false;
+    if (KIND === 'rolf') {
+        setRolfGlove(rolfBaseGeo, 'gloves');
+        return;
+    }
+    if (!spec[0]) { setRolfGlove(rolfBaseGeo, spec[1]); return; }
+    loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
+        let mesh = null;
+        gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
+        if (!mesh) return;
+        let geo = mesh.geometry;
+        if (/^g\d\d$/.test(KIND) || KIND === 'g04') geo = remap164(geo);
+        setRolfGlove(geo, spec[1]);
+    }, undefined, function (e) { console.error(e); });
 }
 
 function loadGLB(p) {
@@ -171,33 +197,34 @@ function loadGLB(p) {
     });
 }
 
-Promise.all([
-    loadGLB('./lion/bernard1.glb'),
-    loadGLB('./lion/bernard2.glb'),
-    loadGLB('./lion/bernard3.glb')
-]).then(function (list) {
-    model = list[0].scene;
+loadGLB('./lion/character.glb').then(function (gltf) {
+    model = gltf.scene;
     model.scale.setScalar(0.01);
     model.rotation.y = Math.PI;
     model.traverse(function (o) {
         if (!o.isMesh) return;
         o.frustumCulled = false;
         const n = (o.name || '').toLowerCase();
-        if (n.indexOf('glove') >= 0) {
-            if (!glove) glove = o;
+        if (n.indexOf('glove') >= 0 && n.indexOf('xmas') >= 0) {
+            xmasGlove = o;
+            o.visible = false;
+            o.material = gloveMaterial('xmas');
+        } else if (n.indexOf('glove') >= 0) {
+            if (!rolfGlove) { rolfGlove = o; rolfBaseGeo = o.geometry; }
             o.visible = true;
-            o.material = gloveMaterial('bernard_gloves');
-            gloveBaseGeo = o.geometry;
-            gloveBaseMat = o.material;
+            o.material = gloveMaterial('gloves');
         } else if (n.indexOf('torso') >= 0) {
             o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_torso_D.png', true), normalMap: tex('./lion/bernard_torso_N.png'), roughnessMap: tex('./lion/bernard_torso_MAR.png'), metalnessMap: tex('./lion/bernard_torso_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/torso_D.png', true), normalMap: tex('./lion/torso_N.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
         } else if (n.indexOf('leg') >= 0) {
             o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_leg_D.png', true), normalMap: tex('./lion/bernard_leg_N.png'), roughnessMap: tex('./lion/bernard_leg_MAR.png'), metalnessMap: tex('./lion/bernard_leg_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/leg_D.png', true), normalMap: tex('./lion/leg_N.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
         } else if (n.indexOf('shoe') >= 0) {
             o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_shoes_D.png', true), normalMap: tex('./lion/bernard_shoes_N.png'), roughnessMap: tex('./lion/bernard_shoes_MAR.png'), metalnessMap: tex('./lion/bernard_shoes_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/shoes_D.png', true), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+        } else if (n.indexOf('head') >= 0) {
+            o.visible = true;
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/head_D.png', true), normalMap: tex('./lion/head_N.png'), side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
         } else {
             o.visible = false;
         }
@@ -209,12 +236,11 @@ Promise.all([
     if (!box.isEmpty()) {
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
-        center.y += size.y * 0.1;
+        center.y += size.y * 0.08;
         dist = Math.max(size.y * 1.15, size.x * 2.0, 1.6);
     }
 
-    clips = list.map(function (g) { return g.animations && g.animations[0]; })
-        .filter(Boolean).map(trimClip);
+    clips = (gltf.animations || []).map(trimClip);
     if (clips.length) {
         mixer = new THREE.AnimationMixer(model);
         mixer.addEventListener('finished', function () { play(current + 1); });
