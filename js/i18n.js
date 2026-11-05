@@ -51,6 +51,12 @@
         tune_pause: ['暂停动画', '暫停動畫', 'Pause', 'Пауза'],
         tune_resume: ['继续动画', '繼續動畫', 'Resume', 'Продолжить'],
         gm_unlock_hidden: ['解锁隐藏检视', '解鎖隱藏檢視', 'Unlock Hidden Inspect', 'Открыть скрытый осмотр'],
+        glove_locked_hint: ['累计价值达到 10M 后解锁', '累計價值達到 10M 後解鎖', 'Unlocks at 10M total value', 'Откроется при 10M'],
+        toast_value_low: ['累计价值不足，需达到 10M（当前 {n}M）', '累計價值不足，需達到 10M（目前 {n}M）', 'Not enough total value, need 10M (current {n}M)', 'Недостаточно ценности, нужно 10M (сейчас {n}M)'],
+        toast_hidden_off: ['已隐藏未锁定道具的检视', '已隱藏未鎖定道具的檢視', 'Hidden inspect for unlocked items', 'Скрытый осмотр отключён'],
+        toast_hidden_on: ['已解锁全部检视与调试面板', '已解鎖全部檢視與調試面板', 'All inspect entries and debug panel unlocked', 'Все осмотры и отладка открыты'],
+        toast_catalog_unlocked: ['图鉴已全部解锁', '圖鑑已全部解鎖', 'Catalog fully unlocked', 'Каталог полностью открыт'],
+        toast_glove_switched: ['已切换为{n}', '已切換為{n}', 'Switched to {n}', 'Выбрано: {n}'],
 
 
         

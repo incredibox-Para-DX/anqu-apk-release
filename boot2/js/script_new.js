@@ -4165,7 +4165,7 @@ const EventManager = {
                 var k = $(this).data('kind');
                 var ok = window.__gloveUnlocked(k);
                 $(this).toggleClass('locked', !ok);
-                $(this).attr('title', ok ? '' : '累计价值达到 10M 后解锁');
+                $(this).attr('title', ok ? '' : (window.I18N ? I18N.t('glove_locked_hint') : '累计价值达到 10M 后解锁'));
             });
         }
 
@@ -4215,14 +4215,17 @@ const EventManager = {
             const kind = $(this).data('kind');
             if (!window.__gloveUnlocked(kind)) {
                 const v = (window.State && Number(window.State.totalValue)) || (window.__gameState && Number(window.__gameState.totalValue)) || 0;
-                if (window.showToast) window.showToast('需累计价值 10M 解锁（当前 ' + (v / 1000000).toFixed(2) + 'M）');
+                if (window.showToast) window.showToast(window.I18N ? I18N.t('toast_value_low').replace('{n}', (v / 1000000).toFixed(2)) : '累计价值不足，需达到 10M（当前 ' + (v / 1000000).toFixed(2) + 'M）');
                 return;
             }
             try { localStorage.setItem('ab_lion_gloves', kind); } catch (e) {}
             $('.glove-option').removeClass('active');
             $(this).addClass('active');
             const names = { g05: '暗区作训服手套', kurt: '科特·手套', g04: '伯纳德·手套', rolf: '罗尔夫·手套', g06: '空勤特遣队·手套', g11: '黑金·战术手套', g16: '山地作战手套', g15: '急袭·战术手套', g18: '深蓝作战手套', xmas: '冬日·特种手套', g07: '裁决·仪式手套', g08: '机车·狂野手套', g14: '林中人手套', g12: '阿贾克斯·手套', g17: '蝮蛇·手套', g13: '脉冲·马克西姆手套' };
-            if (window.showToast) window.showToast('已切换为' + (window.I18N ? I18N.tr('glove_' + kind) : (names[kind] || kind)));
+            if (window.showToast) {
+                var gname = window.I18N ? I18N.tr('glove_' + kind) : (names[kind] || kind);
+                window.showToast(window.I18N ? I18N.t('toast_glove_switched').replace('{n}', gname) : ('已切换为' + gname));
+            }
             try {
                 const frame = document.getElementById('lion-inspect-frame');
                 if (frame && frame.contentWindow) frame.contentWindow.postMessage('gloves:' + kind, '*');
@@ -4280,7 +4283,7 @@ const EventManager = {
         $('#gm-unlock-hidden-btn').on('click', function () {
             var on = window.__hiddenUnlocked();
             try { localStorage.setItem('ab_unlock_hidden', on ? '0' : '1'); } catch (e) {}
-            if (window.showToast) window.showToast(on ? '已隐藏未锁定道具的检视' : '已解锁全部检视与调试面板');
+            if (window.showToast) window.showToast(window.I18N ? I18N.t(on ? 'toast_hidden_off' : 'toast_hidden_on') : (on ? '已隐藏未锁定道具的检视' : '已解锁全部检视与调试面板'));
             setTimeout(function () { try { location.reload(); } catch (e) {} }, 400);
         });
 
@@ -4296,7 +4299,7 @@ const EventManager = {
                 if (id != null) counts[id] = Math.max(counts[id] || 0, 1);
             });
             try { localStorage.setItem('ab_catalog_counts', JSON.stringify(counts)); } catch (e) {}
-            if (window.showToast) window.showToast('图鉴已全部解锁');
+            if (window.showToast) window.showToast(window.I18N ? I18N.t('toast_catalog_unlocked') : '图鉴已全部解锁');
             setTimeout(function () { try { location.reload(); } catch (e) {} }, 400);
         });
 
@@ -7214,7 +7217,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.452';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.453';
     
     var __HU_SIZE_BUMP_150 = 1;
 
