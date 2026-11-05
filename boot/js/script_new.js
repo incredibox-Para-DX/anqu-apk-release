@@ -4332,6 +4332,7 @@ const EventManager = {
         });
 
         window.openItemInspect = function (key) {
+            if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
             const frame = document.getElementById('lion-inspect-frame');
             if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
             try {
@@ -7249,7 +7250,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.473';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.474';
     
     var __HU_SIZE_BUMP_150 = 1;
 
