@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.440",
+  "version": "v2.3.0_hotfix.441",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 367211,
-      "sha256": "94514a64740e13e3e396446c0ff3cbcb3fa5d813f4482c5ae2235495a2a2e9a8"
+      "sha256": "3da268441ea973c65820ba3e33a978a2ae5c479ae47528da07aaae67c0d1022d"
     },
     {
       "path": "js/synthesis.js",
@@ -868,8 +868,8 @@
     },
     {
       "path": "lion/items/atomic_clock_D.png",
-      "size": 351569,
-      "sha256": "ea6ab76b1e7178f7fc085ed143cadd33c20711bb8a3b4ac1be29b4b77c72be36"
+      "size": 390885,
+      "sha256": "2e4d2c6d76437379c8ee02f68751d1f664b325a3b76a32fa267756b7b4d38b34"
     },
     {
       "path": "lion/items/atomic_clock_MAR.png",
@@ -893,8 +893,8 @@
     },
     {
       "path": "lion/items/compute_module_D.png",
-      "size": 333980,
-      "sha256": "53388f4b3991add4f75c220a3ed51a2f9f677f888273d1b1336a5275279f1c10"
+      "size": 378611,
+      "sha256": "0728aad08382688a7690b36d5b8187200495ff708ca8fb6142682b00a7905d8f"
     },
     {
       "path": "lion/items/compute_module_MAR.png",
@@ -913,8 +913,8 @@
     },
     {
       "path": "lion/items/dawn_D.png",
-      "size": 349627,
-      "sha256": "360be48f84d065d755fc39e5bf66583e092f22fd736569493f06b9e9aee03a80"
+      "size": 382341,
+      "sha256": "21702b08c9e21c1ab0c1bdcd905007bf353fd379409349d6f67c2a48d19548b2"
     },
     {
       "path": "lion/items/dawn_MAR.png",
@@ -933,8 +933,8 @@
     },
     {
       "path": "lion/items/erision_D.png",
-      "size": 99003,
-      "sha256": "309186a33496cc97bd8abfd221d23727c325f97c02be2761f5436ed794ea2c8d"
+      "size": 110779,
+      "sha256": "046e68bfef02f2d7356a13022dc4cb8f5c5f69d66219a571a302e015c12633bf"
     },
     {
       "path": "lion/items/erision_MAR.png",
@@ -953,8 +953,8 @@
     },
     {
       "path": "lion/items/feast_statue_D.png",
-      "size": 8177,
-      "sha256": "ec07ef272b394bde34846bcc76ff7fb84d9a8d782f77557568a1748a12bf1197"
+      "size": 8747,
+      "sha256": "78a20980081c482630d50f08c36f38263a92c8d217a6c816c8a430d56d3cfac7"
     },
     {
       "path": "lion/items/feast_statue_MAR.png",
@@ -973,8 +973,8 @@
     },
     {
       "path": "lion/items/gem_necklace_D.png",
-      "size": 461606,
-      "sha256": "3467000e6e4b1d67afe8bcc5f8d3f42540c90d7534228832f801870b1b58b379"
+      "size": 478277,
+      "sha256": "152c29aa470abccea62cca4890633ea4584051cd155b84d05267cdbc0148a2c0"
     },
     {
       "path": "lion/items/gem_necklace_MAR.png",
@@ -993,8 +993,8 @@
     },
     {
       "path": "lion/items/golden_palace_D.png",
-      "size": 333489,
-      "sha256": "1a0740f07e6d1c778bba52612760cf148affa498a17dc5f34087c454264e2812"
+      "size": 371121,
+      "sha256": "2eb003d9584539fc733fb4215e08766ebc7ef11d61241dcab34937e57ef4ed97"
     },
     {
       "path": "lion/items/golden_palace_MAR.png",
@@ -1018,8 +1018,8 @@
     },
     {
       "path": "lion/items/gyro_ball_D.png",
-      "size": 343026,
-      "sha256": "91f77af14343fae47b9fb76223ac84d05483d15b19c99f980e2f5f7535800580"
+      "size": 376173,
+      "sha256": "d3da8875d557ca0e51792d677d54bd99f610f63b4c26f4019a5b982c89b2104b"
     },
     {
       "path": "lion/items/gyro_ball_MAR.png",
@@ -1038,8 +1038,8 @@
     },
     {
       "path": "lion/items/mech_arm_D.png",
-      "size": 327516,
-      "sha256": "97f070f1e1ef479698ed4a0c40ea0c8b70c78211c2720908dc1b024fbe94bc4b"
+      "size": 379737,
+      "sha256": "e53c233a4f72163ec9fec6ff479f514474db4ead0448d47882e67fd7f414c1a5"
     },
     {
       "path": "lion/items/mech_arm_MAR.png",
@@ -1058,8 +1058,8 @@
     },
     {
       "path": "lion/items/new_frontier_D.png",
-      "size": 353151,
-      "sha256": "0427c1adece5e89d05df36758b8096316bc1da5680cee76e094423b0c3f04698"
+      "size": 385695,
+      "sha256": "1c2cc42cf566f01e49c5a2b75477c3c1f2d80c741c145eda698c99b42b5eda87"
     },
     {
       "path": "lion/items/new_frontier_MAR.png",
@@ -1083,8 +1083,8 @@
     },
     {
       "path": "lion/items/target_module_D.png",
-      "size": 334887,
-      "sha256": "894a126e35d7b752b5d601ece733a297b81ff78e6b4d8599e7249e17819fd5a7"
+      "size": 377710,
+      "sha256": "d248f28aff1caa2f98d9a314b36c6dc77a34e7bde512fd97b126968a1a46100a"
     },
     {
       "path": "lion/items/target_module_MAR.png",
@@ -1103,8 +1103,8 @@
     },
     {
       "path": "lion/items/teapot_D.png",
-      "size": 100922,
-      "sha256": "7f41ee3093dc10ca35817b81c552fe9323513de6b6cda53714cf27f8f5fed273"
+      "size": 107380,
+      "sha256": "ce1e0c04e20f4ebee1f19fd7a692ca6f57fd47bb3a04f541b5e1b19eaafcd057"
     },
     {
       "path": "lion/items/teapot_MAR.png",
@@ -1123,8 +1123,8 @@
     },
     {
       "path": "lion/items/vase_D.png",
-      "size": 293345,
-      "sha256": "1d026c2fd6d28f4f998266b2f175bba0c071090b0c7b2eea076464f6540f90aa"
+      "size": 291777,
+      "sha256": "20a6cbf7443cf07bdbbcd879bfef2990a94385f1a365b64410773c856a5e6285"
     },
     {
       "path": "lion/items/vase_MAR.png",
@@ -1168,5 +1168,5 @@
     }
   ],
   "fileCount": 233,
-  "totalSize": 62947281
+  "totalSize": 63296216
 }
