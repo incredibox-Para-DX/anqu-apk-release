@@ -19,7 +19,33 @@ import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
 
-const MAP = (window.parent && window.parent.__lionUrlMap) || {};
+const PARENT_MAP = (window.parent && window.parent.__lionUrlMap) || {};
+const IDB_MAP = await (async function () {
+    try {
+        return await new Promise(function (resolve) {
+            const map = {};
+            const req = indexedDB.open('anqu_resources');
+            req.onerror = function () { resolve(map); };
+            req.onsuccess = function () {
+                const db = req.result;
+                try {
+                    if (!db.objectStoreNames.contains('assets')) { resolve(map); return; }
+                    const tx = db.transaction('assets', 'readonly');
+                    const all = tx.objectStore('assets').getAll();
+                    all.onsuccess = function () {
+                        (all.result || []).forEach(function (r) {
+                            if (!r || !r.path || !r.blob) return;
+                            try { map[r.path] = URL.createObjectURL(r.blob); } catch (e) {}
+                        });
+                        resolve(map);
+                    };
+                    all.onerror = function () { resolve(map); };
+                } catch (e) { resolve(map); }
+            };
+        });
+    } catch (e) { return {}; }
+})();
+const MAP = Object.assign({}, PARENT_MAP, IDB_MAP);
 THREE.DefaultLoadingManager.setURLModifier(function (url) {
     const n = url.indexOf('./') === 0 ? url.slice(2) : url;
     return MAP[n] || url;
@@ -76,38 +102,105 @@ function loadOne(n) {
     });
 }
 
+let bernardGlove = null;
+let bernardSkel = null;
+let baseGloveGeo = null;
+let baseGloveMat = null;
+const GLOVE_SPECIAL = {
+    kurt: ['gloves_kurt_quit', 'sniper'],
+    snow: ['gloves_snow_retarget', 'snow'],
+    xmas: ['gloves_xmas_uit', 'xmas'],
+    rolf: ['gloves_rolf_uit', 'gloves']
+};
+
+function gloveKind() {
+    return new URLSearchParams(location.search).get('gloves') || 'g05';
+}
+
+function remapToBernard(geo, srcSkel, dstSkel) {
+    if (!srcSkel || !dstSkel) return geo;
+    const map = {};
+    srcSkel.bones.forEach(function (b, i) {
+        const j = dstSkel.bones.findIndex(function (x) { return x.name === b.name; });
+        map[i] = j >= 0 ? j : 0;
+    });
+    const si = geo.attributes.skinIndex;
+    if (!si) return geo;
+    const out = new Uint16Array(si.count * 4);
+    for (let v = 0; v < si.count; v++) {
+        for (let k = 0; k < 4; k++) out[v * 4 + k] = map[si.getComponent(v, k)] || 0;
+    }
+    const g = geo.clone();
+    g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
+    return g;
+}
+
+function setGloveTex(mesh, base) {
+    const tD = new THREE.TextureLoader().load('./lion/' + base + '_D.png');
+    const tN = new THREE.TextureLoader().load('./lion/' + base + '_N.png');
+    const tM = new THREE.TextureLoader().load('./lion/' + base + '_MAR.png');
+    tD.colorSpace = THREE.SRGBColorSpace;
+    tD.flipY = false;
+    tN.flipY = false;
+    tM.flipY = false;
+    mesh.material = new THREE.MeshStandardMaterial({
+        map: tD, normalMap: tN, roughnessMap: tM, metalnessMap: tM,
+        side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05
+    });
+}
+
+function applyGlove(kind) {
+    if (!bernardGlove) return;
+    kind = kind || gloveKind();
+    if (kind === 'g04') {
+        bernardGlove.geometry = baseGloveGeo;
+        bernardGlove.material = baseGloveMat;
+        setGloveTex(bernardGlove, 'bernard_gloves');
+        return;
+    }
+    const spec = GLOVE_SPECIAL[kind] || [kind, kind];
+    loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
+        let mesh = null;
+        gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
+        if (!mesh) return;
+        bernardGlove.geometry = remapToBernard(mesh.geometry, mesh.skeleton, bernardSkel);
+        setGloveTex(bernardGlove, spec[1]);
+    }, undefined, function (e) { console.error(e); });
+}
+
 Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
     const model = list[0].scene;
     model.scale.setScalar(0.01);
     model.traverse(function (o) {
         if (!o.isMesh) return;
         o.frustumCulled = false;
-        o.visible = /glove/i.test(o.name || '');
+        const n = (o.name || '').toLowerCase();
+        const set = n.indexOf('glove') >= 0 ? 'gloves'
+            : n.indexOf('leg') >= 0 ? 'leg'
+            : n.indexOf('shoe') >= 0 ? 'shoes'
+            : n.indexOf('torso') >= 0 ? 'torso' : null;
+        if (!set) { o.visible = false; return; }
+        o.visible = true;
+        if (set === 'gloves' && !bernardGlove) {
+            bernardGlove = o;
+            baseGloveGeo = o.geometry;
+            baseGloveMat = o.material;
+            bernardSkel = o.skeleton;
+        }
+        setGloveTex(o, 'bernard_' + set);
     });
     scene.add(model);
     model.updateMatrixWorld(true);
 
-    let glove = null;
-    model.traverse(function (o) { if (!glove && o.isMesh && o.visible) glove = o; });
-    if (glove) {
-        const tD = new THREE.TextureLoader().load('./lion/bernard_gloves_D.png');
-        const tN = new THREE.TextureLoader().load('./lion/bernard_gloves_N.png');
-        const tM = new THREE.TextureLoader().load('./lion/bernard_gloves_MAR.png');
-        tD.colorSpace = THREE.SRGBColorSpace;
-        tD.flipY = false;
-        tN.flipY = false;
-        tM.flipY = false;
-        glove.material = new THREE.MeshStandardMaterial({
-            map: tD, normalMap: tN, roughnessMap: tM, metalnessMap: tM,
-            side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05
-        });
-        const box = new THREE.Box3().setFromObject(glove);
-        if (!box.isEmpty()) {
-            box.getCenter(center);
-            const size = box.getSize(new THREE.Vector3());
-            dist = Math.max(size.x, size.y, size.z) * 2.4 + 0.35;
-        }
+    const box = new THREE.Box3().setFromObject(model);
+    if (!box.isEmpty()) {
+        box.getCenter(center);
+        const size = box.getSize(new THREE.Vector3());
+        center.y += size.y * 0.12;
+        dist = Math.max(size.y * 0.95, size.x * 1.6, 0.8) + 0.25;
     }
+
+    applyGlove(gloveKind());
 
     clips = list.map(function (g) { return g.animations && g.animations[0]; }).filter(Boolean);
     if (clips.length) {
@@ -119,6 +212,10 @@ Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
 }).catch(function (e) {
     console.error(e);
     setStatus('模型加载失败');
+});
+
+addEventListener('message', function (e) {
+    if (typeof e.data === 'string' && e.data.indexOf('gloves:') === 0) applyGlove(e.data.slice(7));
 });
 
 addEventListener('resize', function () {

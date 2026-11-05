@@ -4278,6 +4278,8 @@ const EventManager = {
             try {
                 const frame = document.getElementById('lion-inspect-frame');
                 if (frame && frame.contentWindow) frame.contentWindow.postMessage('gloves:' + kind, '*');
+                const pframe = document.getElementById('glove-preview-frame');
+                if (pframe && pframe.contentWindow) pframe.contentWindow.postMessage('gloves:' + kind, '*');
             } catch (e) {}
         });
 
@@ -7275,7 +7277,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.476';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.478';
     
     var __HU_SIZE_BUMP_150 = 1;
 

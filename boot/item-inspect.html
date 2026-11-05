@@ -30,7 +30,33 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 <script type="module">
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
-const LION_URL_MAP = (window.parent && window.parent.__lionUrlMap) || {};
+const PARENT_MAP = (window.parent && window.parent.__lionUrlMap) || {};
+const IDB_MAP = await (async function () {
+    try {
+        return await new Promise(function (resolve) {
+            const map = {};
+            const req = indexedDB.open('anqu_resources');
+            req.onerror = function () { resolve(map); };
+            req.onsuccess = function () {
+                const db = req.result;
+                try {
+                    if (!db.objectStoreNames.contains('assets')) { resolve(map); return; }
+                    const tx = db.transaction('assets', 'readonly');
+                    const all = tx.objectStore('assets').getAll();
+                    all.onsuccess = function () {
+                        (all.result || []).forEach(function (r) {
+                            if (!r || !r.path || !r.blob) return;
+                            try { map[r.path] = URL.createObjectURL(r.blob); } catch (e) {}
+                        });
+                        resolve(map);
+                    };
+                    all.onerror = function () { resolve(map); };
+                } catch (e) { resolve(map); }
+            };
+        });
+    } catch (e) { return {}; }
+})();
+const LION_URL_MAP = Object.assign({}, PARENT_MAP, IDB_MAP);
 THREE.DefaultLoadingManager.setURLModifier(function (url) {
     const n = url.indexOf('./') === 0 ? url.slice(2) : url;
     return LION_URL_MAP[n] || url;
