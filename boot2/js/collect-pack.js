@@ -35,7 +35,13 @@
                 var url = MANIFEST_URLS[i++];
                 fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now(), { cache: 'no-store' })
                     .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-                    .then(function (m) { if (!m || !Array.isArray(m.files) || !m.files.length) throw new Error('bad'); state.manifest = m; resolve(m); })
+                    .then(function (m) {
+                        if (!m || !Array.isArray(m.files) || !m.files.length) throw new Error('bad');
+                        var files = m.files.filter(function (f) { return f && f.path && f.path.indexOf('lion/') !== 0; });
+                        if (!files.length) throw new Error('bad');
+                        state.manifest = { version: m.version || '1', files: files };
+                        resolve(state.manifest);
+                    })
                     .catch(function () { next(); });
             }
             next();

@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.471",
+  "version": "v2.4.0_hotfix.472",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -88,8 +88,8 @@
     },
     {
       "path": "js/collect-pack.js",
-      "size": 9224,
-      "sha256": "833f6c7ea8136916e5caa2e620bcbf50bbc808d49f5dd37a38076d7c038420d1"
+      "size": 9561,
+      "sha256": "7b9a1837782aeef33982c1202ee1961543e14e66aab0a2378f19af3bf56d9fe1"
     },
     {
       "path": "js/cloud-profile.js",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 371512,
-      "sha256": "73da8a6edd27e4abbc5db124794e1dbe373d5cdd45ee0891da0291ffc3965d26"
+      "size": 371677,
+      "sha256": "7806ec47b7bdadb9a19f20c2885fe51a6522b2f75640c2d23a469422e3dd6ac5"
     },
     {
       "path": "js/synthesis.js",
@@ -208,8 +208,8 @@
     },
     {
       "path": "js/lion-pack.js",
-      "size": 10702,
-      "sha256": "ed6ecc6f908da50ccb20c733c85c2b0b42f17c87465120fe22f2a6b1ff9c1842"
+      "size": 11242,
+      "sha256": "c27c47631c8457a81c2bf2a1021c6916722914a4e7f989107a8ef671e2b91904"
     },
     {
       "path": "js/particles.js",
@@ -223,8 +223,8 @@
     },
     {
       "path": "js/catalog.js",
-      "size": 11843,
-      "sha256": "4c148dc07923d6e98ea6b926e3491b4928b90bc1d88871531e164fdef1f56289"
+      "size": 11842,
+      "sha256": "90a158efe0d47b86c26d0eb17eedec7b71ae9d382916313db657896f63f1a239"
     },
     {
       "path": "admin/anqu-admin.html",
@@ -288,5 +288,5 @@
     }
   ],
   "fileCount": 57,
-  "totalSize": 2459087
+  "totalSize": 2460128
 }

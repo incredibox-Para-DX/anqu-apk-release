@@ -3006,9 +3006,13 @@ previewCurrentBackground() {
                 const dom = document.querySelector(selector);
                 if (!dom) return;
                 const prev = Number(dom.dataset.animValue || 0);
-                if (prev === to) return;
-                dom.dataset.animValue = String(to);
                 const icon = '<img src="images/img_b353ca7f64.png" alt="柯恩币" style="display: inline-block; vertical-align: middle; height: 1.2em; width: auto; margin-right: 2px;">';
+                if (prev === to) {
+                    dom.dataset.animValue = String(to);
+                    dom.innerHTML = icon + Utils.formatCurrency(to);
+                    return;
+                }
+                dom.dataset.animValue = String(to);
                 const start = performance.now();
                 const tick = (now) => {
                     const p = Math.min(1, (now - start) / 380);
@@ -7235,7 +7239,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.471';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.472';
     
     var __HU_SIZE_BUMP_150 = 1;
 

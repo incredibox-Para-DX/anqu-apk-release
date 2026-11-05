@@ -82,7 +82,7 @@
                     : (/机密文件|機密文件|Secret\s*File/i.test(n) ? 'secretfile' : '')));
                 var allow = !itemKey || (window.__inspectAllowed && window.__inspectAllowed(itemKey));
                 if (!allow) return '';
-                return kind ? '<div class="catalog-detail-actions"><button class="modal-btn primary catalog-inspect-btn" data-kind="' + kind + '" data-item="' + itemKey + '"><i class="fas fa-eye"></i> ' + (window.I18N ? I18N.tr('inspect_btn') : '检视') + '</button></div>' : '';
+                return kind ? '<div class="catalog-detail-actions"><button class="modal-btn primary catalog-inspect-btn" data-kind="' + kind + '" data-item="' + itemKey + '"><i class="fas fa-eye"></i> ' + (window.I18N ? I18N.t('inspect_btn') : '检视') + '</button></div>' : '';
             })() +
             '</div>';
         try {

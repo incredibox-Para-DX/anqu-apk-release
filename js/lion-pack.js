@@ -42,8 +42,13 @@
         if (state.manifest) return Promise.resolve(state.manifest);
         function verNum(v) { var n = parseFloat(String(v || '').replace(/^v/i, '')); return isNaN(n) ? 0 : n; }
         var tasks = MANIFEST_URLS.map(function (url, idx) {
-            return fetch(url + '?t=' + Date.now(), { cache: 'no-store' })
-                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            var opts = { cache: 'no-store' };
+            var ctl = null;
+            try { ctl = new AbortController(); } catch (e) {}
+            var timer = ctl ? setTimeout(function () { try { ctl.abort(); } catch (e) {} }, 8000) : null;
+            if (ctl) opts.signal = ctl.signal;
+            return fetch(url + '?t=' + Date.now(), opts)
+                .then(function (r) { if (timer) clearTimeout(timer); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
                 .then(function (m) {
                     var files = (m.files || []).filter(function (f) { return f.path.indexOf('lion/') === 0; });
                     if (!files.length) throw new Error('empty');
@@ -213,16 +218,22 @@
             toast('资源管理器未就绪');
             return;
         }
-        loadManifest().then(function (m) {
-            var paths = (m.files || []).map(function (f) { return f.path; });
-            R.confirmDeletePaths('模型资源包', function () {
-                R.deletePathsAndUnmark(paths).then(function () {
+        R.confirmDeletePaths('模型资源包', function () {
+            function remove(paths) {
+                R.deletePathsAndUnmark(paths || []).then(function () {
                     try { localStorage.removeItem(DONE_KEY); } catch (e) {}
                     applyUI(false, false);
                     toast('模型资源包已删除');
                 });
-            });
-        }).catch(function () { toast('资源列表加载失败'); });
+            }
+            if (state.manifest && state.manifest.files) {
+                remove(state.manifest.files.map(function (f) { return f.path; }));
+                return;
+            }
+            loadManifest().then(function (m) {
+                remove((m.files || []).map(function (f) { return f.path; }));
+            }).catch(function () { toast('资源列表加载失败'); });
+        });
     }
 
     function bind() {
