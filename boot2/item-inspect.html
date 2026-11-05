@@ -143,7 +143,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.65, metalness: 0.1, envMapIntensity: 0.55 });
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.55, metalness: 0.04, envMapIntensity: 0.9 });
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
@@ -156,7 +156,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh.frustumCulled = false;
       const holder = socket || model;
       holder.add(propMesh);
-      propMesh.position.set(0, 0, 0);
+      propMesh.position.set(0, 6, 0);
       propMesh.rotation.set(Math.PI / 2, 0, 0);
       window.__propMesh = propMesh;
     }, undefined, (e) => console.error('prop load', e));
