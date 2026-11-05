@@ -1228,6 +1228,24 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-card-progress-text">准备中...</div>
 </div>
 </div>
+<div style="border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:12px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<div style="font-weight:600;font-size:14px;"><i class="fas fa-cube" style="color:#3b82f6;"></i> 模型资源包</div>
+<div style="font-size:12px;color:#64748b;" id="rd-model-count">3D 模型</div>
+</div>
+<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;">检视 3D 道具与手套所需，未下载时无法打开检视</div>
+<div style="display:flex;gap:8px;align-items:center;">
+<button class="modal-btn primary" id="rd-download-model-btn" style="flex:1;"><i class="fas fa-download"></i> 下载模型资源包</button>
+</div>
+<div id="rd-model-done" style="display:none;color:#16a34a;font-weight:600;font-size:13px;"><i class="fas fa-check-circle"></i> 模型资源包已全部下载</div>
+<div id="rd-model-progress-wrap" style="display:none;margin-top:8px;">
+<div style="height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
+<div id="rd-model-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#3b82f6,#60a5fa);transition:width 0.3s;"></div>
+</div>
+<div style="font-size:12px;color:#64748b;margin-top:4px;" id="rd-model-progress-text">准备中...</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2200,6 +2218,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <script src="js/inline-scripts.js"></script>
 <script src="js/script_new.js"></script>
 <script src="libs/jszip.min.js"></script>
+<script src="js/lion-pack.js"></script>
 <script src="js/mods.js"></script>
 <script src="libs/three.min.js"></script>
 <script src="js/music.js"></script>

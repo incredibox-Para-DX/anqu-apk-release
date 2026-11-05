@@ -4125,6 +4125,8 @@ const EventManager = {
         $('#tooltip-inspect-btn').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+
             try {
                 window.__lionAudio = new Audio(window.__pickInspectSound($('#tooltip-inspect-btn').data('kind')));
                 const audio = window.__lionAudio;
@@ -4170,6 +4172,8 @@ const EventManager = {
         }
 
         $('#sidebar-glove-btn').on('click', function () {
+            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             $('.glove-option').removeClass('active').each(function () {
                 if ($(this).data('kind') === cur) $(this).addClass('active');
@@ -4191,6 +4195,8 @@ const EventManager = {
         });
 
         $('#glove-preview-open').on('click', function () {
+            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             const frame = document.getElementById('glove-preview-frame');
             if (frame) frame.setAttribute('src', 'lion-inspect.html?preview=1&gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
@@ -4325,6 +4331,7 @@ const EventManager = {
         };
 
         window.openInspectFromCatalog = function (kind) {
+            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
             const inspectBase = '';
             const url = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)

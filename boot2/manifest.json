@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 370068,
-      "sha256": "9d174e4b0be3e8312d29adee9915ddf83511b2874b4654ca611e7da37e664f21"
+      "size": 370735,
+      "sha256": "700baaf6fc066d15d3e6af1728e219248f91fc4213dedbf40f4affb4bef6f9cc"
     },
     {
       "path": "js/synthesis.js",
@@ -323,10 +323,10 @@
     },
     {
       "path": "index.html",
-      "size": 169149,
-      "sha256": "6bc83fc7245886506cff27c3cf956eb32b2c1213c8ef0c75ffcbe1130822b212"
+      "size": 170501,
+      "sha256": "53a630932b489bef12978d5c889c136922338930079fe159ea3919575a59b43a"
     }
   ],
   "fileCount": 65,
-  "totalSize": 4213249
+  "totalSize": 4215268
 }
