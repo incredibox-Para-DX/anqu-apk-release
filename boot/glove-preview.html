@@ -30,7 +30,7 @@ const SPECIAL = {
 };
 const spec = KIND === 'g04' ? ['g04', 'g04'] : (SPECIAL[KIND] || [KIND, KIND]);
 const NEED = [
-    'lion/character.glb',
+    'lion/character.glb', 'lion/bernard1.glb', 'lion/bernard2.glb', 'lion/bernard3.glb',
     'lion/' + spec[0] + '.glb',
     'lion/' + spec[1] + '_D.png', 'lion/' + spec[1] + '_N.png', 'lion/' + spec[1] + '_MAR.png',
     'lion/head_D.png', 'lion/head_N.png', 'lion/torso_D.png', 'lion/torso_N.png',
@@ -175,8 +175,19 @@ function loadGLB(p) {
     });
 }
 
+function handOnly(clip) {
+    const tracks = clip.tracks.filter(function (t) {
+        return /hand|finger|thumb|index|middle|ring|pinky|forearm|upperarm/i.test(t.name);
+    });
+    if (!tracks.length) return null;
+    return new THREE.AnimationClip(clip.name, clip.duration, tracks);
+}
+
 Promise.all([
-    loadGLB('./lion/character.glb')
+    loadGLB('./lion/character.glb'),
+    loadGLB('./lion/bernard1.glb'),
+    loadGLB('./lion/bernard2.glb'),
+    loadGLB('./lion/bernard3.glb')
 ]).then(function (list) {
     model = list[0].scene;
     model.scale.setScalar(0.01);
@@ -215,7 +226,8 @@ Promise.all([
         dist = Math.max(size.y * 1.15, size.x * 2.0, 1.6);
     }
 
-    clips = (list[0].animations || []).map(trimClip);
+    clips = list.slice(1).map(function (g) { return g.animations && g.animations[0]; })
+        .filter(Boolean).map(function (c) { return handOnly(trimClip(c)); }).filter(Boolean);
     if (clips.length) {
         mixer = new THREE.AnimationMixer(model);
         mixer.addEventListener('finished', function () { play(current + 1); });
