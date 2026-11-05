@@ -143,13 +143,13 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.34, metalness: 0.28, envMapIntensity: 1.7, transparent: true, alphaTest: 0.05 });
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.34, metalness: 0.28, envMapIntensity: 1.7, transparent: true, alphaTest: 0.35 });
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
       mat.map = loadColor(dtex);
       mat.normalMap = loadData(ntex);
-      mat.normalScale = new THREE.Vector2(1.25, 1.25);
+      mat.normalScale = new THREE.Vector2(0.8, 0.8);
       mat.roughnessMap = loadData(mtex);
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
@@ -188,7 +188,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
       mat.map = loadColor('./lion/' + gloveKind + '_D.png');
       mat.normalMap = loadData('./lion/' + gloveKind + '_N.png');
-      mat.normalScale = new THREE.Vector2(1.25, 1.25);
+      mat.normalScale = new THREE.Vector2(0.8, 0.8);
       mat.roughnessMap = loadData('./lion/' + gloveKind + '_MAR.png');
       mat.metalnessMap = mat.roughnessMap;
       const sm = new THREE.SkinnedMesh(g, mat);
@@ -247,8 +247,8 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const up = camera.__up || (camera.__up = new THREE.Vector3());
       up.set(0, 1, 0).applyQuaternion(camera.quaternion);
       propMesh.position.copy(camera.__hp)
-        .addScaledVector(dir, -0.10)
-        .addScaledVector(up, 0.09);
+        .addScaledVector(dir, -0.08)
+        .addScaledVector(up, 0.11);
       socket.getWorldQuaternion(camera.__hq || (camera.__hq = new THREE.Quaternion()));
       propMesh.quaternion.copy(camera.__hq);
       propMesh.rotateX(Math.PI / 2);
