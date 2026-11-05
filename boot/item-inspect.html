@@ -154,7 +154,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
       scene.add(propMesh);
-      propMesh.scale.setScalar(0.0085);
+      propMesh.scale.setScalar(0.0105);
       window.__propMesh = propMesh;
     }, undefined, (e) => console.error('prop load', e));
   }
