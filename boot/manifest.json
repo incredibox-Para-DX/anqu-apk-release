@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.478",
+  "version": "v2.4.0_hotfix.479",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 373898,
-      "sha256": "105d93d142f3c8db6a04370b5fd78acda998a30c56269abb035064528574a8e9"
+      "size": 373204,
+      "sha256": "df8a3ce723799d48f4c69d69114090ef220d717e507a945aa90e12fe961c6125"
     },
     {
       "path": "js/synthesis.js",
@@ -263,35 +263,35 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 18422,
-      "sha256": "a90cae6d8fccdf7e89caf36dc6f336c44126afe5503f335e62f0b3592b189553"
+      "size": 18487,
+      "sha256": "81ffc774b1f7a58d4a6c955f4a65fc4fc42cbe3aecb24be6dd625d0b8e8fd1cd"
     },
     {
       "path": "glove-preview.html",
-      "size": 8475,
-      "sha256": "57a8241272a6a721b80ac9aee4a5a6d3c147a379fdb34b8dfc85c79107fbf16e"
+      "size": 10841,
+      "sha256": "ed322c7abab06f69064a4cb971290fc72c4b96ec1ca0e52a18f8810e4ab2c360"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 120148,
-      "sha256": "b926f473d30d1c7ca53fe301f2160a64fb2b73b555f09e091cf3ef3830f71677"
+      "size": 120213,
+      "sha256": "5937d91f86ee960f1f4eb6154d29bad322d51675eb5041a988c429c6a0cd7859"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 215310,
-      "sha256": "8cb7588387412dd6896d012ab1b2f3b3a4aa7412465f55542fae450ea16b35a5"
+      "size": 215375,
+      "sha256": "94155388c4384c2125ee9920cc62c41486333d2bc9ebaf7c85b9053149d8e68e"
     },
     {
       "path": "item-inspect.html",
-      "size": 21741,
-      "sha256": "3c40cfab8ab6545d212f5fb29ce64bebcef5e9e84305fd285ee12cc6f66fad0f"
+      "size": 21808,
+      "sha256": "7cfdd06c678bf7bec9d2527c6f9ab0e0f8ba9ad026d1103ea976a80f4f897a3b"
     },
     {
       "path": "index.html",
-      "size": 170789,
-      "sha256": "83b1ca872d1dc684db7319e97d4ba51167ab44ac212ffc1b8681fac0ee4fecd4"
+      "size": 170600,
+      "sha256": "0e54b0287f18c3dc6c43fa5e39ef89adf0ff622e9f424d68007544d9cbcc5279"
     }
   ],
   "fileCount": 58,
-  "totalSize": 2476938
+  "totalSize": 2478683
 }

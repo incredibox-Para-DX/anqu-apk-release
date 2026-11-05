@@ -60,7 +60,7 @@ document.getElementById('app').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = null;
-const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.01, 100);
+const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 100);
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.75;
@@ -79,6 +79,8 @@ let current = 0;
 let center = new THREE.Vector3(0, 1, 0);
 let dist = 1.6;
 let ang = 0.6;
+let headBone = null;
+let handBone = null;
 
 function setStatus(t) {
     const el = document.getElementById('status');
@@ -112,6 +114,25 @@ const GLOVE_SPECIAL = {
     xmas: ['gloves_xmas_uit', 'xmas'],
     rolf: ['gloves_rolf_uit', 'gloves']
 };
+const GLOVE_MAP164 = [0, 1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24, 25, 37, 38, 39, 40, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 96, 97, 98, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 141, 142, 143, 144, 145, 146, 147, 148, 160, 161, 162, 163];
+let rolfSkel = null;
+
+function remap164(geo) {
+    const si = geo.attributes.skinIndex, sw = geo.attributes.skinWeight;
+    if (!si || !sw) return geo;
+    const n = si.count, out = new Uint16Array(n * 4);
+    for (let v = 0; v < n; v++) {
+        for (let k = 0; k < 4; k++) {
+            const idx = si.getComponent(v, k);
+            const w = sw.getComponent(v, k);
+            const m = (w > 0 && idx < GLOVE_MAP164.length) ? GLOVE_MAP164[idx] : 0;
+            out[v * 4 + k] = m >= 0 ? m : 0;
+        }
+    }
+    const g = geo.clone();
+    g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
+    return g;
+}
 
 function gloveKind() {
     return new URLSearchParams(location.search).get('gloves') || 'g05';
@@ -163,7 +184,9 @@ function applyGlove(kind) {
         let mesh = null;
         gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
         if (!mesh) return;
-        bernardGlove.geometry = remapToBernard(mesh.geometry, mesh.skeleton, bernardSkel);
+        let geo = mesh.geometry;
+        if (/^g\d\d$/.test(kind)) geo = remap164(geo);
+        bernardGlove.geometry = remapToBernard(geo, mesh.skeleton || rolfSkel, bernardSkel);
         setGloveTex(bernardGlove, spec[1]);
     }, undefined, function (e) { console.error(e); });
 }
@@ -191,6 +214,11 @@ Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
     });
     scene.add(model);
     model.updateMatrixWorld(true);
+    model.traverse(function (o) {
+        if (!o.isBone) return;
+        if (!headBone && o.name === 'head') headBone = o;
+        if (!handBone && (o.name === 'hand_r' || o.name === 'item_r')) handBone = o;
+    });
 
     const box = new THREE.Box3().setFromObject(model);
     if (!box.isEmpty()) {
@@ -218,6 +246,13 @@ addEventListener('message', function (e) {
     if (typeof e.data === 'string' && e.data.indexOf('gloves:') === 0) applyGlove(e.data.slice(7));
 });
 
+loader.load('./lion/character.glb', function (gltf) {
+    gltf.scene.traverse(function (o) {
+        if (o.isMesh && /glove/i.test(o.name || '') && !rolfSkel) rolfSkel = o.skeleton;
+    });
+    if (bernardGlove) applyGlove(gloveKind());
+}, undefined, function (e) { console.error(e); });
+
 addEventListener('resize', function () {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
@@ -225,17 +260,33 @@ addEventListener('resize', function () {
 });
 
 const clock = new THREE.Clock();
+const camPos = new THREE.Vector3();
+const camTarget = new THREE.Vector3();
 function animate() {
     requestAnimationFrame(animate);
     const dt = Math.min(clock.getDelta(), 0.05);
     if (mixer) mixer.update(dt);
-    ang += dt * 0.35;
-    camera.position.set(
-        center.x + Math.sin(ang) * dist,
-        center.y + 0.12,
-        center.z + Math.cos(ang) * dist
-    );
-    camera.lookAt(center);
+    if (headBone && handBone) {
+        headBone.getWorldPosition(camPos);
+        camPos.y += 0.1;
+        handBone.getWorldPosition(camTarget);
+        const dir = camTarget.clone().sub(camPos).normalize();
+        const right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize();
+        camPos.addScaledVector(right, -0.05);
+        camera.position.copy(camPos);
+        const look = camTarget.clone();
+        look.y += 0.15;
+        camera.lookAt(look);
+        if (camera.fov !== 80) { camera.fov = 80; camera.updateProjectionMatrix(); }
+    } else {
+        ang += dt * 0.35;
+        camera.position.set(
+            center.x + Math.sin(ang) * dist,
+            center.y + 0.12,
+            center.z + Math.cos(ang) * dist
+        );
+        camera.lookAt(center);
+    }
     renderer.render(scene, camera);
 }
 animate();

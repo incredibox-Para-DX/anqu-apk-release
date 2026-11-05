@@ -4139,12 +4139,7 @@ const EventManager = {
             e.stopPropagation();
             if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
 
-            try {
-                window.__lionAudio = new Audio(window.__pickInspectSound($('#tooltip-inspect-btn').data('kind')));
-                const audio = window.__lionAudio;
-                audio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                audio.play().catch(function() {});
-            } catch (err) {}
+            window.__pendingInspectSound = window.__pickInspectSound($('#tooltip-inspect-btn').data('kind'));
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
             const kind = $('#tooltip-inspect-btn').data('kind') || 'lion';
             const itemKey = $('#tooltip-inspect-btn').data('item') || '';
@@ -4242,22 +4237,14 @@ const EventManager = {
             const frame = document.getElementById('glove-preview-frame');
             window.__openWhenReady(function () {
                 if (frame) frame.setAttribute('src', 'glove-preview.html?gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
-                if (window.ModalRegistry) ModalRegistry.open('glove-preview-modal', { silent: true });
-                else {
-                    $('#glove-preview-modal').css('display', 'flex');
-                    setTimeout(function () { $('#glove-preview-modal').addClass('show'); }, 10);
-                }
+                $('#glove-preview-modal').css('display', 'block');
             });
         });
 
         $('#glove-preview-close').on('click', function () {
             const frame = document.getElementById('glove-preview-frame');
             if (frame) frame.setAttribute('src', 'about:blank');
-            if (window.ModalRegistry) ModalRegistry.close('glove-preview-modal');
-            else {
-                $('#glove-preview-modal').removeClass('show');
-                setTimeout(function () { $('#glove-preview-modal').css('display', 'none'); }, 300);
-            }
+            $('#glove-preview-modal').css('display', 'none');
         });
 
         $(document).on('click', '.glove-option', function () {
@@ -4357,13 +4344,9 @@ const EventManager = {
         window.openItemInspect = function (key) {
             if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
             const frame = document.getElementById('lion-inspect-frame');
+            window.__pendingInspectSound = window.__pickInspectSound('lion');
             window.__openWhenReady(function () {
                 if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
-                try {
-                    window.__lionAudio = new Audio(window.__pickInspectSound('lion'));
-                    window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                    window.__lionAudio.play().catch(function () {});
-                } catch (e) {}
                 if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
                 else {
                     $('#lion-inspect-modal').css('display', 'flex');
@@ -4378,6 +4361,19 @@ const EventManager = {
             return 'lion/inspect.wav';
         };
 
+        window.addEventListener('message', function (e) {
+            if (e.data !== 'inspect-ready') return;
+            var s = window.__pendingInspectSound;
+            window.__pendingInspectSound = null;
+            if (!s) return;
+            try {
+                var a = new Audio(s);
+                a.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                a.play().catch(function () {});
+                window.__lionAudio = a;
+            } catch (err) {}
+        });
+
         window.openInspectFromCatalog = function (kind) {
             if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
@@ -4386,12 +4382,8 @@ const EventManager = {
                 : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
                 : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             const frame = document.getElementById('lion-inspect-frame');
+            window.__pendingInspectSound = window.__pickInspectSound(kind);
             window.__openWhenReady(function () {
-                try {
-                    window.__lionAudio = new Audio(window.__pickInspectSound(kind));
-                    window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                    window.__lionAudio.play().catch(function () {});
-                } catch (e) {}
                 frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
                 if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
                 else {
@@ -7277,7 +7269,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.478';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.479';
     
     var __HU_SIZE_BUMP_150 = 1;
 

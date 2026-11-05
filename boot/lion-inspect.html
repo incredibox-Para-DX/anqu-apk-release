@@ -206,6 +206,7 @@ function setupCharacter(gltf) {
   }
   document.getElementById('status').textContent = '';
   applyGloves();
+  try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
 }
 
 function setupLion(gltf) {
