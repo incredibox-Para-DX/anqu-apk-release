@@ -229,7 +229,7 @@ Promise.all([
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
         center.y += size.y * 0.05;
-        dist = Math.max(size.y * 1.0, 1.7);
+        dist = Math.max(size.y * 0.85, 1.5);
     }
 
     applyGlove();
@@ -259,9 +259,13 @@ addEventListener('resize', function () {
     renderer.setSize(innerWidth, innerHeight);
 });
 
+let __last = performance.now();
 function animate() {
     requestAnimationFrame(animate);
-    ang += 0.012;
+    const now = performance.now();
+    const dt = Math.min((now - __last) / 1000, 0.05);
+    __last = now;
+    ang += dt * 0.9;
     camera.position.set(
         center.x + Math.sin(ang) * dist,
         center.y + dist * 0.1,
