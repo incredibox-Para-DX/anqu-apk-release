@@ -50,6 +50,7 @@
         tune_rz: ['旋转Z', '旋轉Z', 'Rotate Z', 'Поворот Z'],
         tune_pause: ['暂停动画', '暫停動畫', 'Pause', 'Пауза'],
         tune_resume: ['继续动画', '繼續動畫', 'Resume', 'Продолжить'],
+        gm_unlock_hidden: ['解锁隐藏检视', '解鎖隱藏檢視', 'Unlock Hidden Inspect', 'Открыть скрытый осмотр'],
 
 
         

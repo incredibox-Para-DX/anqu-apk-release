@@ -779,8 +779,9 @@ previewCurrentBackground() {
                     if (matchName.indexOf(k) >= 0 || k.indexOf(rawName) >= 0) { itemKey = window.__ITEM_INSPECT[k]; break; }
                 }
             }
-            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound || !!itemKey);
-            $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion')).data('item', itemKey);
+            const allowItem = !!itemKey && window.__inspectAllowed(itemKey);
+            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound || allowItem);
+            $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion')).data('item', allowItem ? itemKey : '');
             
             
             const rarityBgColors = {
@@ -4231,6 +4232,16 @@ const EventManager = {
             }, 300);
         };
 
+        window.__LOCKED_ITEMS = ['teapot', 'gem_necklace', 'dawn'];
+        window.__hiddenUnlocked = function () {
+            try { return localStorage.getItem('ab_unlock_hidden') === '1'; } catch (e) { return false; }
+        };
+        window.__inspectAllowed = function (key) {
+            if (!key) return false;
+            if (window.__hiddenUnlocked()) return true;
+            return (window.__LOCKED_ITEMS || []).indexOf(key) >= 0;
+        };
+
         window.__ITEM_INSPECT = {
             '厄律西翁': 'erision', '阵列镜片': 'array_lens', '盛宴雕塑': 'feast_statue', '茶壶': 'teapot',
             '花瓶': 'vase', '宝石项链': 'gem_necklace', '赤红暗星': 'crimson_star', '航天导航仪': 'space_nav',
@@ -4239,6 +4250,13 @@ const EventManager = {
             '热成像模块': 'thermal_module', '新边疆模型': 'new_frontier', '原子钟': 'atomic_clock',
             '电磁弹射组件': 'catapult_part', '金驹越岭': 'golden_steed'
         };
+        $('#gm-unlock-hidden-btn').on('click', function () {
+            var on = window.__hiddenUnlocked();
+            try { localStorage.setItem('ab_unlock_hidden', on ? '0' : '1'); } catch (e) {}
+            if (window.showToast) window.showToast(on ? '已隐藏未锁定道具的检视' : '已解锁全部检视与调试面板');
+            setTimeout(function () { try { location.reload(); } catch (e) {} }, 400);
+        });
+
         $('#gm-catalog-unlock-btn').on('click', function () {
             const counts = (function () { try { return JSON.parse(localStorage.getItem('ab_catalog_counts') || '{}') || {}; } catch (e) { return {}; } })();
             let list = Array.isArray(window.__ALL_ITEMS__) ? window.__ALL_ITEMS__.slice() : [];
@@ -7169,7 +7187,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.446';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.447';
     
     var __HU_SIZE_BUMP_150 = 1;
 
