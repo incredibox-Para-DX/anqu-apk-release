@@ -4185,7 +4185,7 @@ const EventManager = {
                 el = document.createElement('div');
                 el.id = 'inspect-loading';
                 el.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:99999;pointer-events:none;background:transparent;';
-                el.innerHTML = '<div style="width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div>';
+                el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div><div style="font:13px -apple-system,sans-serif;color:#cbd5e1;">' + (window.I18N ? I18N.t('inspect_loading') : '模型加载中…') + '</div></div>';
                 var st = document.createElement('style');
                 st.textContent = '@keyframes __spin{to{transform:rotate(360deg)}}';
                 document.head.appendChild(st);
@@ -4202,7 +4202,11 @@ const EventManager = {
         };
         window.__setInspectFrame = function (frame, url) {
             if (!frame) return;
-            if (frame.getAttribute('data-base') === url) return;
+            if (url.indexOf('item-inspect.html') < 0 && frame.getAttribute('data-base') === url) {
+                window.__hideInspectLoading();
+                try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (e) {}
+                return;
+            }
             frame.setAttribute('data-base', url);
             frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
         };
@@ -7295,7 +7299,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.508';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.509';
     
     var __HU_SIZE_BUMP_150 = 1;
 

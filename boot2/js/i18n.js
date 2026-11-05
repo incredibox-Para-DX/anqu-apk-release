@@ -24,6 +24,7 @@
         glove_title: ['更换检视手套', '更換檢視手套', 'Change Inspect Gloves', 'Сменить перчатки для осмотра'],
         glove_preview: ['预览当前手套', '預覽目前手套', 'Preview Current Gloves', 'Предпросмотр перчаток'],
         inspect_btn: ['检视', '檢視', 'Inspect', 'Осмотр'],
+        inspect_loading: ['模型加载中…', '模型載入中…', 'Loading model...', 'Загрузка модели...'],
         glove_g05: ['暗区作训服手套', '暗區作訓服手套', 'Dark Zone Training Gloves', 'Тактические перчатки Тёмной зоны'],
         glove_kurt: ['科特·手套', '科特·手套', "Kurt's Gloves", 'Перчатки Курта'],
         glove_g04: ['伯纳德·手套', '伯納德·手套', "Bernard's Gloves", 'Перчатки Бернарда'],
