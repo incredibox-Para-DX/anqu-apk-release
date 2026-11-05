@@ -118,7 +118,7 @@ if (tuneToggle) tuneToggle.addEventListener('click', function () {
 });
 
 const PROP_STYLE = {
-  gem_necklace: { roughness: 0.22, metalness: 0.85, envMapIntensity: 1.5 }
+  gem_necklace: { roughness: 0.38, metalness: 0.55, envMapIntensity: 1.05 }
 };
 const loader = new GLTFLoader();
 const texTorso = loadColor('./lion/torso_D.png');
@@ -199,7 +199,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       g.computeVertexNormals();
       const st = PROP_STYLE[key] || { roughness: 0.55, metalness: 0.12, envMapIntensity: 0.8 };
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: st.roughness, metalness: st.metalness, envMapIntensity: st.envMapIntensity, transparent: true, alphaTest: 0.35 });
-      if (key === 'gem_necklace') { mat.emissive = new THREE.Color(0x2a1e08); mat.emissiveIntensity = 0.35; }
+      if (key === 'gem_necklace') { mat.emissive = new THREE.Color(0x241a06); mat.emissiveIntensity = 0.12; }
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
@@ -220,10 +220,14 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   model.traverse((o) => { if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) gloveMeshes.push(o); });
   let torsoMesh = null;
   model.traverse((o) => { if (o.isSkinnedMesh && o.skeleton && o.skeleton.bones.length === 97 && !torsoMesh) torsoMesh = o; });
+  const MAP7097 = [0, 9, 13, 14, 15, 16, 18, 19, 20, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86];
   const MAP8797 = [0, -1, -1, -1, -1, -1, -1, -1, 9, 11, -1, 12, 13, -1, 14, 15, -1, -1, -1, -1, 25, 26, 27, -1, 28, 29, -1, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, -1, 50, 51, -1, -1, 57, 58, 59, 60, -1, -1, 61, 62, 63, 64, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 81, 82, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
-  if (/^g\d\d$/.test(gloveKind) && torsoMesh) {
+  const GLOVE_FILES = { rolf: 'gloves_rolf_uit.glb', kurt: 'gloves_kurt_uit.glb', xmas: 'gloves_xmas_uit.glb' };
+  const isGN = /^g\d\d$/.test(gloveKind);
+  const gloveFile = isGN ? (gloveKind + '.glb') : (GLOVE_FILES[gloveKind] || '');
+  if (gloveFile && torsoMesh) {
     gloveMeshes.forEach((m) => { m.visible = false; });
-    loader.load('./lion/' + gloveKind + '.glb', (gg) => {
+    loader.load('./lion/' + gloveFile, (gg) => {
       let geo = null;
       gg.scene.traverse((o) => { if (o.isMesh && !geo) geo = o.geometry; });
       if (!geo) { gloveMeshes.forEach((m) => { m.visible = true; }); return; }
@@ -233,13 +237,14 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
         const n = si.count;
         const out = new Uint16Array(n * 4);
         const outW = new Float32Array(n * 4);
+        const MAP = isGN ? MAP8797 : MAP7097;
         for (let v = 0; v < n; v++) {
           const js4 = [], ws4 = [];
           for (let k = 0; k < 4; k++) {
             const idx = si.getComponent(v, k);
             const w = sw.getComponent(v, k);
             if (w <= 0) continue;
-            const m2 = idx < MAP8797.length ? MAP8797[idx] : -1;
+            const m2 = idx < MAP.length ? MAP[idx] : -1;
             if (m2 < 0) continue;
             js4.push(m2);
             ws4.push(w);
@@ -257,11 +262,16 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
         g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(outW, 4));
       }
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
-      mat.map = loadColor('./lion/' + gloveKind + '_D.png');
-      mat.normalMap = loadData('./lion/' + gloveKind + '_N.png');
+      const TEX = {
+        rolf: ['gloves_D.png', 'gloves_N.png', ''],
+        kurt: ['sniper_D.png', 'sniper_N.png', 'sniper_MAR.png'],
+        xmas: ['xmas_D.png', 'xmas_N.png', 'xmas_MAR.png']
+      };
+      const texSet = isGN ? [gloveKind + '_D.png', gloveKind + '_N.png', gloveKind + '_MAR.png'] : (TEX[gloveKind] || ['', '', '']);
+      if (texSet[0]) mat.map = loadColor('./lion/' + texSet[0]);
+      if (texSet[1]) mat.normalMap = loadData('./lion/' + texSet[1]);
       mat.normalScale = new THREE.Vector2(1.25, 1.25);
-      mat.roughnessMap = loadData('./lion/' + gloveKind + '_MAR.png');
-      mat.metalnessMap = mat.roughnessMap;
+      if (texSet[2]) { mat.roughnessMap = loadData('./lion/' + texSet[2]); }
       const sm = new THREE.SkinnedMesh(g, mat);
       sm.frustumCulled = false;
       sm.bind(torsoMesh.skeleton, torsoMesh.bindMatrix);
