@@ -23,6 +23,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
     <label style="display:flex;justify-content:space-between;margin:2px 0;">旋转X<input id="t_rx" type="number" step="5" value="0" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
     <label style="display:flex;justify-content:space-between;margin:2px 0;">旋转Y<input id="t_ry" type="number" step="5" value="0" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
     <label style="display:flex;justify-content:space-between;margin:2px 0;">旋转Z<input id="t_rz" type="number" step="5" value="0" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <button id="t_pause" style="margin-top:6px;width:100%;padding:5px;border-radius:6px;border:1px solid #2b3543;background:#1e2630;color:#dbe4ee;">暂停动画</button>
   </div>
 </div>
 <script type="module">
@@ -97,6 +98,13 @@ function saveTune() {
 });
 const tuneBox = document.getElementById('tune');
 if (tuneBox) tuneBox.addEventListener('click', function (e) { e.stopPropagation(); });
+let animPaused = false;
+const pauseBtn = document.getElementById('t_pause');
+if (pauseBtn) pauseBtn.addEventListener('click', function (e) {
+  e.stopPropagation();
+  animPaused = !animPaused;
+  pauseBtn.textContent = animPaused ? '继续动画' : '暂停动画';
+});
 const tuneToggle = document.getElementById('tune-toggle');
 if (tuneToggle) tuneToggle.addEventListener('click', function () {
   const b = document.getElementById('tune-body');
@@ -276,7 +284,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   (function loop() {
     requestAnimationFrame(loop);
     const dt = Math.min(clock.getDelta(), 0.05);
-    if (mixer) mixer.update(dt);
+    if (mixer && !animPaused) mixer.update(dt);
     if (propMesh && socket) {
       socket.getWorldPosition(camera.__hp || (camera.__hp = new THREE.Vector3()));
       const dir = camera.__dir || (camera.__dir = new THREE.Vector3());
