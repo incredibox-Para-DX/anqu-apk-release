@@ -78,13 +78,25 @@ rim.position.set(-3, 3, -3);
 scene.add(rim);
 
 const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 100);
-const TUNE = { fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 };
+const TUNE_KEY = 'ab_item_tune_' + key;
+const TUNE_DEFAULTS = { fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 };
+let TUNE = Object.assign({}, TUNE_DEFAULTS);
+try {
+  const saved = JSON.parse(localStorage.getItem(TUNE_KEY) || 'null');
+  if (saved) TUNE = Object.assign(TUNE, saved);
+} catch (e) {}
 window.__tune = TUNE;
+function saveTune() {
+  try { localStorage.setItem(TUNE_KEY, JSON.stringify(TUNE)); } catch (e) {}
+}
 ['fwd', 'up', 'right', 'scale', 'rx', 'ry', 'rz'].forEach(function (k) {
   const el = document.getElementById('t_' + k);
   if (!el) return;
-  el.addEventListener('input', function () { TUNE[k] = parseFloat(el.value) || 0; });
+  el.value = String(TUNE[k]);
+  el.addEventListener('input', function () { TUNE[k] = parseFloat(el.value) || 0; saveTune(); });
 });
+const tuneBox = document.getElementById('tune');
+if (tuneBox) tuneBox.addEventListener('click', function (e) { e.stopPropagation(); });
 const tuneToggle = document.getElementById('tune-toggle');
 if (tuneToggle) tuneToggle.addEventListener('click', function () {
   const b = document.getElementById('tune-body');
@@ -297,7 +309,8 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   })();
 }, undefined, (e) => { statusEl.textContent = '角色加载失败'; console.error(e); });
 
-document.addEventListener('click', function () {
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.closest && e.target.closest('#tune')) return;
   try { parent.closeLionInspect(); } catch (err) {}
 });
 
