@@ -5,9 +5,10 @@
 (function (w) {
     'use strict';
 
-    var WORKER = 'https://anqu-raw.sdfgasdfgwe7.workers.dev';
+    var WORKER = 'https://anqu-raw2.sdfgasdfgwe7.workers.dev';
     var GH = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-mods-resources/main';
     var JD = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main';
+    var GLIST = ['https://ghproxy.net/', 'https://ghfast.top/', 'https://gh-proxy.com/'];
     var REPO_RAW_MAIN = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/main';
 
     var LIMITS = {
@@ -64,13 +65,19 @@
             JD + '/mods.json',
             'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/mods.json',
             'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/mods.json',
-            GH + '/mods.json'
+            GH + '/mods.json',
+            GLIST[0] + GH + '/mods.json',
+            GLIST[1] + GH + '/mods.json',
+            GLIST[2] + GH + '/mods.json'
         ],
         baseUrls: [
+            WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
+            GLIST[0] + GH + '/',
+            GLIST[1] + GH + '/',
+            GLIST[2] + GH + '/',
             JD + '/',
             'https://fastly.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/',
             'https://gcore.jsdelivr.net/gh/incredibox-Para-DX/anqu-mods-resources@main/',
-            WORKER + '/incredibox-Para-DX/anqu-mods-resources/main/',
             GH + '/'
         ],
         _db: null,
