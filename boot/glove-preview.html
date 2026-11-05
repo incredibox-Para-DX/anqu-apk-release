@@ -30,6 +30,7 @@ const SPECIAL = {
 };
 const spec = KIND === 'g04' ? ['g04', 'g04'] : (SPECIAL[KIND] || [KIND, KIND]);
 const NEED = [
+    'lion/character.glb',
     'lion/bernard1.glb', 'lion/bernard2.glb', 'lion/bernard3.glb',
     'lion/' + spec[0] + '.glb',
     'lion/' + spec[1] + '_D.png', 'lion/' + spec[1] + '_N.png', 'lion/' + spec[1] + '_MAR.png',
@@ -96,8 +97,11 @@ scene.add(rim);
 const loader = new GLTFLoader();
 let model = null;
 let bernardGlove = null;
-let hand = null;
-let gloveMount = null;
+let bernardBaseGeo = null;
+let originalSkel = null;
+let originalBind = null;
+let rolfSkel = null;
+let bernardFullSkel = null;
 let mixer = null;
 let clips = [];
 let current = 0;
@@ -145,28 +149,44 @@ function setBernardGloveMaterial() {
     if (bernardGlove) bernardGlove.material = gloveMaterial('bernard_gloves');
 }
 
+function remapToFull(geo) {
+    const si = geo.attributes.skinIndex, sw = geo.attributes.skinWeight;
+    if (!si || !sw || !rolfSkel || !bernardFullSkel) return geo;
+    const map = {};
+    rolfSkel.bones.forEach(function (b, i) {
+        const j = bernardFullSkel.bones.findIndex(function (x) { return x.name === b.name; });
+        map[i] = j >= 0 ? j : 0;
+    });
+    const n = si.count, out = new Uint16Array(n * 4);
+    for (let v = 0; v < n; v++) {
+        for (let k = 0; k < 4; k++) out[v * 4 + k] = map[si.getComponent(v, k)] || 0;
+    }
+    const g = geo.clone();
+    g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
+    return g;
+}
+
 function mountGlove() {
-    if (!hand) return;
-    if (gloveMount) { hand.remove(gloveMount); gloveMount = null; }
+    if (!bernardGlove) return;
     if (KIND === 'g04') {
-        if (bernardGlove) {
-            bernardGlove.visible = true;
-            setBernardGloveMaterial();
-        }
+        bernardGlove.geometry = bernardBaseGeo;
+        if (originalSkel) bernardGlove.bind(originalSkel, originalBind);
+        bernardGlove.material = gloveMaterial('g04');
+        bernardGlove.visible = true;
         return;
     }
-    if (bernardGlove) bernardGlove.visible = false;
+    bernardGlove.visible = true;
     loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
         let mesh = null;
         gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
         if (!mesh) return;
-        const geo = mesh.geometry.clone();
-        geo.center();
-        const m = new THREE.Mesh(geo, gloveMaterial(spec[1]));
-        m.scale.setScalar(0.8);
-        m.position.set(0, 0.02, 0);
-        hand.add(m);
-        gloveMount = m;
+        let geo = mesh.geometry;
+        if (/^g\d\d$/.test(KIND)) geo = remap164(geo);
+        geo = remapToFull(geo);
+        bernardGlove.geometry = geo;
+        if (bernardFullSkel) bernardGlove.bind(bernardFullSkel, originalBind || bernardGlove.bindMatrix);
+        bernardGlove.material = gloveMaterial(spec[1]);
+        bernardGlove.visible = true;
     }, undefined, function (e) { console.error(e); });
 }
 
@@ -177,11 +197,15 @@ function loadGLB(p) {
 }
 
 Promise.all([
+    loadGLB('./lion/character.glb'),
     loadGLB('./lion/bernard1.glb'),
     loadGLB('./lion/bernard2.glb'),
     loadGLB('./lion/bernard3.glb')
 ]).then(function (list) {
-    model = list[0].scene;
+    list[0].scene.traverse(function (o) {
+        if (o.isMesh && /glove/i.test(o.name || '') && !rolfSkel) rolfSkel = o.skeleton;
+    });
+    model = list[1].scene;
     model.scale.setScalar(0.01);
     model.rotation.y = Math.PI;
     model.traverse(function (o) {
@@ -189,7 +213,12 @@ Promise.all([
         o.frustumCulled = false;
         const n = (o.name || '').toLowerCase();
         if (n.indexOf('glove') >= 0) {
-            if (!bernardGlove) bernardGlove = o;
+            if (!bernardGlove) {
+                bernardGlove = o;
+                bernardBaseGeo = o.geometry;
+                originalSkel = o.skeleton;
+                originalBind = o.bindMatrix.clone();
+            }
             o.visible = true;
             o.material = gloveMaterial('bernard_gloves');
         } else if (n.indexOf('torso') >= 0) {
@@ -205,7 +234,9 @@ Promise.all([
             o.visible = false;
         }
     });
-    hand = model.getObjectByName('hand_r') || model.getObjectByName('item_r') || model.getObjectByName('hand_l');
+    const bones = [];
+    model.traverse(function (o) { if (o.isBone) bones.push(o); });
+    bernardFullSkel = new THREE.Skeleton(bones);
     scene.add(model);
     model.updateMatrixWorld(true);
 
@@ -217,7 +248,7 @@ Promise.all([
         dist = Math.max(size.y * 1.15, size.x * 2.0, 1.6);
     }
 
-    clips = list.map(function (g) { return g.animations && g.animations[0]; })
+    clips = list.slice(1).map(function (g) { return g.animations && g.animations[0]; })
         .filter(Boolean).map(trimClip);
     if (clips.length) {
         mixer = new THREE.AnimationMixer(model);
