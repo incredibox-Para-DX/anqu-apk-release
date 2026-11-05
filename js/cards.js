@@ -176,6 +176,10 @@
     function open() {
         var m = document.getElementById('card-modal');
         if (!m) return;
+        if (!packReady()) {
+            if (window.showToast) window.showToast(t('card_need_download'));
+            return;
+        }
         render();
         if (window.ModalRegistry) { try { ModalRegistry.open('card-modal'); return; } catch (e) {} }
         m.style.display = 'flex';
