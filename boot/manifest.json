@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.457",
+  "version": "v2.3.0_hotfix.458",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 370735,
-      "sha256": "089301ea9a1725466487f8592fa9233c02e70db237356e556bf85e2bea4aaaef"
+      "sha256": "c6c277e67fca111e7e83cf43c5250be78c9bf22bd5fdc30679d1677b7729716e"
     },
     {
       "path": "js/synthesis.js",
@@ -195,26 +195,6 @@
       "path": "js/toast-catalog.js",
       "size": 3806,
       "sha256": "ff59d60b5457c6ca02043dbe65c7dda244ee873d77feef473148813d2896f30a"
-    },
-    {
-      "path": "libs/GSAP.js",
-      "size": 72213,
-      "sha256": "53c3a2be6f0df881861adce7bcc3da341a64f5fefe244634f9a37197d0f58fb7"
-    },
-    {
-      "path": "libs/jquery.js",
-      "size": 78748,
-      "sha256": "39a546ea9ad97f8bfaf5d3e0e8f8556adb415e470e59007ada9759dce472adaa"
-    },
-    {
-      "path": "libs/lodash.js",
-      "size": 73154,
-      "sha256": "095adb100506cd3ef102efb3e5c2393751939f471c95233542e3de5c4259185f"
-    },
-    {
-      "path": "libs/jszip.min.js",
-      "size": 97630,
-      "sha256": "acc7e41455a80765b5fd9c7ee1b8078a6d160bbbca455aeae854de65c947d59e"
     },
     {
       "path": "js/mods.js",
@@ -302,36 +282,11 @@
       "sha256": "a3c678bb4f68eaca4b66ac48ae6cd4d0126636b93770e60d9b49e6790d49ec0e"
     },
     {
-      "path": "vendor/three/three.module.js",
-      "size": 1272972,
-      "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495"
-    },
-    {
-      "path": "vendor/three/addons/loaders/GLTFLoader.js",
-      "size": 108538,
-      "sha256": "4ca7dd12b6be001ecbd52091e6f21503dca3944d4e389af7b57da16275d31827"
-    },
-    {
-      "path": "vendor/three/addons/controls/OrbitControls.js",
-      "size": 29884,
-      "sha256": "fbbc9eb6f89ffe466f1a3e047fe0ac5457a78e50df1d8b01cbb4e9941bef2999"
-    },
-    {
-      "path": "vendor/three/addons/environments/RoomEnvironment.js",
-      "size": 3751,
-      "sha256": "efcb7a5f0e51ecdad1e531450ed3ea2b3c4b9be4c66f0faa5199ac328db76e50"
-    },
-    {
-      "path": "vendor/three/addons/utils/BufferGeometryUtils.js",
-      "size": 31922,
-      "sha256": "5e330ce5bc7f2f46c07c67646e18ed2472e9f4479546a253b5ab3dfc5ab0244b"
-    },
-    {
       "path": "index.html",
       "size": 170501,
       "sha256": "53a630932b489bef12978d5c889c136922338930079fe159ea3919575a59b43a"
     }
   ],
-  "fileCount": 66,
-  "totalSize": 4221985
+  "fileCount": 57,
+  "totalSize": 2453173
 }

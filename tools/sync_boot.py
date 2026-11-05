@@ -59,10 +59,6 @@ CODE_FILES = [
     "js/bg-i18n.js",
     "js/gm-i18n.js",
     "js/toast-catalog.js",
-    "libs/GSAP.js",
-    "libs/jquery.js",
-    "libs/lodash.js",
-    "libs/jszip.min.js",
     "js/mods.js",
     "js/thanks.js",
     "js/lion-pack.js",
@@ -83,7 +79,7 @@ CODE_FILES = [
 ]
 
 
-BULK_DIRS = ["vendor/three"]
+BULK_DIRS = []
 
 
 def bulk_files():
