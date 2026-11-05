@@ -188,7 +188,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
       mat.map = loadColor('./lion/' + gloveKind + '_D.png');
       mat.normalMap = loadData('./lion/' + gloveKind + '_N.png');
-      mat.normalScale = new THREE.Vector2(0.8, 0.8);
+      mat.normalScale = new THREE.Vector2(1.25, 1.25);
       mat.roughnessMap = loadData('./lion/' + gloveKind + '_MAR.png');
       mat.metalnessMap = mat.roughnessMap;
       const sm = new THREE.SkinnedMesh(g, mat);
@@ -247,8 +247,8 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const up = camera.__up || (camera.__up = new THREE.Vector3());
       up.set(0, 1, 0).applyQuaternion(camera.quaternion);
       propMesh.position.copy(camera.__hp)
-        .addScaledVector(dir, -0.08)
-        .addScaledVector(up, 0.11);
+        .addScaledVector(dir, -0.05)
+        .addScaledVector(up, 0.14);
       socket.getWorldQuaternion(camera.__hq || (camera.__hq = new THREE.Quaternion()));
       propMesh.quaternion.copy(camera.__hq);
       propMesh.rotateX(Math.PI / 2);
