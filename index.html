@@ -2223,6 +2223,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
     var NOTIFICATION_CACHE_TTL = 30 * 60 * 1000; 
 
     var btn = document.getElementById('sidebar-notification-btn');
+    if (!btn) { return; }
     var modal = document.getElementById('notification-modal');
     var iframe = document.getElementById('notification-iframe');
     var closeBtn = document.getElementById('notification-modal-close');
