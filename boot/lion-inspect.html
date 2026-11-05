@@ -19,6 +19,20 @@ const ASSET = './';
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
 const PARENT_MAP = (window.parent && window.parent.__lionUrlMap) || {};
+const KIND0 = new URLSearchParams(location.search).get('gloves') || localStorage.getItem('ab_lion_gloves') || 'g05';
+const NEED = [
+    'lion/character.glb', 'lion/lion.glb', 'lion/lion_D.png',
+    'lion/gloves_kurt_quit.glb', 'lion/gloves_snow_retarget.glb',
+    'lion/sniper_D.png', 'lion/sniper_N.png', 'lion/sniper_MAR.png',
+    'lion/snow_D.png', 'lion/snow_N.png', 'lion/snow_MAR.png',
+    'lion/xmas_D.png', 'lion/xmas_N.png', 'lion/xmas_MAR.png'
+];
+if (/^g\d\d$/.test(KIND0)) {
+    NEED.push('lion/' + KIND0 + '.glb', 'lion/' + KIND0 + '_D.png', 'lion/' + KIND0 + '_N.png', 'lion/' + KIND0 + '_MAR.png');
+}
+if (KIND0 === 'g04') {
+    NEED.push('lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png');
+}
 const IDB_MAP = await (async function () {
     try {
         return await new Promise(function (resolve) {
@@ -30,17 +44,18 @@ const IDB_MAP = await (async function () {
                 try {
                     if (!db.objectStoreNames.contains('assets')) { resolve(map); return; }
                     const tx = db.transaction('assets', 'readonly');
-                    const req2 = tx.objectStore('assets').openCursor();
-                    req2.onsuccess = function (ev) {
-                        const cur = ev.target.result;
-                        if (!cur) { resolve(map); return; }
-                        const r = cur.value;
-                        if (r && r.path && r.blob && r.path.indexOf('lion/') === 0) {
-                            try { map[r.path] = URL.createObjectURL(r.blob); } catch (e) {}
-                        }
-                        cur.continue();
-                    };
-                    req2.onerror = function () { resolve(map); };
+                    const store = tx.objectStore('assets');
+                    let pending = NEED.length;
+                    if (!pending) { resolve(map); return; }
+                    NEED.forEach(function (p) {
+                        const g = store.get(p);
+                        g.onsuccess = function () {
+                            const r = g.result;
+                            if (r && r.blob) { try { map[p] = URL.createObjectURL(r.blob); } catch (e) {} }
+                            if (--pending === 0) resolve(map);
+                        };
+                        g.onerror = function () { if (--pending === 0) resolve(map); };
+                    });
                 } catch (e) { resolve(map); }
             };
         });
