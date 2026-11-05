@@ -4232,7 +4232,7 @@ const EventManager = {
             }, 300);
         };
 
-        window.__LOCKED_ITEMS = ['teapot', 'gem_necklace', 'dawn'];
+        window.__LOCKED_ITEMS = ['teapot', 'dawn'];
         window.__hiddenUnlocked = function () {
             try { return localStorage.getItem('ab_unlock_hidden') === '1'; } catch (e) { return false; }
         };
@@ -7187,7 +7187,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.447';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.448';
     
     var __HU_SIZE_BUMP_150 = 1;
 
