@@ -37,7 +37,7 @@ const P0 = new URLSearchParams(location.search);
 const KEY0 = P0.get('item') || 'teapot';
 const GLOVE0 = P0.get('gloves') || localStorage.getItem('ab_lion_gloves') || 'g05';
 const NEED = [
-    'lion/kurt_character.glb',
+    'lion/kurt_character.glb', 'lion/fp_character.glb',
     'lion/items/' + KEY0 + '.glb',
     'lion/items/' + KEY0 + '_D.png', 'lion/items/' + KEY0 + '_N.png', 'lion/items/' + KEY0 + '_MAR.png'
 ];
@@ -241,24 +241,6 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       b.name = 'fp_' + orig;
     });
     window.__animBones = animBones.length;
-  const clip = (model.animations || []).find(function (c) { return /FP_Lion_Check/.test(c.name); }) || (model.animations || [])[0];
-  if (clip) {
-    const fps = 30;
-    const start = Math.floor(0.3 * fps);
-    const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
-    const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
-    mixer = new THREE.AnimationMixer(model);
-    const action = mixer.clipAction(trimmed);
-    action.setLoop(THREE.LoopOnce, 1);
-    action.clampWhenFinished = true;
-    action.play();
-    mixer.update(0);
-    mixer.addEventListener('finished', function () { try { parent.closeLionInspect(); } catch (e) {} });
-  }
-  model.visible = true;
-  try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
-  var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none';
-  try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.3; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
   }
   head = model.getObjectByName('fp_head') || model.getObjectByName('head') || model.getObjectByName('neck_01');
   socket = model.getObjectByName('fp_item_r') || model.getObjectByName('item_r') || model.getObjectByName('fp_hand_r') || model.getObjectByName('hand_r');
@@ -365,7 +347,43 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     });
   }
 
-
+  loader.load('./lion/fp_character.glb', (ag) => {
+    let clip = null;
+    const want = item.anim || params.get('anim');
+    if (want) {
+      for (const c of ag.animations) { if (c.name === want) { clip = c; break; } }
+    }
+    if (clip) {
+      clip.tracks.forEach((t) => {
+        const dot = t.name.indexOf('.');
+        if (dot > 0) {
+          const n = t.name.slice(0, dot);
+          if (n.indexOf('fp_') !== 0) t.name = 'fp_' + n + t.name.slice(dot);
+        }
+      });
+      const fps = 30;
+      const start = Math.floor(0.3 * fps);
+      const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
+      const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
+      mixer = new THREE.AnimationMixer(model);
+      const action = mixer.clipAction(trimmed);
+      action.setLoop(THREE.LoopOnce, 1);
+      action.clampWhenFinished = true;
+      action.play();
+      mixer.update(0);
+      mixer.addEventListener('finished', function () { try { parent.closeLionInspect(); } catch (e) {} });
+      statusEl.textContent = item.name + ' · ' + clip.name + ' ' + trimmed.duration.toFixed(2) + 's';
+    } else if (!want) {
+      statusEl.textContent = item.name + ' · 动画待定';
+    } else {
+      statusEl.textContent = item.name + ' · 未找到 ' + want;
+    }
+    model.visible = true;
+    window.__item = { key: key, name: item.name, anim: clip ? clip.name : null };
+    try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
+    var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none';
+    try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.3; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
+  }, undefined, (e) => { statusEl.textContent = item.name + ' · 动画加载失败'; var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none'; console.error(e); });
 
   const clock = new THREE.Clock();
   const tmp = new THREE.Vector3();
