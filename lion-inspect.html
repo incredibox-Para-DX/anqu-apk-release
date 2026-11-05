@@ -249,6 +249,10 @@ function applyGloves(kindOverride) {
   const rolf = (window.__rolfGloves || [])[0];
   if (!rolf) return;
   if (/^g\d\d$/.test(kind)) {
+    if (PREVIEW) {
+      (window.__rolfGloves || []).forEach((m) => { m.visible = false; });
+      (window.__xmasGloves || []).forEach((m) => { m.visible = false; });
+    }
     const applyG = function (geo) {
       if (!geo) return;
       (window.__rolfGloves || []).forEach((m) => { m.visible = true; });
