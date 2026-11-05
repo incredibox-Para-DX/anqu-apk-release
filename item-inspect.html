@@ -154,7 +154,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
       scene.add(propMesh);
-      propMesh.scale.setScalar(0.0105);
+      propMesh.scale.setScalar(0.0092);
       window.__propMesh = propMesh;
     }, undefined, (e) => console.error('prop load', e));
   }
@@ -246,9 +246,12 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       camera.getWorldDirection(dir);
       const up = camera.__up || (camera.__up = new THREE.Vector3());
       up.set(0, 1, 0).applyQuaternion(camera.quaternion);
+      const right = camera.__right || (camera.__right = new THREE.Vector3());
+      right.set(1, 0, 0).applyQuaternion(camera.quaternion);
       propMesh.position.copy(camera.__hp)
         .addScaledVector(dir, -0.09)
-        .addScaledVector(up, 0.17);
+        .addScaledVector(up, 0.17)
+        .addScaledVector(right, 0.03);
       socket.getWorldQuaternion(camera.__hq || (camera.__hq = new THREE.Quaternion()));
       propMesh.quaternion.copy(camera.__hq);
       propMesh.rotateX(Math.PI / 2);
