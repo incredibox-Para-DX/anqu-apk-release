@@ -82,7 +82,7 @@ CODE_FILES = [
 ]
 
 
-BULK_DIRS = ["lion", "vendor/three"]
+BULK_DIRS = ["vendor/three"]
 
 
 def bulk_files():
