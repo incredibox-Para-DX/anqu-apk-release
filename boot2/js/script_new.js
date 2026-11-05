@@ -4183,7 +4183,7 @@ const EventManager = {
         window.__hideInspectLoading = function () {};
         window.__setInspectFrame = function (frame, url) {
             if (!frame) return;
-            if (url.indexOf('item-inspect.html') < 0 && frame.getAttribute('data-base') === url) {
+            if (url.indexOf('lion-inspect.html') >= 0 && frame.getAttribute('data-base') === url) {
                 try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (e) {}
                 return;
             }
@@ -7285,7 +7285,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.514';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.515';
     
     var __HU_SIZE_BUMP_150 = 1;
 

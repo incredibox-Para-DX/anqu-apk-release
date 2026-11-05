@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>道具检视</title>
+@font-face{font-family:'ArenaPack';src:url('fonts/Arena Breakout.ttf') format('truetype');font-display:swap;}
 <style>
 html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 #app{position:fixed;inset:0}
@@ -12,7 +13,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 </head>
 <body>
 <div id="app"></div>
-<div id="loading" style="position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:2147483647;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div><div class="loading-text" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:13px;color:#cbd5e1;">模型加载中…</div></div>
+<div id="loading" style="position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:2147483647;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div><div class="loading-text" style="font-family:'ArenaPack',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:13px;color:#cbd5e1;">模型加载中…</div></div>
 <style>@keyframes __spin{to{transform:rotate(360deg)}}</style>
 <div id="status" style="display:none">加载中…</div>
 <div id="tune" style="display:none;position:fixed;right:10px;top:56px;z-index:20;background:rgba(12,16,22,.82);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;font:11px -apple-system,sans-serif;color:#cbd5e1;width:150px;">
@@ -115,7 +116,7 @@ const item = ITEMS[key] || { name: key, anim: params.get('anim') || '', model: '
 const statusEl = document.getElementById('status');
 
 const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.getElementById('app').appendChild(renderer.domElement);
@@ -429,7 +430,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh.rotateX(Math.PI / 2 + TUNE.rx * Math.PI / 180);
       propMesh.rotateY(TUNE.ry * Math.PI / 180);
       propMesh.rotateZ(TUNE.rz * Math.PI / 180);
-      propMesh.visible = true;
+      if (propMesh.__ready) propMesh.visible = true; else propMesh.__ready = true;
     }
     if (head) {
       head.getWorldPosition(tmp);
@@ -473,6 +474,6 @@ addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
 });
 </script>
-<script>try{var _lt=document.querySelector("#loading .loading-text");if(_lt&&window.parent&&window.parent.I18N)_lt.textContent=window.parent.I18N.t("inspect_loading");}catch(e){}</script>
+<script>try{var _lt=document.querySelector("#loading .loading-text");function _upd(){if(_lt&&window.parent&&window.parent.I18N)_lt.textContent=window.parent.I18N.t("inspect_loading");} _upd(); var _ti=setInterval(_upd,300); setTimeout(function(){clearInterval(_ti);},5000);}catch(e){}</script>
 </body>
 </html>
