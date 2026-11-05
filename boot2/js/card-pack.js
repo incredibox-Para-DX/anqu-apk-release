@@ -134,6 +134,7 @@
                     var b2 = $('rd-download-card-btn'); if (b2) b2.style.display = 'none';
                     toast('名片资源包已下载完成');
                     if (w.Cards && w.Cards.refreshImages) w.Cards.refreshImages();
+                    refreshUI();
                 } else {
                     setBar(Math.round(done / files.length * 100), '完成：' + done + '/' + files.length + '，失败 ' + failed + '（可再次点击重试）');
                     toast('部分失败，可再次点击重试');

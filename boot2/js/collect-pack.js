@@ -140,6 +140,7 @@
                     setBar(100, '全部完成'); showDone(true); showProgress(false);
                     var b2 = $('rd-download-collect-btn'); if (b2) b2.style.display = 'none';
                     toast('收藏室资源包已下载完成');
+                    refreshUI();
                 } else {
                     setBar(Math.round(done / total * 100), '完成：' + done + '/' + total + '，失败 ' + failed + '（可再次点击重试）');
                     toast('部分失败，可再次点击重试');

@@ -21,7 +21,9 @@
     var DONE_KEY = 'ab_lion_pack_v1';
     var state = { manifest: null, downloading: false, base: null };
 
+    function $(id) { return document.getElementById(id); }
     function bt() { return w.AndroidUpdate; }
+    function toast(m) { if (w.showToast) w.showToast(m); }
     function fileSize(p) {
         var b = bt();
         if (!b || typeof b.fileSize !== 'function') return -1;
@@ -55,6 +57,35 @@
         });
     }
 
+    function applyUI(done) {
+        var dl = $('rd-download-model-btn');
+        if (dl) dl.style.display = done ? 'none' : '';
+        var del = $('rd-delete-model-btn');
+        if (del) del.style.display = done ? '' : 'none';
+        var doneEl = $('rd-model-done');
+        if (doneEl) doneEl.style.display = done ? '' : 'none';
+        if (done) {
+            var wrap = $('rd-model-progress-wrap');
+            if (wrap) wrap.style.display = 'none';
+        }
+    }
+
+    function refreshUI() {
+        if (state.downloading) return;
+        var done = isDone();
+        applyUI(done);
+        if (done) return;
+        loadManifest().then(function (m) {
+            var files = m.files || [];
+            if (!files.length) return;
+            var all = files.every(function (f) { return fileSize('www/' + f.path) === f.size; });
+            if (all) {
+                try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
+                applyUI(true);
+            }
+        }).catch(function () {});
+    }
+
     function b64(buf) {
         if (w.__huB64) return w.__huB64(buf);
         var bytes = new Uint8Array(buf), s = '', chunk = 0x8000;
@@ -65,17 +96,18 @@
     }
 
     function download() {
-        if (state.downloading) return Promise.resolve();
+        if (state.downloading) return;
+        if (isDone()) { refreshUI(); return; }
         var b = bt();
         if (!b || typeof b.writeFile !== 'function') {
-            if (w.showToast) w.showToast('当前安装包不支持写入资源，请安装新版 App');
-            return Promise.resolve();
+            toast('当前安装包不支持写入资源，请安装新版 App');
+            return;
         }
         state.downloading = true;
-        var doneEl = document.getElementById('rd-model-done');
-        var barEl = document.getElementById('rd-model-progress-bar');
-        var txtEl = document.getElementById('rd-model-progress-text');
-        var wrapEl = document.getElementById('rd-model-progress-wrap');
+        var doneEl = $('rd-model-done');
+        var barEl = $('rd-model-progress-bar');
+        var txtEl = $('rd-model-progress-text');
+        var wrapEl = $('rd-model-progress-wrap');
         if (wrapEl) wrapEl.style.display = '';
         if (doneEl) doneEl.style.display = 'none';
 
@@ -86,9 +118,8 @@
                 if (i >= files.length) {
                     try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
                     state.downloading = false;
-                    if (wrapEl) wrapEl.style.display = 'none';
-                    if (doneEl) doneEl.style.display = '';
-                    if (w.showToast) w.showToast('模型资源包已下载完成');
+                    applyUI(true);
+                    toast('模型资源包已下载完成');
                     return Promise.resolve();
                 }
                 var f = files[i];
@@ -109,24 +140,46 @@
                     })
                     .catch(function () {
                         state.downloading = false;
-                        if (w.showToast) w.showToast('模型资源包下载失败，请检查网络后重试');
+                        if (wrapEl) wrapEl.style.display = 'none';
+                        applyUI(false);
+                        toast('模型资源包下载失败，请检查网络后重试');
                     });
             }
             return step(0);
+        }).catch(function () {
+            state.downloading = false;
+            if (wrapEl) wrapEl.style.display = 'none';
+            applyUI(false);
+            toast('模型资源包下载失败，请检查网络后重试');
         });
+    }
+
+    function deletePack() {
+        var R = w.ResourceDownloadManager;
+        if (!R || typeof R.confirmDeletePaths !== 'function') {
+            toast('资源管理器未就绪');
+            return;
+        }
+        loadManifest().then(function (m) {
+            var paths = (m.files || []).map(function (f) { return f.path; });
+            R.confirmDeletePaths('模型资源包', function () {
+                R.deletePathsAndUnmark(paths).then(function () {
+                    try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+                    applyUI(false);
+                    toast('模型资源包已删除');
+                });
+            });
+        }).catch(function () { toast('资源列表加载失败'); });
     }
 
     function bind() {
-        var btn = document.getElementById('rd-download-model-btn');
-        if (btn) btn.addEventListener('click', function () { download(); });
-        var del = document.getElementById('rd-delete-model-btn');
-        if (del) del.addEventListener('click', function () {
-            if (w.showConfirmDeletePaths) { w.showConfirmDeletePaths('模型资源包', function () {}); return; }
-            if (w.showToast) w.showToast('请到热更新面板清理后重装');
-        });
+        var btn = $('rd-download-model-btn');
+        if (btn && !btn._b) { btn._b = true; btn.addEventListener('click', download); }
+        var del = $('rd-delete-model-btn');
+        if (del && !del._b) { del._b = true; del.addEventListener('click', deletePack); }
     }
 
-    w.LionPack = { isDone: isDone, download: download, loadManifest: loadManifest };
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
-    else bind();
+    w.LionPack = { isDone: isDone, download: download, loadManifest: loadManifest, refreshUI: refreshUI, deletePack: deletePack };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { bind(); refreshUI(); });
+    else { bind(); refreshUI(); }
 })(window);

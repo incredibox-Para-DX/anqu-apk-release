@@ -6407,6 +6407,9 @@ const EventManager = {
                 .then(() => this.preloadMusicCache())
                 .then(() => this.refreshUI())
                 .catch(() => this.refreshUI());
+            if (window.CollectPack && window.CollectPack.refreshUI) window.CollectPack.refreshUI();
+            if (window.CardPack && window.CardPack.refreshUI) window.CardPack.refreshUI();
+            if (window.LionPack && window.LionPack.refreshUI) window.LionPack.refreshUI();
             EventManager.openModal('resource-download-modal');
         },
 
@@ -7224,7 +7227,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.465';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.466';
     
     var __HU_SIZE_BUMP_150 = 1;
 

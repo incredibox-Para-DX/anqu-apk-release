@@ -1,5 +1,5 @@
 {
-  "version": "v2.3.0_hotfix.465",
+  "version": "v2.3.0_hotfix.466",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -88,8 +88,8 @@
     },
     {
       "path": "js/collect-pack.js",
-      "size": 8955,
-      "sha256": "d681f1485aa925725217598c51ef666678de559220612b4d8d4546b66ae3028c"
+      "size": 8988,
+      "sha256": "9dd169473d71eac2c7343ac3fe9631bcbc208229a73528b07f4da74a658e9f2b"
     },
     {
       "path": "js/cloud-profile.js",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 370735,
-      "sha256": "93c2ec201b6af1680f64845fbce58c71b97eef68503a8fb94a2cc8d2f8cd16ff"
+      "size": 371017,
+      "sha256": "d1472818b738e01a6714e3eea805521e8bedaed29e1c722e407507e489cab965"
     },
     {
       "path": "js/synthesis.js",
@@ -163,8 +163,8 @@
     },
     {
       "path": "js/card-pack.js",
-      "size": 9008,
-      "sha256": "079f77b53b8da5973db031da90736afd0c18ad54c738603dda239288810158ad"
+      "size": 9041,
+      "sha256": "ccd458585067d95a500eab394fd731ada252519434ac6406a4d040fb4f68fec9"
     },
     {
       "path": "js/entitlements.js",
@@ -208,8 +208,8 @@
     },
     {
       "path": "js/lion-pack.js",
-      "size": 6600,
-      "sha256": "573b2ddb331ea2e7d4570609894b2b14d5c6c7a9729da0e3aa0c5c69f0daeda1"
+      "size": 8474,
+      "sha256": "9331ddc3c17d3e396166a2ed50e75a0a4c259bf7913c9008730d304167020c50"
     },
     {
       "path": "js/particles.js",
@@ -283,10 +283,10 @@
     },
     {
       "path": "index.html",
-      "size": 170501,
-      "sha256": "53a630932b489bef12978d5c889c136922338930079fe159ea3919575a59b43a"
+      "size": 170626,
+      "sha256": "b9fbd89e8a1ff7a7759b314cdaab88b9ea458ec7423d04394eff9bc5126d84d0"
     }
   ],
   "fileCount": 57,
-  "totalSize": 2453229
+  "totalSize": 2455576
 }
