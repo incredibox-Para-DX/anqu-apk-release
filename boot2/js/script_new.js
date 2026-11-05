@@ -4184,15 +4184,18 @@ const EventManager = {
             if (!el) {
                 el = document.createElement('div');
                 el.id = 'inspect-loading';
-                el.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:99999;pointer-events:none;background:transparent;';
-                el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div><div style="font:13px -apple-system,sans-serif;color:#cbd5e1;">' + (window.I18N ? I18N.t('inspect_loading') : '模型加载中…') + '</div></div>';
+                document.body.appendChild(el);
+            }
+            if (el.parentNode !== document.body) document.body.appendChild(el);
+            if (!document.getElementById('__inspect_spin_style')) {
                 var st = document.createElement('style');
+                st.id = '__inspect_spin_style';
                 st.textContent = '@keyframes __spin{to{transform:rotate(360deg)}}';
                 document.head.appendChild(st);
             }
-            if (el.parentNode !== document.body) document.body.appendChild(el);
+            el.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:2147483647;pointer-events:none;background:transparent;';
+            el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:10px;"><div style="width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div><div style="font:13px -apple-system,sans-serif;color:#cbd5e1;">' + (window.I18N ? I18N.t('inspect_loading') : '模型加载中…') + '</div></div>';
             window.__loadingAt = Date.now();
-            el.style.display = 'flex';
         };
         window.__hideInspectLoading = function () {
             var el = document.getElementById('inspect-loading');
@@ -7299,7 +7302,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.510';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.511';
     
     var __HU_SIZE_BUMP_150 = 1;
 

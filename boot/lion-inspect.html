@@ -385,7 +385,7 @@ function replay() {
 }
 
 window.addEventListener('message', (e) => {
-  if (e.data === 'lion-replay') { replay(); return; }
+  if (e.data === 'lion-replay') { __lastReplay = 0; replay(); return; }
   if (typeof e.data === 'string' && e.data.indexOf('gloves:') === 0) {
     applyGloves(e.data.slice(7));
   }
