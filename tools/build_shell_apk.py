@@ -91,6 +91,7 @@ if os.path.isdir(FONTS_DIR):
         FONT_FILES["assets/www/fonts/" + fn] = os.path.join(FONTS_DIR, fn)
 
 SKIP = set(CODE_FILES)
+SKIP.update(SHELL_FILES.keys())
 SKIP.update({"assets/www/css/shell.css", "assets/www/js/shell.js"})
 
 SKIP.add("assets/www/collect/img_9aaa9d9296.png")
