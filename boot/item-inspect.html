@@ -69,9 +69,9 @@ document.getElementById('app').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
-scene.environmentIntensity = 0.9;
-scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.6));
-const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
+scene.environmentIntensity = 0.6;
+scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.2));
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
 keyLight.position.set(3, 5, 4);
 scene.add(keyLight);
 const rim = new THREE.DirectionalLight(0x6ea8ff, 0.9);
@@ -82,7 +82,8 @@ const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 1
 const TUNE_KEY = 'ab_item_tune_' + key;
 const PER_ITEM_TUNE = {
   teapot: { fwd: -0.051, up: 0.075, right: -0.02, scale: 0.0086, rx: -10, ry: 90, rz: 0 },
-  gem_necklace: { fwd: -0.02, up: 0.01, right: -0.01, scale: 0.00965, rx: 4.5, ry: -100, rz: 0 }
+  gem_necklace: { fwd: -0.02, up: 0.01, right: -0.01, scale: 0.00965, rx: 4.5, ry: -100, rz: 0 },
+  dawn: { fwd: -0.04, up: 0.01, right: 0.01, scale: 0.01, rx: 20, ry: 170, rz: 0 }
 };
 const TUNE_DEFAULTS = Object.assign({ fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 }, PER_ITEM_TUNE[key] || {});
 let TUNE = Object.assign({}, TUNE_DEFAULTS);
@@ -118,7 +119,7 @@ if (tuneToggle) tuneToggle.addEventListener('click', function () {
 });
 
 const PROP_STYLE = {
-  gem_necklace: { roughness: 0.46, metalness: 0.5, envMapIntensity: 0.8 }
+  gem_necklace: { roughness: 0.5, metalness: 0.42, envMapIntensity: 0.7 }
 };
 const loader = new GLTFLoader();
 const texTorso = loadColor('./lion/torso_D.png');
@@ -197,7 +198,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const st = PROP_STYLE[key] || { roughness: 0.5, metalness: 0.1, envMapIntensity: 1.0 };
+      const st = PROP_STYLE[key] || { roughness: 0.68, metalness: 0.04, envMapIntensity: 0.5 };
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: st.roughness, metalness: st.metalness, envMapIntensity: st.envMapIntensity, transparent: true, alphaTest: 0.35 });
       
       const dtex = './lion/items/' + key + '_D.png';
@@ -261,7 +262,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
         g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
         g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(outW, 4));
       }
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.78, metalness: 0.0, envMapIntensity: 0.45 });
       const TEX = {
         rolf: ['gloves_D.png', 'gloves_N.png', ''],
         kurt: ['sniper_D.png', 'sniper_N.png', 'sniper_MAR.png'],
