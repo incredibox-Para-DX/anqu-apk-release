@@ -343,8 +343,10 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const trimmed = THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
       mixer = new THREE.AnimationMixer(model);
       const action = mixer.clipAction(trimmed);
-      action.setLoop(THREE.LoopRepeat, Infinity);
+      action.setLoop(THREE.LoopOnce, 1);
+      action.clampWhenFinished = true;
       action.play();
+      mixer.addEventListener('finished', function () { try { parent.closeLionInspect(); } catch (e) {} });
       statusEl.textContent = item.name + ' · ' + clip.name + ' ' + trimmed.duration.toFixed(2) + 's';
     } else if (!want) {
       statusEl.textContent = item.name + ' · 动画待定';

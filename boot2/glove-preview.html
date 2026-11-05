@@ -174,9 +174,16 @@ function applyGlove(kind) {
     if (!bernardGlove) return;
     kind = kind || gloveKind();
     if (kind === 'g04') {
-        bernardGlove.geometry = baseGloveGeo;
-        bernardGlove.material = baseGloveMat;
-        setGloveTex(bernardGlove, 'bernard_gloves');
+        if (!rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
+        loader.load('./lion/g04.glb', function (gltf) {
+            let mesh = null;
+            gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
+            if (!mesh) return;
+            let geo = remap164(mesh.geometry);
+            geo = remapToBernard(geo, rolfSkel, bernardSkel);
+            bernardGlove.geometry = geo;
+            setGloveTex(bernardGlove, 'bernard_gloves');
+        }, undefined, function (e) { console.error(e); });
         return;
     }
     const spec = GLOVE_SPECIAL[kind] || [kind, kind];
@@ -184,9 +191,15 @@ function applyGlove(kind) {
         let mesh = null;
         gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
         if (!mesh) return;
+        if (/^g\d\d$/.test(kind) && !rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
         let geo = mesh.geometry;
-        if (/^g\d\d$/.test(kind)) geo = remap164(geo);
-        bernardGlove.geometry = remapToBernard(geo, mesh.skeleton || rolfSkel, bernardSkel);
+        if (/^g\d\d$/.test(kind)) {
+            geo = remap164(geo);
+            geo = remapToBernard(geo, rolfSkel, bernardSkel);
+        } else {
+            geo = remapToBernard(geo, mesh.skeleton || rolfSkel, bernardSkel);
+        }
+        bernardGlove.geometry = geo;
         setGloveTex(bernardGlove, spec[1]);
     }, undefined, function (e) { console.error(e); });
 }
@@ -216,7 +229,7 @@ Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
     model.updateMatrixWorld(true);
     model.traverse(function (o) {
         if (!o.isBone) return;
-        if (!headBone && o.name === 'head') headBone = o;
+        if (!headBone && (o.name === 'head' || o.name === 'neck_01')) headBone = o;
         if (!handBone && (o.name === 'hand_r' || o.name === 'item_r')) handBone = o;
     });
 
@@ -230,7 +243,12 @@ Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
 
     applyGlove(gloveKind());
 
-    clips = list.map(function (g) { return g.animations && g.animations[0]; }).filter(Boolean);
+    clips = list.map(function (g) { return g.animations && g.animations[0]; }).filter(Boolean).map(function (clip) {
+        const fps = 30;
+        const start = Math.floor(0.3 * fps);
+        const end = Math.max(start + 1, Math.floor((clip.duration - 0.5) * fps));
+        return THREE.AnimationUtils.subclip(clip, clip.name, start, end, fps);
+    });
     if (clips.length) {
         mixer = new THREE.AnimationMixer(model);
         mixer.addEventListener('finished', function () { play(current + 1); });

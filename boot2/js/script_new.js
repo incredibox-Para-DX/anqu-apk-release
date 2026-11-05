@@ -4369,6 +4369,7 @@ const EventManager = {
             try {
                 var a = new Audio(s);
                 a.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                try { a.currentTime = 0.2; } catch (e) {}
                 a.play().catch(function () {});
                 window.__lionAudio = a;
             } catch (err) {}
@@ -7269,7 +7270,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.479';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.480';
     
     var __HU_SIZE_BUMP_150 = 1;
 
