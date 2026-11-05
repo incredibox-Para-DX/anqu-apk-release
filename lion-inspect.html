@@ -224,6 +224,7 @@ function setupCharacter(gltf) {
   document.getElementById('status').textContent = '';
   applyGloves();
   try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
+  try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.2; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
 }
 
 function setupLion(gltf) {

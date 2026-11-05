@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.485",
+  "version": "v2.4.0_hotfix.486",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 373302,
-      "sha256": "4e37a7b9bb75be261d222574482ed6b486ff831afedd4878aa0555d7fa5ad375"
+      "size": 372812,
+      "sha256": "5a8f7b7f9c39bb55238f0f923de2fc0b8c739a06ae115bcbfd9cbf95115704fe"
     },
     {
       "path": "js/synthesis.js",
@@ -263,28 +263,43 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 18859,
-      "sha256": "cec4a1331a18b4f98d91d1c82d0adc166a127c61df77f033603c5622599c141f"
+      "size": 19121,
+      "sha256": "8e6e44616dd768437adf7dc4a8b4034fa99b421c5cadb57ff3a398c01a1d4e98"
+    },
+    {
+      "path": "lion/bernard_gloves_D.png",
+      "size": 93905,
+      "sha256": "8e3ba422c3f9a3afbf1cd9cfae7cf75d83160897970c6b5e83fd115c42d463b1"
+    },
+    {
+      "path": "lion/bernard_gloves_N.png",
+      "size": 115866,
+      "sha256": "6901a40043a114673fadc311935f12c43396168b6215ed5d930605e0d6fb4782"
+    },
+    {
+      "path": "lion/bernard_gloves_MAR.png",
+      "size": 25085,
+      "sha256": "fbaefda5863908b1d164c166f01dd7a0f3e610fd444eedc8507076f34d95e6ad"
     },
     {
       "path": "glove-preview.html",
-      "size": 11116,
-      "sha256": "06a4086da5b723aeabc96cbf6c32e9648add840b031d04c1caa9118725612f2a"
+      "size": 9093,
+      "sha256": "e1375acd7629fafbd0d6563e38ac2818d75fe0b215e7fdf07620eba69f2fe164"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 120335,
-      "sha256": "bce5323b93a8a04e6d330f10439712e55eb7b932ab55291882d6ea1a2a3f93ba"
+      "size": 120608,
+      "sha256": "dacdc5bdd5767156daa99dcad3caca07e900175ea0fcc742827d807ee11a26f9"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 215497,
-      "sha256": "eb2b805dfc755735aee0ef7f75bc3c9685b57eade7551f101792853a3f363a32"
+      "size": 215769,
+      "sha256": "45f776344e71e293505d8d2184afbd65510d271d7504b8c0e84f8eb8a13f06ce"
     },
     {
       "path": "item-inspect.html",
-      "size": 23390,
-      "sha256": "9e8a7c35b76cf89724b6567159bcabd71e2f3432080356ef1df33b5691d1fad4"
+      "size": 23654,
+      "sha256": "b4ed634924123e1849c6df0b81bf4c6dbf2717288ab071c2bc8a3a93cf13637f"
     },
     {
       "path": "index.html",
@@ -292,6 +307,6 @@
       "sha256": "0e54b0287f18c3dc6c43fa5e39ef89adf0ff622e9f424d68007544d9cbcc5279"
     }
   ],
-  "fileCount": 58,
-  "totalSize": 2481254
+  "fileCount": 61,
+  "totalSize": 2714668
 }

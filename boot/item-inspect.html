@@ -377,6 +377,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     model.visible = true;
     window.__item = { key: key, name: item.name, anim: clip ? clip.name : null };
     try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
+    try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.2; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
   }, undefined, (e) => { statusEl.textContent = item.name + ' · 动画加载失败'; console.error(e); });
 
   const clock = new THREE.Clock();

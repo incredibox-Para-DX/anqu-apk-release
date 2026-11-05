@@ -183,6 +183,7 @@ function setupCharacter(gltf) {
   document.getElementById('status').textContent = 'anim=' + gltf.animations.length + ' socket=' + (window.__socket ? window.__socket.name : 'none');
   applyGloves();
   try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
+  try { var _a = new Audio('./lion/inspect_xcompound.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.2; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
 }
 
 var GLOVE_URLS = { snow: 'lion/gloves_snow_retarget.glb', rolf: 'lion/gloves_rolf_uit.glb', kurt: 'lion/gloves_kurt_uit.glb', xmas: 'lion/gloves_xmas_uit.glb' };
