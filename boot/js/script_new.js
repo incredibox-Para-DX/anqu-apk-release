@@ -4150,7 +4150,7 @@ const EventManager = {
                 : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             const frame = document.getElementById('lion-inspect-frame');
             window.__openWhenReady(function () {
-                frame.setAttribute('src', inspectUrl + (inspectUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
+                window.__setInspectFrame(frame, inspectUrl);
                 TooltipManager.hide();
                 if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
                 else {
@@ -4199,6 +4199,12 @@ const EventManager = {
             if (!el) return;
             var wait = Math.max(0, 300 - (Date.now() - (window.__loadingAt || 0)));
             setTimeout(function () { if (el) el.style.display = 'none'; }, wait);
+        };
+        window.__setInspectFrame = function (frame, url) {
+            if (!frame) return;
+            if (frame.getAttribute('data-base') === url) return;
+            frame.setAttribute('data-base', url);
+            frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
         };
         window.__openWhenReady = function (fn) {
             window.__showInspectLoading();
@@ -4260,14 +4266,13 @@ const EventManager = {
             if (window.ModalRegistry) ModalRegistry.close('glove-select-modal');
             else $('#glove-select-modal').removeClass('show').css('display', 'none');
             window.__openWhenReady(function () {
-                if (frame) frame.setAttribute('src', 'glove-preview.html?gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
+                window.__setInspectFrame(frame, 'glove-preview.html?gloves=' + encodeURIComponent(cur));
                 $('#glove-preview-modal').css('display', 'block');
             });
         });
 
         $('#glove-preview-close').on('click', function () {
             const frame = document.getElementById('glove-preview-frame');
-            if (frame) frame.setAttribute('src', 'about:blank');
             $('#glove-preview-modal').css('display', 'none');
             window.__hideInspectLoading();
         });
@@ -4309,8 +4314,6 @@ const EventManager = {
             stopLionAudio();
             window.__hideInspectLoading();
             $('#lion-inspect-modal').removeClass('show');
-            var f = document.getElementById('lion-inspect-frame');
-            if (f) f.setAttribute('src', 'about:blank');
             setTimeout(() => {
                 $('#lion-inspect-modal').css('display', 'none');
             }, 300);
@@ -4320,8 +4323,6 @@ const EventManager = {
             stopLionAudio();
             window.__hideInspectLoading();
             $('#lion-inspect-modal').removeClass('show');
-            var f = document.getElementById('lion-inspect-frame');
-            if (f) f.setAttribute('src', 'about:blank');
             setTimeout(function () {
                 $('#lion-inspect-modal').css('display', 'none');
             }, 300);
@@ -4373,7 +4374,7 @@ const EventManager = {
             const frame = document.getElementById('lion-inspect-frame');
             window.__pendingInspectSound = window.__pickInspectSound('lion');
             window.__openWhenReady(function () {
-                if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
+                window.__setInspectFrame(frame, 'item-inspect.html?item=' + encodeURIComponent(key));
                 if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
                 else {
                     $('#lion-inspect-modal').css('display', 'flex');
@@ -4409,7 +4410,7 @@ const EventManager = {
             const frame = document.getElementById('lion-inspect-frame');
             window.__pendingInspectSound = window.__pickInspectSound(kind);
             window.__openWhenReady(function () {
-                frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
+                window.__setInspectFrame(frame, url);
                 if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
                 else {
                     $('#lion-inspect-modal').css('display', 'flex');
@@ -7294,7 +7295,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.503';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.504';
     
     var __HU_SIZE_BUMP_150 = 1;
 
