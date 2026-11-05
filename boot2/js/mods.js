@@ -442,7 +442,19 @@
         
         installFromZip: function (zipBlob, listMeta) {
             var self = this;
-            if (!w.JSZip) return Promise.reject(new Error('ZIP 解析组件未加载'));
+            if (!w.JSZip) {
+                var self2 = this;
+                return new Promise(function (resolve, reject) {
+                    var el = document.createElement('script');
+                    el.src = 'libs/jszip.min.js';
+                    el.onload = function () {
+                        if (!w.JSZip) { reject(new Error('ZIP 解析组件未加载')); return; }
+                        self2.installFromZip(zipBlob, listMeta).then(resolve, reject);
+                    };
+                    el.onerror = function () { reject(new Error('ZIP 解析组件未加载')); };
+                    document.head.appendChild(el);
+                });
+            }
             var zip = null, modJson = null, modId = null, storedBytes = 0, wrote = false;
             var assetRecs = [];
             var idOverride = listMeta && listMeta.id ? String(listMeta.id) : null;

@@ -769,13 +769,14 @@ previewCurrentBackground() {
             $('#tooltip-desc').text(window.I18N ? I18N.tr(item.desc || '世界观内容待补充。') : (item.desc || '世界观内容待补充。'));
             const rawName = item.fullName || item.name || '';
             const lionName = window.I18N ? I18N.tr(rawName) : rawName;
-            const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(lionName);
-            const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(lionName);
-            const isXCompound = /理想国|理想國|XCompoundKit|XCompound/i.test(lionName);
-            let itemKey = (window.__ITEM_INSPECT || {})[lionName] || '';
+            const matchName = rawName + '|' + lionName;
+            const isLion = /金狮|金獅|Golden Lion|золотого льва/i.test(matchName);
+            const isSecretFile = /机密文件|機密文件|Secret\s*File|SecretFile/i.test(matchName);
+            const isXCompound = /理想国|理想國|XCompoundKit|XCompound/i.test(matchName);
+            let itemKey = (window.__ITEM_INSPECT || {})[rawName] || (window.__ITEM_INSPECT || {})[lionName] || '';
             if (!itemKey && window.__ITEM_INSPECT) {
                 for (const k in window.__ITEM_INSPECT) {
-                    if (lionName.indexOf(k) >= 0 || k.indexOf(lionName) >= 0) { itemKey = window.__ITEM_INSPECT[k]; break; }
+                    if (matchName.indexOf(k) >= 0 || k.indexOf(rawName) >= 0) { itemKey = window.__ITEM_INSPECT[k]; break; }
                 }
             }
             $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound || !!itemKey);
@@ -7168,7 +7169,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.444';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.445';
     
     var __HU_SIZE_BUMP_150 = 1;
 
