@@ -13,6 +13,18 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 <body>
 <div id="app"></div>
 <div id="status">加载中…</div>
+<div id="tune" style="position:fixed;right:10px;top:56px;z-index:20;background:rgba(12,16,22,.82);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;font:11px -apple-system,sans-serif;color:#cbd5e1;width:150px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><b>调试</b><button id="tune-toggle" style="background:none;border:0;color:#94a3b8;font-size:14px;">–</button></div>
+  <div id="tune-body">
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">前后<input id="t_fwd" type="number" step="0.01" value="-0.09" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">上下<input id="t_up" type="number" step="0.01" value="0.17" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">左右<input id="t_right" type="number" step="0.01" value="0.03" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">缩放<input id="t_scale" type="number" step="0.0005" value="0.0092" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">旋转X<input id="t_rx" type="number" step="5" value="0" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">旋转Y<input id="t_ry" type="number" step="5" value="0" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+    <label style="display:flex;justify-content:space-between;margin:2px 0;">旋转Z<input id="t_rz" type="number" step="5" value="0" style="width:70px;background:#1a212b;color:#e2e8f0;border:1px solid #2b3543;border-radius:4px;"></label>
+  </div>
+</div>
 <script type="module">
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
@@ -66,6 +78,19 @@ rim.position.set(-3, 3, -3);
 scene.add(rim);
 
 const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 100);
+const TUNE = { fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 };
+window.__tune = TUNE;
+['fwd', 'up', 'right', 'scale', 'rx', 'ry', 'rz'].forEach(function (k) {
+  const el = document.getElementById('t_' + k);
+  if (!el) return;
+  el.addEventListener('input', function () { TUNE[k] = parseFloat(el.value) || 0; });
+});
+const tuneToggle = document.getElementById('tune-toggle');
+if (tuneToggle) tuneToggle.addEventListener('click', function () {
+  const b = document.getElementById('tune-body');
+  b.style.display = b.style.display === 'none' ? 'block' : 'none';
+});
+
 const loader = new GLTFLoader();
 const texTorso = loadColor('./lion/torso_D.png');
 const texTorsoN = loadData('./lion/torso_N.png');
@@ -154,7 +179,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
       scene.add(propMesh);
-      propMesh.scale.setScalar(0.0092);
+      
       window.__propMesh = propMesh;
     }, undefined, (e) => console.error('prop load', e));
   }
@@ -248,13 +273,16 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       up.set(0, 1, 0).applyQuaternion(camera.quaternion);
       const right = camera.__right || (camera.__right = new THREE.Vector3());
       right.set(1, 0, 0).applyQuaternion(camera.quaternion);
+      propMesh.scale.setScalar(TUNE.scale);
       propMesh.position.copy(camera.__hp)
-        .addScaledVector(dir, -0.09)
-        .addScaledVector(up, 0.17)
-        .addScaledVector(right, 0.03);
+        .addScaledVector(dir, TUNE.fwd)
+        .addScaledVector(up, TUNE.up)
+        .addScaledVector(right, TUNE.right);
       socket.getWorldQuaternion(camera.__hq || (camera.__hq = new THREE.Quaternion()));
       propMesh.quaternion.copy(camera.__hq);
-      propMesh.rotateX(Math.PI / 2);
+      propMesh.rotateX(Math.PI / 2 + TUNE.rx * Math.PI / 180);
+      propMesh.rotateY(TUNE.ry * Math.PI / 180);
+      propMesh.rotateZ(TUNE.rz * Math.PI / 180);
     }
     if (head) {
       head.getWorldPosition(tmp);
