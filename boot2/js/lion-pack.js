@@ -29,11 +29,7 @@
     }
 
     function isDone() {
-        var b = bt();
-        if (b && typeof b.fileSize === 'function') {
-            return fileSize('www/lion/lion.glb') > 0 && fileSize('www/lion/character.glb') > 0;
-        }
-        return true;
+        try { return !!localStorage.getItem(DONE_KEY); } catch (e) { return false; }
     }
 
     function loadManifest() {
