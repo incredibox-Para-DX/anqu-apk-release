@@ -23,20 +23,21 @@ import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironm
 const P0 = new URLSearchParams(location.search);
 const KIND = P0.get('gloves') || localStorage.getItem('ab_lion_gloves') || 'g05';
 const SPECIAL = {
-    kurt: ['sniper'],
-    snow: ['snow'],
-    xmas: ['xmas'],
-    rolf: ['gloves']
+    kurt: ['gloves_kurt_quit', 'sniper'],
+    snow: ['gloves_snow_retarget', 'snow'],
+    xmas: ['gloves_xmas_uit', 'xmas'],
+    rolf: ['', 'gloves']
 };
-const texBase = KIND === 'g04' ? 'g04' : ((SPECIAL[KIND] && SPECIAL[KIND][0]) || KIND);
+const spec = KIND === 'g04' ? ['g04', 'g04'] : (SPECIAL[KIND] || [KIND, KIND]);
 const NEED = [
-    'lion/bernard1.glb',
-    'lion/' + texBase + '_D.png', 'lion/' + texBase + '_N.png', 'lion/' + texBase + '_MAR.png',
-    'lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png',
+    'lion/character.glb', 'lion/bernard1.glb',
+    'lion/' + spec[1] + '_D.png', 'lion/' + spec[1] + '_N.png', 'lion/' + spec[1] + '_MAR.png',
     'lion/bernard_torso_D.png', 'lion/bernard_torso_N.png', 'lion/bernard_torso_MAR.png',
     'lion/bernard_leg_D.png', 'lion/bernard_leg_N.png', 'lion/bernard_leg_MAR.png',
-    'lion/bernard_shoes_D.png', 'lion/bernard_shoes_N.png', 'lion/bernard_shoes_MAR.png'
+    'lion/bernard_shoes_D.png', 'lion/bernard_shoes_N.png', 'lion/bernard_shoes_MAR.png',
+    'lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png'
 ];
+if (spec[0]) NEED.push('lion/' + spec[0] + '.glb');
 
 const IDB_MAP = await (async function () {
     try {
@@ -92,9 +93,30 @@ const rim = new THREE.DirectionalLight(0x6ea8ff, 1.4);
 rim.position.set(-3, 3, -3);
 scene.add(rim);
 
+const GLOVE_MAP164 = [0, 1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24, 25, 37, 38, 39, 40, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 96, 97, 98, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 141, 142, 143, 144, 145, 146, 147, 148, 160, 161, 162, 163];
+function remap164(geo) {
+    const si = geo.attributes.skinIndex, sw = geo.attributes.skinWeight;
+    if (!si || !sw) return geo;
+    const n = si.count, out = new Uint16Array(n * 4);
+    for (let v = 0; v < n; v++) {
+        for (let k = 0; k < 4; k++) {
+            const idx = si.getComponent(v, k);
+            const w = sw.getComponent(v, k);
+            const m = (w > 0 && idx < GLOVE_MAP164.length) ? GLOVE_MAP164[idx] : 0;
+            out[v * 4 + k] = m >= 0 ? m : 0;
+        }
+    }
+    const g = geo.clone();
+    g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
+    return g;
+}
+
 const loader = new GLTFLoader();
-let model = null;
-let glove = null;
+let bernard = null;
+let rolf = null;
+let rolfGlove = null;
+let rolfXmas = null;
+let rolfBaseGeo = null;
 const center = new THREE.Vector3();
 let dist = 3.0;
 let ang = 0.35;
@@ -118,21 +140,74 @@ function gloveMaterial(base) {
 }
 
 function applyGlove() {
-    if (glove) glove.material = gloveMaterial(texBase);
+    if (!rolfGlove) return;
+    if (KIND === 'xmas') {
+        rolfGlove.visible = false;
+        if (rolfXmas) {
+            rolfXmas.visible = true;
+            rolfXmas.material = gloveMaterial('xmas');
+        }
+        return;
+    }
+    if (rolfXmas) rolfXmas.visible = false;
+    if (KIND === 'rolf' || !spec[0]) {
+        rolfGlove.geometry = rolfBaseGeo;
+        rolfGlove.material = gloveMaterial('gloves');
+        rolfGlove.visible = true;
+        return;
+    }
+    loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
+        let mesh = null;
+        gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
+        if (!mesh) return;
+        let geo = mesh.geometry;
+        if (/^g\d\d$/.test(KIND) || KIND === 'g04') geo = remap164(geo);
+        rolfGlove.geometry = geo;
+        rolfGlove.material = gloveMaterial(spec[1]);
+        rolfGlove.visible = true;
+    }, undefined, function (e) { console.error(e); });
 }
 
-loader.load('./lion/bernard1.glb', function (gltf) {
-    model = gltf.scene;
-    model.scale.setScalar(0.01);
-    model.rotation.y = Math.PI;
-    model.traverse(function (o) {
+function loadGLB(p) {
+    return new Promise(function (resolve, reject) {
+        loader.load(p, resolve, undefined, reject);
+    });
+}
+
+Promise.all([
+    loadGLB('./lion/character.glb'),
+    loadGLB('./lion/bernard1.glb')
+]).then(function (list) {
+    rolf = list[0].scene;
+    rolf.scale.setScalar(0.01);
+    rolf.rotation.y = Math.PI;
+    rolf.traverse(function (o) {
+        if (!o.isMesh) return;
+        o.frustumCulled = false;
+        const n = (o.name || '').toLowerCase();
+        if (n.indexOf('glove') >= 0 && n.indexOf('xmas') >= 0) {
+            rolfXmas = o;
+            o.visible = false;
+            o.material = gloveMaterial('xmas');
+        } else if (n.indexOf('glove') >= 0) {
+            if (!rolfGlove) { rolfGlove = o; rolfBaseGeo = o.geometry; }
+            o.visible = true;
+            o.material = gloveMaterial('gloves');
+        } else {
+            o.visible = false;
+        }
+    });
+    scene.add(rolf);
+
+    bernard = list[1].scene;
+    bernard.scale.setScalar(0.01);
+    bernard.rotation.y = Math.PI;
+    bernard.traverse(function (o) {
         if (!o.isMesh) return;
         o.frustumCulled = false;
         const n = (o.name || '').toLowerCase();
         if (n.indexOf('glove') >= 0) {
-            if (!glove) glove = o;
-            o.visible = true;
-            o.material = gloveMaterial('bernard_gloves');
+            o.visible = false;
         } else if (n.indexOf('torso') >= 0) {
             o.visible = true;
             o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_torso_D.png', true), normalMap: tex('./lion/bernard_torso_N.png'), roughnessMap: tex('./lion/bernard_torso_MAR.png'), metalnessMap: tex('./lion/bernard_torso_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
@@ -146,10 +221,10 @@ loader.load('./lion/bernard1.glb', function (gltf) {
             o.visible = false;
         }
     });
-    scene.add(model);
-    model.updateMatrixWorld(true);
+    scene.add(bernard);
+    bernard.updateMatrixWorld(true);
 
-    const box = new THREE.Box3().setFromObject(model);
+    const box = new THREE.Box3().setFromObject(bernard);
     if (!box.isEmpty()) {
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
@@ -161,7 +236,7 @@ loader.load('./lion/bernard1.glb', function (gltf) {
     const l = document.getElementById('loading');
     if (l) l.style.display = 'none';
     try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
-}, undefined, function (e) {
+}).catch(function (e) {
     console.error(e);
     const l = document.getElementById('loading');
     if (l) l.style.display = 'none';
