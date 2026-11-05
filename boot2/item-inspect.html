@@ -118,7 +118,7 @@ if (tuneToggle) tuneToggle.addEventListener('click', function () {
 });
 
 const PROP_STYLE = {
-  gem_necklace: { roughness: 0.38, metalness: 0.55, envMapIntensity: 1.05 }
+  gem_necklace: { roughness: 0.58, metalness: 0.3, envMapIntensity: 0.55 }
 };
 const loader = new GLTFLoader();
 const texTorso = loadColor('./lion/torso_D.png');
@@ -199,7 +199,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       g.computeVertexNormals();
       const st = PROP_STYLE[key] || { roughness: 0.55, metalness: 0.12, envMapIntensity: 0.8 };
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: st.roughness, metalness: st.metalness, envMapIntensity: st.envMapIntensity, transparent: true, alphaTest: 0.35 });
-      if (key === 'gem_necklace') { mat.emissive = new THREE.Color(0x241a06); mat.emissiveIntensity = 0.12; }
+      
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
