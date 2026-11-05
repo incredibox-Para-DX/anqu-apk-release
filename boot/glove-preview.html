@@ -30,11 +30,13 @@ const SPECIAL = {
 };
 const spec = KIND === 'g04' ? ['g04', 'g04'] : (SPECIAL[KIND] || [KIND, KIND]);
 const NEED = [
-    'lion/character.glb', 'lion/bernard1.glb', 'lion/bernard2.glb', 'lion/bernard3.glb',
+    'lion/bernard1.glb', 'lion/bernard2.glb', 'lion/bernard3.glb',
     'lion/' + spec[0] + '.glb',
     'lion/' + spec[1] + '_D.png', 'lion/' + spec[1] + '_N.png', 'lion/' + spec[1] + '_MAR.png',
-    'lion/head_D.png', 'lion/head_N.png', 'lion/torso_D.png', 'lion/torso_N.png',
-    'lion/leg_D.png', 'lion/leg_N.png', 'lion/shoes_D.png'
+    'lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png',
+    'lion/bernard_torso_D.png', 'lion/bernard_torso_N.png', 'lion/bernard_torso_MAR.png',
+    'lion/bernard_leg_D.png', 'lion/bernard_leg_N.png', 'lion/bernard_leg_MAR.png',
+    'lion/bernard_shoes_D.png', 'lion/bernard_shoes_N.png', 'lion/bernard_shoes_MAR.png'
 ];
 
 const IDB_MAP = await (async function () {
@@ -112,6 +114,8 @@ function remap164(geo) {
 const loader = new GLTFLoader();
 let model = null;
 let glove = null;
+let gloveBaseGeo = null;
+let gloveBaseMat = null;
 let mixer = null;
 let clips = [];
 let current = 0;
@@ -144,11 +148,11 @@ function tex(path, srgb) {
     return t;
 }
 
-function setGloveTex(base) {
-    if (!glove) return;
-    glove.material = new THREE.MeshStandardMaterial({
+function gloveMaterial(base) {
+    return new THREE.MeshStandardMaterial({
         map: tex('./lion/' + base + '_D.png', true),
         normalMap: tex('./lion/' + base + '_N.png'),
+        normalScale: new THREE.Vector2(1.25, 1.25),
         roughnessMap: tex('./lion/' + base + '_MAR.png'),
         metalnessMap: tex('./lion/' + base + '_MAR.png'),
         side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05
@@ -157,14 +161,20 @@ function setGloveTex(base) {
 
 function applyGlove() {
     if (!glove) return;
+    if (KIND === 'g04') {
+        glove.geometry = gloveBaseGeo;
+        glove.material = gloveMaterial('g04');
+        glove.visible = true;
+        return;
+    }
     loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
         let mesh = null;
         gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
         if (!mesh) return;
         let geo = mesh.geometry;
-        if (/^g\d\d$/.test(KIND) || KIND === 'g04') geo = remap164(geo);
+        if (/^g\d\d$/.test(KIND)) geo = remap164(geo);
         glove.geometry = geo;
-        setGloveTex(spec[1]);
+        glove.material = gloveMaterial(spec[1]);
         glove.visible = true;
     }, undefined, function (e) { console.error(e); });
 }
@@ -175,16 +185,7 @@ function loadGLB(p) {
     });
 }
 
-function handOnly(clip) {
-    const tracks = clip.tracks.filter(function (t) {
-        return /hand|finger|thumb|index|middle|ring|pinky|forearm|upperarm/i.test(t.name);
-    });
-    if (!tracks.length) return null;
-    return new THREE.AnimationClip(clip.name, clip.duration, tracks);
-}
-
 Promise.all([
-    loadGLB('./lion/character.glb'),
     loadGLB('./lion/bernard1.glb'),
     loadGLB('./lion/bernard2.glb'),
     loadGLB('./lion/bernard3.glb')
@@ -199,18 +200,18 @@ Promise.all([
         if (n.indexOf('glove') >= 0) {
             if (!glove) glove = o;
             o.visible = true;
+            o.material = gloveMaterial('bernard_gloves');
+            gloveBaseGeo = o.geometry;
+            gloveBaseMat = o.material;
         } else if (n.indexOf('torso') >= 0) {
             o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/torso_D.png', true), normalMap: tex('./lion/torso_N.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_torso_D.png', true), normalMap: tex('./lion/bernard_torso_N.png'), roughnessMap: tex('./lion/bernard_torso_MAR.png'), metalnessMap: tex('./lion/bernard_torso_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
         } else if (n.indexOf('leg') >= 0) {
             o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/leg_D.png', true), normalMap: tex('./lion/leg_N.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_leg_D.png', true), normalMap: tex('./lion/bernard_leg_N.png'), roughnessMap: tex('./lion/bernard_leg_MAR.png'), metalnessMap: tex('./lion/bernard_leg_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
         } else if (n.indexOf('shoe') >= 0) {
             o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/shoes_D.png', true), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
-        } else if (n.indexOf('head') >= 0) {
-            o.visible = true;
-            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/head_D.png', true), normalMap: tex('./lion/head_N.png'), side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/bernard_shoes_D.png', true), normalMap: tex('./lion/bernard_shoes_N.png'), roughnessMap: tex('./lion/bernard_shoes_MAR.png'), metalnessMap: tex('./lion/bernard_shoes_MAR.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
         } else {
             o.visible = false;
         }
@@ -222,12 +223,12 @@ Promise.all([
     if (!box.isEmpty()) {
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
-        center.y += size.y * 0.08;
+        center.y += size.y * 0.1;
         dist = Math.max(size.y * 1.15, size.x * 2.0, 1.6);
     }
 
-    clips = list.slice(1).map(function (g) { return g.animations && g.animations[0]; })
-        .filter(Boolean).map(function (c) { return handOnly(trimClip(c)); }).filter(Boolean);
+    clips = list.map(function (g) { return g.animations && g.animations[0]; })
+        .filter(Boolean).map(trimClip);
     if (clips.length) {
         mixer = new THREE.AnimationMixer(model);
         mixer.addEventListener('finished', function () { play(current + 1); });
