@@ -19,20 +19,11 @@
         'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-collect-resources/main/'
     ];
     var DONE_KEY = 'ab_lion_pack_v1';
-    var state = { manifest: null, downloading: false, paused: false, waiters: [], base: null };
+    var state = { manifest: null, downloading: false, paused: false, waiters: [] };
 
     function $(id) { return document.getElementById(id); }
-    function bt() { return w.AndroidUpdate; }
     function toast(m) { if (w.showToast) w.showToast(m); }
-    function fileSize(p) {
-        var b = bt();
-        if (!b || typeof b.fileSize !== 'function') return -1;
-        try { return Number(b.fileSize(p)) || 0; } catch (e) { return -1; }
-    }
-    function localSize(path) { return fileSize('www/' + path); }
-    function anyLocal(files) {
-        return (files || []).some(function (f) { return localSize(f.path) > 0; });
-    }
+    function rdm() { return w.ResourceDownloadManager; }
 
     function isDone() {
         try { return !!localStorage.getItem(DONE_KEY); } catch (e) { return false; }
@@ -63,7 +54,6 @@
                 if (!best || verNum(x.manifest.version) > verNum(best.manifest.version)) best = x;
             });
             if (!best) throw new Error('manifest');
-            state.base = best.base;
             state.manifest = best.manifest;
             return state.manifest;
         });
@@ -92,6 +82,17 @@
         if (state.downloading) setBtnLabel(p);
     }
 
+    function setBar(pct, text) {
+        var bar = $('rd-model-progress-bar');
+        if (bar) bar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+        if (text != null) { var t = $('rd-model-progress-text'); if (t) t.textContent = text; }
+    }
+
+    function showProgress(show) {
+        var el = $('rd-model-progress-wrap');
+        if (el) el.style.display = show ? '' : 'none';
+    }
+
     function applyUI(done, hasLocal) {
         var dl = $('rd-download-model-btn');
         if (dl) {
@@ -102,133 +103,101 @@
         if (del) del.style.display = (done || hasLocal) ? '' : 'none';
         var doneEl = $('rd-model-done');
         if (doneEl) doneEl.style.display = done ? '' : 'none';
-        if (done) {
-            var wrap = $('rd-model-progress-wrap');
-            if (wrap) wrap.style.display = 'none';
-        }
+        if (done) showProgress(false);
+    }
+
+    function resetUrlMap() {
+        w.__lionUrlMap = {};
+        w.__lionUrlMapReady = false;
     }
 
     function refreshUI() {
         if (state.downloading) return;
-        if (isDone()) { applyUI(true, true); return; }
+        var R = rdm();
+        var done = isDone();
+        if (!R || typeof R.isDownloaded !== 'function') { applyUI(done, done); return; }
         loadManifest().then(function (m) {
             var files = m.files || [];
             if (!files.length) return;
-            var all = files.every(function (f) { return localSize(f.path) === f.size; });
-            var any = anyLocal(files);
+            var all = files.every(function (f) { return R.isDownloaded(f.path); });
+            var any = files.some(function (f) { return R.isDownloaded(f.path); });
             if (all) {
                 try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
                 applyUI(true, true);
             } else {
+                if (done) { try { localStorage.removeItem(DONE_KEY); } catch (e) {} }
                 applyUI(false, any);
             }
-        }).catch(function () {});
-    }
-
-    function b64(buf) {
-        if (w.__huB64) return w.__huB64(buf);
-        var bytes = new Uint8Array(buf), s = '', chunk = 0x8000;
-        for (var i = 0; i < bytes.length; i += chunk) {
-            s += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
-        }
-        return btoa(s);
+        }).catch(function () { applyUI(done, done); });
     }
 
     function download() {
         if (state.downloading) { setPaused(!state.paused); return; }
         if (isDone()) { refreshUI(); return; }
-        var b = bt();
-        if (!b || typeof b.writeFile !== 'function') {
-            toast('当前安装包不支持写入资源，请安装新版 App');
+        var R = rdm();
+        if (!R || typeof R.downloadFile !== 'function') {
+            toast('资源管理器未就绪，请稍后再试');
             return;
         }
         state.downloading = true;
         state.paused = false;
         setBtnLabel(false);
-        var doneEl = $('rd-model-done');
-        var barEl = $('rd-model-progress-bar');
-        var txtEl = $('rd-model-progress-text');
-        var wrapEl = $('rd-model-progress-wrap');
-        if (wrapEl) wrapEl.style.display = '';
-        if (doneEl) doneEl.style.display = 'none';
-
-        return loadManifest().then(function (m) {
-            var files = m.files, total = files.length, done = 0;
-            var base = state.base;
-            function tickProgress() {
-                done++;
-                if (barEl) barEl.style.width = Math.round(done / total * 100) + '%';
-                if (txtEl) txtEl.textContent = done + ' / ' + total;
-            }
-            function fail() {
+        showProgress(true);
+        setBar(0, '准备中...');
+        var doneCount = 0, failCount = 0;
+        loadManifest().then(function (m) {
+            var files = m.files || [];
+            if (!files.length) throw new Error('empty');
+            return R._runConcurrentPool(files, function (f) {
+                return R.waitWhilePaused(function () { return state.paused; }).then(function () {
+                    var urls = BASE_URLS.map(function (b) { return b + f.path; });
+                    return R.downloadFile(urls, f.path, f.path, f.size || 0, null, function () { return state.paused; });
+                });
+            }, function () {
+                doneCount++;
+                setBar(Math.round((doneCount + failCount) / files.length * 100), '已完成 ' + doneCount + '/' + files.length);
+            }, function () {
+                failCount++;
+                setBar(Math.round((doneCount + failCount) / files.length * 100), '失败 ' + failCount + ' 个');
+            }, 6).then(function () {
                 state.downloading = false;
                 state.paused = false;
-                if (wrapEl) wrapEl.style.display = 'none';
-                applyUI(false, anyLocal(files));
-                toast('模型资源包下载失败，请检查网络后重试');
-            }
-            function step(i) {
-                if (state.paused) return waitWhilePaused().then(function () { return step(i); });
-                if (i >= files.length) {
+                resetUrlMap();
+                if (failCount === 0) {
                     try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
-                    state.downloading = false;
-                    state.paused = false;
                     applyUI(true, true);
                     toast('模型资源包已下载完成');
-                    return Promise.resolve();
+                } else {
+                    applyUI(false, true);
+                    toast('部分文件下载失败，可再次点击重试');
                 }
-                var f = files[i];
-                var have = localSize(f.path);
-                if (have === f.size) {
-                    tickProgress();
-                    return step(i + 1);
-                }
-                var offset = (have > 0 && have < f.size) ? have : 0;
-                var headers = {};
-                if (offset && typeof b.writeFileAt === 'function') headers.Range = 'bytes=' + offset + '-';
-                return fetch(base + f.path, { cache: 'no-store', headers: headers })
-                    .then(function (r) {
-                        if (!r.ok && r.status !== 206) throw new Error('HTTP ' + r.status);
-                        return r.arrayBuffer().then(function (buf) {
-                            var at = (offset && r.status === 206) ? offset : 0;
-                            var ok;
-                            if (at > 0 && typeof b.writeFileAt === 'function') {
-                                ok = b.writeFileAt('www/' + f.path, b64(buf), at);
-                            } else {
-                                ok = b.writeFile('www/' + f.path, b64(buf));
-                            }
-                            if (ok === false) throw new Error('write');
-                            if (f.size && fileSize('www/' + f.path) !== f.size) throw new Error('size');
-                            tickProgress();
-                            return step(i + 1);
-                        });
-                    })
-                    .catch(function () { fail(); });
-            }
-            return step(0);
+            });
         }).catch(function () {
             state.downloading = false;
             state.paused = false;
-            if (wrapEl) wrapEl.style.display = 'none';
+            showProgress(false);
             applyUI(false, false);
             toast('模型资源包下载失败，请检查网络后重试');
         });
     }
 
+    function remove(paths) {
+        var R = rdm();
+        R.deletePathsAndUnmark(paths || []).then(function () {
+            try { localStorage.removeItem(DONE_KEY); } catch (e) {}
+            resetUrlMap();
+            applyUI(false, false);
+            toast('模型资源包已删除');
+        });
+    }
+
     function deletePack() {
-        var R = w.ResourceDownloadManager;
+        var R = rdm();
         if (!R || typeof R.confirmDeletePaths !== 'function') {
             toast('资源管理器未就绪');
             return;
         }
         R.confirmDeletePaths('模型资源包', function () {
-            function remove(paths) {
-                R.deletePathsAndUnmark(paths || []).then(function () {
-                    try { localStorage.removeItem(DONE_KEY); } catch (e) {}
-                    applyUI(false, false);
-                    toast('模型资源包已删除');
-                });
-            }
             if (state.manifest && state.manifest.files) {
                 remove(state.manifest.files.map(function (f) { return f.path; }));
                 return;
@@ -246,7 +215,14 @@
         if (del && !del._b) { del._b = true; del.addEventListener('click', deletePack); }
     }
 
-    w.LionPack = { isDone: isDone, download: download, loadManifest: loadManifest, refreshUI: refreshUI, deletePack: deletePack };
+    w.LionPack = {
+        isDone: isDone,
+        download: download,
+        loadManifest: loadManifest,
+        refreshUI: refreshUI,
+        deletePack: deletePack,
+        getManifest: function () { return state.manifest; }
+    };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { bind(); refreshUI(); });
     else { bind(); refreshUI(); }
 })(window);

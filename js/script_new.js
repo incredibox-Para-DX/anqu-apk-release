@@ -4154,24 +4154,43 @@ const EventManager = {
                 : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
                 : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
             const frame = document.getElementById('lion-inspect-frame');
-            frame.setAttribute('src', inspectUrl + (inspectUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
-            TooltipManager.hide();
-            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
-            else {
-                $('#lion-inspect-modal').css('display', 'flex');
-                setTimeout(() => $('#lion-inspect-modal').addClass('show'), 10);
-            }
+            window.__openWhenReady(function () {
+                frame.setAttribute('src', inspectUrl + (inspectUrl.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
+                TooltipManager.hide();
+                if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
+                else {
+                    $('#lion-inspect-modal').css('display', 'flex');
+                    setTimeout(() => $('#lion-inspect-modal').addClass('show'), 10);
+                }
+            });
         });
 
         window.__GLOVE_UNLOCK_VALUE = 10000000;
+        window.__lionUrlMap = window.__lionUrlMap || {};
+        window.__lionUrlMapReady = false;
+        window.__prepareLionUrlMap = function () {
+            if (window.__lionUrlMapReady) return Promise.resolve();
+            var R = window.ResourceDownloadManager;
+            var LP = window.LionPack;
+            if (!R || typeof R.resolvePath !== 'function' || !LP || typeof LP.getManifest !== 'function') return Promise.resolve();
+            var m = LP.getManifest();
+            var p = m ? Promise.resolve(m) : (typeof LP.loadManifest === 'function' ? LP.loadManifest() : Promise.resolve(null));
+            return p.then(function (mm) {
+                if (!mm || !mm.files || !mm.files.length) return;
+                return Promise.all(mm.files.map(function (f) {
+                    return R.resolvePath(f.path).then(function (u) {
+                        if (u) window.__lionUrlMap[f.path] = u;
+                    }).catch(function () {});
+                })).then(function () { window.__lionUrlMapReady = true; });
+            });
+        };
+        window.__openWhenReady = function (fn) {
+            window.__prepareLionUrlMap().then(fn).catch(fn);
+        };
         window.__lionReady = function () {
             if (!window.LionPack || !window.LionPack.isDone()) return false;
-            try {
-                var b = window.AndroidUpdate;
-                if (b && typeof b.fileSize === 'function') {
-                    return Number(b.fileSize('www/lion/character.glb')) > 1000000;
-                }
-            } catch (e) {}
+            var R = window.ResourceDownloadManager;
+            if (R && typeof R.isDownloaded === 'function') return !!R.isDownloaded('lion/character.glb');
             return true;
         };
         window.__gloveUnlocked = function (kind) {
@@ -4221,12 +4240,14 @@ const EventManager = {
 
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             const frame = document.getElementById('glove-preview-frame');
-            if (frame) frame.setAttribute('src', 'lion-inspect.html?preview=1&gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
-            if (window.ModalRegistry) ModalRegistry.open('glove-preview-modal', { silent: true });
-            else {
-                $('#glove-preview-modal').css('display', 'flex');
-                setTimeout(function () { $('#glove-preview-modal').addClass('show'); }, 10);
-            }
+            window.__openWhenReady(function () {
+                if (frame) frame.setAttribute('src', 'lion-inspect.html?preview=1&gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
+                if (window.ModalRegistry) ModalRegistry.open('glove-preview-modal', { silent: true });
+                else {
+                    $('#glove-preview-modal').css('display', 'flex');
+                    setTimeout(function () { $('#glove-preview-modal').addClass('show'); }, 10);
+                }
+            });
         });
 
         $('#glove-preview-close').on('click', function () {
@@ -4334,17 +4355,19 @@ const EventManager = {
         window.openItemInspect = function (key) {
             if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
             const frame = document.getElementById('lion-inspect-frame');
-            if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
-            try {
-                window.__lionAudio = new Audio(window.__pickInspectSound('lion'));
-                window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                window.__lionAudio.play().catch(function () {});
-            } catch (e) {}
-            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
-            else {
-                $('#lion-inspect-modal').css('display', 'flex');
-                setTimeout(function () { $('#lion-inspect-modal').addClass('show'); }, 10);
-            }
+            window.__openWhenReady(function () {
+                if (frame) frame.setAttribute('src', 'item-inspect.html?item=' + encodeURIComponent(key) + '&t=' + Date.now());
+                try {
+                    window.__lionAudio = new Audio(window.__pickInspectSound('lion'));
+                    window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                    window.__lionAudio.play().catch(function () {});
+                } catch (e) {}
+                if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
+                else {
+                    $('#lion-inspect-modal').css('display', 'flex');
+                    setTimeout(function () { $('#lion-inspect-modal').addClass('show'); }, 10);
+                }
+            });
         };
 
         window.__pickInspectSound = function (kind) {
@@ -4360,18 +4383,20 @@ const EventManager = {
             const url = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
                 : (kind === 'secretfile' ? (inspectBase + 'secretfile-inspect.html?gloves=' + gloveKind)
                 : (inspectBase + 'lion-inspect.html?gloves=' + gloveKind));
-            try {
-                window.__lionAudio = new Audio(window.__pickInspectSound(kind));
-                window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
-                window.__lionAudio.play().catch(function () {});
-            } catch (e) {}
             const frame = document.getElementById('lion-inspect-frame');
-            frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
-            if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
-            else {
-                $('#lion-inspect-modal').css('display', 'flex');
-                setTimeout(function () { $('#lion-inspect-modal').addClass('show'); }, 10);
-            }
+            window.__openWhenReady(function () {
+                try {
+                    window.__lionAudio = new Audio(window.__pickInspectSound(kind));
+                    window.__lionAudio.volume = (window.__UI_SOUND_VOLUME__ != null ? window.__UI_SOUND_VOLUME__ : 1);
+                    window.__lionAudio.play().catch(function () {});
+                } catch (e) {}
+                frame.setAttribute('src', url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
+                if (window.ModalRegistry) ModalRegistry.open('lion-inspect-modal', { silent: true });
+                else {
+                    $('#lion-inspect-modal').css('display', 'flex');
+                    setTimeout(function () { $('#lion-inspect-modal').addClass('show'); }, 10);
+                }
+            });
         };
     },
     
@@ -7250,7 +7275,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.474';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.475';
     
     var __HU_SIZE_BUMP_150 = 1;
 

@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.474.m",
+  "version": "v2.4.0_hotfix.475.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 372232,
-      "sha256": "7a06b21092c65d6cf150ede4855e99e0131b21f0dff115858cc5dd5767af15b4"
+      "size": 373719,
+      "sha256": "e7820df38609d596c102de4faf12a61ca1a4c5a687fc2a5fed0565edb947a2f8"
     },
     {
       "path": "js/synthesis.js",
@@ -208,8 +208,8 @@
     },
     {
       "path": "js/lion-pack.js",
-      "size": 11465,
-      "sha256": "c233d5ac22d7b406e38a8208ddef0e38ebc3f3ab899b178184376d1c6c7fccd1"
+      "size": 9923,
+      "sha256": "22159c2213ae7191ec92761947ab5e36052e14ff32b8adadf283d61b1c4ba971"
     },
     {
       "path": "js/particles.js",
@@ -263,23 +263,23 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 15382,
-      "sha256": "1f6a7b1ba8f6da52747d48bf2cb2649b31bb4338f665ee40e0c9ed2113253cb6"
+      "size": 15615,
+      "sha256": "ea57db97de5db317925c7322f40506f0fc51f5c2f0ae5ed9c40fc08b0bd3beda"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 118738,
-      "sha256": "3b814620fc13a2115a3485226b9919d9c068b952cbfde74297e6985c57d4a62a"
+      "size": 118971,
+      "sha256": "a904fe96c8dc64443db08e24ee034cee8cd23d60c7cdd3946d9b85f6b5938f5d"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 213900,
-      "sha256": "2344cf246a060843258c7a2055bb5844c8558877ff900f7e704f0e81ebb085a4"
+      "size": 214133,
+      "sha256": "2fb1285691f889e1a3d071671d621b143219fadc547ceb73341dfeef34c05b84"
     },
     {
       "path": "item-inspect.html",
-      "size": 20331,
-      "sha256": "a3c678bb4f68eaca4b66ac48ae6cd4d0126636b93770e60d9b49e6790d49ec0e"
+      "size": 20564,
+      "sha256": "25e11cd1433890e07cfb4db67fa6844a127093e0680662fa6851788467e105d0"
     },
     {
       "path": "index.html",
@@ -288,5 +288,5 @@
     }
   ],
   "fileCount": 57,
-  "totalSize": 2460906
+  "totalSize": 2461783
 }

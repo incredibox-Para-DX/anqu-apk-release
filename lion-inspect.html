@@ -18,6 +18,11 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 const ASSET = './';
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
+const LION_URL_MAP = (window.parent && window.parent.__lionUrlMap) || {};
+THREE.DefaultLoadingManager.setURLModifier(function (url) {
+    const n = url.indexOf('./') === 0 ? url.slice(2) : url;
+    return LION_URL_MAP[n] || url;
+});
 import { RoomEnvironment } from './vendor/three/addons/environments/RoomEnvironment.js';
 import * as BufferGeometryUtils from './vendor/three/addons/utils/BufferGeometryUtils.js';
 
