@@ -365,7 +365,15 @@
       if (ctrl) to = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, 5000);
       
       var url = b + '/manifest.json?t=' + Date.now();
-      var req = ctrl ? fetch(url, { cache: 'no-store', signal: ctrl.signal }) : fetch(url, { cache: 'no-store' });
+      var req;
+      try {
+        req = ctrl ? fetch(url, { cache: 'no-store', signal: ctrl.signal }) : fetch(url, { cache: 'no-store' });
+      } catch (e) {
+        if (to) clearTimeout(to);
+        if (--pending > 0) return;
+        finishPick();
+        return;
+      }
       req
         .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
         .then(function (text) {
@@ -682,6 +690,7 @@
   }
 
   function checkRemote(next) {
+    if (typeof fetch !== 'function') { next(false); return; }
     var last = 0;
     try { last = Number(lsGet('ab_shell_check_ts')) || 0; } catch (e) {}
     if (last && Date.now() - last < 10 * 60 * 1000) { next(false); return; }
