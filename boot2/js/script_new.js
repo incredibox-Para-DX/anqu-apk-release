@@ -4180,7 +4180,7 @@ const EventManager = {
             });
         };
         window.__openWhenReady = function (fn) {
-            window.__prepareLionUrlMap().then(fn).catch(fn);
+            fn();
         };
         window.__lionReady = function () {
             if (!window.LionPack || !window.LionPack.isDone()) return false;
@@ -7270,7 +7270,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.482';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.483';
     
     var __HU_SIZE_BUMP_150 = 1;
 

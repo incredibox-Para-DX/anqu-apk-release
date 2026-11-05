@@ -118,6 +118,7 @@ const GLOVE_SPECIAL = {
 };
 const GLOVE_MAP164 = [0, 1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24, 25, 37, 38, 39, 40, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 96, 97, 98, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 141, 142, 143, 144, 145, 146, 147, 148, 160, 161, 162, 163];
 let rolfSkel = null;
+let rolfBind = null;
 
 function remap164(geo) {
     const si = geo.attributes.skinIndex, sw = geo.attributes.skinWeight;
@@ -175,24 +176,28 @@ function setGloveTex(mesh, base) {
 function applyGlove(kind) {
     if (!bernardGlove) return;
     kind = kind || gloveKind();
+    bernardGlove.visible = false;
     if (kind === 'g04') {
         bernardGlove.geometry = baseGloveGeo;
         bernardGlove.material = baseGloveMat;
         setGloveTex(bernardGlove, 'bernard_gloves');
+        bernardGlove.visible = true;
         return;
     }
     const spec = GLOVE_SPECIAL[kind] || [kind, kind];
     loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
         let mesh = null;
         gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
-        if (!mesh) return;
+        if (!mesh) { bernardGlove.visible = true; return; }
         if (!rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
         let geo = mesh.geometry;
         if (/^g\d\d$/.test(kind)) geo = remap164(geo);
         geo = remapToBernard(geo, rolfSkel, bernardSkel);
         bernardGlove.geometry = geo;
+        if (rolfBind) { try { bernardGlove.bind(bernardSkel, rolfBind); } catch (e) {} }
         setGloveTex(bernardGlove, spec[1]);
-    }, undefined, function (e) { console.error(e); });
+        bernardGlove.visible = true;
+    }, undefined, function (e) { console.error(e); bernardGlove.visible = true; });
 }
 
 Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
@@ -258,7 +263,10 @@ addEventListener('message', function (e) {
 
 loader.load('./lion/character.glb', function (gltf) {
     gltf.scene.traverse(function (o) {
-        if (o.isMesh && /glove/i.test(o.name || '') && !rolfSkel) rolfSkel = o.skeleton;
+        if (o.isMesh && /glove/i.test(o.name || '')) {
+            if (!rolfSkel) rolfSkel = o.skeleton;
+            if (!rolfBind) rolfBind = o.bindMatrix.clone();
+        }
     });
     if (bernardGlove) applyGlove(gloveKind());
 }, undefined, function (e) { console.error(e); });
