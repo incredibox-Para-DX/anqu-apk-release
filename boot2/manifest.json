@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.488.m",
+  "version": "v2.4.0_hotfix.489.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 373271,
-      "sha256": "cc524c6d973dd4fb9df69dc3a5e51d7d0edad047279395cdfd0b90f3d38d74e4"
+      "size": 374139,
+      "sha256": "5987377eef658c2caa64ac0d842de0d474aafd8e8a13573cd275d7f7ed155680"
     },
     {
       "path": "js/synthesis.js",
@@ -263,8 +263,8 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 19290,
-      "sha256": "c81414584e54df80aca2dbf80a45d68115f470fe94e3b2a2d59842d8942bbd27"
+      "size": 19222,
+      "sha256": "e38c4f19e3ae960333ed29812fec0ecce87d20c37be0eee21e291f032c04ab87"
     },
     {
       "path": "lion/bernard_gloves_D.png",
@@ -298,23 +298,23 @@
     },
     {
       "path": "glove-preview.html",
-      "size": 11717,
-      "sha256": "a0c8d2d7fb42ad2bd7f914368f7d57ddb19685ddfd18a7305b18e5caf838680a"
+      "size": 10580,
+      "sha256": "ff9e07af3b202e85e3f205f766bcf57a86ae2fc65369380b1c1a8f61a6f31aee"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 120676,
-      "sha256": "51c0ec332687ea9b9de335a0dca128b6cb8627a967a10596022c225d00479140"
+      "size": 120608,
+      "sha256": "144ad09bb2a0515e9eae176344cc4b5f036913d43cbe5b2de1fec49dd7162325"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 215837,
-      "sha256": "7f257d273a774c88f1ea456f321607eb893b433de1a4a25173a1c5363bc24161"
+      "size": 215769,
+      "sha256": "730dc20e8145f208aac385c621a4dd5e75388257055066df1dee2c3e45b9077a"
     },
     {
       "path": "item-inspect.html",
-      "size": 24253,
-      "sha256": "bfab4b285ce1988d70b66e2a842c06fb7a6f0995be6fd9c85d6c55fb40c6de0f"
+      "size": 24185,
+      "sha256": "af1df863974188863809bf3a5828f88914e8aa53b73f8bbc2f101e6099eaed2d"
     },
     {
       "path": "index.html",
@@ -323,5 +323,5 @@
     }
   ],
   "fileCount": 64,
-  "totalSize": 2953911
+  "totalSize": 2953370
 }

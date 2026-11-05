@@ -4179,14 +4179,27 @@ const EventManager = {
                 })).then(function () { window.__lionUrlMapReady = true; });
             });
         };
-        window.__openWhenReady = function (fn) {
+        window.__showInspectLoading = function () {
             var el = document.getElementById('inspect-loading');
-            if (el) el.style.display = 'flex';
-            fn();
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'inspect-loading';
+                el.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:99999;pointer-events:none;background:transparent;';
+                el.innerHTML = '<div style="width:38px;height:38px;border:3px solid rgba(255,255,255,.2);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div>';
+                var st = document.createElement('style');
+                st.textContent = '@keyframes __spin{to{transform:rotate(360deg)}}';
+                document.head.appendChild(st);
+            }
+            if (el.parentNode !== document.body) document.body.appendChild(el);
+            el.style.display = 'flex';
         };
         window.__hideInspectLoading = function () {
             var el = document.getElementById('inspect-loading');
             if (el) el.style.display = 'none';
+        };
+        window.__openWhenReady = function (fn) {
+            window.__showInspectLoading();
+            fn();
         };
         window.__lionReady = function () {
             if (!window.LionPack || !window.LionPack.isDone()) return false;
@@ -7271,7 +7284,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.488';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.489';
     
     var __HU_SIZE_BUMP_150 = 1;
 
