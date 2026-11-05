@@ -4257,6 +4257,8 @@ const EventManager = {
 
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             const frame = document.getElementById('glove-preview-frame');
+            if (window.ModalRegistry) ModalRegistry.close('glove-select-modal');
+            else $('#glove-select-modal').removeClass('show').css('display', 'none');
             window.__openWhenReady(function () {
                 if (frame) frame.setAttribute('src', 'glove-preview.html?gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
                 $('#glove-preview-modal').css('display', 'block');
@@ -7287,7 +7289,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.498';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.499';
     
     var __HU_SIZE_BUMP_150 = 1;
 

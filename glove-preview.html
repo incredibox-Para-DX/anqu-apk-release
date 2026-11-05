@@ -273,8 +273,8 @@ Promise.all([
     if (!box.isEmpty()) {
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
-        center.y += size.y * 0.1;
-        dist = Math.max(size.y * 1.15, size.x * 2.0, 1.6);
+        center.y += size.y * 0.45;
+        dist = Math.max(size.y * 1.8, 2.8);
     }
 
     clips = list.slice(1).map(function (g) { return g.animations && g.animations[0]; })
