@@ -4191,11 +4191,14 @@ const EventManager = {
                 document.head.appendChild(st);
             }
             if (el.parentNode !== document.body) document.body.appendChild(el);
+            window.__loadingAt = Date.now();
             el.style.display = 'flex';
         };
         window.__hideInspectLoading = function () {
             var el = document.getElementById('inspect-loading');
-            if (el) el.style.display = 'none';
+            if (!el) return;
+            var wait = Math.max(0, 300 - (Date.now() - (window.__loadingAt || 0)));
+            setTimeout(function () { if (el) el.style.display = 'none'; }, wait);
         };
         window.__openWhenReady = function (fn) {
             window.__showInspectLoading();
@@ -7284,7 +7287,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.489';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.490';
     
     var __HU_SIZE_BUMP_150 = 1;
 
