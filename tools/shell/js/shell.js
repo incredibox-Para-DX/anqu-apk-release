@@ -50,6 +50,7 @@
   ];
 
   var ci = 0;
+  var remoteVer = '';
   var picked = false;
   var done = false;
   var needDl = false;
@@ -137,6 +138,7 @@
   function enter(msg) {
     if (done) return;
     done = true;
+    if (remoteVer) { try { localStorage.setItem('ab_shell_ver', remoteVer); } catch (e) {} }
     window.__forceRedownload = false;
     clearTimeout(timer);
     stopPoll();
@@ -272,6 +274,7 @@
 
   function setupFiles(m) {
     if (!m || !m.files || !m.files.length) return;
+    remoteVer = m.version || '';
     files = m.files.filter(function (f) { return f && f.path; });
     totalBytes = 0;
     for (var i = 0; i < files.length; i++) totalBytes += byteAt(i);
@@ -701,7 +704,8 @@
         var m = parseText(text);
         if (!m) { next(false); return; }
         localVersion(function (local) {
-          if (local && !verGt(m.version, local)) { next(false); return; }
+          var have = local || lsGet('ab_shell_ver') || '';
+          if (have && !verGt(m.version, have)) { next(false); return; }
           setupFiles(m);
           picked = true;
           ci = 0;
