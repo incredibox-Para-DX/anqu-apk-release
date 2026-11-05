@@ -124,11 +124,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const g = pgeo.clone();
       g.computeBoundingBox();
       const c = g.boundingBox.getCenter(new THREE.Vector3());
-      const size = g.boundingBox.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const norm = 18 / maxDim;
       g.translate(-c.x, -c.y, -c.z);
-      g.scale(norm, norm, norm);
       g.computeVertexNormals();
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.55, metalness: 0.15, envMapIntensity: 0.7 });
       const dtex = './lion/items/' + key + '_D.png';
@@ -141,7 +137,10 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       mat.metalnessMap = mat.roughnessMap;
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
-      model.add(propMesh);
+      const holder = socket || model;
+      holder.add(propMesh);
+      propMesh.position.set(0, 0, 0);
+      propMesh.quaternion.identity();
       window.__propMesh = propMesh;
     }, undefined, (e) => console.error('prop load', e));
   }
@@ -243,15 +242,6 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     requestAnimationFrame(loop);
     const dt = Math.min(clock.getDelta(), 0.05);
     if (mixer) mixer.update(dt);
-    if (propMesh && socket) {
-      socket.getWorldPosition(camera.__hp || (camera.__hp = new THREE.Vector3()));
-      const lp = model.worldToLocal(camera.__hp.clone());
-      propMesh.position.copy(lp);
-      socket.getWorldQuaternion(camera.__hq || (camera.__hq = new THREE.Quaternion()));
-      const mq = new THREE.Quaternion();
-      model.getWorldQuaternion(mq);
-      propMesh.quaternion.copy(mq.invert().multiply(camera.__hq));
-    }
     if (head) {
       head.getWorldPosition(tmp);
       camera.position.copy(tmp);
