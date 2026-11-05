@@ -314,7 +314,7 @@ function applyGloves(kindOverride) {
       rolf.geometry = geo;
       rolf.geometry.computeBoundingSphere();
       const gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-      if (kind === 'g04' && window.__bernardGloves) {
+      if (kind === 'g04') {
         gm.map = texBernardD;
         gm.normalMap = texBernardN;
         gm.normalScale = new THREE.Vector2(1.25, 1.25);

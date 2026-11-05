@@ -174,16 +174,9 @@ function applyGlove(kind) {
     if (!bernardGlove) return;
     kind = kind || gloveKind();
     if (kind === 'g04') {
-        if (!rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
-        loader.load('./lion/g04.glb', function (gltf) {
-            let mesh = null;
-            gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
-            if (!mesh) return;
-            let geo = remap164(mesh.geometry);
-            geo = remapToBernard(geo, rolfSkel, bernardSkel);
-            bernardGlove.geometry = geo;
-            setGloveTex(bernardGlove, 'bernard_gloves');
-        }, undefined, function (e) { console.error(e); });
+        bernardGlove.geometry = baseGloveGeo;
+        bernardGlove.material = baseGloveMat;
+        setGloveTex(bernardGlove, 'bernard_gloves');
         return;
     }
     const spec = GLOVE_SPECIAL[kind] || [kind, kind];
@@ -207,6 +200,7 @@ function applyGlove(kind) {
 Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
     const model = list[0].scene;
     model.scale.setScalar(0.01);
+    model.rotation.y = Math.PI;
     model.traverse(function (o) {
         if (!o.isMesh) return;
         o.frustumCulled = false;
@@ -284,27 +278,13 @@ function animate() {
     requestAnimationFrame(animate);
     const dt = Math.min(clock.getDelta(), 0.05);
     if (mixer) mixer.update(dt);
-    if (headBone && handBone) {
-        headBone.getWorldPosition(camPos);
-        camPos.y += 0.1;
-        handBone.getWorldPosition(camTarget);
-        const dir = camTarget.clone().sub(camPos).normalize();
-        const right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0, 1, 0)).normalize();
-        camPos.addScaledVector(right, -0.05);
-        camera.position.copy(camPos);
-        const look = camTarget.clone();
-        look.y += 0.15;
-        camera.lookAt(look);
-        if (camera.fov !== 80) { camera.fov = 80; camera.updateProjectionMatrix(); }
-    } else {
-        ang += dt * 0.35;
-        camera.position.set(
-            center.x + Math.sin(ang) * dist,
-            center.y + 0.12,
-            center.z + Math.cos(ang) * dist
-        );
-        camera.lookAt(center);
-    }
+    ang += dt * 0.35;
+    camera.position.set(
+        center.x + Math.sin(ang) * dist,
+        center.y + 0.12,
+        center.z + Math.cos(ang) * dist
+    );
+    camera.lookAt(center);
     renderer.render(scene, camera);
 }
 animate();

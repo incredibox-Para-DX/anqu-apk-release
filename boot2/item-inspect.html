@@ -306,7 +306,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
         kurt: ['sniper_D.png', 'sniper_N.png', 'sniper_MAR.png'],
         xmas: ['xmas_D.png', 'xmas_N.png', 'xmas_MAR.png']
       };
-      const texSet = isGN ? [gloveKind + '_D.png', gloveKind + '_N.png', gloveKind + '_MAR.png'] : (TEX[gloveKind] || ['', '', '']);
+      const texSet = ['bernard_gloves_D.png', 'bernard_gloves_N.png', 'bernard_gloves_MAR.png'];
       if (key === 'gem_necklace') mat.color.setRGB(1.03, 1.0, 0.96);
       if (texSet[0]) mat.map = loadColor('./lion/' + texSet[0]);
       if (texSet[1]) mat.normalMap = loadData('./lion/' + texSet[1]);
