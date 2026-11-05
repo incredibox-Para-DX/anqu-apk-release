@@ -4165,8 +4165,8 @@ const EventManager = {
             if (window.__hiddenUnlocked && window.__hiddenUnlocked()) return true;
             var v = 0;
             try {
-                if (window.State && typeof window.State.totalValue === 'number') v = window.State.totalValue;
-                else if (window.__gameState) v = Number(window.__gameState.totalValue) || 0;
+                if (typeof window.__getAccumulatedValue === 'function') v = Number(window.__getAccumulatedValue()) || 0;
+                else if (window.State) v = Number(window.State.totalAccumulatedValue) || 0;
             } catch (e) { v = 0; }
             return v >= window.__GLOVE_UNLOCK_VALUE;
         };
@@ -4228,7 +4228,7 @@ const EventManager = {
         $(document).on('click', '.glove-option', function () {
             const kind = $(this).data('kind');
             if (!window.__gloveUnlocked(kind)) {
-                const v = (window.State && Number(window.State.totalValue)) || (window.__gameState && Number(window.__gameState.totalValue)) || 0;
+                const v = (typeof window.__getAccumulatedValue === 'function' ? Number(window.__getAccumulatedValue()) : 0) || (window.State && Number(window.State.totalAccumulatedValue)) || 0;
                 if (window.showToast) window.showToast(window.I18N ? I18N.t('toast_value_low').replace('{n}', (v / 1000000).toFixed(2)) : '累计价值不足，需达到 10M（当前 ' + (v / 1000000).toFixed(2) + 'M）');
                 return;
             }
@@ -7235,7 +7235,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.469';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.470';
     
     var __HU_SIZE_BUMP_150 = 1;
 

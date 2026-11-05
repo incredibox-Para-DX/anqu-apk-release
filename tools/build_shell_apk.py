@@ -85,13 +85,15 @@ COLLECT_STEMS = {os.path.splitext(os.path.basename(k))[0] for k in COLLECT_FILES
 
 
 LION_DIR = os.path.join(REPO, "lion")
-LION_FILES = {}
-if os.path.isdir(LION_DIR):
-    for dirpath, _, names in os.walk(LION_DIR):
-        for fn in sorted(names):
-            p = os.path.join(dirpath, fn)
-            rel = os.path.relpath(p, LION_DIR).replace(os.sep, "/")
-            LION_FILES["assets/www/lion/" + rel] = p
+LION_KEEP_NAMES = [
+    "gloves_D.png", "gloves_N.png",
+    "torso_D.png", "torso_N.png",
+    "leg_D.png", "leg_N.png", "shoes_D.png",
+    "head_D.png", "head_N.png",
+    "g05_D.png", "g05_N.png", "g05_MAR.png",
+    "inspect.wav", "inspect_xcompound.wav", "inspect_secretfile.wav",
+]
+LION_FILES = {"assets/www/lion/" + n: os.path.join(LION_DIR, n) for n in LION_KEEP_NAMES}
 
 
 FONTS_DIR = os.path.join(REPO, "fonts")
