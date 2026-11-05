@@ -73,6 +73,7 @@ CODE_FILES = [
     "xml/music-config.xml",
     "xml/video-config.xml",
     "lion-inspect.html",
+    "glove-preview.html",
     "secretfile-inspect.html",
     "xcompound-inspect.html",
     "item-inspect.html",

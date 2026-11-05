@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.475",
+  "version": "v2.4.0_hotfix.476",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 373719,
-      "sha256": "e7820df38609d596c102de4faf12a61ca1a4c5a687fc2a5fed0565edb947a2f8"
+      "size": 373710,
+      "sha256": "90c95eb7df39478a8e442998add78d4d109ee1cd54e1c7501728505b0d58b48f"
     },
     {
       "path": "js/synthesis.js",
@@ -263,8 +263,13 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 15615,
-      "sha256": "ea57db97de5db317925c7322f40506f0fc51f5c2f0ae5ed9c40fc08b0bd3beda"
+      "size": 17245,
+      "sha256": "24bc073eb8ec2ff0c757d6ee8b8572e7befeb31d5ea9b61fb670f7ebc539359d"
+    },
+    {
+      "path": "glove-preview.html",
+      "size": 4962,
+      "sha256": "df8280783d479b44a91d66953863e31ee1390ac754b0c2f21f2fc766d581951a"
     },
     {
       "path": "secretfile-inspect.html",
@@ -283,10 +288,10 @@
     },
     {
       "path": "index.html",
-      "size": 170626,
-      "sha256": "b9fbd89e8a1ff7a7759b314cdaab88b9ea458ec7423d04394eff9bc5126d84d0"
+      "size": 170789,
+      "sha256": "83b1ca872d1dc684db7319e97d4ba51167ab44ac212ffc1b8681fac0ee4fecd4"
     }
   ],
-  "fileCount": 57,
-  "totalSize": 2461783
+  "fileCount": 58,
+  "totalSize": 2468529
 }

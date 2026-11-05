@@ -4241,7 +4241,7 @@ const EventManager = {
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             const frame = document.getElementById('glove-preview-frame');
             window.__openWhenReady(function () {
-                if (frame) frame.setAttribute('src', 'lion-inspect.html?preview=1&gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
+                if (frame) frame.setAttribute('src', 'glove-preview.html?gloves=' + encodeURIComponent(cur) + '&t=' + Date.now());
                 if (window.ModalRegistry) ModalRegistry.open('glove-preview-modal', { silent: true });
                 else {
                     $('#glove-preview-modal').css('display', 'flex');
@@ -7275,7 +7275,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.475';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.476';
     
     var __HU_SIZE_BUMP_150 = 1;
 
