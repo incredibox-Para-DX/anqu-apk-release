@@ -7217,17 +7217,17 @@ const EventManager = {
 
 
     
-    var HU_DOMAIN_BASE = 'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-apk-release/dev/boot'; 
-    var HU_WORKER_BASE = 'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/dev/boot';
-    var HU_RAW_BASE = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/dev/boot';
+    var HU_DOMAIN_BASE = 'https://raw.hefunovo.xyz/incredibox-Para-DX/anqu-apk-release/check_ver/boot';
+    var HU_WORKER_BASE = 'https://anqu-raw2.sdfgasdfgwe7.workers.dev/incredibox-Para-DX/anqu-apk-release/check_ver/boot';
+    var HU_RAW_BASE = 'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-apk-release/check_ver/boot';
     var HU_BASE_URL = HU_RAW_BASE;
     var HU_MANIFEST_URL = HU_BASE_URL + '/manifest.json';
     var HU_PROXY_BASE = HU_DOMAIN_BASE;
-    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@dev/boot';
+    var HU_JD_BASE = 'https://cdn.jsdelivr.net/gh/incredibox-Para-DX/anqu-apk-release@check_ver/boot';
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.467';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.468';
     
     var __HU_SIZE_BUMP_150 = 1;
 

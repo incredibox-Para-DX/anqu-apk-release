@@ -29,6 +29,10 @@
         if (!b || typeof b.fileSize !== 'function') return -1;
         try { return Number(b.fileSize(p)) || 0; } catch (e) { return -1; }
     }
+    function localSize(path) { return fileSize('www/' + path); }
+    function anyLocal(files) {
+        return (files || []).some(function (f) { return localSize(f.path) > 0; });
+    }
 
     function isDone() {
         try { return !!localStorage.getItem(DONE_KEY); } catch (e) { return false; }
@@ -57,11 +61,11 @@
         });
     }
 
-    function applyUI(done) {
+    function applyUI(done, hasLocal) {
         var dl = $('rd-download-model-btn');
         if (dl) dl.style.display = done ? 'none' : '';
         var del = $('rd-delete-model-btn');
-        if (del) del.style.display = done ? '' : 'none';
+        if (del) del.style.display = (done || hasLocal) ? '' : 'none';
         var doneEl = $('rd-model-done');
         if (doneEl) doneEl.style.display = done ? '' : 'none';
         if (done) {
@@ -72,16 +76,17 @@
 
     function refreshUI() {
         if (state.downloading) return;
-        var done = isDone();
-        applyUI(done);
-        if (done) return;
+        if (isDone()) { applyUI(true, true); return; }
         loadManifest().then(function (m) {
             var files = m.files || [];
             if (!files.length) return;
-            var all = files.every(function (f) { return fileSize('www/' + f.path) === f.size; });
+            var all = files.every(function (f) { return localSize(f.path) === f.size; });
+            var any = anyLocal(files);
             if (all) {
                 try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
-                applyUI(true);
+                applyUI(true, true);
+            } else {
+                applyUI(false, any);
             }
         }).catch(function () {});
     }
@@ -114,42 +119,55 @@
         return loadManifest().then(function (m) {
             var files = m.files, total = files.length, done = 0;
             var base = state.base;
+            function tickProgress() {
+                done++;
+                if (barEl) barEl.style.width = Math.round(done / total * 100) + '%';
+                if (txtEl) txtEl.textContent = done + ' / ' + total;
+            }
+            function fail() {
+                state.downloading = false;
+                if (wrapEl) wrapEl.style.display = 'none';
+                applyUI(false, anyLocal(files));
+                toast('模型资源包下载失败，请检查网络后重试');
+            }
             function step(i) {
                 if (i >= files.length) {
                     try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
                     state.downloading = false;
-                    applyUI(true);
+                    applyUI(true, true);
                     toast('模型资源包已下载完成');
                     return Promise.resolve();
                 }
                 var f = files[i];
-                if (fileSize('www/' + f.path) === f.size) {
-                    done++;
-                    if (barEl) barEl.style.width = Math.round(done / total * 100) + '%';
-                    if (txtEl) txtEl.textContent = done + ' / ' + total;
+                var have = localSize(f.path);
+                if (have === f.size) {
+                    tickProgress();
                     return step(i + 1);
                 }
-                return fetch(base + f.path, { cache: 'no-store' })
-                    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
-                    .then(function (buf) {
-                        b.writeFile('www/' + f.path, b64(buf));
-                        done++;
-                        if (barEl) barEl.style.width = Math.round(done / total * 100) + '%';
-                        if (txtEl) txtEl.textContent = done + ' / ' + total;
-                        return step(i + 1);
+                var offset = (have > 0 && have < f.size) ? have : 0;
+                var headers = {};
+                if (offset && typeof b.writeFileAt === 'function') headers.Range = 'bytes=' + offset + '-';
+                return fetch(base + f.path, { cache: 'no-store', headers: headers })
+                    .then(function (r) {
+                        if (!r.ok && r.status !== 206) throw new Error('HTTP ' + r.status);
+                        return r.arrayBuffer().then(function (buf) {
+                            var at = (offset && r.status === 206) ? offset : 0;
+                            if (at > 0 && typeof b.writeFileAt === 'function') {
+                                b.writeFileAt('www/' + f.path, b64(buf), at);
+                            } else {
+                                b.writeFile('www/' + f.path, b64(buf));
+                            }
+                            tickProgress();
+                            return step(i + 1);
+                        });
                     })
-                    .catch(function () {
-                        state.downloading = false;
-                        if (wrapEl) wrapEl.style.display = 'none';
-                        applyUI(false);
-                        toast('模型资源包下载失败，请检查网络后重试');
-                    });
+                    .catch(function () { fail(); });
             }
             return step(0);
         }).catch(function () {
             state.downloading = false;
             if (wrapEl) wrapEl.style.display = 'none';
-            applyUI(false);
+            applyUI(false, false);
             toast('模型资源包下载失败，请检查网络后重试');
         });
     }
@@ -165,7 +183,7 @@
             R.confirmDeletePaths('模型资源包', function () {
                 R.deletePathsAndUnmark(paths).then(function () {
                     try { localStorage.removeItem(DONE_KEY); } catch (e) {}
-                    applyUI(false);
+                    applyUI(false, false);
                     toast('模型资源包已删除');
                 });
             });

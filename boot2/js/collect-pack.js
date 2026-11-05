@@ -65,12 +65,14 @@
             var ver = m.version || '1';
             var saved = null;
             try { saved = localStorage.getItem(DONE_KEY); } catch (e) {}
+            var R = w.ResourceDownloadManager;
+            var allLocal = true;
+            var anyLocal = false;
+            (m.files || []).forEach(function (f) {
+                var ok = !!(R && R.isDownloaded && R.isDownloaded(f.path));
+                if (ok) anyLocal = true; else allLocal = false;
+            });
             if (done && saved && saved !== ver) {
-                var R = w.ResourceDownloadManager;
-                var allLocal = true;
-                (m.files || []).forEach(function (f) {
-                    if (!R || !R.isDownloaded || !R.isDownloaded(f.path)) allLocal = false;
-                });
                 if (allLocal) {
                     try { localStorage.setItem(DONE_KEY, ver); } catch (e) {}
                 } else {
@@ -81,12 +83,15 @@
                         if (w.showToast) w.showToast((w.I18N && I18N.t) ? I18N.t('rd_pack_updated', '资源包有更新，请补充下载') : '资源包有更新，请补充下载');
                     }
                 }
+            } else if (!done && allLocal && t > 0) {
+                try { localStorage.setItem(DONE_KEY, ver); } catch (e) {}
+                done = true;
             }
             showDone(done);
             var btn = $('rd-download-collect-btn');
             if (btn) btn.style.display = done ? 'none' : '';
             var del = $('rd-delete-collect-btn');
-            if (del) del.style.display = done ? '' : 'none';
+            if (del) del.style.display = (done || anyLocal) ? '' : 'none';
             setCount(done ? t : 0, t);
         }).catch(function () {
             showDone(done);

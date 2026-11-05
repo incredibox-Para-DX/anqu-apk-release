@@ -10,29 +10,27 @@
   var RAW = 'https://raw.githubusercontent.com/' + GH;
   var GLIST = ['https://ghproxy.net/', 'https://ghfast.top/', 'https://gh-proxy.com/'];
   var CODE_BASES = [
-    DOMAIN + '/' + GH + '/dev/boot',
-    WORKER2 + '/' + GH + '/dev/boot',
-    PROXY_ROOT + '/' + GH + '/dev/boot',
-    RAW + '/dev/boot',
-    'https://cdn.jsdelivr.net/gh/' + GH + '@dev/boot',
-    'https://fastly.jsdelivr.net/gh/' + GH + '@dev/boot',
-    'https://gcore.jsdelivr.net/gh/' + GH + '@dev/boot',
-    'https://cdn.statically.io/gh/' + GH + '/dev/boot',
-    'https://raw.githack.com/' + GH + '/dev/boot'
+    DOMAIN + '/' + GH + '/check_ver/boot',
+    WORKER2 + '/' + GH + '/check_ver/boot',
+    RAW + '/check_ver/boot',
+    'https://cdn.jsdelivr.net/gh/' + GH + '@check_ver/boot',
+    'https://fastly.jsdelivr.net/gh/' + GH + '@check_ver/boot',
+    'https://gcore.jsdelivr.net/gh/' + GH + '@check_ver/boot',
+    'https://cdn.statically.io/gh/' + GH + '/check_ver/boot',
+    'https://raw.githack.com/' + GH + '/check_ver/boot'
   ]
-    .concat(GLIST.map(function (m) { return m + RAW + '/dev/boot'; }))
+    .concat(GLIST.map(function (m) { return m + RAW + '/check_ver/boot'; }))
     .concat([
-      DOMAIN + '/' + GH + '/dev/boot2',
-      WORKER2 + '/' + GH + '/dev/boot2',
-      PROXY_ROOT + '/' + GH + '/dev/boot2',
-      RAW + '/dev/boot2',
-      'https://cdn.jsdelivr.net/gh/' + GH + '@dev/boot2',
-      'https://fastly.jsdelivr.net/gh/' + GH + '@dev/boot2',
-      'https://gcore.jsdelivr.net/gh/' + GH + '@dev/boot2',
-      'https://cdn.statically.io/gh/' + GH + '/dev/boot2',
-      'https://raw.githack.com/' + GH + '/dev/boot2'
+      DOMAIN + '/' + GH + '/check_ver/boot2',
+      WORKER2 + '/' + GH + '/check_ver/boot2',
+      RAW + '/check_ver/boot2',
+      'https://cdn.jsdelivr.net/gh/' + GH + '@check_ver/boot2',
+      'https://fastly.jsdelivr.net/gh/' + GH + '@check_ver/boot2',
+      'https://gcore.jsdelivr.net/gh/' + GH + '@check_ver/boot2',
+      'https://cdn.statically.io/gh/' + GH + '/check_ver/boot2',
+      'https://raw.githack.com/' + GH + '/check_ver/boot2'
     ])
-    .concat(GLIST.map(function (m) { return m + RAW + '/dev/boot2'; }));
+    .concat(GLIST.map(function (m) { return m + RAW + '/check_ver/boot2'; }));
   var SHELL_MARK = 'anqu-shell';
 
   var CODE_TIMEOUT = 180000;
@@ -675,11 +673,43 @@
 
   
   
+  function localVersion(cb) {
+    get('js/script_new.js', function (ok, text) {
+      if (!ok) { cb(''); return; }
+      var m = text.match(/HU_BUILD_VERSION\s*=\s*'([^']+)'/);
+      cb(m ? m[1] : '');
+    }, 3000);
+  }
+
+  function checkRemote(next) {
+    var last = 0;
+    try { last = Number(lsGet('ab_shell_check_ts')) || 0; } catch (e) {}
+    if (last && Date.now() - last < 10 * 60 * 1000) { next(false); return; }
+    try { localStorage.setItem('ab_shell_check_ts', String(Date.now())); } catch (e) {}
+    pickBase(function (base) {
+      get(base + '/manifest.json', function (ok, text) {
+        if (!ok) { next(false); return; }
+        var m = parseText(text);
+        if (!m) { next(false); return; }
+        localVersion(function (local) {
+          if (local && !verGt(m.version, local)) { next(false); return; }
+          setupFiles(m);
+          picked = true;
+          ci = 0;
+          window.__forceRedownload = false;
+          tryCode();
+        });
+      }, PROBE_TIMEOUT);
+    });
+  }
+
   function boot() {
     verifyCode(function (ok) {
       if (done) return;
-      if (ok) { enter('正在进入游戏…'); return; }
-      tryCode();
+      if (!ok) { tryCode(); return; }
+      checkRemote(function () {
+        if (!needDl) enter('正在进入游戏…');
+      });
     });
   }
 
