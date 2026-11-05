@@ -81,7 +81,8 @@ scene.add(rim);
 const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 100);
 const TUNE_KEY = 'ab_item_tune_' + key;
 const PER_ITEM_TUNE = {
-  teapot: { fwd: -0.051, up: 0.075, right: -0.02, scale: 0.0086, rx: -10, ry: 90, rz: 0 }
+  teapot: { fwd: -0.051, up: 0.075, right: -0.02, scale: 0.0086, rx: -10, ry: 90, rz: 0 },
+  gem_necklace: { fwd: -0.02, up: 0.01, right: -0.01, scale: 0.00965, rx: 4.5, ry: -100, rz: 0 }
 };
 const TUNE_DEFAULTS = Object.assign({ fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 }, PER_ITEM_TUNE[key] || {});
 let TUNE = Object.assign({}, TUNE_DEFAULTS);
@@ -116,6 +117,9 @@ if (tuneToggle) tuneToggle.addEventListener('click', function () {
   b.style.display = b.style.display === 'none' ? 'block' : 'none';
 });
 
+const PROP_STYLE = {
+  gem_necklace: { roughness: 0.22, metalness: 0.85, envMapIntensity: 1.5 }
+};
 const loader = new GLTFLoader();
 const texTorso = loadColor('./lion/torso_D.png');
 const texTorsoN = loadData('./lion/torso_N.png');
@@ -193,7 +197,9 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.55, metalness: 0.12, envMapIntensity: 0.8, transparent: true, alphaTest: 0.35 });
+      const st = PROP_STYLE[key] || { roughness: 0.55, metalness: 0.12, envMapIntensity: 0.8 };
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: st.roughness, metalness: st.metalness, envMapIntensity: st.envMapIntensity, transparent: true, alphaTest: 0.35 });
+      if (key === 'gem_necklace') { mat.emissive = new THREE.Color(0x2a1e08); mat.emissiveIntensity = 0.35; }
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
@@ -224,16 +230,31 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const g = geo.clone();
       const si = g.attributes.skinIndex, sw = g.attributes.skinWeight;
       if (si && sw) {
-        const n = si.count, out = new Uint16Array(n * 4);
+        const n = si.count;
+        const out = new Uint16Array(n * 4);
+        const outW = new Float32Array(n * 4);
         for (let v = 0; v < n; v++) {
+          const js4 = [], ws4 = [];
           for (let k = 0; k < 4; k++) {
             const idx = si.getComponent(v, k);
             const w = sw.getComponent(v, k);
-            const m2 = (w > 0 && idx < MAP8797.length) ? MAP8797[idx] : -1;
-            out[v * 4 + k] = m2 >= 0 ? m2 : 0;
+            if (w <= 0) continue;
+            const m2 = idx < MAP8797.length ? MAP8797[idx] : -1;
+            if (m2 < 0) continue;
+            js4.push(m2);
+            ws4.push(w);
+          }
+          if (!js4.length) { js4.push(0); ws4.push(1); }
+          let sum = 0;
+          for (let k = 0; k < ws4.length; k++) sum += ws4[k];
+          if (!sum) { js4.length = 0; ws4.length = 0; js4.push(0); ws4.push(1); sum = 1; }
+          for (let k = 0; k < 4; k++) {
+            out[v * 4 + k] = k < js4.length ? js4[k] : 0;
+            outW[v * 4 + k] = k < ws4.length ? ws4[k] / sum : 0;
           }
         }
         g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
+        g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(outW, 4));
       }
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.5, metalness: 0.0, envMapIntensity: 1.0 });
       mat.map = loadColor('./lion/' + gloveKind + '_D.png');
@@ -325,6 +346,24 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
 document.addEventListener('click', function (e) {
   if (e.target && e.target.closest && e.target.closest('#tune')) return;
   try { parent.closeLionInspect(); } catch (err) {}
+});
+
+addEventListener('pagehide', function () {
+  try {
+    if (mixer) mixer.stopAllAction();
+    scene.traverse(function (o) {
+      if (o.isMesh || o.isSkinnedMesh) {
+        if (o.geometry) o.geometry.dispose();
+        if (o.material) {
+          if (o.material.map) o.material.map.dispose();
+          if (o.material.normalMap) o.material.normalMap.dispose();
+          if (o.material.roughnessMap) o.material.roughnessMap.dispose();
+          o.material.dispose();
+        }
+      }
+    });
+    renderer.dispose();
+  } catch (e) {}
 });
 
 addEventListener('resize', () => {
