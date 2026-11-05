@@ -4389,6 +4389,11 @@ const EventManager = {
         };
 
         window.addEventListener('message', function (e) {
+            if (e.data === 'glove-preview-close') {
+                const c = document.getElementById('glove-preview-close');
+                if (c) c.click();
+                return;
+            }
             if (e.data !== 'inspect-ready') return;
             window.__pendingInspectSound = null;
             window.__hideInspectLoading();
@@ -7289,7 +7294,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.502';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.503';
     
     var __HU_SIZE_BUMP_150 = 1;
 

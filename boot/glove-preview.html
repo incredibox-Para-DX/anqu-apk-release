@@ -13,7 +13,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 </head>
 <body>
 <div id="app"></div>
-<div id="loading" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div></div>
+<div id="loading" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:20;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div></div>
 <style>@keyframes __spin{to{transform:rotate(360deg)}}</style>
 <script type="module">
 import * as THREE from './vendor/three/three.module.js';
@@ -80,7 +80,7 @@ document.getElementById('app').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.background = null;
-const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.01, 100);
+const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.01, 100);
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.75;
@@ -229,7 +229,7 @@ Promise.all([
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
         center.y += size.y * 0.05;
-        dist = Math.max(size.y * 1.2, 2.0);
+        dist = Math.max(size.y * 1.0, 1.7);
     }
 
     applyGlove();
@@ -241,6 +241,10 @@ Promise.all([
     const l = document.getElementById('loading');
     if (l) l.style.display = 'none';
     try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
+});
+
+addEventListener('click', function () {
+    try { parent.postMessage('glove-preview-close', '*'); } catch (e) {}
 });
 
 addEventListener('message', function (e) {

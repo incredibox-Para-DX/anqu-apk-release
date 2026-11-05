@@ -12,7 +12,7 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 </head>
 <body>
 <div id="app"></div>
-<div id="loading" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div></div>
+<div id="loading" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:20;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div></div>
 <style>@keyframes __spin{to{transform:rotate(360deg)}}</style>
 <div id="status" style="display:none">加载中…</div>
 <div id="tune" style="display:none;position:fixed;right:10px;top:56px;z-index:20;background:rgba(12,16,22,.82);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 10px;font:11px -apple-system,sans-serif;color:#cbd5e1;width:150px;">
@@ -269,6 +269,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       mat.roughnessMap = loadData(mtex);
       propMesh = new THREE.Mesh(g, mat);
       propMesh.frustumCulled = false;
+      propMesh.visible = false;
       scene.add(propMesh);
       
       window.__propMesh = propMesh;
@@ -369,6 +370,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       action.setLoop(THREE.LoopOnce, 1);
       action.clampWhenFinished = true;
       action.play();
+      mixer.update(0);
       mixer.addEventListener('finished', function () { try { parent.closeLionInspect(); } catch (e) {} });
       statusEl.textContent = item.name + ' · ' + clip.name + ' ' + trimmed.duration.toFixed(2) + 's';
     } else if (!want) {
@@ -407,6 +409,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh.rotateX(Math.PI / 2 + TUNE.rx * Math.PI / 180);
       propMesh.rotateY(TUNE.ry * Math.PI / 180);
       propMesh.rotateZ(TUNE.rz * Math.PI / 180);
+      propMesh.visible = true;
     }
     if (head) {
       head.getWorldPosition(tmp);
