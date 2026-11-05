@@ -36,7 +36,9 @@ const NEED = [
     'lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png',
     'lion/bernard_torso_D.png', 'lion/bernard_torso_N.png', 'lion/bernard_torso_MAR.png',
     'lion/bernard_leg_D.png', 'lion/bernard_leg_N.png', 'lion/bernard_leg_MAR.png',
-    'lion/bernard_shoes_D.png', 'lion/bernard_shoes_N.png', 'lion/bernard_shoes_MAR.png'
+    'lion/bernard_shoes_D.png', 'lion/bernard_shoes_N.png', 'lion/bernard_shoes_MAR.png',
+    'lion/head_D.png', 'lion/head_N.png', 'lion/torso_D.png', 'lion/torso_N.png',
+    'lion/leg_D.png', 'lion/leg_N.png', 'lion/shoes_D.png'
 ];
 if (spec[0]) NEED.push('lion/' + spec[0] + '.glb');
 
@@ -221,6 +223,18 @@ Promise.all([
             if (!rolfGlove) { rolfGlove = o; rolfBaseGeo = o.geometry; }
             o.visible = true;
             o.material = gloveMaterial('gloves');
+        } else if (n.indexOf('torso') >= 0) {
+            o.visible = true;
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/torso_D.png', true), normalMap: tex('./lion/torso_N.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+        } else if (n.indexOf('leg') >= 0) {
+            o.visible = true;
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/leg_D.png', true), normalMap: tex('./lion/leg_N.png'), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+        } else if (n.indexOf('shoe') >= 0) {
+            o.visible = true;
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/shoes_D.png', true), side: THREE.DoubleSide, roughness: 0.8, metalness: 0.05 });
+        } else if (n.indexOf('head') >= 0) {
+            o.visible = true;
+            o.material = new THREE.MeshStandardMaterial({ map: tex('./lion/head_D.png', true), normalMap: tex('./lion/head_N.png'), side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
         } else {
             o.visible = false;
         }
@@ -251,10 +265,11 @@ Promise.all([
         }
     });
     scene.add(bernard);
+    bernard.visible = false;
     bernardMixer = new THREE.AnimationMixer(bernard);
     bernard.updateMatrixWorld(true);
 
-    const box = new THREE.Box3().setFromObject(bernard);
+    const box = new THREE.Box3().setFromObject(rolf);
     if (!box.isEmpty()) {
         box.getCenter(center);
         const size = box.getSize(new THREE.Vector3());
