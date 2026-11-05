@@ -2340,6 +2340,14 @@ previewCurrentBackground() {
                     maxHeight: '100%'
                 });
                 $image.on('error', function() {
+                    if ((this._retry || 0) < 3) {
+                        this._retry = (this._retry || 0) + 1;
+                        var el = this;
+                        setTimeout(function () {
+                            el.src = item.image + (item.image.indexOf('?') >= 0 ? '&' : '?') + 'r=' + Date.now();
+                        }, 400 * this._retry);
+                        return;
+                    }
                     $(this).hide();
                     $imageContainer.empty();
                 });
@@ -7227,7 +7235,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.468';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.469';
     
     var __HU_SIZE_BUMP_150 = 1;
 

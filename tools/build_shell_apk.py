@@ -84,6 +84,16 @@ if os.path.isdir(COLLECT_DIR):
 COLLECT_STEMS = {os.path.splitext(os.path.basename(k))[0] for k in COLLECT_FILES}
 
 
+LION_DIR = os.path.join(REPO, "lion")
+LION_FILES = {}
+if os.path.isdir(LION_DIR):
+    for dirpath, _, names in os.walk(LION_DIR):
+        for fn in sorted(names):
+            p = os.path.join(dirpath, fn)
+            rel = os.path.relpath(p, LION_DIR).replace(os.sep, "/")
+            LION_FILES["assets/www/lion/" + rel] = p
+
+
 FONTS_DIR = os.path.join(REPO, "fonts")
 FONT_FILES = {}
 if os.path.isdir(FONTS_DIR):
@@ -116,7 +126,7 @@ def main():
 
     with zipfile.ZipFile(OUT, "w") as dst:
         for info in src.infolist():
-            if info.filename in SKIP or info.filename.startswith(REMOVE_PREFIXES) or is_old_signature(info.filename):
+            if info.filename in SKIP or info.filename.startswith(REMOVE_PREFIXES) or info.filename.startswith("assets/www/lion/") or is_old_signature(info.filename):
                 removed += 1
                 continue
             data = src.read(info.filename)
@@ -153,6 +163,15 @@ def main():
                 data = f.read()
             info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
             info.compress_type = zipfile.ZIP_STORED
+            info.external_attr = 0o644 << 16
+            dst.writestr(info, data)
+
+
+        for name, path in LION_FILES.items():
+            with open(path, "rb") as f:
+                data = f.read()
+            info = zipfile.ZipInfo(name, date_time=(2026, 10, 23, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o644 << 16
             dst.writestr(info, data)
 

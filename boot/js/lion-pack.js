@@ -19,7 +19,7 @@
         'https://raw.githubusercontent.com/incredibox-Para-DX/anqu-collect-resources/main/'
     ];
     var DONE_KEY = 'ab_lion_pack_v1';
-    var state = { manifest: null, downloading: false, base: null };
+    var state = { manifest: null, downloading: false, paused: false, waiters: [], base: null };
 
     function $(id) { return document.getElementById(id); }
     function bt() { return w.AndroidUpdate; }
@@ -61,9 +61,35 @@
         });
     }
 
+    function setBtnLabel(paused) {
+        var b = $('rd-download-model-btn');
+        if (!b) return;
+        b.innerHTML = paused
+            ? '<i class="fas fa-play"></i> 继续下载'
+            : '<i class="fas fa-pause"></i> 暂停下载';
+    }
+
+    function waitWhilePaused() {
+        if (!state.paused) return Promise.resolve();
+        return new Promise(function (resolve) { state.waiters.push(resolve); });
+    }
+
+    function setPaused(p) {
+        state.paused = p;
+        if (!p) {
+            var ws = state.waiters;
+            state.waiters = [];
+            ws.forEach(function (r) { r(); });
+        }
+        if (state.downloading) setBtnLabel(p);
+    }
+
     function applyUI(done, hasLocal) {
         var dl = $('rd-download-model-btn');
-        if (dl) dl.style.display = done ? 'none' : '';
+        if (dl) {
+            dl.style.display = done ? 'none' : '';
+            if (!done) dl.innerHTML = '<i class="fas fa-download"></i> 下载模型资源包';
+        }
         var del = $('rd-delete-model-btn');
         if (del) del.style.display = (done || hasLocal) ? '' : 'none';
         var doneEl = $('rd-model-done');
@@ -101,7 +127,7 @@
     }
 
     function download() {
-        if (state.downloading) return;
+        if (state.downloading) { setPaused(!state.paused); return; }
         if (isDone()) { refreshUI(); return; }
         var b = bt();
         if (!b || typeof b.writeFile !== 'function') {
@@ -109,6 +135,8 @@
             return;
         }
         state.downloading = true;
+        state.paused = false;
+        setBtnLabel(false);
         var doneEl = $('rd-model-done');
         var barEl = $('rd-model-progress-bar');
         var txtEl = $('rd-model-progress-text');
@@ -126,14 +154,17 @@
             }
             function fail() {
                 state.downloading = false;
+                state.paused = false;
                 if (wrapEl) wrapEl.style.display = 'none';
                 applyUI(false, anyLocal(files));
                 toast('模型资源包下载失败，请检查网络后重试');
             }
             function step(i) {
+                if (state.paused) return waitWhilePaused().then(function () { return step(i); });
                 if (i >= files.length) {
                     try { localStorage.setItem(DONE_KEY, m.version); } catch (e) {}
                     state.downloading = false;
+                    state.paused = false;
                     applyUI(true, true);
                     toast('模型资源包已下载完成');
                     return Promise.resolve();
@@ -166,6 +197,7 @@
             return step(0);
         }).catch(function () {
             state.downloading = false;
+            state.paused = false;
             if (wrapEl) wrapEl.style.display = 'none';
             applyUI(false, false);
             toast('模型资源包下载失败，请检查网络后重试');
