@@ -1021,6 +1021,7 @@
       var result = origAssign.apply(this, arguments);
       if (!gameState && target && target.grid && Array.isArray(target.grid) && target.grid.length > 0 && Array.isArray(target.grid[0]) && Array.isArray(target.items)) {
         gameState = target;
+        window.__gameState = target;
       }
       return result;
     };

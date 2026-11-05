@@ -58,6 +58,7 @@ $(function() {
         totalSearchedItems: 0,
         highestValueEver: 0
     });
+    window.State = State;
 
     let itemsConfig = [];
     let allItemsConfig = [];
@@ -4148,11 +4149,32 @@ const EventManager = {
             }
         });
 
+        window.__GLOVE_UNLOCK_VALUE = 10000000;
+        window.__gloveUnlocked = function (kind) {
+            if (!kind || kind === 'g05') return true;
+            if (window.__hiddenUnlocked && window.__hiddenUnlocked()) return true;
+            var v = 0;
+            try {
+                if (window.State && typeof window.State.totalValue === 'number') v = window.State.totalValue;
+                else if (window.__gameState) v = Number(window.__gameState.totalValue) || 0;
+            } catch (e) { v = 0; }
+            return v >= window.__GLOVE_UNLOCK_VALUE;
+        };
+        function refreshGloveLocks() {
+            $('.glove-option').each(function () {
+                var k = $(this).data('kind');
+                var ok = window.__gloveUnlocked(k);
+                $(this).toggleClass('locked', !ok);
+                $(this).attr('title', ok ? '' : '累计价值达到 10M 后解锁');
+            });
+        }
+
         $('#sidebar-glove-btn').on('click', function () {
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             $('.glove-option').removeClass('active').each(function () {
                 if ($(this).data('kind') === cur) $(this).addClass('active');
             });
+            refreshGloveLocks();
             if (window.ModalRegistry) ModalRegistry.open('glove-select-modal', { silent: true });
             else {
                 $('#glove-select-modal').css('display', 'flex');
@@ -4191,6 +4213,11 @@ const EventManager = {
 
         $(document).on('click', '.glove-option', function () {
             const kind = $(this).data('kind');
+            if (!window.__gloveUnlocked(kind)) {
+                const v = (window.State && Number(window.State.totalValue)) || (window.__gameState && Number(window.__gameState.totalValue)) || 0;
+                if (window.showToast) window.showToast('需累计价值 10M 解锁（当前 ' + (v / 1000000).toFixed(2) + 'M）');
+                return;
+            }
             try { localStorage.setItem('ab_lion_gloves', kind); } catch (e) {}
             $('.glove-option').removeClass('active');
             $(this).addClass('active');
@@ -7187,7 +7214,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.449';
+    window.HU_BUILD_VERSION = 'v2.3.0_hotfix.450';
     
     var __HU_SIZE_BUMP_150 = 1;
 
