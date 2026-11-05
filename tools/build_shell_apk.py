@@ -93,6 +93,7 @@ LION_KEEP_NAMES = [
     "g05_D.png", "g05_N.png", "g05_MAR.png",
     "inspect.wav", "inspect_xcompound.wav", "inspect_secretfile.wav",
     "bernard_gloves_D.png", "bernard_gloves_N.png", "bernard_gloves_MAR.png",
+    "g04_D.png", "g04_N.png", "g04_MAR.png",
 ]
 LION_FILES = {"assets/www/lion/" + n: os.path.join(LION_DIR, n) for n in LION_KEEP_NAMES}
 

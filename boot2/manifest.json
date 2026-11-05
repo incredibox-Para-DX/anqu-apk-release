@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.486.m",
+  "version": "v2.4.0_hotfix.487.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 372812,
-      "sha256": "5a8f7b7f9c39bb55238f0f923de2fc0b8c739a06ae115bcbfd9cbf95115704fe"
+      "sha256": "c1c659a456034d087c2878fca0b91eb663b77165233c965fb10589cd7173cc3a"
     },
     {
       "path": "js/synthesis.js",
@@ -263,8 +263,8 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 19121,
-      "sha256": "8e6e44616dd768437adf7dc4a8b4034fa99b421c5cadb57ff3a398c01a1d4e98"
+      "size": 19305,
+      "sha256": "e7bf351cada68a3a00ca6dacd47e3dd2d80464baf0b84412f91ea8178ee4a4ba"
     },
     {
       "path": "lion/bernard_gloves_D.png",
@@ -282,9 +282,24 @@
       "sha256": "fbaefda5863908b1d164c166f01dd7a0f3e610fd444eedc8507076f34d95e6ad"
     },
     {
+      "path": "lion/g04_D.png",
+      "size": 93905,
+      "sha256": "8e3ba422c3f9a3afbf1cd9cfae7cf75d83160897970c6b5e83fd115c42d463b1"
+    },
+    {
+      "path": "lion/g04_N.png",
+      "size": 115866,
+      "sha256": "6901a40043a114673fadc311935f12c43396168b6215ed5d930605e0d6fb4782"
+    },
+    {
+      "path": "lion/g04_MAR.png",
+      "size": 25085,
+      "sha256": "fbaefda5863908b1d164c166f01dd7a0f3e610fd444eedc8507076f34d95e6ad"
+    },
+    {
       "path": "glove-preview.html",
-      "size": 9093,
-      "sha256": "e1375acd7629fafbd0d6563e38ac2818d75fe0b215e7fdf07620eba69f2fe164"
+      "size": 11274,
+      "sha256": "8e19dc82e0b12eaaae8fd5ae376eb2d0d9199682098f0e46306738fbcaed75dd"
     },
     {
       "path": "secretfile-inspect.html",
@@ -298,8 +313,8 @@
     },
     {
       "path": "item-inspect.html",
-      "size": 23654,
-      "sha256": "b4ed634924123e1849c6df0b81bf4c6dbf2717288ab071c2bc8a3a93cf13637f"
+      "size": 24185,
+      "sha256": "7e6a09da3bfce9533958f7812d792ae1725fc1c139d2051efc87ed61d1b1cff2"
     },
     {
       "path": "index.html",
@@ -307,6 +322,6 @@
       "sha256": "0e54b0287f18c3dc6c43fa5e39ef89adf0ff622e9f424d68007544d9cbcc5279"
     }
   ],
-  "fileCount": 61,
-  "totalSize": 2714668
+  "fileCount": 64,
+  "totalSize": 2952420
 }

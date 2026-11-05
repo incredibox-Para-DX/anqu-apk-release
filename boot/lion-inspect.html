@@ -13,6 +13,8 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 </head>
 <body>
 <div id="app"></div>
+<div id="loading" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none;"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,.18);border-top-color:#8fd4ff;border-radius:50%;animation:__spin 1s linear infinite;"></div></div>
+<style>@keyframes __spin{to{transform:rotate(360deg)}}</style>
 <div id="status">加载中…</div>
 <script type="module">
 const ASSET = './';
@@ -224,6 +226,7 @@ function setupCharacter(gltf) {
   document.getElementById('status').textContent = '';
   applyGloves();
   try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
+  var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none';
   try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.2; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
 }
 
@@ -332,19 +335,11 @@ function applyGloves(kindOverride) {
       rolf.geometry = geo;
       rolf.geometry.computeBoundingSphere();
       const gm = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.75, metalness: 0.05 });
-      if (kind === 'g04') {
-        gm.map = texBernardD;
-        gm.normalMap = texBernardN;
-        gm.normalScale = new THREE.Vector2(1.25, 1.25);
-        gm.roughnessMap = texBernardMAR;
-        gm.metalnessMap = texBernardMAR;
-      } else {
-        gm.map = loadColor(ASSET + 'lion/' + kind + '_D.png');
-        gm.normalMap = loadData(ASSET + 'lion/' + kind + '_N.png');
-        gm.normalScale = new THREE.Vector2(1.25, 1.25);
-        gm.roughnessMap = loadData(ASSET + 'lion/' + kind + '_MAR.png');
-        gm.metalnessMap = gm.roughnessMap;
-      }
+      gm.map = loadColor(ASSET + 'lion/' + kind + '_D.png');
+      gm.normalMap = loadData(ASSET + 'lion/' + kind + '_N.png');
+      gm.normalScale = new THREE.Vector2(1.25, 1.25);
+      gm.roughnessMap = loadData(ASSET + 'lion/' + kind + '_MAR.png');
+      gm.metalnessMap = gm.roughnessMap;
       rolf.material = gm;
     };
     window.__gCache = window.__gCache || {};
