@@ -191,11 +191,14 @@
                         if (!r.ok && r.status !== 206) throw new Error('HTTP ' + r.status);
                         return r.arrayBuffer().then(function (buf) {
                             var at = (offset && r.status === 206) ? offset : 0;
+                            var ok;
                             if (at > 0 && typeof b.writeFileAt === 'function') {
-                                b.writeFileAt('www/' + f.path, b64(buf), at);
+                                ok = b.writeFileAt('www/' + f.path, b64(buf), at);
                             } else {
-                                b.writeFile('www/' + f.path, b64(buf));
+                                ok = b.writeFile('www/' + f.path, b64(buf));
                             }
+                            if (ok === false) throw new Error('write');
+                            if (f.size && fileSize('www/' + f.path) !== f.size) throw new Error('size');
                             tickProgress();
                             return step(i + 1);
                         });

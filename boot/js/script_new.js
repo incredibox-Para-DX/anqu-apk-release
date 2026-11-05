@@ -4137,7 +4137,7 @@ const EventManager = {
         $('#tooltip-inspect-btn').on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+            if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
 
             try {
                 window.__lionAudio = new Audio(window.__pickInspectSound($('#tooltip-inspect-btn').data('kind')));
@@ -4164,6 +4164,16 @@ const EventManager = {
         });
 
         window.__GLOVE_UNLOCK_VALUE = 10000000;
+        window.__lionReady = function () {
+            if (!window.LionPack || !window.LionPack.isDone()) return false;
+            try {
+                var b = window.AndroidUpdate;
+                if (b && typeof b.fileSize === 'function') {
+                    return Number(b.fileSize('www/lion/character.glb')) > 1000000;
+                }
+            } catch (e) {}
+            return true;
+        };
         window.__gloveUnlocked = function (kind) {
             if (!kind || kind === 'g05') return true;
             if (window.__hiddenUnlocked && window.__hiddenUnlocked()) return true;
@@ -4184,7 +4194,7 @@ const EventManager = {
         }
 
         $('#sidebar-glove-btn').on('click', function () {
-            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+            if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
 
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             $('.glove-option').removeClass('active').each(function () {
@@ -4207,7 +4217,7 @@ const EventManager = {
         });
 
         $('#glove-preview-open').on('click', function () {
-            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+            if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
 
             const cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             const frame = document.getElementById('glove-preview-frame');
@@ -4343,7 +4353,7 @@ const EventManager = {
         };
 
         window.openInspectFromCatalog = function (kind) {
-            if (window.LionPack && !window.LionPack.isDone()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
+            if (window.LionPack && !window.__lionReady()) { if (window.showToast) window.showToast('请先在「资源下载」下载模型资源包'); return; }
             const gloveKind = localStorage.getItem('ab_lion_gloves') || 'g05';
             const inspectBase = '';
             const url = kind === 'xcompound' ? (inspectBase + 'xcompound-inspect.html?gloves=' + gloveKind)
@@ -7239,7 +7249,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.472';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.473';
     
     var __HU_SIZE_BUMP_150 = 1;
 
