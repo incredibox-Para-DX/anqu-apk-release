@@ -8,7 +8,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 #app{position:fixed;inset:0}
-#status{position:fixed;left:12px;bottom:10px;font:11px -apple-system,sans-serif;color:#64748b;z-index:5}
+#status{display:none}
 </style>
 </head>
 <body>
@@ -110,6 +110,8 @@ function loadOne(n) {
 
 let bernardGlove = null;
 let bernardSkel = null;
+let bernardBind = null;
+let rolfBind = null;
 let baseGloveGeo = null;
 let baseGloveMat = null;
 const GLOVE_SPECIAL = {
@@ -191,6 +193,11 @@ function applyGlove(kind) {
         if (!rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
         let geo = mesh.geometry;
         if (/^g\d\d$/.test(kind)) geo = remap164(geo);
+        if (rolfBind && bernardBind) {
+            const m = new THREE.Matrix4().multiplyMatrices(bernardBind, rolfBind.clone().invert());
+            geo = geo.clone();
+            geo.applyMatrix4(m);
+        }
         geo = remapToBernard(geo, rolfSkel, bernardSkel);
         bernardGlove.geometry = geo;
         setGloveTex(bernardGlove, spec[1]);
@@ -216,6 +223,7 @@ Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
             baseGloveGeo = o.geometry;
             baseGloveMat = o.material;
             bernardSkel = o.skeleton;
+            bernardBind = o.bindMatrix.clone();
         }
         setGloveTex(o, 'bernard_' + set);
     });
@@ -250,10 +258,12 @@ Promise.all([loadOne(1), loadOne(2), loadOne(3)]).then(function (list) {
     }
     setStatus(clips.length ? '' : '动作缺失');
     var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none';
+    try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
 }).catch(function (e) {
     console.error(e);
     setStatus('模型加载失败');
     var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none';
+    try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
 });
 
 addEventListener('message', function (e) {
@@ -262,7 +272,10 @@ addEventListener('message', function (e) {
 
 loader.load('./lion/character.glb', function (gltf) {
     gltf.scene.traverse(function (o) {
-        if (o.isMesh && /glove/i.test(o.name || '') && !rolfSkel) rolfSkel = o.skeleton;
+        if (o.isMesh && /glove/i.test(o.name || '')) {
+            if (!rolfSkel) rolfSkel = o.skeleton;
+            if (!rolfBind) rolfBind = o.bindMatrix.clone();
+        }
     });
     if (bernardGlove) applyGlove(gloveKind());
 }, undefined, function (e) { console.error(e); });

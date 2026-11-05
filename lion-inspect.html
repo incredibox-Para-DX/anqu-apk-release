@@ -8,7 +8,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 #app{position:fixed;inset:0}
-#status{position:fixed;left:12px;bottom:10px;font:11px -apple-system,sans-serif;color:#64748b;z-index:5}
+#status{display:none}
 </style>
 </head>
 <body>
@@ -227,7 +227,7 @@ function setupCharacter(gltf) {
   applyGloves();
   try { parent.postMessage('inspect-ready', '*'); } catch (e) {}
   var _l = document.getElementById('loading'); if (_l) _l.style.display = 'none';
-  try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.2; _a.play().catch(function () {}); window.__inspectAudio = _a; } catch (e) {}
+  try { var _a = new Audio('./lion/inspect.wav'); _a.volume = (window.parent && window.parent.__UI_SOUND_VOLUME__ != null ? window.parent.__UI_SOUND_VOLUME__ : 1); _a.currentTime = 0.3; _a.play().catch(function () {}); setTimeout(function () { try { _a.pause(); } catch (e) {} }, 2500); window.__inspectAudio = _a; } catch (e) {}
 }
 
 function setupLion(gltf) {

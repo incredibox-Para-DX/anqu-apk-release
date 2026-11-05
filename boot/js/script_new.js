@@ -4180,7 +4180,13 @@ const EventManager = {
             });
         };
         window.__openWhenReady = function (fn) {
+            var el = document.getElementById('inspect-loading');
+            if (el) el.style.display = 'flex';
             fn();
+        };
+        window.__hideInspectLoading = function () {
+            var el = document.getElementById('inspect-loading');
+            if (el) el.style.display = 'none';
         };
         window.__lionReady = function () {
             if (!window.LionPack || !window.LionPack.isDone()) return false;
@@ -4245,6 +4251,7 @@ const EventManager = {
             const frame = document.getElementById('glove-preview-frame');
             if (frame) frame.setAttribute('src', 'about:blank');
             $('#glove-preview-modal').css('display', 'none');
+            window.__hideInspectLoading();
         });
 
         $(document).on('click', '.glove-option', function () {
@@ -4282,6 +4289,7 @@ const EventManager = {
         $('#lion-inspect-close').on('click', function(e) {
             e.preventDefault();
             stopLionAudio();
+            window.__hideInspectLoading();
             $('#lion-inspect-modal').removeClass('show');
             var f = document.getElementById('lion-inspect-frame');
             if (f) f.setAttribute('src', 'about:blank');
@@ -4292,6 +4300,7 @@ const EventManager = {
 
         window.closeLionInspect = function() {
             stopLionAudio();
+            window.__hideInspectLoading();
             $('#lion-inspect-modal').removeClass('show');
             var f = document.getElementById('lion-inspect-frame');
             if (f) f.setAttribute('src', 'about:blank');
@@ -4364,6 +4373,7 @@ const EventManager = {
         window.addEventListener('message', function (e) {
             if (e.data !== 'inspect-ready') return;
             window.__pendingInspectSound = null;
+            window.__hideInspectLoading();
         });
 
         window.openInspectFromCatalog = function (kind) {
@@ -7261,7 +7271,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.487';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.488';
     
     var __HU_SIZE_BUMP_150 = 1;
 
