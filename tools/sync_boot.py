@@ -65,6 +65,7 @@ CODE_FILES = [
     "libs/jszip.min.js",
     "js/mods.js",
     "js/thanks.js",
+    "js/lion-pack.js",
     "js/particles.js",
     "js/ui-polish.js",
     "js/catalog.js",
