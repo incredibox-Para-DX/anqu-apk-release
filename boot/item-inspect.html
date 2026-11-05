@@ -69,9 +69,9 @@ document.getElementById('app').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
-scene.environmentIntensity = 0.6;
-scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.2));
-const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+scene.environmentIntensity = 0.78;
+scene.add(new THREE.HemisphereLight(0xdbe8ff, 0x1a2230, 1.4));
+const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
 keyLight.position.set(3, 5, 4);
 scene.add(keyLight);
 const rim = new THREE.DirectionalLight(0x6ea8ff, 0.9);
@@ -198,7 +198,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const st = PROP_STYLE[key] || { roughness: 0.68, metalness: 0.04, envMapIntensity: 0.5 };
+      const st = PROP_STYLE[key] || { roughness: 0.58, metalness: 0.05, envMapIntensity: 0.7 };
       const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: st.roughness, metalness: st.metalness, envMapIntensity: st.envMapIntensity, transparent: true, alphaTest: 0.35 });
       
       const dtex = './lion/items/' + key + '_D.png';
@@ -262,7 +262,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
         g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(out, 4));
         g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(outW, 4));
       }
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.78, metalness: 0.0, envMapIntensity: 0.45 });
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.68, metalness: 0.0, envMapIntensity: 0.6 });
       const TEX = {
         rolf: ['gloves_D.png', 'gloves_N.png', ''],
         kurt: ['sniper_D.png', 'sniper_N.png', 'sniper_MAR.png'],
