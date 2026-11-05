@@ -31,15 +31,17 @@ const IDB_MAP = await (async function () {
                 try {
                     if (!db.objectStoreNames.contains('assets')) { resolve(map); return; }
                     const tx = db.transaction('assets', 'readonly');
-                    const all = tx.objectStore('assets').getAll();
-                    all.onsuccess = function () {
-                        (all.result || []).forEach(function (r) {
-                            if (!r || !r.path || !r.blob) return;
+                    const req2 = tx.objectStore('assets').openCursor();
+                    req2.onsuccess = function (ev) {
+                        const cur = ev.target.result;
+                        if (!cur) { resolve(map); return; }
+                        const r = cur.value;
+                        if (r && r.path && r.blob && r.path.indexOf('lion/') === 0) {
                             try { map[r.path] = URL.createObjectURL(r.blob); } catch (e) {}
-                        });
-                        resolve(map);
+                        }
+                        cur.continue();
                     };
-                    all.onerror = function () { resolve(map); };
+                    req2.onerror = function () { resolve(map); };
                 } catch (e) { resolve(map); }
             };
         });
@@ -184,14 +186,10 @@ function applyGlove(kind) {
         let mesh = null;
         gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
         if (!mesh) return;
-        if (/^g\d\d$/.test(kind) && !rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
+        if (!rolfSkel) { setTimeout(function () { applyGlove(kind); }, 300); return; }
         let geo = mesh.geometry;
-        if (/^g\d\d$/.test(kind)) {
-            geo = remap164(geo);
-            geo = remapToBernard(geo, rolfSkel, bernardSkel);
-        } else {
-            geo = remapToBernard(geo, mesh.skeleton || rolfSkel, bernardSkel);
-        }
+        if (/^g\d\d$/.test(kind)) geo = remap164(geo);
+        geo = remapToBernard(geo, rolfSkel, bernardSkel);
         bernardGlove.geometry = geo;
         setGloveTex(bernardGlove, spec[1]);
     }, undefined, function (e) { console.error(e); });

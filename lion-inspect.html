@@ -30,15 +30,17 @@ const IDB_MAP = await (async function () {
                 try {
                     if (!db.objectStoreNames.contains('assets')) { resolve(map); return; }
                     const tx = db.transaction('assets', 'readonly');
-                    const all = tx.objectStore('assets').getAll();
-                    all.onsuccess = function () {
-                        (all.result || []).forEach(function (r) {
-                            if (!r || !r.path || !r.blob) return;
+                    const req2 = tx.objectStore('assets').openCursor();
+                    req2.onsuccess = function (ev) {
+                        const cur = ev.target.result;
+                        if (!cur) { resolve(map); return; }
+                        const r = cur.value;
+                        if (r && r.path && r.blob && r.path.indexOf('lion/') === 0) {
                             try { map[r.path] = URL.createObjectURL(r.blob); } catch (e) {}
-                        });
-                        resolve(map);
+                        }
+                        cur.continue();
                     };
-                    all.onerror = function () { resolve(map); };
+                    req2.onerror = function () { resolve(map); };
                 } catch (e) { resolve(map); }
             };
         });
