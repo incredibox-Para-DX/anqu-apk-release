@@ -31,7 +31,6 @@ const SPECIAL = {
 const spec = KIND === 'g04' ? ['g04', 'g04'] : (SPECIAL[KIND] || [KIND, KIND]);
 const NEED = [
     'lion/bernard1.glb', 'lion/bernard2.glb', 'lion/bernard3.glb',
-    'lion/' + spec[0] + '.glb',
     'lion/' + spec[1] + '_D.png', 'lion/' + spec[1] + '_N.png', 'lion/' + spec[1] + '_MAR.png',
     'lion/bernard_gloves_D.png', 'lion/bernard_gloves_N.png', 'lion/bernard_gloves_MAR.png',
     'lion/bernard_torso_D.png', 'lion/bernard_torso_N.png', 'lion/bernard_torso_MAR.png',
@@ -161,22 +160,9 @@ function gloveMaterial(base) {
 
 function applyGlove() {
     if (!glove) return;
-    if (KIND === 'g04') {
-        glove.geometry = gloveBaseGeo;
-        glove.material = gloveMaterial('g04');
-        glove.visible = true;
-        return;
-    }
-    loader.load('./lion/' + spec[0] + '.glb', function (gltf) {
-        let mesh = null;
-        gltf.scene.traverse(function (o) { if (!mesh && o.isMesh) mesh = o; });
-        if (!mesh) return;
-        let geo = mesh.geometry;
-        if (/^g\d\d$/.test(KIND)) geo = remap164(geo);
-        glove.geometry = geo;
-        glove.material = gloveMaterial(spec[1]);
-        glove.visible = true;
-    }, undefined, function (e) { console.error(e); });
+    glove.geometry = gloveBaseGeo;
+    glove.material = gloveMaterial(KIND === 'g04' ? 'g04' : spec[1]);
+    glove.visible = true;
 }
 
 function loadGLB(p) {
