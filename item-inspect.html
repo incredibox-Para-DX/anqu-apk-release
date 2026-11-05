@@ -80,12 +80,17 @@ scene.add(rim);
 
 const camera = new THREE.PerspectiveCamera(80, innerWidth / innerHeight, 0.01, 100);
 const TUNE_KEY = 'ab_item_tune_' + key;
-const TUNE_DEFAULTS = { fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 };
+const PER_ITEM_TUNE = {
+  teapot: { fwd: -0.051, up: 0.075, right: -0.02, scale: 0.0086, rx: -10, ry: 90, rz: 0 }
+};
+const TUNE_DEFAULTS = Object.assign({ fwd: -0.09, up: 0.17, right: 0.03, scale: 0.0092, rx: 0, ry: 0, rz: 0 }, PER_ITEM_TUNE[key] || {});
 let TUNE = Object.assign({}, TUNE_DEFAULTS);
-try {
-  const saved = JSON.parse(localStorage.getItem(TUNE_KEY) || 'null');
-  if (saved) TUNE = Object.assign(TUNE, saved);
-} catch (e) {}
+if (!PER_ITEM_TUNE[key]) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(TUNE_KEY) || 'null');
+    if (saved) TUNE = Object.assign(TUNE, saved);
+  } catch (e) {}
+}
 window.__tune = TUNE;
 function saveTune() {
   try { localStorage.setItem(TUNE_KEY, JSON.stringify(TUNE)); } catch (e) {}
@@ -188,7 +193,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       const c = g.boundingBox.getCenter(new THREE.Vector3());
       g.translate(-c.x, -c.y, -c.z);
       g.computeVertexNormals();
-      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.34, metalness: 0.28, envMapIntensity: 1.7, transparent: true, alphaTest: 0.35 });
+      const mat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: 0.55, metalness: 0.12, envMapIntensity: 0.8, transparent: true, alphaTest: 0.35 });
       const dtex = './lion/items/' + key + '_D.png';
       const ntex = './lion/items/' + key + '_N.png';
       const mtex = './lion/items/' + key + '_MAR.png';
