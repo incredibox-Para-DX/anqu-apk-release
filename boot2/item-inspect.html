@@ -114,6 +114,23 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
   scene.add(model);
   model.visible = false;
   model.updateMatrixWorld(true);
+  let animBones = null;
+  model.traverse((o) => {
+    if (o.isSkinnedMesh && o.skeleton && o.skeleton.bones && o.skeleton.bones.length === 97 && !animBones) {
+      animBones = o.skeleton.bones;
+    }
+  });
+  if (animBones) {
+    animBones.forEach((b) => {
+      if (b.name.indexOf('fp_') === 0) return;
+      const orig = b.name.replace(/_\d+$/, '');
+      b.name = 'fp_' + orig;
+    });
+    window.__animBones = animBones.length;
+  }
+  head = model.getObjectByName('fp_head') || model.getObjectByName('head') || model.getObjectByName('neck_01');
+  socket = model.getObjectByName('fp_item_r') || model.getObjectByName('item_r') || model.getObjectByName('fp_hand_r') || model.getObjectByName('hand_r');
+
   let propMesh = null;
   if (item.model !== undefined) {
     const base = './lion/items/' + key;
@@ -145,22 +162,6 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     }, undefined, (e) => console.error('prop load', e));
   }
 
-  let animBones = null;
-  model.traverse((o) => {
-    if (o.isSkinnedMesh && o.skeleton && o.skeleton.bones && o.skeleton.bones.length === 97 && !animBones) {
-      animBones = o.skeleton.bones;
-    }
-  });
-  if (animBones) {
-    animBones.forEach((b) => {
-      if (b.name.indexOf('fp_') === 0) return;
-      const orig = b.name.replace(/_\d+$/, '');
-      b.name = 'fp_' + orig;
-    });
-    window.__animBones = animBones.length;
-  }
-  head = model.getObjectByName('fp_head') || model.getObjectByName('head') || model.getObjectByName('neck_01');
-  socket = model.getObjectByName('fp_item_r') || model.getObjectByName('item_r') || model.getObjectByName('fp_hand_r') || model.getObjectByName('hand_r');
 
   const gloveMeshes = [];
   model.traverse((o) => { if (o.isMesh && (o.name || '').toLowerCase().indexOf('glove') >= 0) gloveMeshes.push(o); });
