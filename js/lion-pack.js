@@ -40,24 +40,27 @@
 
     function loadManifest() {
         if (state.manifest) return Promise.resolve(state.manifest);
-        var i = 0;
-        return new Promise(function (resolve, reject) {
-            function next() {
-                if (i >= MANIFEST_URLS.length) { reject(new Error('manifest')); return; }
-                var base = BASE_URLS[i];
-                var url = MANIFEST_URLS[i++];
-                fetch(url + '?t=' + Date.now(), { cache: 'no-store' })
-                    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-                    .then(function (m) {
-                        var files = (m.files || []).filter(function (f) { return f.path.indexOf('lion/') === 0; });
-                        if (!files.length) throw new Error('empty');
-                        state.base = base;
-                        state.manifest = { files: files, version: m.version || '1' };
-                        resolve(state.manifest);
-                    })
-                    .catch(function () { next(); });
-            }
-            next();
+        function verNum(v) { var n = parseFloat(String(v || '').replace(/^v/i, '')); return isNaN(n) ? 0 : n; }
+        var tasks = MANIFEST_URLS.map(function (url, idx) {
+            return fetch(url + '?t=' + Date.now(), { cache: 'no-store' })
+                .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                .then(function (m) {
+                    var files = (m.files || []).filter(function (f) { return f.path.indexOf('lion/') === 0; });
+                    if (!files.length) throw new Error('empty');
+                    return { base: BASE_URLS[idx], manifest: { files: files, version: m.version || '1' } };
+                })
+                .catch(function () { return null; });
+        });
+        return Promise.all(tasks).then(function (list) {
+            var best = null;
+            list.forEach(function (x) {
+                if (!x) return;
+                if (!best || verNum(x.manifest.version) > verNum(best.manifest.version)) best = x;
+            });
+            if (!best) throw new Error('manifest');
+            state.base = best.base;
+            state.manifest = best.manifest;
+            return state.manifest;
         });
     }
 
