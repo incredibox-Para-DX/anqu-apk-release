@@ -118,7 +118,7 @@ if (tuneToggle) tuneToggle.addEventListener('click', function () {
 });
 
 const PROP_STYLE = {
-  gem_necklace: { roughness: 0.36, metalness: 0.5, envMapIntensity: 1.1 }
+  gem_necklace: { roughness: 0.46, metalness: 0.5, envMapIntensity: 0.8 }
 };
 const loader = new GLTFLoader();
 const texTorso = loadColor('./lion/torso_D.png');
@@ -268,7 +268,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
         xmas: ['xmas_D.png', 'xmas_N.png', 'xmas_MAR.png']
       };
       const texSet = isGN ? [gloveKind + '_D.png', gloveKind + '_N.png', gloveKind + '_MAR.png'] : (TEX[gloveKind] || ['', '', '']);
-      if (key === 'gem_necklace') mat.color.setRGB(1.12, 1.06, 0.95);
+      if (key === 'gem_necklace') mat.color.setRGB(1.03, 1.0, 0.96);
       if (texSet[0]) mat.map = loadColor('./lion/' + texSet[0]);
       if (texSet[1]) mat.normalMap = loadData('./lion/' + texSet[1]);
       mat.normalScale = new THREE.Vector2(1.25, 1.25);
