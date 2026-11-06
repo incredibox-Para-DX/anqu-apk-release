@@ -35,6 +35,7 @@ function __applyLowQ() {
     if (!o.isMesh || !o.material) return;
     var mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach(function (m) {
+      if (!m) return;
       [m.map, m.normalMap, m.roughnessMap, m.metalnessMap].forEach(function (t) { if (t) { t.anisotropy = _aniso; t.needsUpdate = true; } });
       if (m.normalMap) m.normalMap = null;
       if (m.roughnessMap) m.roughnessMap = null;
@@ -134,7 +135,7 @@ const item = ITEMS[key] || { name: key, anim: params.get('anim') || '', model: '
 const statusEl = document.getElementById('status');
 
 const renderer = new THREE.WebGLRenderer({ antialias: localStorage.getItem('ab_inspect_aa') !== 'off', alpha: true });
-var _iq = localStorage.getItem('ab_inspect_quality') || 'medium'; var _lowQ = _iq === 'low';
+var _iq = localStorage.getItem('ab_inspect_quality') || 'medium'; var _lowQ = _iq === 'low'; var _res = parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = parseInt(localStorage.getItem('ab_inspect_aniso') || '0', 10);
 if (_lowQ) {
   var _prevMod = THREE.DefaultLoadingManager.urlModifier;
   THREE.DefaultLoadingManager.setURLModifier(function (url) {
