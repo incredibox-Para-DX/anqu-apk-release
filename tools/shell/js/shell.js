@@ -495,12 +495,28 @@
       .catch(function () { if (to) clearTimeout(to); cb(false, 0, false); });
   }
   function jsDownload(base, list, cb, force) {
+    var gen = __dlGen;
+    var full = [], remain = [];
+    list.forEach(function (f) {
+      var have = 0;
+      try { have = Number(window.AndroidUpdate && AndroidUpdate.fileSize ? AndroidUpdate.fileSize('www/' + f.path) : 0) || 0; } catch (e) { have = 0; }
+      if (!force && f.size && have === f.size) full.push(f); else remain.push(f);
+    });
+    list = remain;
     var total = list.length, idx = 0, active = 0, fails = [], conc = 6;
-    if (jsRetry) { jsTotal = jsTotal || total; } else { jsTotal = list.length; jsDone = 0; jsBytesDone = 0; jsBytesTotal = 0; list.forEach(function (f) { jsBytesTotal += (f.size || 0); }); }
-    if (!total) { cb([]); return; }
+    if (jsRetry) { jsTotal = jsTotal || total; } else {
+      jsTotal = full.length + total;
+      jsDone = full.length;
+      jsBytesTotal = 0;
+      jsBytesDone = 0;
+      full.forEach(function (f) { jsBytesDone += (f.size || 0); jsBytesTotal += (f.size || 0); });
+      list.forEach(function (f) { jsBytesTotal += (f.size || 0); });
+    }
+    if (!total) { jsProgress(); cb([]); return; }
     jsProgress();
     function pump() {
-      if (idx >= total && active === 0) { cb(fails); return; }
+      if (gen !== __dlGen) return;
+      if (idx >= total && active === 0) { if (gen === __dlGen) cb(fails); return; }
       while (active < conc && idx < total) {
         var f = list[idx++];
         active++;
@@ -509,6 +525,7 @@
           function attempt() {
             tries++;
             fetchOne(base, file, function (ok, bytes, skipped) {
+              if (gen !== __dlGen) { active--; return; }
               if (ok) {
                 jsDone++; jsBytesDone += bytes; jsProgress();
                 active--; pump();

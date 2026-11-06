@@ -173,7 +173,14 @@
                     files.push(f);
                 });
             });
-            if (!files.length) { cb(false); return; }
+            var downloaded = getDownloaded();
+            files = files.filter(function (f) { return downloaded.indexOf(f.path) < 0; });
+            if (!files.length) {
+                try { localStorage.setItem('ab_boot_full_done', '1'); } catch (e) {}
+                bar(100, '资源已是最新');
+                cb(true);
+                return;
+            }
             var total = files.reduce(function (a, f) { return a + (f.size || 0); }, 0);
             var doneBytes = 0, doneFiles = 0;
             bar(0, '正在下载完整资源 0/' + files.length);
