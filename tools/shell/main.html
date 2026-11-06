@@ -100,6 +100,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 <script>
 (function(){
   var KEY='ab_download_mode', DONE='ab_download_choice_v4';
+  try { if (!localStorage.getItem(DONE)) window.__mainChoicePending = true; } catch(e) {}
   try { if (localStorage.getItem(DONE)) return; } catch(e) { return; }
   var m=document.getElementById('download-mode-modal');
   if(!m) return;
@@ -114,6 +115,8 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
   function close(v){
     try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e) {}
     m.style.display='none';
+    window.__mainChoicePending = false;
+    try { if (window.__shellTryCode) window.__shellTryCode(); } catch(e) {}
   }
   document.getElementById('download-mode-full').onclick=function(){ close('full'); };
   document.getElementById('download-mode-lite').onclick=function(){ close('lite'); };

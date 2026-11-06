@@ -516,6 +516,7 @@
   }
 
   function tryCode() {
+    if (window.__mainChoicePending) return;
     if (done) return;
     var gen = __dlGen;
     needDl = true;
@@ -587,6 +588,8 @@
       startDownload();
     }, PROBE_TIMEOUT);
   }
+  window.__shellTryCode = tryCode;
+
 
   window.__onUpdateCheckResult = function (res) {
     if (done) return;
