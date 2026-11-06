@@ -5000,6 +5000,7 @@ const EventManager = {
             })();
 
             (function initDownloadModeChoice() {
+                try { if (!localStorage.getItem('ab_download_choice_v3')) return; } catch (e) { return; }
                 let mode = null;
                 try { mode = localStorage.getItem('ab_download_mode'); } catch (e) {}
                 if (mode !== 'full') return;
@@ -7445,7 +7446,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.549';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.550';
     
     var __HU_SIZE_BUMP_150 = 1;
 
