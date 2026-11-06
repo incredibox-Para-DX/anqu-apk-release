@@ -4999,6 +4999,34 @@ const EventManager = {
                 sync();
             })();
 
+            (function initDownloadModeChoice() {
+                const $m = $('#download-mode-modal');
+                if (!$m.length) return;
+                const KEY = 'ab_download_mode';
+                const close = () => $m.css('display', 'none');
+                const startFull = () => {
+                    localStorage.setItem(KEY, 'full');
+                    close();
+                    if (window.showToast) window.showToast('已开始完整下载，可在「资源下载」查看进度');
+                    const ids = ['rd-download-model-btn', 'rd-download-bg-btn', 'rd-download-music-btn', 'rd-download-title-btn', 'rd-download-collect-btn', 'rd-download-card-btn'];
+                    let i = 0;
+                    const next = () => {
+                        if (i >= ids.length) return;
+                        const b = document.getElementById(ids[i++]);
+                        if (b) b.click();
+                        setTimeout(next, 700);
+                    };
+                    next();
+                };
+                const startLite = () => {
+                    localStorage.setItem(KEY, 'lite');
+                    close();
+                    if (window.showToast) window.showToast('已选择精简下载，可在「资源下载」补下资源');
+                };
+                $('#download-mode-full').on('click', startFull);
+                $('#download-mode-lite').on('click', startLite);
+                setTimeout(() => $m.css('display', 'flex'), 400);
+            })();
             (function initUiScale() {
                 const $r = $('#ui-scale-range');
                 if (!$r.length) return;
@@ -7424,7 +7452,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.542';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.543';
     
     var __HU_SIZE_BUMP_150 = 1;
 
