@@ -144,7 +144,17 @@
       if (_mode === 'full') {
         window.__bootFullStarted = true;
         setMsg('正在下载完整资源…', true);
-        window.__bootDownloadAll(function () { enter(msg); });
+        window.__bootDownloadAll(function (ok) {
+          if (!ok) {
+            window.__bootFullStarted = false;
+            failed = true;
+            var ov = $('loading-overlay');
+            if (ov) ov.className = 'loading-overlay failed';
+            setMsg('完整资源未下载完，点击屏幕重试', false);
+            return;
+          }
+          enter(msg);
+        });
         return;
       }
     }

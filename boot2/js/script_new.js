@@ -7427,7 +7427,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.571';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.572';
     
     var __HU_SIZE_BUMP_150 = 1;
 
@@ -8141,17 +8141,7 @@ const EventManager = {
         $('[data-hudot]').css('display', show ? 'block' : 'none');
     };
     
-    setTimeout(function() {
-        try {
-            window.__huFetchAndCompare(function(m, hasUpdate) {
-                if (hasUpdate) {
-                    window.__huShowRedDot(true);
-                } else {
-                    window.__huShowRedDot(false);
-                }
-            });
-        } catch (e) {}
-    }, 3000);
+
 
     
 
