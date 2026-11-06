@@ -4991,12 +4991,12 @@ const EventManager = {
                 const apply = (v) => {
                     const el = document.querySelector('.main-content');
                     if (el) {
-                        el.style.transformOrigin = 'top left';
-                        el.style.transform = 'scale(' + v + ')';
-                        el.style.width = (100 / v) + '%';
-                        el.style.height = (100 / v) + '%';
+                        el.style.transform = '';
+                        el.style.transformOrigin = '';
+                        el.style.width = '';
+                        el.style.height = '';
                     }
-                    document.documentElement.style.zoom = '';
+                    document.documentElement.style.zoom = v;
                     $('#ui-scale-value').text(v.toFixed(1) + 'x');
                 };
                 let saved = parseFloat(localStorage.getItem(KEY) || '1');
@@ -7373,7 +7373,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.536';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.537';
     
     var __HU_SIZE_BUMP_150 = 1;
 
