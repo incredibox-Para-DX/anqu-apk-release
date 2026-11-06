@@ -667,7 +667,13 @@
     }
   }
 
-  if (intro) {
+  if (window.__introAlreadyDone) {
+    introDone = true;
+    if (intro) { try { intro.pause(); } catch (e) {} intro.style.display = 'none'; }
+    if (mainVideo) { try { mainVideo.pause(); } catch (e) {} mainVideo.style.display = 'none'; }
+    if (pendingEnter) { pendingEnter = false; go(); return; }
+    if (needDl) showProgressUI();
+  } else if (intro) {
     intro.addEventListener('ended', finishIntro);
     intro.addEventListener('error', finishIntro);
     setTimeout(finishIntro, 12000);

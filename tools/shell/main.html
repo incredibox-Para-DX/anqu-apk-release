@@ -122,11 +122,14 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
   if(!v){ show(); } else {
     v.addEventListener('ended', show);
     v.addEventListener('error', show);
-    setTimeout(show, 15000);
+    setTimeout(show, 8000);
   }
   function close(mode){
     try { localStorage.setItem(KEY,mode); localStorage.setItem(DONE,'1'); } catch(e){}
     m.style.display='none';
+    window.__introAlreadyDone = true;
+    var vi=document.getElementById('video-intro'); if(vi){ try{vi.pause();}catch(e){} vi.style.display='none'; }
+    var vm=document.getElementById('video-main'); if(vm){ try{vm.pause();}catch(e){} vm.style.display='none'; }
     loadScripts();
   }
   document.getElementById('download-mode-full').onclick=function(){ close('full'); };
