@@ -197,6 +197,7 @@ function setupCharacter(gltf) {
     }
   });
   scene.add(model);
+  try { __applyLowQ(); } catch (e) {}
   model.updateMatrixWorld(true);
   window.__model = model;
   window.__head = model.getObjectByName('head') || model.getObjectByName('neck_01');
@@ -472,7 +473,7 @@ function __applyLowQ() {
     }
   });
 }
-setInterval(__applyLowQ, 800);
+setInterval(__applyLowQ, 300);
 
 setTimeout(function () {
   var l = document.getElementById('loading');

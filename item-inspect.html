@@ -61,7 +61,7 @@ function __applyLowQ() {
     }
   });
 }
-setInterval(__applyLowQ, 800);
+setInterval(__applyLowQ, 300);
 
 setTimeout(function () {
   var l = document.getElementById('loading');
@@ -269,6 +269,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
     }
   });
   scene.add(model);
+  try { __applyLowQ(); } catch (e) {}
   model.visible = false;
   model.updateMatrixWorld(true);
   let animBones = null;
@@ -314,6 +315,7 @@ loader.load('./lion/kurt_character.glb', (gltf) => {
       propMesh.frustumCulled = false;
       propMesh.visible = false;
       scene.add(propMesh);
+  try { __applyLowQ(); } catch (e) {}
       
       window.__propMesh = propMesh;
     }, undefined, (e) => console.error('prop load', e));

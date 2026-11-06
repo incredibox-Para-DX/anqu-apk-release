@@ -198,6 +198,7 @@ Promise.all([
         }
     });
     scene.add(rolf);
+  try { __applyLowQ(); } catch (e) {}
 
     bernard = list[1].scene;
     bernard.scale.setScalar(0.01);
@@ -222,6 +223,7 @@ Promise.all([
         }
     });
     scene.add(bernard);
+  try { __applyLowQ(); } catch (e) {}
     bernard.updateMatrixWorld(true);
 
     const box = new THREE.Box3().setFromObject(bernard);
@@ -308,7 +310,7 @@ function __applyLowQ() {
     }
   });
 }
-setInterval(__applyLowQ, 800);
+setInterval(__applyLowQ, 300);
 
 setTimeout(function () {
   var l = document.getElementById('loading');
