@@ -4336,6 +4336,12 @@ const EventManager = {
             '热成像模块': 'thermal_module', '新边疆模型': 'new_frontier', '原子钟': 'atomic_clock',
             '电磁弹射组件': 'catapult_part', '金驹越岭': 'golden_steed'
         };
+        $('#gm-perf-test-btn').on('click', function () {
+            var cur = localStorage.getItem('ab_lion_gloves') || 'g05';
+            var frame = document.getElementById('glove-preview-frame');
+            if (frame) frame.setAttribute('src', 'glove-preview.html?gloves=' + encodeURIComponent(cur) + '&perf=1&t=' + Date.now());
+            $('#glove-preview-modal').css('display', 'block');
+        });
         $('#gm-unlock-hidden-btn').on('click', function () {
             var on = window.__hiddenUnlocked();
             try { localStorage.setItem('ab_unlock_hidden', on ? '0' : '1'); } catch (e) {}
@@ -7322,7 +7328,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.531';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.532';
     
     var __HU_SIZE_BUMP_150 = 1;
 

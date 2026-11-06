@@ -71,10 +71,11 @@ THREE.DefaultLoadingManager.setURLModifier(function (url) {
     return IDB_MAP[n] || url;
 });
 
-const renderer = new THREE.WebGLRenderer({ antialias: localStorage.getItem('ab_inspect_aa') !== 'off', alpha: true });
+const _perf = P0.has('perf');
+const renderer = new THREE.WebGLRenderer({ antialias: _perf || localStorage.getItem('ab_inspect_aa') !== 'off', alpha: true });
 renderer.setSize(innerWidth, innerHeight);
-var _iq = localStorage.getItem('ab_inspect_quality') || 'medium'; var _lowQ = _iq === 'low';
- var _res = parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = parseInt((localStorage.getItem('ab_inspect_aniso') === '0' ? '2' : (localStorage.getItem('ab_inspect_aniso') || '2')), 10); renderer.setPixelRatio(Math.min(devicePixelRatio || 1, (_iq === 'low' ? 0.75 : (_iq === 'high' ? 2 : 1.5)) * _res));
+var _iq = _perf ? 'high' : (localStorage.getItem('ab_inspect_quality') || 'medium'); var _lowQ = !_perf && _iq === 'low';
+ var _res = _perf ? 2 : parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = _perf ? 16 : parseInt((localStorage.getItem('ab_inspect_aniso') === '0' ? '2' : (localStorage.getItem('ab_inspect_aniso') || '2')), 10); renderer.setPixelRatio(_perf ? Math.min((devicePixelRatio || 1) * 2, 4) : Math.min(devicePixelRatio || 1, (_iq === 'low' ? 0.75 : (_iq === 'high' ? 2 : 1.5)) * _res));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.setClearAlpha(0);
 document.getElementById('app').appendChild(renderer.domElement);
@@ -83,13 +84,23 @@ const scene = new THREE.Scene();
 scene.background = null;
 const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.01, 100);
   scene.environment = null;
+if (_perf) {
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = 1.5;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+  renderer.shadowMap.enabled = true;
+}
 scene.environmentIntensity = 0.75;
 scene.add(new THREE.HemisphereLight(0xbfd4ff, 0x141a22, 1.8));
 const key = new THREE.DirectionalLight(0xffffff, 2.2);
 key.position.set(3, 5, 4);
+key.castShadow = _perf;
 scene.add(key);
 const rim = new THREE.DirectionalLight(0x6ea8ff, 1.4);
 rim.position.set(-3, 3, -3);
+rim.castShadow = _perf;
 scene.add(rim);
 
 const GLOVE_MAP164 = [0, 1, 2, 3, 4, 5, 6, 17, 18, 19, 20, 21, 22, 23, 24, 25, 37, 38, 39, 40, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 96, 97, 98, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 134, 135, 136, 141, 142, 143, 144, 145, 146, 147, 148, 160, 161, 162, 163];
