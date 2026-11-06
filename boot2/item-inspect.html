@@ -62,6 +62,14 @@ function __applyLowQ() {
   });
 }
 setInterval(__applyLowQ, 800);
+
+setTimeout(function () {
+  var l = document.getElementById('loading');
+  if (l && l.style.display !== 'none') {
+    l.innerHTML = '<div style="font-family:system-ui,sans-serif;font-size:14px;color:#cbd5e1;">模型加载失败</div>';
+    setTimeout(function () { try { parent.closeLionInspect(); } catch (e) {} }, 1500);
+  }
+}, 12000);
 </script>
 <script type="module">
 import * as THREE from './vendor/three/three.module.js';
