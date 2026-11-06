@@ -4968,6 +4968,26 @@ const EventManager = {
                 sync();
             })();
 
+            (function initInspectExtra() {
+                const bind = (id, key, attr, def) => {
+                    const $g = $('#' + id);
+                    if (!$g.length) return;
+                    const sync = () => {
+                        const cur = localStorage.getItem(key) || def;
+                        $g.find('.fps-option-btn').removeClass('active');
+                        $g.find('.fps-option-btn[' + attr + '="' + cur + '"]').addClass('active');
+                    };
+                    $g.on('click', '.fps-option-btn', function () {
+                        localStorage.setItem(key, $(this).attr(attr));
+                        sync();
+                    });
+                    sync();
+                };
+                bind('inspect-resolution-group', 'ab_inspect_resolution', 'data-res', '1');
+                bind('inspect-aniso-group', 'ab_inspect_aniso', 'data-aniso', '0');
+                bind('inspect-aa-group', 'ab_inspect_aa', 'data-aa', 'on');
+            })();
+
             
             (function initSearchMaskToggle() {
                 const STORAGE_KEY = 'ab_skip_search_mask';
@@ -7301,7 +7321,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.517';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.518';
     
     var __HU_SIZE_BUMP_150 = 1;
 
