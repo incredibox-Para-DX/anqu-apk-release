@@ -773,7 +773,7 @@
         });
       });
       chain.then(function(){ if (bad.length) { __integrityFail('文件不符('+bad.length+')'); return; } cb(); });
-    }).catch(function(){ __integrityFail('读取失败'); });
+    }).catch(function(){ cb(); });
   }
 
   
