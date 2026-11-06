@@ -4181,7 +4181,14 @@ const EventManager = {
         };
         window.__showInspectLoading = function () {};
         window.__hideInspectLoading = function () {};
+        window.__pauseMainForInspect = function () {
+            try { if (localStorage.getItem('ab_inspect_pause_main') === '1') document.body.classList.add('inspect-pause-main'); } catch (e) {}
+        };
+        window.__resumeMainForInspect = function () {
+            try { document.body.classList.remove('inspect-pause-main'); } catch (e) {}
+        };
         window.__setInspectFrame = function (frame, url) {
+            window.__pauseMainForInspect();
             if (!frame) return;
             if (url.indexOf('lion-inspect.html') >= 0 && frame.getAttribute('data-base') === url) {
                 try { frame.contentWindow.postMessage('lion-replay', '*'); } catch (e) {}
@@ -4265,6 +4272,7 @@ const EventManager = {
             const frame = document.getElementById('glove-preview-frame');
             $('#glove-preview-modal').css('display', 'none');
             window.__hideInspectLoading();
+            window.__resumeMainForInspect();
         });
 
         $(document).on('click', '.glove-option', function () {
@@ -4312,6 +4320,7 @@ const EventManager = {
         window.closeLionInspect = function() {
             stopLionAudio();
             window.__hideInspectLoading();
+            window.__resumeMainForInspect();
             $('#lion-inspect-modal').removeClass('show');
             setTimeout(function () {
                 $('#lion-inspect-modal').css('display', 'none');
@@ -4337,6 +4346,7 @@ const EventManager = {
             '电磁弹射组件': 'catapult_part', '金驹越岭': 'golden_steed'
         };
         $('#gm-perf-test-btn').on('click', function () {
+            window.__pauseMainForInspect();
             var cur = localStorage.getItem('ab_lion_gloves') || 'g05';
             var frame = document.getElementById('glove-preview-frame');
             if (frame) frame.setAttribute('src', 'glove-preview.html?gloves=' + encodeURIComponent(cur) + '&perf=1&t=' + Date.now());
@@ -4974,6 +4984,15 @@ const EventManager = {
                 sync();
             })();
 
+            (function initInspectPauseMain() {
+                const $t = $('#inspect-pause-main-toggle');
+                if (!$t.length) return;
+                const KEY = 'ab_inspect_pause_main';
+                $t.prop('checked', localStorage.getItem(KEY) === '1');
+                $t.on('change', function () {
+                    localStorage.setItem(KEY, this.checked ? '1' : '0');
+                });
+            })();
             (function initInspectExtra() {
                 if (!localStorage.getItem('ab_inspect_aniso') || localStorage.getItem('ab_inspect_aniso') === '0') localStorage.setItem('ab_inspect_aniso', '2');
                 const bind = (id, key, attr, def) => {
@@ -7328,7 +7347,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.533';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.534';
     
     var __HU_SIZE_BUMP_150 = 1;
 

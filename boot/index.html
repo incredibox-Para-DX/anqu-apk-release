@@ -31,6 +31,8 @@ body, body *:not(.fas):not(.far):not(.fab):not(.fa):not(.fa-solid):not(.font-pre
     font-family: var(--ab-font-stack) !important;
 }
 #gm-debug-section { display: none !important; }
+body.inspect-pause-main *, body.inspect-pause-main *::before, body.inspect-pause-main *::after { animation-play-state: paused !important; }
+body.inspect-pause-main canvas { visibility: hidden !important; }
 body[data-gm="1"] #gm-debug-section { display: block !important; }
 .profile-title-row {
     display: flex;
@@ -1305,6 +1307,13 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <button class="fps-option-btn" data-aa="off">关</button>
 <button class="fps-option-btn active" data-aa="on">开</button>
 </div>
+</div>
+<div class="sidebar-option">
+<span class="settings-label">性能优化</span>
+<label class="switch">
+<input type="checkbox" id="inspect-pause-main-toggle">
+<span class="slider round"></span>
+</label>
 </div>
 <div class="sidebar-option">
 <span class="settings-label">弹窗消息提示</span>
