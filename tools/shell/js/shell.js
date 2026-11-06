@@ -53,6 +53,7 @@
   var remoteVer = '';
   var picked = false;
   var done = false;
+  var __dlGen = 0;
   var needDl = false;
   var failed = false;
   var timer = null;
@@ -516,11 +517,12 @@
 
   function tryCode() {
     if (done) return;
+    var gen = __dlGen;
     needDl = true;
     if (!picked) {
       picked = true;
       setMsg('正在连接服务器…', false);
-      pickBase(function () { tryCode(); });
+      pickBase(function () { if (gen !== __dlGen) return; tryCode(); });
       return;
     }
     if (ci >= CODE_BASES.length) { fail('资源获取失败，点击屏幕重试'); return; }
@@ -529,7 +531,7 @@
     
     resetProgress(ci > 1);
     var startDownload = function () {
-      if (done) return;
+      if (done || gen !== __dlGen) return;
       var list = jsRetry || files;
       if (window.AndroidUpdate && typeof AndroidUpdate.writeFile === 'function' && list.length) {
         var isRetry = !!jsRetry;
@@ -539,7 +541,7 @@
           jsBytesDone = Math.max(0, jsBytesTotal - rb);
         }
         jsDownload(base, list, function (fails) {
-          if (done) return;
+          if (done || gen !== __dlGen) return;
           if (fails && fails.length) {
             jsRetry = null;
             if (window.__jsHashBad) {
@@ -551,6 +553,7 @@
             call(base, CODE_TIMEOUT, function () {
               stopPoll();
               verifyCode(function (ok) {
+                if (gen !== __dlGen) return;
                 if (ok) { enter(); return; }
                 tryCode();
               });
@@ -560,6 +563,7 @@
           jsRetry = null;
           setMsg('正在校验运行文件…', false);
           verifyCode(function (ok) {
+            if (gen !== __dlGen) return;
             if (ok) { enter(); return; }
             setMsg('运行文件不完整，正在重新获取…', false);
             tryCode();
@@ -569,6 +573,7 @@
       }
       startPoll();
       call(base, CODE_TIMEOUT, function () {
+        if (gen !== __dlGen) return;
         stopPoll();
         try { localStorage.removeItem(BASE_PICK_KEY); } catch (e) {}
         tryCode();
@@ -577,6 +582,7 @@
     
     if (files.length) { startDownload(); return; }
     get(base + '/manifest.json', function (ok, text) {
+      if (gen !== __dlGen) return;
       if (ok) setupFiles(parseText(text));
       startDownload();
     }, PROBE_TIMEOUT);
@@ -700,6 +706,7 @@
     try { localStorage.setItem('ab_shell_check_ts', String(Date.now())); } catch (e) {}
     pickBase(function (base) {
       get(base + '/manifest.json', function (ok, text) {
+      if (gen !== __dlGen) return;
         if (!ok) { next(false); return; }
         var m = parseText(text);
         if (!m) { next(false); return; }
@@ -850,6 +857,7 @@
             CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
             panel.style.display = 'none';
             if (!done) {
+              __dlGen++;
               ci = 0;
               picked = false;
               setTimeout(function () { try { tryCode(); } catch (e) {} }, 60);
