@@ -100,7 +100,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 </div>
 <script>
 (function(){
-  var KEY='ab_download_mode', INSTALL_ID='377';
+  var KEY='ab_download_mode', INSTALL_ID='378';
   try { localStorage.setItem(KEY,'lite'); } catch(e) {}
   var saved=null;
   try { saved=localStorage.getItem('ab_install_id'); } catch(e) {}
@@ -124,6 +124,12 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
       location.replace('index.html?r=' + Date.now());
       return;
     }
+    window.__introAlreadyDone = true;
+    var vi=document.getElementById('video-intro'); if(vi){ try{vi.pause();}catch(e){} vi.style.display='none'; }
+    var vm=document.getElementById('video-main'); if(vm){ vm.style.display='block'; try{vm.play();}catch(e){} }
+    var st=document.getElementById('dl-status'); if(st) st.className='dl-status show';
+    var db=document.getElementById('dl-bar'); if(db) db.className='dl-bar show';
+    var rb=document.getElementById('route-btn'); if(rb) rb.style.display='block';
     loadScripts();
   }
   var v=document.getElementById('video-intro');

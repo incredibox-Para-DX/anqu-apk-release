@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.576.m",
+  "version": "v2.4.0_hotfix.577.m",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 380672,
-      "sha256": "d54e62026ec18146a9a459ea242cb1c4afb8293090f0eaa3ad3f6170efc9e39c"
+      "sha256": "fc4435eec160f4c3b2d3714e2d67dab64f83403546b455e0f543ca353b81a920"
     },
     {
       "path": "js/synthesis.js",
