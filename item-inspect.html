@@ -31,7 +31,9 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
 <script src="./js/i18n.js">
 function __applyLowQ() {
   if (!_lowQ) return;
+  renderer.shadowMap.enabled = false;
   scene.traverse(function (o) {
+    if (o.isLight) { o.castShadow = false; return; }
     if (!o.isMesh || !o.material) return;
     var apply = function (m) {
       if (!m || m.__lowBasic) return m;
@@ -45,6 +47,9 @@ function __applyLowQ() {
         depthTest: m.depthTest,
         vertexColors: !!m.vertexColors
       });
+      basic.skinning = true;
+      basic.morphTargets = m.morphTargets;
+      basic.morphNormals = m.morphNormals;
       basic.__lowBasic = true;
       return basic;
     };
