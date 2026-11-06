@@ -20,7 +20,6 @@
 <div class="loading-tip" id="loading-tip"></div>
 </div>
 </div>
-<script src="js/shell.js"></script>
 <div id="download-mode-modal" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
 <div style="width:min(460px,90vw);background:#111827;color:#e5e7eb;border-radius:14px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.6);">
 <div style="font-size:18px;font-weight:700;">选择下载方式</div>
@@ -36,14 +35,24 @@
 <script>
 (function(){
   var KEY='ab_download_mode', DONE='ab_download_choice_done';
-  try { if (localStorage.getItem(DONE)) return; } catch(e) { return; }
-  document.addEventListener('DOMContentLoaded', function(){
-    var m=document.getElementById('download-mode-modal'); if(!m) return;
-    m.style.display='flex';
-    function close(v){ try{ localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); }catch(e){} m.style.display='none'; }
-    document.getElementById('download-mode-full').onclick=function(){ close('full'); };
-    document.getElementById('download-mode-lite').onclick=function(){ close('lite'); };
-  });
+  function loadShell(){
+    var s=document.createElement('script');
+    s.src='js/shell.js';
+    document.body.appendChild(s);
+  }
+  var done=false;
+  try { done=!!localStorage.getItem(DONE); } catch(e) {}
+  if (done) { loadShell(); return; }
+  var m=document.getElementById('download-mode-modal');
+  if (!m) { loadShell(); return; }
+  m.style.display='flex';
+  function close(v){
+    try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e) {}
+    m.style.display='none';
+    loadShell();
+  }
+  document.getElementById('download-mode-full').onclick=function(){ close('full'); };
+  document.getElementById('download-mode-lite').onclick=function(){ close('lite'); };
 })();
 </script>
 </body>
