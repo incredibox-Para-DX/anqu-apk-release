@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.516",
+  "version": "v2.4.0_hotfix.517",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -114,7 +114,7 @@
     {
       "path": "js/script_new.js",
       "size": 374578,
-      "sha256": "6fa9d8fed1c9366bf96a1358c1d1c023550dea82640d067d1e34cb1b6a5a158a"
+      "sha256": "9e5c78ed6e25e28e17bdb1584829b203a8efd3fb64c61a36c3f66e1a6e4fcf67"
     },
     {
       "path": "js/synthesis.js",
@@ -263,8 +263,8 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 19964,
-      "sha256": "09d896e03d5b9312e97f2f469f2608d307a0ba6ebd477f8b043a019bb040e3ec"
+      "size": 20485,
+      "sha256": "ca76458dd0c2f18cf30ba99994dd1f0e5c890224af89039bf9e809357b257d9d"
     },
     {
       "path": "lion/bernard_gloves_D.png",
@@ -298,23 +298,23 @@
     },
     {
       "path": "glove-preview.html",
-      "size": 11937,
-      "sha256": "a77fcf3faa68c162233fbc951623f003fdc136c3e173e83d0ed513fd417ddbcd"
+      "size": 12458,
+      "sha256": "2cbadc156bac1b2e25282f82c88a17a9519a41fcc56e51c85df1e8214f1d3904"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 122581,
-      "sha256": "c2e2a5eec6f1b67dec1e6847a74a560f6673aaf4395fb0811187953024f181b4"
+      "size": 123102,
+      "sha256": "8122084cc6c0c09101ea89df7946c401639e3ce0596e025fb62fb02e984d3d84"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 217965,
-      "sha256": "341795575525a58b8fa4125e042b7b60f5f53351a7496414405b29238cc8c89d"
+      "size": 218486,
+      "sha256": "27f9f814557ed05c173df0238b01f4367830e0632f576149318f1908db8bd6ad"
     },
     {
       "path": "item-inspect.html",
-      "size": 25831,
-      "sha256": "b0285bac8c7c239e32bea13dc7b4d6279f75a9e21073793d84b24b8e4ff33436"
+      "size": 26352,
+      "sha256": "8e3971db4fbb78dbcb096af6770d3e3c5be22485689087525be4237e65bfd974"
     },
     {
       "path": "index.html",
@@ -323,5 +323,5 @@
     }
   ],
   "fileCount": 64,
-  "totalSize": 2962340
+  "totalSize": 2964945
 }
