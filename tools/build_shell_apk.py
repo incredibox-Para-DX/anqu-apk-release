@@ -65,6 +65,7 @@ SHELL_FILES = {
     "assets/www/vendor/three/addons/controls/OrbitControls.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "controls", "OrbitControls.js"),
     "assets/www/vendor/three/addons/environments/RoomEnvironment.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "environments", "RoomEnvironment.js"),
     "assets/www/vendor/three/addons/utils/BufferGeometryUtils.js": os.path.join(SHELL_DIR, "vendor", "three", "addons", "utils", "BufferGeometryUtils.js"),
+    "assets/www/backgrounds/Login/LoginCG.mp4": os.path.join(REPO, "backgrounds", "Login", "LoginCG.mp4"),
 }
 
 
