@@ -130,6 +130,9 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
     window.__introAlreadyDone = true;
     var vi=document.getElementById('video-intro'); if(vi){ try{vi.pause();}catch(e){} vi.style.display='none'; }
     var vm=document.getElementById('video-main'); if(vm){ vm.style.display='block'; try{vm.play();}catch(e){} }
+    var st=document.getElementById('dl-status'); if(st) st.className='dl-status show';
+    var db=document.getElementById('dl-bar'); if(db) db.className='dl-bar show';
+    var rb=document.getElementById('route-btn'); if(rb) rb.style.display='block';
     loadScripts();
   }
   document.getElementById('download-mode-full').onclick=function(){ close('full'); };
