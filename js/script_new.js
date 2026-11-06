@@ -781,7 +781,7 @@ previewCurrentBackground() {
                 }
             }
             const allowItem = !!itemKey && window.__inspectAllowed(itemKey);
-            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound);
+            $('#tooltip-inspect-row').toggle(isSecretFile || isXCompound);
             $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion')).data('item', allowItem ? itemKey : '');
             
             
@@ -7408,7 +7408,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.540';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.541';
     
     var __HU_SIZE_BUMP_150 = 1;
 
