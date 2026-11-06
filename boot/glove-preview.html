@@ -74,7 +74,7 @@ THREE.DefaultLoadingManager.setURLModifier(function (url) {
 const renderer = new THREE.WebGLRenderer({ antialias: localStorage.getItem('ab_inspect_aa') !== 'off', alpha: true });
 renderer.setSize(innerWidth, innerHeight);
 var _iq = localStorage.getItem('ab_inspect_quality') || 'medium'; var _lowQ = _iq === 'low';
- var _res = parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = parseInt(localStorage.getItem('ab_inspect_aniso') || '0', 10); renderer.setPixelRatio(Math.min(devicePixelRatio || 1, (_iq === 'low' ? 0.75 : (_iq === 'high' ? 2 : 1.5)) * _res));
+ var _res = parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = parseInt((localStorage.getItem('ab_inspect_aniso') === '0' ? '2' : (localStorage.getItem('ab_inspect_aniso') || '2')), 10); renderer.setPixelRatio(Math.min(devicePixelRatio || 1, (_iq === 'low' ? 0.75 : (_iq === 'high' ? 2 : 1.5)) * _res));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.setClearAlpha(0);
 document.getElementById('app').appendChild(renderer.domElement);

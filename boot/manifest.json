@@ -1,5 +1,5 @@
 {
-  "version": "v2.4.0_hotfix.530",
+  "version": "v2.4.0_hotfix.531",
   "files": [
     {
       "path": "MiniGame/index.html",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/script_new.js",
-      "size": 375584,
-      "sha256": "bc9cbe036f7ce5465a147fb02ce7dc25c89c6452c4e49a97d90c06a197dabb75"
+      "size": 375733,
+      "sha256": "b580dfbd2d5305123e318a373260376b38fa661d25c998de0292f61e91e563be"
     },
     {
       "path": "js/synthesis.js",
@@ -263,8 +263,8 @@
     },
     {
       "path": "lion-inspect.html",
-      "size": 21594,
-      "sha256": "27db2c22a910428baeb8fe0fbe19addffffc25c882ba69fe1f3414b139fa8865"
+      "size": 21655,
+      "sha256": "6a394494bb88e541dae53f3dd9b0c3aedd86ba63d729d5c5aa9fff62801d9685"
     },
     {
       "path": "lion/bernard_gloves_D.png",
@@ -298,30 +298,30 @@
     },
     {
       "path": "glove-preview.html",
-      "size": 13605,
-      "sha256": "23340c8eb8f3fd90cd474942df4ca9ce351cc3b241f95592cb2d088e03f18ce0"
+      "size": 13666,
+      "sha256": "285bd6d34d7cdeb97d8dfe833f0317d08d901a561269c0d95c540083bbcfde98"
     },
     {
       "path": "secretfile-inspect.html",
-      "size": 124211,
-      "sha256": "8a18e89576f2e7861b1e4e4ffa3815ce097855bd8b56ea8b0e240193cb7d4b29"
+      "size": 124272,
+      "sha256": "282b8e662a850453e3ce99925796114d1e0fbc9943c39b12daee9fae478737db"
     },
     {
       "path": "xcompound-inspect.html",
-      "size": 219595,
-      "sha256": "61dd3216d3e4bb542841126e35c7bc27af2b032c31cc3ad251a301f8f1b7e51a"
+      "size": 219656,
+      "sha256": "6c8f3177d3c6d74968249db2122820c2386f2556283e68ea4f31b72a65553058"
     },
     {
       "path": "item-inspect.html",
-      "size": 27652,
-      "sha256": "ccdfc4510e880057d709cae7737832501b3e0b621ac16392b450ec74c01119b8"
+      "size": 27774,
+      "sha256": "ca03fac2ececb689af24b5917d76a2f2aa8276bde31097ae5ac3d58e67f680dd"
     },
     {
       "path": "index.html",
-      "size": 172666,
-      "sha256": "e063e34d01f1526f04d2bc780ed505da31a8c271d84955c569650618bb85a2a9"
+      "size": 172607,
+      "sha256": "294427e966bbb39b91961247123aeb63f249eb4234c1d6bcbc3ed83b02b1f198"
     }
   ],
   "fileCount": 64,
-  "totalSize": 2972901
+  "totalSize": 2973357
 }

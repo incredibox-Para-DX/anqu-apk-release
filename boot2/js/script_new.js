@@ -781,7 +781,7 @@ previewCurrentBackground() {
                 }
             }
             const allowItem = !!itemKey && window.__inspectAllowed(itemKey);
-            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound || allowItem);
+            $('#tooltip-inspect-row').toggle(isLion || isSecretFile || isXCompound);
             $('#tooltip-inspect-btn').data('kind', isXCompound ? 'xcompound' : (isSecretFile ? 'secretfile' : 'lion')).data('item', allowItem ? itemKey : '');
             
             
@@ -4969,6 +4969,7 @@ const EventManager = {
             })();
 
             (function initInspectExtra() {
+                if (!localStorage.getItem('ab_inspect_aniso') || localStorage.getItem('ab_inspect_aniso') === '0') localStorage.setItem('ab_inspect_aniso', '2');
                 const bind = (id, key, attr, def) => {
                     const $g = $('#' + id);
                     if (!$g.length) return;
@@ -4984,7 +4985,7 @@ const EventManager = {
                     sync();
                 };
                 bind('inspect-resolution-group', 'ab_inspect_resolution', 'data-res', '1');
-                bind('inspect-aniso-group', 'ab_inspect_aniso', 'data-aniso', '0');
+                bind('inspect-aniso-group', 'ab_inspect_aniso', 'data-aniso', '2');
                 bind('inspect-aa-group', 'ab_inspect_aa', 'data-aa', 'on');
             })();
 
@@ -7321,7 +7322,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.530';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.531';
     
     var __HU_SIZE_BUMP_150 = 1;
 
