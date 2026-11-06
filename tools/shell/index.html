@@ -34,6 +34,10 @@
 </div>
 <script>
 (function(){
+  if (location.search.indexOf('start=1') >= 0) {
+    var a=document.createElement('script'); a.src='js/boot-download.js'; a.onload=function(){ var b=document.createElement('script'); b.src='js/shell.js'; document.body.appendChild(b); }; document.body.appendChild(a);
+    return;
+  }
   var KEY='ab_download_mode', DONE='ab_download_choice_v5';
   function loadScripts(){
     var a=document.createElement('script'); a.src='js/boot-download.js'; a.onload=function(){

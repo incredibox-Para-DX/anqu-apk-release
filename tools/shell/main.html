@@ -85,7 +85,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 <div id="route-list" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;"></div>
 <button id="route-rescan" style="margin-top:14px;width:100%;padding:11px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#e2e8f0;font-size:13px;">重新测速</button>
 </div>
-<div class="loading-overlay" id="loading-overlay" style="display:none;">
+<div class="loading-overlay" id="loading-overlay" style="display:none;background:rgba(0,0,0,.35);">
 <div class="loading-container">
 <div class="loading-text">暗区突围保险模拟</div>
 <div class="loading-text"></div>
@@ -111,31 +111,39 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 </div>
 <script>
 (function(){
-  var KEY='ab_download_mode', DONE='ab_download_choice_v4';
-  try { if (!localStorage.getItem(DONE)) window.__mainChoicePending = true; } catch(e) {}
-  try { if (localStorage.getItem(DONE)) return; } catch(e) { return; }
+  var KEY='ab_download_mode', DONE='ab_download_choice_v6';
+  function loadScripts(){
+    var a=document.createElement('script');
+    a.src='js/boot-download.js';
+    a.onload=function(){
+      var b=document.createElement('script');
+      b.src='js/shell.js';
+      document.body.appendChild(b);
+    };
+    document.body.appendChild(a);
+  }
+  var done=false;
+  try { done=!!localStorage.getItem(DONE); } catch(e){}
+  if (done) { loadScripts(); return; }
   var m=document.getElementById('download-mode-modal');
-  if(!m) return;
+  if (!m) { loadScripts(); return; }
   var shown=false;
   function show(){ if(shown)return; shown=true; m.style.display='flex'; }
   var v=document.getElementById('video-intro');
-  if(!v){ show(); return; }
-  function once(){ show(); }
-  v.addEventListener('ended', once);
-  v.addEventListener('error', once);
-  setTimeout(once, 15000);
+  if(!v){ show(); } else {
+    v.addEventListener('ended', show);
+    v.addEventListener('error', show);
+    setTimeout(show, 15000);
+  }
   function close(v){
-    try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e) {}
+    try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e){}
     m.style.display='none';
     var ov=document.getElementById('loading-overlay'); if(ov) ov.style.display='flex';
-    window.__mainChoicePending = false;
-    try { if (window.__shellTryCode) window.__shellTryCode(); } catch(e) {}
+    loadScripts();
   }
   document.getElementById('download-mode-full').onclick=function(){ close('full'); };
   document.getElementById('download-mode-lite').onclick=function(){ close('lite'); };
 })();
 </script>
-<script src="js/boot-download.js"></script>
-<script src="js/shell.js"></script>
 </body>
 </html>
