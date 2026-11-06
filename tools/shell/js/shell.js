@@ -893,10 +893,8 @@
             CODE_BASES = [base].concat(CODE_BASES.filter(function (x) { return x !== base; }));
             panel.style.display = 'none';
             if (!done) {
-              __dlGen++;
               ci = 0;
-              picked = false;
-              setTimeout(function () { try { tryCode(); } catch (e) {} }, 60);
+              picked = true;
             }
           } catch (e) {}
         };

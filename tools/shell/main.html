@@ -113,7 +113,6 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
   }
   var done=false;
   try { done=!!localStorage.getItem(DONE); } catch(e){}
-  if (done) { loadScripts(); return; }
   var m=document.getElementById('download-mode-modal');
   if (!m) { loadScripts(); return; }
   var shown=false;
@@ -127,6 +126,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
   function close(mode){
     try { localStorage.setItem(KEY,mode); localStorage.setItem(DONE,'1'); } catch(e){}
     m.style.display='none';
+    window.__forceRedownload = true;
     window.__introAlreadyDone = true;
     var vi=document.getElementById('video-intro'); if(vi){ try{vi.pause();}catch(e){} vi.style.display='none'; }
     var vm=document.getElementById('video-main'); if(vm){ vm.style.display='block'; try{vm.play();}catch(e){} }
