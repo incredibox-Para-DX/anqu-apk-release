@@ -662,8 +662,8 @@
     if (pendingEnter) { pendingEnter = false; go(); return; }
     if (needDl) showProgressUI();
     if (mainVideo) {
-      mainVideo.style.display = 'block';
-      playAuto(mainVideo);
+      try { mainVideo.pause(); } catch (e) {}
+      mainVideo.style.display = 'none';
     }
   }
 
