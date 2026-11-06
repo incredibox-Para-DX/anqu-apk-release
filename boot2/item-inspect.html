@@ -28,7 +28,26 @@ html,body{margin:0;height:100%;background:transparent;overflow:hidden}
     <button id="t_pause" style="margin-top:6px;width:100%;padding:5px;border-radius:6px;border:1px solid #2b3543;background:#1e2630;color:#dbe4ee;" data-i18n="tune_pause">暂停动画</button>
   </div>
 </div>
-<script src="./js/i18n.js"></script>
+<script src="./js/i18n.js">
+function __applyLowQ() {
+  if (!_lowQ) return;
+  scene.traverse(function (o) {
+    if (!o.isMesh || !o.material) return;
+    var mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach(function (m) {
+      [m.map, m.normalMap, m.roughnessMap, m.metalnessMap].forEach(function (t) { if (t) { t.anisotropy = _aniso; t.needsUpdate = true; } });
+      if (m.normalMap) m.normalMap = null;
+      if (m.roughnessMap) m.roughnessMap = null;
+      if (m.metalnessMap) m.metalnessMap = null;
+      m.normalScale = new THREE.Vector2(0, 0);
+      m.metalness = 0;
+      m.roughness = 0.35;
+      m.needsUpdate = true;
+    });
+  });
+}
+setInterval(__applyLowQ, 800);
+</script>
 <script type="module">
 import * as THREE from './vendor/three/three.module.js';
 import { GLTFLoader } from './vendor/three/addons/loaders/GLTFLoader.js';
@@ -481,25 +500,6 @@ addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
 });
 </script>
-<script>try{var _lt=document.querySelector("#loading .loading-text");function _upd(){if(_lt&&window.parent&&window.parent.I18N)_lt.textContent=window.parent.I18N.t("inspect_loading");} _upd(); var _ti=setInterval(_upd,300); setTimeout(function(){clearInterval(_ti);},5000);}catch(e){}
-function __applyLowQ() {
-  if (!_lowQ) return;
-  scene.traverse(function (o) {
-    if (!o.isMesh || !o.material) return;
-    var mats = Array.isArray(o.material) ? o.material : [o.material];
-    mats.forEach(function (m) {
-      [m.map, m.normalMap, m.roughnessMap, m.metalnessMap].forEach(function (t) { if (t) { t.anisotropy = _aniso; t.needsUpdate = true; } });
-      if (m.normalMap) m.normalMap = null;
-      if (m.roughnessMap) m.roughnessMap = null;
-      if (m.metalnessMap) m.metalnessMap = null;
-      m.normalScale = new THREE.Vector2(0, 0);
-      m.metalness = 0;
-      m.roughness = 0.35;
-      m.needsUpdate = true;
-    });
-  });
-}
-setInterval(__applyLowQ, 800);
-</script>
+<script>try{var _lt=document.querySelector("#loading .loading-text");function _upd(){if(_lt&&window.parent&&window.parent.I18N)_lt.textContent=window.parent.I18N.t("inspect_loading");} _upd(); var _ti=setInterval(_upd,300); setTimeout(function(){clearInterval(_ti);},5000);}catch(e){}</script>
 </body>
 </html>

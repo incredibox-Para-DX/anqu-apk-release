@@ -446,8 +446,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
-</script>
-<script>try{var _lt=document.querySelector("#loading .loading-text");function _upd(){if(_lt&&window.parent&&window.parent.I18N)_lt.textContent=window.parent.I18N.t("inspect_loading");} _upd(); var _ti=setInterval(_upd,300); setTimeout(function(){clearInterval(_ti);},5000);}catch(e){}
+
 function __applyLowQ() {
   if (!_lowQ) return;
   scene.traverse(function (o) {
@@ -467,5 +466,6 @@ function __applyLowQ() {
 }
 setInterval(__applyLowQ, 800);
 </script>
+<script>try{var _lt=document.querySelector("#loading .loading-text");function _upd(){if(_lt&&window.parent&&window.parent.I18N)_lt.textContent=window.parent.I18N.t("inspect_loading");} _upd(); var _ti=setInterval(_upd,300); setTimeout(function(){clearInterval(_ti);},5000);}catch(e){}</script>
 </body>
 </html>
