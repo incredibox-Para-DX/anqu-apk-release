@@ -85,6 +85,18 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 <div id="route-list" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;"></div>
 <button id="route-rescan" style="margin-top:14px;width:100%;padding:11px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#e2e8f0;font-size:13px;">重新测速</button>
 </div>
+<div class="loading-overlay" id="loading-overlay" style="display:none;">
+<div class="loading-container">
+<div class="loading-text">暗区突围保险模拟</div>
+<div class="loading-text"></div>
+<div class="loading-spinner"></div>
+<div class="loading-text">Loading•••</div>
+<div class="loading-progress">
+<div class="loading-progress-bar" id="loading-progress-bar"></div>
+</div>
+<div class="loading-tip" id="loading-tip"></div>
+</div>
+</div>
 <div id="download-mode-modal" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
 <div style="width:min(460px,90vw);background:#111827;color:#e5e7eb;border-radius:14px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.6);">
 <div style="font-size:18px;font-weight:700;">选择下载方式</div>
@@ -115,6 +127,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
   function close(v){
     try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e) {}
     m.style.display='none';
+    var ov=document.getElementById('loading-overlay'); if(ov) ov.style.display='flex';
     window.__mainChoicePending = false;
     try { if (window.__shellTryCode) window.__shellTryCode(); } catch(e) {}
   }
