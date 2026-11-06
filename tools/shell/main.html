@@ -85,33 +85,22 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 <div id="route-list" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;"></div>
 <button id="route-rescan" style="margin-top:14px;width:100%;padding:11px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#e2e8f0;font-size:13px;">重新测速</button>
 </div>
-<div class="loading-overlay" id="loading-overlay" style="display:none;background:rgba(0,0,0,.35);">
-<div class="loading-container">
-<div class="loading-text">暗区突围保险模拟</div>
-<div class="loading-text"></div>
-<div class="loading-spinner"></div>
-<div class="loading-text">Loading•••</div>
-<div class="loading-progress">
-<div class="loading-progress-bar" id="loading-progress-bar"></div>
-</div>
-<div class="loading-tip" id="loading-tip"></div>
-</div>
-</div>
-<div id="download-mode-modal" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.6);align-items:center;justify-content:center;">
-<div style="width:min(460px,90vw);background:#111827;color:#e5e7eb;border-radius:14px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.6);">
+
+<div id="download-mode-modal" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+<div style="width:min(440px,88vw);background:linear-gradient(160deg,rgba(18,20,26,.92),rgba(10,12,16,.96));border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:20px;color:#eef2f7;">
 <div style="font-size:18px;font-weight:700;">选择下载方式</div>
 <div style="font-size:12px;color:#94a3b8;line-height:1.6;margin-top:10px;">完整下载：下载必要代码和全部资源（3D 模型、贴图、动画、背景、音乐、段位/收藏/名片资源），可离线使用全部功能和检视。</div>
 <div style="font-size:12px;color:#94a3b8;line-height:1.6;margin-top:6px;">精简下载：只下载必要代码，先进入游戏；模型、背景、音乐等资源按需加载或稍后再下。</div>
 <div style="font-size:12px;color:#f59e0b;line-height:1.6;margin-top:8px;">未完整下载时部分功能会受影响，但可以在游戏内「资源下载」功能补下。</div>
 <div style="display:flex;gap:10px;margin-top:18px;">
-<button id="download-mode-full" style="flex:1;padding:12px 10px;border-radius:9px;border:0;background:#2563eb;color:#fff;font-size:14px;font-weight:600;">完整下载</button>
-<button id="download-mode-lite" style="flex:1;padding:12px 10px;border-radius:9px;border:1px solid #475569;background:transparent;color:#e5e7eb;font-size:14px;">精简下载</button>
+<button id="download-mode-full" style="flex:1;padding:11px;border-radius:12px;border:0;background:linear-gradient(145deg,rgba(59,130,246,.85),rgba(37,99,235,.75));color:#fff;font-size:14px;font-weight:600;">完整下载</button>
+<button id="download-mode-lite" style="flex:1;padding:11px;border-radius:12px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.06);color:#e2e8f0;font-size:14px;">精简下载</button>
 </div>
 </div>
 </div>
 <script>
 (function(){
-  var KEY='ab_download_mode', DONE='ab_download_choice_v6';
+  var KEY='ab_download_mode', DONE='ab_download_choice_v7';
   function loadScripts(){
     var a=document.createElement('script');
     a.src='js/boot-download.js';
@@ -135,10 +124,9 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
     v.addEventListener('error', show);
     setTimeout(show, 15000);
   }
-  function close(v){
-    try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e){}
+  function close(mode){
+    try { localStorage.setItem(KEY,mode); localStorage.setItem(DONE,'1'); } catch(e){}
     m.style.display='none';
-    var ov=document.getElementById('loading-overlay'); if(ov) ov.style.display='flex';
     loadScripts();
   }
   document.getElementById('download-mode-full').onclick=function(){ close('full'); };

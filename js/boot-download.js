@@ -17,10 +17,12 @@
     ];
 
     function bar(pct, text) {
-        var b = document.getElementById('loading-progress-bar');
-        if (b) b.style.width = Math.max(0, Math.min(100, pct)) + '%';
-        var t = document.getElementById('loading-tip');
-        if (t && text != null) t.textContent = text;
+        pct = Math.max(0, Math.min(100, pct));
+        var f = document.getElementById('dl-fill'); if (f) f.style.width = pct + '%';
+        var p = document.getElementById('dl-pct'); if (p) p.textContent = Math.round(pct);
+        var m = document.getElementById('dl-msg'); if (m && text != null) m.textContent = text;
+        var b = document.getElementById('loading-progress-bar'); if (b) b.style.width = pct + '%';
+        var t = document.getElementById('loading-tip'); if (t && text != null) t.textContent = text;
     }
 
     function fetchJSON(urls, i) {
