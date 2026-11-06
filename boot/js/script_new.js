@@ -4989,7 +4989,14 @@ const EventManager = {
                 if (!$r.length) return;
                 const KEY = 'ab_ui_scale';
                 const apply = (v) => {
-                    document.documentElement.style.zoom = v;
+                    const el = document.querySelector('.main-content');
+                    if (el) {
+                        el.style.transformOrigin = 'top left';
+                        el.style.transform = 'scale(' + v + ')';
+                        el.style.width = (100 / v) + '%';
+                        el.style.height = (100 / v) + '%';
+                    }
+                    document.documentElement.style.zoom = '';
                     $('#ui-scale-value').text(v.toFixed(1) + 'x');
                 };
                 let saved = parseFloat(localStorage.getItem(KEY) || '1');
@@ -7366,7 +7373,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.535';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.536';
     
     var __HU_SIZE_BUMP_150 = 1;
 
