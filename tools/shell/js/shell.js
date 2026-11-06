@@ -138,6 +138,16 @@
 
   function enter(msg) {
     if (done) return;
+    if (!window.__bootFullStarted && window.__bootDownloadAll && !localStorage.getItem('ab_boot_full_done')) {
+      var _mode = null;
+      try { _mode = localStorage.getItem('ab_download_mode'); } catch (e) {}
+      if (_mode === 'full') {
+        window.__bootFullStarted = true;
+        setMsg('正在下载完整资源…', true);
+        window.__bootDownloadAll(function () { enter(msg); });
+        return;
+      }
+    }
     done = true;
     if (remoteVer) { try { localStorage.setItem('ab_shell_ver', remoteVer); } catch (e) {} }
     window.__forceRedownload = false;

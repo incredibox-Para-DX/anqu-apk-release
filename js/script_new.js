@@ -5000,26 +5000,7 @@ const EventManager = {
             })();
 
             (function initDownloadModeChoice() {
-                try { if (!localStorage.getItem('ab_download_choice_v4')) return; } catch (e) { return; }
-                let mode = null;
-                try { mode = localStorage.getItem('ab_download_mode'); } catch (e) {}
-                if (mode !== 'full') return;
-                try {
-                    if (localStorage.getItem('ab_download_full_triggered') === '1') return;
-                    localStorage.setItem('ab_download_full_triggered', '1');
-                } catch (e) {}
-                const ids = ['rd-download-model-btn', 'rd-download-bg-btn', 'rd-download-music-btn', 'rd-download-title-btn', 'rd-download-collect-btn', 'rd-download-card-btn'];
-                setTimeout(function () {
-                    let i = 0;
-                    const next = () => {
-                        if (i >= ids.length) return;
-                        const b = document.getElementById(ids[i++]);
-                        if (b) b.click();
-                        setTimeout(next, 700);
-                    };
-                    next();
-                    if (window.showToast) window.showToast('已开始完整下载，可在「资源下载」查看进度');
-                }, 800);
+                // 完整资源已由启动器统一下载，主界面不再重复触发
             })();
             (function initUiScale() {
                 const $r = $('#ui-scale-range');
@@ -7446,7 +7427,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.553';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.554';
     
     var __HU_SIZE_BUMP_150 = 1;
 
