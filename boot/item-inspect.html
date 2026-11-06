@@ -150,13 +150,6 @@ const statusEl = document.getElementById('status');
 
 const renderer = new THREE.WebGLRenderer({ antialias: localStorage.getItem('ab_inspect_aa') !== 'off', alpha: true });
 var _iq = localStorage.getItem('ab_inspect_quality') || 'medium'; var _lowQ = _iq === 'low'; var _res = parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = parseInt(localStorage.getItem('ab_inspect_aniso') || '0', 10);
-if (_lowQ) {
-  var _prevMod = THREE.DefaultLoadingManager.urlModifier;
-  THREE.DefaultLoadingManager.setURLModifier(function (url) {
-    if (/(_N\.png|_MAR\.png|_MA\.png|_normal|_rough|_metal)/i.test(url)) return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
-    return _prevMod ? _prevMod(url) : url;
-  });
-}
  var _res = parseFloat(localStorage.getItem('ab_inspect_resolution') || '1'); var _aniso = parseInt(localStorage.getItem('ab_inspect_aniso') || '0', 10); renderer.setPixelRatio(Math.min(devicePixelRatio || 1, (_iq === 'low' ? 0.75 : (_iq === 'high' ? 2 : 1.5)) * _res));
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
