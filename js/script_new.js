@@ -4984,6 +4984,25 @@ const EventManager = {
                 sync();
             })();
 
+            (function initUiScale() {
+                const $r = $('#ui-scale-range');
+                if (!$r.length) return;
+                const KEY = 'ab_ui_scale';
+                const apply = (v) => {
+                    document.documentElement.style.zoom = v;
+                    $('#ui-scale-value').text(v.toFixed(1) + 'x');
+                };
+                let saved = parseFloat(localStorage.getItem(KEY) || '1');
+                if (!isFinite(saved) || saved < 0.8 || saved > 2) saved = 1;
+                $r.val(saved);
+                apply(saved);
+                $r.on('input change', function () {
+                    let v = parseFloat(this.value);
+                    if (!isFinite(v)) v = 1;
+                    localStorage.setItem(KEY, String(v));
+                    apply(v);
+                });
+            })();
             (function initInspectPauseMain() {
                 const $t = $('#inspect-pause-main-toggle');
                 if (!$t.length) return;
@@ -7347,7 +7366,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.534';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.535';
     
     var __HU_SIZE_BUMP_150 = 1;
 
