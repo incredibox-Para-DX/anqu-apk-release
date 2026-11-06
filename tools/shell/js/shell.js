@@ -903,7 +903,9 @@
     var intro = document.getElementById('video-intro');
     var shown = false;
     function showBtn() { if (!shown) { shown = true; btn.style.display = 'block'; } }
-    if (intro) {
+    if (window.__introAlreadyDone) {
+      showBtn();
+    } else if (intro) {
       intro.addEventListener('ended', showBtn);
       setTimeout(showBtn, 9000);
     } else {
