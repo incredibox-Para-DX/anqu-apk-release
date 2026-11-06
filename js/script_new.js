@@ -4952,6 +4952,22 @@ const EventManager = {
                 sync();
             })();
 
+            (function initInspectQuality() {
+                const $group = $('#inspect-quality-group');
+                if (!$group.length) return;
+                const KEY = 'ab_inspect_quality';
+                const sync = () => {
+                    const cur = localStorage.getItem(KEY) || 'medium';
+                    $group.find('.fps-option-btn').removeClass('active');
+                    $group.find('.fps-option-btn[data-quality="' + cur + '"]').addClass('active');
+                };
+                $group.on('click', '.fps-option-btn', function () {
+                    localStorage.setItem(KEY, $(this).attr('data-quality'));
+                    sync();
+                });
+                sync();
+            })();
+
             
             (function initSearchMaskToggle() {
                 const STORAGE_KEY = 'ab_skip_search_mask';
@@ -7285,7 +7301,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.515';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.516';
     
     var __HU_SIZE_BUMP_150 = 1;
 
