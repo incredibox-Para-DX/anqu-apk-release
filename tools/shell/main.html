@@ -103,7 +103,14 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
   try { if (localStorage.getItem(DONE)) return; } catch(e) { return; }
   var m=document.getElementById('download-mode-modal');
   if(!m) return;
-  m.style.display='flex';
+  var shown=false;
+  function show(){ if(shown)return; shown=true; m.style.display='flex'; }
+  var v=document.getElementById('video-intro');
+  if(!v){ show(); return; }
+  function once(){ show(); }
+  v.addEventListener('ended', once);
+  v.addEventListener('error', once);
+  setTimeout(once, 15000);
   function close(v){
     try { localStorage.setItem(KEY,v); localStorage.setItem(DONE,'1'); } catch(e) {}
     m.style.display='none';
