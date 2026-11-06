@@ -129,7 +129,7 @@
         var attempts = 0;
         function tryOne() {
             if (attempts >= 4) return Promise.reject(new Error('download failed'));
-            var url = bases[attempts % bases.length] + f.path;
+            var url = encodeURI(bases[attempts % bases.length] + f.path);
             attempts++;
             return fetch(url, { cache: 'no-store' }).then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -162,7 +162,7 @@
 
     function downloadAll(cb) {
         cb = cb || function () {};
-        bar(50, '正在获取资源清单…');
+        bar(0, '正在获取资源清单…');
         Promise.all(PACKS.map(loadPack)).then(function (packLists) {
             var seen = {};
             var files = [];
@@ -176,13 +176,13 @@
             if (!files.length) { cb(false); return; }
             var total = files.reduce(function (a, f) { return a + (f.size || 0); }, 0);
             var doneBytes = 0, doneFiles = 0;
-            bar(50, '正在下载完整资源 0/' + files.length);
+            bar(0, '正在下载完整资源 0/' + files.length);
             openDB().then(function (db) {
                 runPool(files, function (f) {
                     return downloadFile(f, db).then(function (n) {
                         doneBytes += (f.size || n || 0);
                         doneFiles++;
-                        var pct = total ? (doneBytes / total * 50 + 50) : (50 + doneFiles / files.length * 50);
+                        var pct = total ? (doneBytes / total * 100) : (doneFiles / files.length * 100);
                         bar(pct, '正在下载完整资源 ' + doneFiles + '/' + files.length);
                     });
                 }, 3).then(function (failed) {

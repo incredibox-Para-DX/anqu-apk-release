@@ -7427,7 +7427,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.565';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.566';
     
     var __HU_SIZE_BUMP_150 = 1;
 
@@ -8146,10 +8146,6 @@ const EventManager = {
             window.__huFetchAndCompare(function(m, hasUpdate) {
                 if (hasUpdate) {
                     window.__huShowRedDot(true);
-                    
-                    if (typeof window.showToast === 'function') {
-                        window.showToast('检测到新版本，请点击「检查更新」');
-                    }
                 } else {
                     window.__huShowRedDot(false);
                 }
