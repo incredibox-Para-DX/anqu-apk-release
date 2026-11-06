@@ -38,20 +38,40 @@
         }).catch(function () { return fetchJSON(urls, i + 1); });
     }
 
-    function loadPack(pack) {
+    function manifestUrls(pack) {
         var sub = pack.name === 'cards' ? 'cards/manifest.json' : 'manifest.json';
-        var urls = MIRRORS.map(function (m) {
-            return m.indexOf('jsdelivr') >= 0 || m.indexOf('raw.githubusercontent') >= 0
+        return MIRRORS.map(function (m) {
+            return (m.indexOf('jsdelivr') >= 0 || m.indexOf('raw.githubusercontent') >= 0)
                 ? m + pack.repo + '@main/' + sub
                 : m + pack.repo + '/main/' + sub;
         });
+    }
+
+    function extractFiles(m, pack) {
+        if (pack.name === 'bg') return (m.images || []).concat(m.videos || []);
+        if (pack.name === 'music') {
+            var out = [];
+            (m.tracks || []).forEach(function (t) {
+                if (t.audio_path) out.push({ path: t.audio_path, size: t.audio_size || 0 });
+                if (t.cover_path) out.push({ path: t.cover_path, size: t.cover_size || 0 });
+            });
+            return out;
+        }
+        if (pack.name === 'title') return (m.icons || []).map(function (x) {
+            return { path: x.path, size: x.size || 0 };
+        });
+        return m.files || [];
+    }
+
+    function loadPack(pack) {
+        var urls = manifestUrls(pack);
         return fetchJSON(urls).then(function (m) {
             var base = urls[0].replace('manifest.json', '');
             if (pack.name === 'cards') base = urls[0].replace('cards/manifest.json', '');
-            var files = (m.files || []).map(function (f) {
+            var files = extractFiles(m, pack).filter(function (f) { return f && f.path; });
+            return files.map(function (f) {
                 return { path: f.path, size: f.size || 0, base: base };
             });
-            return files;
         }).catch(function () { return []; });
     }
 
@@ -92,17 +112,35 @@
         });
     }
 
+    function alternateBase(base) {
+        if (base.indexOf('raw.hefunovo.xyz') >= 0) {
+            return base.replace('https://raw.hefunovo.xyz/', 'https://cdn.jsdelivr.net/gh/').replace('/main/', '@main/');
+        }
+        if (base.indexOf('raw.githubusercontent.com') >= 0) {
+            return base.replace('https://raw.githubusercontent.com/', 'https://cdn.jsdelivr.net/gh/').replace('/main/', '@main/');
+        }
+        return null;
+    }
+
     function downloadFile(f, db) {
-        var url = f.base + f.path;
-        function once() {
+        var bases = [f.base];
+        var alt = alternateBase(f.base);
+        if (alt) bases.push(alt);
+        var attempts = 0;
+        function tryOne() {
+            if (attempts >= 4) return Promise.reject(new Error('download failed'));
+            var url = bases[attempts % bases.length] + f.path;
+            attempts++;
             return fetch(url, { cache: 'no-store' }).then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.blob();
             }).then(function (blob) {
                 return saveBlob(db, f, blob);
+            }).catch(function (e) {
+                return tryOne();
             });
         }
-        return once().catch(function () { return once(); });
+        return tryOne();
     }
 
     function runPool(list, worker, concurrency) {
@@ -137,8 +175,7 @@
             });
             if (!files.length) { cb(false); return; }
             var total = files.reduce(function (a, f) { return a + (f.size || 0); }, 0);
-            var doneBytes = 0;
-            var doneFiles = 0;
+            var doneBytes = 0, doneFiles = 0;
             bar(50, '正在下载完整资源 0/' + files.length);
             openDB().then(function (db) {
                 runPool(files, function (f) {
@@ -148,14 +185,16 @@
                         var pct = total ? (doneBytes / total * 50 + 50) : (50 + doneFiles / files.length * 50);
                         bar(pct, '正在下载完整资源 ' + doneFiles + '/' + files.length);
                     });
-                }, 4).then(function (failed) {
-                    try {
-                        localStorage.setItem('ab_lion_pack_v1', '1');
-                        localStorage.setItem('ab_card_pack_v1', '1');
-                        localStorage.setItem('ab_collect_pack_v1', '1');
-                        localStorage.setItem('ab_boot_full_done', failed ? '0' : '1');
-                    } catch (e) {}
-                    bar(100, failed ? '部分资源下载失败，可稍后在资源下载补下' : '完整资源下载完成');
+                }, 3).then(function (failed) {
+                    if (failed === 0) {
+                        try {
+                            localStorage.setItem('ab_lion_pack_v1', '1');
+                            localStorage.setItem('ab_card_pack_v1', '1');
+                            localStorage.setItem('ab_collect_pack_v1', '1');
+                        } catch (e) {}
+                    }
+                    try { localStorage.setItem('ab_boot_full_done', failed ? '0' : '1'); } catch (e) {}
+                    bar(100, failed ? '有 ' + failed + ' 个资源下载失败，可稍后在资源下载补下' : '完整资源下载完成');
                     cb(failed === 0);
                 });
             }).catch(function () { cb(false); });
