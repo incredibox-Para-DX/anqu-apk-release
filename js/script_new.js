@@ -5000,13 +5000,15 @@ const EventManager = {
             })();
 
             (function initDownloadModeChoice() {
-                const KEY = 'ab_download_mode';
-                const DONE = 'ab_download_choice_v2';
-                const $m = $('#download-mode-modal');
-                if (!$m.length) return;
-                const triggerFull = () => {
-                    if (window.showToast) window.showToast('已开始完整下载，可在「资源下载」查看进度');
-                    const ids = ['rd-download-model-btn', 'rd-download-bg-btn', 'rd-download-music-btn', 'rd-download-title-btn', 'rd-download-collect-btn', 'rd-download-card-btn'];
+                let mode = null;
+                try { mode = localStorage.getItem('ab_download_mode'); } catch (e) {}
+                if (mode !== 'full') return;
+                try {
+                    if (localStorage.getItem('ab_download_full_triggered') === '1') return;
+                    localStorage.setItem('ab_download_full_triggered', '1');
+                } catch (e) {}
+                const ids = ['rd-download-model-btn', 'rd-download-bg-btn', 'rd-download-music-btn', 'rd-download-title-btn', 'rd-download-collect-btn', 'rd-download-card-btn'];
+                setTimeout(function () {
                     let i = 0;
                     const next = () => {
                         if (i >= ids.length) return;
@@ -5015,36 +5017,8 @@ const EventManager = {
                         setTimeout(next, 700);
                     };
                     next();
-                };
-                const close = (mode) => {
-                    try {
-                        localStorage.setItem(KEY, mode);
-                        localStorage.setItem(DONE, '1');
-                    } catch (e) {}
-                    $m.css('display', 'none');
-                };
-                let done = false;
-                try { done = !!localStorage.getItem(DONE); } catch (e) {}
-                if (!done) {
-                    $m.css('display', 'flex');
-                    $('#download-mode-full').on('click', function () {
-                        close('full');
-                        triggerFull();
-                    });
-                    $('#download-mode-lite').on('click', function () {
-                        close('lite');
-                    });
-                    return;
-                }
-                let mode = null;
-                try { mode = localStorage.getItem(KEY); } catch (e) {}
-                if (mode === 'full') {
-                    try {
-                        if (localStorage.getItem('ab_download_full_triggered') === '1') return;
-                        localStorage.setItem('ab_download_full_triggered', '1');
-                    } catch (e) {}
-                    triggerFull();
-                }
+                    if (window.showToast) window.showToast('已开始完整下载，可在「资源下载」查看进度');
+                }, 800);
             })();
             (function initUiScale() {
                 const $r = $('#ui-scale-range');
@@ -7471,7 +7445,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.547';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.548';
     
     var __HU_SIZE_BUMP_150 = 1;
 
