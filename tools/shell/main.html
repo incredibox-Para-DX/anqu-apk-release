@@ -100,10 +100,14 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 </div>
 <script>
 (function(){
-  var KEY='ab_download_mode', DONE='ab_download_choice_v8', INSTALL_ID='375';
-  var savedInstall=null;
-  try { savedInstall=localStorage.getItem('ab_install_id'); } catch(e) {}
+  var KEY='ab_download_mode', INSTALL_ID='376';
+  try { localStorage.setItem(KEY,'lite'); } catch(e) {}
+  var saved=null;
+  try { saved=localStorage.getItem('ab_install_id'); } catch(e) {}
+  var force = saved !== INSTALL_ID;
+  if (force) { try { localStorage.setItem('ab_install_id',INSTALL_ID); } catch(e) {} }
   function loadScripts(){
+    window.__forceRedownload = !!force;
     var a=document.createElement('script');
     a.src='js/boot-download.js';
     a.onload=function(){
@@ -113,33 +117,11 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
     };
     document.body.appendChild(a);
   }
-  var done=false;
-  try { done=!!localStorage.getItem(DONE); } catch(e){}
-  if (done && savedInstall === INSTALL_ID) { loadScripts(); return; }
-  var m=document.getElementById('download-mode-modal');
-  if (!m) { loadScripts(); return; }
-  var shown=false;
-  function show(){ if(shown)return; shown=true; m.style.display='flex'; }
   var v=document.getElementById('video-intro');
-  if(!v){ show(); } else {
-    v.addEventListener('ended', show);
-    v.addEventListener('error', show);
-    setTimeout(show, 8000);
-  }
-  function close(mode){
-    try { localStorage.setItem(KEY,mode); localStorage.setItem(DONE,'1'); localStorage.setItem('ab_install_id', INSTALL_ID); } catch(e){}
-    m.style.display='none';
-    window.__forceRedownload = true;
-    window.__introAlreadyDone = true;
-    var vi=document.getElementById('video-intro'); if(vi){ try{vi.pause();}catch(e){} vi.style.display='none'; }
-    var vm=document.getElementById('video-main'); if(vm){ vm.style.display='block'; try{vm.play();}catch(e){} }
-    var st=document.getElementById('dl-status'); if(st) st.className='dl-status show';
-    var db=document.getElementById('dl-bar'); if(db) db.className='dl-bar show';
-    var rb=document.getElementById('route-btn'); if(rb) rb.style.display='block';
-    loadScripts();
-  }
-  document.getElementById('download-mode-full').onclick=function(){ close('full'); };
-  document.getElementById('download-mode-lite').onclick=function(){ close('lite'); };
+  if(!v){ loadScripts(); return; }
+  v.addEventListener('ended', loadScripts);
+  v.addEventListener('error', loadScripts);
+  setTimeout(loadScripts, 8000);
 })();
 </script>
 </body>
