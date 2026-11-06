@@ -100,7 +100,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
 </div>
 <script>
 (function(){
-  var KEY='ab_download_mode', INSTALL_ID='376';
+  var KEY='ab_download_mode', INSTALL_ID='377';
   try { localStorage.setItem(KEY,'lite'); } catch(e) {}
   var saved=null;
   try { saved=localStorage.getItem('ab_install_id'); } catch(e) {}
@@ -117,11 +117,20 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
     };
     document.body.appendChild(a);
   }
+  function start(){
+    var saved=null, readyInstall=null;
+    try { saved=localStorage.getItem('ab_install_id'); readyInstall=localStorage.getItem('ab_boot_ready_install'); } catch(e) {}
+    if (saved === INSTALL_ID && readyInstall === INSTALL_ID) {
+      location.replace('index.html?r=' + Date.now());
+      return;
+    }
+    loadScripts();
+  }
   var v=document.getElementById('video-intro');
-  if(!v){ loadScripts(); return; }
-  v.addEventListener('ended', loadScripts);
-  v.addEventListener('error', loadScripts);
-  setTimeout(loadScripts, 8000);
+  if(!v){ start(); return; }
+  v.addEventListener('ended', start);
+  v.addEventListener('error', start);
+  setTimeout(start, 8000);
 })();
 </script>
 </body>

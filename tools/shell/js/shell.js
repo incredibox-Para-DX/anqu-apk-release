@@ -133,6 +133,7 @@
   }
 
   function go() {
+    try { localStorage.setItem('ab_boot_code_ready', '1'); localStorage.setItem('ab_boot_ready_install', localStorage.getItem('ab_install_id') || ''); } catch (e) {}
     location.replace('index.html?r=' + Date.now());
   }
 
