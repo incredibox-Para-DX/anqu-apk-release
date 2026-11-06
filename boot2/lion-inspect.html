@@ -451,17 +451,27 @@ function __applyLowQ() {
   if (!_lowQ) return;
   scene.traverse(function (o) {
     if (!o.isMesh || !o.material) return;
-    var mats = Array.isArray(o.material) ? o.material : [o.material];
-    mats.forEach(function (m) {
-      [m.map, m.normalMap, m.roughnessMap, m.metalnessMap].forEach(function (t) { if (t) { t.anisotropy = _aniso; t.needsUpdate = true; } });
-      if (m.normalMap) m.normalMap = null;
-      if (m.roughnessMap) m.roughnessMap = null;
-      if (m.metalnessMap) m.metalnessMap = null;
-      m.normalScale = new THREE.Vector2(0, 0);
-      m.metalness = 0;
-      m.roughness = 0.35;
-      m.needsUpdate = true;
-    });
+    var apply = function (m) {
+      if (!m || m.__lowBasic) return m;
+      var basic = new THREE.MeshBasicMaterial({
+        map: m.map || null,
+        color: m.color ? m.color.clone() : new THREE.Color(0xffffff),
+        transparent: !!m.transparent,
+        alphaTest: m.alphaTest || 0,
+        side: m.side,
+        depthWrite: m.depthWrite,
+        depthTest: m.depthTest,
+        vertexColors: !!m.vertexColors
+      });
+      basic.__lowBasic = true;
+      return basic;
+    };
+    if (Array.isArray(o.material)) {
+      o.material = o.material.map(apply);
+    } else {
+      var nm = apply(o.material);
+      if (nm) o.material = nm;
+    }
   });
 }
 setInterval(__applyLowQ, 800);
