@@ -4187,6 +4187,20 @@ const EventManager = {
         window.__resumeMainForInspect = function () {
             try { document.body.classList.remove('inspect-pause-main'); } catch (e) {}
         };
+        window.__reloadInspectFrames = function () {
+            try {
+                var f = document.getElementById('lion-inspect-frame');
+                if (f && $('#lion-inspect-modal').is(':visible')) {
+                    var u = f.getAttribute('src') || '';
+                    if (u && u !== 'about:blank') f.setAttribute('src', u + (u.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
+                }
+                var p = document.getElementById('glove-preview-frame');
+                if (p && $('#glove-preview-modal').is(':visible')) {
+                    var v = p.getAttribute('src') || '';
+                    if (v && v !== 'about:blank') p.setAttribute('src', v + (v.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now());
+                }
+            } catch (e) {}
+        };
         window.__setInspectFrame = function (frame, url) {
             window.__pauseMainForInspect();
             if (!frame) return;
@@ -4980,6 +4994,7 @@ const EventManager = {
                 $group.on('click', '.fps-option-btn', function () {
                     localStorage.setItem(KEY, $(this).attr('data-quality'));
                     sync();
+                    window.__reloadInspectFrames();
                 });
                 sync();
             })();
@@ -5067,6 +5082,7 @@ const EventManager = {
                     $g.on('click', '.fps-option-btn', function () {
                         localStorage.setItem(key, $(this).attr(attr));
                         sync();
+                        window.__reloadInspectFrames();
                     });
                     sync();
                 };
@@ -7408,7 +7424,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.541';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.542';
     
     var __HU_SIZE_BUMP_150 = 1;
 
