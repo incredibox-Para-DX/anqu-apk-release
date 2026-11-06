@@ -48,12 +48,14 @@
     }
 
     function extractFiles(m, pack) {
-        if (pack.name === 'bg') return (m.images || []).concat(m.videos || []);
+        if (pack.name === 'bg') return (m.images || []).concat(m.videos || []).map(function (x) {
+            return { path: x.path, size: x.size || 0, url: x.url || null };
+        });
         if (pack.name === 'music') {
             var out = [];
             (m.tracks || []).forEach(function (t) {
-                if (t.audio_path) out.push({ path: t.audio_path, size: t.audio_size || 0 });
-                if (t.cover_path) out.push({ path: t.cover_path, size: t.cover_size || 0 });
+                if (t.audio_path) out.push({ path: t.audio_path, size: t.audio_size || 0, source: t.audio });
+                if (t.cover_path) out.push({ path: t.cover_path, size: t.cover_size || 0, source: t.cover });
             });
             return out;
         }
@@ -70,7 +72,7 @@
             if (pack.name === 'cards') base = urls[0].replace('cards/manifest.json', '');
             var files = extractFiles(m, pack).filter(function (f) { return f && f.path; });
             return files.map(function (f) {
-                return { path: f.path, size: f.size || 0, base: base };
+                return { path: f.path, size: f.size || 0, base: base, source: f.source, url: f.url };
             });
         }).catch(function () { return []; });
     }
@@ -129,7 +131,7 @@
         var attempts = 0;
         function tryOne() {
             if (attempts >= 4) return Promise.reject(new Error('download failed'));
-            var url = encodeURI(bases[attempts % bases.length] + f.path);
+            var url = f.url || encodeURI(bases[attempts % bases.length] + (f.source || f.path));
             attempts++;
             return fetch(url, { cache: 'no-store' }).then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
