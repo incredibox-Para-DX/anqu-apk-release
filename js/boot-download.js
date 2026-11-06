@@ -5,6 +5,7 @@
     var DOWNLOADED_KEY = 'ab_downloaded_assets';
     var PACKS = [
         { name: 'collect', repo: 'anqu-collect-resources' },
+        { name: 'cards', repo: 'anqu-collect-resources' },
         { name: 'bg', repo: 'anqu-bg-resources' },
         { name: 'music', repo: 'anqu-music-resources' },
         { name: 'title', repo: 'anqu-title-resources' },
@@ -38,13 +39,15 @@
     }
 
     function loadPack(pack) {
+        var sub = pack.name === 'cards' ? 'cards/manifest.json' : 'manifest.json';
         var urls = MIRRORS.map(function (m) {
             return m.indexOf('jsdelivr') >= 0 || m.indexOf('raw.githubusercontent') >= 0
-                ? m + pack.repo + '@main/manifest.json'
-                : m + pack.repo + '/main/manifest.json';
+                ? m + pack.repo + '@main/' + sub
+                : m + pack.repo + '/main/' + sub;
         });
         return fetchJSON(urls).then(function (m) {
             var base = urls[0].replace('manifest.json', '');
+            if (pack.name === 'cards') base = urls[0].replace('cards/manifest.json', '');
             var files = (m.files || []).map(function (f) {
                 return { path: f.path, size: f.size || 0, base: base };
             });
@@ -91,12 +94,15 @@
 
     function downloadFile(f, db) {
         var url = f.base + f.path;
-        return fetch(url, { cache: 'no-store' }).then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            return r.blob();
-        }).then(function (blob) {
-            return saveBlob(db, f, blob);
-        });
+        function once() {
+            return fetch(url, { cache: 'no-store' }).then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.blob();
+            }).then(function (blob) {
+                return saveBlob(db, f, blob);
+            });
+        }
+        return once().catch(function () { return once(); });
     }
 
     function runPool(list, worker, concurrency) {

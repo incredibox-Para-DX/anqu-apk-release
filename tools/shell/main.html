@@ -129,7 +129,7 @@ body, button { font-family: 'ABShell', 'Microsoft YaHei', sans-serif; }
     m.style.display='none';
     window.__introAlreadyDone = true;
     var vi=document.getElementById('video-intro'); if(vi){ try{vi.pause();}catch(e){} vi.style.display='none'; }
-    var vm=document.getElementById('video-main'); if(vm){ try{vm.pause();}catch(e){} vm.style.display='none'; }
+    var vm=document.getElementById('video-main'); if(vm){ vm.style.display='block'; try{vm.play();}catch(e){} }
     loadScripts();
   }
   document.getElementById('download-mode-full').onclick=function(){ close('full'); };

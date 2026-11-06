@@ -662,15 +662,15 @@
     if (pendingEnter) { pendingEnter = false; go(); return; }
     if (needDl) showProgressUI();
     if (mainVideo) {
-      try { mainVideo.pause(); } catch (e) {}
-      mainVideo.style.display = 'none';
+      mainVideo.style.display = 'block';
+      playAuto(mainVideo);
     }
   }
 
   if (window.__introAlreadyDone) {
     introDone = true;
     if (intro) { try { intro.pause(); } catch (e) {} intro.style.display = 'none'; }
-    if (mainVideo) { try { mainVideo.pause(); } catch (e) {} mainVideo.style.display = 'none'; }
+    if (mainVideo) { mainVideo.style.display = 'block'; playAuto(mainVideo); }
     if (pendingEnter) { pendingEnter = false; go(); return; }
     if (needDl) showProgressUI();
   } else if (intro) {
