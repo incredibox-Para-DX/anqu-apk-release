@@ -1311,6 +1311,7 @@ body[data-gm="1"] #gm-debug-section { display: block !important; }
 <div class="sidebar-option" style="flex-direction:column;align-items:stretch;gap:8px;">
 <span class="settings-label">界面缩放 <span id="ui-scale-value">1.0x</span></span>
 <input type="range" id="ui-scale-range" min="0.8" max="2" step="0.1" value="1" style="width:100%;">
+<div style="font-size:11px;color:#94a3b8;line-height:1.4;">该功能仅为平板适配，手机调整过大可能会导致无法调回</div>
 </div>
 <div class="sidebar-option">
 <span class="settings-label">性能优化</span>
@@ -3782,5 +3783,15 @@ if (document.readyState === 'loading') {
 
 
 <input type="file" id="custom-bg-file-input" accept="image/*,video/*" style="display:none;">
+<div id="ui-scale-confirm-modal" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.45);align-items:center;justify-content:center;">
+<div style="width:min(420px,88vw);background:#1f2937;color:#e5e7eb;border-radius:12px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.5);">
+<div style="font-size:16px;font-weight:600;">是否保留这些缩放设置？</div>
+<div style="font-size:13px;color:#94a3b8;margin-top:8px;line-height:1.5;">显示将在 <span id="ui-scale-confirm-left">10</span> 秒后恢复原设置。</div>
+<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px;">
+<button id="ui-scale-revert" style="padding:8px 16px;border-radius:8px;border:1px solid #475569;background:transparent;color:#e5e7eb;font-size:13px;">还原</button>
+<button id="ui-scale-keep" style="padding:8px 16px;border-radius:8px;border:0;background:#3b82f6;color:#fff;font-size:13px;">保留更改</button>
+</div>
+</div>
+</div>
 </body>
 </html>

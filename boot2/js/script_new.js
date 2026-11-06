@@ -4988,26 +4988,61 @@ const EventManager = {
                 const $r = $('#ui-scale-range');
                 if (!$r.length) return;
                 const KEY = 'ab_ui_scale';
+                let committed = parseFloat(localStorage.getItem(KEY) || '1');
+                if (!isFinite(committed) || committed < 0.8 || committed > 2) committed = 1;
+                let pendingValue = committed;
+                let timer = null;
                 const apply = (v) => {
-                    const el = document.querySelector('.main-content');
-                    if (el) {
-                        el.style.transform = '';
-                        el.style.transformOrigin = '';
-                        el.style.width = '';
-                        el.style.height = '';
-                    }
-                    document.documentElement.style.zoom = v;
+                    document.documentElement.style.zoom = '';
+                    document.body.style.transformOrigin = 'center center';
+                    document.body.style.transform = v === 1 ? '' : 'scale(' + v + ')';
+                    document.body.style.width = '100%';
+                    document.body.style.height = '100%';
+                    document.body.style.overflow = 'hidden';
                     $('#ui-scale-value').text(v.toFixed(1) + 'x');
                 };
-                let saved = parseFloat(localStorage.getItem(KEY) || '1');
-                if (!isFinite(saved) || saved < 0.8 || saved > 2) saved = 1;
-                $r.val(saved);
-                apply(saved);
-                $r.on('input change', function () {
-                    let v = parseFloat(this.value);
-                    if (!isFinite(v)) v = 1;
-                    localStorage.setItem(KEY, String(v));
+                const stop = () => {
+                    if (timer) { clearInterval(timer); timer = null; }
+                    $('#ui-scale-confirm-modal').css('display', 'none');
+                };
+                const startConfirm = (v) => {
+                    pendingValue = v;
+                    stop();
+                    let left = 10;
+                    $('#ui-scale-confirm-left').text(left);
+                    $('#ui-scale-confirm-modal').css('display', 'flex');
+                    timer = setInterval(() => {
+                        left--;
+                        $('#ui-scale-confirm-left').text(left);
+                        if (left <= 0) {
+                            if (timer) { clearInterval(timer); timer = null; }
+                            $('#ui-scale-confirm-modal').css('display', 'none');
+                            apply(committed);
+                            $r.val(committed);
+                        }
+                    }, 1000);
+                };
+                apply(committed);
+                $r.val(committed);
+                $r.on('input', function () {
+                    const v = parseFloat(this.value) || 1;
                     apply(v);
+                });
+                $r.on('change', function () {
+                    const v = parseFloat(this.value) || 1;
+                    startConfirm(v);
+                });
+                $('#ui-scale-keep').on('click', function () {
+                    committed = pendingValue;
+                    localStorage.setItem(KEY, String(committed));
+                    apply(committed);
+                    $r.val(committed);
+                    stop();
+                });
+                $('#ui-scale-revert').on('click', function () {
+                    apply(committed);
+                    $r.val(committed);
+                    stop();
                 });
             })();
             (function initInspectPauseMain() {
@@ -7373,7 +7408,7 @@ const EventManager = {
     var HU_STORAGE_KEY = 'hotupdate_current_version';
     
     
-    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.537';
+    window.HU_BUILD_VERSION = 'v2.4.0_hotfix.538';
     
     var __HU_SIZE_BUMP_150 = 1;
 
